@@ -21,6 +21,9 @@
  */
 
 if(window.location.protocol == 'https:'){
+    var restOfUrl = window.location.href.substr(5);
+    window.location = "http:" + restOfUrl;
+    
     if(document.location.host == 'wwwint.ebi.ac.uk'){
         METADATA_HOST = "https://wwwdev.ebi.ac.uk/eva/webservices/rest";
     }else if(document.location.host == 'wwwdev.ebi.ac.uk'){
