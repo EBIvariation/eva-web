@@ -213,7 +213,7 @@ EvaVariantStatsPanel.prototype = {
         var vcfHeaderId1 = Utils.genId("vcf-header1");
         var vcfHeaderView =  Ext.create('Ext.view.View', {
             id:vcfHeaderId,
-            tpl: new Ext.XTemplate('<div class="vcf-header"><pre>'+vcfHeaderData.escapeHTML()+'</pre></div>'),
+            tpl: new Ext.XTemplate("<div onmouseover='overflow_show(this)'  onmouseout='overflow_hide(this)' class='vcf-header'><pre style='display: inline-block; border:0'>"+vcfHeaderData.escapeHTML()+"</pre></div>"),
             hidden:true,
             margin: '5 0 0 10'
 
@@ -377,6 +377,13 @@ EvaVariantStatsPanel.prototype = {
         return res;
     }
 };
+
+function overflow_show(div) {
+    $(div).css("overflow-y","auto");
+}
+function overflow_hide(div) {
+    $(div).css("overflow","hidden");
+}
 
 String.prototype.escapeHTML = function () {
     return(

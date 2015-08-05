@@ -539,26 +539,26 @@ h4{
 }
 
 
-.vcf-header pre {
+.vcf-header {
     height: auto;
-    width:950px;
-    max-height: 200px !important;
-    overflow: auto;
-    overflow-y: scroll;
-    background-color: #eeeeee;
-    word-break: normal !important;
+    width:960px;
+    max-height: 270px !important;
+    overflow: hidden;
+    background-color: #F2F2EC;
+    word-break:normal !important;
     word-wrap: normal !important;
     white-space: pre !important;
-    margin:0;
+    border: 1px dotted #888;
     padding:0;
+    margin: 0;
 
 }​
 
- .eva-attributes-table {
+.eva-attributes-table {
      cellspacing: 0;
      border-collapse: collapse;
      border: 1px solid #d3d3d3;
- }
+}
 
 .eva-attributes-table tr {
     border-collapse: collapse;
