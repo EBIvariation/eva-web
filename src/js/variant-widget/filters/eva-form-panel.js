@@ -114,12 +114,14 @@ EvaFormPanel.prototype = {
                 text: this.clearButtonText,
                 tooltip: this.clearButtonText,
                 handler: function () {
+                    _this.lastSelectedValues = _this.getValues();
                     _this.clear();
                     Utils.msg('Clear', 'Successful');
                     if(_this.type == 'variantBrowser'){
                         Ext.Msg.alert('','Please select a Organism/Assembly and enter a valid Positional Filter');
                     }
                     _this.trigger('submit', {values: _this.getValues(), sender: _this});
+                    _this.trigger('form:clear', {values: _this.getValues(), sender: _this});
                 }
             },
             {

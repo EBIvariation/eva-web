@@ -463,6 +463,11 @@ EvaVariantWidgetPanel.prototype = {
             }
         });
 
+        formPanel.on('form:clear', function (e) {
+            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.formPanelVariantFilter.lastSelectedValues.species)
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region')
+        });
+
         _this.on('studies:change', function (e) {
 
             var formValues = _this.formPanelVariantFilter.getValues();
