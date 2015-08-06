@@ -108,7 +108,7 @@ EvaPositionFilterFormPanel.prototype = {
 //            fieldLabel: '<br />ID<img class="header-icon" style="vertical-align:middle;margin-bottom:4px;" src="img/icon-info.png"  title="dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)"/>',
             fieldLabel: '<br /><img class="header-icon" style="vertical-align:middle;margin-bottom:4px;" src="img/icon-info.png"  title="dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)"/>',
             labelAlign: 'top',
-            regex: /^[rs]s\d+$/,
+//            regex: /^[rs]s\d+$/,
             labelSeparator : '',
             emptyText: 'ex: rs666',
             listeners: {
