@@ -461,7 +461,10 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
-            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.formPanelVariantFilter.lastSelectedValues.species)
+            console.log(_this)
+            console.log('++++==**********==++++')
+//            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.formPanelVariantFilter.lastSelectedValues.species)
+            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.species)
             _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region')
         });
 
