@@ -194,17 +194,17 @@ EvaVariantView.prototype = {
 
             var studyEl = document.querySelector("#studies-grid");
             var studyElDiv = document.createElement("div");
-            studyElDiv.setAttribute('class', 'ocb-variant-stats-panel');
+            studyElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
             //       studyElDiv.innerHTML = '<h4>Studies</h4>';
             studyEl.appendChild(studyElDiv);
             _this.createVariantStatsPanel(studyElDiv);
 
-//            var popStatsEl = document.querySelector("#population-stats-grid");
+            var popStatsEl = document.querySelector("#population-stats-grid-view");
             var popStatsElDiv =  document.createElement("div");
             popStatsElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
-            consqTypeEl.appendChild(popStatsElDiv);//
+            popStatsEl.appendChild(popStatsElDiv);
             var varinatData = {sourceEntries:_this.variant[0].sourceEntries, species:_this.species};
-            _this._createPopulationStatsPanel(studyElDiv,varinatData);
+            _this._createPopulationStatsPanel(popStatsElDiv,varinatData);
 
     },
     _renderSummaryData: function (data) {
@@ -403,9 +403,9 @@ EvaVariantView.prototype = {
                                     '   <div id="studies-grid"></div>'+
                                     '</div>'+
                                 '</div>'+
-                                '<div  id="populationStats" class="row">'+
+                                '<div  id="populationStatsView" class="row">'+
                                     '<div class="col-md-12">'+
-                                        '<div id="population-stats-grid"></div>'+
+                                        '<div id="population-stats-grid-view"></div>'+
                                     '</div>'+
                                 '</div>'+
 
