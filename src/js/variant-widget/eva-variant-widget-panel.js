@@ -338,7 +338,7 @@ EvaVariantWidgetPanel.prototype = {
 //                            }
 //                        });
 //                        delete  e.values.gene;
-                        e.values.gene = e.values.gene;
+                        e.values.gene = e.values.gene.toUpperCase();
                     }
 
                     if (typeof e.values.snp !== 'undefined') {

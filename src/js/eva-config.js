@@ -108,6 +108,7 @@ consequenceTypesHierarchy = ['transcript_ablation',
     {id:'intron_variant',color:'#02599C',impact:'MODIFIER'},
     {id:'NMD_transcript_variant',color:'#FF4500',impact:'MODIFIER'},
     {id:'non_coding_transcript_variant',color:'#32CD32',impact:'MODIFIER'},
+    {id:'2KB_upstream_gene_variant',color:'#A2B5CD',impact:'MODIFIER'},
     {id:'upstream_gene_variant',color:'#A2B5CD',impact:'MODIFIER'},
     {id:'downstream_gene_variant',color:'#A2B5CD',impact:'MODIFIER'},
     {id:'TFBS_ablation',color:'#A52A2A',impact:'MODERATE'},
@@ -168,9 +169,7 @@ consequenceTypes = [
                     {acc: 'SO:0001624', name: '3_prime_UTR_variant', qtip: 'A UTR variant of the 3\' UTR',leaf: true, checked: false,  iconCls :'no-icon',color:'#7AC5CD'},
                     {acc: 'SO:0001792', name: 'non_coding_transcript_exon_variant', qtip: 'A sequence variant that changes non-coding exon sequence',leaf: true,checked: false,  iconCls :'no-icon',color:'#32CD32' },
 //                    {acc: 'SO:0001619', name: 'nc_transcript_variant', qtip: 'A transcript variant of a non coding RNA',leaf: true,checked: false,  iconCls :'no-icon' },
-                    {acc: 'SO:0001627', name: 'intron_variant', qtip: 'A transcript variant occurring within an intron',leaf: true,checked: false,  iconCls :'no-icon',color:'#02599C' },
-                    {acc: 'SO:0001619', name: 'intron_variant', qtip: 'Definition: 	A transcript variant of a non coding RNA gene',leaf: true,checked: false,  iconCls :'no-icon',color:'#32CD32' }
-
+                    {acc: 'SO:0001627', name: 'intron_variant', qtip: 'A transcript variant occurring within an intron',leaf: true,checked: false,  iconCls :'no-icon',color:'#02599C' }
                 ]
 
             },
@@ -222,6 +221,7 @@ consequenceTypes = [
         checked:false,
         iconCls :'no-icon',
         children: [
+            {acc: 'SO:0001636', name: '2KB_upstream_gene_variant', qtip: 'A sequence variant located within 2KB 5\' of a gene.',leaf: true,checked: false,  iconCls :'no-icon',color:'#A2B5CD'},
             {acc: 'SO:0001631', name: 'upstream_gene_variant', qtip: 'A sequence variant located 5\' of a gene',leaf: true,checked: false,  iconCls :'no-icon',color:'#A2B5CD'},
             {acc: 'SO:0001632', name: 'downstream_gene_variant', qtip: 'A sequence variant located 3\' of a gene',leaf: true,checked: false,  iconCls :'no-icon',color:'#A2B5CD' },
             {acc: 'SO:0001628', name: 'intergenic_variant', qtip: 'A sequence variant located in the intergenic region, between genes',leaf: true,checked: false,  iconCls :'no-icon',color:'#636363' }

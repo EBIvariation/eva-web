@@ -32,7 +32,7 @@ function EvaFormPanel(args) {
     this.titleCollapse = false;
     this.submitButtonId = 'submit-btn';
     this.submitButtonText = 'Search';
-    this.clearButtonText = 'Clear';
+    this.clearButtonText = 'Reset';
     this.barItems = [];
     this.border = true;
     this.filters = [];
