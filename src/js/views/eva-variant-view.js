@@ -256,9 +256,15 @@ EvaVariantView.prototype = {
 
                 var link = '<a href="http://www.sequenceontology.org/miso/current_svn/term/'+this[key].soAccession+'" target="_blank">'+this[key].soAccession+'</a>';
                 var so_term_detail = _.findWhere(consequenceTypesColors, {id: this[key].soName});
-                var color = so_term_detail.color;
-                var impact = so_term_detail.impact;
-                _consequenceTypeTable += '<tr><td>'+link+'</td><td>'+this[key].soName+'&nbsp;<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="'+color+'"><title>'+impact+'</title></rect></svg></td></tr>'
+                var color = '';
+                var impact = '';
+                var svg = '';
+                if(!_.isUndefined(so_term_detail)){
+                    color = so_term_detail.color;
+                    impact = so_term_detail.impact;
+                    svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="'+color+'"><title>'+impact+'</title></rect></svg>'
+                }
+                _consequenceTypeTable += '<tr><td>'+link+'</td><td>'+this[key].soName+'&nbsp;'+svg+'</td></tr>'
             },soTerms);
 
         },annotation);

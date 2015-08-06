@@ -323,16 +323,26 @@ EvaClinVarWidget.prototype = {
                                 var index =  _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
-                                so_array[index] = key;
+                                if(index < 0){
+                                    so_array.push(key)
+                                }else{
+                                    so_array[index] = key;
+                                }
                             },groupedArr);
                             so_array =  _.compact(so_array);
                             meta.tdAttr = 'data-qtip="'+_.first(so_array)+'"';
                             var so_term_detail = _.findWhere(consequenceTypesColors, {id: _.first(so_array)});
-                            var color = so_term_detail.color;
-                            var impact = so_term_detail.impact;
+                            var color = '';
+                            var impact = '';
+                            var svg = '';
+                            if(!_.isUndefined(so_term_detail)){
+                                color = so_term_detail.color;
+                                impact = so_term_detail.impact;
+                                svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="'+color+'"><title>'+impact+'</title></rect></svg>'
+                            }
                             return value ? Ext.String.format(
 //                                '<tpl>'+_.first(so_array)+'</tpl>',
-                                '<tpl>'+_.first(so_array)+'&nbsp;<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="'+color+'"><title>'+impact+'</title></rect></svg></tpl>',
+                                '<tpl>'+_.first(so_array)+'&nbsp;'+svg+'</tpl>',
                                 value
                             ) : '';
                         }else{

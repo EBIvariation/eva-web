@@ -165,7 +165,11 @@ ClinvarAnnotationPanel.prototype = {
                                     var index =  _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
-                                    so_array[index] = key;
+                                    if(index < 0){
+                                        so_array.push(key)
+                                    }else{
+                                        so_array[index] = key;
+                                    }
                                 },groupedArr);
                                 so_array =  _.compact(so_array);
 //                              console.log(so_array)
