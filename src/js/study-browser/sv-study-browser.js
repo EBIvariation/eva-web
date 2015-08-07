@@ -434,7 +434,7 @@ SvStudyBrowser.prototype = {
 
 
         this.leftPanel = Ext.create('Ext.container.Container', {
-            flex: 1.1,
+            flex: 1.3,
             layout: {
                 type: 'vbox',
                 align: 'stretch'

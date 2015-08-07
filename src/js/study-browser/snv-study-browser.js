@@ -402,7 +402,7 @@ SnvStudyBrowser.prototype = {
 
 
         this.leftPanel = Ext.create('Ext.container.Container', {
-            flex: 1.1,
+            flex: 1.27,
             layout: {
                 type: 'vbox',
                 align: 'stretch'
