@@ -113,7 +113,7 @@ EvaGenomeViewerPanel.prototype = {
             title: false,
             collapsible: false,
             studiesStore: this.studiesStore,
-            height: 500,
+            height: 430,
             border: false,
             studyFilterTpl: '<tpl><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="http://www.ebi.ac.uk/ena/data/view/{studyId}" target="_blank">{studyId}</a>) </div></tpl>'
         });

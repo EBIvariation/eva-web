@@ -200,6 +200,8 @@ Eva.prototype = {
                 if(this.genomeViewerPanel){
                     this.genomeViewerPanel.show();
                 }else{
+
+                    this.contentDiv.className += ' eva variant-widget-panel ocb-variant-stats-panel';
                     this.genomeViewerPanel  = this._createGenomeViewerPanel(this.contentDiv);
                 }
                 break;
