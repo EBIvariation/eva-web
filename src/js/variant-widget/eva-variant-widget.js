@@ -502,17 +502,27 @@ EvaVariantWidget.prototype = {
                                     so_array =  _.compact(so_array);
                                     meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
                                     var score = '-';
+                                    var polyphen_score_array = [];
                                     for (i = 0; i < consequenceTypes.length; i++) {
                                         for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
                                             if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
+                                                console.log(_.keys(consequenceTypes[i].proteinSubstitutionScores))
+                                                console.log('***888888888888888********')
                                                 _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
+                                                    console.log(this[key])
                                                     if(this[key].source == 'Polyphen'){
+                                                        polyphen_score_array.push(this[key].score)
                                                         score = this[key].score;
+
                                                     }
                                                 },consequenceTypes[i].proteinSubstitutionScores);
                                             }
 
                                         }
+                                    }
+
+                                    if(!_.isEmpty(polyphen_score_array)){
+                                        score =  Math.max.apply(Math, polyphen_score_array)
                                     }
 
                                     return score;
@@ -556,17 +566,22 @@ EvaVariantWidget.prototype = {
                                     so_array =  _.compact(so_array);
                                     meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
                                     var score = '-';
+                                    var sift_score_array = [];
                                     for (i = 0; i < consequenceTypes.length; i++) {
                                         for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
                                             if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
                                                 _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
                                                     if(this[key].source == 'Sift'){
+                                                        sift_score_array.push(this[key].score)
                                                         score = this[key].score;
                                                     }
                                                 },consequenceTypes[i].proteinSubstitutionScores);
                                             }
 
                                         }
+                                    }
+                                    if(!_.isEmpty(sift_score_array)){
+                                        score =  Math.min.apply(Math, sift_score_array)
                                     }
 
                                     return score;
