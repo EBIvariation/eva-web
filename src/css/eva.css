@@ -74,7 +74,7 @@ div#local-masthead{
 }
 
 .eva .variant-widget-panel{
-    overflow-x:auto;
+    overflow-x: true !important;;
 }
 .eva .study-browser-panel{
     overflow-x:auto;
