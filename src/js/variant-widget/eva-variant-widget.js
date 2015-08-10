@@ -468,13 +468,13 @@ EvaVariantWidget.prototype = {
 //                    ]
 //                },
                 {
-                    text: "Protein substitution scores",
+                    text: "Most Severe Protein Substitution Score",
                     columns: [
                         {
 //                            text: "Polyphen2",
                             header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>PolyPhen2',
                             dataIndex: "consequenceTypes",
-                            width:130,
+                            width:140,
                             menuDisabled:true,
                             tooltip:'Polymophism Phenotyping v2 (PolyPhen2) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
                             renderer: function(value, meta, rec, rowIndex, colIndex, store){

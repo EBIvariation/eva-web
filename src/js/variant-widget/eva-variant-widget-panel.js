@@ -110,7 +110,7 @@ EvaVariantWidgetPanel.prototype = {
             border: true,
             browserGridConfig: {
 //                title: 'Variant Browser <span class="assembly">Assembly:GRCh37</span>',
-                title: 'Variant Browser',
+                title: 'Variant Browser <img class="title-header-icon" data-qtip="" style="margin-bottom:0px;" src="img/icon-info.png"/>',
                 border: true
             },
             toolPanelConfig: {
