@@ -344,7 +344,7 @@ EvaManager.get({
 
 var annotation_text  = [
     {species:'hvulgare_030312v2',text:'Variant Effect Predictor (VEP) v78 annotation against the Ensembl Plants v23 geneset.'},
-    {species:'btaurus_umd31',text:''},
+    {species:'btaurus_umd31',text:'Variant Effect Predictor (VEP) v78 annotation against the Ensembl v78 geneset.'},
     {species:'chircus_10',text:''},
     {species:'hsapiens_grch37',text:'Variant Effect Predictor (VEP) v78 annotation against the full GENCODE Ensembl v78 geneset.'},
     {species:'zmays_agpv3',text:'Variant Effect Predictor (VEP) v78 annotation against the Ensembl Plants v26 geneset.'},

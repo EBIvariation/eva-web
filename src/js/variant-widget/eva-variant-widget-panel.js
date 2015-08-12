@@ -124,7 +124,7 @@ EvaVariantWidgetPanel.prototype = {
                 headerConfig: {
                     baseCls: 'eva-header-2'
                 },
-                genomeViewer: true,
+                genomeViewer: false,
                 effect:false,
                 rawData:false,
                 populationStats:true
@@ -219,14 +219,14 @@ EvaVariantWidgetPanel.prototype = {
 
             //hidding tabs for species
             if(e.species =='zmays_agpv3'){
-                _this.variantWidget.toolTabPanel.getComponent(4).tab.hide()
-                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
+//                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
+//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
             }else if(e.species =='chircus_10' ||  e.species == 'olatipes_hdrr'){
-                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
-                _this.variantWidget.toolTabPanel.getComponent(4).tab.show()
+//                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
+//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
             }else{
-                _this.variantWidget.toolTabPanel.getComponent(4).tab.show()
-                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
+//                _this.variantWidget.toolTabPanel.getComponent(4).tab.show()
+//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
             }
 
             _this.variantWidget.toolTabPanel.setActiveTab(0);

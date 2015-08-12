@@ -123,7 +123,8 @@ EvaClinicalWidgetPanel.prototype = {
                 headerConfig: {
                     baseCls: 'eva-header-2'
                 },
-                assertion: true
+                assertion: true,
+                genomeViewer:false
 
             },
             responseParser: function (response) {
