@@ -60,7 +60,7 @@ ClinvarAnnotationPanel.prototype = {
     clear: function () {
         this.annotContainer.removeAll(true);
     },
-    load: function (data) {
+    load: function (data,params) {
         this.clear();
         var panels = [];
 //        var summaryPanel = this._createSummaryPanel(data.clinvarList);
@@ -75,6 +75,14 @@ ClinvarAnnotationPanel.prototype = {
 
           var annotData = data.annot;
           console.log(annotData)
+
+            if(!_.isUndefined(params)){
+                if( params.species == 'hsapiens_grch37'){
+                    Ext.getCmp('annotationStats').update('<h4>Annotations</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
+                }else{
+                    Ext.getCmp('annotationStats').update('<h4>Annotations</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
+                }
+            }
           var panel = this._createAnnotPanel(annotData);
           this.annotContainer.removeAll();
           this.annotContainer.add(panel);
@@ -102,6 +110,7 @@ ClinvarAnnotationPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
+                    id:'annotationStats',
                     cls: 'ocb-header-4',
                     html: '<h4>Annotations</h4>',
                     margin: '5 0 10 10'

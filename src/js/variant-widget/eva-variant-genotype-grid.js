@@ -84,7 +84,7 @@ EvaVariantGenotypeGrid.prototype = {
     clear: function () {
         this.panel.removeAll(true);
     },
-    load: function (data) {
+    load: function (data,params) {
         this.clear();
         var panels = [];
         var genotypeData = [];
@@ -98,8 +98,14 @@ EvaVariantGenotypeGrid.prototype = {
 //            }
 
         }
-        this.panel.removeAll()
+        this.panel.removeAll();
         this.panel.add(this._createGenotypePanel(genotypeData));
+        if(params.species == 'hsapiens_grch37'){
+            Ext.getCmp('genotypeStats').update('<h4>Genotypes</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
+        }else{
+            Ext.getCmp('genotypeStats').update('<h4>Genotypes</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
+        }
+
 
     },
     _createPanel: function () {
@@ -293,6 +299,7 @@ EvaVariantGenotypeGrid.prototype = {
             {
                 xtype: 'box',
                 cls: 'ocb-header-4',
+                id:'genotypeStats',
                 html: '<h4>Genotypes </h4>',
                 margin: '5 0 10 10'
             },

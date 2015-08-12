@@ -99,6 +99,13 @@ EvaVariantStatsPanel.prototype = {
 
         }
 
+        if(params.species == 'hsapiens_grch37'){
+            Ext.getCmp('fileStats').update('<h4>Studies</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
+        }else{
+            Ext.getCmp('fileStats').update('<h4>Studies</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
+        }
+
+
         this.studiesContainer.add(panels);
     },
     _createPanel: function () {
@@ -123,6 +130,7 @@ EvaVariantStatsPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
+                    id:'fileStats',
                     cls: 'ocb-header-4',
                     html: '<h4>Studies</h4>',
                     margin: '5 0 10 10'

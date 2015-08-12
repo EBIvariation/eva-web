@@ -124,7 +124,7 @@ EvaVariantWidgetPanel.prototype = {
                 headerConfig: {
                     baseCls: 'eva-header-2'
                 },
-                genomeViewer: false,
+                genomeViewer: true,
                 effect:false,
                 rawData:false,
                 populationStats:true
@@ -219,14 +219,14 @@ EvaVariantWidgetPanel.prototype = {
 
             //hidding tabs for species
             if(e.species =='zmays_agpv3'){
-                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
+                _this.variantWidget.toolTabPanel.getComponent(4).tab.hide()
+                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
             }else if(e.species =='chircus_10' ||  e.species == 'olatipes_hdrr'){
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
-                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
+                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
+                _this.variantWidget.toolTabPanel.getComponent(4).tab.show()
             }else{
+                _this.variantWidget.toolTabPanel.getComponent(4).tab.show()
                 _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
             }
 
             _this.variantWidget.toolTabPanel.setActiveTab(0);
@@ -445,6 +445,10 @@ EvaVariantWidgetPanel.prototype = {
                         var ensemblSepciesName = _.findWhere(speciesList, {taxonomyCode:e.values.species.split('_')[0]}).taxonomyScientificName;
                         ensemblSepciesName =  ensemblSepciesName.split(' ')[0]+'_'+ ensemblSepciesName.split(' ')[1];
                         var ensemblURL = 'http://www.ensembl.org/'+ensemblSepciesName+'/Variation/Explore?vdb=variation;v={id}';
+                        if(e.values.species == 'hsapiens_grch37'){
+                            ensemblURL = 'http://grch37.ensembl.org/'+ensemblSepciesName+'/Variation/Explore?vdb=variation;v={id}';
+                        }
+
                         var ncbiURL = 'http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs={id}';
 
                         var updateTpl = Ext.create('Ext.XTemplate', '<tpl if="id"><a href="?variant={chromosome}:{start}:{reference}:{alternate}&species='+ e.values.species+'" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;' +

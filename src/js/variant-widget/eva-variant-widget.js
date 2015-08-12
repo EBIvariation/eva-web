@@ -380,8 +380,6 @@ EvaVariantWidget.prototype = {
                     renderer: function(value, meta, rec, rowIndex, colIndex, store){
                         var tempArray = [];
                         var consequenceTypes = rec.data.consequenceTypes;
-                        console.log(rec)
-                        console.log('++++++====+++++')
                         if(!_.isUndefined(value)){
                             var tempArray = [];
                             _.each(_.keys(consequenceTypes), function(key){
@@ -506,8 +504,6 @@ EvaVariantWidget.prototype = {
                                     for (i = 0; i < consequenceTypes.length; i++) {
                                         for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
                                             if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
-                                                console.log(_.keys(consequenceTypes[i].proteinSubstitutionScores))
-                                                console.log('***888888888888888********')
                                                 _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
                                                     console.log(this[key])
                                                     if(this[key].source == 'Polyphen'){
@@ -947,7 +943,8 @@ EvaVariantWidget.prototype = {
                 if (target.id === _this.selectedToolDiv.id) {
                     _.extend(e.variant, {annot: e.variant.annotation});
                     console.log(e.variant)
-                    annotPanel.load(e.variant);
+                    var proxy = _.clone(this.variantBrowserGrid.store.proxy);
+                    annotPanel.load(e.variant,proxy.extraParams);
                 }
             }
         });
@@ -1093,7 +1090,7 @@ EvaVariantWidget.prototype = {
                             }
 
                             if (variantSourceEntries) {
-                                variantGenotypeGrid.load(variantSourceEntries);
+                                variantGenotypeGrid.load(variantSourceEntries, params);
                             }
 
                         }
