@@ -188,7 +188,7 @@ EvaVariantWidget.prototype = {
 
         if (this.defaultToolConfig.genomeViewer) {
             this.genomeViewerDiv = document.createElement('div');
-            this.genomeViewerDiv.innerHTML = '<h4>ewdf</h4>';
+            this.genomeViewerDiv.innerHTML = '<h4></h4>';
             this.genomeViewerDiv.setAttribute('class', 'ocb-gv');
             $(this.genomeViewerDiv).css({border: '1px solid lightgray'});
             this.genomeViewer = this._createGenomeViewer(this.genomeViewerDiv);
@@ -920,7 +920,7 @@ EvaVariantWidget.prototype = {
 
     _createAnnotPanel: function (target) {
         var _this = this;
-        var annotPanel = new ClinvarAnnotationPanel({
+        var annotPanel = new EvaAnnotationPanel({
             target: target,
             height:800,
             headerConfig: this.defaultToolConfig.headerConfig,

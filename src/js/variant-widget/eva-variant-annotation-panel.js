@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function ClinvarAnnotationPanel(args) {
+function EvaAnnotationPanel(args) {
     _.extend(this, Backbone.Events);
     this.id = Utils.genId("ClinVarSummaryDataPanel");
 
@@ -35,7 +35,7 @@ function ClinvarAnnotationPanel(args) {
     }
 }
 
-ClinvarAnnotationPanel.prototype = {
+EvaAnnotationPanel.prototype = {
     render: function () {
         var _this = this;
 
@@ -76,6 +76,16 @@ ClinvarAnnotationPanel.prototype = {
 
           var annotData = data.annot;
           console.log(annotData)
+
+            if(!_.isUndefined(params)){
+                var annText = _.findWhere(annotation_text, {species:  params.species})
+               if(!_.isEmpty(annText.text)){
+                   var tooltip =  annText.text;
+                   Ext.getCmp('annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="'+tooltip+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+               }else{
+                   Ext.getCmp('annotationStats').update('<h4>Annotations</h4>')
+               }
+            }
           var panel = this._createAnnotPanel(annotData);
           this.annotContainer.removeAll();
           this.annotContainer.add(panel);
@@ -103,9 +113,9 @@ ClinvarAnnotationPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
-//                    id:'annotationStats',
+                    id:'annotationStats',
                     cls: 'ocb-header-4',
-                    html: '<h4>Annotations <img class="title-header-icon" data-qtip="Variant Effect Predictor (VEP) v78 annotation against the GENCODE Basic Ensembl v78 geneset." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
+                    html: '<h4>Annotations</h4>',
                     margin: '5 0 10 10'
                 },
                 this.annotContainer
