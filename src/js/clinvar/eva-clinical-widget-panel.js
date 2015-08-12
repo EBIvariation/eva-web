@@ -110,7 +110,7 @@ EvaClinicalWidgetPanel.prototype = {
             border: true,
             browserGridConfig: {
 //                title: 'Variant Browser <span class="assembly">Assembly:GRCh37</span>',
-                title: 'ClinVar Browser <img class="title-header-icon" data-qtip="" style="margin-bottom:0px;" src="img/icon-info.png"/>',
+                title: 'ClinVar Browser <img class="title-header-icon" data-qtip="Search ClinVar (release 03-2015) using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:0px;" src="img/icon-info.png"/>',
                 border: true
             },
             toolPanelConfig: {

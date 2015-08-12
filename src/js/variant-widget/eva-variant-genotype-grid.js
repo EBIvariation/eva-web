@@ -100,11 +100,11 @@ EvaVariantGenotypeGrid.prototype = {
         }
         this.panel.removeAll();
         this.panel.add(this._createGenotypePanel(genotypeData));
-        if(params.species == 'hsapiens_grch37'){
-            Ext.getCmp('genotypeStats').update('<h4>Genotypes</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
-        }else{
-            Ext.getCmp('genotypeStats').update('<h4>Genotypes</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
-        }
+//        if(params.species == 'hsapiens_grch37'){
+//            Ext.getCmp('genotypeStats').update('<h4>Genotypes</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
+//        }else{
+//            Ext.getCmp('genotypeStats').update('<h4>Genotypes</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
+//        }
 
 
     },
@@ -129,7 +129,7 @@ EvaVariantGenotypeGrid.prototype = {
                 {
                     xtype: 'box',
                     cls: 'ocb-header-4',
-                    html: '<h4>Genotypes </h4>',
+                    html: '<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
                     margin: '5 0 10 10'
                 }
             ],
@@ -300,7 +300,7 @@ EvaVariantGenotypeGrid.prototype = {
                 xtype: 'box',
                 cls: 'ocb-header-4',
                 id:'genotypeStats',
-                html: '<h4>Genotypes </h4>',
+                html: '<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
                 margin: '5 0 10 10'
             },
             grid

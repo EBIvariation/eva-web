@@ -102,7 +102,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     if(_.indexOf(availableStudies, study.studyId) > -1){
                         var studyPanel = this._createPopulationGridPanel(study,params);
                     }else{
-                        Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;">Currently for 1000 Genomes Project data only</h5>')
+//                        Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;">Currently for 1000 Genomes Project data only</h5>')
                     }
                 }else{
                     var studyPanel = this._createPopulationGridPanel(study,params);
@@ -131,7 +131,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 overflowX:true,
                 items: [grid]
             });
-            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4>')
+//            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4>')
             this.studiesContainer.add(studyPanel);
             Ext.getCmp('test').getHeader().hide();
         }
@@ -162,7 +162,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     xtype: 'box',
                     id:'populationStats',
                     cls: 'ocb-header-4',
-                    html: '<h4>Population Statistics</h4>',
+                    html: '<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data. Currently available only for the 1000 Genomes project." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
                     margin: '5 0 10 10'
                 },
                 this.studiesContainer
@@ -182,11 +182,11 @@ EvaVariantPopulationStatsPanel.prototype = {
 
         },data.cohortStats);
 
-        if(params.species == 'hsapiens_grch37'){
-            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;">Population frequencies from 1000 Genomes</h5>')
-        }else{
-            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4>')
-        }
+//        if(params.species == 'hsapiens_grch37'){
+//            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;">Population frequencies from 1000 Genomes</h5>')
+//        }else{
+//            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4>')
+//        }
 
 
 
