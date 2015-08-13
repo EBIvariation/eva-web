@@ -295,7 +295,7 @@ Eva.prototype = {
         twitterWidgetEl.innerHTML = "";
         twitterWidgetEl.innerHTML = '<a  class="twitter-timeline" height=100 href="https://twitter.com/EBIvariation"  data-widget-id="437894469380100096">Tweets by @EBIvariation</a>';
         $.getScript('//platform.twitter.com/widgets.js', function(){
-            twttr.widgets.load();
+//            twttr.widgets.load();
         });
     },
     _drawStatisticsChart : function(){
