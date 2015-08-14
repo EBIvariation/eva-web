@@ -132,7 +132,7 @@ ClinvarAnnotationPanel.prototype = {
                     {
                         text: "Ensembl<br /> Gene ID",
                         dataIndex: "ensemblGeneId",
-                        flex: 1.2,
+                        flex: 1.4,
                         xtype: "templatecolumn",
                         tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a>',
                     },
@@ -249,7 +249,7 @@ ClinvarAnnotationPanel.prototype = {
             var grid = Ext.create('Ext.grid.Panel', {
                 store: store,
                 loadMask: true,
-                width: 960,
+                width: 900,
 //            height: 370,
 //                maxHeight:550,
                 autoHeight: true,

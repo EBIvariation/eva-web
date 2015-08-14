@@ -128,14 +128,15 @@ div#local-masthead{
 
 
 .eva .form-panel-variant-filter-div, .eva .form-panel-clinical-filter-div{
-    width: 300px;
+    width:300px;
     float: left;
     overflow: hidden;
 }
 
 .eva .variant-widget-div, .eva .clinical-widget-div{
     margin-left: 10px;
-    width: 1020px;
+    min-width: 700px;
+    max-width: 1000px;
     float: left;
 }
 .eva .clinical-widget-div .x-column-header-inner,.eva .variant-widget-div .x-column-header-inner {
@@ -231,9 +232,30 @@ div#local-masthead{
     font-style: italic;
 }
 
+.x-panel-header-default-collapsed-left{
+    color: #BF8230;
+    color: #996a44;
+    font-size: 160%;
+    padding: 4px 6px;
+    margin-bottom: 5px;
+    border: none;
+    background-color: white;
+}
+.x-panel-header-default-collapsed-left .x-tool-img{
+     background-color: #ffffff;
+}
+.x-panel-header-default-collapsed-left .x-panel-header-title-default{
+    color: #996a44;
+    font-size: 100%;
+    border: none;
+    background-color: white;
+}
 
+.x-panel-header-default-collapsed-left .x-title-text{
+    /*padding-left: 15px;*/
+}
 .eva-header-1 {
-    /*color: #BF8230;*/
+/*color: #BF8230;*/
     color: #996a44;
     font-size: 160%;
     padding: 4px 6px;

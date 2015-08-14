@@ -84,14 +84,47 @@ EvaClinicalWidgetPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-            layout: {
-                type: 'vbox',
-                align: 'left'
-            },
-            border:false,
             overflowX:true,
-            overflowY:'auto',
-            items: [view],
+            border:false,
+            layout: {
+                type: 'hbox',
+                align: 'fit'
+            },
+            cls: 'eva-panel',
+            bodyStyle: 'border-width:0px;border-style:none;',
+            items:[
+                {
+                    xtype: 'panel',
+                    header:{
+                        baseCls: 'eva-header-1',
+                        titlePosition:1
+                    },
+                    frame: false,
+                    title:'<span style="margin-left:5px;">Filter</span>',
+                    flex: 1.3,
+                    collapsible: true,
+                    collapseMode: 'header',
+                    html:'<div class="variant-browser-option-div form-panel-clinical-filter-div"></div>',
+                    overflowX:true,
+                    collapseDirection: 'left',
+                    border:false,
+                    bodyStyle: 'border-width:0px;border-style:none;',
+                },
+                {
+                    xtype: 'panel',
+                    header:{
+                        baseCls: 'eva-header-1'
+                    },
+                    title: 'ClinVar Browser <img class="title-header-icon" data-qtip="Search ClinVar (release 03-2015) using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:0px;" src="img/icon-info.png"/>',
+                    flex: 4.3,
+                    collapsible: false,
+                    collapseMode: 'header',
+                    html:'<div class="variant-browser-option-div clinical-widget-div"></div>',
+                    overflowX:true,
+                    border:false,
+                    bodyStyle: 'border-width:0px;border-style:none;',
+                }
+            ],
 //            height:1200,
             cls: 'variant-widget-panel'
         });
@@ -104,9 +137,10 @@ EvaClinicalWidgetPanel.prototype = {
         var evaClinVarWidget = new EvaClinVarWidget({
             width: 1020,
             target: target,
-            headerConfig: {
-                baseCls: 'eva-header-1'
-            },
+//            headerConfig: {
+//                baseCls: 'eva-header-1'
+//            },
+            headerConfig:false,
             border: true,
             browserGridConfig: {
 //                title: 'Variant Browser <span class="assembly">Assembly:GRCh37</span>',
@@ -406,14 +440,15 @@ EvaClinicalWidgetPanel.prototype = {
 
         var formPanel = new EvaFormPanel({
             title: 'Filter',
-            headerConfig: {
-                baseCls: 'eva-header-1'
-            },
+//            headerConfig: {
+//                baseCls: 'eva-header-1'
+//            },
+            headerConfig:false,
             mode: 'accordion',
             target: target,
             submitButtonText: 'Submit',
             filters: [clinvarPositionFilter,clinvarConseqTypeFilter,phenotypeFilter,variationTypeFilter,clinicalSignfcFilter,reviewStatusFilter],
-            width: 300,
+//            width: 300,
             height: 1400,
             border: false,
             handlers: {

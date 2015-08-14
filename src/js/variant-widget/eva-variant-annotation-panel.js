@@ -142,7 +142,7 @@ EvaAnnotationPanel.prototype = {
                     {
                         text: "Ensembl<br /> Gene ID",
                         dataIndex: "ensemblGeneId",
-                        flex: 1.2,
+                        flex: 1.4,
                         xtype: "templatecolumn",
                         tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a>',
                     },
@@ -259,7 +259,8 @@ EvaAnnotationPanel.prototype = {
             var grid = Ext.create('Ext.grid.Panel', {
                 store: store,
                 loadMask: true,
-                width: 960,
+                width: 900,
+                autoScroll: true,
 //            height: 370,
 //                maxHeight:550,
                 autoHeight: true,
@@ -284,6 +285,8 @@ EvaAnnotationPanel.prototype = {
 
 
         var annotPanel = Ext.create('Ext.panel.Panel', {
+            overflowX:true,
+            autoScroll: true,
 //            header:{
 //                titlePosition:1
 //            },

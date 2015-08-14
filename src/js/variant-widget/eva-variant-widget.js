@@ -303,14 +303,14 @@ EvaVariantWidget.prototype = {
                 {
                     text: "Chr",
                     dataIndex: 'chromosome',
-//                    flex: 0.5,/
-                    width:50
+                    flex: 0.2,
+//                    width:50
                 },
                 {
                     text: 'Position',
                     dataIndex: 'start',
-//                    flex: 0.5,
-                    width:100
+                    flex: 0.4,
+//                    width:100
                 },
                 {
                     header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>Variant ID',
@@ -328,7 +328,8 @@ EvaVariantWidget.prototype = {
 //                             return snpID;
 //                         }
 //                    },
-                    width:130,
+                    flex: 0.5,
+//                    width:130,
                     iconCls : 'icon-info',
                     tooltip:'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)',
                 },
@@ -343,16 +344,16 @@ EvaVariantWidget.prototype = {
 //                    renderer: function(value, metaData, record, row, col, store, gridView){
 ////                        console.log(record)
 //                    },
-//                    flex: 0.5
-                    width:60
+                    flex: 0.3
+//                    width:60
                 },
                 {
                     text: 'Class',
                     dataIndex: 'type',
-//                    flex: 0.3,
                     xtype: "templatecolumn",
                     tpl: '<tpl if="type"><a href="http://www.ncbi.nlm.nih.gov/books/NBK44447/#Content.what_classes_of_genetic_variatio" target="_blank">{type}</a><tpl else>-</tpl>',
-                    width:60
+                    flex: 0.3,
+//                    width:60
                 },
 //            {
 //                text: '1000G MAF',
@@ -428,8 +429,8 @@ EvaVariantWidget.prototype = {
 
 //                        return tempArray.join();
                     },
-//                    flex: 1
-                    width:230,
+                    flex: 1
+//                    width:230,
                 },
 
 //                {
@@ -467,13 +468,14 @@ EvaVariantWidget.prototype = {
 //                    ]
 //                },
                 {
-                    text: "Most Severe Protein Substitution Score",
+                    text: "Most Severe <br />Protein Substitution Score",
                     columns: [
                         {
 //                            text: "Polyphen2",
                             header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>PolyPhen2',
                             dataIndex: "consequenceTypes",
-                            width:140,
+//                            flex: 1.5,
+                            width:110,
                             menuDisabled:true,
                             tooltip:'Polymophism Phenotyping v2 (PolyPhen2) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
                             renderer: function(value, meta, rec, rowIndex, colIndex, store){
@@ -535,7 +537,8 @@ EvaVariantWidget.prototype = {
 //                            text: "Sift",
                             header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>Sift',
                             dataIndex: "consequenceTypes",
-                            width:130,
+//                            flex: 1.5,
+                            width:80,
                             menuDisabled:true,
                             tooltip:'Sorting Intolerant From Tolerant (SIFT) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
                             renderer: function(value, meta, rec, rowIndex, colIndex, store){
@@ -589,7 +592,8 @@ EvaVariantWidget.prototype = {
                                 }
                             },
                         }
-                    ]
+                    ],
+                    flex: 1.5
                 },
                 {
                     text: 'View',
@@ -600,7 +604,7 @@ EvaVariantWidget.prototype = {
                         '<a href="http://www.ensembl.org/Homo_sapiens/Variation/Explore?vdb=variation;v={id}" target="_blank"><img alt="" src="http://static.ensembl.org/i/search/ensembl.gif"></a>' +
                         '&nbsp;<a href="http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs={id}" target="_blank"><span>dbSNP</span></a>' +
                         '<tpl else><a href="?variant={chromosome}:{start}:{reference}:{alternate}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;<img alt="" class="eva-grid-img-inactive " src="http://static.ensembl.org/i/search/ensembl.gif">&nbsp;<span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>',
-                    flex: 0.3,
+                    flex: 0.75,
                 }
 
                 //

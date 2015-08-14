@@ -79,7 +79,13 @@ EvaVariantWidgetPanel.prototype = {
         }
     },
     _createPanel: function () {
-        var tpl = new Ext.XTemplate(['<div class="variant-browser-option-div form-panel-variant-filter-div"></div><div class="variant-browser-option-div variant-widget-div"></div>']);
+        //        var tpl = new Ext.XTemplate(['<div class="variant-browser-option-div form-panel-variant-filter-div"></div><div class="variant-browser-option-div variant-widget-div"></div>']);
+        var tpl =  new Ext.XTemplate([
+            '<div class="">'+
+                '<div class="variant-browser-option-div form-panel-variant-filter-div"></div>' +
+                '<div class="variant-browser-option-div variant-widget-div"></div>'+
+                '</div>'
+        ]);
         var view = Ext.create('Ext.view.View', {
             tpl: tpl
         });
@@ -88,10 +94,44 @@ EvaVariantWidgetPanel.prototype = {
             overflowX:true,
             border:false,
             layout: {
-                type: 'vbox',
-                align: 'left'
+                type: 'hbox',
+                align: 'fit'
             },
-            items: [view],
+            cls: 'eva-panel',
+            bodyStyle: 'border-width:0px;border-style:none;',
+            items:[
+                {
+                    xtype: 'panel',
+                    header:{
+                        baseCls: 'eva-header-1',
+                        titlePosition:1
+                    },
+                    frame: false,
+                    title:'<span style="margin-left:5px;">Filter</span>',
+                    flex: 1.4,
+                    collapsible: true,
+                    collapseMode: 'header',
+                    html:'<div class="variant-browser-option-div form-panel-variant-filter-div"></div>',
+                    overflowX:true,
+                    collapseDirection: 'left',
+                    border:false,
+                    bodyStyle: 'border-width:0px;border-style:none;',
+                },
+                {
+                    xtype: 'panel',
+                    header:{
+                        baseCls: 'eva-header-1'
+                    },
+                    title: 'Variant Browser <img class="title-header-icon" data-qtip="Search the EVA variant warehouse using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth Variant Data tabs found below the main results table." style="margin-bottom:0px;" src="img/icon-info.png"/>',
+                    flex: 4.8,
+                    collapsible: false,
+                    collapseMode: 'header',
+                    html:'<div class="variant-browser-option-div variant-widget-div"></div>',
+                    overflowX:true,
+                    border:false,
+                    bodyStyle: 'border-width:0px;border-style:none;',
+                }
+            ],
 //            height:1200,
             cls: 'variant-widget-panel'
         });
@@ -104,9 +144,10 @@ EvaVariantWidgetPanel.prototype = {
         var evaVariantWidget = new EvaVariantWidget({
             width: 1020,
             target: target,
-            headerConfig: {
-                baseCls: 'eva-header-1'
-            },
+//            headerConfig: {
+//                baseCls: 'eva-header-1'
+//            },
+            headerConfig:false,
             border: true,
             browserGridConfig: {
 //                title: 'Variant Browser <span class="assembly">Assembly:GRCh37</span>',
@@ -287,18 +328,20 @@ EvaVariantWidgetPanel.prototype = {
 
 
         var formPanel = new EvaFormPanel({
+            header: false,
             title: 'Filter',
             type: 'variantBrowser',
-            headerConfig: {
-                baseCls: 'eva-header-1'
-            },
+//            headerConfig: {
+//                baseCls: 'eva-header-1'
+//            },
+            headerConfig:false,
             mode: 'accordion',
             target: target,
             submitButtonText: 'Submit',
             submitButtonId: 'vb-submit-button',
             filters: [speciesFilter,positionFilter, conseqTypeFilter,proteinSubScoreFilter,studyFilter],
 //            filters: [speciesFilter,positionFilter,studyFilter],
-            width: 300,
+//            width: 300,
             height: 1443,
             border: false,
             handlers: {
