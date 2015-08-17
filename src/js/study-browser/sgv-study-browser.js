@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-function SnvStudyBrowser(args) {
+function SgvStudyBrowser(args) {
     _.extend(this, Backbone.Events);
     this.id = Utils.genId("EVAStudyBrowserPanel");
 
@@ -64,7 +64,7 @@ function SnvStudyBrowser(args) {
     this.load();
 }
 
-SnvStudyBrowser.prototype = {
+SgvStudyBrowser.prototype = {
     render: function () {
         if(!this.rendered) {
             this.div = document.createElement('div');

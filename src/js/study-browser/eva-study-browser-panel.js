@@ -72,7 +72,7 @@ EvaStudyBrowserPanel.prototype = {
          var svStudyBrowser = new SvStudyBrowser({
             pageSize:20
         });
-        var snvStudyBrowser = new SnvStudyBrowser({
+        var sgvStudyBrowser = new SgvStudyBrowser({
             pageSize:10
         });
 
@@ -81,9 +81,9 @@ EvaStudyBrowserPanel.prototype = {
                 plain: true,
                 items: [
                     {
-                        title: snvStudyBrowser.getPanel().title.replace('Browser','(<50bp)'),
+                        title: sgvStudyBrowser.getPanel().title.replace('Browser','(<50bp)'),
                         cls:'studybrowser ',
-                        items:[snvStudyBrowser.getPanel()]
+                        items:[sgvStudyBrowser.getPanel()]
                     },
                     {
                         title:svStudyBrowser.getPanel().title.replace('Browser','(>50bp)'),

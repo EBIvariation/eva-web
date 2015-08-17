@@ -56,7 +56,7 @@ module.exports = function (grunt) {
                     'src/js/variant-widget/filters/eva-consequence-type-filter-form-panel.js',
                     'src/js/variant-widget/filters/eva-conservation-score-filter-form-panel.js',
                     'src/js/study-browser/eva-study-browser-panel.js',
-                    'src/js/study-browser/snv-study-browser.js',
+                    'src/js/study-browser/sgv-study-browser.js',
                     'src/js/study-browser/sv-study-browser.js',
                     'src/js/views/eva-study-view.js',
                     'src/js/views/eva-variant-view.js',
