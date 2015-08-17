@@ -57,11 +57,13 @@ EvaVariantWidgetPanel.prototype = {
 
         this.panel.render(this.div);
 
-        this.variantWidgetDiv = document.querySelector('.variant-widget-div');
+//        this.variantWidgetDiv = document.querySelector('.variant-widget-div');
+        this.variantWidgetDiv = document.querySelector('.variant-widget');
         this.variantWidget = this._createVariantWidget(this.variantWidgetDiv);
         this.variantWidget.draw();
 
-        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-variant-filter-div');
+//        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-variant-filter-div');
+        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-variant-filter');
         this.formPanelVariantFilter = this._createFormPanelVariantFilter(this.formPanelVariantFilterDiv);
         this.formPanelVariantFilter.draw();
     },
@@ -108,10 +110,10 @@ EvaVariantWidgetPanel.prototype = {
                     },
                     frame: false,
                     title:'<span style="margin-left:5px;">Filter</span>',
-                    flex: 1.4,
+                    flex: 1.5,
                     collapsible: true,
                     collapseMode: 'header',
-                    html:'<div class="variant-browser-option-div form-panel-variant-filter-div"></div>',
+                    html:'<div class="variant-browser-option-div form-panel-variant-filter"></div>',
                     overflowX:true,
                     collapseDirection: 'left',
                     border:false,
@@ -126,7 +128,7 @@ EvaVariantWidgetPanel.prototype = {
                     flex: 4.8,
                     collapsible: false,
                     collapseMode: 'header',
-                    html:'<div class="variant-browser-option-div variant-widget-div"></div>',
+                    html:'<div class="variant-browser-option-div variant-widget"></div>',
                     overflowX:true,
                     border:false,
                     bodyStyle: 'border-width:0px;border-style:none;',

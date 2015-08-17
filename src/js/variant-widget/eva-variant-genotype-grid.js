@@ -191,7 +191,7 @@ EvaVariantGenotypeGrid.prototype = {
          var grid = Ext.create('Ext.grid.Panel', {
              store: store,
              loadMask: true,
-             width: 800,
+//             width: 800,
 //            height: 300,
              cls:'genotype-grid',
              margin: 5,
@@ -289,12 +289,11 @@ EvaVariantGenotypeGrid.prototype = {
      }
 
     var panel = Ext.create('Ext.container.Container', {
-        layout: {
-            type: 'vbox',
-            align: 'fit'
-        },
+        layout:'fit',
         overflowY: true,
+        overflowX:true,
         padding: 10,
+//        width:800,
         items: [
             {
                 xtype: 'box',

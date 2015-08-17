@@ -348,10 +348,7 @@ EvaVariantPopulationStatsPanel.prototype = {
             },
             title: study_title,
             border: false,
-            layout: {
-                type: 'vbox',
-                align: 'fit'
-            },
+            layout:'fit',
             overflowX:true,
             items: [grid]
         });

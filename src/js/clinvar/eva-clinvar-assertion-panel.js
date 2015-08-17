@@ -202,7 +202,7 @@ ClinvarAssertionPanel.prototype = {
             title: data.clinVarAccession.acc,
             border: false,
             layout: 'fit',
-//            overflowX: true,
+            overflowX: true,
             items: [  {
                 xtype: 'container',
                 data: data,

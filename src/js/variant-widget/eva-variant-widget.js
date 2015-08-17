@@ -924,7 +924,7 @@ EvaVariantWidget.prototype = {
 
     _createAnnotPanel: function (target) {
         var _this = this;
-        var annotPanel = new EvaAnnotationPanel({
+        var annotPanel = new ClinvarAnnotationPanel({
             target: target,
             height:800,
             headerConfig: this.defaultToolConfig.headerConfig,

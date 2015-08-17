@@ -72,23 +72,23 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
             title: '',
             collapsible: false,
 //            height:150,
-            width :280,
+//            width :280,
             margin:'5 0 0 0',
             defaultType: 'textfield',
             items :[
                 {
                     fieldLabel: 'PolyPhen2 \>',
                     name: 'polyphen',
-                    width  : 240,
+                    width: '100%',
                     margin:'5 0 0 0',
-                    emptyText:'ex: 0.5'
+                    emptyText:'ex:0.5'
                 },
                 {
                     fieldLabel: 'Sift \< ',
                     name: 'sift',
-                    width  : 240,
+                    width: '100%',
                     margin:'5 0 5 0',
-                    emptyText:'ex: 0.1'
+                    emptyText:'ex:0.1'
                 }
 
             ]
@@ -99,7 +99,7 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
             bodyPadding: "5",
             margin: "0 0 5 0",
             buttonAlign: 'center',
-            layout: 'vbox',
+            layout: 'fit',
             title: this.title,
             border: this.border,
             collapsible: this.collapsible,

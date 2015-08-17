@@ -75,7 +75,17 @@ ClinvarAnnotationPanel.prototype = {
 //        this.summaryContainer.add(panels);
 
           var annotData = data.annot;
-          console.log(annotData)
+          if(!_.isUndefined(params)){
+             var annText = _.findWhere(annotation_text, {species:  params.species})
+             if(!_.isEmpty(annText.text)){
+                var tooltip =  annText.text;
+                Ext.getCmp(_this.id+'-annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="'+tooltip+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+             }else{
+                Ext.getCmp(_this.id+'-annotationStats').update('<h4>Annotations</h4>')
+             }
+          }else{
+              Ext.getCmp(_this.id+'-annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="Variant Effect Predictor (VEP) v78 annotation against the GENCODE Basic Ensembl v78 geneset." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+          }
           var panel = this._createAnnotPanel(annotData);
           this.annotContainer.removeAll();
           this.annotContainer.add(panel);
@@ -83,14 +93,11 @@ ClinvarAnnotationPanel.prototype = {
 
     },
     _createPanel: function () {
+        var _this = this;
+
+        console.log(_this)
         this.annotContainer = Ext.create('Ext.container.Container', {
-            layout: {
-//                type: 'accordion',
-                type: 'vbox',
-                titleCollapse: true,
-//                fill: false,
-                multi: true
-            }
+            layout: 'fit'
         });
 
       this.panel = Ext.create('Ext.container.Container', {
@@ -103,9 +110,9 @@ ClinvarAnnotationPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
-//                    id:'annotationStats',
+                    id:_this.id+'-annotationStats',
                     cls: 'ocb-header-4',
-                    html: '<h4>Annotations <img class="title-header-icon" data-qtip="Variant Effect Predictor (VEP) v78 annotation against the GENCODE Basic Ensembl v78 geneset." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
+                    html: '<h4>Annotations</h4>',
                     margin: '5 0 10 10'
                 },
                 this.annotContainer
@@ -249,7 +256,7 @@ ClinvarAnnotationPanel.prototype = {
             var grid = Ext.create('Ext.grid.Panel', {
                 store: store,
                 loadMask: true,
-                width: 900,
+                width: 800,
 //            height: 370,
 //                maxHeight:550,
                 autoHeight: true,
@@ -274,16 +281,11 @@ ClinvarAnnotationPanel.prototype = {
 
 
         var annotPanel = Ext.create('Ext.panel.Panel', {
-//            header:{
-//                titlePosition:1
-//            },
-//            title: 'Annotation',
+//            overflowX:true,
+            layout:'fit',
+            padding: 10,
+            width:800,
             border: false,
-            layout: {
-                type: 'vbox',
-                align: 'fit'
-            },
-            overflowX:true,
             items: [grid]
         });
 

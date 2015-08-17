@@ -269,7 +269,7 @@ SnvStudyBrowser.prototype = {
             {
                 text: "ID",
                 dataIndex: 'id',
-                flex: 1.7,
+                flex: 2.2,
                 // To render a link to FTP
                 renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                     meta.tdAttr = 'data-qtip="Click to see  more detailed information"';

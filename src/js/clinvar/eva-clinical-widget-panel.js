@@ -56,11 +56,13 @@ EvaClinicalWidgetPanel.prototype = {
         this.targetDiv.appendChild(this.div);
 
         this.panel.render(this.div);
-        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-clinical-filter-div');
+//        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-clinical-filter-div');
+        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-clinical-filter');
         this.formPanelVariantFilter = this._createFormPanelVariantFilter(this.formPanelVariantFilterDiv);
         this.formPanelVariantFilter.draw();
 
-        this.clinvarWidgetDiv = document.querySelector('.clinical-widget-div');
+//        this.clinvarWidgetDiv = document.querySelector('.clinical-widget-div');
+        this.clinvarWidgetDiv = document.querySelector('.clinical-widget');
         this.clinvarWidget = this._createClinVarWidget(this.clinvarWidgetDiv);
         this.clinvarWidget.draw();
     },
@@ -104,7 +106,7 @@ EvaClinicalWidgetPanel.prototype = {
                     flex: 1.3,
                     collapsible: true,
                     collapseMode: 'header',
-                    html:'<div class="variant-browser-option-div form-panel-clinical-filter-div"></div>',
+                    html:'<div class="variant-browser-option-div form-panel-clinical-filter"></div>',
                     overflowX:true,
                     collapseDirection: 'left',
                     border:false,
@@ -119,7 +121,7 @@ EvaClinicalWidgetPanel.prototype = {
                     flex: 4.3,
                     collapsible: false,
                     collapseMode: 'header',
-                    html:'<div class="variant-browser-option-div clinical-widget-div"></div>',
+                    html:'<div class="variant-browser-option-div clinical-widget"></div>',
                     overflowX:true,
                     border:false,
                     bodyStyle: 'border-width:0px;border-style:none;',

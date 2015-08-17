@@ -82,13 +82,7 @@ ClinvarSummaryPanel.prototype = {
     },
     _createPanel: function () {
         this.summaryContainer = Ext.create('Ext.container.Container', {
-            layout: {
-//                type: 'accordion',
-                type: 'vbox',
-                titleCollapse: true,
-//                fill: false,
-                multi: true
-            }
+            layout:'fit'
         });
 
       this.panel = Ext.create('Ext.container.Container', {
@@ -212,9 +206,9 @@ ClinvarSummaryPanel.prototype = {
 //            title: 'Summary',
 //            title: data.clinVarAccession.acc,
             border: false,
-            layout: 'hbox',
-            overflowX: true,
-            overflowY: true,
+            layout: 'fit',
+//            overflowX: true,
+//            overflowY: true,
             items: [  {
                 xtype: 'container',
                 data: data,
