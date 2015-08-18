@@ -81,6 +81,7 @@ EvaVariantWidgetPanel.prototype = {
         }
     },
     _createPanel: function () {
+        var _this = this;
         //        var tpl = new Ext.XTemplate(['<div class="variant-browser-option-div form-panel-variant-filter-div"></div><div class="variant-browser-option-div variant-widget-div"></div>']);
         var tpl =  new Ext.XTemplate([
             '<div class="">'+
@@ -99,8 +100,17 @@ EvaVariantWidgetPanel.prototype = {
                 type: 'hbox',
                 align: 'fit'
             },
-            cls: 'eva-panel',
+//            cls: 'eva-panel',
             bodyStyle: 'border-width:0px;border-style:none;',
+            listeners: {
+                afterlayout: function() {
+                    if(!_.isUndefined(_this.variantWidget) && _.isUndefined(_this.variantBrowserOriginalstate)){
+                        var originalState = _this.variantWidget.variantBrowserGrid.panel.getSize();
+                        var toolTabPanelState =  _this.variantWidget.toolTabPanel.getSize();
+                        _.extend(_this, {variantBrowserOriginalstate:originalState,toolTabPanelState:toolTabPanelState})
+                    }
+                }
+            },
             items:[
                 {
                     xtype: 'panel',
@@ -118,6 +128,29 @@ EvaVariantWidgetPanel.prototype = {
                     collapseDirection: 'left',
                     border:false,
                     bodyStyle: 'border-width:0px;border-style:none;',
+                    listeners: {
+                        collapse: function(){
+                            _this.variantWidget.variantBrowserGrid.panel.doLayout()
+                            _this.variantWidget.toolTabPanel.doLayout();
+                            if(_.isUndefined(_this.variantBrowserCollpaseSate)){
+                                var collpaseState = _this.variantWidget.variantBrowserGrid.panel.getSize();
+                                var toolTabPanelCollapseState =  _this.variantWidget.toolTabPanel.getSize();
+                                _.extend(_this, {variantBrowserCollpaseSate:collpaseState,toolTabPanelCollapseState:toolTabPanelCollapseState})
+                            }else{
+                                _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserCollpaseSate.width,_this.variantBrowserCollpaseSate.height)
+                                _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelCollapseState.width,_this.toolTabPanelCollapseState.height);
+                            }
+                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
+                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
+                        },
+                        expand: function(){
+                            _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserOriginalstate.width,_this.variantBrowserOriginalstate.height)
+                            _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelState.width,_this.toolTabPanelState.height);
+                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
+                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
+                        }
+
+                    }
                 },
                 {
                     xtype: 'panel',
@@ -131,6 +164,7 @@ EvaVariantWidgetPanel.prototype = {
                     html:'<div class="variant-browser-option-div variant-widget"></div>',
                     overflowX:true,
                     border:false,
+                    forceFit:true,
                     bodyStyle: 'border-width:0px;border-style:none;',
                 }
             ],
@@ -564,7 +598,6 @@ EvaVariantWidgetPanel.prototype = {
                     console.log(e);
                 }
                 filter.studiesStore.loadRawData(studies);
-                console.log( _this.formPanelVariantFilter)
                 //set all records checked default
                 _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().selectAll()
                 //set all records checked default
