@@ -309,7 +309,7 @@ EvaVariantWidget.prototype = {
                 {
                     text: 'Position',
                     dataIndex: 'start',
-                    flex: 0.4,
+                    flex: 0.5,
 //                    width:100
                 },
                 {
@@ -328,7 +328,7 @@ EvaVariantWidget.prototype = {
 //                             return snpID;
 //                         }
 //                    },
-                    flex: 0.5,
+                    flex: 0.68,
 //                    width:130,
                     iconCls : 'icon-info',
                     tooltip:'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)',
@@ -344,7 +344,7 @@ EvaVariantWidget.prototype = {
 //                    renderer: function(value, metaData, record, row, col, store, gridView){
 ////                        console.log(record)
 //                    },
-                    flex: 0.3
+                    flex: 0.35
 //                    width:60
                 },
                 {

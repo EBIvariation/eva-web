@@ -222,7 +222,7 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
             multiSelect: true,
             singleExpand: true,
             hideHeaders: true,
-            height: this.height,
+//            height: this.height,
             collapsible: this.collapsible,
             titleCollapse: this.titleCollapse,
             collapsed: this.collapsed,
@@ -245,7 +245,7 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
                 border:false,
                 items: [{
                     xtype: 'trigger',
-                    width:250,
+                    width:270,
                     emptyText:'search',
                     triggerCls: 'x-form-clear-trigger',
                     listeners: {
