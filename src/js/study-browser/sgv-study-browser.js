@@ -251,6 +251,7 @@ SgvStudyBrowser.prototype = {
             name: 'search',
             listeners: {
                 change: function () {
+                    _this.studiesStore.clearFilter();
                     var value = this.getValue();
                     if (value == "") {
                         _this.studiesStore.clearFilter();
