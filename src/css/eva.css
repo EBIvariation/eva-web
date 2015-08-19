@@ -86,8 +86,13 @@ div#local-masthead{
     padding-left: 0;
 }
 
-.study-browser-panel a, .study-browser-panel a:link, .study-browser-panel a:visited,
-.variant-widget-panel a, .variant-widget-panel a:link, .variant-widget-panel a:visited{
+/*.study-browser-panel a, .study-browser-panel a:link, .study-browser-panel a:visited,*/
+/*.variant-widget-panel a, .variant-widget-panel a:link, .variant-widget-panel a:visited{*/
+    /*border-bottom-style: none;*/
+/*}*/
+
+.study-browser-panel a:link, .study-browser-panel a:visited,
+.variant-widget-panel a:link, .variant-widget-panel a:visited{
     border-bottom-style: none;
 }
 
