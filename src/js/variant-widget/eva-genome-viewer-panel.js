@@ -189,8 +189,8 @@ EvaGenomeViewerPanel.prototype = {
                 _.extend(values, studies)
                 _.extend(values, species)
 
-                if (studies== null) {
-                    studies = [];
+                if (_.isEmpty(studies)){
+                    Ext.Msg.alert('','Please select atleast one study');
                 }
                 if (title !== '') {
                     _this._addGenomeBrowserTrack(title, values);

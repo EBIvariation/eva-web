@@ -201,7 +201,7 @@ EvaVariantWidgetPanel.prototype = {
                 headerConfig: {
                     baseCls: 'eva-header-2'
                 },
-                genomeViewer: false,
+                genomeViewer: true,
                 effect:false,
                 rawData:false,
                 populationStats:true
