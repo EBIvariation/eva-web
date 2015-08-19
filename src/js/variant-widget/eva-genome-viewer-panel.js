@@ -111,10 +111,10 @@ EvaGenomeViewerPanel.prototype = {
                 {name: 'studyId', type: 'string'}
             ],
             autoLoad: false,
-            sorters: [{
-                property: 'studyName',
-                direction: 'ASC'
-            }]
+//            sorters: [{
+//                property: 'studyName',
+//                direction: 'ASC'
+//            }]
         });
 
         var studyFilter = new StudyFilterFormPanel({
