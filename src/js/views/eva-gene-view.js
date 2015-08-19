@@ -148,7 +148,7 @@ EvaGeneView.prototype = {
                 hgnc_name = '<a href="http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=HGNC:'+text_to_get.split(':')[2]+'" target="_blank">'+data.name+'</a>'
             }
 
-            _summaryTable +='<tr><td class="header">HGNC Symbol</td><td>'+hgnc_name+'</td></tr>' +
+            _summaryTable +='<tr><td class="header">HGNC Symbol</td><td>'+hgnc_name+'&nbsp;<img class="title-header-icon" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;" src="img/icon-info.png"/></td></tr>' +
                 '<tr><td class="header">Gene Biotype</td><td>'+data.biotype+'</td></tr>' +
                 '<tr><td class="header">Location</td><td>'+data.chromosome+':'+data.start+'-'+data.end+'</td></tr>' +
                 '<tr><td class="header">Assembly</td><td>GRCh37</td></tr>' +
