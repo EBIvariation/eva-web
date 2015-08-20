@@ -1121,7 +1121,7 @@ EvaVariantWidget.prototype = {
         });
 
         var genomeViewer = new GenomeViewer({
-//            cellBaseHost:CELLBASE_HOST,
+            cellBaseHost:CELLBASE_HOST,
             sidePanel: false,
             target: target,
             border: false,
