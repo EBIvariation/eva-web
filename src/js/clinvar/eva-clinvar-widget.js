@@ -193,7 +193,7 @@ EvaClinVarWidget.prototype = {
                 title: 'Genomic Context',
                 border: 0,
                 contentEl: this.genomeViewerDiv,
-//                overflowX:true
+                overflowX:true
             });
         }
 

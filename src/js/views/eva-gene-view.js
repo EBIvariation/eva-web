@@ -331,19 +331,14 @@ EvaGeneView.prototype = {
             margin: '5 10 10 10'
         });
         this.margin = '5 0 0 20';
-//
-//        Ext.EventManager.onWindowResize(function () {
-//            console.log(gvPanel)
-//            gvPanel.doLayout();
-//
-//        });
+
 
         var gvPanel = Ext.create('Ext.panel.Panel', {
             title: 'Genome Viewer',
-            layout: {
-                type: 'vbox',
-                align: 'fit'
-            },
+//            layout: {
+//                type: 'vbox',
+//                align: 'fit'
+//            },
             cls: 'eva-panel',
             header:  {
                 titlePosition:1
@@ -352,8 +347,6 @@ EvaGeneView.prototype = {
             overflowX: true,
             height: 900,
             collapsible:true,
-//            collapsed:true,
-//            padding: 10,
             renderTo:target,
             items: [View],
             margin:this.margin
@@ -362,6 +355,12 @@ EvaGeneView.prototype = {
 //            tpl: new Ext.XTemplate('<div id="gene-view-gv"></div>'),
 //            margin: this.margin
 //        });
+
+        Ext.EventManager.onWindowResize(function () {
+            if (gvPanel.isVisible()) {
+                gvPanel.doLayout();
+            }
+        });
 
         var header = gvPanel.getHeader()
 
