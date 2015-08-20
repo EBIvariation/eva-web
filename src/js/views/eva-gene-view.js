@@ -377,7 +377,7 @@ EvaGeneView.prototype = {
             sidePanel: false,
             target: 'gene-view-gv',
             border: false,
-            resizable: true,
+            resizable: false,
             width: 1250,
             region: region,
             trackListTitle: '',
