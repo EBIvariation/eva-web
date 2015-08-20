@@ -80,7 +80,9 @@ EvaGenomeViewerPanel.prototype = {
         this.genomeViewer.draw();
     },
     show: function () {
+        var _this = this;
         this.div.style.display = '';
+        _this.resize();
     },
     hide: function () {
         this.div.style.display = 'none';
@@ -90,6 +92,12 @@ EvaGenomeViewerPanel.prototype = {
             this.hide();
         } else {
             this.show();
+        }
+    },
+    resize: function () {
+        var _this = this;
+        if (_this.panel.isVisible()) {
+            _this.panel.doLayout();
         }
     },
     _createFormPanelGenomeFilter: function (target) {
@@ -233,7 +241,7 @@ EvaGenomeViewerPanel.prototype = {
         _.extend(speciesFilter.panel, {flex:1.5,title:'Species',header:{baseCls: 'eva-header-2'}})
         _.extend(studyFilter.panel, {flex:4.5,title:'Studies',header:{baseCls: 'eva-header-2'}})
 
-        var formPanel =  Ext.create('Ext.form.Panel', {
+        this.panel =  Ext.create('Ext.form.Panel', {
             title:'Add Tracks',
             header:{
                 baseCls: 'eva-header-1',
@@ -260,7 +268,7 @@ EvaGenomeViewerPanel.prototype = {
                 },
                 {
                     xtype:'container',
-                    flex:4.5,//
+                    flex:4.5,
                     height:330,
                     border:false,
                     layout: {
@@ -268,10 +276,12 @@ EvaGenomeViewerPanel.prototype = {
                         align: 'stretch'
                     },
                     items:[studyFilter.panel]
-                },
-
-
+                }
             ]
+        });
+
+        Ext.EventManager.onWindowResize(function () {
+            _this.resize();
         });
 
 //        var formPanel = new EvaFormPanel({
@@ -309,7 +319,7 @@ EvaGenomeViewerPanel.prototype = {
 
         //formPanel.panel.collapse();
 
-        return formPanel;
+        return this.panel;
     },
     _addGenomeBrowserTrack: function (title, params) {
         params.exclude = 'sourceEntries';
@@ -403,7 +413,7 @@ EvaGenomeViewerPanel.prototype = {
             sidePanel: false,
             target: target,
             border: false,
-            resizable: true,
+            resizable: false,
             width: 1320,
             region: region,
             availableSpecies: AVAILABLE_SPECIES,

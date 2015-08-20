@@ -194,7 +194,6 @@ Eva.prototype = {
                     this.select('Variant Browser');
 //                    this.variantWidgetPanel.formPanelVariantFilter.trigger('submit', {values: this.variantWidgetPanel.formPanelVariantFilter.getValues(), sender: _this});
                 }
-
                 break;
             case 'Genome Browser':
                 if(this.genomeViewerPanel){
@@ -219,7 +218,7 @@ Eva.prototype = {
                     }else{
                         this.clinicalWidgetPanel = this._createClinicalWidgetPanel(this.contentDiv);
                         this.select('Clinical Browser');
-                        this.clinicalWidgetPanel.formPanelVariantFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelVariantFilter.getValues(), sender: _this});
+                        this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
                     }
                 break;
         }

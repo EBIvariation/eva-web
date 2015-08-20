@@ -57,7 +57,7 @@ EvaVariantWidgetPanel.prototype = {
 
         this.panel.render(this.div);
 
-//        this.variantWidgetDiv = document.querySelector('.variant-widget-div');
+        this.variantWidgetDiv = document.querySelector('.variant-widget-div');
         this.variantWidgetDiv = document.querySelector('.variant-widget');
         this.variantWidget = this._createVariantWidget(this.variantWidgetDiv);
         this.variantWidget.draw();
@@ -68,7 +68,9 @@ EvaVariantWidgetPanel.prototype = {
         this.formPanelVariantFilter.draw();
     },
     show: function () {
-        this.panel.show()
+        var _this = this;
+        this.panel.show();
+        _this.resize();
     },
     hide: function () {
         this.panel.hide();
@@ -80,21 +82,25 @@ EvaVariantWidgetPanel.prototype = {
             this.panel.show();
         }
     },
+    resize: function () {
+        var _this = this;
+        if (_this.panel.isVisible()) {
+            _this.panel.doLayout();
+            _this.variantWidget.variantBrowserGrid.panel.doLayout()
+            _this.variantWidget.toolTabPanel.doLayout();
+            _this.formPanelVariantFilter.panel.doLayout();
+            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
+            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
+        }
+    },
+
     _createPanel: function () {
         var _this = this;
-        //        var tpl = new Ext.XTemplate(['<div class="variant-browser-option-div form-panel-variant-filter-div"></div><div class="variant-browser-option-div variant-widget-div"></div>']);
-        var tpl =  new Ext.XTemplate([
-            '<div class="">'+
-                '<div class="variant-browser-option-div form-panel-variant-filter-div"></div>' +
-                '<div class="variant-browser-option-div variant-widget-div"></div>'+
-                '</div>'
-        ]);
-        var view = Ext.create('Ext.view.View', {
-            tpl: tpl
+        Ext.EventManager.onWindowResize(function (e) {
+            _this.resize();
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-            overflowX:true,
             border:false,
             layout: {
                 type: 'hbox',
@@ -104,11 +110,11 @@ EvaVariantWidgetPanel.prototype = {
             bodyStyle: 'border-width:0px;border-style:none;',
             listeners: {
                 afterlayout: function() {
-                    if(!_.isUndefined(_this.variantWidget) && _.isUndefined(_this.variantBrowserOriginalstate)){
-                        var originalState = _this.variantWidget.variantBrowserGrid.panel.getSize();
-                        var toolTabPanelState =  _this.variantWidget.toolTabPanel.getSize();
-                        _.extend(_this, {variantBrowserOriginalstate:originalState,toolTabPanelState:toolTabPanelState})
-                    }
+//                    if(!_.isUndefined(_this.variantWidget) && _.isUndefined(_this.variantBrowserOriginalstate)){
+//                        var originalState = _this.variantWidget.variantBrowserGrid.panel.getSize();
+//                        var toolTabPanelState =  _this.variantWidget.toolTabPanel.getSize();
+//                        _.extend(_this, {variantBrowserOriginalstate:originalState,toolTabPanelState:toolTabPanelState})
+//                    }
                 }
             },
             items:[
@@ -124,30 +130,29 @@ EvaVariantWidgetPanel.prototype = {
                     collapsible: true,
                     collapseMode: 'header',
                     html:'<div class="variant-browser-option-div form-panel-variant-filter"></div>',
-                    overflowX:true,
                     collapseDirection: 'left',
                     border:false,
                     bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){
-                            _this.variantWidget.variantBrowserGrid.panel.doLayout()
-                            _this.variantWidget.toolTabPanel.doLayout();
-                            if(_.isUndefined(_this.variantBrowserCollpaseSate)){
-                                var collpaseState = _this.variantWidget.variantBrowserGrid.panel.getSize();
-                                var toolTabPanelCollapseState =  _this.variantWidget.toolTabPanel.getSize();
-                                _.extend(_this, {variantBrowserCollpaseSate:collpaseState,toolTabPanelCollapseState:toolTabPanelCollapseState})
-                            }else{
-                                _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserCollpaseSate.width,_this.variantBrowserCollpaseSate.height)
-                                _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelCollapseState.width,_this.toolTabPanelCollapseState.height);
-                            }
-                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
-                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
+                            _this.resize();
+//                            if(_.isUndefined(_this.variantBrowserCollpaseSate)){
+//                                var collpaseState = _this.variantWidget.variantBrowserGrid.panel.getSize();
+//                                var toolTabPanelCollapseState =  _this.variantWidget.toolTabPanel.getSize();
+//                                _.extend(_this, {variantBrowserCollpaseSate:collpaseState,toolTabPanelCollapseState:toolTabPanelCollapseState})
+//                            }else{
+//                                _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserCollpaseSate.width,_this.variantBrowserCollpaseSate.height)
+//                                _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelCollapseState.width,_this.toolTabPanelCollapseState.height);
+//                            }
+//                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
+//                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
                         },
                         expand: function(){
-                            _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserOriginalstate.width,_this.variantBrowserOriginalstate.height)
-                            _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelState.width,_this.toolTabPanelState.height);
-                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
-                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
+                            _this.resize();
+//                            _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserOriginalstate.width,_this.variantBrowserOriginalstate.height)
+//                            _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelState.width,_this.toolTabPanelState.height);
+//                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
+//                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
                         }
 
                     }
@@ -162,13 +167,11 @@ EvaVariantWidgetPanel.prototype = {
                     collapsible: false,
                     collapseMode: 'header',
                     html:'<div class="variant-browser-option-div variant-widget"></div>',
-                    overflowX:true,
                     border:false,
                     forceFit:true,
                     bodyStyle: 'border-width:0px;border-style:none;',
                 }
             ],
-//            height:1200,
             cls: 'variant-widget-panel'
         });
 

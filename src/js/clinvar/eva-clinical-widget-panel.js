@@ -56,10 +56,10 @@ EvaClinicalWidgetPanel.prototype = {
         this.targetDiv.appendChild(this.div);
 
         this.panel.render(this.div);
-//        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-clinical-filter-div');
-        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-clinical-filter');
-        this.formPanelVariantFilter = this._createFormPanelVariantFilter(this.formPanelVariantFilterDiv);
-        this.formPanelVariantFilter.draw();
+//        this.formPanelClinvarFilterDiv = document.querySelector('.form-panel-clinical-filter-div');
+        this.formPanelClinvarFilterDiv = document.querySelector('.form-panel-clinical-filter');
+        this.formPanelClinvarFilter = this._createFormPanelVariantFilter(this.formPanelClinvarFilterDiv);
+        this.formPanelClinvarFilter.draw();
 
 //        this.clinvarWidgetDiv = document.querySelector('.clinical-widget-div');
         this.clinvarWidgetDiv = document.querySelector('.clinical-widget');
@@ -67,7 +67,9 @@ EvaClinicalWidgetPanel.prototype = {
         this.clinvarWidget.draw();
     },
     show: function () {
-        this.panel.show()
+        var _this = this;
+        this.panel.show();
+        _this.resize();
     },
     hide: function () {
         this.panel.hide();
@@ -79,15 +81,24 @@ EvaClinicalWidgetPanel.prototype = {
             this.panel.show();
         }
     },
+    resize: function () {
+        var _this = this;
+        if (_this.panel.isVisible()) {
+            _this.panel.doLayout();
+            _this.clinvarWidget.clinvarBrowserGrid.panel.doLayout()
+            _this.clinvarWidget.toolTabPanel.doLayout();
+            _this.formPanelClinvarFilter.panel.doLayout();
+//            var row = _this.clinvarWidget.clinvarBrowserGrid.grid.getSelectionModel().getSelection();
+//            _this.clinvarWidget.clinvarBrowserGrid.trigger("clinvar:change", {sender: _this, args: row[0].data});
+        }
+    },
     _createPanel: function () {
         var _this = this;
-        var tpl = new Ext.XTemplate(['<div   class="variant-browser-option-div form-panel-clinical-filter-div"></div><div class="variant-browser-option-div clinical-widget-div"></div>']);
-        var view = Ext.create('Ext.view.View', {
-            tpl: tpl
+        Ext.EventManager.onWindowResize(function () {
+            _this.resize();
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-            overflowX:true,
             border:false,
             layout: {
                 type: 'hbox',
@@ -97,12 +108,12 @@ EvaClinicalWidgetPanel.prototype = {
             bodyStyle: 'border-width:0px;border-style:none;',
             listeners: {
                 afterlayout: function() {
-                    console.log(_this)
-                    if(!_.isUndefined(_this.clinvarWidget) && _.isUndefined(_this.clinvarBrowserOriginalstate)){
-                        var originalState = _this.clinvarWidget.clinvarBrowserGrid.panel.getSize();
-                        var toolTabPanelState =  _this.clinvarWidget.toolTabPanel.getSize();
-                        _.extend(_this, {clinvarBrowserOriginalstate:originalState,toolTabPanelState:toolTabPanelState})
-                    }
+//                    console.log(_this)
+//                    if(!_.isUndefined(_this.clinvarWidget) && _.isUndefined(_this.clinvarBrowserOriginalstate)){
+//                        var originalState = _this.clinvarWidget.clinvarBrowserGrid.panel.getSize();
+//                        var toolTabPanelState =  _this.clinvarWidget.toolTabPanel.getSize();
+//                        _.extend(_this, {clinvarBrowserOriginalstate:originalState,toolTabPanelState:toolTabPanelState})
+//                    }
                 }
             },
             items:[
@@ -118,30 +129,28 @@ EvaClinicalWidgetPanel.prototype = {
                     collapsible: true,
                     collapseMode: 'header',
                     html:'<div class="variant-browser-option-div form-panel-clinical-filter"></div>',
-                    overflowX:true,
                     collapseDirection: 'left',
                     border:false,
                     bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){
-                            _this.clinvarWidget.clinvarBrowserGrid.panel.doLayout()
-                            _this.clinvarWidget.toolTabPanel.doLayout();
-                            if(_.isUndefined(_this.clinvarBrowserCollpaseSate)){
-                                var collpaseState = _this.clinvarWidget.clinvarBrowserGrid.panel.getSize();
-                                var toolTabPanelCollapseState =  _this.clinvarWidget.toolTabPanel.getSize();
-                                _.extend(_this, {clinvarBrowserCollpaseSate:collpaseState,toolTabPanelCollapseState:toolTabPanelCollapseState})
-                            }else{
-                                _this.clinvarWidget.clinvarBrowserGrid.panel.setSize(_this.clinvarBrowserCollpaseSate.width,_this.clinvarBrowserCollpaseSate.height)
-                                _this.clinvarWidget.toolTabPanel.setSize(_this.toolTabPanelCollapseState.width,_this.toolTabPanelCollapseState.height);
-                            }
+                            _this.resize();
+//                            if(_.isUndefined(_this.clinvarBrowserCollpaseSate)){
+//                                var collpaseState = _this.clinvarWidget.clinvarBrowserGrid.panel.getSize();
+//                                var toolTabPanelCollapseState =  _this.clinvarWidget.toolTabPanel.getSize();
+//                                _.extend(_this, {clinvarBrowserCollpaseSate:collpaseState,toolTabPanelCollapseState:toolTabPanelCollapseState})
+//                            }else{
+//                                _this.clinvarWidget.clinvarBrowserGrid.panel.setSize(_this.clinvarBrowserCollpaseSate.width,_this.clinvarBrowserCollpaseSate.height)
+//                                _this.clinvarWidget.toolTabPanel.setSize(_this.toolTabPanelCollapseState.width,_this.toolTabPanelCollapseState.height);
+//                            }
                             var row = _this.clinvarWidget.clinvarBrowserGrid.grid.getSelectionModel().getSelection();
                             _this.clinvarWidget.clinvarBrowserGrid.trigger("clinvar:change", {sender: _this, args: row[0].data});
                         },
                         expand: function(){
+                            _this.resize();
                             _this.clinvarWidget.clinvarBrowserGrid.panel.setSize(_this.clinvarBrowserOriginalstate.width,_this.clinvarBrowserOriginalstate.height)
                             _this.clinvarWidget.toolTabPanel.setSize(_this.toolTabPanelState.width,_this.toolTabPanelState.height);
-                            var row = _this.clinvarWidget.clinvarBrowserGrid.grid.getSelectionModel().getSelection();
-                            _this.clinvarWidget.clinvarBrowserGrid.trigger("clinvar:change", {sender: _this, args: row[0].data});
+
                         }
 
                     }
@@ -156,7 +165,6 @@ EvaClinicalWidgetPanel.prototype = {
                     collapsible: false,
                     collapseMode: 'header',
                     html:'<div class="variant-browser-option-div clinical-widget"></div>',
-                    overflowX:true,
                     border:false,
                     bodyStyle: 'border-width:0px;border-style:none;',
                 }

@@ -68,6 +68,7 @@ EvaStudyBrowserPanel.prototype = {
         }
     },
     _createPanel: function () {
+        var _this = this;
 
          var svStudyBrowser = new SvStudyBrowser({
             pageSize:20
@@ -118,6 +119,10 @@ EvaStudyBrowserPanel.prototype = {
             },
             cls:'study-browser-panel',
             items: [this.toolTabPanel]
+        });
+
+        Ext.EventManager.onWindowResize(function () {
+            _this.panel.doLayout()
         });
 
 

@@ -148,7 +148,7 @@ EvaGeneView.prototype = {
                 hgnc_name = '<a href="http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=HGNC:'+text_to_get.split(':')[2]+'" target="_blank">'+data.name+'</a>'
             }
 
-            _summaryTable +='<tr><td class="header">HGNC Symbol</td><td>'+hgnc_name+'&nbsp;<img class="title-header-icon" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;" src="img/icon-info.png"/></td></tr>' +
+            _summaryTable +='<tr><td class="header">HGNC Symbol</td><td>'+hgnc_name+'</td></tr>' +
                 '<tr><td class="header">Gene Biotype</td><td>'+data.biotype+'</td></tr>' +
                 '<tr><td class="header">Location</td><td>'+data.chromosome+':'+data.start+'-'+data.end+'</td></tr>' +
                 '<tr><td class="header">Assembly</td><td>GRCh37</td></tr>' +
@@ -207,7 +207,15 @@ EvaGeneView.prototype = {
         });
         this.margin = '0 0 0 20';
 
-        var panel = Ext.create('Ext.panel.Panel', {
+        Ext.EventManager.onWindowResize(function () {
+            _this.panel.doLayout();
+            evaClinVarWidget.clinvarBrowserGrid.panel.doLayout()
+            evaClinVarWidget.toolTabPanel.doLayout();
+        });
+
+
+
+        this.panel = Ext.create('Ext.panel.Panel', {
             title:'Variants',
             layout: {
                 type: 'vbox',
@@ -223,12 +231,22 @@ EvaGeneView.prototype = {
             collapsible:true,
 //            padding: 10,
             renderTo:target,
-            items: [View],
+            items: [
+                    {
+                        xtype: 'panel',
+                        flex: 1,
+                        collapsible: false,
+                        collapseMode: 'header',
+                        html:'<div id="clinvar-view-gv1"></div>',
+                        border:false,
+                        bodyStyle: 'border-width:0px;border-style:none;',
+                    }
+            ],
             margin:this.margin
         });
         var evaClinVarWidget = new EvaClinVarWidget({
             width: 1020,
-            target: 'clinvar-view-gv',
+            target: 'clinvar-view-gv1',
             headerConfig: {
                 baseCls: 'eva-header-1'
             },
@@ -313,19 +331,25 @@ EvaGeneView.prototype = {
             margin: '5 10 10 10'
         });
         this.margin = '5 0 0 20';
+//
+//        Ext.EventManager.onWindowResize(function () {
+//            console.log(gvPanel)
+//            gvPanel.doLayout();
+//
+//        });
 
-        var panel = Ext.create('Ext.panel.Panel', {
+        var gvPanel = Ext.create('Ext.panel.Panel', {
             title: 'Genome Viewer',
             layout: {
                 type: 'vbox',
-                align: 'stretch'
+                align: 'fit'
             },
             cls: 'eva-panel',
             header:  {
                 titlePosition:1
             },
             autoHeight: true,
-            overflowY: true,
+            overflowX: true,
             height: 900,
             collapsible:true,
 //            collapsed:true,
@@ -339,7 +363,7 @@ EvaGeneView.prototype = {
 //            margin: this.margin
 //        });
 
-        var header = panel.getHeader()
+        var header = gvPanel.getHeader()
 
         var region = new Region({
             chromosome: _this.geneData.chromosome,
@@ -479,7 +503,7 @@ EvaGeneView.prototype = {
         genomeViewer.addOverviewTrack(geneOverview);
         genomeViewer.addTrack([sequence, gene, snp]);
 
-        panel.collapse();
+        gvPanel.collapse();
 
         return genomeViewer;
     },
@@ -506,7 +530,7 @@ EvaGeneView.prototype = {
                             '<div  class="col-sm-12 col-md-12 col-lg-12">'+
                                 '<div id="summary" class="row">'+
                                     '<div class="col-md-12" style="margin-left:20px;">'+
-                                        '<h4 class="gene-view-h4"> Summary</h4>'+
+                                        '<h4 class="gene-view-h4"> Summary &nbsp;<img class="title-header-icon" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>'+
                                         '<div id="summary-grid"></div>'+
                                     '</div>'+
                                 '</div>'+

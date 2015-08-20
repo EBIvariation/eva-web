@@ -192,7 +192,8 @@ EvaClinVarWidget.prototype = {
             tabPanelItems.push({
                 title: 'Genomic Context',
                 border: 0,
-                contentEl: this.genomeViewerDiv
+                contentEl: this.genomeViewerDiv,
+//                overflowX:true
             });
         }
 
@@ -692,7 +693,7 @@ EvaClinVarWidget.prototype = {
             sidePanel: false,
             target: target,
             border: false,
-            resizable: true,
+            resizable: false,
             width: this.width,
             region: region,
             trackListTitle: '',
