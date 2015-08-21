@@ -245,7 +245,7 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
                 border:false,
                 items: [{
                     xtype: 'trigger',
-                    width:270,
+                    width:'100%',
                     emptyText:'search',
                     triggerCls: 'x-form-clear-trigger',
                     listeners: {

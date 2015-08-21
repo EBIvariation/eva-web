@@ -25,7 +25,7 @@ function EvaVariantGenotypeGrid(args) {
     this.autoRender = true;
     this.storeConfig = {};
     this.gridConfig = {};
-    this.height = 500;
+    this.height = 200;
     this.target;
     this.columns = [
         {
@@ -165,7 +165,7 @@ EvaVariantGenotypeGrid.prototype = {
                  }
              }],
              defaults: {
-             align:'center' ,
+             align:'left' ,
                  sortable : true
              }
          };
@@ -191,9 +191,14 @@ EvaVariantGenotypeGrid.prototype = {
          var grid = Ext.create('Ext.grid.Panel', {
              store: store,
              loadMask: true,
+             oveflowY:true,
 //             width: 800,
 //            height: 300,
              cls:'genotype-grid',
+             layout: {
+                 type: 'hbox',
+                 align: 'fit'
+             },
              margin: 5,
              viewConfig: {
                  emptyText: 'No records to display',
@@ -233,35 +238,47 @@ EvaVariantGenotypeGrid.prototype = {
                  ],
                  data: finalData
              });
-             var grid = Ext.create('Ext.grid.Panel', {
-                 store: store,
-                 stateful: true,
-                 stateId: 'stateGrid',
-                 columns: {
-                     items:[{
-                         text     : 'Sample',
-                         flex     : 1,
-//                         sortable : false,
-                         dataIndex: 'sample'
-                        },
-                         {
-                             text     : 'Genotype',
-                             flex     : 1,
-//                             sortable : false,
-                             dataIndex: 'genotype'
-                         }],
-                         defaults: {
-                             align:'center' ,
-                             sortable : true
-                         }
 
+
+             this.panel = Ext.create('Ext.container.Container', {
+                 border:false,
+                 layout: {
+                     type: 'hbox',
+                     align: 'fit'
                  },
-                 height: 350,
-//                 width: 300,
                  renderTo: divID,
-                 viewConfig: {
-                     stripeRows: true,
-                 }
+                 bodyStyle: 'border-width:0px;border-style:none;',
+                 items:[
+                     {
+                         xtype: 'grid',
+                         store: store,
+                         columns: {
+                             items:[{
+                                 text     : 'Sample',
+                                 flex     : 1.5,
+//                         sortable : false,
+                                 dataIndex: 'sample'
+                             },
+                                 {
+                                     text     : 'Genotype',
+                                     flex     : 1,
+//                             sortable : false,
+                                     dataIndex: 'genotype'
+                                 }],
+                             defaults: {
+                                 align:'center' ,
+                                 sortable : true
+                             }
+
+                         },
+                         viewConfig: {
+                             stripeRows: true,
+                         },
+                         height: 450,
+                         width: 350,
+                     }
+                 ]
+
              });
 
          });
@@ -289,10 +306,11 @@ EvaVariantGenotypeGrid.prototype = {
      }
 
     var panel = Ext.create('Ext.container.Container', {
-        layout:'fit',
+//        layout:'fit',
         overflowY: true,
-        overflowX:true,
+//        overflowX:true,
         padding: 10,
+        height:800,
 //        width:800,
         items: [
             {
