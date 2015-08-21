@@ -119,7 +119,7 @@ EvaClinVarWidget.prototype = {
             height:900,
             plain: true,
             animCollapse: false,
-            overflowY:true,
+//            overflowY:true,
             header: this.toolPanelConfig.headerConfig,
             collapseDirection: Ext.Component.DIRECTION_BOTTOM,
             titleCollapse: true,
