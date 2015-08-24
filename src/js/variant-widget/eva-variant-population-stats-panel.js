@@ -308,7 +308,7 @@ EvaVariantPopulationStatsPanel.prototype = {
             store: store,
             loadMask: true,
             width: 900,
-            height: 600,
+//            height: 600,
             cls:'genotype-grid',
             margin: 20,
             viewConfig: {

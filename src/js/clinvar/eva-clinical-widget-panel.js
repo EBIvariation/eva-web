@@ -130,8 +130,8 @@ EvaClinicalWidgetPanel.prototype = {
                     collapseMode: 'header',
                     html:'<div class="variant-browser-option-div form-panel-clinical-filter"></div>',
                     collapseDirection: 'left',
-                    border:false,
-                    bodyStyle: 'border-width:0px;border-style:none;',
+                    border:true,
+//                    bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){
                             _this.resize();
@@ -493,7 +493,7 @@ EvaClinicalWidgetPanel.prototype = {
             submitButtonText: 'Submit',
             filters: [clinvarPositionFilter,clinvarConseqTypeFilter,phenotypeFilter,variationTypeFilter,clinicalSignfcFilter,reviewStatusFilter],
 //            width: 300,
-            height: 1400,
+            height: 1408,
             border: false,
             handlers: {
                 'submit': function (e) {

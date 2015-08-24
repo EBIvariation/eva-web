@@ -131,8 +131,8 @@ EvaVariantWidgetPanel.prototype = {
                     collapseMode: 'header',
                     html:'<div class="variant-browser-option-div form-panel-variant-filter"></div>',
                     collapseDirection: 'left',
-                    border:false,
-                    bodyStyle: 'border-width:0px;border-style:none;',
+                    border:true,
+//                    bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){
                             _this.resize();
@@ -181,7 +181,7 @@ EvaVariantWidgetPanel.prototype = {
     _createVariantWidget: function (target) {
 //        var width = this.width - parseInt(this.div.style.paddingLeft) - parseInt(this.div.style.paddingRight);
         var evaVariantWidget = new EvaVariantWidget({
-            width: 1020,
+            width: 1000,
             target: target,
 //            headerConfig: {
 //                baseCls: 'eva-header-1'
@@ -198,7 +198,7 @@ EvaVariantWidgetPanel.prototype = {
                 headerConfig: {
                     baseCls: 'eva-header-2'
                 },
-                border:false
+                border:true
             },
             defaultToolConfig: {
                 headerConfig: {
@@ -381,7 +381,7 @@ EvaVariantWidgetPanel.prototype = {
             filters: [speciesFilter,positionFilter, conseqTypeFilter,proteinSubScoreFilter,studyFilter],
 //            filters: [speciesFilter,positionFilter,studyFilter],
 //            width: 300,
-            height: 1443,
+            height: 1359,
             border: false,
             handlers: {
                 'submit': function (e) {
