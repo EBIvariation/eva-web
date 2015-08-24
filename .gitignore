@@ -56,3 +56,4 @@ local.properties
 build/*
 node_modules/*
 lib 
+temp
