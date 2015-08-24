@@ -21,6 +21,8 @@
     "grunt-hub": "0.7.0",
     "grunt-regex-replace": "0.2.6",
     "js-beautify": "~1.4.2",
-    "dalekjs": "~0.0.9"
+    "grunt-dalek": "~0.2.0",
+    "dalek-browser-chrome": "~0.0.11",
+    "dalek-browser-firefox ": "~0.0.6"
   }
 }

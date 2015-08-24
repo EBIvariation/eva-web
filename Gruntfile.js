@@ -246,6 +246,23 @@ module.exports = function (grunt) {
                 options: {spawn: false}
             }
 
+        },
+        dalek: {
+            options: {
+                browser: ['phantomjs', 'chrome'],
+                reporter: ['html', 'junit'],
+                dalekfile: false,
+                advanced: {
+                    browsers: [{
+                        chrome: {
+                            port: 4000
+                        }
+                    }]
+                }
+            },
+            dist: {
+                src: ['dalek-test/eva.js']
+            }
         }
     });
 
@@ -262,11 +279,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-html-build');
     grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-hub');
+    grunt.loadNpmTasks('grunt-dalek');
+//    grunt.loadTasks('tasks');
 
     grunt.registerTask('vendor', ['curl-dir']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','dalek'])
 
 
 //    grunt.registerTask('clean', ['clean:eva']);
