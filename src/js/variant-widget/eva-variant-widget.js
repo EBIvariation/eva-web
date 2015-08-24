@@ -1137,7 +1137,7 @@ EvaVariantWidget.prototype = {
             drawRegionOverviewPanel: true,
             overviewZoomMultiplier: 50,
             karyotypePanelConfig: {
-                collapsed: true,
+                collapsed: false,
                 collapsible: true
             },
             navigationBarConfig: {
