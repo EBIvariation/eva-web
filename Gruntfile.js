@@ -250,7 +250,7 @@ module.exports = function (grunt) {
         dalek: {
             options: {
                 browser: ['phantomjs', 'chrome'],
-                reporter: ['html', 'junit'],
+                reporter: ['console','html', 'junit'],
                 dalekfile: false,
                 advanced: {
                     browsers: [{
