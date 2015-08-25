@@ -249,9 +249,9 @@ module.exports = function (grunt) {
         },
         dalek: {
             options: {
-                browser: ['phantomjs', 'chrome'],
+                browser: ['chrome'],
                 reporter: ['console','html', 'junit'],
-                dalekfile: false,
+                dalekfile: true,
                 advanced: {
                     browsers: [{
                         chrome: {
@@ -261,7 +261,13 @@ module.exports = function (grunt) {
                 }
             },
             dist: {
-                src: ['dalek-test/eva.js']
+                src: ['dalek-test/dalek-eva-test.js']
+            }
+        },
+        cucumberjs: {
+            src: 'features',
+            options: {
+                steps: "features/step_definitions"
             }
         }
     });
@@ -280,6 +286,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-hub');
     grunt.loadNpmTasks('grunt-dalek');
+    grunt.loadNpmTasks('grunt-cucumber');
+    grunt.loadNpmTasks('grunt-zombie');
 //    grunt.loadTasks('tasks');
 
     grunt.registerTask('vendor', ['curl-dir']);
