@@ -15,8 +15,22 @@ casper.thenOpen(URL+'?Variant%20Browser', function() {
     this.echo(this.getTitle());
     this.wait(5000, function() {
         casper.capture('tests/casperjs/screenshots/Variant_Browser_page.png');
-        this.clickLabel('Study Browser', 'a');
-        casper.capture('tests/casperjs/screenshots/study_Browser_page.png');
+        this.clickLabel('Files and Statistics', 'span');
+        this.evaluate(function() {
+            $("[name='region']").val('1:310000-500000')
+        });
+        this.clickLabel('Submit', 'span');
+//        this.clickLabel('Study Browser', 'a');
+        this.wait(5000, function() {
+            casper.capture('tests/casperjs/screenshots/Variant_Browser_page1.png');
+        });
+    });
+});
+
+casper.then(function() {
+    this.clickLabel('Reset', 'span');
+    this.wait(5000, function() {
+        casper.capture('tests/casperjs/screenshots/Variant_Browser_page2.png');
     });
 });
 
