@@ -56,5 +56,5 @@ local.properties
 build/*
 node_modules/*
 lib 
-temp	
+temp/*	
 tests/casperjs/*
