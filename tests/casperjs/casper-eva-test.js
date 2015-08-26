@@ -31,7 +31,7 @@ casper.then(function() {
     this.clickLabel('Reset', 'span');
     this.wait(5000, function() {
         casper.capture('tests/casperjs/screenshots/Variant_Browser_page2.png');
-    });
+    }); 
 });
 
 
