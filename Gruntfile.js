@@ -261,7 +261,7 @@ module.exports = function (grunt) {
                 }
             },
             dist: {
-                src: ['dalek-test/dalek-eva-test.js']
+                src: ['tests/dalek-test/dalek-eva-test.js']
             }
         },
         cucumberjs: {
@@ -269,6 +269,14 @@ module.exports = function (grunt) {
             options: {
                 steps: "features/step_definitions"
             }
+        },
+        casperjs: {
+            options: {
+                async: {
+                    parallel: false
+                }
+            },
+            files: ['tests/casperjs/*.js']
         }
     });
 
@@ -288,12 +296,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-dalek');
     grunt.loadNpmTasks('grunt-cucumber');
     grunt.loadNpmTasks('grunt-zombie');
+    grunt.loadNpmTasks('grunt-casperjs');
 //    grunt.loadTasks('tasks');
 
     grunt.registerTask('vendor', ['curl-dir']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','dalek'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','dalek','casperjs'])
 
 
 //    grunt.registerTask('clean', ['clean:eva']);

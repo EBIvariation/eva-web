@@ -26,6 +26,7 @@
     "dalek-browser-firefox": "~0.0.6",
     "dalek-reporter-html": "~0.0.4",
     "grunt-cucumber": "~0.3.0",
-    "zombie": "~3.1.0"
+    "zombie": "~3.1.0",
+    "grunt-casperjs": "~2.1.0"
   }
 }

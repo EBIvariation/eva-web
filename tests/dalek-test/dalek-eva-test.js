@@ -9,7 +9,7 @@ module.exports = {
             .click('#cookie-dismiss')
             .assert.title().is('European Variation Archive', 'It has title')
             .wait(5000)
-            .screenshot('dalek-test/:browser/my_file.png')
+            .screenshot('tests/dalek-test/:browser/my_file.png')
             .end()
             .done();
     },
