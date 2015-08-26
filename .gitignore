@@ -58,3 +58,4 @@ node_modules/*
 lib 
 temp/*	
 tests/casperjs/*
+report/*
