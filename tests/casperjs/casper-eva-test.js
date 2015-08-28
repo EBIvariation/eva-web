@@ -5,7 +5,7 @@ casper.start(URL, function() {
     this.wait(5000, function() {
         this.echo(this.getTitle());
 //        this.clickLabel('Dismiss this notice', 'button');
-        this.click('#cookie-dismiss')
+        this.click('#cookie-dismiss'
         casper.capture('tests/casperjs/screenshots/home_page.png');
 
     });
@@ -31,7 +31,7 @@ casper.then(function() {
     this.clickLabel('Reset', 'span');
     this.wait(5000, function() {
         casper.capture('tests/casperjs/screenshots/Variant_Browser_page2.png');
-    }); 
+    });
 });
 
 
