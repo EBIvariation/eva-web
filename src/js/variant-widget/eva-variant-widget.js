@@ -186,6 +186,17 @@ EvaVariantWidget.prototype = {
             });
         }
 
+        if (this.defaultToolConfig.genotype) {
+            this.variantGenotypeGridPanelDiv = document.createElement('div');
+            this.variantGenotypeGridPanelDiv.setAttribute('class', 'ocb-variant-genotype-grid');
+            this.variantGenotypeGridPanel = this._createVariantGenotypeGridPanel(this.variantGenotypeGridPanelDiv);
+            tabPanelItems.push({
+                title: 'Genotypes Pro',
+//                border: 0,
+                contentEl: this.variantGenotypeGridPanelDiv
+            });
+        }
+
         if (this.defaultToolConfig.genomeViewer) {
             this.genomeViewerDiv = document.createElement('div');
             this.genomeViewerDiv.innerHTML = '<h4></h4>';
@@ -268,6 +279,11 @@ EvaVariantWidget.prototype = {
         if (this.defaultToolConfig.genotype) {
 
             this.variantGenotypeGrid.draw();
+        }
+
+        if (this.defaultToolConfig.genotype) {
+
+            this.variantGenotypeGridPanel.draw();
         }
 
         if (this.defaultToolConfig.genomeViewer) {
@@ -1108,6 +1124,88 @@ EvaVariantWidget.prototype = {
         });
 
         return variantGenotypeGrid;
+    },
+
+    _createVariantGenotypeGridPanel: function (target) {
+        var _this = this;
+        var genotypeColumns = [
+            {
+                text: "Study",
+                dataIndex: "studyId",
+                flex: 1,
+                xtype: 'templatecolumn',
+                tpl: '<tpl if="reference">{reference}<tpl else>-</tpl>/<tpl if="alternate">{alternate}<tpl else>-</tpl>',
+
+            },
+            {
+                text: "Samples Count",
+                dataIndex: "samplesData",
+                flex: 1
+            }
+        ];
+
+        var variantGenotypeGridPanel = new EvaVariantGenotypeGridPanel({
+            target: target,
+            headerConfig: this.defaultToolConfig.headerConfig,
+            gridConfig: {
+                flex: 1,
+                layout: {
+                    align: 'stretch'
+                }
+            },
+            height: 800,
+            handlers: {
+                "load:finish": function (e) {
+
+                }
+            },
+//            columns:genotypeColumns
+        });
+
+        this.variantBrowserGrid.on("variant:clear", function (e) {
+            variantGenotypeGridPanel.clear(true);
+        });
+
+        _this.on("variant:change", function (e) {
+            if (_.isUndefined(e.variant)) {
+                variantGenotypeGridPanel.clear(true);
+            } else {
+//                if (target === _this.selectedToolDiv) {
+                if (target.id === _this.selectedToolDiv.id) {
+                    var variant = e.variant;
+                    var query = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
+                    var params = _.omit(this.variantBrowserGrid.store.proxy.extraParams, 'region');
+
+                    console.log(params)
+                    console.log('+++++=====++++')
+
+                    EvaManager.get({
+                        category: 'segments',
+                        resource: 'variants',
+                        query: query,
+                        params: params,
+                        success: function (response) {
+                            try {
+                                var variantSourceEntries = response.response[0].result[0].sourceEntries;
+
+                            } catch (e) {
+
+                                console.log(e);
+                            }
+
+                            if (variantSourceEntries) {
+                                variantGenotypeGridPanel.load(variantSourceEntries, params);
+                            }
+
+                        }
+                    });
+
+                }
+            }
+
+        });
+
+        return variantGenotypeGridPanel;
     },
 
 
