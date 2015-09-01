@@ -191,7 +191,7 @@ EvaVariantGenotypeGridPanel.prototype = {
                 {name: 'sample'},
                 {name: 'genotype'}
             ],
-//            pageSize:15,
+//            pageSize:100,
             data: finalData
 //            proxy: {
 //                type: 'memory',
@@ -199,7 +199,7 @@ EvaVariantGenotypeGridPanel.prototype = {
 //                reader: {
 //                    type: 'json'
 //                },
-////                enablePaging: true
+//                enablePaging: true
 //            }
         });
 
@@ -227,7 +227,7 @@ EvaVariantGenotypeGridPanel.prototype = {
 //        var paging = Ext.create('Ext.PagingToolbar', {
 //            store: store,
 //            id: Utils.genId("genotype-grid-pagingToolbar"),
-//            pageSize: 15,
+//            pageSize: 100,
 //            displayInfo: true,
 //            displayMsg: 'Genotypes {0} - {1} of {2}',
 //            emptyMsg: "No Data to display",
@@ -240,15 +240,15 @@ EvaVariantGenotypeGridPanel.prototype = {
             store: store,
             loadMask: true,
 //            width: 350,
-//            overflowX:true,
+            overflowY:true,
             height: 300,
             cls:'genotype-grid',
             margin: 20,
             columns: genotypeColumns,
-            layout: {
-                type: 'vbox',
-                align: 'stretch'
-            }
+//            layout: {
+//                type: 'vbox',
+//                align: 'fit'
+//            }
 
         });
 

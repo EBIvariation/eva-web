@@ -102,7 +102,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     if(_.indexOf(availableStudies, study.studyId) > -1){
                         var studyPanel = this._createPopulationGridPanel(study,params);
                     }else{
-//                        Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;">Currently for 1000 Genomes Project data only</h5>')
+                        Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;">Currently for 1000 Genomes Project data only</h5>')
                     }
                 }else{
                     var studyPanel = this._createPopulationGridPanel(study,params);
