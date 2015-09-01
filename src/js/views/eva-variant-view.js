@@ -249,11 +249,11 @@ EvaVariantView.prototype = {
 
 
         var _consequenceTypeTable  = '<div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
-        _consequenceTypeTable += '<tr><th>Accession</th><th>Name</th></tr>'
+        _consequenceTypeTable += '<tr><th>Accession</th><th>Name</th><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th></tr>'
         _.each(_.keys(annotation), function(key){
+            var annotationDetails = this[key];
             var soTerms = this[key].soTerms;
             _.each(_.keys(soTerms), function(key){
-
                 var link = '<a href="http://www.sequenceontology.org/miso/current_svn/term/'+this[key].soAccession+'" target="_blank">'+this[key].soAccession+'</a>';
                 var so_term_detail = _.findWhere(consequenceTypesColors, {id: this[key].soName});
                 var color = '';
@@ -264,7 +264,16 @@ EvaVariantView.prototype = {
                     impact = so_term_detail.impact;
                     svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="'+color+'"><title>'+impact+'</title></rect></svg>'
                 }
-                _consequenceTypeTable += '<tr><td>'+link+'</td><td>'+this[key].soName+'&nbsp;'+svg+'</td></tr>'
+
+                var ensemblGeneId = '-';
+                if(annotationDetails.ensemblGeneId){
+                     ensemblGeneId = '<a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+annotationDetails.ensemblGeneId+'" target="_blank">'+annotationDetails.ensemblGeneId+'</a>';
+                }
+                var ensemblTranscriptId = '-';
+                if(annotationDetails.ensemblTranscriptId){
+                    ensemblTranscriptId = '<a href="http://www.ensembl.org/Homo_sapiens/transview?transcript='+annotationDetails.ensemblTranscriptId+'" target="_blank">'+annotationDetails.ensemblTranscriptId+'</a>';
+                }
+                _consequenceTypeTable += '<tr><td>'+link+'</td><td>'+this[key].soName+'&nbsp;'+svg+'</td><td>'+ensemblGeneId+'</td><td>'+ensemblTranscriptId+'</td></tr>'
             },soTerms);
 
         },annotation);
