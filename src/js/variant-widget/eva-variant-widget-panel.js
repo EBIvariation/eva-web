@@ -101,13 +101,13 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-            border:false,
+            border:true,
             layout: {
                 type: 'hbox',
                 align: 'fit'
             },
 //            cls: 'eva-panel',
-            bodyStyle: 'border-width:0px;border-style:none;',
+//            bodyStyle: 'border-width:0px;border-style:none;',
             listeners: {
                 afterlayout: function() {
 //                    if(!_.isUndefined(_this.variantWidget) && _.isUndefined(_this.variantBrowserOriginalstate)){
@@ -131,8 +131,8 @@ EvaVariantWidgetPanel.prototype = {
                     collapseMode: 'header',
                     html:'<div class="variant-browser-option-div form-panel-variant-filter"></div>',
                     collapseDirection: 'left',
-                    border:true,
-//                    bodyStyle: 'border-width:0px;border-style:none;',
+                    border:false,
+                    bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){
                             _this.resize();
