@@ -249,7 +249,7 @@ EvaVariantView.prototype = {
 
 
         var _consequenceTypeTable  = '<div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
-        _consequenceTypeTable += '<tr><th>Accession</th><th>Name</th><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th></tr>'
+        _consequenceTypeTable += '<tr><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th><th>Accession</th><th>Name</th></tr>'
         _.each(_.keys(annotation), function(key){
             var annotationDetails = this[key];
             var soTerms = this[key].soTerms;
@@ -273,7 +273,7 @@ EvaVariantView.prototype = {
                 if(annotationDetails.ensemblTranscriptId){
                     ensemblTranscriptId = '<a href="http://www.ensembl.org/Homo_sapiens/transview?transcript='+annotationDetails.ensemblTranscriptId+'" target="_blank">'+annotationDetails.ensemblTranscriptId+'</a>';
                 }
-                _consequenceTypeTable += '<tr><td>'+link+'</td><td>'+this[key].soName+'&nbsp;'+svg+'</td><td>'+ensemblGeneId+'</td><td>'+ensemblTranscriptId+'</td></tr>'
+                _consequenceTypeTable += '<tr><td>'+ensemblGeneId+'</td><td>'+ensemblTranscriptId+'</td><td>'+link+'</td><td>'+this[key].soName+'&nbsp;'+svg+'</td></tr>'
             },soTerms);
 
         },annotation);
