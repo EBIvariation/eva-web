@@ -139,7 +139,7 @@ EvaPositionFilterFormPanel.prototype = {
             labelSeparator : '',
             listeners: {
                 afterrender: function (field) {
-                    field.setValue(_this.region);
+                    field.setValue(_this.defaultRegion);
                 },
                 'change': function(field, newVal, oldVal){
 //                    if(newVal){
@@ -188,7 +188,7 @@ EvaPositionFilterFormPanel.prototype = {
             items: [selectFilter,snp, regionList, gene]
         });
 
-        this.panel.getForm().findField('region').setValue(_this.region);
+        this.panel.getForm().findField('region').setValue(_this.defaultRegion);
         this.panel.getForm().findField('snp').setValue(_this.defaultSnpValue);
         this.panel.getForm().findField('gene').setValue(_this.defaultGeneValue);
 

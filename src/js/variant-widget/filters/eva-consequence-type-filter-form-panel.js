@@ -275,9 +275,16 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
         var nodes = _this.panel.getRootNode()
         nodes.cascadeBy(function (n) {
             if(n.isLeaf()){
-                if(_.indexOf(values, n.data.acc) > -1){
-                    n.set('checked', true);
+                if(_this.filterType == 'eva'){
+                    if(_.indexOf(values, n.data.acc) > -1){
+                        n.set('checked', true);
+                    }
+                }else{
+                    if(_.indexOf(values, n.data.name) > -1){
+                        n.set('checked', true);
+                    }
                 }
+
 
             }
         });

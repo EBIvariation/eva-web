@@ -233,10 +233,10 @@ EvaVariantWidgetPanel.prototype = {
     _createFormPanelVariantFilter: function (target) {
         var _this = this;
         console.log(_this.position)
-        var positionFilter = new EvaPositionFilterFormPanel({//
-            region: _this.region,
+        var positionFilter = new EvaPositionFilterFormPanel({
             emptyText: '',
             defaultFilterValue:_this.filter,
+            defaultRegion: _this.region,
             defaultGeneValue:_this.gene,
             defaultSnpValue:_this.snp
         });
@@ -326,9 +326,6 @@ EvaVariantWidgetPanel.prototype = {
                 }
             });
         });
-
-        //<!-------To be removed------>
-        consequenceTypes[0].children[0].children[4].checked = false;
 
         var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
             consequenceTypes: consequenceTypes,
@@ -655,7 +652,7 @@ EvaVariantWidgetPanel.prototype = {
     _updateURL:function(values){
         var _this = this;
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Variant Browser&'+$.param( values);;
-            window.history.replaceState({path:newurl},'',newurl);
+            window.history.pushState({path:newurl},'',newurl);
     }
 
 

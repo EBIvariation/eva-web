@@ -157,22 +157,7 @@ Eva.prototype = {
         }
 
         //<!---- Updating URL on Tab change ---->
-        var pageArray = ['eva-study','dgva-study', 'variant', 'gene','eva-iobio'];
-        if(_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)){
-            var optionValue = option;
-            var tabArray = ['Genome Browser','Variant Browser'];
-            if(_.indexOf(tabArray, option) >= 0){
-                var hash = document.URL.substring(document.URL.indexOf('?')+1);
-                if  (!_.isUndefined(hash.split("&")[1])){
-                    optionValue = hash;
-                }else{
-                    optionValue = option;
-                }
-            }
-            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+optionValue;
-            window.history.pushState({path:newurl},'',newurl);
-            $( "a:contains('"+option+"')").parent('li').addClass('active');
-        }
+         this._updatedURL(option)
 
         switch (option) {
             case 'Home':
@@ -194,15 +179,16 @@ Eva.prototype = {
                     this.select('Variant Browser');
 //                    this.variantWidgetPanel.formPanelVariantFilter.trigger('submit', {values: this.variantWidgetPanel.formPanelVariantFilter.getValues(), sender: _this});
                 }
+                this._updatedURL(option,true)
                 break;
             case 'Genome Browser':
                 if(this.genomeViewerPanel){
                     this.genomeViewerPanel.show();
                 }else{
-
                     this.contentDiv.className += ' eva variant-widget-panel ocb-variant-stats-panel';
                     this.genomeViewerPanel  = this._createGenomeViewerPanel(this.contentDiv);
                 }
+                this._updatedURL(option,true)
                 break;
             case 'GA4GH':
                 if(this.beaconPanel){
@@ -220,6 +206,7 @@ Eva.prototype = {
                         this.select('Clinical Browser');
                         this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
                     }
+                this._updatedURL(option,true)
                 break;
         }
     },
@@ -249,7 +236,7 @@ Eva.prototype = {
         var species = 'hsapiens_grch37';
         var filter = 'region';
         var snp = '';
-        var gene = '';
+        var gene = 'BRCA2';
         var studies = '';
         var annotCT = '';
         var polyphen = '';
@@ -327,11 +314,96 @@ Eva.prototype = {
 
     },
     _createClinicalWidgetPanel: function(target){
+
+        var clinvarRegion = '2:48000000-49000000';
+        var filter = 'region';
+        var accessionId = 'RCV000030271';
+        var gene = 'MSH6';
+        var so = 'frameshift_variant';
+        var phenotype = 'lynch syndrome';
+        var type = 'Deletion';
+        var significance = 'Pathogenic';
+        var review = 'REVIEWED_BY_EXPERT_PANEL';
+
+
+        if(!_.isEmpty($.urlParam('clinvarRegion'))){
+            clinvarRegion = decodeURIComponent($.urlParam('clinvarRegion'))
+        }
+
+        if(!_.isEmpty($.urlParam('filter'))){
+            filter = decodeURIComponent($.urlParam('filter'))
+        }
+
+        if(!_.isEmpty($.urlParam('accessionId'))){
+            accessionId = decodeURIComponent($.urlParam('accessionId'))
+        }
+
+        if(!_.isEmpty($.urlParam('gene'))){
+            gene = decodeURIComponent($.urlParam('gene'))
+        }
+
+        if(!_.isEmpty($.urlParam('so'))){
+            so = decodeURIComponent($.urlParam('so'))
+        }
+
+        if(!_.isEmpty($.urlParam('type'))){
+            type = decodeURIComponent($.urlParam('type'))
+        }
+
+        if(!_.isEmpty($.urlParam('phenotype'))){
+            phenotype = decodeURIComponent($.urlParam('phenotype'))
+        }
+
+        if(!_.isEmpty($.urlParam('significance'))){
+            significance = decodeURIComponent($.urlParam('significance'))
+        }
+
+        if(!_.isEmpty($.urlParam('review'))){
+            review = decodeURIComponent($.urlParam('review'))
+        }
+
+
         var evaClinicalWidgetPanel = new EvaClinicalWidgetPanel({
-            target: target
+            target: target,
+            filter:filter,
+            clinvarRegion:clinvarRegion,
+            gene:gene,
+            accessionId:accessionId,
+            selectSO:so,
+            phenotype:phenotype,
+            type:type,
+            significance:significance,
+            review:review
         });
         evaClinicalWidgetPanel.draw();
         return evaClinicalWidgetPanel;
+
+    },
+    _updatedURL:function(option,replace){
+        replace = replace || 0;
+        if(replace){
+            var replaceURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+option;
+            window.history.pushState({path:replaceURL},'',replaceURL);
+        }else{
+            var pageArray = ['eva-study','dgva-study', 'variant', 'gene','eva-iobio'];
+            if(_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)){
+                var optionValue = option;
+                var tabArray = ['Genome Browser','Variant Browser','Clinical Browser'];
+                if(_.indexOf(tabArray, option) >= 0){
+                    var hash = document.URL.substring(document.URL.indexOf('?')+1);
+                    if  (!_.isUndefined(hash.split("&")[1])){
+                        optionValue = hash;
+                    }else{
+                        optionValue = option;
+                    }
+                }
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+optionValue;
+                window.history.pushState({path:newurl},'',newurl);
+                $( "a:contains('"+option+"')").parent('li').addClass('active');
+            }
+        }
+
+
 
     },
     _twitterWidgetUpdate : function (){

@@ -224,11 +224,11 @@ EvaClinicalWidgetPanel.prototype = {
     _createFormPanelVariantFilter: function (target) {
         var _this = this;
         var clinvarPositionFilter = new ClinVarPositionFilterFormPanel({
-//            testRegion: '1:14000-200000',
-//            testRegion: '3:550000-1166666',
-            testRegion: '2:48000000-49000000',
-            emptyText: ''
-
+            emptyText: '',
+            defaultFilterValue:_this.filter,
+            defaultClinvarRegion: _this.clinvarRegion,
+            defaultGeneValue:_this.gene,
+            defaultAccessionId:_this.accessionId
         });
 
 
@@ -239,18 +239,19 @@ EvaClinicalWidgetPanel.prototype = {
 
         var phenotypeFilter = new ClinVarTraitFilterFormPanel({
             collapsed: false,
-            defaultValue:'lynch syndrome'
+            defaultValue:_this.phenotype
         });
 
         clinvarSpeciesFilter.on('species:change', function (e) {
            clinvarSelectedSpecies = e.species;
         });
 
-        var clinVarConsequenceTypes = consequenceTypes;
-        clinVarConsequenceTypes[0].children[0].children[4].checked = true;
+//        var clinVarConsequenceTypes = consequenceTypes;
+//        clinVarConsequenceTypes[0].children[0].children[4].checked = true;
 
         var clinvarConseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
-            consequenceTypes: clinVarConsequenceTypes,
+            consequenceTypes: consequenceTypes,
+            selectAnnotCT:_this.selectSO,
             filterType:'clinVar',
             collapsed: false,
             fields: [
@@ -272,7 +273,7 @@ EvaClinicalWidgetPanel.prototype = {
                 cls: "parent",
                 value:'Deletion',
                 leaf: true,
-                checked:true,
+                checked:false,
                 iconCls :'no-icon'
             },
             {
@@ -310,6 +311,7 @@ EvaClinicalWidgetPanel.prototype = {
 
         var variationTypeFilter = new EvaClinVarFilterFormPanel({
             data: _.sortBy(variationType, 'name'),
+            defaultValue:_this.type,
             filterType:'type',
             title:'Variation Type',
             height:200,
@@ -340,7 +342,7 @@ EvaClinicalWidgetPanel.prototype = {
                 name:'Expert panel',
                 cls: "parent",
                 leaf: true,
-                checked:true,
+                checked:false,
                 value:'REVIEWED_BY_EXPERT_PANEL',
                 iconCls :'no-icon'
             },
@@ -363,6 +365,7 @@ EvaClinicalWidgetPanel.prototype = {
 
         var reviewStatusFilter = new EvaClinVarFilterFormPanel({
             data: _.sortBy(reviewStatusType, 'name'),
+            defaultValue:_this.review,
             filterType:'review',
             title:'Review Status',
             height:200,
@@ -442,7 +445,7 @@ EvaClinicalWidgetPanel.prototype = {
                 cls: "parent",
                 value:'Pathogenic',
                 leaf: true,
-                checked:true,
+                checked:false,
                 iconCls :'no-icon'
             },
             {
@@ -464,6 +467,7 @@ EvaClinicalWidgetPanel.prototype = {
 
         var  clinicalSignfcFilter = new EvaClinVarFilterFormPanel({
             data:_.sortBy(clinicalSignfcType, 'name'),
+            defaultValue:_this.significance,
             filterType:'significance',
             title:'Clinical Significance',
             height:320,
@@ -501,11 +505,11 @@ EvaClinicalWidgetPanel.prototype = {
                     _this.clinvarWidget.clinvarBrowserGrid.setLoading(true);
                     //POSITION CHECK
                     var regions = [];
-                    if (typeof e.values.region !== 'undefined') {
-                        if (e.values.region !== "") {
-                            regions = e.values.region.split(",");
+                    if (typeof e.values.clinvarRegion !== 'undefined') {
+                        if (e.values.clinvarRegion !== "") {
+                            regions = e.values.clinvarRegion.split(",");
                         }
-                        delete  e.values.region;
+                        delete  e.values.clinvarRegion;
                     }
 
                     var gene = e.values.gene;
@@ -569,58 +573,11 @@ EvaClinicalWidgetPanel.prototype = {
                         version:CELLBASE_VERSION,
                         category: 'hsapiens/feature/clinical',
                         resource: 'all',
-//                        query: regions,
                         params:params
                     });
 
-
-//                    _this.clinvarWidget.clinvarBrowserGrid.setLoading(true);
-////                    _this.clinvarWidget.clinvarBrowserGrid.load();
-//                    EvaManager.get({
-//                        host:CELLBASE_HOST,
-//                        version:CELLBASE_VERSION,
-//                        category: 'hsapiens/feature',
-//                        resource: 'all',
-//                        query:'clinical',
-//                        params:params,
-//                        success: function (response) {
-//                            try {
-//                                var data = response.response[0].result;
-//                                _this.clinvarWidget.clinvarBrowserGrid.load(data);
-//                                _this.clinvarWidget.clinvarBrowserGrid.setLoading(false);
-//                            } catch (e) {
-//                                console.log(e);
-//                            }
-//                        }
-//                    });
-
-
-
-//                    if (typeof e.values.accessionId !== 'undefined') {
-//                        regions = e.values.accessionId;
-//                         url = EvaManager.url({
-//                            host:CELLBASE_HOST,
-//                            version:CELLBASE_VERSION,
-//                            category: 'hsapiens/feature/clinvar',
-//                            resource: 'info',
-//                            query: regions,
-//                            params:{merge:true}
-//                        });
-//                    }
-
-                    _this.clinvarWidget.retrieveData(url,e.values)
-
-//                     var geneColumn = Ext.getCmp('clinvar-grid-gene-column');
-//                     var viewColumn = Ext.getCmp('clinvar-grid-view-column');
-//                     viewColumn.tpl =  Ext.create('Ext.XTemplate', '<tpl><a href="?Genome Browser&position='+ regions+'" target="_blank">Genome Viewer</a></tpl>')
-//                    if(!_.isUndefined(gene)){
-//                        var updateTpl = Ext.create('Ext.XTemplate', '<tpl>'+gene+'</tpl>');
-//                        geneColumn.tpl = updateTpl;
-//                        geneColumn.setVisible(true);
-//                    }else{
-//                        geneColumn.setVisible(false);
-//                    }
-
+                    _this.clinvarWidget.retrieveData(url,e.values);
+                    _this._updateURL(e.values);
 
                 }
             }
@@ -630,6 +587,19 @@ EvaClinicalWidgetPanel.prototype = {
 
 
         return formPanel;
+    },
+    _updateURL:function(values){
+        var _this = this;
+        values['clinvarRegion'] = values['region']
+         var _tempValues = values
+        _.each(_.keys(_tempValues), function(key){
+          if(_.isArray(this[key])){
+              values[key] = this[key].join();
+          }
+        },_tempValues);
+
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Clinical Browser&'+$.param( values);;
+       window.history.pushState({path:newurl},'',newurl);
     }
 
 
