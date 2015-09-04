@@ -244,20 +244,66 @@ Eva.prototype = {
 
     },
     _createVariantWidgetPanel: function(target){
-//      var position = '21:21989000-21989560';
-      var position = '1:3000000-3100000';
-      var species = 'hsapiens_grch37';
-      if(!_.isEmpty($.urlParam('position'))){
-          position = $.urlParam('position')
-      }
-      if(!_.isEmpty($.urlParam('species'))){
-          species = $.urlParam('species')
-      }
+        //      var position = '21:21989000-21989560';
+        var region = '1:3000000-3100000';
+        var species = 'hsapiens_grch37';
+        var filter = 'region';
+        var snp = '';
+        var gene = '';
+        var studies = '';
+        var annotCT = '';
+        var polyphen = '';
+        var sift = '';
 
+        if(!_.isEmpty($.urlParam('region'))){
+            region = decodeURIComponent($.urlParam('region'))
+        }
+
+        if(!_.isEmpty($.urlParam('species'))){
+          species = decodeURIComponent($.urlParam('species'))
+        }
+
+        if(!_.isEmpty($.urlParam('filter'))){
+          filter = decodeURIComponent($.urlParam('filter'))
+        }
+
+        if(!_.isEmpty($.urlParam('snp'))){
+          snp = decodeURIComponent($.urlParam('snp'))
+        }
+
+        if(!_.isEmpty($.urlParam('gene'))){
+          gene = decodeURIComponent($.urlParam('gene'))
+        }
+
+        if(!_.isEmpty($.urlParam('studies'))){
+          studies = decodeURIComponent($.urlParam('studies'))
+        }
+
+        if(!_.isEmpty($.urlParam('annot-ct'))){
+            annotCT = decodeURIComponent($.urlParam('annot-ct'))
+        }
+
+        if(!_.isEmpty($.urlParam('polyphen'))){
+            var _polyphen = decodeURIComponent($.urlParam('polyphen'))
+            polyphen = _polyphen.replace(/\>/g, "");
+
+        }
+
+        if(!_.isEmpty($.urlParam('sift'))){
+            var _sift = decodeURIComponent($.urlParam('sift'))
+            sift = _sift.replace(/\</g, "");
+        }
         var variantWidget= new EvaVariantWidgetPanel({
             target: target,
-            position:position,
-            species:species
+            region:region,
+            species:species,
+            filter:filter,
+            snp:snp,
+            gene:gene,
+            selectStudies:studies,
+            selectAnnotCT:annotCT,
+            polyphen:polyphen,
+            sift:sift
         });
         variantWidget.draw();
         return variantWidget;

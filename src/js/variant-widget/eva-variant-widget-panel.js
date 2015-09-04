@@ -234,9 +234,11 @@ EvaVariantWidgetPanel.prototype = {
         var _this = this;
         console.log(_this.position)
         var positionFilter = new EvaPositionFilterFormPanel({//
-            testRegion: _this.position,
-            emptyText: ''
-
+            region: _this.region,
+            emptyText: '',
+            defaultFilterValue:_this.filter,
+            defaultGeneValue:_this.gene,
+            defaultSnpValue:_this.snp
         });
 
 
@@ -294,7 +296,7 @@ EvaVariantWidgetPanel.prototype = {
             if(e.species == 'agambiae_agamp4'){
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('X:10000000-11000000')
             }else{
-                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(_this.position)
+                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(_this.region)
             }
 
             //hidding tabs for species
@@ -310,17 +312,6 @@ EvaVariantWidgetPanel.prototype = {
             }
 
             _this.variantWidget.toolTabPanel.setActiveTab(0);
-
-//            if(e.species =='hsapiens_grch37' || e.species =='hsapiens_grch38'){
-//                _this.variantWidget.variantBrowserGrid.grid.getView().getHeaderAtIndex(2).setText('dbSNP ID')
-//                _this.formPanelVariantFilter.filters[1].panel.getForm().findField("snp").setFieldLabel('dbSNP accession')
-//            }else if(_.indexOf(plantSpecies, e.species) > -1){
-//                _this.variantWidget.variantBrowserGrid.grid.getView().getHeaderAtIndex(2).setText('TransPlant ID')
-//                _this.formPanelVariantFilter.filters[1].panel.getForm().findField("snp").setFieldLabel('TransPlant ID')
-//            }else{
-//                _this.variantWidget.variantBrowserGrid.grid.getView().getHeaderAtIndex(2).setText('Submitted ID')
-//                _this.formPanelVariantFilter.filters[1].panel.getForm().findField("snp").setFieldLabel('Submitted ID')
-//            }
 
             EvaManager.get({
                 category: 'meta/studies',
@@ -341,6 +332,7 @@ EvaVariantWidgetPanel.prototype = {
 
         var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
             consequenceTypes: consequenceTypes,
+            selectAnnotCT:_this.selectAnnotCT,
             collapsed: true,
             fields: [
                 {name: 'name', type: 'string'}
@@ -358,7 +350,9 @@ EvaVariantWidgetPanel.prototype = {
             collapsed:true
         });
         var proteinSubScoreFilter = new EvaProteinSubstitutionScoreFilterFormPanel({
-            collapsed:true
+            collapsed:true,
+            polyphen:_this.polyphen,
+            sift:_this.sift
         });
         var conservationScoreFilter = new EvaConservationScoreFilterFormPanel({
             collapsed:true
@@ -513,14 +507,16 @@ EvaVariantWidgetPanel.prototype = {
                         e.values["annot-ct"] = e.values["annot-ct"].join(',');
                     }
 
+
                     if(!limitExceeds){
                         _this.variantWidget.retrieveData(url, e.values)
                     }else{
                         _this.variantWidget.retrieveData('', '')
                     }
 
-
                     _this.variantWidget.values = e.values;
+
+                    _this._updateURL(e.values);
 
                     var speciesArray = ['hsapiens','hsapiens_grch37','mmusculus_grcm38'];
                     if(e.values.species && speciesArray.indexOf( e.values.species ) > -1){
@@ -549,7 +545,7 @@ EvaVariantWidgetPanel.prototype = {
         formPanel.on('form:clear', function (e) {
 //            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.formPanelVariantFilter.lastSelectedValues.species)
             _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.species)
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region')
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue(_this.filter)
         });
 
         _this.on('studies:change', function (e) {
@@ -569,14 +565,6 @@ EvaVariantWidgetPanel.prototype = {
         });
 
 
-
-//        formPanel.panel.addDocked({
-//                                    xtype: 'toolbar',
-//                                    dock: 'top',
-//                                    height: 45,
-//                                    html: '<h5>Assembly: GRCh37</h5>',
-//                                    margin:-10
-//                                });
 
         return formPanel;
     },
@@ -601,15 +589,26 @@ EvaVariantWidgetPanel.prototype = {
                     console.log(e);
                 }
                 filter.studiesStore.loadRawData(studies);
-                //set all records checked default
+
+
+               if(_.isEmpty(_this.selectStudies)){
+                   //set all records checked default
                 _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().selectAll()
-                //set all records checked default
-//                filter.studiesStore.each(function(rec){
-//                    if(!_.isNull(species) ){
-//                        rec.set('uiactive', true)
-//                    }
-//                });
-                _this.trigger('studies:change', {studies: studies, sender: _this});
+               }else{
+                   console.log(_this.selectStudies)
+                   var studyArray = _this.selectStudies.split(",");
+                   var items =  _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().store.data.items;
+                   var selectStudies = [];
+                   _.each(_.keys(items), function(key){
+                       if(_.indexOf(studyArray,this[key].data.studyId) > -1){
+                           selectStudies.push(this[key])
+                       }
+                   },items);
+
+                   _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().select(selectStudies)
+               }
+
+               _this.trigger('studies:change', {studies: studies, sender: _this});
             }
         });
     },
@@ -652,7 +651,13 @@ EvaVariantWidgetPanel.prototype = {
 //            Ext.getCmp(geneField).show();
         }
 
+    },
+    _updateURL:function(values){
+        var _this = this;
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Variant Browser&'+$.param( values);
+//        window.history.pushState({path:newurl},'',newurl);
     }
+
 
 };
 

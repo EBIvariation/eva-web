@@ -525,7 +525,6 @@ EvaVariantWidget.prototype = {
                                         for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
                                             if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
                                                 _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
-                                                    console.log(this[key])
                                                     if(this[key].source == 'Polyphen'){
                                                         polyphen_score_array.push(this[key].score)
                                                         score = this[key].score;
@@ -964,7 +963,6 @@ EvaVariantWidget.prototype = {
             }else{
                 if (target.id === _this.selectedToolDiv.id) {
                     _.extend(e.variant, {annot: e.variant.annotation});
-                    console.log(e.variant)
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
                     annotPanel.load(e.variant,proxy.extraParams);
                 }
@@ -1094,9 +1092,6 @@ EvaVariantWidget.prototype = {
                     var query = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
                     var params = _.omit(this.variantBrowserGrid.store.proxy.extraParams, 'region');
 
-                    console.log(params)
-                    console.log('+++++=====++++')
-
                     EvaManager.get({
                         category: 'segments',
                         resource: 'variants',
@@ -1175,9 +1170,6 @@ EvaVariantWidget.prototype = {
                     var variant = e.variant;
                     var query = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
                     var params = _.omit(this.variantBrowserGrid.store.proxy.extraParams, 'region');
-
-                    console.log(params)
-                    console.log('+++++=====++++')
 
                     EvaManager.get({
                         category: 'segments',

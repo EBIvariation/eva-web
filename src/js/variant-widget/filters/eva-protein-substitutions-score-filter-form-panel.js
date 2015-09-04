@@ -65,7 +65,7 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
         this.panel.render(this.div);
     },
     _createPanel: function () {
-
+        var _this = this;
 
         var items = {
             xtype:'fieldset',
@@ -81,6 +81,7 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
                     name: 'polyphen',
                     width: '100%',
                     margin:'5 0 0 0',
+                    value:_this.polyphen,
                     emptyText:'ex:0.5'
                 },
                 {
@@ -88,6 +89,7 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
                     name: 'sift',
                     width: '100%',
                     margin:'5 0 5 0',
+                    value:_this.sift,
                     emptyText:'ex:0.1'
                 }
 
