@@ -203,6 +203,7 @@ EvaVariantView.prototype = {
             var varinatData = {sourceEntries:_this.variant[0].sourceEntries, species:_this.species};
             _this._createPopulationStatsPanel(popStatsElDiv,varinatData);
 
+
     },
     _renderSummaryData: function (data) {
             var _summaryTable  = '<div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
@@ -241,9 +242,10 @@ EvaVariantView.prototype = {
 
     },
     _renderConsequenceTypeData: function (data) {
+
         var annotation = data[0].annotation.consequenceTypes;
         if(!annotation){
-          return '';
+          return '<div style="margin-left:15px;">No Data Available</div>';
         }
 //        var soTermsArray = [];
 
@@ -308,6 +310,8 @@ EvaVariantView.prototype = {
                 baseCls: 'eva-header-2'
             }
         };
+
+
         var variantPopulationStatsPanel = new EvaVariantPopulationStatsPanel({
             target: target,
             headerConfig: this.defaultToolConfig.headerConfig,
@@ -321,6 +325,10 @@ EvaVariantView.prototype = {
 
         variantPopulationStatsPanel.load(data.sourceEntries,{species:data.species});
         variantPopulationStatsPanel.draw();
+
+        if(data.species!= 'hsapiens_grch37'){
+            Ext.getCmp('popStats').getHeader().hide();
+        }
 
 
         return variantPopulationStatsPanel;

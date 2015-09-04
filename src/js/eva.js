@@ -157,8 +157,8 @@ Eva.prototype = {
         }
 
         //<!---- Updating URL on Tab change ---->
-        var pageArray = ['eva-study','dgva-study', 'variant', 'gene','Variant Browser','eva-iobio'];
-        if(_.indexOf(pageArray, option) < 0 && !_.isEmpty(option) || option == 'Variant Browser' && !_.isEmpty(option)){
+        var pageArray = ['eva-study','dgva-study', 'variant', 'gene','eva-iobio'];
+        if(_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)){
             var optionValue = option;
             var tabArray = ['Genome Browser','Variant Browser'];
             if(_.indexOf(tabArray, option) >= 0){

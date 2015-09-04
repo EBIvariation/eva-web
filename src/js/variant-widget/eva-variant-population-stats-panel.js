@@ -115,13 +115,13 @@ EvaVariantPopulationStatsPanel.prototype = {
             this.studiesContainer.add(panels);
         }else{
             var grid = Ext.create('Ext.view.View', {
-                tpl: new Ext.XTemplate(['<div>No Population data available</div>'])
+                tpl: new Ext.XTemplate(['<div style="margin-left:5px;">No Population data available</div>'])
             });
             var studyPanel = Ext.create('Ext.panel.Panel', {
 //                header:{
 //                    titlePosition:1
 //                },
-                id:'test',
+                id:'popStats',
                 title: '',
                 border: false,
                 layout: {
@@ -133,7 +133,10 @@ EvaVariantPopulationStatsPanel.prototype = {
             });
 //            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4>')
             this.studiesContainer.add(studyPanel);
-            Ext.getCmp('test').getHeader().hide();
+            if(Ext.getCmp('popStats').getHeader()){
+                Ext.getCmp('popStats').getHeader().hide();
+            }
+
         }
 
 
@@ -163,7 +166,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     id:'populationStats',
                     cls: 'ocb-header-4',
                     html: '<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data. Currently available only for the 1000 Genomes project." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
-                    margin: '5 0 10 10'
+                    margin: '5 0 10 15'
                 },
                 this.studiesContainer
             ],

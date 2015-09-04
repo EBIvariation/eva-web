@@ -654,8 +654,8 @@ EvaVariantWidgetPanel.prototype = {
     },
     _updateURL:function(values){
         var _this = this;
-        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Variant Browser&'+$.param( values);
-//        window.history.pushState({path:newurl},'',newurl);
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Variant Browser&'+$.param( values);;
+            window.history.replaceState({path:newurl},'',newurl);
     }
 
 

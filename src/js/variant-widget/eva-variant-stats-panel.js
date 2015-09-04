@@ -133,7 +133,7 @@ EvaVariantStatsPanel.prototype = {
                     id:'fileStats',
                     cls: 'ocb-header-4',
                     html: '<h4>Files and Statistics <img class="title-header-icon" data-qtip="Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF files are displayed." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
-                    margin: '5 0 10 10'
+                    margin: '5 0 10 15'
                 },
                 this.studiesContainer
             ],
