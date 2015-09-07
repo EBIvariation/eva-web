@@ -250,8 +250,8 @@ Eva.prototype = {
           species = decodeURIComponent($.urlParam('species'))
         }
 
-        if(!_.isEmpty($.urlParam('filter'))){
-          filter = decodeURIComponent($.urlParam('filter'))
+        if(!_.isEmpty($.urlParam('selectFilter'))){
+          filter = decodeURIComponent($.urlParam('selectFilter'))
         }
 
         if(!_.isEmpty($.urlParam('snp'))){
