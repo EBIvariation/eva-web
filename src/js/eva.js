@@ -330,8 +330,8 @@ Eva.prototype = {
             clinvarRegion = decodeURIComponent($.urlParam('clinvarRegion'))
         }
 
-        if(!_.isEmpty($.urlParam('filter'))){
-            filter = decodeURIComponent($.urlParam('filter'))
+        if(!_.isEmpty($.urlParam('clinvarSelectFilter'))){
+            filter = decodeURIComponent($.urlParam('clinvarSelectFilter'))
         }
 
         if(!_.isEmpty($.urlParam('accessionId'))){

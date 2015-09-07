@@ -240,7 +240,7 @@ ClinVarPositionFilterFormPanel.prototype = {
                 values[key] = values[key].replace(/\s/g, "");
             }
         }
-        values = _.omit(values, 'clinvarSelectFilter');
+//        values = _.omit(values, 'clinvarSelectFilter');
         return values;
     },
     clear: function () {
