@@ -101,13 +101,13 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-            border:true,
+//            border:true,
             layout: {
                 type: 'hbox',
                 align: 'fit'
             },
 //            cls: 'eva-panel',
-//            bodyStyle: 'border-width:0px;border-style:none;',
+            bodyStyle: 'border-width:0px;border-style:none;',
             listeners: {
                 afterlayout: function() {
 //                    if(!_.isUndefined(_this.variantWidget) && _.isUndefined(_this.variantBrowserOriginalstate)){
