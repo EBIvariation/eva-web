@@ -78,7 +78,7 @@ EvaClinicalWidgetPanel.prototype = {
         }
     },
     _createPanel: function () {
-        var tpl = new Ext.XTemplate(['<div   class="variant-browser-option-div form-panel-clinical-filter-div"></div><div class="variant-browser-option-div clinical-widget-div"></div>']);
+        var tpl = new Ext.XTemplate(['<p style="color:red;font-size:18px;">* The EVA Clinical Browser will be under maintenance on 9th September. Sorry for the inconveniences this may cause.</p><br /><div   class="variant-browser-option-div form-panel-clinical-filter-div"></div><div class="variant-browser-option-div clinical-widget-div"></div>']);
         var view = Ext.create('Ext.view.View', {
             tpl: tpl
         });
