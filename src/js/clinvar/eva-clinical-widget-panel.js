@@ -70,6 +70,10 @@ EvaClinicalWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
+        var clinVarQuery = _this.queryParams;
+        if(!_.isUndefined(clinVarQuery)){
+            _this._updateURL(clinVarQuery);
+        }
     },
     hide: function () {
         this.panel.hide();
@@ -577,6 +581,7 @@ EvaClinicalWidgetPanel.prototype = {
                     });
 
                     _this.clinvarWidget.retrieveData(url,e.values);
+                    _this['queryParams'] = e.values;
                     _this._updateURL(e.values);
 
                 }
@@ -591,7 +596,8 @@ EvaClinicalWidgetPanel.prototype = {
     _updateURL:function(values){
         var _this = this;
         values['clinvarRegion'] = values['region']
-         var _tempValues = values
+        delete  values.region
+        var _tempValues = values
         _.each(_.keys(_tempValues), function(key){
           if(_.isArray(this[key])){
               values[key] = this[key].join();

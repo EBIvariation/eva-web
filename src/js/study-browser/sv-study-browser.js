@@ -62,7 +62,7 @@ function SvStudyBrowser(args) {
         this.render();
     }
 
-    this.load();
+//    this.load();
 }
 
 SvStudyBrowser.prototype = {
@@ -167,6 +167,7 @@ SvStudyBrowser.prototype = {
                     }
                 }
             });
+            _this._updateURL();
         }
 
 
@@ -465,6 +466,7 @@ SvStudyBrowser.prototype = {
 
         this.formPanel = Ext.create('Ext.form.Panel', {
             title: 'Structural Variants Browser',
+            name: 'sv',
             border: this.border,
             header: this.headerConfig,
             layout: {
@@ -480,6 +482,16 @@ SvStudyBrowser.prototype = {
             ]
         });
 
+        var tmpSpecies= _this.species.split(",");
+        var tmpType = _this.type.split(",");
+        var defaultType = [];
+        var defaultSpecies = [];
+        for (i=0; i < tmpType.length; ++i) {
+            defaultType.push( tmpType[i].replace(/\+/g, " "));
+        }
+        for (i=0; i < tmpSpecies.length; ++i) {
+            defaultSpecies.push( tmpSpecies[i].replace(/\+/g, " "));
+        }
 
         EvaManager.get({
             category: 'meta/studies',
@@ -494,11 +506,23 @@ SvStudyBrowser.prototype = {
                         var arr = [];
                         for (key2 in stat) {
                             var obj = {};
+                            var checked = false;
+                            if(_this.browserType){
+                                if(key == 'species'){
+                                    if(_.indexOf(defaultSpecies, key2) > -1){
+                                        checked = true;
+                                    }
+                                }else if(key == 'type'){
+                                    if(_.indexOf(defaultType, key2) > -1){
+                                        checked = true;
+                                    }
+                                }
+                            }
                             // TODO We must take care of the types returned
                             if(key2.indexOf(',') == -1) {
                                 obj['display'] = key2;
                                 obj['leaf'] = true;
-                                obj['checked'] = false;
+                                obj['checked'] = checked;
                                 obj['iconCls'] = "no-icon";
                                 obj['folderSort'] = "true";
                                 obj['count'] = stat[key2];
@@ -515,6 +539,7 @@ SvStudyBrowser.prototype = {
                         }
 
                     }
+                    _this.load();
                 } catch (e) {
                     console.log(e);
                 }
@@ -533,11 +558,18 @@ SvStudyBrowser.prototype = {
         }
         return values;
     },
+    _getAllValues:function(){
+        var _this = this;
+        var values = this.formPanel.getValues();
+        var species = this._getValues(this.speciesFieldTag);
+        var type = this._getValues(this.typeFieldTag);
+        _.extend(values, {species:species, type:type, structural:true});
+        return values;
 
+    },
     setLoading: function (loading) {
         this.panel.setLoading(loading);
     },
-
     update: function () {
         if (this.panel) {
             this.panel.update();
@@ -545,6 +577,24 @@ SvStudyBrowser.prototype = {
     },
     getPanel: function(){
         return this.panel;
+    },
+    _updateURL:function(){
+        var _this = this;
+        var values = this._getAllValues();
+        var _tempValues = values
+        values['svSpecies'] = values['species'];
+        values['svType'] = values['type'];
+
+        delete values.species;
+        delete values.type;
+        _.each(_.keys(_tempValues), function(key){
+            if(_.isArray(this[key])){
+                values[key] = this[key].join();
+            }
+        },_tempValues);
+
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Study Browser&'+$.param(values);
+        window.history.pushState({path:newurl},'',newurl);
     }
 
 };

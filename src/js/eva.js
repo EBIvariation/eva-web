@@ -178,8 +178,9 @@ Eva.prototype = {
                     this.variantWidgetPanel = this._createVariantWidgetPanel(this.contentDiv);
                     this.select('Variant Browser');
 //                    this.variantWidgetPanel.formPanelVariantFilter.trigger('submit', {values: this.variantWidgetPanel.formPanelVariantFilter.getValues(), sender: _this});
+                    this._updatedURL(option,true)
                 }
-                this._updatedURL(option,true)
+
                 break;
             case 'Genome Browser':
                 if(this.genomeViewerPanel){
@@ -205,8 +206,9 @@ Eva.prototype = {
                         this.clinicalWidgetPanel = this._createClinicalWidgetPanel(this.contentDiv);
                         this.select('Clinical Browser');
                         this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
+                        this._updatedURL(option,false)
                     }
-                this._updatedURL(option,true)
+
                 break;
         }
     },
@@ -223,8 +225,38 @@ Eva.prototype = {
         return evaMenu;
     },
     _createStudyBrowserPanel: function(target){
+
+        var structural = false;
+        var species = '';
+        var type = '';
+
+        if(!_.isEmpty($.urlParam('sgvSpecies'))){
+            species = decodeURIComponent($.urlParam('sgvSpecies'))
+        }
+
+        if(!_.isEmpty($.urlParam('sgvType'))){
+            type = decodeURIComponent($.urlParam('sgvType'))
+        }
+
+        if(!_.isEmpty($.urlParam('structural'))){
+            structural = decodeURIComponent($.urlParam('structural'))
+        }
+
+        if(structural){
+            if(!_.isEmpty($.urlParam('svSpecies'))){
+                species = decodeURIComponent($.urlParam('svSpecies'))
+            }
+
+            if(!_.isEmpty($.urlParam('svType'))){
+                type = decodeURIComponent($.urlParam('svType'))
+            }
+        }
+
         var studyBrowser = new EvaStudyBrowserPanel({
-            target: target
+            target: target,
+            species:species,
+            type:type,
+            browserType:structural
         });
         studyBrowser.draw();
         return studyBrowser;
@@ -388,7 +420,7 @@ Eva.prototype = {
             var pageArray = ['eva-study','dgva-study', 'variant', 'gene','eva-iobio'];
             if(_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)){
                 var optionValue = option;
-                var tabArray = ['Genome Browser','Variant Browser','Clinical Browser'];
+                var tabArray = ['Genome Browser','Variant Browser','Clinical Browser','Study Browser'];
                 if(_.indexOf(tabArray, option) >= 0){
                     var hash = document.URL.substring(document.URL.indexOf('?')+1);
                     if  (!_.isUndefined(hash.split("&")[1])){

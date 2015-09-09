@@ -61,7 +61,7 @@ function SgvStudyBrowser(args) {
         this.render();
     }
 
-    this.load();
+//    this.load();
 }
 
 SgvStudyBrowser.prototype = {
@@ -124,6 +124,8 @@ SgvStudyBrowser.prototype = {
                 _this.studiesStore.loadRawData(studies);
             }
         });
+
+        _this._updateURL();
 
 
     },
@@ -434,6 +436,7 @@ SgvStudyBrowser.prototype = {
 
         this.formPanel = Ext.create('Ext.form.Panel', {
             title: 'Short Genetic Variants Browser',
+            name: 'sgv',
             border: this.border,
             header: this.headerConfig,
             layout: {
@@ -450,6 +453,19 @@ SgvStudyBrowser.prototype = {
         });
 
 
+
+        var tmpSpecies= _this.species.split(",");
+        var tmpType = _this.type.split(",");
+        var defaultType = [];
+        var defaultSpecies = [];
+        for (i=0; i < tmpType.length; ++i) {
+            defaultType.push( tmpType[i].replace(/\+/g, " "));
+        }
+        for (i=0; i < tmpSpecies.length; ++i) {
+            defaultSpecies.push( tmpSpecies[i].replace(/\+/g, " "));
+        }
+
+
         EvaManager.get({
             category: 'meta/studies',
             resource: 'stats',
@@ -463,11 +479,23 @@ SgvStudyBrowser.prototype = {
                         var arr = [];
                         for (key2 in stat) {
                             var obj = {};
+                            var checked = false;
+                            if(!_this.browserType){
+                                if(key == 'species'){
+                                    if(_.indexOf(defaultSpecies, key2) > -1){
+                                        checked = true;
+                                    }
+                                }else if(key == 'type'){
+                                    if(_.indexOf(defaultType, key2) > -1){
+                                        checked = true;
+                                    }
+                                }
+                            }
                             // TODO We must take care of the types returned
                             if(key2.indexOf(',') == -1) {
                                 obj['display'] = key2;
                                 obj['leaf'] = true;
-                                obj['checked'] = false;
+                                obj['checked'] = checked;
                                 obj['iconCls'] = "no-icon";
                                 obj['count'] = stat[key2];
                             }
@@ -476,6 +504,7 @@ SgvStudyBrowser.prototype = {
                                 arr.push(obj);
                             }
                         }
+
                         statsData[key] = arr;
                         if (typeof stores[key] !== 'undefined') {
                             statsData[key] = _.sortBy(statsData[key], 'display');
@@ -483,6 +512,7 @@ SgvStudyBrowser.prototype = {
                         }
 
                     }
+                    _this.load();
                 } catch (e) {
                     console.log(e);
                 }
@@ -501,7 +531,15 @@ SgvStudyBrowser.prototype = {
         }
         return values;
     },
+    _getAllValues:function(){
+        var _this = this;
+        var values = this.formPanel.getValues();
+        var species = this._getValues(this.speciesFieldTag);
+        var type = this._getValues(this.typeFieldTag);
+        _.extend(values, {species:species, type:type, structural:true});
+        return values;
 
+    },
     setLoading: function (loading) {
         this.panel.setLoading(loading);
     },
@@ -513,6 +551,29 @@ SgvStudyBrowser.prototype = {
     },
     getPanel: function(){
         return this.panel;
+    },
+    _updateURL:function(){
+        var _this = this;
+        if(_this.browserType){
+            return;
+        }
+        var values = this._getAllValues();
+        var _tempValues = values;
+        values['sgvSpecies'] = values['species'];
+        values['sgvType'] = values['type'];
+
+
+        delete values.species;
+        delete values.type;
+        delete values.structural;
+        _.each(_.keys(_tempValues), function(key){
+            if(_.isArray(this[key])){
+                values[key] = this[key].join();
+            }
+        },_tempValues);
+
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Study Browser&'+$.param(values);
+        window.history.pushState({path:newurl},'',newurl);
     }
 
 };

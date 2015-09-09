@@ -71,6 +71,10 @@ EvaVariantWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
+        var variantQuery = _this.queryParams;
+        if(!_.isUndefined(variantQuery)){
+            _this._updateURL(variantQuery);
+        }
     },
     hide: function () {
         this.panel.hide();
@@ -512,7 +516,7 @@ EvaVariantWidgetPanel.prototype = {
                     }
 
                     _this.variantWidget.values = e.values;
-
+                    _this['queryParams'] = e.values;
                     _this._updateURL(e.values);
 
                     var speciesArray = ['hsapiens','hsapiens_grch37','mmusculus_grcm38'];

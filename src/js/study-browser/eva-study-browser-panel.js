@@ -55,7 +55,11 @@ EvaStudyBrowserPanel.prototype = {
         this.panel.render(this.div);
     },
     show: function () {
-        this.panel.show()
+        var _this = this;
+        this.panel.show();
+        var tabName = _this.toolTabPanel.getActiveTab().items.items[0].name;
+        _this._tabChange(tabName);
+
     },
     hide: function () {
         this.panel.hide();
@@ -70,11 +74,17 @@ EvaStudyBrowserPanel.prototype = {
     _createPanel: function () {
         var _this = this;
 
-         var svStudyBrowser = new SvStudyBrowser({
-            pageSize:20
+         this.svStudyBrowser = new SvStudyBrowser({
+            pageSize:20,
+            species:_this.species,
+            type:_this.type,
+            browserType:_this.browserType
         });
-        var sgvStudyBrowser = new SgvStudyBrowser({
-            pageSize:10
+        this.sgvStudyBrowser = new SgvStudyBrowser({
+            pageSize:10,
+            species:_this.species,
+            type:_this.type,
+            browserType:_this.browserType
         });
 
         this.toolTabPanel = Ext.create("Ext.tab.Panel", {
@@ -82,14 +92,14 @@ EvaStudyBrowserPanel.prototype = {
                 plain: true,
                 items: [
                     {
-                        title: sgvStudyBrowser.getPanel().title.replace('Browser','(<50bp)'),
+                        title: this.sgvStudyBrowser.getPanel().title.replace('Browser','(<50bp)'),
                         cls:'studybrowser ',
-                        items:[sgvStudyBrowser.getPanel()]
+                        items:[this.sgvStudyBrowser.getPanel()]
                     },
                     {
-                        title:svStudyBrowser.getPanel().title.replace('Browser','(>50bp)'),
+                        title:this.svStudyBrowser.getPanel().title.replace('Browser','(>50bp)'),
                         cls:'studybrowser',
-                        items:[svStudyBrowser.getPanel()]
+                        items:[this.svStudyBrowser.getPanel()]
 
                     }
                 ],
@@ -98,15 +108,21 @@ EvaStudyBrowserPanel.prototype = {
                         this.items.each(function(i){
                             i.tab.on('click', function(){
                                 if(i.title == 'Structural Variants (>50bp)'){
-                                    svStudyBrowser.load();
+                                    _this.svStudyBrowser.load();
                                 }
                             });
                         });
+                    },
+                    'tabchange': function (tabPanel, tab) {
+                        var tabName = tab.items.items[0].name;
+                        _this._tabChange(tabName)
+
                     }
                 }
             });
 
-        this.toolTabPanel.setActiveTab(0);
+
+
 
         this.panel = Ext.create('Ext.container.Container', {
             flex: 1,
@@ -121,12 +137,30 @@ EvaStudyBrowserPanel.prototype = {
             items: [this.toolTabPanel]
         });
 
+
+
+
         Ext.EventManager.onWindowResize(function () {
             _this.panel.doLayout()
         });
 
+        if(_this.browserType){
+            this.toolTabPanel.setActiveTab(1);
+        }else{
+            this.toolTabPanel.setActiveTab(0);
+        }
+
 
         return  this.panel;
+    },
+    _tabChange: function(tabName){
+        var _this = this;
+        if(tabName == 'sv'){
+            _this.svStudyBrowser._updateURL();
+        }else if(tabName == 'sgv'){
+            _this.sgvStudyBrowser.browserType = false;
+            _this.sgvStudyBrowser._updateURL();
+        }
     }
 
 
