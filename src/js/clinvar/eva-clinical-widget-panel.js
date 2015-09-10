@@ -92,8 +92,9 @@ EvaClinicalWidgetPanel.prototype = {
             _this.clinvarWidget.clinvarBrowserGrid.panel.doLayout()
             _this.clinvarWidget.toolTabPanel.doLayout();
             _this.formPanelClinvarFilter.panel.doLayout();
-//            var row = _this.clinvarWidget.clinvarBrowserGrid.grid.getSelectionModel().getSelection();
-//            _this.clinvarWidget.clinvarBrowserGrid.trigger("clinvar:change", {sender: _this, args: row[0].data});
+            if(_this.clinvarWidget.toolTabPanel.getActiveTab().title == 'Genomic Context'){
+                _this.clinvarWidget.resizeGV();
+            }
         }
     },
     _createPanel: function () {

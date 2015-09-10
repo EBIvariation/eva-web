@@ -94,7 +94,11 @@ EvaVariantWidgetPanel.prototype = {
             _this.variantWidget.toolTabPanel.doLayout();
             _this.formPanelVariantFilter.panel.doLayout();
             var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
+            if(_this.variantWidget.toolTabPanel.getActiveTab().title == 'Genomic Context'){
+                _this.variantWidget.resizeGV();
+            }
             _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
+
         }
     },
 

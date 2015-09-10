@@ -137,6 +137,12 @@ EvaVariantWidget.prototype = {
                     if (_this.lastVariant) {
                         _this.trigger('variant:change', {variant: _this.lastVariant, sender: _this});
                     }
+
+                    if(_this.lastVariant && newTab.title == 'Genomic Context'){
+                       _this.resizeGV();
+                    }
+
+
                 }
             }
         });
@@ -301,6 +307,7 @@ EvaVariantWidget.prototype = {
         if (this.defaultToolConfig.rawData) {
             this.variantrawDataPanel.draw();
         }
+
         if (this.defaultToolConfig.populationStats) {
             this.variantPopulationStatsPanel.draw();
         }
@@ -1216,7 +1223,7 @@ EvaVariantWidget.prototype = {
             sidePanel: false,
             target: target,
             border: false,
-            resizable: false,
+            resizable: true,
             width: this.width,
             region: region,
             availableSpecies: AVAILABLE_SPECIES,
@@ -1370,6 +1377,13 @@ EvaVariantWidget.prototype = {
         });
 
         return genomeViewer;
+    },
+    resizeGV: function(){
+        var _this = this;
+        var gvTab =  _.findWhere(_this.toolTabPanel.items.items, {title:'Genomic Context'})
+        var gvTabWidth = gvTab.getWidth();
+        _this.genomeViewer.setWidth(gvTabWidth-2);
+
     },
     retrieveData: function (baseUrl, filterParams) {
         this.variantBrowserGrid.loadUrl(baseUrl, filterParams);

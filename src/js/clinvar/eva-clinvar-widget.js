@@ -134,6 +134,9 @@ EvaClinVarWidget.prototype = {
                     if (_this.lastVariant) {
                         _this.trigger('clinvar:change', {variant: _this.lastVariant, sender: _this});
                     }
+                    if(_this.lastVariant && newTab.title == 'Genomic Context'){
+                        _this.resizeGV();
+                    }
                 }
             }
         });
@@ -693,7 +696,7 @@ EvaClinVarWidget.prototype = {
             sidePanel: false,
             target: target,
             border: false,
-            resizable: false,
+            resizable: true,
             width: this.width,
             region: region,
             trackListTitle: '',
@@ -834,6 +837,12 @@ EvaClinVarWidget.prototype = {
         });
 
         return genomeViewer;
+    },
+    resizeGV: function(){
+        var _this = this;
+        var gvTab =  _.findWhere(_this.toolTabPanel.items.items, {title:'Genomic Context'})
+        var gvTabWidth = gvTab.getWidth();
+        _this.genomeViewer.setWidth(gvTabWidth-2);
     },
     retrieveData: function (baseUrl, filterParams) {
         this.clinvarBrowserGrid.loadUrl(baseUrl, filterParams);
