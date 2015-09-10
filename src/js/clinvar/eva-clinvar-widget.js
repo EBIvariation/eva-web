@@ -696,7 +696,7 @@ EvaClinVarWidget.prototype = {
             sidePanel: false,
             target: target,
             border: false,
-            resizable: true,
+            resizable: false,
             width: this.width,
             region: region,
             trackListTitle: '',
