@@ -96,7 +96,6 @@ EvaVariantPopulationStatsPanel.prototype = {
 
         if(params.species == 'hsapiens_grch37'){
             for (var key in data) {
-                console.log(data)
                 var study = data[key];
                 if(params.species == 'hsapiens_grch37'){
                     if(_.indexOf(availableStudies, study.studyId) > -1){
@@ -179,7 +178,6 @@ EvaVariantPopulationStatsPanel.prototype = {
 
         var populationData = [];
         _.each(_.keys(data.cohortStats), function(key){
-            console.log(this[key])
             var tempObj =  _.extend(this[key], {id:key})
             populationData.push(tempObj);
 
@@ -279,8 +277,6 @@ EvaVariantPopulationStatsPanel.prototype = {
                 sortable : true
             }
         };
-
-        console.log(populationData)
 
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",

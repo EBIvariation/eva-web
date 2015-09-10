@@ -97,8 +97,6 @@ SpeciesFilterFormPanel.prototype = {
             ]
         });
 
-        console.log(_this.speciesList)
-
         var speciesStore = Ext.create('Ext.data.Store', {
             model: 'SpeciesListModel',
             data : _this.speciesList,

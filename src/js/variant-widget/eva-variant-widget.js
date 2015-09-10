@@ -947,9 +947,213 @@ EvaVariantWidget.prototype = {
 
     _createAnnotPanel: function (target) {
         var _this = this;
+
+        var annontColumns = {
+            items:[
+                {
+                    text: "Ensembl<br /> Gene ID",
+                    dataIndex: "ensemblGeneId",
+                    flex: 1.4,
+                    xtype: "templatecolumn",
+                    tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a>',
+                },
+                {
+                    text: "Ensembl <br /> Gene Symbol",
+                    dataIndex: "geneName",
+                    flex: 0.9
+                },
+                {
+                    text: "Ensembl <br />Transcript ID",
+                    dataIndex: "ensemblTranscriptId",
+                    flex: 1.4,
+                    xtype: "templatecolumn",
+                    tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a>',
+                },
+                {
+                    text: "SO Term(s)",
+                    dataIndex: "soTerms",
+                    flex: 1.7,
+                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
+
+                        if(!_.isUndefined(value)){
+
+                            var tempArray = [];
+                            _.each(_.keys(value), function(key){
+                                tempArray.push(this[key].soName);
+                            },value);
+
+                            var groupedArr = _.groupBy(tempArray);
+                            var so_array = [];
+                            _.each(_.keys(groupedArr), function(key){
+                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
+//                                        so_array.push(key+' ('+this[key].length+')')
+                                if(index < 0){
+                                    so_array.push(key)
+                                }else{
+                                    so_array[index] = key;
+                                }
+                            },groupedArr);
+                            so_array =  _.compact(so_array);
+//                              console.log(so_array)
+                            meta.tdAttr = 'data-qtip="'+ so_array.join(',')+'"';
+                            return value ? Ext.String.format(
+                                '<tpl>'+so_array.join(',')+'</tpl>',
+                                value
+                            ) : '';
+                        }else{
+                            return '';
+                        }
+
+                    }
+                },
+                {
+                    text: "Biotype",
+                    dataIndex: "biotype",
+                    flex: 1.3
+                },
+                {
+                    text: "Codon",
+                    dataIndex: "codon",
+                    flex: 0.6
+                },
+                {
+                    text: "cDna <br />Position",
+                    dataIndex: "cDnaPosition",
+                    flex: 0.6
+                },
+                {
+                    text: "AA<br />Change",
+                    dataIndex: "aaChange",
+                    flex: 0.6
+                },
+                {
+                    text: "PolyPhen",
+                    dataIndex: "soTerms",
+                    flex: 0.71,
+                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
+                        if(!_.isUndefined(value)){
+                            var consequenceTypes= [];
+                            var tempArray = [];
+                            _.each(_.keys(value), function(key){
+                                tempArray.push(this[key].soName);
+                            },value);
+
+                            var groupedArr = _.groupBy(tempArray);
+                            var so_array = [];
+                            _.each(_.keys(groupedArr), function(key){
+                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
+//                                        so_array.push(key+' ('+this[key].length+')')
+                                if(index < 0){
+                                    so_array.push(key)
+                                }else{
+                                    so_array[index] = key;
+                                }
+                            },groupedArr);
+                            so_array =  _.compact(so_array);
+
+
+
+                            meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
+                            var score = '-';
+                            var polyphen_score_array = [];
+//                            var _tempSoTerms = consequenceTypes.soTerms;
+                            consequenceTypes.push(rec.data);
+                            for (i = 0; i < consequenceTypes.length; i++) {
+                                for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
+                                    if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
+                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
+                                            if(this[key].source == 'Polyphen'){
+                                                polyphen_score_array.push(this[key].score)
+                                                score = this[key].score;
+                                            }
+                                        },consequenceTypes[i].proteinSubstitutionScores);
+                                    }
+
+                                }
+                            }
+                            if(!_.isEmpty(polyphen_score_array)){
+                                score =  Math.max.apply(Math, polyphen_score_array)
+                            }
+
+                            return score;
+
+                        }else{
+                            return '';
+                        }
+
+                    }
+                },
+                {
+                    text: "Sift",
+                    dataIndex: "soTerms",
+                    flex: 0.5,
+                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
+                        if(!_.isUndefined(value)){
+                            var consequenceTypes= [];
+                            var tempArray = [];
+                            _.each(_.keys(value), function(key){
+                                tempArray.push(this[key].soName);
+                            },value);
+
+                            var groupedArr = _.groupBy(tempArray);
+                            var so_array = [];
+                            _.each(_.keys(groupedArr), function(key){
+                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
+//                                        so_array.push(key+' ('+this[key].length+')')
+                                if(index < 0){
+                                    so_array.push(key)
+                                }else{
+                                    so_array[index] = key;
+                                }
+                            },groupedArr);
+                            so_array =  _.compact(so_array);
+
+
+
+                            meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
+                            var score = '-';
+                            var sift_score_array = [];
+//                            var _tempSoTerms = consequenceTypes.soTerms;
+                            consequenceTypes.push(rec.data);
+                            for (i = 0; i < consequenceTypes.length; i++) {
+                                for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
+                                    if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
+                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
+                                            if(this[key].source == 'Sift'){
+                                                sift_score_array.push(this[key].score)
+                                                score = this[key].score;
+                                            }
+                                        },consequenceTypes[i].proteinSubstitutionScores);
+                                    }
+
+                                }
+                            }
+                            if(!_.isEmpty(sift_score_array)){
+                                score =  Math.min.apply(Math, sift_score_array)
+                            }
+
+                            return score;
+
+                        }else{
+                            return '';
+                        }
+
+                    }
+                }
+
+            ],
+            defaults: {
+                align:'left' ,
+                sortable : true
+            }
+        };
         var annotPanel = new ClinvarAnnotationPanel({
             target: target,
             height:800,
+            columns:annontColumns,
             headerConfig: this.defaultToolConfig.headerConfig,
             handlers: {
                 "load:finish": function (e) {

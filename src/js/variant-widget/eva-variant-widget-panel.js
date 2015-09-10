@@ -240,7 +240,6 @@ EvaVariantWidgetPanel.prototype = {
     },
     _createFormPanelVariantFilter: function (target) {
         var _this = this;
-        console.log(_this.position)
         var positionFilter = new EvaPositionFilterFormPanel({
             emptyText: '',
             defaultFilterValue:_this.filter,

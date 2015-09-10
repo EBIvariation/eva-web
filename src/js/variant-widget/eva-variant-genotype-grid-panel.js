@@ -93,10 +93,15 @@ EvaVariantGenotypeGridPanel.prototype = {
         for (var key in data) {
             var study = data[key];
             if (Object.keys(study.samplesData).length > 0) {
+                Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
                 var genotypePanel = this._createGenotypePanel(study,params);
                 genotypeChartData.push(genotypePanel.chartData)
                 panels.push(genotypePanel);
             }
+        }
+
+        if(_.isEmpty(panels)){
+            Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;">No Genotypes data available</p>')
         }
 
         this.studiesContainer.add(panels);
@@ -104,10 +109,6 @@ EvaVariantGenotypeGridPanel.prototype = {
         _.each(_.keys(genotypeChartData), function(key){
             _this._drawChart(this[key]);
         },genotypeChartData);
-
-
-
-
     },
     _createPanel: function () {
         this.studiesContainer = Ext.create('Ext.container.Container', {
@@ -129,6 +130,7 @@ EvaVariantGenotypeGridPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
+                    id:'genotypeTitle',
                     cls: 'ocb-header-4',
                     html: '<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
                     margin: '5 0 10 10'
@@ -141,7 +143,6 @@ EvaVariantGenotypeGridPanel.prototype = {
         return this.panel;
     },
     _createGenotypePanel: function (data,params) {
-
         var study_title;
         var projectList = '';
         EvaManager.get({
