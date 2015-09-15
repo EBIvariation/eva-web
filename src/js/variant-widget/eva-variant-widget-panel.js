@@ -117,17 +117,7 @@ EvaVariantWidgetPanel.prototype = {
                 type: 'hbox',
                 align: 'fit'
             },
-//            cls: 'eva-panel',
             bodyStyle: 'border-width:0px;border-style:none;',
-            listeners: {
-                afterlayout: function() {
-//                    if(!_.isUndefined(_this.variantWidget) && _.isUndefined(_this.variantBrowserOriginalstate)){
-//                        var originalState = _this.variantWidget.variantBrowserGrid.panel.getSize();
-//                        var toolTabPanelState =  _this.variantWidget.toolTabPanel.getSize();
-//                        _.extend(_this, {variantBrowserOriginalstate:originalState,toolTabPanelState:toolTabPanelState})
-//                    }
-                }
-            },
             items:[
                 {
                     xtype: 'panel',
@@ -148,25 +138,10 @@ EvaVariantWidgetPanel.prototype = {
                     listeners: {
                         collapse: function(){
                             _this.resize();
-//                            if(_.isUndefined(_this.variantBrowserCollpaseSate)){
-//                                var collpaseState = _this.variantWidget.variantBrowserGrid.panel.getSize();
-//                                var toolTabPanelCollapseState =  _this.variantWidget.toolTabPanel.getSize();
-//                                _.extend(_this, {variantBrowserCollpaseSate:collpaseState,toolTabPanelCollapseState:toolTabPanelCollapseState})
-//                            }else{
-//                                _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserCollpaseSate.width,_this.variantBrowserCollpaseSate.height)
-//                                _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelCollapseState.width,_this.toolTabPanelCollapseState.height);
-//                            }
-//                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
-//                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
                         },
                         expand: function(){
                             _this.resize();
-//                            _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserOriginalstate.width,_this.variantBrowserOriginalstate.height)
-//                            _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelState.width,_this.toolTabPanelState.height);
-//                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
-//                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
                         }
-
                     }
                 },
                 {

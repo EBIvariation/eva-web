@@ -112,18 +112,7 @@ EvaClinicalWidgetPanel.prototype = {
                 type: 'hbox',
                 align: 'fit'
             },
-//            cls: 'eva-panel',
             bodyStyle: 'border-width:0px;border-style:none;',
-            listeners: {
-                afterlayout: function() {
-//                    console.log(_this)
-//                    if(!_.isUndefined(_this.clinvarWidget) && _.isUndefined(_this.clinvarBrowserOriginalstate)){
-//                        var originalState = _this.clinvarWidget.clinvarBrowserGrid.panel.getSize();
-//                        var toolTabPanelState =  _this.clinvarWidget.toolTabPanel.getSize();
-//                        _.extend(_this, {clinvarBrowserOriginalstate:originalState,toolTabPanelState:toolTabPanelState})
-//                    }
-                }
-            },
             items:[
                 {
                     xtype: 'panel',
@@ -143,22 +132,13 @@ EvaClinicalWidgetPanel.prototype = {
                     bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){
-                            _this.resize();
-//                            if(_.isUndefined(_this.clinvarBrowserCollpaseSate)){
-//                                var collpaseState = _this.clinvarWidget.clinvarBrowserGrid.panel.getSize();
-//                                var toolTabPanelCollapseState =  _this.clinvarWidget.toolTabPanel.getSize();
-//                                _.extend(_this, {clinvarBrowserCollpaseSate:collpaseState,toolTabPanelCollapseState:toolTabPanelCollapseState})
-//                            }else{
-//                                _this.clinvarWidget.clinvarBrowserGrid.panel.setSize(_this.clinvarBrowserCollpaseSate.width,_this.clinvarBrowserCollpaseSate.height)
-//                                _this.clinvarWidget.toolTabPanel.setSize(_this.toolTabPanelCollapseState.width,_this.toolTabPanelCollapseState.height);
-//                            }
+                            _this.resize();//
                             var row = _this.clinvarWidget.clinvarBrowserGrid.grid.getSelectionModel().getSelection();
                             _this.clinvarWidget.clinvarBrowserGrid.trigger("clinvar:change", {sender: _this, args: row[0].data});
                         },
                         expand: function(){
                             _this.resize();
                         }
-
                     }
                 },
                 {
