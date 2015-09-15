@@ -193,15 +193,11 @@ EvaVariantGenotypeGridPanel.prototype = {
                 {name: 'genotype'}
             ],
 //            pageSize:100,
-            data: finalData
-//            proxy: {
-//                type: 'memory',
-//                data: finalData,
-//                reader: {
-//                    type: 'json'
-//                },
-//                enablePaging: true
-//            }
+            data: finalData,
+            sorters: [{
+                property: 'sample',
+                direction: 'ASC'
+            }]
         });
 
         var genotypeColumns = {
