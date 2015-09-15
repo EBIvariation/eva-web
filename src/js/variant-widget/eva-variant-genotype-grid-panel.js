@@ -103,7 +103,7 @@ EvaVariantGenotypeGridPanel.prototype = {
         if(_.isEmpty(panels)){
             Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;">No Genotypes data available</p>')
         }
-
+        this.clear();
         this.studiesContainer.add(panels);
 
         _.each(_.keys(genotypeChartData), function(key){
@@ -322,7 +322,6 @@ EvaVariantGenotypeGridPanel.prototype = {
         var width = 250;
         var id = '#'+data.id;
         var render_id = document.querySelector(id)
-        console.log(render_id)
         var dataArray  = data.data;
         var title = data.title;
 

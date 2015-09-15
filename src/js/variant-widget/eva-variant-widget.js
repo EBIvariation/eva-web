@@ -1359,7 +1359,7 @@ EvaVariantWidget.prototype = {
                     align: 'stretch'
                 }
             },
-            height: 800,
+            height: 820,
             handlers: {
                 "load:finish": function (e) {
 
@@ -1380,7 +1380,7 @@ EvaVariantWidget.prototype = {
                 if (target.id === _this.selectedToolDiv.id) {
                     var variant = e.variant;
                     var query = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
-                    var params = _.omit(this.variantBrowserGrid.store.proxy.extraParams, 'region');
+                    var params = _.omit(_this.variantBrowserGrid.store.proxy.extraParams, 'region');
 
                     EvaManager.get({
                         category: 'segments',
