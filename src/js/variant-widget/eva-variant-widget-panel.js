@@ -86,10 +86,13 @@ EvaVariantWidgetPanel.prototype = {
             this.panel.show();
         }
     },
-    resize: function () {
+    resize: function (value) {
         var _this = this;
         if (_this.panel.isVisible()) {
-            _this.panel.doLayout();
+            value = value || 0;
+            if(value){
+                _this.panel.doLayout();
+            }
             _this.variantWidget.variantBrowserGrid.panel.doLayout()
             _this.variantWidget.toolTabPanel.doLayout();
             _this.formPanelVariantFilter.panel.doLayout();
@@ -105,7 +108,7 @@ EvaVariantWidgetPanel.prototype = {
     _createPanel: function () {
         var _this = this;
         Ext.EventManager.onWindowResize(function (e) {
-            _this.resize();
+            _this.resize(true);
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
@@ -140,6 +143,7 @@ EvaVariantWidgetPanel.prototype = {
                     html:'<div class="variant-browser-option-div form-panel-variant-filter"></div>',
                     collapseDirection: 'left',
                     border:false,
+                    animCollapse:false,
                     bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){

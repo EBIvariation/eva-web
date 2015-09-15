@@ -85,10 +85,13 @@ EvaClinicalWidgetPanel.prototype = {
             this.panel.show();
         }
     },
-    resize: function () {
+    resize: function (value) {
         var _this = this;
         if (_this.panel.isVisible()) {
-            _this.panel.doLayout();
+            value = value || 0;
+            if(value){
+                _this.panel.doLayout();
+            }
             _this.clinvarWidget.clinvarBrowserGrid.panel.doLayout()
             _this.clinvarWidget.toolTabPanel.doLayout();
             _this.formPanelClinvarFilter.panel.doLayout();
@@ -100,7 +103,7 @@ EvaClinicalWidgetPanel.prototype = {
     _createPanel: function () {
         var _this = this;
         Ext.EventManager.onWindowResize(function () {
-            _this.resize();
+            _this.resize(true);
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
@@ -136,6 +139,7 @@ EvaClinicalWidgetPanel.prototype = {
                     html:'<div class="variant-browser-option-div form-panel-clinical-filter"></div>',
                     collapseDirection: 'left',
                     border:false,
+                    animCollapse:false,
                     bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){
@@ -153,9 +157,6 @@ EvaClinicalWidgetPanel.prototype = {
                         },
                         expand: function(){
                             _this.resize();
-                            _this.clinvarWidget.clinvarBrowserGrid.panel.setSize(_this.clinvarBrowserOriginalstate.width,_this.clinvarBrowserOriginalstate.height)
-                            _this.clinvarWidget.toolTabPanel.setSize(_this.toolTabPanelState.width,_this.toolTabPanelState.height);
-
                         }
 
                     }
