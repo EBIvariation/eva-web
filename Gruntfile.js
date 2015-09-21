@@ -56,6 +56,7 @@ module.exports = function (grunt) {
                     'src/js/study-browser/eva-study-browser-widget-panel.js',
                     'src/js/study-browser/eva-study-browser-filter-form-panel.js',
                     'src/js/study-browser/eva-study-browser-type-filter-form-panel.js',
+                    'src/js/study-browser/eva-study-browser-text-search-form-panel.js',
                     'src/js/study-browser/eva-study-browser-grid.js',
                     'src/js/views/eva-study-view.js',
                     'src/js/views/eva-variant-view.js',
