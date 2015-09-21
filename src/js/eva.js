@@ -229,6 +229,7 @@ Eva.prototype = {
         var browserType = 'sgv';
         var species = '';
         var type = '';
+        var search = '';
 
         if(!_.isEmpty($.urlParam('studySpecies'))){
             species = decodeURIComponent($.urlParam('studySpecies'))
@@ -242,11 +243,16 @@ Eva.prototype = {
             browserType = decodeURIComponent($.urlParam('browserType'))
         }
 
-        var studyBrowser = new EvaStudyBrowserPanelNew({
+        if(!_.isEmpty($.urlParam('search'))){
+            search = decodeURIComponent($.urlParam('search'))
+        }
+
+        var studyBrowser = new EvaStudyBrowserWidgetPanel({
             target: target,
             species:species,
             type:type,
-            browserType:browserType
+            browserType:browserType,
+            search:search
         });
         studyBrowser.draw();
         return studyBrowser;

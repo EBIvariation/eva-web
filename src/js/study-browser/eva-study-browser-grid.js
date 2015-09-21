@@ -112,26 +112,30 @@ EvaStudyBrowserGrid.prototype = {
             displayMsg: 'Studies {0} - {1} of {2}',
             emptyMsg: "No studies to display",
             inputItemWidth:40,
-            items: {
-                xtype: 'textfield',
-                name: 'search',
-                fieldLabel: 'Search',
-                labelAlign:'right',
-                labelWidth:50,
-
-                change: function () {
-                    _this.store.clearFilter();
-                    var value = this.getValue();
-                    if (value == "") {
-                        _this.store.clearFilter();
-                    } else {
-                        var regex = new RegExp(value, "i");
-                        _this.store.filterBy(function (e) {
-                            return regex.test(e.get('id')) || regex.test(e.get('name')) || regex.test(e.get('description'));
-                        });
-                    }
-                }
-            }
+//            items: {
+//                xtype: 'textfield',
+//                name: 'search',
+//                fieldLabel: 'Search',
+//                labelAlign:'right',
+//                labelWidth:50,
+//                listeners: {
+//                    change: function () {
+//                        _this.store.clearFilter();
+//                        var value = this.getValue();
+//                        if (value == "") {
+//                            _this.store.clearFilter();
+//                        } else {
+//                            var regex = new RegExp(value, "i");
+//                            _this.store.filterBy(function (e) {
+//                                return regex.test(e.get('id')) || regex.test(e.get('name')) || regex.test(e.get('description'));
+//                            });
+//                        }
+//                    },
+//                    afterrender: function() {
+//                        _this.paging.down('#refresh').hide();
+//                    }
+//                }
+//            }
         });
 
         var grid = Ext.create('Ext.grid.Panel', {

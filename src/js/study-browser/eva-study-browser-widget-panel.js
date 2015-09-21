@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function EvaStudyBrowserPanelNew(args) {
+function EvaStudyBrowserWidgetPanel(args) {
     var _this = this;
     _.extend(this, Backbone.Events);
     this.id = Utils.genId("StudyBrowserPanel");
@@ -30,7 +30,7 @@ function EvaStudyBrowserPanelNew(args) {
 };
 
 
-EvaStudyBrowserPanelNew.prototype = {
+EvaStudyBrowserWidgetPanel.prototype = {
     render: function () {
         var _this = this;
         if(!this.rendered) {
@@ -161,6 +161,10 @@ EvaStudyBrowserPanelNew.prototype = {
             defaultValue: _this.browserType
         });
 
+        this.searchFilter = new StudyBrowserTextSearchFormPanel({
+            defaultValue: _this.search
+        });
+
 
         this.speciesFilter = new StudyFilterFormPanel({
             title:'Species',
@@ -205,7 +209,7 @@ EvaStudyBrowserPanelNew.prototype = {
             target: target,
             submitButtonText: 'Submit',
             submitButtonId: 'study-submit-button',
-            filters: [this.browserTypeFilter,this.speciesFilter,this.typeFilter],
+            filters: [this.browserTypeFilter,this.searchFilter,this.speciesFilter,this.typeFilter],
             height: 1359,
             border: false,
             handlers: {
@@ -217,6 +221,9 @@ EvaStudyBrowserPanelNew.prototype = {
                     }
 
                     _this._loadStudies(params);
+                    if(params.search){
+                        _this._textSearch(params.search);
+                    }
                     _this._updateURL(params);
 
 
@@ -225,13 +232,17 @@ EvaStudyBrowserPanelNew.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
-            _this.formPanelStudyFilter.panel.getForm().findField('browserType').setValue('sgv')
+            _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').setValue({browserType:'sgv'})
+        });
+
+        this.searchFilter.on('studySearch:change', function (e) {
+            _this._textSearch(e.search);
         });
 
         this.browserTypeFilter.on('browserType:change', function (e) {
-            var _browserType =  _this.formPanelStudyFilter.panel.getForm().findField('browserType').getValue();
+            var btValue =  _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').getValue();
             var params;
-            if(_browserType == 'sv'){
+            if(btValue.browserType == 'sv'){
                 params = {structural:true}
                 Ext.getCmp('study-browser-grid').setTitle('Structural Variants (>50bp) Browser');
             }else{
@@ -517,6 +528,19 @@ EvaStudyBrowserPanelNew.prototype = {
 
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Study Browser&'+$.param( values);;
         window.history.pushState({path:newurl},'',newurl);
+    },
+    _textSearch: function(value){
+        var _this = this;
+        var store = _this.studyBrowserWidget.store;
+        store.clearFilter();
+        if (value == "") {
+            store.clearFilter();
+        } else {
+            var regex = new RegExp(value, "i");
+            store.filterBy(function (e) {
+                return regex.test(e.get('id')) || regex.test(e.get('name')) || regex.test(e.get('description'));
+            });
+        }
     }
 
 }

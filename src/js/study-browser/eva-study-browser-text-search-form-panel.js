@@ -16,14 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function StudyBrowserTypeFilterFormPanel(args) {
+function StudyBrowserTextSearchFormPanel(args) {
     _.extend(this, Backbone.Events);
 
     //set default args
-    this.id = Utils.genId("SpeciesFilterFormPanel");
+    this.id = Utils.genId("SearchFilterFormPanel");
     this.target;
     this.autoRender = true;
-    this.title = "Variant Type";
+    this.title = "Text Search";
     this.border = false;
     this.collapsible = true;
     this.titleCollapse = false;
@@ -42,7 +42,7 @@ function StudyBrowserTypeFilterFormPanel(args) {
     }
 }
 
-StudyBrowserTypeFilterFormPanel.prototype = {
+StudyBrowserTextSearchFormPanel.prototype = {
     render: function () {
         var _this = this;
         console.log("Initializing " + this.id);
@@ -65,78 +65,16 @@ StudyBrowserTypeFilterFormPanel.prototype = {
     _createPanel: function () {
         var _this = this;
 
-        Ext.define('BrowserTypeModel', {
-            extend: 'Ext.data.Model',
-            fields: [
-                {name: 'name', type: 'string'},
-                {name: 'value',  type: 'string'}
-            ]
-        });
-
-        var browserTypeValues = [
-                {name:'Structural Variants (>50bp)',value:'sv'},
-                {name:'Short Genetic Variants (<50bp)',value:'sgv'}
-        ];
-
-        var browserTypeStore = Ext.create('Ext.data.Store', {
-            model: 'BrowserTypeModel',
-            data : browserTypeValues,
-            sorters: [{
-                property: 'taxonomyEvaName',
-                direction: 'ASC'
-            }]
-        });
-
-        var browserTypeFormFieldRadio = {
-                xtype      : 'radiogroup',
-                name:'browserTypeRadio',
-                defaultType: 'radiofield',
-                defaults: {
-                    flex: 1
-                },
-                cls:'eva-radio',
-                layout: 'vbox',
-                items: [
-                    {
-                        boxLabel  : 'Structural Variants (>50bp)',
-                        name      : 'browserType',
-                        inputValue: 'sv',
-                        id        : 'sv'
-                    },
-                    {
-                        boxLabel  : 'Short Genetic Variants (<50bp)',
-                        name      : 'browserType',
-                        inputValue: 'sgv',
-                        id        : 'sgv    '
-                    }
-                ],
-                listeners: {
-                    afterrender: function (field) {
-                        field.setValue({browserType:_this.defaultValue});
-                    },
-                    change: function (field, newValue, oldValue) {
-                        _this.trigger('browserType:change', {browserType: newValue, sender: _this});
-                    }
-
-                }
-            };
-
-
-        var browserTypeFormField  =  Ext.create('Ext.form.ComboBox', {
-            fieldLabel: 'Variant Type',
-            name:'browserType',
-            labelAlign: 'top',
-            store: browserTypeStore,
-            queryMode: 'local',
-            displayField: 'name',
-            valueField: 'value',
+        var searchFormField  =  Ext.create('Ext.form.Text', {
+            name: 'search',
             width:'100%',
+            margin:'5 0 0 0',
             listeners: {
                 afterrender: function (field) {
                     field.setValue(_this.defaultValue);
                 },
                 change: function (field, newValue, oldValue) {
-                    _this.trigger('browserType:change', {browserType: newValue, sender: _this});
+                    _this.trigger('studySearch:change', {search: newValue, sender: _this});
                 }
 
             }
@@ -152,8 +90,7 @@ StudyBrowserTypeFilterFormPanel.prototype = {
             collapsible: this.collapsible,
             titleCollapse: this.titleCollapse,
             header: this.headerConfig,
-            allowBlank: false,
-            items: [browserTypeFormFieldRadio]
+            items: [searchFormField]
         });
 
     },
