@@ -21,7 +21,7 @@ function EvaClinicalWidgetPanel(args) {
     var _this = this;
     _.extend(this, Backbone.Events);
 
-    this.id = Utils.genId("VariantWidgetPanel");
+    this.id = Utils.genId("ClinvarWidgetPanel");
 
     this.target;
     this.tools = [];
@@ -56,12 +56,10 @@ EvaClinicalWidgetPanel.prototype = {
         this.targetDiv.appendChild(this.div);
 
         this.panel.render(this.div);
-//        this.formPanelClinvarFilterDiv = document.querySelector('.form-panel-clinical-filter-div');
         this.formPanelClinvarFilterDiv = document.querySelector('.form-panel-clinical-filter');
         this.formPanelClinvarFilter = this._createFormPanelVariantFilter(this.formPanelClinvarFilterDiv);
         this.formPanelClinvarFilter.draw();
 
-//        this.clinvarWidgetDiv = document.querySelector('.clinical-widget-div');
         this.clinvarWidgetDiv = document.querySelector('.clinical-widget');
         this.clinvarWidget = this._createClinVarWidget(this.clinvarWidgetDiv);
         this.clinvarWidget.draw();
@@ -107,7 +105,6 @@ EvaClinicalWidgetPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-//            border:true,
             layout: {
                 type: 'hbox',
                 align: 'fit'
@@ -155,7 +152,6 @@ EvaClinicalWidgetPanel.prototype = {
                     bodyStyle: 'border-width:0px;border-style:none;',
                 }
             ],
-//            height:1200,
             cls: 'variant-widget-panel'
         });
 
@@ -163,17 +159,12 @@ EvaClinicalWidgetPanel.prototype = {
         return  this.panel;
     },
     _createClinVarWidget: function (target) {
-//        var width = this.width - parseInt(this.div.style.paddingLeft) - parseInt(this.div.style.paddingRight);
         var evaClinVarWidget = new EvaClinVarWidget({
             width: 1020,
             target: target,
-//            headerConfig: {
-//                baseCls: 'eva-header-1'
-//            },
             headerConfig:false,
             border: true,
             browserGridConfig: {
-//                title: 'Variant Browser <span class="assembly">Assembly:GRCh37</span>',
                 title: 'ClinVar Browser <img class="title-header-icon" data-qtip="Search ClinVar (release 03-2015) using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:0px;" src="img/icon-info.png"/>',
                 border: true
             },
@@ -231,9 +222,6 @@ EvaClinicalWidgetPanel.prototype = {
         clinvarSpeciesFilter.on('species:change', function (e) {
            clinvarSelectedSpecies = e.species;
         });
-
-//        var clinVarConsequenceTypes = consequenceTypes;
-//        clinVarConsequenceTypes[0].children[0].children[4].checked = true;
 
         var clinvarConseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
             consequenceTypes: consequenceTypes,
@@ -474,15 +462,11 @@ EvaClinicalWidgetPanel.prototype = {
 
         var formPanel = new EvaFormPanel({
             title: 'Filter',
-//            headerConfig: {
-//                baseCls: 'eva-header-1'
-//            },
             headerConfig:false,
             mode: 'accordion',
             target: target,
             submitButtonText: 'Submit',
             filters: [clinvarPositionFilter,clinvarConseqTypeFilter,phenotypeFilter,variationTypeFilter,clinicalSignfcFilter,reviewStatusFilter],
-//            width: 300,
             height: 1408,
             border: false,
             handlers: {
@@ -499,35 +483,6 @@ EvaClinicalWidgetPanel.prototype = {
                     }
 
                     var gene = e.values.gene;
-                    if (typeof e.values.gene !== 'undefined') {
-//                        CellBaseManager.get({
-//                            host:CELLBASE_HOST,
-//                            version:CELLBASE_VERSION,
-//                            species: 'hsapiens',
-//                            category: 'feature',
-//                            subCategory: 'gene',
-//                            query: e.values.gene.toUpperCase(),
-//                            resource: "info",
-//                            async: false,
-//                            params: {
-//                                include: 'chromosome,start,end'
-//                            },
-//                            success: function (data) {
-//                                for (var i = 0; i < data.response.length; i++) {
-//                                    var queryResult = data.response[i];
-//                                    if(!_.isEmpty(queryResult.result[0])){
-//                                        var region = new Region(queryResult.result[0]);
-//                                        regions.push(region.toString());
-//                                    }
-//                                }
-//                            }
-//                        });
-//                        delete  e.values.gene;
-
-                    }
-
-
-
 
                     //CONSEQUENCE TYPES CHECK
                     if (typeof e.values['annot-ct'] !== 'undefined') {
@@ -542,13 +497,9 @@ EvaClinicalWidgetPanel.prototype = {
                         delete  e.values['accessionId'];
                     }
 
-
                     if (regions.length > 0) {
                        e.values['region'] = regions.join(',');
-//                         e.values['region'] = _.last(regions);
-//                        regions = _.last(regions);
                     }
-
 
                     var params = _.extend(e.values,{merge:true,source:'clinvar',species:'hsapiens_grch37'});
 
@@ -569,9 +520,6 @@ EvaClinicalWidgetPanel.prototype = {
                 }
             }
         });
-
-
-
 
         return formPanel;
     },

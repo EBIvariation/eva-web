@@ -130,9 +130,11 @@ Eva.prototype = {
         if(this.studyBrowserPanel){
             this.studyBrowserPanel.hide();
         }
+
         if(this.variantWidgetPanel){
             this.variantWidgetPanel.hide();
         }
+
         if(this.genomeViewerPanel){
             this.genomeViewerPanel.hide();
         }
@@ -169,6 +171,8 @@ Eva.prototype = {
                     this.studyBrowserPanel.show();
                 }else{
                     this.studyBrowserPanel  = this._createStudyBrowserPanel(this.contentDiv);
+                    this.select('Study Browser');
+                    this._updatedURL(option,false)
                 }
                 break;
             case 'Variant Browser':
@@ -177,10 +181,8 @@ Eva.prototype = {
                 }else{
                     this.variantWidgetPanel = this._createVariantWidgetPanel(this.contentDiv);
                     this.select('Variant Browser');
-//                    this.variantWidgetPanel.formPanelVariantFilter.trigger('submit', {values: this.variantWidgetPanel.formPanelVariantFilter.getValues(), sender: _this});
                     this._updatedURL(option,true)
                 }
-
                 break;
             case 'Genome Browser':
                 if(this.genomeViewerPanel){
@@ -198,7 +200,6 @@ Eva.prototype = {
                     this.beaconPanel  = this._createBeaconPanel(this.contentDiv);
                 }
                 break;
-
             case 'Clinical Browser':
                     if(this.clinicalWidgetPanel){
                         this.clinicalWidgetPanel.show();
@@ -208,7 +209,6 @@ Eva.prototype = {
                         this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
                         this._updatedURL(option,false)
                     }
-
                 break;
         }
     },
@@ -226,37 +226,27 @@ Eva.prototype = {
     },
     _createStudyBrowserPanel: function(target){
 
-        var structural = false;
+        var browserType = 'sgv';
         var species = '';
         var type = '';
 
-        if(!_.isEmpty($.urlParam('sgvSpecies'))){
-            species = decodeURIComponent($.urlParam('sgvSpecies'))
+        if(!_.isEmpty($.urlParam('studySpecies'))){
+            species = decodeURIComponent($.urlParam('studySpecies'))
         }
 
-        if(!_.isEmpty($.urlParam('sgvType'))){
-            type = decodeURIComponent($.urlParam('sgvType'))
+        if(!_.isEmpty($.urlParam('studyType'))){
+            type = decodeURIComponent($.urlParam('studyType'))
         }
 
-        if(!_.isEmpty($.urlParam('structural'))){
-            structural = decodeURIComponent($.urlParam('structural'))
+        if(!_.isEmpty($.urlParam('browserType'))){
+            browserType = decodeURIComponent($.urlParam('browserType'))
         }
 
-        if(structural){
-            if(!_.isEmpty($.urlParam('svSpecies'))){
-                species = decodeURIComponent($.urlParam('svSpecies'))
-            }
-
-            if(!_.isEmpty($.urlParam('svType'))){
-                type = decodeURIComponent($.urlParam('svType'))
-            }
-        }
-
-        var studyBrowser = new EvaStudyBrowserPanel({
+        var studyBrowser = new EvaStudyBrowserPanelNew({
             target: target,
             species:species,
             type:type,
-            browserType:structural
+            browserType:browserType
         });
         studyBrowser.draw();
         return studyBrowser;

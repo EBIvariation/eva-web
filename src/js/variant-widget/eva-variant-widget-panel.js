@@ -57,12 +57,10 @@ EvaVariantWidgetPanel.prototype = {
 
         this.panel.render(this.div);
 
-        this.variantWidgetDiv = document.querySelector('.variant-widget-div');
         this.variantWidgetDiv = document.querySelector('.variant-widget');
         this.variantWidget = this._createVariantWidget(this.variantWidgetDiv);
         this.variantWidget.draw();
 
-//        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-variant-filter-div');
         this.formPanelVariantFilterDiv = document.querySelector('.form-panel-variant-filter');
         this.formPanelVariantFilter = this._createFormPanelVariantFilter(this.formPanelVariantFilterDiv);
         this.formPanelVariantFilter.draw();
@@ -112,7 +110,6 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-//            border:true,
             layout: {
                 type: 'hbox',
                 align: 'fit'
@@ -166,17 +163,12 @@ EvaVariantWidgetPanel.prototype = {
         return  this.panel;
     },
     _createVariantWidget: function (target) {
-//        var width = this.width - parseInt(this.div.style.paddingLeft) - parseInt(this.div.style.paddingRight);
         var evaVariantWidget = new EvaVariantWidget({
             width: 1000,
             target: target,
-//            headerConfig: {
-//                baseCls: 'eva-header-1'
-//            },
             headerConfig:false,
             border: true,
             browserGridConfig: {
-//                title: 'Variant Browser <span class="assembly">Assembly:GRCh37</span>',
                 title: 'Variant Browser <img class="title-header-icon" data-qtip="Search the EVA variant warehouse using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth Variant Data tabs found below the main results table." style="margin-bottom:0px;" src="img/icon-info.png"/>',
                 border: true
             },
@@ -213,7 +205,7 @@ EvaVariantWidgetPanel.prototype = {
                     }
                 }
             }
-        }); //the div must exist
+        });
 
         return evaVariantWidget;
     },
@@ -255,22 +247,6 @@ EvaVariantWidgetPanel.prototype = {
             height: 790,
             studiesStore: this.studiesStore,
             studyFilterTpl:'<tpl if="studyId"><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="http://www.ebi.ac.uk/ena/data/view/{studyId}" target="_blank">{studyId}</a>) </div><tpl else><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a></div></tpl>'
-        });
-
-//        _this._loadListStudies(studyFilter, '');
-
-        studyFilter.on('studies:change', function (e) {
-            var studies = _this.formPanelVariantFilter.getValues().studies;
-            var submitButton = Ext.getCmp(_this.formPanelVariantFilter.submitButtonId);
-            if(_.isUndefined(studies)){
-                Ext.Msg.alert('','Please Select at least one study');
-                submitButton.disable();
-
-            }else{
-                submitButton.enable();
-
-            }
-
         });
 
 
@@ -347,17 +323,12 @@ EvaVariantWidgetPanel.prototype = {
             header: false,
             title: 'Filter',
             type: 'variantBrowser',
-//            headerConfig: {
-//                baseCls: 'eva-header-1'
-//            },
             headerConfig:false,
             mode: 'accordion',
             target: target,
             submitButtonText: 'Submit',
             submitButtonId: 'vb-submit-button',
             filters: [speciesFilter,positionFilter, conseqTypeFilter,proteinSubScoreFilter,studyFilter],
-//            filters: [speciesFilter,positionFilter,studyFilter],
-//            width: 300,
             height: 1359,
             border: false,
             handlers: {
@@ -376,56 +347,10 @@ EvaVariantWidgetPanel.prototype = {
                     }
 
                     if (typeof e.values.gene !== 'undefined') {
-//                        CellBaseManager.get({
-//                            species: cellBaseSpecies,
-//                            category: 'feature',
-//                            subCategory: 'gene',
-//                            query: e.values.gene.toUpperCase(),
-//                            resource: "info",
-//                            async: false,
-//                            params: {
-//                                include: 'chromosome,start,end'
-//                            },
-//                            success: function (data) {
-//                                for (var i = 0; i < data.response.length; i++) {
-//                                    var queryResult = data.response[i];
-//                                    if(!_.isEmpty(queryResult.result[0])){
-//                                        var region = new Region(queryResult.result[0]);
-//                                        regions.push(region.toString());
-//                                    }
-//                                }
-//                            }
-//                        });
-//                        delete  e.values.gene;
                         e.values.gene = e.values.gene.toUpperCase();
                     }
 
-                    if (typeof e.values.snp !== 'undefined') {
-//                        CellBaseManager.get({
-//                            species: cellBaseSpecies,
-//                            category: 'feature',
-//                            subCategory: 'snp',
-//                            query: e.values.snp,
-//                            resource: "info",
-//                            async: false,
-//                            params: {
-//                                include: 'chromosome,start,end'
-//                            },
-//                            success: function (data) {
-//                                for (var i = 0; i < data.response.length; i++) {
-//                                    var queryResult = data.response[i];
-//                                    var region = new Region(queryResult.result[0]);
-//                                    var fields2 = (""+region).split(/[:-]/);
-//                                    if(parseInt(fields2[1]) > parseInt(fields2[2])) {
-//                                        var swap = fields2[1];
-//                                        region.start = fields2[2];
-//                                        region.end = swap;
-//                                    }
-//                                    regions.push(region.toString());
-//                                }
-//                            }
-//                        });
-//                        delete  e.values.snp;
+                    if (typeof e.values.snp !== 'undefined') {//
                         e.values.id = e.values.snp;
                     }
 
@@ -486,6 +411,7 @@ EvaVariantWidgetPanel.prototype = {
                         }
                     });
 
+
                     if(!_.isEmpty(e.values["annot-ct"])){
                         e.values["annot-ct"] = e.values["annot-ct"].join(',');
                     }
@@ -526,23 +452,13 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
-//            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.formPanelVariantFilter.lastSelectedValues.species)
             _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.species)
             _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue(_this.filter)
         });
 
         _this.on('studies:change', function (e) {
-
             var formValues = _this.formPanelVariantFilter.getValues();
             var params = {id:positionFilter.id,species:formValues.species}
-            var speciesArray = ['hsapiens','hsapiens_grch37','mmusculus_grcm38'];
-            if(speciesArray.indexOf( formValues.species ) > -1){
-                _.extend(params, {disable:false});
-//               this._disableFields(params);
-            }else{
-                _.extend(params, {disable:true});
-//                this._disableFields(params);
-            }
             _this.variantWidget.trigger('species:change', {values: formValues, sender: _this});
             _this.formPanelVariantFilter.trigger('submit', {values: formValues, sender: _this});
         });
@@ -553,7 +469,6 @@ EvaVariantWidgetPanel.prototype = {
     },
     _loadListStudies: function (filter, species) {
         var _this = this;
-//        alert(species)
         var studies = [];
         var resource = '';
         if(_.isNull(species) ){
@@ -594,46 +509,6 @@ EvaVariantWidgetPanel.prototype = {
                _this.trigger('studies:change', {studies: studies, sender: _this});
             }
         });
-    },
-    _disableFields: function (params) {
-
-        var snpIdField = params.id+'snp';
-        var geneField  = params.id+'gene';
-        if(params.disable){
-
-             Ext.getCmp(snpIdField).disable();
-             Ext.getCmp(snpIdField).emptyText = 'This option will be available soon for this species';
-             Ext.getCmp(snpIdField).applyEmptyText();
-    //             Ext.getCmp(snpIdField).hide();
-
-            Ext.getCmp(geneField).emptyText = 'This option will be available soon for this species ';
-            Ext.getCmp(geneField).applyEmptyText();
-            Ext.getCmp(geneField).disable();
-//             Ext.getCmp(geneField).hide();
-        }else{
-
-            if(params.species != 'hsapiens_grch37' || params.species != 'hsapiens'){
-                Ext.getCmp(snpIdField).enable();
-                Ext.getCmp(snpIdField).emptyText = '';
-                Ext.getCmp(snpIdField).applyEmptyText();
-//             Ext.getCmp(snpIdField).hide();
-
-                Ext.getCmp(geneField).enable();
-                Ext.getCmp(geneField).emptyText = ' ';
-                Ext.getCmp(geneField).applyEmptyText();
-            }else{
-                Ext.getCmp(snpIdField).enable();
-                Ext.getCmp(snpIdField).emptyText = ' ';
-                Ext.getCmp(snpIdField).applyEmptyText();
-//            Ext.getCmp(snpIdField).show();
-                Ext.getCmp(geneField).enable();
-                Ext.getCmp(geneField).emptyText = ' ';
-                Ext.getCmp(geneField).applyEmptyText();
-            }
-
-//            Ext.getCmp(geneField).show();
-        }
-
     },
     _updateURL:function(values){
         var _this = this;

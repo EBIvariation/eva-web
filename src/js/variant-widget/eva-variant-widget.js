@@ -182,22 +182,11 @@ EvaVariantWidget.prototype = {
 //        }
 
         if (this.defaultToolConfig.genotype) {
-            this.variantGenotypeGridDiv = document.createElement('div');
-            this.variantGenotypeGridDiv.setAttribute('class', 'ocb-variant-genotype-grid');
-            this.variantGenotypeGrid = this._createVariantGenotypeGrid(this.variantGenotypeGridDiv);
-            tabPanelItems.push({
-                title: 'Genotypes',
-//                border: 0,
-                contentEl: this.variantGenotypeGridDiv
-            });
-        }
-
-        if (this.defaultToolConfig.genotype) {
             this.variantGenotypeGridPanelDiv = document.createElement('div');
             this.variantGenotypeGridPanelDiv.setAttribute('class', 'ocb-variant-genotype-grid');
             this.variantGenotypeGridPanel = this._createVariantGenotypeGridPanel(this.variantGenotypeGridPanelDiv);
             tabPanelItems.push({
-                title: 'Genotypes Pro',
+                title: 'Genotypes',
 //                border: 0,
                 contentEl: this.variantGenotypeGridPanelDiv
             });
@@ -278,17 +267,10 @@ EvaVariantWidget.prototype = {
         }
 
         if (this.defaultToolConfig.effect) {
-
             this.variantEffectGrid.draw();
         }
 
         if (this.defaultToolConfig.genotype) {
-
-            this.variantGenotypeGrid.draw();
-        }
-
-        if (this.defaultToolConfig.genotype) {
-
             this.variantGenotypeGridPanel.draw();
         }
 
@@ -302,10 +284,6 @@ EvaVariantWidget.prototype = {
 
         if (this.defaultToolConfig.stats) {
             this.variantStatsPanel.draw();
-        }
-
-        if (this.defaultToolConfig.rawData) {
-            this.variantrawDataPanel.draw();
         }
 
         if (this.defaultToolConfig.populationStats) {
@@ -1253,85 +1231,6 @@ EvaVariantWidget.prototype = {
         });
         return variantPopulationStatsPanel;
     },
-    _createVariantGenotypeGrid: function (target) {
-        var _this = this;
-        var genotypeColumns = [
-            {
-                text: "Study",
-                dataIndex: "studyId",
-                flex: 1,
-                xtype: 'templatecolumn',
-                tpl: '<tpl if="reference">{reference}<tpl else>-</tpl>/<tpl if="alternate">{alternate}<tpl else>-</tpl>',
-
-            },
-            {
-                text: "Samples Count",
-                dataIndex: "samplesData",
-                flex: 1
-            }
-        ];
-
-        var variantGenotypeGrid = new EvaVariantGenotypeGrid({
-            target: target,
-            headerConfig: this.defaultToolConfig.headerConfig,
-            gridConfig: {
-                flex: 1,
-                layout: {
-                    align: 'stretch'
-                }
-            },
-            height: 800,
-            handlers: {
-                "load:finish": function (e) {
-
-                }
-            },
-//            columns:genotypeColumns
-        });
-
-        this.variantBrowserGrid.on("variant:clear", function (e) {
-            variantGenotypeGrid.clear(true);
-        });
-
-        _this.on("variant:change", function (e) {
-            if (_.isUndefined(e.variant)) {
-                variantGenotypeGrid.clear(true);
-            } else {
-//                if (target === _this.selectedToolDiv) {
-                if (target.id === _this.selectedToolDiv.id) {
-                    var variant = e.variant;
-                    var query = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
-                    var params = _.omit(this.variantBrowserGrid.store.proxy.extraParams, 'region');
-
-                    EvaManager.get({
-                        category: 'segments',
-                        resource: 'variants',
-                        query: query,
-                        params: params,
-                        success: function (response) {
-                            try {
-                                var variantSourceEntries = response.response[0].result[0].sourceEntries;
-
-                            } catch (e) {
-
-                                console.log(e);
-                            }
-
-                            if (variantSourceEntries) {
-                                variantGenotypeGrid.load(variantSourceEntries, params);
-                            }
-
-                        }
-                    });
-
-                }
-            }
-
-        });
-
-        return variantGenotypeGrid;
-    },
-
     _createVariantGenotypeGridPanel: function (target) {
         var _this = this;
         var genotypeColumns = [
