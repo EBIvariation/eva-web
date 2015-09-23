@@ -137,6 +137,12 @@ EvaVariantWidget.prototype = {
                     if (_this.lastVariant) {
                         _this.trigger('variant:change', {variant: _this.lastVariant, sender: _this});
                     }
+
+                    if(_this.lastVariant && newTab.title == 'Genomic Context'){
+                       _this.resizeGV();
+                    }
+
+
                 }
             }
         });
@@ -176,13 +182,13 @@ EvaVariantWidget.prototype = {
 //        }
 
         if (this.defaultToolConfig.genotype) {
-            this.variantGenotypeGridDiv = document.createElement('div');
-            this.variantGenotypeGridDiv.setAttribute('class', 'ocb-variant-genotype-grid');
-            this.variantGenotypeGrid = this._createVariantGenotypeGrid(this.variantGenotypeGridDiv);
+            this.variantGenotypeGridPanelDiv = document.createElement('div');
+            this.variantGenotypeGridPanelDiv.setAttribute('class', 'ocb-variant-genotype-grid');
+            this.variantGenotypeGridPanel = this._createVariantGenotypeGridPanel(this.variantGenotypeGridPanelDiv);
             tabPanelItems.push({
                 title: 'Genotypes',
 //                border: 0,
-                contentEl: this.variantGenotypeGridDiv
+                contentEl: this.variantGenotypeGridPanelDiv
             });
         }
 
@@ -261,13 +267,11 @@ EvaVariantWidget.prototype = {
         }
 
         if (this.defaultToolConfig.effect) {
-
             this.variantEffectGrid.draw();
         }
 
         if (this.defaultToolConfig.genotype) {
-
-            this.variantGenotypeGrid.draw();
+            this.variantGenotypeGridPanel.draw();
         }
 
         if (this.defaultToolConfig.genomeViewer) {
@@ -282,9 +286,6 @@ EvaVariantWidget.prototype = {
             this.variantStatsPanel.draw();
         }
 
-        if (this.defaultToolConfig.rawData) {
-            this.variantrawDataPanel.draw();
-        }
         if (this.defaultToolConfig.populationStats) {
             this.variantPopulationStatsPanel.draw();
         }
@@ -509,7 +510,6 @@ EvaVariantWidget.prototype = {
                                         for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
                                             if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
                                                 _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
-                                                    console.log(this[key])
                                                     if(this[key].source == 'Polyphen'){
                                                         polyphen_score_array.push(this[key].score)
                                                         score = this[key].score;
@@ -925,9 +925,213 @@ EvaVariantWidget.prototype = {
 
     _createAnnotPanel: function (target) {
         var _this = this;
+
+        var annontColumns = {
+            items:[
+                {
+                    text: "Ensembl<br /> Gene ID",
+                    dataIndex: "ensemblGeneId",
+                    flex: 1.4,
+                    xtype: "templatecolumn",
+                    tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a>',
+                },
+                {
+                    text: "Ensembl <br /> Gene Symbol",
+                    dataIndex: "geneName",
+                    flex: 0.9
+                },
+                {
+                    text: "Ensembl <br />Transcript ID",
+                    dataIndex: "ensemblTranscriptId",
+                    flex: 1.4,
+                    xtype: "templatecolumn",
+                    tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a>',
+                },
+                {
+                    text: "SO Term(s)",
+                    dataIndex: "soTerms",
+                    flex: 1.7,
+                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
+
+                        if(!_.isUndefined(value)){
+
+                            var tempArray = [];
+                            _.each(_.keys(value), function(key){
+                                tempArray.push(this[key].soName);
+                            },value);
+
+                            var groupedArr = _.groupBy(tempArray);
+                            var so_array = [];
+                            _.each(_.keys(groupedArr), function(key){
+                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
+//                                        so_array.push(key+' ('+this[key].length+')')
+                                if(index < 0){
+                                    so_array.push(key)
+                                }else{
+                                    so_array[index] = key;
+                                }
+                            },groupedArr);
+                            so_array =  _.compact(so_array);
+//                              console.log(so_array)
+                            meta.tdAttr = 'data-qtip="'+ so_array.join(',')+'"';
+                            return value ? Ext.String.format(
+                                '<tpl>'+so_array.join(',')+'</tpl>',
+                                value
+                            ) : '';
+                        }else{
+                            return '';
+                        }
+
+                    }
+                },
+                {
+                    text: "Biotype",
+                    dataIndex: "biotype",
+                    flex: 1.3
+                },
+                {
+                    text: "Codon",
+                    dataIndex: "codon",
+                    flex: 0.6
+                },
+                {
+                    text: "cDna <br />Position",
+                    dataIndex: "cDnaPosition",
+                    flex: 0.6
+                },
+                {
+                    text: "AA<br />Change",
+                    dataIndex: "aaChange",
+                    flex: 0.6
+                },
+                {
+                    text: "PolyPhen",
+                    dataIndex: "soTerms",
+                    flex: 0.71,
+                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
+                        if(!_.isUndefined(value)){
+                            var consequenceTypes= [];
+                            var tempArray = [];
+                            _.each(_.keys(value), function(key){
+                                tempArray.push(this[key].soName);
+                            },value);
+
+                            var groupedArr = _.groupBy(tempArray);
+                            var so_array = [];
+                            _.each(_.keys(groupedArr), function(key){
+                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
+//                                        so_array.push(key+' ('+this[key].length+')')
+                                if(index < 0){
+                                    so_array.push(key)
+                                }else{
+                                    so_array[index] = key;
+                                }
+                            },groupedArr);
+                            so_array =  _.compact(so_array);
+
+
+
+                            meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
+                            var score = '-';
+                            var polyphen_score_array = [];
+//                            var _tempSoTerms = consequenceTypes.soTerms;
+                            consequenceTypes.push(rec.data);
+                            for (i = 0; i < consequenceTypes.length; i++) {
+                                for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
+                                    if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
+                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
+                                            if(this[key].source == 'Polyphen'){
+                                                polyphen_score_array.push(this[key].score)
+                                                score = this[key].score;
+                                            }
+                                        },consequenceTypes[i].proteinSubstitutionScores);
+                                    }
+
+                                }
+                            }
+                            if(!_.isEmpty(polyphen_score_array)){
+                                score =  Math.max.apply(Math, polyphen_score_array)
+                            }
+
+                            return score;
+
+                        }else{
+                            return '';
+                        }
+
+                    }
+                },
+                {
+                    text: "Sift",
+                    dataIndex: "soTerms",
+                    flex: 0.5,
+                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
+                        if(!_.isUndefined(value)){
+                            var consequenceTypes= [];
+                            var tempArray = [];
+                            _.each(_.keys(value), function(key){
+                                tempArray.push(this[key].soName);
+                            },value);
+
+                            var groupedArr = _.groupBy(tempArray);
+                            var so_array = [];
+                            _.each(_.keys(groupedArr), function(key){
+                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
+//                                        so_array.push(key+' ('+this[key].length+')')
+                                if(index < 0){
+                                    so_array.push(key)
+                                }else{
+                                    so_array[index] = key;
+                                }
+                            },groupedArr);
+                            so_array =  _.compact(so_array);
+
+
+
+                            meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
+                            var score = '-';
+                            var sift_score_array = [];
+//                            var _tempSoTerms = consequenceTypes.soTerms;
+                            consequenceTypes.push(rec.data);
+                            for (i = 0; i < consequenceTypes.length; i++) {
+                                for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
+                                    if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
+                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
+                                            if(this[key].source == 'Sift'){
+                                                sift_score_array.push(this[key].score)
+                                                score = this[key].score;
+                                            }
+                                        },consequenceTypes[i].proteinSubstitutionScores);
+                                    }
+
+                                }
+                            }
+                            if(!_.isEmpty(sift_score_array)){
+                                score =  Math.min.apply(Math, sift_score_array)
+                            }
+
+                            return score;
+
+                        }else{
+                            return '';
+                        }
+
+                    }
+                }
+
+            ],
+            defaults: {
+                align:'left' ,
+                sortable : true
+            }
+        };
         var annotPanel = new ClinvarAnnotationPanel({
             target: target,
             height:800,
+            columns:annontColumns,
             headerConfig: this.defaultToolConfig.headerConfig,
             handlers: {
                 "load:finish": function (e) {
@@ -948,7 +1152,6 @@ EvaVariantWidget.prototype = {
             }else{
                 if (target.id === _this.selectedToolDiv.id) {
                     _.extend(e.variant, {annot: e.variant.annotation});
-                    console.log(e.variant)
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
                     annotPanel.load(e.variant,proxy.extraParams);
                 }
@@ -1028,7 +1231,7 @@ EvaVariantWidget.prototype = {
         });
         return variantPopulationStatsPanel;
     },
-    _createVariantGenotypeGrid: function (target) {
+    _createVariantGenotypeGridPanel: function (target) {
         var _this = this;
         var genotypeColumns = [
             {
@@ -1046,7 +1249,7 @@ EvaVariantWidget.prototype = {
             }
         ];
 
-        var variantGenotypeGrid = new EvaVariantGenotypeGrid({
+        var variantGenotypeGridPanel = new EvaVariantGenotypeGridPanel({
             target: target,
             headerConfig: this.defaultToolConfig.headerConfig,
             gridConfig: {
@@ -1055,7 +1258,7 @@ EvaVariantWidget.prototype = {
                     align: 'stretch'
                 }
             },
-            height: 800,
+            height: 820,
             handlers: {
                 "load:finish": function (e) {
 
@@ -1065,21 +1268,18 @@ EvaVariantWidget.prototype = {
         });
 
         this.variantBrowserGrid.on("variant:clear", function (e) {
-            variantGenotypeGrid.clear(true);
+            variantGenotypeGridPanel.clear(true);
         });
 
         _this.on("variant:change", function (e) {
             if (_.isUndefined(e.variant)) {
-                variantGenotypeGrid.clear(true);
+                variantGenotypeGridPanel.clear(true);
             } else {
 //                if (target === _this.selectedToolDiv) {
                 if (target.id === _this.selectedToolDiv.id) {
                     var variant = e.variant;
                     var query = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
-                    var params = _.omit(this.variantBrowserGrid.store.proxy.extraParams, 'region');
-
-                    console.log(params)
-                    console.log('+++++=====++++')
+                    var params = _.omit(_this.variantBrowserGrid.store.proxy.extraParams, 'region');
 
                     EvaManager.get({
                         category: 'segments',
@@ -1096,7 +1296,7 @@ EvaVariantWidget.prototype = {
                             }
 
                             if (variantSourceEntries) {
-                                variantGenotypeGrid.load(variantSourceEntries, params);
+                                variantGenotypeGridPanel.load(variantSourceEntries, params);
                             }
 
                         }
@@ -1107,7 +1307,7 @@ EvaVariantWidget.prototype = {
 
         });
 
-        return variantGenotypeGrid;
+        return variantGenotypeGridPanel;
     },
 
 
@@ -1280,6 +1480,13 @@ EvaVariantWidget.prototype = {
         });
 
         return genomeViewer;
+    },
+    resizeGV: function(){
+        var _this = this;
+        var gvTab =  _.findWhere(_this.toolTabPanel.items.items, {title:'Genomic Context'})
+        var gvTabWidth = gvTab.getWidth();
+        _this.genomeViewer.setWidth(gvTabWidth-2);
+
     },
     retrieveData: function (baseUrl, filterParams) {
         this.variantBrowserGrid.loadUrl(baseUrl, filterParams);

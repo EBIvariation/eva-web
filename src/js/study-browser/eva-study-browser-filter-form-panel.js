@@ -16,21 +16,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function EvaProteinSubstitutionScoreFilterFormPanel(args) {
+function StudyFilterFormPanel(args) {
     _.extend(this, Backbone.Events);
 
     //set default args
-    this.id = Utils.genId("ProteinSubstitutionScoreFilterFormPanel");
+    this.id = Utils.genId("SpeciesFilterFormPanel");
     this.target;
     this.autoRender = true;
-    this.title = "Protein Substitution Score";
+    this.title = "Species";
     this.border = false;
     this.collapsible = true;
     this.titleCollapse = false;
     this.headerConfig;
-    this.testRegion = "";
-    this.collapsed = false;
-    this.emptyText = '1:1-1000000,2:1-1000000';
+    this.speciesList = speciesList;
+    this.defaultValue = 'hsapiens_grch37';
+    
 
     //set instantiation args, must be last
     _.extend(this, args);
@@ -43,11 +43,10 @@ function EvaProteinSubstitutionScoreFilterFormPanel(args) {
     }
 }
 
-EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
+StudyFilterFormPanel.prototype = {
     render: function () {
         var _this = this;
         console.log("Initializing " + this.id);
-
         //HTML skel
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
@@ -67,73 +66,80 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
     _createPanel: function () {
         var _this = this;
 
-        var items = {
-            xtype:'fieldset',
-            title: '',
-            collapsible: false,
-//            height:150,
-//            width :280,
-            margin:'5 0 0 0',
-            defaultType: 'textfield',
-            items :[
-                {
-                    fieldLabel: 'PolyPhen2 \>',
-                    name: 'polyphen',
-                    width: '100%',
-                    margin:'5 0 0 0',
-                    value:_this.polyphen,
-                    emptyText:'ex:0.5'
-                },
-                {
-                    fieldLabel: 'Sift \< ',
-                    name: 'sift',
-                    width: '100%',
-                    margin:'5 0 5 0',
-                    value:_this.sift,
-                    emptyText:'ex:0.1'
+        Ext.define('Tree Model', {
+            extend: 'Ext.data.Model',
+            fields: this.fields
+        });
+
+        this.store = Ext.create('Ext.data.TreeStore', {
+            model: 'Tree Model',
+            proxy: {
+                type: 'memory',
+                data:[],
+                reader: {
+                    type: 'json'
                 }
+            }
+        });
 
-            ]
-        }
-
-        return Ext.create('Ext.form.Panel', {
-            id:this.id,
-            bodyPadding: "5",
-            margin: "0 0 5 0",
-            buttonAlign: 'center',
-            layout: 'fit',
+        this.panel = Ext.create('Ext.tree.Panel', {
             title: this.title,
             border: this.border,
+            useArrows: true,
+            rootVisible: true,
+            store:  this.store,
+            multiSelect: true,
+            singleExpand: true,
+            hideHeaders: true,
             collapsible: this.collapsible,
             titleCollapse: this.titleCollapse,
-            header: this.headerConfig,
-            allowBlank: false,
             collapsed: this.collapsed,
-            items: [items]
+            header: this.headerConfig,
+            columns: this.columns,
+            listeners: {
+                'checkchange': function (node, checked) {
+                    node.cascadeBy(function (n) {
+                        n.set('checked', checked);
+                    });
+                }
+            }
         });
+
+        if(!_.isEmpty(_this.defaultValues)){
+            var values = _this.defaultValues.split(",");
+            console.log(values)
+            _this.selectNodes(values);
+        }
+
+        return  this.panel;
 
     },
     getPanel: function () {
         return this.panel;
     },
     getValues: function () {
-        var values = this.panel.getValues();
-        var valuesArray = {};
-        for (key in values) {
-            if (values[key] == '') {
-                delete values[key]
-            }else{
-                if(key == 'sift'){
-                   value = '<'+ values[key];
-                }else{
-                    value = '>'+ values[key];
-                }
-                valuesArray[key] = value;
+        var _this = this;
+        var nodes = this.panel.getRootNode().treeStore.data.items;
+        var values = [];
+        _.each(_.keys(nodes), function(key){
+            if (this[key].get('checked') && this[key].isLeaf()) {
+                values.push(this[key].get('display'));
             }
+        },nodes);
+        obj = {}
+        var title = this.title.toLowerCase();
+
+        if (values.length > 0) {
+            obj[title] = values;
+            return obj;
+        } else {
+            return {};
         }
-        return valuesArray;
     },
     clear: function () {
-        this.panel.reset();
+//        this.panel.reset();
+    },
+    selectNodes:function(values){
+
     }
 }

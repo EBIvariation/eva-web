@@ -16,21 +16,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function EvaProteinSubstitutionScoreFilterFormPanel(args) {
+function StudyBrowserTextSearchFormPanel(args) {
     _.extend(this, Backbone.Events);
 
     //set default args
-    this.id = Utils.genId("ProteinSubstitutionScoreFilterFormPanel");
+    this.id = Utils.genId("SearchFilterFormPanel");
     this.target;
     this.autoRender = true;
-    this.title = "Protein Substitution Score";
+    this.title = "Text Search";
     this.border = false;
     this.collapsible = true;
     this.titleCollapse = false;
     this.headerConfig;
-    this.testRegion = "";
-    this.collapsed = false;
-    this.emptyText = '1:1-1000000,2:1-1000000';
+    this.defaultValue = 'sgv';
+    
 
     //set instantiation args, must be last
     _.extend(this, args);
@@ -43,11 +42,10 @@ function EvaProteinSubstitutionScoreFilterFormPanel(args) {
     }
 }
 
-EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
+StudyBrowserTextSearchFormPanel.prototype = {
     render: function () {
         var _this = this;
         console.log("Initializing " + this.id);
-
         //HTML skel
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
@@ -67,49 +65,32 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
     _createPanel: function () {
         var _this = this;
 
-        var items = {
-            xtype:'fieldset',
-            title: '',
-            collapsible: false,
-//            height:150,
-//            width :280,
+        var searchFormField  =  Ext.create('Ext.form.Text', {
+            name: 'search',
+            width:'100%',
             margin:'5 0 0 0',
-            defaultType: 'textfield',
-            items :[
-                {
-                    fieldLabel: 'PolyPhen2 \>',
-                    name: 'polyphen',
-                    width: '100%',
-                    margin:'5 0 0 0',
-                    value:_this.polyphen,
-                    emptyText:'ex:0.5'
+            listeners: {
+                afterrender: function (field) {
+                    field.setValue(_this.defaultValue);
                 },
-                {
-                    fieldLabel: 'Sift \< ',
-                    name: 'sift',
-                    width: '100%',
-                    margin:'5 0 5 0',
-                    value:_this.sift,
-                    emptyText:'ex:0.1'
+                change: function (field, newValue, oldValue) {
+                    _this.trigger('studySearch:change', {search: newValue, sender: _this});
                 }
 
-            ]
-        }
+            }
+        });
 
         return Ext.create('Ext.form.Panel', {
-            id:this.id,
             bodyPadding: "5",
             margin: "0 0 5 0",
             buttonAlign: 'center',
-            layout: 'fit',
+            layout: 'vbox',
             title: this.title,
             border: this.border,
             collapsible: this.collapsible,
             titleCollapse: this.titleCollapse,
             header: this.headerConfig,
-            allowBlank: false,
-            collapsed: this.collapsed,
-            items: [items]
+            items: [searchFormField]
         });
 
     },
@@ -118,20 +99,12 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
     },
     getValues: function () {
         var values = this.panel.getValues();
-        var valuesArray = {};
         for (key in values) {
             if (values[key] == '') {
                 delete values[key]
-            }else{
-                if(key == 'sift'){
-                   value = '<'+ values[key];
-                }else{
-                    value = '>'+ values[key];
-                }
-                valuesArray[key] = value;
             }
         }
-        return valuesArray;
+        return values;
     },
     clear: function () {
         this.panel.reset();

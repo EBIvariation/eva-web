@@ -30,7 +30,7 @@ function EvaPositionFilterFormPanel(args) {
     this.collapsible = true;
     this.titleCollapse = false;
     this.headerConfig;
-    this.testRegion = "";
+    this.region = "";
     this.emptyText = '1:1-1000000,2:1-1000000';
 
     //set instantiation args, must be last
@@ -77,6 +77,8 @@ EvaPositionFilterFormPanel.prototype = {
             ]
         });
 
+
+
        var selectFilter =  Ext.create('Ext.form.ComboBox', {
                      id: this.id + "selectFilter",
                      fieldLabel: 'Filter By',
@@ -90,7 +92,7 @@ EvaPositionFilterFormPanel.prototype = {
                      margin: '0 0 0 5',
                      listeners: {
                        afterrender: function (field) {
-                           field.setValue('region');
+                           field.setValue(_this.defaultFilterValue);
                        },
                        change: function (field, newValue, oldValue) {
                            _this.hideFields(_this.id+newValue);
@@ -134,9 +136,11 @@ EvaPositionFilterFormPanel.prototype = {
 //            fieldLabel: '<br />Chromosomal Location',
             fieldLabel: '<br />',
             labelAlign: 'top',
-//            value: this.testRegion,
             labelSeparator : '',
             listeners: {
+                afterrender: function (field) {
+                    field.setValue(_this.defaultRegion);
+                },
                 'change': function(field, newVal, oldVal){
 //                    if(newVal){
 //                        _this.disableFields(_this.id+"region");
@@ -184,7 +188,9 @@ EvaPositionFilterFormPanel.prototype = {
             items: [selectFilter,snp, regionList, gene]
         });
 
-        this.panel.getForm().findField('region').setValue(_this.testRegion);
+        this.panel.getForm().findField('region').setValue(_this.defaultRegion);
+        this.panel.getForm().findField('snp').setValue(_this.defaultSnpValue);
+        this.panel.getForm().findField('gene').setValue(_this.defaultGeneValue);
 
         return this.panel;
 
@@ -199,7 +205,7 @@ EvaPositionFilterFormPanel.prototype = {
                 delete values[key]
             }
         }
-        values = _.omit(values, 'selectFilter');
+//        values = _.omit(values, 'selectFilter');
         return values;
     },
     disableFields:function(id){

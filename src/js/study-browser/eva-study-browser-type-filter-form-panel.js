@@ -16,20 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function SpeciesFilterFormPanel(args) {
+function StudyBrowserTypeFilterFormPanel(args) {
     _.extend(this, Backbone.Events);
 
     //set default args
     this.id = Utils.genId("SpeciesFilterFormPanel");
     this.target;
     this.autoRender = true;
-    this.title = "Species";
+    this.title = "Variant Type";
     this.border = false;
     this.collapsible = true;
     this.titleCollapse = false;
     this.headerConfig;
-    this.speciesList = speciesList;
-    this.defaultValue = 'hsapiens_grch37';
+    this.defaultValue = 'sgv';
     
 
     //set instantiation args, must be last
@@ -43,7 +42,7 @@ function SpeciesFilterFormPanel(args) {
     }
 }
 
-SpeciesFilterFormPanel.prototype = {
+StudyBrowserTypeFilterFormPanel.prototype = {
     render: function () {
         var _this = this;
         console.log("Initializing " + this.id);
@@ -66,63 +65,78 @@ SpeciesFilterFormPanel.prototype = {
     _createPanel: function () {
         var _this = this;
 
-        Ext.define('SpeciesListModel', {
+        Ext.define('BrowserTypeModel', {
             extend: 'Ext.data.Model',
             fields: [
-                {name: 'taxonomyCommonName', type: 'string'},
-                {name: 'taxonomyCode',  type: 'string'},
-                {name: 'assemblyName',       type: 'string'},
-                {name: 'assemblyCode',  type: 'string'},
-                {
-                    name: 'displayName',
-                    type: 'string',
-                    convert: function( v, record ) {
-
-                        if( record.get( 'taxonomyEvaName')){
-                            return record.get( 'taxonomyEvaName').substr(0,1).toUpperCase()+record.get( 'taxonomyEvaName').substr(1) + ' / ' + record.get( 'assemblyName' )
-                        }
-
-
-                    }
-                },
-                {
-                    name: 'value',
-                    type: 'string',
-                    convert: function( v, record ) {
-                        if( record.get( 'taxonomyCode')){
-                            return record.get( 'taxonomyCode' ) + '_' + record.get( 'assemblyCode' )
-                        }
-                    }
-                }
+                {name: 'name', type: 'string'},
+                {name: 'value',  type: 'string'}
             ]
         });
 
-        var speciesStore = Ext.create('Ext.data.Store', {
-            model: 'SpeciesListModel',
-            data : _this.speciesList,
+        var browserTypeValues = [
+                {name:'Structural Variants (>50bp)',value:'sv'},
+                {name:'Short Genetic Variants (<50bp)',value:'sgv'}
+        ];
+
+        var browserTypeStore = Ext.create('Ext.data.Store', {
+            model: 'BrowserTypeModel',
+            data : browserTypeValues,
             sorters: [{
                 property: 'taxonomyEvaName',
                 direction: 'ASC'
             }]
         });
 
-        var speciesFormField  =  Ext.create('Ext.form.ComboBox', {
-            fieldLabel: 'Organism / Assembly',
-//            id:'species',
-            name:'species',
+        var browserTypeFormFieldRadio = {
+                xtype      : 'radiogroup',
+                name:'browserTypeRadio',
+                defaultType: 'radiofield',
+                defaults: {
+                    flex: 1
+                },
+                cls:'eva-radio',
+                layout: 'vbox',
+                items: [
+                    {
+                        boxLabel  : 'Structural Variants (>50bp)',
+                        name      : 'browserType',
+                        inputValue: 'sv',
+                        id        : 'sv'
+                    },
+                    {
+                        boxLabel  : 'Short Genetic Variants (<50bp)',
+                        name      : 'browserType',
+                        inputValue: 'sgv',
+                        id        : 'sgv    '
+                    }
+                ],
+                listeners: {
+                    afterrender: function (field) {
+                        field.setValue({browserType:_this.defaultValue});
+                    },
+                    change: function (field, newValue, oldValue) {
+                        _this.trigger('browserType:change', {browserType: newValue, sender: _this});
+                    }
+
+                }
+            };
+
+
+        var browserTypeFormField  =  Ext.create('Ext.form.ComboBox', {
+            fieldLabel: 'Variant Type',
+            name:'browserType',
             labelAlign: 'top',
-            store: speciesStore,
+            store: browserTypeStore,
             queryMode: 'local',
-            displayField: 'displayName',
+            displayField: 'name',
             valueField: 'value',
-            width: '100%',
+            width:'100%',
             listeners: {
                 afterrender: function (field) {
-//                    field.setValue('hsapiens_grch37');
                     field.setValue(_this.defaultValue);
                 },
                 change: function (field, newValue, oldValue) {
-                    _this.trigger('species:change', {species: newValue, sender: _this});
+                    _this.trigger('browserType:change', {browserType: newValue, sender: _this});
                 }
 
             }
@@ -139,7 +153,7 @@ SpeciesFilterFormPanel.prototype = {
             titleCollapse: this.titleCollapse,
             header: this.headerConfig,
             allowBlank: false,
-            items: [speciesFormField]
+            items: [browserTypeFormFieldRadio]
         });
 
     },

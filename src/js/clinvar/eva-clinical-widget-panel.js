@@ -21,7 +21,7 @@ function EvaClinicalWidgetPanel(args) {
     var _this = this;
     _.extend(this, Backbone.Events);
 
-    this.id = Utils.genId("VariantWidgetPanel");
+    this.id = Utils.genId("ClinvarWidgetPanel");
 
     this.target;
     this.tools = [];
@@ -56,12 +56,10 @@ EvaClinicalWidgetPanel.prototype = {
         this.targetDiv.appendChild(this.div);
 
         this.panel.render(this.div);
-//        this.formPanelClinvarFilterDiv = document.querySelector('.form-panel-clinical-filter-div');
         this.formPanelClinvarFilterDiv = document.querySelector('.form-panel-clinical-filter');
         this.formPanelClinvarFilter = this._createFormPanelVariantFilter(this.formPanelClinvarFilterDiv);
         this.formPanelClinvarFilter.draw();
 
-//        this.clinvarWidgetDiv = document.querySelector('.clinical-widget-div');
         this.clinvarWidgetDiv = document.querySelector('.clinical-widget');
         this.clinvarWidget = this._createClinVarWidget(this.clinvarWidgetDiv);
         this.clinvarWidget.draw();
@@ -70,6 +68,10 @@ EvaClinicalWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
+        var clinVarQuery = _this.queryParams;
+        if(!_.isUndefined(clinVarQuery)){
+            _this._updateURL(clinVarQuery);
+        }
     },
     hide: function () {
         this.panel.hide();
@@ -81,41 +83,33 @@ EvaClinicalWidgetPanel.prototype = {
             this.panel.show();
         }
     },
-    resize: function () {
+    resize: function (value) {
         var _this = this;
         if (_this.panel.isVisible()) {
-            _this.panel.doLayout();
+            value = value || 0;
+            if(value){
+                _this.panel.doLayout();
+            }
             _this.clinvarWidget.clinvarBrowserGrid.panel.doLayout()
             _this.clinvarWidget.toolTabPanel.doLayout();
             _this.formPanelClinvarFilter.panel.doLayout();
-//            var row = _this.clinvarWidget.clinvarBrowserGrid.grid.getSelectionModel().getSelection();
-//            _this.clinvarWidget.clinvarBrowserGrid.trigger("clinvar:change", {sender: _this, args: row[0].data});
+            if(_this.clinvarWidget.toolTabPanel.getActiveTab().title == 'Genomic Context'){
+                _this.clinvarWidget.resizeGV();
+            }
         }
     },
     _createPanel: function () {
         var _this = this;
         Ext.EventManager.onWindowResize(function () {
-            _this.resize();
+            _this.resize(true);
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-            border:true,
             layout: {
                 type: 'hbox',
                 align: 'fit'
             },
-//            cls: 'eva-panel',
-//            bodyStyle: 'border-width:0px;border-style:none;',
-            listeners: {
-                afterlayout: function() {
-//                    console.log(_this)
-//                    if(!_.isUndefined(_this.clinvarWidget) && _.isUndefined(_this.clinvarBrowserOriginalstate)){
-//                        var originalState = _this.clinvarWidget.clinvarBrowserGrid.panel.getSize();
-//                        var toolTabPanelState =  _this.clinvarWidget.toolTabPanel.getSize();
-//                        _.extend(_this, {clinvarBrowserOriginalstate:originalState,toolTabPanelState:toolTabPanelState})
-//                    }
-                }
-            },
+            bodyStyle: 'border-width:0px;border-style:none;',
             items:[
                 {
                     xtype: 'panel',
@@ -131,28 +125,17 @@ EvaClinicalWidgetPanel.prototype = {
                     html:'<div class="variant-browser-option-div form-panel-clinical-filter"></div>',
                     collapseDirection: 'left',
                     border:false,
+                    animCollapse:false,
                     bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){
-                            _this.resize();
-//                            if(_.isUndefined(_this.clinvarBrowserCollpaseSate)){
-//                                var collpaseState = _this.clinvarWidget.clinvarBrowserGrid.panel.getSize();
-//                                var toolTabPanelCollapseState =  _this.clinvarWidget.toolTabPanel.getSize();
-//                                _.extend(_this, {clinvarBrowserCollpaseSate:collpaseState,toolTabPanelCollapseState:toolTabPanelCollapseState})
-//                            }else{
-//                                _this.clinvarWidget.clinvarBrowserGrid.panel.setSize(_this.clinvarBrowserCollpaseSate.width,_this.clinvarBrowserCollpaseSate.height)
-//                                _this.clinvarWidget.toolTabPanel.setSize(_this.toolTabPanelCollapseState.width,_this.toolTabPanelCollapseState.height);
-//                            }
+                            _this.resize();//
                             var row = _this.clinvarWidget.clinvarBrowserGrid.grid.getSelectionModel().getSelection();
                             _this.clinvarWidget.clinvarBrowserGrid.trigger("clinvar:change", {sender: _this, args: row[0].data});
                         },
                         expand: function(){
                             _this.resize();
-                            _this.clinvarWidget.clinvarBrowserGrid.panel.setSize(_this.clinvarBrowserOriginalstate.width,_this.clinvarBrowserOriginalstate.height)
-                            _this.clinvarWidget.toolTabPanel.setSize(_this.toolTabPanelState.width,_this.toolTabPanelState.height);
-
                         }
-
                     }
                 },
                 {
@@ -169,7 +152,6 @@ EvaClinicalWidgetPanel.prototype = {
                     bodyStyle: 'border-width:0px;border-style:none;',
                 }
             ],
-//            height:1200,
             cls: 'variant-widget-panel'
         });
 
@@ -177,17 +159,12 @@ EvaClinicalWidgetPanel.prototype = {
         return  this.panel;
     },
     _createClinVarWidget: function (target) {
-//        var width = this.width - parseInt(this.div.style.paddingLeft) - parseInt(this.div.style.paddingRight);
         var evaClinVarWidget = new EvaClinVarWidget({
             width: 1020,
             target: target,
-//            headerConfig: {
-//                baseCls: 'eva-header-1'
-//            },
             headerConfig:false,
             border: true,
             browserGridConfig: {
-//                title: 'Variant Browser <span class="assembly">Assembly:GRCh37</span>',
                 title: 'ClinVar Browser <img class="title-header-icon" data-qtip="Search ClinVar (release 03-2015) using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:0px;" src="img/icon-info.png"/>',
                 border: true
             },
@@ -224,11 +201,11 @@ EvaClinicalWidgetPanel.prototype = {
     _createFormPanelVariantFilter: function (target) {
         var _this = this;
         var clinvarPositionFilter = new ClinVarPositionFilterFormPanel({
-//            testRegion: '1:14000-200000',
-//            testRegion: '3:550000-1166666',
-            testRegion: '2:48000000-49000000',
-            emptyText: ''
-
+            emptyText: '',
+            defaultFilterValue:_this.filter,
+            defaultClinvarRegion: _this.clinvarRegion,
+            defaultGeneValue:_this.gene,
+            defaultAccessionId:_this.accessionId
         });
 
 
@@ -239,18 +216,16 @@ EvaClinicalWidgetPanel.prototype = {
 
         var phenotypeFilter = new ClinVarTraitFilterFormPanel({
             collapsed: false,
-            defaultValue:'lynch syndrome'
+            defaultValue:_this.phenotype
         });
 
         clinvarSpeciesFilter.on('species:change', function (e) {
            clinvarSelectedSpecies = e.species;
         });
 
-        var clinVarConsequenceTypes = consequenceTypes;
-        clinVarConsequenceTypes[0].children[0].children[4].checked = true;
-
         var clinvarConseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
-            consequenceTypes: clinVarConsequenceTypes,
+            consequenceTypes: consequenceTypes,
+            selectAnnotCT:_this.selectSO,
             filterType:'clinVar',
             collapsed: false,
             fields: [
@@ -272,7 +247,7 @@ EvaClinicalWidgetPanel.prototype = {
                 cls: "parent",
                 value:'Deletion',
                 leaf: true,
-                checked:true,
+                checked:false,
                 iconCls :'no-icon'
             },
             {
@@ -310,6 +285,7 @@ EvaClinicalWidgetPanel.prototype = {
 
         var variationTypeFilter = new EvaClinVarFilterFormPanel({
             data: _.sortBy(variationType, 'name'),
+            defaultValue:_this.type,
             filterType:'type',
             title:'Variation Type',
             height:200,
@@ -340,7 +316,7 @@ EvaClinicalWidgetPanel.prototype = {
                 name:'Expert panel',
                 cls: "parent",
                 leaf: true,
-                checked:true,
+                checked:false,
                 value:'REVIEWED_BY_EXPERT_PANEL',
                 iconCls :'no-icon'
             },
@@ -363,6 +339,7 @@ EvaClinicalWidgetPanel.prototype = {
 
         var reviewStatusFilter = new EvaClinVarFilterFormPanel({
             data: _.sortBy(reviewStatusType, 'name'),
+            defaultValue:_this.review,
             filterType:'review',
             title:'Review Status',
             height:200,
@@ -442,7 +419,7 @@ EvaClinicalWidgetPanel.prototype = {
                 cls: "parent",
                 value:'Pathogenic',
                 leaf: true,
-                checked:true,
+                checked:false,
                 iconCls :'no-icon'
             },
             {
@@ -464,6 +441,7 @@ EvaClinicalWidgetPanel.prototype = {
 
         var  clinicalSignfcFilter = new EvaClinVarFilterFormPanel({
             data:_.sortBy(clinicalSignfcType, 'name'),
+            defaultValue:_this.significance,
             filterType:'significance',
             title:'Clinical Significance',
             height:320,
@@ -484,15 +462,11 @@ EvaClinicalWidgetPanel.prototype = {
 
         var formPanel = new EvaFormPanel({
             title: 'Filter',
-//            headerConfig: {
-//                baseCls: 'eva-header-1'
-//            },
             headerConfig:false,
             mode: 'accordion',
             target: target,
             submitButtonText: 'Submit',
             filters: [clinvarPositionFilter,clinvarConseqTypeFilter,phenotypeFilter,variationTypeFilter,clinicalSignfcFilter,reviewStatusFilter],
-//            width: 300,
             height: 1408,
             border: false,
             handlers: {
@@ -501,43 +475,14 @@ EvaClinicalWidgetPanel.prototype = {
                     _this.clinvarWidget.clinvarBrowserGrid.setLoading(true);
                     //POSITION CHECK
                     var regions = [];
-                    if (typeof e.values.region !== 'undefined') {
-                        if (e.values.region !== "") {
-                            regions = e.values.region.split(",");
+                    if (typeof e.values.clinvarRegion !== 'undefined') {
+                        if (e.values.clinvarRegion !== "") {
+                            regions = e.values.clinvarRegion.split(",");
                         }
-                        delete  e.values.region;
+                        delete  e.values.clinvarRegion;
                     }
 
                     var gene = e.values.gene;
-                    if (typeof e.values.gene !== 'undefined') {
-//                        CellBaseManager.get({
-//                            host:CELLBASE_HOST,
-//                            version:CELLBASE_VERSION,
-//                            species: 'hsapiens',
-//                            category: 'feature',
-//                            subCategory: 'gene',
-//                            query: e.values.gene.toUpperCase(),
-//                            resource: "info",
-//                            async: false,
-//                            params: {
-//                                include: 'chromosome,start,end'
-//                            },
-//                            success: function (data) {
-//                                for (var i = 0; i < data.response.length; i++) {
-//                                    var queryResult = data.response[i];
-//                                    if(!_.isEmpty(queryResult.result[0])){
-//                                        var region = new Region(queryResult.result[0]);
-//                                        regions.push(region.toString());
-//                                    }
-//                                }
-//                            }
-//                        });
-//                        delete  e.values.gene;
-
-                    }
-
-
-
 
                     //CONSEQUENCE TYPES CHECK
                     if (typeof e.values['annot-ct'] !== 'undefined') {
@@ -552,13 +497,9 @@ EvaClinicalWidgetPanel.prototype = {
                         delete  e.values['accessionId'];
                     }
 
-
                     if (regions.length > 0) {
                        e.values['region'] = regions.join(',');
-//                         e.values['region'] = _.last(regions);
-//                        regions = _.last(regions);
                     }
-
 
                     var params = _.extend(e.values,{merge:true,source:'clinvar',species:'hsapiens_grch37'});
 
@@ -569,67 +510,32 @@ EvaClinicalWidgetPanel.prototype = {
                         version:CELLBASE_VERSION,
                         category: 'hsapiens/feature/clinical',
                         resource: 'all',
-//                        query: regions,
                         params:params
                     });
 
-
-//                    _this.clinvarWidget.clinvarBrowserGrid.setLoading(true);
-////                    _this.clinvarWidget.clinvarBrowserGrid.load();
-//                    EvaManager.get({
-//                        host:CELLBASE_HOST,
-//                        version:CELLBASE_VERSION,
-//                        category: 'hsapiens/feature',
-//                        resource: 'all',
-//                        query:'clinical',
-//                        params:params,
-//                        success: function (response) {
-//                            try {
-//                                var data = response.response[0].result;
-//                                _this.clinvarWidget.clinvarBrowserGrid.load(data);
-//                                _this.clinvarWidget.clinvarBrowserGrid.setLoading(false);
-//                            } catch (e) {
-//                                console.log(e);
-//                            }
-//                        }
-//                    });
-
-
-
-//                    if (typeof e.values.accessionId !== 'undefined') {
-//                        regions = e.values.accessionId;
-//                         url = EvaManager.url({
-//                            host:CELLBASE_HOST,
-//                            version:CELLBASE_VERSION,
-//                            category: 'hsapiens/feature/clinvar',
-//                            resource: 'info',
-//                            query: regions,
-//                            params:{merge:true}
-//                        });
-//                    }
-
-                    _this.clinvarWidget.retrieveData(url,e.values)
-
-//                     var geneColumn = Ext.getCmp('clinvar-grid-gene-column');
-//                     var viewColumn = Ext.getCmp('clinvar-grid-view-column');
-//                     viewColumn.tpl =  Ext.create('Ext.XTemplate', '<tpl><a href="?Genome Browser&position='+ regions+'" target="_blank">Genome Viewer</a></tpl>')
-//                    if(!_.isUndefined(gene)){
-//                        var updateTpl = Ext.create('Ext.XTemplate', '<tpl>'+gene+'</tpl>');
-//                        geneColumn.tpl = updateTpl;
-//                        geneColumn.setVisible(true);
-//                    }else{
-//                        geneColumn.setVisible(false);
-//                    }
-
+                    _this.clinvarWidget.retrieveData(url,e.values);
+                    _this['queryParams'] = e.values;
+                    _this._updateURL(e.values);
 
                 }
             }
         });
 
-
-
-
         return formPanel;
+    },
+    _updateURL:function(values){
+        var _this = this;
+        values['clinvarRegion'] = values['region']
+        delete  values.region
+        var _tempValues = values
+        _.each(_.keys(_tempValues), function(key){
+          if(_.isArray(this[key])){
+              values[key] = this[key].join();
+          }
+        },_tempValues);
+
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Clinical Browser&'+$.param( values);;
+       window.history.pushState({path:newurl},'',newurl);
     }
 
 

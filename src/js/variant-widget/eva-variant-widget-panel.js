@@ -57,12 +57,10 @@ EvaVariantWidgetPanel.prototype = {
 
         this.panel.render(this.div);
 
-        this.variantWidgetDiv = document.querySelector('.variant-widget-div');
         this.variantWidgetDiv = document.querySelector('.variant-widget');
         this.variantWidget = this._createVariantWidget(this.variantWidgetDiv);
         this.variantWidget.draw();
 
-//        this.formPanelVariantFilterDiv = document.querySelector('.form-panel-variant-filter-div');
         this.formPanelVariantFilterDiv = document.querySelector('.form-panel-variant-filter');
         this.formPanelVariantFilter = this._createFormPanelVariantFilter(this.formPanelVariantFilterDiv);
         this.formPanelVariantFilter.draw();
@@ -71,6 +69,10 @@ EvaVariantWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
+        var variantQuery = _this.queryParams;
+        if(!_.isUndefined(variantQuery)){
+            _this._updateURL(variantQuery);
+        }
     },
     hide: function () {
         this.panel.hide();
@@ -82,41 +84,37 @@ EvaVariantWidgetPanel.prototype = {
             this.panel.show();
         }
     },
-    resize: function () {
+    resize: function (value) {
         var _this = this;
         if (_this.panel.isVisible()) {
-            _this.panel.doLayout();
+            value = value || 0;
+            if(value){
+                _this.panel.doLayout();
+            }
             _this.variantWidget.variantBrowserGrid.panel.doLayout()
             _this.variantWidget.toolTabPanel.doLayout();
             _this.formPanelVariantFilter.panel.doLayout();
             var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
+            if(_this.variantWidget.toolTabPanel.getActiveTab().title == 'Genomic Context'){
+                _this.variantWidget.resizeGV();
+            }
             _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
+
         }
     },
 
     _createPanel: function () {
         var _this = this;
         Ext.EventManager.onWindowResize(function (e) {
-            _this.resize();
+            _this.resize(true);
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-            border:true,
             layout: {
                 type: 'hbox',
                 align: 'fit'
             },
-//            cls: 'eva-panel',
-//            bodyStyle: 'border-width:0px;border-style:none;',
-            listeners: {
-                afterlayout: function() {
-//                    if(!_.isUndefined(_this.variantWidget) && _.isUndefined(_this.variantBrowserOriginalstate)){
-//                        var originalState = _this.variantWidget.variantBrowserGrid.panel.getSize();
-//                        var toolTabPanelState =  _this.variantWidget.toolTabPanel.getSize();
-//                        _.extend(_this, {variantBrowserOriginalstate:originalState,toolTabPanelState:toolTabPanelState})
-//                    }
-                }
-            },
+            bodyStyle: 'border-width:0px;border-style:none;',
             items:[
                 {
                     xtype: 'panel',
@@ -132,29 +130,15 @@ EvaVariantWidgetPanel.prototype = {
                     html:'<div class="variant-browser-option-div form-panel-variant-filter"></div>',
                     collapseDirection: 'left',
                     border:false,
+                    animCollapse:false,
                     bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
                         collapse: function(){
                             _this.resize();
-//                            if(_.isUndefined(_this.variantBrowserCollpaseSate)){
-//                                var collpaseState = _this.variantWidget.variantBrowserGrid.panel.getSize();
-//                                var toolTabPanelCollapseState =  _this.variantWidget.toolTabPanel.getSize();
-//                                _.extend(_this, {variantBrowserCollpaseSate:collpaseState,toolTabPanelCollapseState:toolTabPanelCollapseState})
-//                            }else{
-//                                _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserCollpaseSate.width,_this.variantBrowserCollpaseSate.height)
-//                                _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelCollapseState.width,_this.toolTabPanelCollapseState.height);
-//                            }
-//                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
-//                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
                         },
                         expand: function(){
                             _this.resize();
-//                            _this.variantWidget.variantBrowserGrid.panel.setSize(_this.variantBrowserOriginalstate.width,_this.variantBrowserOriginalstate.height)
-//                            _this.variantWidget.toolTabPanel.setSize(_this.toolTabPanelState.width,_this.toolTabPanelState.height);
-//                            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
-//                            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
                         }
-
                     }
                 },
                 {
@@ -179,17 +163,12 @@ EvaVariantWidgetPanel.prototype = {
         return  this.panel;
     },
     _createVariantWidget: function (target) {
-//        var width = this.width - parseInt(this.div.style.paddingLeft) - parseInt(this.div.style.paddingRight);
         var evaVariantWidget = new EvaVariantWidget({
             width: 1000,
             target: target,
-//            headerConfig: {
-//                baseCls: 'eva-header-1'
-//            },
             headerConfig:false,
             border: true,
             browserGridConfig: {
-//                title: 'Variant Browser <span class="assembly">Assembly:GRCh37</span>',
                 title: 'Variant Browser <img class="title-header-icon" data-qtip="Search the EVA variant warehouse using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth Variant Data tabs found below the main results table." style="margin-bottom:0px;" src="img/icon-info.png"/>',
                 border: true
             },
@@ -226,17 +205,18 @@ EvaVariantWidgetPanel.prototype = {
                     }
                 }
             }
-        }); //the div must exist
+        });
 
         return evaVariantWidget;
     },
     _createFormPanelVariantFilter: function (target) {
         var _this = this;
-        console.log(_this.position)
-        var positionFilter = new EvaPositionFilterFormPanel({//
-            testRegion: _this.position,
-            emptyText: ''
-
+        var positionFilter = new EvaPositionFilterFormPanel({
+            emptyText: '',
+            defaultFilterValue:_this.filter,
+            defaultRegion: _this.region,
+            defaultGeneValue:_this.gene,
+            defaultSnpValue:_this.snp
         });
 
 
@@ -269,22 +249,6 @@ EvaVariantWidgetPanel.prototype = {
             studyFilterTpl:'<tpl if="studyId"><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="http://www.ebi.ac.uk/ena/data/view/{studyId}" target="_blank">{studyId}</a>) </div><tpl else><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a></div></tpl>'
         });
 
-//        _this._loadListStudies(studyFilter, '');
-
-        studyFilter.on('studies:change', function (e) {
-            var studies = _this.formPanelVariantFilter.getValues().studies;
-            var submitButton = Ext.getCmp(_this.formPanelVariantFilter.submitButtonId);
-            if(_.isUndefined(studies)){
-                Ext.Msg.alert('','Please Select at least one study');
-                submitButton.disable();
-
-            }else{
-                submitButton.enable();
-
-            }
-
-        });
-
 
         speciesFilter.on('species:change', function (e) {
             _this._loadListStudies(studyFilter, e.species);
@@ -294,7 +258,7 @@ EvaVariantWidgetPanel.prototype = {
             if(e.species == 'agambiae_agamp4'){
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('X:10000000-11000000')
             }else{
-                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(_this.position)
+                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(_this.region)
             }
 
             //hidding tabs for species
@@ -311,17 +275,6 @@ EvaVariantWidgetPanel.prototype = {
 
             _this.variantWidget.toolTabPanel.setActiveTab(0);
 
-//            if(e.species =='hsapiens_grch37' || e.species =='hsapiens_grch38'){
-//                _this.variantWidget.variantBrowserGrid.grid.getView().getHeaderAtIndex(2).setText('dbSNP ID')
-//                _this.formPanelVariantFilter.filters[1].panel.getForm().findField("snp").setFieldLabel('dbSNP accession')
-//            }else if(_.indexOf(plantSpecies, e.species) > -1){
-//                _this.variantWidget.variantBrowserGrid.grid.getView().getHeaderAtIndex(2).setText('TransPlant ID')
-//                _this.formPanelVariantFilter.filters[1].panel.getForm().findField("snp").setFieldLabel('TransPlant ID')
-//            }else{
-//                _this.variantWidget.variantBrowserGrid.grid.getView().getHeaderAtIndex(2).setText('Submitted ID')
-//                _this.formPanelVariantFilter.filters[1].panel.getForm().findField("snp").setFieldLabel('Submitted ID')
-//            }
-
             EvaManager.get({
                 category: 'meta/studies',
                 resource: 'list',
@@ -336,11 +289,9 @@ EvaVariantWidgetPanel.prototype = {
             });
         });
 
-        //<!-------To be removed------>
-        consequenceTypes[0].children[0].children[4].checked = false;
-
         var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
             consequenceTypes: consequenceTypes,
+            selectAnnotCT:_this.selectAnnotCT,
             collapsed: true,
             fields: [
                 {name: 'name', type: 'string'}
@@ -358,7 +309,9 @@ EvaVariantWidgetPanel.prototype = {
             collapsed:true
         });
         var proteinSubScoreFilter = new EvaProteinSubstitutionScoreFilterFormPanel({
-            collapsed:true
+            collapsed:true,
+            polyphen:_this.polyphen,
+            sift:_this.sift
         });
         var conservationScoreFilter = new EvaConservationScoreFilterFormPanel({
             collapsed:true
@@ -370,17 +323,12 @@ EvaVariantWidgetPanel.prototype = {
             header: false,
             title: 'Filter',
             type: 'variantBrowser',
-//            headerConfig: {
-//                baseCls: 'eva-header-1'
-//            },
             headerConfig:false,
             mode: 'accordion',
             target: target,
             submitButtonText: 'Submit',
             submitButtonId: 'vb-submit-button',
             filters: [speciesFilter,positionFilter, conseqTypeFilter,proteinSubScoreFilter,studyFilter],
-//            filters: [speciesFilter,positionFilter,studyFilter],
-//            width: 300,
             height: 1359,
             border: false,
             handlers: {
@@ -399,56 +347,10 @@ EvaVariantWidgetPanel.prototype = {
                     }
 
                     if (typeof e.values.gene !== 'undefined') {
-//                        CellBaseManager.get({
-//                            species: cellBaseSpecies,
-//                            category: 'feature',
-//                            subCategory: 'gene',
-//                            query: e.values.gene.toUpperCase(),
-//                            resource: "info",
-//                            async: false,
-//                            params: {
-//                                include: 'chromosome,start,end'
-//                            },
-//                            success: function (data) {
-//                                for (var i = 0; i < data.response.length; i++) {
-//                                    var queryResult = data.response[i];
-//                                    if(!_.isEmpty(queryResult.result[0])){
-//                                        var region = new Region(queryResult.result[0]);
-//                                        regions.push(region.toString());
-//                                    }
-//                                }
-//                            }
-//                        });
-//                        delete  e.values.gene;
                         e.values.gene = e.values.gene.toUpperCase();
                     }
 
-                    if (typeof e.values.snp !== 'undefined') {
-//                        CellBaseManager.get({
-//                            species: cellBaseSpecies,
-//                            category: 'feature',
-//                            subCategory: 'snp',
-//                            query: e.values.snp,
-//                            resource: "info",
-//                            async: false,
-//                            params: {
-//                                include: 'chromosome,start,end'
-//                            },
-//                            success: function (data) {
-//                                for (var i = 0; i < data.response.length; i++) {
-//                                    var queryResult = data.response[i];
-//                                    var region = new Region(queryResult.result[0]);
-//                                    var fields2 = (""+region).split(/[:-]/);
-//                                    if(parseInt(fields2[1]) > parseInt(fields2[2])) {
-//                                        var swap = fields2[1];
-//                                        region.start = fields2[2];
-//                                        region.end = swap;
-//                                    }
-//                                    regions.push(region.toString());
-//                                }
-//                            }
-//                        });
-//                        delete  e.values.snp;
+                    if (typeof e.values.snp !== 'undefined') {//
                         e.values.id = e.values.snp;
                     }
 
@@ -509,9 +411,11 @@ EvaVariantWidgetPanel.prototype = {
                         }
                     });
 
+
                     if(!_.isEmpty(e.values["annot-ct"])){
                         e.values["annot-ct"] = e.values["annot-ct"].join(',');
                     }
+
 
                     if(!limitExceeds){
                         _this.variantWidget.retrieveData(url, e.values)
@@ -519,8 +423,9 @@ EvaVariantWidgetPanel.prototype = {
                         _this.variantWidget.retrieveData('', '')
                     }
 
-
                     _this.variantWidget.values = e.values;
+                    _this['queryParams'] = e.values;
+                    _this._updateURL(e.values);
 
                     var speciesArray = ['hsapiens','hsapiens_grch37','mmusculus_grcm38'];
                     if(e.values.species && speciesArray.indexOf( e.values.species ) > -1){
@@ -547,42 +452,23 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
-//            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.formPanelVariantFilter.lastSelectedValues.species)
             _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.species)
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region')
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue(_this.filter)
         });
 
         _this.on('studies:change', function (e) {
-
             var formValues = _this.formPanelVariantFilter.getValues();
             var params = {id:positionFilter.id,species:formValues.species}
-            var speciesArray = ['hsapiens','hsapiens_grch37','mmusculus_grcm38'];
-            if(speciesArray.indexOf( formValues.species ) > -1){
-                _.extend(params, {disable:false});
-//               this._disableFields(params);
-            }else{
-                _.extend(params, {disable:true});
-//                this._disableFields(params);
-            }
             _this.variantWidget.trigger('species:change', {values: formValues, sender: _this});
             _this.formPanelVariantFilter.trigger('submit', {values: formValues, sender: _this});
         });
 
 
 
-//        formPanel.panel.addDocked({
-//                                    xtype: 'toolbar',
-//                                    dock: 'top',
-//                                    height: 45,
-//                                    html: '<h5>Assembly: GRCh37</h5>',
-//                                    margin:-10
-//                                });
-
         return formPanel;
     },
     _loadListStudies: function (filter, species) {
         var _this = this;
-//        alert(species)
         var studies = [];
         var resource = '';
         if(_.isNull(species) ){
@@ -601,58 +487,35 @@ EvaVariantWidgetPanel.prototype = {
                     console.log(e);
                 }
                 filter.studiesStore.loadRawData(studies);
-                //set all records checked default
+
+
+               if(_.isEmpty(_this.selectStudies)){
+                   //set all records checked default
                 _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().selectAll()
-                //set all records checked default
-//                filter.studiesStore.each(function(rec){
-//                    if(!_.isNull(species) ){
-//                        rec.set('uiactive', true)
-//                    }
-//                });
-                _this.trigger('studies:change', {studies: studies, sender: _this});
+               }else{
+                   console.log(_this.selectStudies)
+                   var studyArray = _this.selectStudies.split(",");
+                   var items =  _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().store.data.items;
+                   var selectStudies = [];
+                   _.each(_.keys(items), function(key){
+                       if(_.indexOf(studyArray,this[key].data.studyId) > -1){
+                           selectStudies.push(this[key])
+                       }
+                   },items);
+
+                   _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().select(selectStudies)
+               }
+
+               _this.trigger('studies:change', {studies: studies, sender: _this});
             }
         });
     },
-    _disableFields: function (params) {
-
-        var snpIdField = params.id+'snp';
-        var geneField  = params.id+'gene';
-        if(params.disable){
-
-             Ext.getCmp(snpIdField).disable();
-             Ext.getCmp(snpIdField).emptyText = 'This option will be available soon for this species';
-             Ext.getCmp(snpIdField).applyEmptyText();
-    //             Ext.getCmp(snpIdField).hide();
-
-            Ext.getCmp(geneField).emptyText = 'This option will be available soon for this species ';
-            Ext.getCmp(geneField).applyEmptyText();
-            Ext.getCmp(geneField).disable();
-//             Ext.getCmp(geneField).hide();
-        }else{
-
-            if(params.species != 'hsapiens_grch37' || params.species != 'hsapiens'){
-                Ext.getCmp(snpIdField).enable();
-                Ext.getCmp(snpIdField).emptyText = '';
-                Ext.getCmp(snpIdField).applyEmptyText();
-//             Ext.getCmp(snpIdField).hide();
-
-                Ext.getCmp(geneField).enable();
-                Ext.getCmp(geneField).emptyText = ' ';
-                Ext.getCmp(geneField).applyEmptyText();
-            }else{
-                Ext.getCmp(snpIdField).enable();
-                Ext.getCmp(snpIdField).emptyText = ' ';
-                Ext.getCmp(snpIdField).applyEmptyText();
-//            Ext.getCmp(snpIdField).show();
-                Ext.getCmp(geneField).enable();
-                Ext.getCmp(geneField).emptyText = ' ';
-                Ext.getCmp(geneField).applyEmptyText();
-            }
-
-//            Ext.getCmp(geneField).show();
-        }
-
+    _updateURL:function(values){
+        var _this = this;
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Variant Browser&'+$.param( values);;
+            window.history.pushState({path:newurl},'',newurl);
     }
+
 
 };
 

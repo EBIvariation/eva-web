@@ -653,7 +653,10 @@ h4{
 .title-header-icon{
     width:16px;
     height:16px;
+}
 
+.eva-radio label {
+    font-weight:normal;
 }
 
 

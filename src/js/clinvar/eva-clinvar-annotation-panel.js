@@ -30,6 +30,95 @@ function ClinvarAnnotationPanel(args) {
 
     this.rendered = false;
 
+    this.columns = {
+        items:[
+            {
+                text: "Ensembl<br /> Gene ID",
+                dataIndex: "ensemblGeneId",
+                flex: 1.4,
+                xtype: "templatecolumn",
+                tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a>',
+            },
+            {
+                text: "Ensembl <br /> Gene Symbol",
+                dataIndex: "geneName",
+                flex: 0.9
+            },
+            {
+                text: "Ensembl <br />Transcript ID",
+                dataIndex: "ensemblTranscriptId",
+                flex: 1.3,
+                xtype: "templatecolumn",
+                tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a>',
+            },
+            {
+                text: "SO Term(s)",
+                dataIndex: "soTerms",
+                flex: 1.7,
+                renderer: function(value, meta, rec, rowIndex, colIndex, store){
+
+                    if(!_.isUndefined(value)){
+
+                        var tempArray = [];
+                        _.each(_.keys(value), function(key){
+                            tempArray.push(this[key].soName);
+                        },value);
+
+                        var groupedArr = _.groupBy(tempArray);
+                        var so_array = [];
+                        _.each(_.keys(groupedArr), function(key){
+                            var index =  _.indexOf(consequenceTypesHierarchy, key);
+//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
+//                                        so_array.push(key+' ('+this[key].length+')')
+                            if(index < 0){
+                                so_array.push(key)
+                            }else{
+                                so_array[index] = key;
+                            }
+                        },groupedArr);
+                        so_array =  _.compact(so_array);
+//                              console.log(so_array)
+                        meta.tdAttr = 'data-qtip="'+ so_array.join(',')+'"';
+                        return value ? Ext.String.format(
+                            '<tpl>'+so_array.join(',')+'</tpl>',
+                            value
+                        ) : '';
+                    }else{
+                        return '';
+                    }
+
+                }
+            },
+            {
+                text: "Biotype",
+                dataIndex: "biotype",
+                flex: 1.3
+            },
+            {
+                text: "Codon",
+                dataIndex: "codon",
+                flex: 0.6
+            },
+            {
+                text: "cDna <br />Position",
+                dataIndex: "cDnaPosition",
+                flex: 0.6
+            },
+            {
+                text: "AA <br />Change",
+                dataIndex: "aaChange",
+                flex: 0.6
+            }
+
+        ],
+        defaults: {
+            align:'left' ,
+            sortable : true
+        }
+    };
+
+    _.extend(this, args);
+
     if (this.autoRender) {
         this.render();
     }
@@ -76,6 +165,7 @@ ClinvarAnnotationPanel.prototype = {
 
           var annotData = data.annot;
           if(!_.isUndefined(params)){
+             _.extend(annotData, params);
              var annText = _.findWhere(annotation_text, {species:  params.species})
              if(!_.isEmpty(annText.text)){
                 var tooltip =  annText.text;
@@ -95,7 +185,6 @@ ClinvarAnnotationPanel.prototype = {
     _createPanel: function () {
         var _this = this;
 
-        console.log(_this)
         this.annotContainer = Ext.create('Ext.container.Container', {
             layout: 'fit'
         });
@@ -123,8 +212,6 @@ ClinvarAnnotationPanel.prototype = {
     },
     _createAnnotPanel: function (data) {
 
-        console.log(data)
-
         var _this = this;
 
         var annotData = '';
@@ -132,97 +219,8 @@ ClinvarAnnotationPanel.prototype = {
             annotData = data.consequenceTypes;
         }
 
-        console.log(annotData)
         if(annotData){
-            var annotColumns = {
-                items:[
-                    {
-                        text: "Ensembl<br /> Gene ID",
-                        dataIndex: "ensemblGeneId",
-                        flex: 1.4,
-                        xtype: "templatecolumn",
-                        tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a>',
-                    },
-                    {
-                        text: "Ensembl <br /> Gene Symbol",
-                        dataIndex: "geneName",
-                        flex: 0.9
-                    },
-                    {
-                        text: "Ensembl <br />Transcript ID",
-                        dataIndex: "ensemblTranscriptId",
-                        flex: 1.3,
-                        xtype: "templatecolumn",
-                        tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a>',
-                    },
-                    {
-                        text: "SO Term(s)",
-                        dataIndex: "soTerms",
-                        flex: 1.7,
-                        renderer: function(value, meta, rec, rowIndex, colIndex, store){
-
-                            if(!_.isUndefined(value)){
-
-                                var tempArray = [];
-                                _.each(_.keys(value), function(key){
-                                    tempArray.push(this[key].soName);
-                                },value);
-
-                                var groupedArr = _.groupBy(tempArray);
-                                var so_array = [];
-                                _.each(_.keys(groupedArr), function(key){
-                                    var index =  _.indexOf(consequenceTypesHierarchy, key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-                                    if(index < 0){
-                                        so_array.push(key)
-                                    }else{
-                                        so_array[index] = key;
-                                    }
-                                },groupedArr);
-                                so_array =  _.compact(so_array);
-//                              console.log(so_array)
-                                    meta.tdAttr = 'data-qtip="'+ so_array.join(',')+'"';
-                                return value ? Ext.String.format(
-                                    '<tpl>'+so_array.join(',')+'</tpl>',
-                                    value
-                                ) : '';
-                            }else{
-                                return '';
-                            }
-
-                        }
-                    },
-                    {
-                        text: "Biotype",
-                        dataIndex: "biotype",
-                        flex: 1.3
-                    },
-                    {
-                        text: "Codon",
-                        dataIndex: "codon",
-                        flex: 0.6
-                    },
-                    {
-                        text: "cDna <br />Position",
-                        dataIndex: "cDnaPosition",
-                        flex: 0.6
-                    },
-                    {
-                        text: "AA <br />Change",
-                        dataIndex: "aaChange",
-                        flex: 0.6
-                    }
-
-                ],
-                defaults: {
-                    align:'left' ,
-                    sortable : true
-                }
-            };
-
-
-
+            var annotColumns = _this.columns;
             var store = Ext.create("Ext.data.Store", {
                 //storeId: "GenotypeStore",
                 pageSize: 20,

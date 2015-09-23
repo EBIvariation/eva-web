@@ -90,7 +90,7 @@ ClinVarPositionFilterFormPanel.prototype = {
             margin: '0 0 0 5',
             listeners: {
                 afterrender: function (field) {
-                    field.setValue('region');
+                    field.setValue(_this.defaultFilterValue);
                 },
                 change: function (field, newValue, oldValue) {
                     _this.hideFields(_this.id+newValue);
@@ -121,32 +121,10 @@ ClinVarPositionFilterFormPanel.prototype = {
                 }
             }
         });
-        var rsId = Ext.create('Ext.form.field.TextArea', {
-            id: this.id + "rsId",
-            name: "rs",
-            margin: '0 0 0 5',
-            //allowBlank: true,
-            width: '100%',
-//            fieldLabel: 'dbSNP Accession',
-            fieldLabel: '<br />',
-            labelAlign: 'top',
-//            regex: /^[rs]s\d+$/,
-            labelSeparator : '',
-            emptyText: 'ex: RCV000030271',
-            listeners: {
-                'change': function(field, newVal, oldVal){
-//                    if(newVal){
-//                        _this.disableFields(_this.id+"rsId");
-//                    }else{
-//                        _this.enableFields();
-//                    }
-                }
-            }
-        });
 
         var regionList = Ext.create('Ext.form.field.TextArea', {
             id: this.id + "region",
-            name: "region",
+            name: "clinvarRegion",
             emptyText:  this.emptyText,
             margin: '0 0 0 5',
             //allowBlank: true,
@@ -158,6 +136,9 @@ ClinVarPositionFilterFormPanel.prototype = {
             labelSeparator : '',
             emptyText: 'ex: 2:48000000-49000000',
             listeners: {
+                'afterrender': function (field) {
+                    field.setValue(_this.defaultClinvarRegion);
+                },
                 'change': function(field, newVal, oldVal){
 //                    if(newVal){
 //                        _this.disableFields(_this.id+"region");
@@ -213,7 +194,10 @@ ClinVarPositionFilterFormPanel.prototype = {
                             items: [assemblyText,selectFilter,accessionId,regionList, gene]
                         });
 
-        this.panel.getForm().findField('region').setValue(_this.testRegion);
+
+        this.panel.getForm().findField('clinvarRegion').setValue(_this.defaultClinvarRegion);
+        this.panel.getForm().findField('accessionId').setValue(_this.defaultAccessionId);
+        this.panel.getForm().findField('gene').setValue(_this.defaultGeneValue);
 
         return this.panel;
 
@@ -256,7 +240,7 @@ ClinVarPositionFilterFormPanel.prototype = {
                 values[key] = values[key].replace(/\s/g, "");
             }
         }
-        values = _.omit(values, 'clinvarSelectFilter');
+//        values = _.omit(values, 'clinvarSelectFilter');
         return values;
     },
     clear: function () {
