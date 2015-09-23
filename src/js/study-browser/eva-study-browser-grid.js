@@ -155,6 +155,14 @@ EvaStudyBrowserGrid.prototype = {
                 features: [
                     {ftype: 'summary'}
                 ],
+                plugins: [{
+                    ptype: 'rowexpander',
+                    rowBodyTpl : new Ext.XTemplate(
+                        '<p style="padding: 2px 2px 2px 15px"><b>Platform:</b> {platform}</p>',
+                        '<p style="padding: 2px 2px 2px 15px"><b>Centre:</b> {center}</p>',
+                        '<p style="padding: 2px 2px 5px 15px"><b>Description:</b> {description}</p>'
+                    )
+                }],
                 viewConfig: {
                     emptyText: 'No records to display',
                     enableTextSelection: true,
