@@ -165,7 +165,7 @@ EvaVariantWidget.prototype = {
             this.variantStatsPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
             this.variantStatsPanel = this._createVariantStatsPanel(this.variantStatsPanelDiv);
             tabPanelItems.push({
-                title: 'Files and Statistics',
+                title: 'Files',
 //                border: 0,
                 contentEl: this.variantStatsPanelDiv
             });
