@@ -27,6 +27,9 @@
     "dalek-reporter-html": "~0.0.4",
     "grunt-cucumber": "~0.3.0",
     "zombie": "~3.1.0",
-    "grunt-casperjs": "~2.1.0"
+    "grunt-casperjs": "~2.1.0",
+    "selenium-webdriver":"2.47.0",
+    "mocha":"2.3.3",
+    "grunt-mocha-test":"0.12.7"
   }
 }

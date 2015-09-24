@@ -5,7 +5,7 @@ casper.start(URL, function() {
     this.wait(5000, function() {
         this.echo(this.getTitle());
 //        this.clickLabel('Dismiss this notice', 'button');
-        this.click('#cookie-dismiss'
+        this.click('#cookie-dismiss');
         casper.capture('tests/casperjs/screenshots/home_page.png');
 
     });
@@ -19,10 +19,22 @@ casper.thenOpen(URL+'?Variant%20Browser', function() {
         this.evaluate(function() {
             $("[name='region']").val('1:310000-500000')
         });
-        this.clickLabel('Submit', 'span');
-//        this.clickLabel('Study Browser', 'a');
+
+        this.echo(this.getTitle());
+
         this.wait(5000, function() {
-            casper.capture('tests/casperjs/screenshots/Variant_Browser_page1.png');
+            this.evaluate(function() {
+                $("[name='selectFilter']").val('gene')
+            });
+            casper.capture('tests/casperjs/screenshots/Variant_Browser_page1.png')
+        });
+
+
+
+        this.clickLabel('Submit', 'span');
+        this.clickLabel('Study Browser', 'a');
+        this.wait(5000, function() {
+            casper.capture('tests/casperjs/screenshots/study_Browser_page.png');
         });
     });
 });

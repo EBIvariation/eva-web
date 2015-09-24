@@ -80,7 +80,7 @@ EvaPositionFilterFormPanel.prototype = {
 
 
        var selectFilter =  Ext.create('Ext.form.ComboBox', {
-                     id: this.id + "selectFilter",
+                     id: "selectFilter",
                      fieldLabel: 'Filter By',
                      name:'selectFilter',
                      store: filters,

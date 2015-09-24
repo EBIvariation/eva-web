@@ -276,6 +276,17 @@ module.exports = function (grunt) {
                 }
             },
             files: ['tests/casperjs/*.js']
+        },
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec',
+                    captureFile: 'results.txt', // Optionally capture the reporter output to a file
+                    quiet: false, // Optionally suppress output to standard out (defaults to false)
+                    clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false)
+                },
+                src: ['test/mocha/*.js']
+            }
         }
     });
 
@@ -296,12 +307,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-cucumber');
     grunt.loadNpmTasks('grunt-zombie');
     grunt.loadNpmTasks('grunt-casperjs');
+    grunt.loadNpmTasks('grunt-mocha-test');
 //    grunt.loadTasks('tasks');
 
     grunt.registerTask('vendor', ['curl-dir']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','dalek','casperjs'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','dalek','casperjs','mochaTest'])
 
 
 //    grunt.registerTask('clean', ['clean:eva']);
