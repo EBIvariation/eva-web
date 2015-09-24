@@ -359,7 +359,7 @@ EvaStudyView.prototype = {
 //                        }
 //                    });
 
-                    paper_output += '<p class="publications"><a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '" target="_blank">' + pubmedId + '</a><br />'
+                    paper_output += '<a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '" target="_blank">' + pubmedId + '</a>&nbsp;&nbsp;'
                 }
             }
 
