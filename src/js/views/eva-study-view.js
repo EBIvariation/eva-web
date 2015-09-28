@@ -53,7 +53,7 @@ EvaStudyView.prototype = {
                 } catch (e) {
                     console.log(e);
                 }
-                _this._parseData();
+//                _this._parseData();
             }
         });
 
@@ -116,7 +116,12 @@ EvaStudyView.prototype = {
             data = {summaryData: summary }
             divContent =  _this._createContent(data)
         }
-        _this._draw(data,divContent)
+        _this._draw(data,divContent);
+
+        var publications = this.getPublications(data.summaryData[0].publications);
+        console.log(publications)
+        var publicationsDiv = document.querySelector("#publication-section");
+        publicationsDiv.innerHTML = publications;
 
     },
     _createContent: function (data){
@@ -157,6 +162,7 @@ EvaStudyView.prototype = {
                     '<tr><td><b>Description</b></td><td>'+data.summaryData[0].description+'</td></tr>' +
                     '<tr><td><b>Resource</b></td><td>'+projectURL+'</td></tr>' +
                     '<tr><td><b>Download</b></td><td><a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/'+data.summaryData[0].id+'" target="_blank">FTP</a></td></tr>' +
+                    '<tr><td><div><b>Publications</b></div></td><td><div id="publication-section"></div></td></tr>' +
                     '</table>'
 
 
@@ -298,6 +304,76 @@ EvaStudyView.prototype = {
                         return projects[i].url;
                     }
                 }
+        },
+        getPublications: function(data){
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('POST', 'https://somesoapurl.com/', true);
+            // Iterate over PubMed ID's (if any) and get publication from citeXplorer
+            var paper_output = '';
+            for (i = 0; i < data.length; i++) {
+                var pubmedId = data[i];
+                var pubDiv = document.querySelector("#publication-section");
+                console.log(pubDiv)
+                if(pubDiv){
+                    pubDiv.innerHTML = '<p>Attempting to retrieve publication information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '...</p>'
+                }
+
+                if(pubmedId && pubmedId !='-') {
+                    var id_type = 'PubMed';
+                    // Make the actual AJAX call...
+                    var host = METADATA_HOST.replace("/eva/webservices/rest", "");
+                    var url = host+'/ega/publications/get/paper/' + id_type + '/' + pubmedId;
+                    if(window.location.protocol != 'https:'){
+                        url = url.replace("http", "https");
+                    }
+                    $.ajax({
+                        type: 'GET',
+//                        url: 'http://ega-public.ebi.ac.uk/ega/publications/get/paper/' + id_type + '/' + pubmedId,
+                        url: url,
+                        dataType: "json",
+                        async: false,
+                        success: function(response) {
+                            if(response.data['title']) {
+                                var title = response.data['title'];
+                                var authors = response.data['authors'];
+                                var firstAuthor = response.data['first-author'];
+                                var journal = response.data['journal'];
+                                var volume = response.data['volume'];
+                                var year = response.data['year'];
+                                var pages = response.data['pages'];
+                                var pmid = response.data['pmid'];
+                                var doi = response.data['doi'];
+                                var isbn = response.data['isbn'];
+
+                                paper_output += '<p class="publications"><a class="external publication" href="http://europepmc.org/abstract/MED/' + pmid + '">' + title + '</a><br />'
+
+                                if(authors.length > 180) {
+                                    paper_output += firstAuthor + '<br />';
+                                } else {
+                                    paper_output += authors + '<br />';
+                                }
+
+                                paper_output += '<em>' + journal + '</em> <strong>' + volume + '</strong>:' + year + ' ' + pages +  '</p>';
+                            }
+
+                        },
+                        error: function(x,y,z) {
+                            pubDiv.innerHTML = '<p>Publication Information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '</a> could not be retrieved at this time.</p>';
+                            // x.responseText should have what's wrong
+                        }
+                    });
+
+//                    paper_output += '<a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '" target="_blank">' + pubmedId + '</a>&nbsp;&nbsp;'
+                }
+            }
+
+            var value = '-';
+            if(paper_output){
+                value = paper_output;
+            }
+
+            return value;
         }
 
     }
