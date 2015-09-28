@@ -53,7 +53,7 @@ EvaStudyView.prototype = {
                 } catch (e) {
                     console.log(e);
                 }
-//                _this._parseData();
+                _this._parseData();
             }
         });
 
@@ -291,6 +291,7 @@ EvaStudyView.prototype = {
                     '<tr><td><b>Variants</b></td><td>'+data.summaryData[0].numVariants+'</td></tr>' +
                     '<tr><td><b>Description</b></td><td>'+data.summaryData[0].description+'</td></tr>' +
                     '<tr><td><b>Download</b></td><td><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/'+data.summaryData[0].id+'_'+data.summaryData[0].name+'" target="_blank">FTP</a></td></tr>' +
+                    '<tr><td><div><b>Publications</b></div></td><td><div id="publication-section"></div></td></tr>'
                     '</table></div></div>'
 
             }
