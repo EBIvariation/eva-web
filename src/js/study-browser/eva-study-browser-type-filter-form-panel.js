@@ -107,7 +107,7 @@ StudyBrowserTypeFilterFormPanel.prototype = {
                         boxLabel  : 'Short Genetic Variants (<50bp)',
                         name      : 'browserType',
                         inputValue: 'sgv',
-                        id        : 'sgv    '
+                        id        : 'sgv'
                     }
                 ],
                 listeners: {

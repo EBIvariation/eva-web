@@ -121,6 +121,7 @@ EvaVariantBrowserGrid.prototype = {
         });
 
         var grid = Ext.create('Ext.grid.Panel', {
+                id:'variant-browser-grid',
                 title: this.title,
                 margin:this.margin,
                 store: this.store,
