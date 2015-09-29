@@ -278,10 +278,10 @@ EvaClinVarWidget.prototype = {
                     flex:0.4
                 },
                 {
-                    text: '<img class="header-icon" style="margin-bottom:20px;" src="img/icon-info.png"/>Variant <br/ >Affecting Gene&nbsp;&nbsp;&nbsp;&nbsp;',
+                    text: '<img class="header-icon" style="" src="img/icon-info.png"/>Affected Gene',
                     dataIndex: 'hgnc_gene',
 //                    id:'clinvar-grid-gene-column',
-                    flex:0.4,
+                    flex:0.45,
                     iconCls : 'icon-info',
                     tooltip:'Gene affected by this variant as reported by submitter',
                     renderer: function(value, meta, rec, rowIndex, colIndex, store){
