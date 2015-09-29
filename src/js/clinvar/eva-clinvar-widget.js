@@ -278,10 +278,12 @@ EvaClinVarWidget.prototype = {
                     flex:0.4
                 },
                 {
-                    text: "Ensembl <br/> Gene Symbol",
+                    text: '<img class="header-icon" style="margin-bottom:20px;" src="img/icon-info.png"/>Variant <br/ >Affecting Gene&nbsp;&nbsp;&nbsp;&nbsp;',
                     dataIndex: 'hgnc_gene',
 //                    id:'clinvar-grid-gene-column',
                     flex:0.4,
+                    iconCls : 'icon-info',
+                    tooltip:'Gene affected by this variant as reported by submitter',
                     renderer: function(value, meta, rec, rowIndex, colIndex, store){
 //                        var valueArray = [];
 //                        var clinvarList = rec.data.clinvarList
