@@ -498,7 +498,7 @@ EvaClinVarWidget.prototype = {
             startParam: this.startParam,
             attributes: attributes,
             columns:columns,
-            height:500,
+            height:400,
             samples: this.samples,
             headerConfig: this.headerConfig,
             handlers: {
