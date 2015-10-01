@@ -246,29 +246,6 @@ module.exports = function (grunt) {
             }
 
         },
-        dalek: {
-            options: {
-                browser: ['chrome'],
-                reporter: ['console','html', 'junit'],
-                dalekfile: true,
-                advanced: {
-                    browsers: [{
-                        chrome: {
-                            port: 4000
-                        }
-                    }]
-                }
-            },
-            dist: {
-                src: ['tests/dalek-test/dalek-eva-test.js']
-            }
-        },
-        cucumberjs: {
-            src: 'features',
-            options: {
-                steps: "features/step_definitions"
-            }
-        },
         casperjs: {
             options: {
                 async: {
@@ -276,18 +253,8 @@ module.exports = function (grunt) {
                 }
             },
             files: ['tests/casperjs/*.js']
-        },
-        mochaTest: {
-            test: {
-                options: {
-                    reporter: 'spec',
-                    captureFile: 'results.txt', // Optionally capture the reporter output to a file
-                    quiet: false, // Optionally suppress output to standard out (defaults to false)
-                    clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false)
-                },
-                src: ['test/mocha/*.js']
-            }
         }
+
     });
 
 
@@ -313,7 +280,7 @@ module.exports = function (grunt) {
     grunt.registerTask('vendor', ['curl-dir']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','dalek','casperjs','mochaTest'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva'])
 
 
 //    grunt.registerTask('clean', ['clean:eva']);
