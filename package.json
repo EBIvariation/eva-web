@@ -30,6 +30,8 @@
     "grunt-casperjs": "~2.1.0",
     "selenium-webdriver":"2.47.0",
     "mocha":"2.3.3",
-    "grunt-mocha-test":"0.12.7"
+    "grunt-mocha-test":"0.12.7",
+    "grunt-webdriver" : "1.0.0",
+    "webdriverio" : "3.2.4"
   }
 }
