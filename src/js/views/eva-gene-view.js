@@ -545,12 +545,12 @@ EvaGeneView.prototype = {
                                         '<div id="clinvar-variants-grid"></div>'+
                                     '</div>'+
                                 '</div>'+
-                                '<br /><div  id="genomeViewer" class="row">'+
-                                    '<div class="col-md-12" style="margin-left:10px;">'+
-//                                        '<h4 class="gene-view-h4"> Genome Viewer </h4>'+
-                                        '<div id="genome-viewer-grid"></div>'+
-                                    '</div>'+
-                                '</div>'+
+//                                '<br /><div  id="genomeViewer" class="row">'+
+//                                    '<div class="col-md-12" style="margin-left:10px;">'+
+////                                        '<h4 class="gene-view-h4"> Genome Viewer </h4>'+
+//                                        '<div id="genome-viewer-grid"></div>'+
+//                                    '</div>'+
+//                                '</div>'+
                             '</div>'+
                         '</div>'+
                     '</div>'
