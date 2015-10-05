@@ -246,33 +246,9 @@ module.exports = function (grunt) {
             }
 
         },
-        casperjs: {
-            options: {
-                async: {
-                    parallel: false
-                }
-            },
-            files: ['tests/casperjs/*.js']
-        },
-        webdriver: {
-            options: {
-                logLevel: 'command',
-                updateJob: true,
-                waitforTimeout: 12345,
-                framework: 'mocha'
-            },
-            testTargetConfigFile: {
-                configFile: 'tests/web-driver/wdio.conf.js',
-                cucumberOpts: {
-                    require: 'nothing'
-                }
-            }
-        },
         mochaTest: {
             test: {
                 options: {
-//                    reporter: 'spec',
-//                    captureFile: 'results.txt',
                     quiet: false,
                     clearRequireCache: false,
                     timeout:1500000
@@ -280,7 +256,6 @@ module.exports = function (grunt) {
                 src: ['tests/mocha/*.js']
             }
         }
-
     });
 
 
@@ -296,20 +271,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-html-build');
     grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-hub');
-    grunt.loadNpmTasks('grunt-dalek');
-    grunt.loadNpmTasks('grunt-cucumber');
-    grunt.loadNpmTasks('grunt-zombie');
-    grunt.loadNpmTasks('grunt-casperjs');
     grunt.loadNpmTasks('grunt-mocha-test');
-    grunt.loadNpmTasks('grunt-webdriver');
-//    grunt.loadTasks('tasks');
 
     grunt.registerTask('vendor', ['curl-dir']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','casperjs','mochaTest'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva'])
 
-
-//    grunt.registerTask('clean', ['clean:eva']);
+    //selenium with mocha
+    grunt.registerTask('mocha',['mochaTest']);
 
 };

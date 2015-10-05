@@ -1,27 +1,23 @@
-var assert = require('assert'),
-    test = require('selenium-webdriver/testing');
+var test = require('selenium-webdriver/testing');
 var webdriver = require('selenium-webdriver'),
     By = require('selenium-webdriver').By,
-    until = require('selenium-webdriver').until;
-
-
-
-
-function writeScreenshot(data, name) {
-    this.timeout(15000);
-    name = name || 'ss.png';
-    var screenshotPath = '/';
-    fs.writeFileSync(screenshotPath + name, data, 'base64');
-};
+    until = require('selenium-webdriver').until,
+    assert = require('selenium-webdriver/testing/assert');
+var baseURL = 'http://mysite.com/apps/eva-web/src/index.html';
 
 test.describe('European Variation Archive', function() {
-    test.it('should show home page', function() {
-
+    test.it('Home Page', function() {
         var driver = new webdriver.Builder()
             .forBrowser('firefox')
             .build();
-
-        driver.get('http://mysite.com/apps/eva-web/src/index.html');
+        driver.get(baseURL);
+        driver.findElement(By.id("cookie-dismiss")).click();
+    });
+    test.it('Variant Page', function() {
+        var driver = new webdriver.Builder()
+            .forBrowser('firefox')
+            .build();
+        driver.get(baseURL);
         driver.findElement(By.xpath("//li//a[text()='Variant Browser']")).click();
         driver.findElement(By.name("selectFilter")).click();
         driver.findElement(By.id("selectFilter-trigger-picker")).click();
@@ -29,10 +25,8 @@ test.describe('European Variation Archive', function() {
         driver.findElement(By.name("snp")).clear();
         driver.findElement(By.name("snp")).sendKeys("rs666");
         driver.findElement(By.id("vb-submit-button")).click();
-//        driver.wait(function() {
-////            return driver.findElement(By.name("selectFilter")).isDisplayed();
-//
-//        }, timeout);
-        driver.quit();
+        var value = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText();
+        assert(value).equalTo('17');
     });
+
 });
