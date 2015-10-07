@@ -279,6 +279,6 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva'])
 
     //selenium with mocha
-    grunt.registerTask('mocha',['mochaTest']);
+    grunt.registerTask('test',['mochaTest']);
 
 };

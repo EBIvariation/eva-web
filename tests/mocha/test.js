@@ -1,8 +1,10 @@
 var test = require('selenium-webdriver/testing');
+
 var webdriver = require('selenium-webdriver'),
     By = require('selenium-webdriver').By,
     until = require('selenium-webdriver').until,
     assert = require('selenium-webdriver/testing/assert');
+
 var baseURL = 'http://mysite.com/apps/eva-web/src/index.html';
 
 test.describe('European Variation Archive', function() {
@@ -13,7 +15,17 @@ test.describe('European Variation Archive', function() {
         driver.get(baseURL);
         driver.findElement(By.id("cookie-dismiss")).click();
     });
-    test.it('Variant Page', function() {
+    test.it('Study Browser', function() {
+        var driver = new webdriver.Builder()
+            .forBrowser('firefox')
+            .build();
+        driver.get(baseURL);
+        driver.findElement(By.xpath("//li//a[text()='Study Browser']")).click();
+        driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//input")).click();
+        driver.findElement(By.id("study-submit-button")).click();
+
+    });
+    test.it('Variant Browser', function() {
         var driver = new webdriver.Builder()
             .forBrowser('firefox')
             .build();
@@ -28,5 +40,4 @@ test.describe('European Variation Archive', function() {
         var value = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText();
         assert(value).equalTo('17');
     });
-
 });
