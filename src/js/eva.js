@@ -159,7 +159,7 @@ Eva.prototype = {
         }
 
         //<!---- Updating URL on Tab change ---->
-         this._updatedURL(option)
+         this.pushURL(option);
 
         switch (option) {
             case 'Home':
@@ -172,7 +172,7 @@ Eva.prototype = {
                 }else{
                     this.studyBrowserPanel  = this._createStudyBrowserPanel(this.contentDiv);
                     this.select('Study Browser');
-                    this._updatedURL(option,false)
+                    this.pushURL(option,false);
                 }
                 break;
             case 'Variant Browser':
@@ -181,7 +181,7 @@ Eva.prototype = {
                 }else{
                     this.variantWidgetPanel = this._createVariantWidgetPanel(this.contentDiv);
                     this.select('Variant Browser');
-                    this._updatedURL(option,true)
+                    this.pushURL(option,true);
                 }
                 break;
             case 'Genome Browser':
@@ -191,7 +191,7 @@ Eva.prototype = {
                     this.contentDiv.className += ' eva variant-widget-panel ocb-variant-stats-panel';
                     this.genomeViewerPanel  = this._createGenomeViewerPanel(this.contentDiv);
                 }
-                this._updatedURL(option,true)
+                this.pushURL(option,true);
                 break;
             case 'GA4GH':
                 if(this.beaconPanel){
@@ -207,7 +207,7 @@ Eva.prototype = {
                         this.clinicalWidgetPanel = this._createClinicalWidgetPanel(this.contentDiv);
                         this.select('Clinical Browser');
                         this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
-                        this._updatedURL(option,false)
+                        this.pushURL(option,false);
                     }
                 break;
         }
@@ -407,7 +407,7 @@ Eva.prototype = {
         return evaClinicalWidgetPanel;
 
     },
-    _updatedURL:function(option,replace){
+    pushURL:function(option,replace){
         replace = replace || 0;
         if(replace){
             var replaceURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+option;
