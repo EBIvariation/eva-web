@@ -136,7 +136,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     header:{
                         baseCls: 'eva-header-1'
                     },
-                    id:'study-browser-grid',
+                    id:'study-browser-grid-panel',
                     title: 'Study Browser',
                     flex: 4.8,
                     collapsible: false,
@@ -244,9 +244,9 @@ EvaStudyBrowserWidgetPanel.prototype = {
             var params;
             if(btValue.browserType == 'sv'){
                 params = {structural:true}
-                Ext.getCmp('study-browser-grid').setTitle('Structural Variants (>50bp) Browser');
+                Ext.getCmp('study-browser-grid-panel').setTitle('Structural Variants (>50bp) Browser');
             }else{
-                Ext.getCmp('study-browser-grid').setTitle('Short Genetic Variants (<50bp) Browser');
+                Ext.getCmp('study-browser-grid-panel').setTitle('Short Genetic Variants (<50bp) Browser');
             }
 
             _this._loadFilterPanelvalues(params)

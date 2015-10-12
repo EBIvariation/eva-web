@@ -139,6 +139,7 @@ EvaStudyBrowserGrid.prototype = {
         });
 
         var grid = Ext.create('Ext.grid.Panel', {
+                id:'study-browser-grid',
                 title: this.title,
                 margin:this.margin,
                 store: this.store,

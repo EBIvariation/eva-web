@@ -108,7 +108,7 @@ SpeciesFilterFormPanel.prototype = {
 
         var speciesFormField  =  Ext.create('Ext.form.ComboBox', {
             fieldLabel: 'Organism / Assembly',
-//            id:'species',
+            id: "speciesFilter",
             name:'species',
             labelAlign: 'top',
             store: speciesStore,
