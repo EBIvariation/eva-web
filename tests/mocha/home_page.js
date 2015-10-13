@@ -6,9 +6,9 @@ var webdriver = require('selenium-webdriver'),
     assert = require('selenium-webdriver/testing/assert'),
     flow = webdriver.promise.controlFlow();
 
-var baseURL = 'http://wwwint.ebi.ac.uk/eva';
+var baseURL = 'http://mysite.com/apps/eva-web/src/index.html';
 
-test.describe('European Variation Archive', function() {
+test.describe('Home Page', function() {
     var driver;
     test.before(function() {
         driver = new webdriver.Builder()
@@ -21,8 +21,15 @@ test.describe('European Variation Archive', function() {
         driver.quit();
     });
 
-    test.it('Home Page', function() {
-        driver.findElement(By.id("cookie-dismiss")).click();
+    test.it('Twitter Widget', function() {
+        driver.findElement(By.id("twitter-widget-0"));
+    });
+
+    test.it('Charts', function() {
+        driver.findElement(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
+        driver.findElement(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
+        driver.findElement(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
+        driver.findElement(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
     });
 
 });

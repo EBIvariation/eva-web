@@ -6,7 +6,7 @@ var webdriver = require('selenium-webdriver'),
     assert = require('selenium-webdriver/testing/assert'),
     flow = webdriver.promise.controlFlow();
 
-var baseURL = 'http://wwwint.ebi.ac.uk/eva';
+var baseURL = 'http://mysite.com/apps/eva-web/src/index.html';
 test.describe('Variant Browser', function() {
     var driver;
     test.before(function() {
@@ -23,6 +23,7 @@ test.describe('Variant Browser', function() {
 
 
     test.it('search by Variant ID', function() {
+        driver.findElement(By.id("cookie-dismiss")).click();
         driver.findElement(By.xpath("//li//a[text()='Variant Browser']")).click();
         //search by Variant ID
         driver.findElement(By.id("selectFilter-trigger-picker")).click();
@@ -30,6 +31,7 @@ test.describe('Variant Browser', function() {
         driver.findElement(By.name("snp")).clear();
         driver.findElement(By.name("snp")).sendKeys("rs666");
         driver.findElement(By.id("vb-submit-button")).click();
+        sleep(3);
         var value = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[1]/div[text()]")).getText();
         assert(value).equalTo('17');
     });
@@ -61,6 +63,71 @@ test.describe('Variant Browser', function() {
         sleep(3);
         var gValue = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText();
         assert(gValue).contains('13');
+    });
+
+    test.it('search by Polyphen and Sift Filters', function() {
+        driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'ProteinSubstitutionScoreFilterFormPanel')]//img[@class='x-tool-img x-tool-expand-bottom']")).click();
+        driver.findElement(By.name("polyphen")).clear();
+        driver.findElement(By.name("polyphen")).sendKeys("0.9");
+        driver.findElement(By.name("sift")).clear();
+        driver.findElement(By.name("sift")).sendKeys("0.02");
+        driver.findElement(By.id("vb-submit-button")).click();
+        sleep(3);
+        for (i = 1; i < 11; i++) {
+            var polyphen = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[7]/div[text()]")).getText();
+            var sift = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[8]/div[text()]")).getText();
+            var polyphenRegex =   new RegExp('(0.|1)', 'g');
+            var siftRegex =   new RegExp('(0.01|0)', 'g');
+            assert(polyphen).matches(polyphenRegex);
+            assert(sift).matches(siftRegex);
+        }
+        driver.findElement(By.id("selectFilter-trigger-picker")).click();
+        driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
+        driver.findElement(By.id("vb-submit-button")).click();
+        sleep(3);
+        var empty  = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")).getText();
+        assert(empty).equalTo('No records to display');
+        driver.findElement(By.name("polyphen")).clear();
+        driver.findElement(By.name("sift")).clear();
+        driver.findElement(By.id("vb-submit-button")).click();
+        sleep(3);
+    });
+
+    test.it('Annotation Tab', function() {
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table[1]//td[1]/div/a[text()]")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table[1]//td[2]/div[text()]")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table[1]//td[3]/div/a[text()]")).getText();
+        sleep(3);
+    });
+    test.it('Files Tab', function() {
+        driver.findElement(By.xpath("//span[text()='Files']")).click();
+        driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]")).click();
+        sleep(2);
+        driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//span[contains(text(), '+')]")).click();
+        driver.findElement(By.tagName("pre")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//span[contains(text(), '-')]")).click();
+    });
+
+    test.it('Genotypes Tab', function() {
+        driver.findElement(By.xpath("//span[text()='Genotypes']")).click();
+        sleep(1);
+        driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div//a[text()]")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div[@class='highcharts-container']")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//table[1]//td[1]/div[text()]")).getText();
+
+    });
+
+    test.it('Population Statistics', function() {
+        driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
+        sleep(1);
+        driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//table[1]//td[2]/div[text()]")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//table[1]//td[1]/div/div[@class='x-grid-row-expander']")).click();
+        sleep(2);
+        driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//tr[@class='x-grid-rowbody-tr']//div[@class='highcharts-container']")).getText();
+        sleep(2);
+
     });
 });
 
