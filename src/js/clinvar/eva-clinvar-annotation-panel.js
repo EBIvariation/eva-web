@@ -18,7 +18,7 @@
  */
 function ClinvarAnnotationPanel(args) {
     _.extend(this, Backbone.Events);
-    this.id = Utils.genId("ClinVarSummaryDataPanel");
+    this.id = Utils.genId("ClinVarAnnotationDataPanel");
 
     this.target;
     this.title = "Stats";

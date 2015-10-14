@@ -1,3 +1,10 @@
+var should = require('./config.js');
+var test = require('selenium-webdriver/testing'),
+    webdriver = require('selenium-webdriver'),
+    By = require('selenium-webdriver').By,
+    until = require('selenium-webdriver').until,
+    assert = require('selenium-webdriver/testing/assert'),
+    flow = webdriver.promise.controlFlow();
 
 test.describe('Study Browser', function() {
     var driver;
@@ -45,6 +52,8 @@ test.describe('Study Browser', function() {
         var regex =   new RegExp('1000', 'g');
         assert(value).matches(regex);
         driver.findElement(By.xpath("//span[text()='Reset']")).click();
+        sleep(3);
+
     });
 
     test.it('Structural Variants search by Species and Type', function() {

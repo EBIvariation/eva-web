@@ -148,7 +148,7 @@ EvaStudyView.prototype = {
 
 
                 var _filesTable  = '<div><h3>'+data.summaryData[0].name+'</h3>' +
-                    '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table class="table table-bordered study-view-table">' +
+                    '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
                     '<tr><td><b>Organism</b></td><td>'+data.summaryData[0].speciesCommonName+'</td></tr>' +
                     '<tr><td><b>Scientific Name</b></td><td>'+data.summaryData[0].speciesScientificName+'</td></tr>' +
                     '<tr><td><b>Taxonomy ID</b></td><td>'+taxonomyId.join()+'</td></tr>' +
@@ -196,7 +196,7 @@ EvaStudyView.prototype = {
                             }
                         }
                     });
-                    _filesTable += '<div><h4>Files</h4></div><table class="table table-striped"><thead><tr>' +
+                    _filesTable += '<div><h4>Files</h4></div><table id="filesTable" class="table table-striped"><thead><tr>' +
                         '<th>File Name</th>'+
                         '<th>Samples with Genotypes</th>'+
                         '<th>Variants Count</th>'+
@@ -208,13 +208,14 @@ EvaStudyView.prototype = {
 //                        '<th>View</th>'+
                         '</tr></thead><tbody>'
                     for (i = 0; i < data.filesData.length; i++) {
-                        var ftpLocation = '#';
+                        var ftpLocation = '';
 //                        if(!_.isUndefined(_.findWhere(ftpLink, {id:data.filesData[i].ftpId}))){
                         if(!_.isUndefined(_.findWhere(ftpLink, {id:data.filesData[i].fileName}))){
                             ftpLocation = _.findWhere(ftpLink, {id:data.filesData[i].fileName}).result[0];
                         }
                         var iobioLink = '';
-                        if(ftpLink.length > 0 && ftpLocation != 'ftp:/null'){
+                        if(ftpLink.length > 0 && ftpLocation != 'ftp:/null' && !_.isEmpty(ftpLocation)){
+                            console.log(ftpLocation)
                             var downloadLink = '<a href="'+ftpLocation+'" target="_blank">'+data.filesData[i].fileName+'</a>';
                             var iobio_url = 'http://ega-beacon.windows.ebi.ac.uk:8080/?vcf=http://s3.amazonaws.com/vcf.files/ExAC.r0.2.sites.vep.vcf.gz';
                             iobioLink = '<a href="?eva-iobio&url='+iobio_url+'" target="_blank">Iobio</a>'
@@ -251,7 +252,7 @@ EvaStudyView.prototype = {
                         }
 
                         _filesTable += '<tr>'+
-                            '<td>'+downloadLink+'</td>' +
+                            '<td class="link">'+downloadLink+'</td>' +
                             '<td>'+samples_count+'</td>' +
                             '<td>'+variantsCount+'</td>' +
                             '<td>'+snpsCount+'</td>' +
@@ -280,7 +281,7 @@ EvaStudyView.prototype = {
 
 
                 var _filesTable  = '<div><h3>'+data.summaryData[0].name+'</h3>' +
-                    '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table class="table table-bordered">' +
+                    '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered">' +
                     '<tr><td><b>Organism</b></td><td class="eva-capitalize">'+data.summaryData[0].speciesCommonName+'</td></tr>' +
                     '<tr><td><b>Scientific Name</b></td><td>'+data.summaryData[0].speciesScientificName+'</td></tr>' +
                     '<tr><td><b>Taxonomy ID</b></td><td>'+taxonomyId.join()+'</td></tr>' +
