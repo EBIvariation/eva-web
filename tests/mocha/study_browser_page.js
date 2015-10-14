@@ -1,12 +1,4 @@
-var test = require('selenium-webdriver/testing');
 
-var webdriver = require('selenium-webdriver'),
-    By = require('selenium-webdriver').By,
-    until = require('selenium-webdriver').until,
-    assert = require('selenium-webdriver/testing/assert'),
-    flow = webdriver.promise.controlFlow();
-
-var baseURL = 'http://mysite.com/apps/eva-web/src/index.html';
 test.describe('Study Browser', function() {
     var driver;
     test.before(function() {
@@ -27,7 +19,7 @@ test.describe('Study Browser', function() {
         driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//input")).click();
         driver.findElement(By.xpath("//span[contains(text(),'Human')]//..//input")).click();
         driver.findElement(By.id("study-submit-button")).click();
-        var rows = driver.findElement(By.xpath("//div[@id='_pagingToolbar-targetEl']//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
+        var rows = driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
             return text.split(" ")[3]
         });
 //        value = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//td[4]/div[text()]")).getText();

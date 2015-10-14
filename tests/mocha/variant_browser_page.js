@@ -1,12 +1,3 @@
-var test = require('selenium-webdriver/testing');
-
-var webdriver = require('selenium-webdriver'),
-    By = require('selenium-webdriver').By,
-    until = require('selenium-webdriver').until,
-    assert = require('selenium-webdriver/testing/assert'),
-    flow = webdriver.promise.controlFlow();
-
-var baseURL = 'http://mysite.com/apps/eva-web/src/index.html';
 test.describe('Variant Browser', function() {
     var driver;
     test.before(function() {

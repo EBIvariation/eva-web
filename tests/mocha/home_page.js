@@ -1,12 +1,5 @@
-var test = require('selenium-webdriver/testing');
 
-var webdriver = require('selenium-webdriver'),
-    By = require('selenium-webdriver').By,
-    until = require('selenium-webdriver').until,
-    assert = require('selenium-webdriver/testing/assert'),
-    flow = webdriver.promise.controlFlow();
-
-var baseURL = 'http://mysite.com/apps/eva-web/src/index.html';
+var should = require('./helper.js');
 
 test.describe('Home Page', function() {
     var driver;
@@ -22,6 +15,7 @@ test.describe('Home Page', function() {
     });
 
     test.it('Twitter Widget', function() {
+        sleep(3);
         driver.findElement(By.id("twitter-widget-0"));
     });
 
