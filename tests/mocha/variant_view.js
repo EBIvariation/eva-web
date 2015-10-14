@@ -19,15 +19,24 @@ test.describe('Variant View', function() {
         driver.quit();
     });
 
-    test.it('Content', function() {
+    test.it('Summary', function() {
         driver.get(baseURL+'?variant=1:3000017:C:T&species=hsapiens_grch37');
         sleep(10);
         var value = driver.findElement(By.xpath("//div[@id='summary-grid']")).getText();
         assert(value).contains('Human / GRCh37');
-        value = driver.findElement(By.xpath("//div[@id='consequence-types-grid']")).getText();
+    });
+
+    test.it('SO Terms Table', function() {
+        var value = driver.findElement(By.xpath("//div[@id='consequence-types-grid']")).getText();
         assert(value).contains('SO:');
-        value = driver.findElement(By.xpath("//div[@id='studies-grid']//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
+    });
+
+    test.it('Studies', function() {
+        var value = driver.findElement(By.xpath("//div[@id='studies-grid']//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
         assert(value).contains('1000');
+    });
+
+    test.it('Population Stats', function() {
         driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).getText();
         driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//table[1]//td[2]/div[text()]")).getText();
         driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//table[1]//td[1]/div/div[@class='x-grid-row-expander']")).click();

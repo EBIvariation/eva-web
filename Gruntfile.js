@@ -253,7 +253,7 @@ module.exports = function (grunt) {
                     clearRequireCache: false,
                     timeout:1500000
                 },
-                src: ['tests/mocha/all_*.js']
+                src: ['tests/mocha/*.js']
             }
         }
     });

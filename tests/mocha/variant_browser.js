@@ -93,9 +93,9 @@ test.describe('Variant Browser', function() {
     });
 
     test.it('Annotation Tab', function() {
-        driver.findElement(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table[1]//td[1]/div/a[text()]")).getText();
-        driver.findElement(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table[1]//td[2]/div[text()]")).getText();
-        driver.findElement(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table[1]//td[3]/div/a[text()]")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[text()]")).getText();
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div/a[text()]")).getText();
         sleep(3);
     });
     test.it('Files Tab', function() {
