@@ -19,8 +19,6 @@ test.describe('Variant Browser', function() {
         driver.quit();
     });
 
-
-
     test.it('search by Variant ID', function() {
         driver.findElement(By.id("cookie-dismiss")).click();
         driver.findElement(By.xpath("//li//a[text()='Variant Browser']")).click();
@@ -73,12 +71,14 @@ test.describe('Variant Browser', function() {
         driver.findElement(By.id("vb-submit-button")).click();
         sleep(3);
         for (i = 1; i < 11; i++) {
-            var polyphen = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[7]/div[text()]")).getText();
-            var sift = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[8]/div[text()]")).getText();
-            var polyphenRegex =   new RegExp('(0.|1)', 'g');
-            var siftRegex =   new RegExp('(0.01|0)', 'g');
-            assert(polyphen).matches(polyphenRegex);
-            assert(sift).matches(siftRegex);
+             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[7]/div[text()]")).getText().then(function(text) {
+                 var polyphen = parseFloat(text);
+                return assert(polyphen).greaterThanEqualTo(0.9);
+            });
+            driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[8]/div[text()]")).getText().then(function(text) {
+                var sift = parseFloat(text);
+                return assert(sift).lessThanEqualTo(0.02);
+            });
         }
         driver.findElement(By.id("selectFilter-trigger-picker")).click();
         driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
@@ -88,15 +88,14 @@ test.describe('Variant Browser', function() {
         assert(empty).equalTo('No records to display');
         driver.findElement(By.name("polyphen")).clear();
         driver.findElement(By.name("sift")).clear();
-        driver.findElement(By.id("vb-submit-button")).click();
-        sleep(3);
     });
 
     test.it('Annotation Tab', function() {
+        driver.findElement(By.xpath("//span[text()='Reset']")).click();
+        sleep(3);
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")).getText();
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[text()]")).getText();
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div/a[text()]")).getText();
-        sleep(3);
     });
     test.it('Files Tab', function() {
         driver.findElement(By.xpath("//span[text()='Files']")).click();

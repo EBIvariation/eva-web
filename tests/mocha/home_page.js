@@ -6,13 +6,20 @@ var test = require('selenium-webdriver/testing'),
     assert = require('selenium-webdriver/testing/assert'),
     flow = webdriver.promise.controlFlow();
 
+
 test.describe('Home Page', function() {
     var driver;
+    var chai;
+    var chaiWebdriver;
     test.before(function() {
         driver = new webdriver.Builder()
             .forBrowser('firefox')
             .build();
         driver.get(baseURL);
+        chai = require('chai');
+        chaiWebdriver = require('chai-webdriver');
+        chai.use(chaiWebdriver(driver));
+
     });
 
     test.after(function() {
@@ -23,6 +30,8 @@ test.describe('Home Page', function() {
         sleep(3);
         driver.findElement(By.id("cookie-dismiss")).click();
         driver.findElement(By.id("twitter-widget-0"));
+        chai.expect('.twitter-timeline-rendered').dom.to.have.count(1)
+
     });
 
     test.it('Statistics Charts', function() {
