@@ -7,42 +7,87 @@ var test = require('selenium-webdriver/testing'),
     flow = webdriver.promise.controlFlow();
 
 test.describe('Study View', function() {
-    var driver;
+    var driver1;
+    var driver2;
     test.before(function() {
-        driver = new webdriver.Builder()
+        driver1 = new webdriver.Builder()
             .forBrowser('firefox')
             .build();
-        driver.get(baseURL);
+        driver1.manage().window().maximize();
+        driver1.get(baseURL); 
+        driver2 = new webdriver.Builder()
+            .forBrowser('chrome')
+            .build();
+        driver2.manage().window().maximize();
+        driver2.get(baseURL);
     });
 
     test.after(function() {
-        driver.quit();
+        driver1.quit();
+        driver2.quit();
     });
 
     test.it('EVA Study Summary Table', function() {
-        driver.get(baseURL+'?eva-study=PRJEB4019');
-        sleep(10);
-        var value = driver.findElement(By.xpath("//table[@id='summaryTable']")).getText();
-        assert(value).contains('Organism');
-        value = driver.findElement(By.xpath("//div[@id='publication-section']")).getText();
-        assert(value).contains('Nature');
+        driver1.get(baseURL+'?eva-study=PRJEB4019');
+        driver1.wait(until.elementLocated(By.id("cookie-dismiss")), 10000).then(function(text) {
+            driver1.findElement(By.id("cookie-dismiss")).click();
+        });
+        driver1.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
+            var value = driver1.findElement(By.xpath("//table[@id='summaryTable']")).getText();
+            assert(value).contains('Organism');
+        });
+        driver1.wait(until.elementLocated(By.id("publication-section")), 15000).then(function(text) {
+            var value = driver1.findElement(By.xpath("//div[@id='publication-section']")).getText();
+            assert(value).contains('Nature');
+        });
 
+        driver2.get(baseURL+'?eva-study=PRJEB4019');
+        driver2.wait(until.elementLocated(By.id("cookie-dismiss")), 10000).then(function(text) {
+            driver2.findElement(By.id("cookie-dismiss")).click();
+        });
+        driver2.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
+            var value = driver2.findElement(By.xpath("//table[@id='summaryTable']")).getText();
+            assert(value).contains('Organism');
+        });
+        driver2.wait(until.elementLocated(By.id("publication-section")), 15000).then(function(text) {
+            var value = driver2.findElement(By.xpath("//div[@id='publication-section']")).getText();
+            assert(value).contains('Nature');
+        });
     });
 
     test.it('EVA Study Files Table', function() {
-        var value = driver.findElement(By.xpath("//table[@id='filesTable']")).getText();
-        assert(value).contains('File Name');
-        value = driver.findElement(By.xpath("//table[@id='filesTable']//td[@class='link']/a")).getText();
-
+        driver1.wait(until.elementLocated(By.xpath("//table[@id='filesTable']")), 10000).then(function(text) {
+            var value = driver1.findElement(By.xpath("//table[@id='filesTable']")).getText();
+            assert(value).contains('File Name');
+            value = driver1.findElement(By.xpath("//table[@id='filesTable']//td[@class='link']/a")).getText();
+        });
+        driver2.wait(until.elementLocated(By.xpath("//table[@id='filesTable']")), 10000).then(function(text) {
+            var value = driver2.findElement(By.xpath("//table[@id='filesTable']")).getText();
+            assert(value).contains('File Name');
+            value = driver2.findElement(By.xpath("//table[@id='filesTable']//td[@class='link']/a")).getText();
+        });
     });
 
     test.it('DGVA Study Summary Table', function() {
-        driver.get(baseURL+'?dgva-study=estd199');
-        sleep(10);
-        var value = driver.findElement(By.xpath("//table[@id='summaryTable']")).getText();
-        assert(value).contains('Organism');
-        value = driver.findElement(By.xpath("//div[@id='publication-section']")).getText();
-        assert(value).contains('Nature');
+        driver1.get(baseURL+'?dgva-study=estd199');
+        driver1.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
+            var value = driver1.findElement(By.xpath("//table[@id='summaryTable']")).getText();
+            assert(value).contains('Organism');
+        });
+        driver1.wait(until.elementLocated(By.id("publication-section")), 15000).then(function(text) {
+            var value = driver1.findElement(By.xpath("//div[@id='publication-section']")).getText();
+            assert(value).contains('Nature');
+        }); 
+        
+        driver2.get(baseURL+'?dgva-study=estd199');
+        driver2.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
+            var value = driver2.findElement(By.xpath("//table[@id='summaryTable']")).getText();
+            assert(value).contains('Organism');
+        });
+        driver2.wait(until.elementLocated(By.id("publication-section")), 15000).then(function(text) {
+            var value = driver2.findElement(By.xpath("//div[@id='publication-section']")).getText();
+            assert(value).contains('Nature');
+        });
     });
 
 

@@ -8,37 +8,71 @@ var test = require('selenium-webdriver/testing'),
 
 
 test.describe('Home Page', function() {
-    var driver;
+    var driver1;
+    var driver2;
     var chai;
     var chaiWebdriver;
     test.before(function() {
-        driver = new webdriver.Builder()
+        driver1 = new webdriver.Builder()
             .forBrowser('firefox')
             .build();
-        driver.get(baseURL);
+        driver1.manage().window().maximize();
+        driver1.get(baseURL);
         chai = require('chai');
         chaiWebdriver = require('chai-webdriver');
-        chai.use(chaiWebdriver(driver));
-
+        driver2 = new webdriver.Builder()
+            .forBrowser('chrome')
+            .build();
+        driver2.manage().window().maximize();
+        driver2.get(baseURL);
+        chai.use(chaiWebdriver(driver1));
+        chai.use(chaiWebdriver(driver2));
     });
 
     test.after(function() {
-        driver.quit();
+        driver1.quit();
+        driver2.quit();
     });
 
-    test.it('Twitter Widget', function() {
-        sleep(3);
-        driver.findElement(By.id("cookie-dismiss")).click();
-        driver.findElement(By.id("twitter-widget-0"));
-        chai.expect('.twitter-timeline-rendered').dom.to.have.count(1)
-
+    test.it('Twitter Widget present and rendered only once', function() {
+        driver1.findElement(By.id("cookie-dismiss")).click();
+        driver1.findElement(By.id("twitter-widget-0"));
+        driver1.wait(until.elementLocated(By.className("twitter-timeline-rendered")), 10000).then(function(text) {
+            chai.expect('.twitter-timeline-rendered').dom.to.have.count(1)
+        });
+        driver2.findElement(By.id("cookie-dismiss")).click();
+        driver2.findElement(By.id("twitter-widget-0"));
+        driver2.wait(until.elementLocated(By.className("twitter-timeline-rendered")), 10000).then(function(text) {
+            chai.expect('.twitter-timeline-rendered').dom.to.have.count(1)
+        });
     });
 
-    test.it('Statistics Charts', function() {
-        driver.findElement(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
-        driver.findElement(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
-        driver.findElement(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
-        driver.findElement(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
+    test.it('Statistics all four charts rendered', function() {
+        driver1.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
+            driver1.findElement(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
+        });
+        driver1.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
+            driver1.findElement(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
+        });
+        driver1.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
+            driver1.findElement(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
+        });
+        driver1.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
+            driver1.findElement(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
+        });
+
+        driver2.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
+            driver2.findElement(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
+        });
+        driver2.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
+            driver2.findElement(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
+        });
+        driver2.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
+            driver2.findElement(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
+        });
+        driver2.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
+            driver2.findElement(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
+        });
     });
 
 });

@@ -205,7 +205,7 @@ EvaStudyView.prototype = {
                         '<th>Pass Count</th>'+
                         '<th>Transitions/Transversions Ratio</th>'+
                         '<th>Mean Quality</th>'+
-//                        '<th>View</th>'+
+                        '<th>View</th>'+
                         '</tr></thead><tbody>'
                     for (i = 0; i < data.filesData.length; i++) {
                         var ftpLocation = '';
@@ -213,11 +213,12 @@ EvaStudyView.prototype = {
                         if(!_.isUndefined(_.findWhere(ftpLink, {id:data.filesData[i].fileName}))){
                             ftpLocation = _.findWhere(ftpLink, {id:data.filesData[i].fileName}).result[0];
                         }
-                        var iobioLink = '';
+                        var iobioLink = 'NA';
                         if(ftpLink.length > 0 && ftpLocation != 'ftp:/null' && !_.isEmpty(ftpLocation)){
                             console.log(ftpLocation)
                             var downloadLink = '<a href="'+ftpLocation+'" target="_blank">'+data.filesData[i].fileName+'</a>';
-                            var iobio_url = 'http://ega-beacon.windows.ebi.ac.uk:8080/?vcf=http://s3.amazonaws.com/vcf.files/ExAC.r0.2.sites.vep.vcf.gz';
+//                            var iobio_url = 'http://ega-beacon.windows.ebi.ac.uk:8080/?vcf=http://s3.amazonaws.com/vcf.files/ExAC.r0.2.sites.vep.vcf.gz';
+                            iobio_url = 'http://ega-beacon.windows.ebi.ac.uk:8080/?vcf='+ftpLocation;
                             iobioLink = '<a href="?eva-iobio&url='+iobio_url+'" target="_blank">Iobio</a>'
                         }else{
                             var downloadLink = data.filesData[i].fileName;
@@ -260,7 +261,7 @@ EvaStudyView.prototype = {
                             '<td>'+passCount+'</td>' +
                             '<td>'+transitionsCount+'</td>' +
                             '<td>'+meanQuality+'</td>' +
-//                            '<td>'+iobioLink+'</td>' +
+                            '<td>'+iobioLink+'</td>' +
                             '</tr>'
                     }
                     _filesTable += '</tbody></table>'
