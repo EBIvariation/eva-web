@@ -324,9 +324,9 @@ EvaVariantPopulationStatsPanel.prototype = {
         grid.view.on('expandbody', function(rowNode, record, body, rowIndex){
 
             var genotypesCount = record.data.genotypesCount;
-            var divID = 'population-stats-grid-'+record.data.id;
+            var divID = 'population-stats-grid-'+record.data.id+data.fileId;
             if(!_.isEmpty(genotypesCount)){
-                var divID = 'population-stats-grid-'+record.data.id;
+//                var divID = 'population-stats-grid-'+record.data.id;
                 body.innerHTML = '<div style="width:800px;" id="'+divID+'"></div>';
                 var genotypesCountArray=[];
                 _.each(_.keys(genotypesCount), function(key){
