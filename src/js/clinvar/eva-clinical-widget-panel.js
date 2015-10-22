@@ -513,6 +513,8 @@ EvaClinicalWidgetPanel.prototype = {
                         params:params
                     });
 
+
+
                     _this.clinvarWidget.retrieveData(url,e.values);
                     _this['queryParams'] = e.values;
                     _this._updateURL(e.values);

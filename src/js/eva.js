@@ -347,11 +347,11 @@ Eva.prototype = {
         var filter = 'region';
         var accessionId = 'RCV000030271';
         var gene = 'MSH6';
-        var so = 'frameshift_variant';
-        var phenotype = 'lynch syndrome';
-        var type = 'Deletion';
-        var significance = 'Pathogenic';
-        var review = 'REVIEWED_BY_EXPERT_PANEL';
+        var so = '';
+        var phenotype = '';
+        var type = '';
+        var significance = '';
+        var review = '';
 
 
         if(!_.isEmpty($.urlParam('clinvarRegion'))){
