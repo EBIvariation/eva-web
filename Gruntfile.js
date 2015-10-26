@@ -254,9 +254,20 @@ module.exports = function (grunt) {
                     clearRequireCache: false,
                     timeout:1500000
                 },
+
                 src: ['tests/mocha/*.js']
+
+            }
+        },
+        exec: {
+            firefox: {
+                 cmd: 'env BROWSER=firefox  grunt test --force'
+            },
+            chrome: {
+                cmd: 'env BROWSER=chrome  grunt test --force'
             }
         }
+
     });
 
 
@@ -273,13 +284,16 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-hub');
     grunt.loadNpmTasks('grunt-mocha-test');
-
+    grunt.loadNpmTasks('grunt-exec');
     grunt.registerTask('vendor', ['curl-dir']);
 
-    // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva'])
 
     //selenium with mocha
     grunt.registerTask('test',['mochaTest']);
+
+    // Default task.
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','exec'])
+
+
 
 };

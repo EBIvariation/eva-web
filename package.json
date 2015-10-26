@@ -24,6 +24,8 @@
     "selenium-webdriver":"2.47.0",
     "mocha":"2.3.3",
     "grunt-mocha-test":"0.12.7",
-    "chai-webdriver":"1.1.1"
+    "chai-webdriver":"1.1.1",
+    "grunt-shell-spawn" : "0.3.10",
+    "grunt-exec": "0.4.6"
   }
 }
