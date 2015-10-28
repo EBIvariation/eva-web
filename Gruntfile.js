@@ -286,8 +286,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-exec');
     grunt.registerTask('vendor', ['curl-dir']);
-
-
     //selenium with mocha
     grunt.registerTask('test',['mochaTest']);
 
