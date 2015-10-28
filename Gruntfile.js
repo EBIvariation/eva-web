@@ -261,10 +261,10 @@ module.exports = function (grunt) {
         },
         exec: {
             firefox: {
-                 cmd: 'env BROWSER=firefox  grunt test --force'
+                 cmd: 'env BROWSER=firefox  grunt test  --force --colors'
             },
             chrome: {
-                cmd: 'env BROWSER=chrome  grunt test --force'
+                cmd: 'env BROWSER=chrome  grunt test  --force --colors'
             }
         }
 
