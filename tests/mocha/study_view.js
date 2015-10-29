@@ -25,6 +25,7 @@ test.describe('Study View ('+config.browser()+')', function() {
         });
 
         test.it('Files Table should not be empty', function() { checkFilesTable(driver) });
+        test.it('Files Table should contain links', function() { checkFilesTableLinks(driver) });
     });
 
     test.describe('DGVA Study', function() {
@@ -64,7 +65,14 @@ function checkFilesTable(driver){
     driver.wait(until.elementLocated(By.xpath("//table[@id='filesTable']")), 10000).then(function(text) {
         var value = driver.findElement(By.xpath("//table[@id='filesTable']")).getText();
         assert(value).contains('File Name');
-        value = driver.findElement(By.xpath("//table[@id='filesTable']//td[@class='link']/a")).getText();
+    });
+
+    return driver;
+}
+
+function checkFilesTableLinks(driver){
+    driver.wait(until.elementLocated(By.xpath("//table[@id='filesTable']")), 10000).then(function(text) {
+        var value = driver.findElement(By.xpath("//table[@id='filesTable']//td[@class='link']/a")).getText();
         assert(value).contains('vcf.gz');
     });
 
