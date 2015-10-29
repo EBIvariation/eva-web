@@ -28,16 +28,16 @@ function twitterWidgetRendered(driver){
 
 function statisticsChartsRendered(driver){
     driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
+        chai.expect('div[id="eva-statistics-chart-species"] > div[class="highcharts-container"]').dom.to.have.count(1);
     });
     driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
+        chai.expect('div[id="eva-statistics-chart-type"] > div[class="highcharts-container"]').dom.to.have.count(1);
     });
     driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")).getText();
+        chai.expect('div[id="dgva-statistics-chart-species"] > div[class="highcharts-container"]').dom.to.have.count(1);
     });
     driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")).getText();
+        chai.expect('div[id="dgva-statistics-chart-type"] > div[class="highcharts-container"]').dom.to.have.count(1);
     });
 
     return driver;
