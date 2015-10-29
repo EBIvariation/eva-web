@@ -16,11 +16,14 @@ test.describe('Study Browser ('+config.browser()+')', function() {
     test.after(function() {
         config.shutdownDriver(driver);
     });
-    test.it('Short Genetic Variants search by Species and Type', function() { sgvStudySearchBySpeciesType(driver) });
-
-    test.it('Short Genetic Variants search search by Text', function() { studySearchByText(driver) });
-
-    test.it('Structural Variants search by Species and Type', function() { svStudySearchBySpeciesType(driver) });
+    test.describe('Short Genetic Variants', function() {
+        test.it('should be able to search by Species and Type', function() { sgvStudySearchBySpeciesType(driver) });
+        test.it('should be able to search search by Text', function() { sgvStudySearchByText(driver) });
+    });
+    test.describe('Structural Variants', function() {
+        test.it('should be able to search by Species and Type', function() { svStudySearchBySpeciesType(driver) });
+        test.it('should be able to search search by Text', function() { svStudySearchByText(driver) });
+    });
 
 });
 
@@ -73,8 +76,24 @@ function svStudySearchBySpeciesType(driver){
     return driver;
 }
 
-function studySearchByText(driver){
+function sgvStudySearchByText(driver){
     driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.findElement(By.name("search")).clear();
+    driver.findElement(By.name("search")).sendKeys("1000");
+    driver.findElement(By.id("study-submit-button")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")), 10000).then(function(text) {
+        value = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")).getText();
+        var regex =   new RegExp('1000', 'g');
+        assert(value).matches(regex);
+    });
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+
+    return driver;
+}
+
+function svStudySearchByText(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
     driver.findElement(By.name("search")).clear();
     driver.findElement(By.name("search")).sendKeys("1000");
     driver.findElement(By.id("study-submit-button")).click();

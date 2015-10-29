@@ -255,7 +255,7 @@ module.exports = function (grunt) {
                     timeout:1500000
                 },
 
-                src: ['tests/mocha/*.js']
+                src: ['tests/mocha/study_b*.js']
 
             }
         },

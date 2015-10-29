@@ -13,13 +13,13 @@ test.describe('Variant View ('+config.browser()+')', function() {
         config.shutdownDriver(driver);
     });
 
-    test.it('Summary', function() { checkSummaryGrid(driver) });
+    test.it('Summary should not be empty', function() { checkSummaryGrid(driver) });
 
-    test.it('SO Terms Table', function() { checkSOTermGrid(driver) });
+    test.it('SO Terms Table should not be empty', function() { checkSOTermGrid(driver) });
 
-    test.it('Studies', function() { checkStudyGrid(driver) });
+    test.it('Studies Grid should not be empty', function() { checkStudyGrid(driver) });
 
-    test.it('Population Stats', function() { checkPopulationGrid(driver) });
+    test.it('Population Stats Grid should not be empty', function() { checkPopulationGrid(driver) });
 
 });
 

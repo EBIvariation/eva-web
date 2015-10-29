@@ -14,29 +14,29 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
         config.shutdownDriver(driver);
     });
 
-    test.it('search by ClinVar Accession', function() { clinVarSearchByAccession(driver) });
+    test.it('should be able to search by ClinVar Accession', function() { clinVarSearchByAccession(driver) });
 
-    test.it('search by Chromosomal Location', function() { clinVarSearchByLocation(driver) });
+    test.it('should be able to search by Chromosomal Location', function() { clinVarSearchByLocation(driver) });
 
-    test.it('search by Gene', function() { clinVarSearchByGene(driver) });
+    test.it('should be able to search by Gene', function() { clinVarSearchByGene(driver) });
 
-    test.it('search by Trait', function() { clinVarSearchByTrait(driver) });
+    test.it('should be able to search by Trait', function() { clinVarSearchByTrait(driver) });
 
-    test.it('Filter by Consequence Type', function() { clinVarFilterByConseqType(driver) });
+    test.it('should be able to filter by Consequence Type', function() { clinVarFilterByConseqType(driver) });
 
-    test.it('Filter by Variation Type', function() { clinVarFilterByVariationType(driver) });
+    test.it('should be able to filter by Variation Type', function() { clinVarFilterByVariationType(driver) });
 
-    test.it('Filter by Clinical Significance', function() { clinVarFilterByClincalSignificance(driver) });
+    test.it('should be able to filter by Clinical Significance', function() { clinVarFilterByClincalSignificance(driver) });
 
-    test.it('Filter by Review Status', function() { clinVarFilterByReviewStatus(driver) });
+    test.it('should be able to filter by Review Status', function() { clinVarFilterByReviewStatus(driver) });
 
-    test.it('Summary Tab', function() { clinVarSummaryTab(driver) });
+    test.it('Summary Tab should not be empty', function() { clinVarSummaryTab(driver) });
 
-    test.it('Clinical Assertion Tab', function() { clinVarAssertionTab(driver) });
+    test.it('Clinical Assertion Tab should not be empty', function() { clinVarAssertionTab(driver) });
 
-    test.it('Annotation Tab', function() { clinVarAnnotationTab(driver) });
+    test.it('Annotation Tab should not be empty', function() { clinVarAnnotationTab(driver) });
 
-    test.it('External Links Tab', function() { clinVarLinksTab(driver) });
+    test.it('External Links Tab should not be empty', function() { clinVarLinksTab(driver) });
 });
 
 function clinVarSearchByAccession(driver){
@@ -172,6 +172,9 @@ function clinVarLinksTab(driver){
     driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarLinksDataPanel')]//table")), 10000).then(function(text) {
         value = driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarLinksDataPanel')]//table")).getText();
         assert(value).contains('Database');
+        assert(value).contains('Accession');
+        assert(value).contains('Type');
+        assert(value).contains('Status');
     });
 
     return driver;

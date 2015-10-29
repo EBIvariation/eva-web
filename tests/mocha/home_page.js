@@ -11,7 +11,7 @@ test.describe('Home Page ('+config.browser()+')', function() {
         config.shutdownDriver(driver);
     });
 
-    test.it('Twitter Widget present and rendered only once', function() { twitterWidgetRendered(driver)});
+    test.it('Twitter Widget should  be rendered only once', function() { twitterWidgetRendered(driver)});
 
     test.it('Statistics all four charts rendered', function() {statisticsChartsRendered(driver)});
 

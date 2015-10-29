@@ -12,14 +12,14 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         config.shutdownDriver(driver);
     });
 
-    test.it('search by Variant ID', function() { variantSearchById(driver) });
-    test.it('search by Species', function() { variantSearchBySpecies(driver) });
-    test.it('search by Gene', function() { variantSearchByGene(driver) });
-    test.it('Filter by Polyphen and Sift Filters', function() { variantFilterByPolyphenSift(driver) });
-    test.it('Annotation Tab', function() { variantAnnotationTab(driver) });
-    test.it('Files Tab', function() { variantFilesTab(driver) });
-    test.it('Genotypes Tab', function() { variantGenotypesTab(driver) });
-    test.it('Population Statistics', function() { variantPopulationTab(driver) });
+    test.it('should be able to search by Variant ID', function() { variantSearchById(driver) });
+    test.it('should be able to search by Species', function() { variantSearchBySpecies(driver) });
+    test.it('should be able to search by Gene', function() { variantSearchByGene(driver) });
+    test.it('should be able to filter by Polyphen and Sift Filters', function() { variantFilterByPolyphenSift(driver) });
+    test.it('Annotation Tab should not be empty', function() { variantAnnotationTab(driver) });
+    test.it('Files Tab should not be empty', function() { variantFilesTab(driver) });
+    test.it('Genotypes Tab should not be empty', function() { variantGenotypesTab(driver) });
+    test.it('Population Statistics should not be empty', function() { variantPopulationTab(driver) });
 });
 
 function variantSearchById(driver){
