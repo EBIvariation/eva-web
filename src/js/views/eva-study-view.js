@@ -254,14 +254,14 @@ EvaStudyView.prototype = {
 
                         _filesTable += '<tr>'+
                             '<td class="link">'+downloadLink+'</td>' +
-                            '<td>'+samples_count+'</td>' +
-                            '<td>'+variantsCount+'</td>' +
-                            '<td>'+snpsCount+'</td>' +
-                            '<td>'+indelsCount+'</td>' +
-                            '<td>'+passCount+'</td>' +
-                            '<td>'+transitionsCount+'</td>' +
-                            '<td>'+meanQuality+'</td>' +
-                            '<td>'+iobioLink+'</td>' +
+                            '<td><div class="samples_count">'+samples_count+'</div></td>' +
+                            '<td><div class="variants_ount">'+variantsCount+'</div></td>' +
+                            '<td><div class="snps_count">'+snpsCount+'</div></td>' +
+                            '<td><div class="indels_count">'+indelsCount+'</div></td>' +
+                            '<td><div class="pass_count">'+passCount+'</div></td>' +
+                            '<td><div class="transition_count">'+transitionsCount+'</div></td>' +
+                            '<td><div class="mean_count">'+meanQuality+'</div></td>' +
+                            '<td><div class="iobio_link">'+iobioLink+'</div></td>' +
                             '</tr>'
                     }
                     _filesTable += '</tbody></table>'
@@ -279,20 +279,18 @@ EvaStudyView.prototype = {
                     }
                 }
 
-
-
                 var _filesTable  = '<div><h3>'+data.summaryData[0].name+'</h3>' +
                     '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered">' +
-                    '<tr><td><b>Organism</b></td><td class="eva-capitalize">'+data.summaryData[0].speciesCommonName+'</td></tr>' +
-                    '<tr><td><b>Scientific Name</b></td><td>'+data.summaryData[0].speciesScientificName+'</td></tr>' +
-                    '<tr><td><b>Taxonomy ID</b></td><td>'+taxonomyId.join()+'</td></tr>' +
-                    '<tr><td><b>Study Type</b></td><td>'+data.summaryData[0].typeName+'</td></tr>' +
-                    '<tr><td><b>Experiment Type</b></td><td>'+data.summaryData[0].experimentType+'</td></tr>' +
-                    '<tr><td><b>Platform</b></td><td>'+data.summaryData[0].platform+'</td></tr>' +
-                    '<tr><td><b>Assembly</b></td><td>'+data.summaryData[0].assembly+'</td></tr>' +
-                    '<tr><td><b>Variants</b></td><td>'+data.summaryData[0].numVariants+'</td></tr>' +
-                    '<tr><td><b>Description</b></td><td>'+data.summaryData[0].description+'</td></tr>' +
-                    '<tr><td><b>Download</b></td><td><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/'+data.summaryData[0].id+'_'+data.summaryData[0].name+'" target="_blank">FTP</a></td></tr>' +
+                    '<tr><td><b>Organism</b></td><td class="eva-capitalize"><div id="organism-div">'+data.summaryData[0].speciesCommonName+'</div></td></tr>' +
+                    '<tr><td><b>Scientific Name</b></td><td><div id="scientific-name-div">'+data.summaryData[0].speciesScientificName+'</div></td></tr>' +
+                    '<tr><td><b>Taxonomy ID</b></td><td><div id="taxonomy-id-div">'+taxonomyId.join()+'</div></td></tr>' +
+                    '<tr><td><b>Study Type</b></td><td><div id="study-type-div">'+data.summaryData[0].typeName+'</div></td></tr>' +
+                    '<tr><td><b>Experiment Type</b></td><td><div id="exp-type-div">'+data.summaryData[0].experimentType+'</div></td></tr>' +
+                    '<tr><td><b>Platform</b></td><td><div id="platform-div">'+data.summaryData[0].platform+'</div></td></tr>' +
+                    '<tr><td><b>Assembly</b></td><td><div id="assembly-div">'+data.summaryData[0].assembly+'</div></td></tr>' +
+                    '<tr><td><b>Variants</b></td><td><div id="variants-div">'+data.summaryData[0].numVariants+'</div></td></tr>' +
+                    '<tr><td><b>Description</b></td><td><div id="description-div">'+data.summaryData[0].description+'</div></td></tr>' +
+                    '<tr><td><b>Download</b></td><td><div id="download-div"><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/'+data.summaryData[0].id+'_'+data.summaryData[0].name+'" target="_blank">FTP</a></div></td></tr>' +
                     '<tr><td><div><b>Publications</b></div></td><td><div id="publication-section"></div></td></tr>'
                     '</table></div></div>'
 
