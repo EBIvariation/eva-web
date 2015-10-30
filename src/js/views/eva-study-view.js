@@ -149,19 +149,19 @@ EvaStudyView.prototype = {
 
                 var _filesTable  = '<div><h3>'+data.summaryData[0].name+'</h3>' +
                     '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
-                    '<tr><td><b>Organism</b></td><td>'+data.summaryData[0].speciesCommonName+'</td></tr>' +
-                    '<tr><td><b>Scientific Name</b></td><td>'+data.summaryData[0].speciesScientificName+'</td></tr>' +
-                    '<tr><td><b>Taxonomy ID</b></td><td>'+taxonomyId.join()+'</td></tr>' +
-                    '<tr><td><b>Center</b></td><td>'+data.summaryData[0].center+'</td></tr>' +
-                    '<tr><td><b>Material</b></td><td>'+data.summaryData[0].material+'</td></tr>' +
-                    '<tr><td><b>Scope</b></td><td>'+data.summaryData[0].scope+'</td></tr>' +
-                    '<tr><td><b>Type</b></td><td>'+data.summaryData[0].experimentType+'</td></tr>' +
-                    '<tr><td><b>Source Type</b></td><td>'+data.summaryData[0].sourceType+'</td></tr>' +
-                    '<tr><td><b>Platform</b></td><td>'+data.summaryData[0].platform+'</td></tr>' +
-                    '<tr><td><b>Samples</b></td><td>'+data.summaryData[0].numSamples+'</td></tr>' +
-                    '<tr><td><b>Description</b></td><td>'+data.summaryData[0].description+'</td></tr>' +
-                    '<tr><td><b>Resource</b></td><td>'+projectURL+'</td></tr>' +
-                    '<tr><td><b>Download</b></td><td><a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/'+data.summaryData[0].id+'" target="_blank">FTP</a></td></tr>' +
+                    '<tr><td><b>Organism</b></td><td><div id="organism-div">'+data.summaryData[0].speciesCommonName+'</div></td></tr>' +
+                    '<tr><td><b>Scientific Name</b></td><td><div id="scientific-name-div">'+data.summaryData[0].speciesScientificName+'</div></td></tr>' +
+                    '<tr><td><b>Taxonomy ID</b></td><td><div id="taxonomy-id-div">'+taxonomyId.join()+'</div></td></tr>' +
+                    '<tr><td><b>Center</b></td><td><div id="center-div">'+data.summaryData[0].center+'</div></td></tr>' +
+                    '<tr><td><b>Material</b></td><td><div id="material-div">'+data.summaryData[0].material+'</div></td></tr>' +
+                    '<tr><td><b>Scope</b></td><td><div id="scope-div">'+data.summaryData[0].scope+'</div></td></tr>' +
+                    '<tr><td><b>Type</b></td><td><div id="type-div">'+data.summaryData[0].experimentType+'</div></td></tr>' +
+                    '<tr><td><b>Source Type</b></td><td><div id="source-type-div">'+data.summaryData[0].sourceType+'</div></td></tr>' +
+                    '<tr><td><b>Platform</b></td><td><div id="platform-div">'+data.summaryData[0].platform+'</div></td></tr>' +
+                    '<tr><td><b>Samples</b></td><td><div id="samples-div">'+data.summaryData[0].numSamples+'</div></td></tr>' +
+                    '<tr><td><b>Description</b></td><td><div id="description-div">'+data.summaryData[0].description+'</div></td></tr>' +
+                    '<tr><td><b>Resource</b></td><td><div id="resource-div">'+projectURL+'</div></td></tr>' +
+                    '<tr><td><b>Download</b></td><td><div id="download-div"><a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/'+data.summaryData[0].id+'" target="_blank">FTP</a></div></td></tr>' +
                     '<tr><td><div><b>Publications</b></div></td><td><div id="publication-section"></div></td></tr>' +
                     '</table>'
 

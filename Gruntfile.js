@@ -254,7 +254,7 @@ module.exports = function (grunt) {
                     clearRequireCache: false,
                     timeout:1500000
                 },
-                src: ['tests/mocha/*.js']
+                src: ['tests/mocha/study_v*.js']
             }
         },
         exec: {

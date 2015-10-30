@@ -47,6 +47,7 @@ function checkSummaryTable(driver){
     driver.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
         var value = driver.findElement(By.xpath("//table[@id='summaryTable']")).getText();
         assert(value).contains('Organism');
+        assert.isNotNull(driver.findElement(By.id("organism-div")).getText());
     });
 
     return driver;
