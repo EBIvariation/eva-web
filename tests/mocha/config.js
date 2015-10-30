@@ -36,6 +36,14 @@ module.exports = {
     },
     sleep:function(value){
         flow.execute(function () { return webdriver.promise.delayed(value * 1000);});
+    },
+    reset:function (driver){
+        driver.findElement(By.xpath("//span[text()='Reset']")).click();
+        return driver;
+    },
+    submit:function (driver){
+        driver.findElement(By.xpath("//span[text()='Submit']")).click();
+        return driver;
     }
 };
 

@@ -486,7 +486,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     }
                 },
                 {
-                    text: "Study Type",
+                    text: "Type",
                     dataIndex: 'typeName',
                     flex: 2
                 },
