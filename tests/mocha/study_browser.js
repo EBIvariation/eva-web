@@ -76,8 +76,8 @@ function sgvStudySearchBySpeciesType(driver){
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
-            var rows = parseInt(text.split(" ")[3])+1;
-            for (i = 1; i < rows; i++) {
+            var rows = parseInt(text.split(" ")[3]);
+            for (i = 1; i <= rows; i++) {
                 species = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[4]/div[text()]")).getText();
                 type = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[6]/div/tpl[text()]")).getText();
                 var speciesRegex =   new RegExp('(Barley|Human)', 'g');
@@ -98,8 +98,8 @@ function sgvStudySearchByType(driver){
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
-            var rows = parseInt(text.split(" ")[3])+1;
-            for (i = 1; i < rows; i++) {
+            var rows = parseInt(text.split(" ")[3]);
+            for (i = 1; i <= rows; i++) {
                 type = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[6]/div/tpl[text()]")).getText();
                 assert(type).equalTo('Curation');
             }
@@ -115,8 +115,8 @@ function sgvStudySearchBySpecies(driver){
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
-            var rows = parseInt(text.split(" ")[3])+1;
-            for (i = 1; i < rows; i++) {
+            var rows = parseInt(text.split(" ")[3]);
+            for (i = 1; i <= rows; i++) {
                 species = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[4]/div[text()]")).getText();
                 assert(species).equalTo('Barley');
             }
@@ -137,8 +137,8 @@ function svStudySearchBySpeciesType(driver){
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
-            var rows = parseInt(text.split(" ")[3])+1;
-            for (i = 1; i < rows; i++) {
+            var rows = parseInt(text.split(" ")[3]);
+            for (i = 1; i <= rows; i++) {
                 species = driver.findElement(By.xpath("//div[@id='study-browser-grid-body']//table["+i+"]//td[4]/div/div[text()]")).getText();
                 type = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[6]/div[text()]")).getText();
                 var speciesRegex =   new RegExp('(Chimpanzee|Dog)', 'g');
@@ -160,8 +160,8 @@ function svStudySearchByType(driver){
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
-            var rows = parseInt(text.split(" ")[3])+1;
-            for (i = 1; i < rows; i++) {
+            var rows = parseInt(text.split(" ")[3]);
+            for (i = 1; i <= rows; i++) {
                 type = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[6]/div[text()]")).getText();
                 assert(type).equalTo('Control Set');
             }
@@ -180,8 +180,8 @@ function svStudySearchBySpecies(driver){
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
-            var rows = parseInt(text.split(" ")[3])+1;
-            for (i = 1; i < rows; i++) {
+            var rows = parseInt(text.split(" ")[3]);
+            for (i = 1; i <= rows; i++) {
                 species = driver.findElement(By.xpath("//div[@id='study-browser-grid-body']//table["+i+"]//td[4]/div/div[text()]")).getText();
                 var speciesRegex =   new RegExp('(Chimpanzee|Dog)', 'g');
                 assert(species).matches(speciesRegex);

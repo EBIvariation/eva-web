@@ -274,7 +274,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         meta.tdAttr = 'data-qtip="Click to see  more detailed information"';
                         return value ? Ext.String.format(
-                            '<a href="?eva-study='+value+'" target="_blank">'+value+'</a>',
+                            '<a href="?eva-study='+value+'">'+value+'</a>',
                             value
                         ) : '';
                     }
@@ -453,7 +453,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         meta.tdAttr = 'data-qtip="Click to see  more detailed information"';
                         return value ? Ext.String.format(
-                            '<a href="?dgva-study='+value+'" target="_blank">'+value+'</a>',
+                            '<a href="?dgva-study='+value+'">'+value+'</a>',
                             value
                         ) : '';
                     }
