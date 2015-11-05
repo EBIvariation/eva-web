@@ -21,7 +21,8 @@ test.describe('Study View ('+config.browser()+')', function() {
                     for (var i = 1; i <= rows; i++) {
                         driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), 10000);
                         driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
-                            driver.findElement(By.linkText(text)).click();
+//                            driver.findElement(By.linkText(text)).click();
+                            driver.get(config.baseURL()+'?eva-study='+text);
                             evaCheckSummaryTable(driver);
                             checkPublications(driver);
                             driver.findElement(By.id('filesTable')).then(function(webElement) {
@@ -53,7 +54,8 @@ test.describe('Study View ('+config.browser()+')', function() {
                     for (var i = 1; i <= rows; i++) {
                         driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), 10000);
                         driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
-                            driver.findElement(By.linkText(text)).click();
+//                            driver.findElement(By.linkText(text)).click();
+                            driver.get(config.baseURL()+'?dgva-study='+text);
                             dgvaCheckSummaryTable(driver);
                             checkPublications(driver);
                             config.back(driver);
