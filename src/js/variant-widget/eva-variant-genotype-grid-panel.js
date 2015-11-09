@@ -272,7 +272,7 @@ EvaVariantGenotypeGridPanel.prototype = {
             header:{
                 titlePosition:1
             },
-            title: study_title,
+            title: '<span class="genotype-grid-study-title">'+study_title+'</span>',
             border: false,
             layout: {
                 type: 'hbox',

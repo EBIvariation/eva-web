@@ -246,13 +246,13 @@ EvaVariantPopulationStatsPanel.prototype = {
                     tpl: '<tpl if="mafAllele">{mafAllele} <tpl else>-</tpl>',
                     flex: 0.5
                 },
-                {
-                    text: "Mendelian Errors",
-                    dataIndex: "mendelianErrors",
-                    xtype: "templatecolumn",
-                    tpl:'<tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl>',
-                    flex: 0.5
-                },
+//                {
+//                    text: "Mendelian Errors",
+//                    dataIndex: "mendelianErrors",
+//                    xtype: "templatecolumn",
+//                    tpl:'<tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl>',
+//                    flex: 0.5
+//                },
                 {
                     text: "Missing Alleles",
                     dataIndex: "missingAlleles",
@@ -310,7 +310,7 @@ EvaVariantPopulationStatsPanel.prototype = {
             loadMask: true,
             width: 900,
 //            height: 600,
-            cls:'genotype-grid',
+            cls:'population-stats-grid',
             margin: 20,
             viewConfig: {
                 emptyText: 'No records to display',
@@ -347,7 +347,7 @@ EvaVariantPopulationStatsPanel.prototype = {
             header:{
                 titlePosition:1
             },
-            title: study_title,
+            title: '<span class="popStats-panel-study-title">'+study_title+'</span>',
             border: false,
             layout:'fit',
             overflowX:true,

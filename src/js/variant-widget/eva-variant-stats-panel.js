@@ -256,7 +256,7 @@ EvaVariantStatsPanel.prototype = {
             header:{
                 titlePosition:1
             },
-            title: study_title,
+            title: '<span class="stats-panel-study-title">'+study_title+'</span>',
             border: false,
             layout: {
                 type: 'vbox',
