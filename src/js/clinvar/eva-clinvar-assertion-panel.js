@@ -182,16 +182,16 @@ ClinvarAssertionPanel.prototype = {
                     '<td class="header">Assertion Method</td>'+
                     '</tr>'+
                     '<tr>'+
-                    '<td id="clinVarAccession">{clinVarAccession.acc}</td>'+
-                    '<td>{clinicalSignificance.description}</td>'+
-                    '<td>{clinicalSignificance.reviewStatus}</td>'+
-                    '<td>'+submittedDate+'</td>'+
+                    '<td class="clinVarAccession">{clinVarAccession.acc}</td>'+
+                    '<td class="clinVarAssertion-description">{clinicalSignificance.description}</td>'+
+                    '<td class="clinVarAssertion-reviewStatus">{clinicalSignificance.reviewStatus}</td>'+
+                    '<td class="clinVarAssertion-submittedDate">'+submittedDate+'</td>'+
         //                            '<td>'+origin+'</td>'+
         //                            '<td>'+alleOrigin+'</td>'+
-                    '<td>{clinVarSubmissionID.submitter}</td>'+
-                    '<td>'+methodType+'</td>'+
-                    '<td>'+alleOrigin+'</td>'+
-                    '<td>{assertion.type}</td>'+
+                    '<td class="clinVarAssertion-submitter">{clinVarSubmissionID.submitter}</td>'+
+                    '<td class="clinVarAssertion-methodType">'+methodType+'</td>'+
+                    '<td class="clinVarAssertion-alleOrigin">'+alleOrigin+'</td>'+
+                    '<td class="clinVarAssertion-type">{assertion.type}</td>'+
                     '</tr>';
          div +='</table></div>';
         if(!_.isUndefined(publications)){
@@ -199,7 +199,7 @@ ClinvarAssertionPanel.prototype = {
         }
 
         var assertPanel = Ext.create('Ext.panel.Panel', {
-            title: data.clinVarAccession.acc,
+            title: '<span class="clinvarAssertionTitle">'+data.clinVarAccession.acc+'</span>',
             border: false,
             layout: 'fit',
             overflowX: true,

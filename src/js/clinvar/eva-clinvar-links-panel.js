@@ -127,7 +127,7 @@ ClinvarLinksPanel.prototype = {
                         var OMIMId = id.split('.');
                         id = '<a href="http://www.omim.org/entry/'+OMIMId[0]+'#'+OMIMId[1]+'" target="_blank">'+id+'</a>'
                     }
-                    linksTable += '<tr><td>'+this[key].db+'</td><td>'+id+'</td><td>'+this[key].type+'</td><td>'+this[key].status+'</td></tr>'
+                    linksTable += '<tr><td class="clinvar-links-db">'+this[key].db+'</td><td class="clinvar-links-id">'+id+'</td><td class="clinvar-links-type">'+this[key].type+'</td><td class="clinvar-links-status">'+this[key].status+'</td></tr>'
                 },xref);
             }
         },measure);
@@ -139,7 +139,7 @@ ClinvarLinksPanel.prototype = {
 
         var lovd_link = 'http://databases.ebi.lovd.nl/shared/variants#order=VariantOnGenome%2FDNA%2CASC&skip[allele_]=allele_&skip[screeningids]=screeningids&skip[created_by]=created_by&skip[created_date]=created_date&search_chromosome='+chromosome+'&search_VariantOnGenome/DNA='+position+'&page_size=100&page=1';
 
-        linksTable += '<br /><div><a href="'+lovd_link+'" target="_blank">Search for variant at LOVD</a></div>'
+        linksTable += '<br /><div class="lovd_link"><a href="'+lovd_link+'" target="_blank">Search for variant at LOVD</a></div>'
 
 
 

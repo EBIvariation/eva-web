@@ -14,29 +14,69 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
         config.shutdownDriver(driver);
     });
 
-    test.it('should be able to search by ClinVar Accession', function() { clinVarSearchByAccession(driver) });
+    test.describe('search by ClinVar Accession', function() {
+        test.it('Search term "RCV000074666" should match with column "ClinVar Accession"', function() {
+            clinVarSearchByAccession(driver);
+        });
+    });
 
-    test.it('should be able to search by Chromosomal Location', function() { clinVarSearchByLocation(driver) });
+    test.describe('search by Chromosomal Location', function() {
+        test.it('Search term "2:47000000-49000000" should match with column "Chr" and "Position"', function() {
+            clinVarSearchByLocation(driver);
+        });
+    });
 
-    test.it('should be able to search by Gene', function() { clinVarSearchByGene(driver) });
+    test.describe('search by Gene', function() {
+        test.it('Search term "BRCA1" should match with column "Affected Gene"', function() {
+            clinVarSearchByGene(driver);
+        });
+    });
 
-    test.it('should be able to search by Trait', function() { clinVarSearchByTrait(driver) });
+    test.describe('search by Trait', function() {
+        test.it('Search term "Lung cancer" should match with column "Trait"', function() {
+            clinVarSearchByTrait(driver);
+        });
+    });
 
-    test.it('should be able to filter by Consequence Type', function() { clinVarFilterByConseqType(driver) });
+    test.describe('Filter by Consequence Type', function() {
+        test.it('filter term "inframe_deletion"  should match with column "Most Severe Consequence Type"', function() {
+            clinVarFilterByConseqType(driver);
+        });
+    });
 
-    test.it('should be able to filter by Variation Type', function() { clinVarFilterByVariationType(driver) });
+    test.describe('Filter by Variation Type', function() {
+        test.it('filter term "Deletion" should  match with column "Variation Type" in Summary tab', function() {
+            clinVarFilterByVariationType(driver);
+        });
+    });
 
-    test.it('should be able to filter by Clinical Significance', function() { clinVarFilterByClincalSignificance(driver) });
+    test.describe('Filter by Clinical Significance', function() {
+        test.it('filter term "Deletion"  should match with  column "clinical Siginificance" in Summary tab', function() {
+            clinVarFilterByClincalSignificance(driver);
+        });
+    });
 
-    test.it('should be able to filter by Review Status', function() { clinVarFilterByReviewStatus(driver) });
+    test.describe('Filter by Review Status', function() {
+        test.it('filter term "Single submitter"  should match with  column "Review Status" in Summary tab', function() {
+            clinVarFilterByReviewStatus(driver);
+        });
+    });
 
-    test.it('Summary Tab should not be empty', function() { clinVarSummaryTab(driver) });
+    test.describe('Bottom Panel', function() {
+        test.it('Summary Tab should not be empty', function() {
+            clinVarSummaryTab(driver)
+        });
+        test.it('Clinical Assertion Tab should not be empty and no duplicate items', function() {
+            clinVarAssertionTab(driver)
+        });
+        test.it('Annotation Tab should not be empty', function() {
+            clinVarAnnotationTab(driver)
+        });
+        test.it('External Links Tab should not be empty', function() {
+            clinVarLinksTab(driver)
+        });
+    });
 
-    test.it('Clinical Assertion Tab should not be empty', function() { clinVarAssertionTab(driver) });
-
-    test.it('Annotation Tab should not be empty', function() { clinVarAnnotationTab(driver) });
-
-    test.it('External Links Tab should not be empty', function() { clinVarLinksTab(driver) });
 });
 
 function clinVarSearchByAccession(driver){
@@ -46,8 +86,9 @@ function clinVarSearchByAccession(driver){
     driver.findElement(By.name("accessionId")).sendKeys("RCV000074666");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='clinvar-browser-grid-body']//table[1]//td[7]/div/a[text()]")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[1]//td[7]/div/a[text()]")).getText();
-        assert(value).equalTo('RCV000074666');
+        driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[1]//td[7]/div/a[text()]")).getText().then(function(text){
+            assert(text).equalTo('RCV000074666');
+        });
     });
 
     return driver;
@@ -60,8 +101,13 @@ function clinVarSearchByLocation(driver){
     driver.findElement(By.name("clinvarRegion")).sendKeys("2:47000000-49000000");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[1]/div[text()]")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[1]/div[text()]")).getText();
-        assert(value).equalTo('2');
+        driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[1]/div[text()]")).getText().then(function(text){
+            assert(text).equalTo('2');
+        });
+        driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[2]/div[text()]")).getText().then(function(text){
+            assert(text).matches(/^[4][7]\d{6}?$/);
+        });
+
     });
 
     return driver;
@@ -74,8 +120,12 @@ function clinVarSearchByGene(driver){
     driver.findElement(By.name("gene")).sendKeys("BRCA1");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[1]/div[text()]")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[1]/div[text()]")).getText();
-        assert(value).equalTo('17');
+        driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[1]/div[text()]")).getText().then(function(text){
+            assert(text).equalTo('17');
+        });
+        driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[3]/div/a[text()]")).getText().then(function(text){
+            assert(text).equalTo('BRCA1');
+        });
     });
 
     return driver;
@@ -89,8 +139,9 @@ function clinVarSearchByTrait(driver){
     driver.findElement(By.name("phenotype")).sendKeys("Lung cancer");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[5]/div[text()]")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[5]/div[text()]")).getText();
-        assert(value).contains('Lung cancer');
+        driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[5]/div[text()]")).getText().then(function(text){
+            assert(text).contains('Lung cancer');
+        });
     });
     driver.findElement(By.name("phenotype")).clear();
 
@@ -102,8 +153,9 @@ function clinVarFilterByConseqType(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]//..//input")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[4]/div/tpl[text()]")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[4]/div/tpl[text()]")).getText();
-        assert(value).contains('inframe_deletion');
+        value = driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[4]/div/tpl[text()]")).getText().then(function(text){
+            assert(text).contains('inframe_deletion');
+        });
     });
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]//..//input")).click();
 
@@ -113,9 +165,8 @@ function clinVarFilterByConseqType(driver){
 function clinVarFilterByVariationType(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Deletion')]//..//input")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@id='variationType']")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@id='variationType']")).getText();
-        assert(value).equalTo('Deletion');
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-variationType']")), 10000).then(function(text) {
+        chai.expect('.clinvar-variationType').dom.to.have.text('Deletion');
     });
 
     return driver;
@@ -124,8 +175,9 @@ function clinVarFilterByClincalSignificance(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Uncertain significance')]//..//input")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[6]/div[text()]")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[6]/div[text()]")).getText();
-        assert(value).equalTo('Uncertain significance');
+        driver.findElement(By.xpath("//div[@id='clinvar-browser-grid-body']//table[2]//td[6]/div[text()]")).getText().then(function(text){
+            assert(text).equalTo('Uncertain significance');
+        });
     });
 
     return driver;
@@ -133,9 +185,8 @@ function clinVarFilterByClincalSignificance(driver){
 function clinVarFilterByReviewStatus(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Single submitter')]//..//input")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@id='reviewStatus']")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@id='reviewStatus']")).getText();
-        assert(value).equalTo('CLASSIFIED_BY_SINGLE_SUBMITTER');
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-reviewStatus']")), 10000).then(function(text) {
+        chai.expect('.clinvar-reviewStatus').dom.to.have.text('CLASSIFIED_BY_SINGLE_SUBMITTER');
     });
 
     return driver;
@@ -143,26 +194,104 @@ function clinVarFilterByReviewStatus(driver){
 
 
 function clinVarSummaryTab(driver){
-    value = driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarSummaryDataPanel')]//table")).getText();
-    assert(value).contains('Reference');
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarSummaryDataPanel')]//table")), 10000).then(function(text) {
+        chai.expect('.clinvar-reference').dom.to.have.match(/-|^[ACGT]+/);
+        chai.expect('.clinvar-alternate').dom.to.have.match(/-|^[ACGT]+/);
+        chai.expect('.clinvar-reviewStatus').dom.to.have.match(/^\w+/);
+        chai.expect('.clinvar-lastEvaluated').dom.to.have.match(/^\w+/);
+        chai.expect('.clinvar-hgvs').dom.to.have.match(/-|^\w+/);
+        chai.expect('.clinvar-soTerms').dom.to.have.match(/^\w+/);
+        chai.expect('.clinvar-variationType').dom.to.have.match(/^\w+/);
+        chai.expect('.clinvar-publications').dom.to.have.match(/-|^\w+/);
+    });
 
     return driver;
 }
 function clinVarAssertionTab(driver){
     driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//span[text()='Clinical Assertion']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarAssertionDataPanel')]//table//td[@id='clinVarAccession']")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarAssertionDataPanel')]//table//td[@id='clinVarAccession']")).getText();
-        assert(value).contains('SCV');
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarAssertionDataPanel')]//table//td[@class='clinVarAccession']")), 10000).then(function(text) {
+        driver.findElements(By.xpath("//div[contains(@id,'ClinVarAssertionDataPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
+            var regex = /-|^\w+/;
+            for (var i = 0; i < rows.length; i++){
+                // check for duplication study
+                rows[i].findElement(By.xpath("//div[contains(@id,'ClinVarAssertionDataPanel')]//div[contains(@class,'x-accordion-item')]//span[@class='clinvarAssertionTitle']")).getText().then(function(text){
+                    chai.expect('span:contains('+text+')').dom.to.have.count(1);
+                });
+                rows[i].findElement(By.className("clinVarAccession")).getText().then(function(text){
+                    assert(text).matches(/^SCV+\d+$/);
+                });
+                rows[i].findElement(By.className("clinVarAssertion-description")).getText().then(function(text){
+                    assert(text).matches(regex);
+                });
+                rows[i].findElement(By.className("clinVarAssertion-reviewStatus")).getText().then(function(text){
+                    assert(text).matches(regex);
+                });
+                rows[i].findElement(By.className("clinVarAssertion-submittedDate")).getText().then(function(text){
+                    assert(text).matches(regex);
+                });
+                rows[i].findElement(By.className("clinVarAssertion-submitter")).getText().then(function(text){
+                    assert(text).matches(regex);
+                });
+                rows[i].findElement(By.className("clinVarAssertion-methodType")).getText().then(function(text){
+                    assert(text).matches(regex);
+                });
+                rows[i].findElement(By.className("clinVarAssertion-alleOrigin")).getText().then(function(text){
+                    assert(text).matches(regex);
+                });
+                rows[i].findElement(By.className("clinVarAssertion-type")).getText().then(function(text){
+                    assert(text).matches(regex);
+                });
+            }
+        });
     });
 
     return driver;
 }
 function clinVarAnnotationTab(driver){
+    var regex;
     driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//span[text()='Annotation']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")).getText();
-        driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[text()]")).getText();
-        driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div/a[text()]")).getText();
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")), 10000).then(function(text) {
+        //check Ensemble Gene ID
+
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")).getText().then(function(text){
+            regex  = /^[A-Z]+/
+            assert(text).matches(regex);
+        });
+        //check Ensemble Gene symbol
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[text()]")).getText().then(function(text){
+            regex  = /\w\d+$/
+            assert(text).matches(regex);
+        });
+        //check Ensemble Transcript ID
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div/a[text()]")).getText().then(function(text){
+            regex  = /^[A-Z]+/
+            assert(text).matches(regex);
+        });
+        //check SO terms
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[4]/div/tpl[text()]")).getText().then(function(text){
+            regex  = /^[a-z0-9]+/
+            assert(text).matches(regex);
+        });
+        //check Biotype
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[5]/div[text()]")).getText().then(function(text){
+            regex  = /\w+$/
+            assert(text).matches(regex);
+        });
+        //check codon
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[6]/div[text()]")).getText().then(function(text){
+            regex  = /-|^\w+\/\w+$/
+            assert(text).matches(regex);
+        });
+        //check cDna position
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[7]/div[text()]")).getText().then(function(text){
+            regex  = /\d+$/
+            assert(text).matches(regex);
+        });
+        //check AA change
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[8]/div[text()]")).getText().then(function(text){
+            regex  = /-|^\w+\/\w+$/
+            assert(text).matches(regex);
+        });
     });
 
     return driver;
@@ -170,11 +299,22 @@ function clinVarAnnotationTab(driver){
 function clinVarLinksTab(driver){
     driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//span[text()='External Links']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarLinksDataPanel')]//table")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarLinksDataPanel')]//table")).getText();
-        assert(value).contains('Database');
-        assert(value).contains('Accession');
-        assert(value).contains('Type');
-        assert(value).contains('Status');
+        var regex = /-|^\w+/;
+        driver.findElement(By.className("clinvar-links-db")).getText().then(function(text){
+            assert(text).matches(regex);
+        });
+        driver.findElement(By.className("clinvar-links-id")).getText().then(function(text){
+            assert(text).matches(regex);
+        });
+        driver.findElement(By.className("clinvar-links-type")).getText().then(function(text){
+            assert(text).matches(regex);
+        });
+        driver.findElement(By.className("clinvar-links-status")).getText().then(function(text){
+            assert(text).matches(regex);
+        });
+        driver.findElement(By.className("lovd_link")).getText().then(function(text){
+            assert(text).equalTo('Search for variant at LOVD');
+        });
     });
 
     return driver;
