@@ -38,7 +38,7 @@ EvaVariantView.prototype = {
             return;
         }
 
-        this.targetDiv.innerHTML = _this._varinatViewlayout();
+        this.targetDiv.innerHTML = _this._variantViewlayout();
         variantID = this.position;
 
         EvaManager.get({
@@ -200,8 +200,8 @@ EvaVariantView.prototype = {
             var popStatsElDiv =  document.createElement("div");
             popStatsElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
             popStatsEl.appendChild(popStatsElDiv);
-            var varinatData = {sourceEntries:_this.variant[0].sourceEntries, species:_this.species};
-            _this._createPopulationStatsPanel(popStatsElDiv,varinatData);
+            var variantData = {sourceEntries:_this.variant[0].sourceEntries, species:_this.species};
+            _this._createPopulationStatsPanel(popStatsElDiv,variantData);
 
 
     },
@@ -211,13 +211,13 @@ EvaVariantView.prototype = {
             var speciesName;
             if(!_.isEmpty(speciesList)){
                  speciesName = _.findWhere(speciesList, {taxonomyCode:this.species.split("_")[0]}).taxonomyEvaName;
-                _summaryTable += '<tr><td class="header">Organism / Assembly</td><td>'+speciesName.substr(0,1).toUpperCase()+speciesName.substr(1) + ' / '+_.findWhere(speciesList, {taxonomyCode:this.species.split("_")[0]}).assemblyName +'</td></tr>'
+                _summaryTable += '<tr><td class="header">Organism / Assembly</td><td id="variant-view-organism">'+speciesName.substr(0,1).toUpperCase()+speciesName.substr(1) + ' / '+_.findWhere(speciesList, {taxonomyCode:this.species.split("_")[0]}).assemblyName +'</td></tr>'
             } else {
-                _summaryTable += '<tr><td class="header">Organism / Assembly</td><td>'+this.species+'</td></tr>'
+                _summaryTable += '<tr><td class="header">Organism / Assembly</td><td id="variant-view-organism">'+this.species+'</td></tr>'
             }
 
             if(data[0].id){
-                _summaryTable += '<tr><td class="header">ID</td><td>'+data[0].id+'</td></tr>'
+                _summaryTable += '<tr><td class="header">ID</td><td id="variant-view-id">'+data[0].id+'</td></tr>'
             }
             var reference = '-';
             var alternate = '-';
@@ -229,11 +229,11 @@ EvaVariantView.prototype = {
                 alternate = data[0].alternate;
             }
 
-            _summaryTable +='<tr><td class="header">Type</td><td>'+data[0].type+'</td></tr>' +
-                '<tr><td class="header">Chromosome:Start-End</td><td>'+data[0].chromosome+':'+data[0].start+'-'+data[0].end+'</td></tr>' +
+            _summaryTable +='<tr><td class="header">Type</td><td id="variant-view-type">'+data[0].type+'</td></tr>' +
+                '<tr><td class="header">Chromosome:Start-End</td><td id="variant-view-chr">'+data[0].chromosome+':'+data[0].start+'-'+data[0].end+'</td></tr>' +
 //                '<tr><td>Assembly</td><td>GRCh37</td></tr>' +
-                '<tr><td class="header">Ref</td><td>'+reference+'</td></tr>' +
-                '<tr><td class="header">Alt</td><td>'+alternate+'</td></tr>' +
+                '<tr><td class="header">Ref</td><td id="variant-view-ref">'+reference+'</td></tr>' +
+                '<tr><td class="header">Alt</td><td id="variant-view-ale">'+alternate+'</td></tr>' +
                 '</table>'
 
             _summaryTable += '</div></div>'
@@ -275,7 +275,7 @@ EvaVariantView.prototype = {
                 if(annotationDetails.ensemblTranscriptId){
                     ensemblTranscriptId = '<a href="http://www.ensembl.org/Homo_sapiens/transview?transcript='+annotationDetails.ensemblTranscriptId+'" target="_blank">'+annotationDetails.ensemblTranscriptId+'</a>';
                 }
-                _consequenceTypeTable += '<tr><td>'+ensemblGeneId+'</td><td>'+ensemblTranscriptId+'</td><td>'+link+'</td><td>'+this[key].soName+'&nbsp;'+svg+'</td></tr>'
+                _consequenceTypeTable += '<tr><td class="variant-view-ensemblGeneId">'+ensemblGeneId+'</td><td class="variant-view-ensemblTranscriptId">'+ensemblTranscriptId+'</td><td class="variant-view-link">'+link+'</td><td class="variant-view-soname">'+this[key].soName+'&nbsp;'+svg+'</td></tr>'
             },soTerms);
 
         },annotation);
@@ -382,7 +382,7 @@ EvaVariantView.prototype = {
                 ;
             return data;
     },
-    _varinatViewlayout:function(){
+    _variantViewlayout:function(){
 
         var layout = '<div id="variant-view">'+
                         '<div class="row">'+

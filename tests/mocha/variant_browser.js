@@ -73,7 +73,7 @@ function variantSearchBySpeciesandChrLocation(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
     driver.findElement(By.id("vb-submit-button")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('X');
         });
@@ -139,7 +139,7 @@ function variantAnnotationTab(driver){
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")), 10000).then(function(text) {
         //check Ensemble Gene ID
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")).getText().then(function(text){
-            regex  = /^ENSG\d+$/
+            regex  = /^[A-Z]+/
             assert(text).matches(regex);
         });
         //check Ensemble Gene symbol
@@ -149,12 +149,12 @@ function variantAnnotationTab(driver){
         });
         //check Ensemble Transcript ID
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div/a[text()]")).getText().then(function(text){
-            regex  = /^ENST\d+$/
+            regex  = /^[A-Z]+/
             assert(text).matches(regex);
         });
         //check SO terms
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[4]/div/tpl[text()]")).getText().then(function(text){
-            regex  = /\w+$/
+            regex  = /^[a-z0-9]+/
             assert(text).matches(regex);
         });
         //check Biotype
@@ -206,7 +206,7 @@ function variantFilesTab(driver){
                 });
                 // check for attributes table
                 rows[i].findElement(By.tagName("table")).getText().then(function(text){
-                    assert(text).contains("AC");
+                    assert(text).matches(/^\w+/);
                 });
                 //check for VCF Data
                 rows[i].findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//span[contains(text(), '+')]")).click();
@@ -221,20 +221,29 @@ function variantFilesTab(driver){
 }
 function variantGenotypesTab(driver){
     driver.findElement(By.xpath("//span[text()='Genotypes']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div//a[text()]")), 10000).then(function(text) {
-        driver.findElements(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
-            for (var i = 0; i < rows.length; i++){
-                // check for duplication study
-                rows[i].findElement(By.tagName("a")).getAttribute('href').then(function(text){
-                    text = text.split("?");
-                    chai.expect('span[class="genotype-grid-study-title"] > a[href="?'+text[1]+'"]').dom.to.have.count(1);
-                });
-                // check for pie chart study
-                rows[i].findElement(By.className("highcharts-container")).getAttribute('id').then(function(id){
-                    chai.expect('#'+id).dom.to.have.count(1);
-                });
-                rows[i].findElement(By.xpath("//div[contains(@class,'genotype-grid')]//table[1]//td[1]/div[text()]")).getText();
-            }
+    driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div//a[text()]")).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div//a[text()]")), 10000).then(function(text) {
+            driver.findElements(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
+                for (var i = 0; i < rows.length; i++){
+                    // check for duplication study
+                    rows[i].findElement(By.tagName("a")).getAttribute('href').then(function(text){
+                        text = text.split("?");
+                        chai.expect('span[class="genotype-grid-study-title"] > a[href="?'+text[1]+'"]').dom.to.have.count(1);
+                    });
+                    // check for pie chart study
+                    rows[i].findElement(By.className("highcharts-container")).getAttribute('id').then(function(id){
+                        chai.expect('#'+id).dom.to.have.count(1);
+                    });
+                    rows[i].findElement(By.xpath("//div[contains(@class,'genotype-grid')]//table[1]//td[1]/div[text()]")).getText();
+                }
+            });
+        });
+    },function(err) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//p[@class='genotype-grid-no-data']")).then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//p[@class='genotype-grid-no-data']")).getText.then(function(text) {
+                assert(text).equalTo('No Genotypes data available')
+            });
+        },function(err) {
         });
     });
 
@@ -244,50 +253,60 @@ function variantGenotypesTab(driver){
 function variantPopulationTab(driver){
     var regex;
     driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
-        driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
-            for (var i = 0; i < rows.length; i++){
+    driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).then(function(webElement) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
+            driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
+                for (var i = 0; i < rows.length; i++){
 
-                // check for duplication study
-                rows[i].findElement(By.tagName("a")).getAttribute('href').then(function(text){
-                    text = text.split("?");
-                    chai.expect('span[class="popStats-panel-study-title"] > a[href="?'+text[1]+'"]').dom.to.have.count(1);
-                });
+                    // check for duplication study
+                    rows[i].findElement(By.tagName("a")).getAttribute('href').then(function(text){
+                        text = text.split("?");
+                        chai.expect('span[class="popStats-panel-study-title"] > a[href="?'+text[1]+'"]').dom.to.have.count(1);
+                    });
 
-                rows[i].findElement(By.className("population-stats-grid")).getAttribute('id').then(function(id){
-                    //check Population column
-                    driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[2]/div")).getText().then(function(text){
-                        regex = /^[A-Z]+$/
-                        assert(text).matches(regex);
-                    });
-                    //check MAF
-                    driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[3]/div")).getText().then(function(text){
-                        regex = /^[+-]?\d+(?:\.\d{1,3})?$/;
-                        assert(text).matches(regex);
-                    });
-                    //check MAF allele
-                    driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[4]/div")).getText().then(function(text){
-                        regex = /^[ACGT]+$/;
-                        assert(text).matches(regex);
-                    });
-                    //check missing alleles
-                    driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[5]/div")).getText().then(function(text){
-                        regex = /^\d+$/;
-                        assert(text).matches(regex);
-                    });
-                    //check missing genotypes
-                    driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[6]/div")).getText().then(function(text){
-                        regex = /^\d+$/;
-                        assert(text).matches(regex);
-                    });
-                    //check pie chart is present for every ALL population.
-                    driver.findElement(By.xpath("//div[@id='" + id + "']//table//td/div[contains(text(),'ALL')]/../..//div[contains(@class,'x-grid-row-expander')]")).click().then(function(){
-                        driver.findElement(By.xpath("//div[@id='" + id + "']//table//div[@class='highcharts-container']")).getAttribute('id').then(function(chartID){
-                            chai.expect('#'+chartID).dom.to.have.count(1);
+                    rows[i].findElement(By.className("population-stats-grid")).getAttribute('id').then(function(id){
+                        //check Population column
+                        driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[2]/div")).getText().then(function(text){
+                            regex = /^[A-Z]+$/
+                            assert(text).matches(regex);
+                        });
+                        //check MAF
+                        driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[3]/div")).getText().then(function(text){
+                            regex = /^[+-]?\d+(?:\.\d{1,3})?$/;
+                            assert(text).matches(regex);
+                        });
+                        //check MAF allele
+                        driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[4]/div")).getText().then(function(text){
+                            regex = /^[ACGT]+$/;
+                            assert(text).matches(regex);
+                        });
+                        //check missing alleles
+                        driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[5]/div")).getText().then(function(text){
+                            regex = /^\d+$/;
+                            assert(text).matches(regex);
+                        });
+                        //check missing genotypes
+                        driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[6]/div")).getText().then(function(text){
+                            regex = /^\d+$/;
+                            assert(text).matches(regex);
+                        });
+                        //check pie chart is present for every ALL population.
+                        driver.findElement(By.xpath("//div[@id='" + id + "']//table//td/div[contains(text(),'ALL')]/../..//div[contains(@class,'x-grid-row-expander')]")).click().then(function(){
+                            driver.findElement(By.xpath("//div[@id='" + id + "']//table//div[@class='highcharts-container']")).getAttribute('id').then(function(chartID){
+                                chai.expect('#'+chartID).dom.to.have.count(1);
+                            });
                         });
                     });
-                });
-            }
+                }
+            });
+        });
+    },function(err) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//h5")).then(function(text) {
+            assert(text).equalTo('Currently for 1000 Genomes Project data only')
+        },function(err) {
+            driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[@class='popstats-no-data']")).getText().then(function(text){
+                assert(text).equalTo('No Population data available')
+            });
         });
     });
 
