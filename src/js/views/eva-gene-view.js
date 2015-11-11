@@ -138,7 +138,7 @@ EvaGeneView.prototype = {
     },
     _renderSummaryData: function (data) {
             var source = '<a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+data.id+'" target="_blank">'+data.source+':'+data.id+'</a>'
-            var _summaryTable  = '<div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
+            var _summaryTable  = '<div class="row"><div class="col-md-8"><table id="gene-view-summary-table" class="table ocb-stats-table">'
             var description = data.description;
             var start_pos = description.indexOf('[') + 1;
             var end_pos = description.indexOf(']',start_pos);
@@ -148,12 +148,12 @@ EvaGeneView.prototype = {
                 hgnc_name = '<a href="http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=HGNC:'+text_to_get.split(':')[2]+'" target="_blank">'+data.name+'</a>'
             }
 
-            _summaryTable +='<tr><td class="header">HGNC Symbol</td><td>'+hgnc_name+'</td></tr>' +
-                '<tr><td class="header">Gene Biotype</td><td>'+data.biotype+'</td></tr>' +
-                '<tr><td class="header">Location</td><td>'+data.chromosome+':'+data.start+'-'+data.end+'</td></tr>' +
-                '<tr><td class="header">Assembly</td><td>GRCh37</td></tr>' +
-                '<tr><td class="header">Description</td><td>'+data.description+'</td></tr>' +
-                '<tr><td class="header">Source</td><td>'+source+'</td></tr>' +
+            _summaryTable +='<tr><td class="header">HGNC Symbol</td><td id="gene-view-hgnc">'+hgnc_name+'</td></tr>' +
+                '<tr><td class="header">Gene Biotype</td><td id="gene-view-biotype">'+data.biotype+'</td></tr>' +
+                '<tr><td class="header">Location</td><td id="gene-view-location">'+data.chromosome+':'+data.start+'-'+data.end+'</td></tr>' +
+                '<tr><td class="header">Assembly</td><td id="gene-view-assembly">GRCh37</td></tr>' +
+                '<tr><td class="header">Description</td><td id="gene-view-description">'+data.description+'</td></tr>' +
+                '<tr><td class="header">Source</td><td id="gene-view-source">'+source+'</td></tr>' +
                 '</table>'
 
             _summaryTable += '</div></div>'
