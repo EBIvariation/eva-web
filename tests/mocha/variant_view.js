@@ -93,6 +93,7 @@ function checkStudyGrid(driver) {
     return driver;
 }
 function checkPopulationGrid(driver) {
+    var regex;
     driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).then(function(webElement) {
         driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
             driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
@@ -112,22 +113,22 @@ function checkPopulationGrid(driver) {
                         });
                         //check MAF
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[3]/div")).getText().then(function(text){
-                            regex = /^[+-]?\d+(?:\.\d{1,3})?$/;
+                            regex = /^[+-]?\d+(?:\.\d{1,3})?$/
                             assert(text).matches(regex);
                         });
                         //check MAF allele
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[4]/div")).getText().then(function(text){
-                            regex = /^[ACGT]+$/;
+                            regex = /^[ACGT]+$/
                             assert(text).matches(regex);
                         });
                         //check missing alleles
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[5]/div")).getText().then(function(text){
-                            regex = /^\d+$/;
+                            regex = /^\d+$/
                             assert(text).matches(regex);
                         });
                         //check missing genotypes
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[6]/div")).getText().then(function(text){
-                            regex = /^\d+$/;
+                            regex = /^\d+$/
                             assert(text).matches(regex);
                         });
                         //check pie chart is present for every ALL population.

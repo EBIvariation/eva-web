@@ -211,7 +211,7 @@ function clinVarAssertionTab(driver){
     driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//span[text()='Clinical Assertion']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarAssertionDataPanel')]//table//td[@class='clinVarAccession']")), 10000).then(function(text) {
         driver.findElements(By.xpath("//div[contains(@id,'ClinVarAssertionDataPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
-            var regex = /-|^\w+/;
+            var regex = /-|^\w+/
             for (var i = 0; i < rows.length; i++){
                 // check for duplication study
                 rows[i].findElement(By.xpath("//div[contains(@id,'ClinVarAssertionDataPanel')]//div[contains(@class,'x-accordion-item')]//span[@class='clinvarAssertionTitle']")).getText().then(function(text){
@@ -299,7 +299,7 @@ function clinVarAnnotationTab(driver){
 function clinVarLinksTab(driver){
     driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//span[text()='External Links']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarLinksDataPanel')]//table")), 10000).then(function(text) {
-        var regex = /-|^\w+/;
+        var regex = /-|^\w+/
         driver.findElement(By.className("clinvar-links-db")).getText().then(function(text){
             assert(text).matches(regex);
         });

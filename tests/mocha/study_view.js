@@ -72,9 +72,9 @@ test.describe('Study View ('+config.browser()+')', function() {
 function evaCheckSummaryTable(driver){
     driver.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
         var value = driver.findElement(By.xpath("//table[@id='summaryTable']")).getText();
-        var regExp = /^\w+/;
-        var numExp = /^\d+$/;
-        var resourceExp = /^\w+|\d+$/;
+        var regExp = /^\w+/
+        var numExp = /^\d+$/
+        var resourceExp = /^\w+|\d+$/
         chai.expect('#organism-span').dom.to.have.text(regExp);
         chai.expect('#scientific-name-span').dom.to.have.text(regExp);
         chai.expect('#taxonomy-id-span').dom.to.have.text(numExp);
@@ -96,8 +96,8 @@ function evaCheckSummaryTable(driver){
 function dgvaCheckSummaryTable(driver){
     driver.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
         var value = driver.findElement(By.xpath("//table[@id='summaryTable']")).getText();
-        var regExp = /^\w+/;
-        var numExp = /^\d+$/;
+        var regExp = /^\w+/
+        var numExp = /^\d+$/
         chai.expect('#organism-span').dom.to.have.text(regExp);
         chai.expect('#scientific-name-span').dom.to.have.text(regExp);
         chai.expect('#taxonomy-id-span').dom.to.have.text(numExp);
@@ -136,13 +136,13 @@ function checkFilesTable(driver){
         assert(value).contains('File Name');
 
         //expression to math NA or 12334
-        var countRegExp = /NA|^\d+$/;
+        var countRegExp = /NA|^\d+$/
 
         //expression to match NA or 0.00
-        var meanCountRegExp = /NA|^[+-]?\d+(?:\.\d{1,2})?$/;
+        var meanCountRegExp = /NA|^[+-]?\d+(?:\.\d{1,2})?$/
 
         //expression to match NA or 0.00 (123/123)
-        var transitionCountRegExp =  /NA|^[+-]?\d+(?:\.\d{1,2})\s\(\d+\/\d+\)?$/;
+        var transitionCountRegExp =  /NA|^[+-]?\d+(?:\.\d{1,2})\s\(\d+\/\d+\)?$/
 
         chai.expect('.samples_count').dom.to.have.text(countRegExp);
         chai.expect('.variants_ount').dom.to.have.text(countRegExp);

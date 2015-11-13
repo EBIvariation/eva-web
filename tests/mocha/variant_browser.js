@@ -92,7 +92,7 @@ function variantSearchByGene(driver){
             assert(text).equalTo('13');
         });
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[2]/div[text()]")).getText().then(function(text){
-            var regex = /^[3][2]\d{6}?$/;
+            var regex = /^[3][2]\d{6}?$/
             assert(text).matches(regex);
         });
     });
@@ -179,12 +179,12 @@ function variantAnnotationTab(driver){
         });
         //check Polyphen
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[9]/div[text()]")).getText().then(function(text){
-            regex = /-|^\d+([,.]\d+)?$/;
+            regex = /-|^\d+([,.]\d+)?$/
             assert(text).matches(regex);
         });
         //check Sift
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[9]/div[text()]")).getText().then(function(text){
-            regex = /-|^\d+([,.]\d+)?$/;
+            regex = /-|^\d+([,.]\d+)?$/
             assert(text).matches(regex);
         });
     });
@@ -272,22 +272,22 @@ function variantPopulationTab(driver){
                         });
                         //check MAF
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[3]/div")).getText().then(function(text){
-                            regex = /^[+-]?\d+(?:\.\d{1,3})?$/;
+                            regex = /^[+-]?\d+(?:\.\d{1,3})?$/
                             assert(text).matches(regex);
                         });
                         //check MAF allele
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[4]/div")).getText().then(function(text){
-                            regex = /^[ACGT]+$/;
+                            regex = /^[ACGT]+$/
                             assert(text).matches(regex);
                         });
                         //check missing alleles
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[5]/div")).getText().then(function(text){
-                            regex = /^\d+$/;
+                            regex = /^\d+$/
                             assert(text).matches(regex);
                         });
                         //check missing genotypes
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[6]/div")).getText().then(function(text){
-                            regex = /^\d+$/;
+                            regex = /^\d+$/
                             assert(text).matches(regex);
                         });
                         //check pie chart is present for every ALL population.
