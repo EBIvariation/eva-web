@@ -183,7 +183,7 @@ ClinvarAssertionPanel.prototype = {
                     '</tr>'+
                     '<tr>'+
                     '<td class="clinVarAccession">{clinVarAccession.acc}</td>'+
-                    '<td class="clinVarAssertion-description">{clinicalSignificance.description}</td>'+
+                    '<td class="clinVarAssertion-significance">{clinicalSignificance.description}</td>'+
                     '<td class="clinVarAssertion-reviewStatus">{clinicalSignificance.reviewStatus}</td>'+
                     '<td class="clinVarAssertion-submittedDate">'+submittedDate+'</td>'+
         //                            '<td>'+origin+'</td>'+
