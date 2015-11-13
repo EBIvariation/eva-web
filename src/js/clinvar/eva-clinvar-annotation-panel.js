@@ -37,19 +37,21 @@ function ClinvarAnnotationPanel(args) {
                 dataIndex: "ensemblGeneId",
                 flex: 1.4,
                 xtype: "templatecolumn",
-                tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a>',
+                tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>',
             },
             {
                 text: "Ensembl <br /> Gene Symbol",
                 dataIndex: "geneName",
-                flex: 0.9
+                xtype: "templatecolumn",
+                flex: 0.9,
+                tpl: '<tpl if="geneName">{geneName}<tpl else>-</tpl>',
             },
             {
                 text: "Ensembl <br />Transcript ID",
                 dataIndex: "ensemblTranscriptId",
                 flex: 1.3,
                 xtype: "templatecolumn",
-                tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a>',
+                tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>',
             },
             {
                 text: "SO Term(s)",
@@ -92,21 +94,29 @@ function ClinvarAnnotationPanel(args) {
             {
                 text: "Biotype",
                 dataIndex: "biotype",
+                xtype: "templatecolumn",
+                tpl: '<tpl if="biotype">{biotype}<tpl else>-</tpl>',
                 flex: 1.3
             },
             {
                 text: "Codon",
                 dataIndex: "codon",
+                xtype: "templatecolumn",
+                tpl: '<tpl if="codon">{codon}<tpl else>-</tpl>',
                 flex: 0.6
             },
             {
                 text: "cDna <br />Position",
                 dataIndex: "cDnaPosition",
+                xtype: "templatecolumn",
+                tpl: '<tpl if="cDnaPosition">{cDnaPosition}<tpl elseif="cDnaPosition == 0">{cDnaPosition}<tpl else>-</tpl>',
                 flex: 0.6
             },
             {
-                text: "AA <br />Change",
+                text: "AA<br />Change",
                 dataIndex: "aaChange",
+                xtype: "templatecolumn",
+                tpl: '<tpl if="aaChange">{aaChange}<tpl else>-</tpl>',
                 flex: 0.6
             }
 

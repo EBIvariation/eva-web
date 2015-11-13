@@ -93,43 +93,35 @@ function checkStudyGrid(driver) {
     return driver;
 }
 function checkPopulationGrid(driver) {
-    var regex;
     driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).then(function(webElement) {
         driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
             driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                 for (var i = 0; i < rows.length; i++){
-
                     // check for duplication study
                     rows[i].findElement(By.tagName("a")).getAttribute('href').then(function(text){
                         text = text.split("?");
                         chai.expect('span[class="popStats-panel-study-title"] > a[href="?'+text[1]+'"]').dom.to.have.count(1);
                     });
-
                     rows[i].findElement(By.className("population-stats-grid")).getAttribute('id').then(function(id){
                         //check Population column
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[2]/div")).getText().then(function(text){
-                            regex = /^[A-Z]+$/
-                            assert(text).matches(regex);
+                            assert(text).matches(/^[a-zA-Z0-9\-_.,]+$/);
                         });
                         //check MAF
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[3]/div")).getText().then(function(text){
-                            regex = /^[+-]?\d+(?:\.\d{1,3})?$/
-                            assert(text).matches(regex);
+                            assert(text).matches(/^[+-]?\d+(?:\.\d{1,3})?$/);
                         });
                         //check MAF allele
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[4]/div")).getText().then(function(text){
-                            regex = /^[ACGT]+$/
-                            assert(text).matches(regex);
+                            assert(text).matches(/-|^[ACGT]+$/);
                         });
                         //check missing alleles
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[5]/div")).getText().then(function(text){
-                            regex = /^\d+$/
-                            assert(text).matches(regex);
+                            assert(text).matches(/^\d+$/);
                         });
                         //check missing genotypes
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[6]/div")).getText().then(function(text){
-                            regex = /^\d+$/
-                            assert(text).matches(regex);
+                            assert(text).matches( /^\d+$/);
                         });
                         //check pie chart is present for every ALL population.
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table//td/div[contains(text(),'ALL')]/../..//div[contains(@class,'x-grid-row-expander')]")).click().then(function(){
