@@ -17,7 +17,7 @@ module.exports = {
         return driver;
     },
     shutdownDriver: function (driver) {
-            driver.quit();
+        driver.quit();
     },
     browser: function (driver) {
        return browser;

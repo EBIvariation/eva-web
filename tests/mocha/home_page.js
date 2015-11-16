@@ -18,11 +18,9 @@ test.describe('Home Page ('+config.browser()+')', function() {
 });
 
 function twitterWidgetRendered(driver){
-    driver.findElement(By.id("twitter-widget-0"));
     driver.wait(until.elementLocated(By.className("twitter-timeline-rendered")), 10000).then(function(text) {
         chai.expect('.twitter-timeline-rendered').dom.to.have.count(1)
     });
-
     return driver;
 }
 
