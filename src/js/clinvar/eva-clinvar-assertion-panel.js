@@ -183,15 +183,15 @@ ClinvarAssertionPanel.prototype = {
                     '</tr>'+
                     '<tr>'+
                     '<td class="clinVarAccession">{clinVarAccession.acc}</td>'+
-                    '<td class="clinVarAssertion-significance">{clinicalSignificance.description}</td>'+
-                    '<td class="clinVarAssertion-reviewStatus">{clinicalSignificance.reviewStatus}</td>'+
+                    '<td class="clinVarAssertion-significance"><tpl if="clinicalSignificance.description">{clinicalSignificance.description}<tpl else>-</tpl></td>'+
+                    '<td class="clinVarAssertion-reviewStatus"><tpl if="clinicalSignificance.reviewStatus">{clinicalSignificance.reviewStatus}<tpl else>-</tpl></td>'+
                     '<td class="clinVarAssertion-submittedDate">'+submittedDate+'</td>'+
         //                            '<td>'+origin+'</td>'+
         //                            '<td>'+alleOrigin+'</td>'+
-                    '<td class="clinVarAssertion-submitter">{clinVarSubmissionID.submitter}</td>'+
+                    '<td class="clinVarAssertion-submitter"><tpl if="clinVarSubmissionID.submitter">{clinVarSubmissionID.submitter}<tpl else>-</tpl></td>'+
                     '<td class="clinVarAssertion-methodType">'+methodType+'</td>'+
                     '<td class="clinVarAssertion-alleOrigin">'+alleOrigin+'</td>'+
-                    '<td class="clinVarAssertion-type">{assertion.type}</td>'+
+                    '<td class="clinVarAssertion-type"><tpl if="assertion.type">{assertion.type}<tpl else>-</tpl></td>'+
                     '</tr>';
          div +='</table></div>';
         if(!_.isUndefined(publications)){
