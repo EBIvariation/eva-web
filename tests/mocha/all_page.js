@@ -11,9 +11,15 @@ test.describe('Checking All Browser Pages ('+config.browser()+')', function() {
         config.shutdownDriver(driver);
     });
 
-    test.it('The study browser is displayed', function() { visitStudyBrowser(driver) });
-    test.it('The variant browser is displayed', function() { visitVariantBrowser(driver) });
-    test.it('The clinical browser is displayed', function() { visitClinVarBrowser(driver) });
+    test.it('The study browser is displayed', function() {
+        visitStudyBrowser(driver);
+    });
+    test.it('The variant browser is displayed', function() {
+        visitVariantBrowser(driver);
+    });
+    test.it('The clinical browser is displayed', function() {
+        visitClinVarBrowser(driver);
+    });
 
 });
 

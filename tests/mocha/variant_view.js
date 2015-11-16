@@ -15,24 +15,24 @@ test.describe('Variant View ('+config.browser()+')', function() {
 
     test.describe('Summary Section', function() {
         test.it('Table should not be empty', function() {
-            checkSummaryGrid(driver)
+            checkSummaryGrid(driver);
         });
     });
     test.describe('SO Terms Section', function() {
         test.it('Table should not be empty', function() {
-            checkSOTermGrid(driver)
+            checkSOTermGrid(driver);
         });
     });
 
     test.describe('Studies Section', function() {
         test.it(' Grid should not be empty', function() {
-            checkStudyGrid(driver)
+            checkStudyGrid(driver);
         });
     });
 
     test.describe('Population Stats Section', function() {
         test.it('Grid should not be empty', function() {
-            checkPopulationGrid(driver)
+            checkPopulationGrid(driver);
         });
     });
 });
@@ -135,10 +135,10 @@ function checkPopulationGrid(driver) {
         });
     },function(err) {
         driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//h5")).then(function(text) {
-            assert(text).equalTo('Currently for 1000 Genomes Project data only')
+            assert(text).equalTo('Currently for 1000 Genomes Project data only');
         },function(err) {
             driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[@class='popstats-no-data']")).getText().then(function(text){
-                assert(text).equalTo('No Population data available')
+                assert(text).equalTo('No Population data available');
             });
         });
     });

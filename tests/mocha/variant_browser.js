@@ -38,16 +38,16 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
 
     test.describe('Bottom Panel', function() {
         test.it('Annotation Tab should not be empty', function() {
-            variantAnnotationTab(driver)
+            variantAnnotationTab(driver);
         });
         test.it('Files Tab should not be empty and no duplicate Items', function() {
-            variantFilesTab(driver)
+            variantFilesTab(driver);
         });
         test.it('Genotypes Tab should not be empty and no duplicate Items', function() {
-            variantGenotypesTab(driver)
+            variantGenotypesTab(driver);
         });
         test.it('Population Statistics should not be empty and no duplicate Items ', function() {
-            variantPopulationTab(driver)
+            variantPopulationTab(driver);
         });
     });
 
@@ -244,7 +244,7 @@ function variantGenotypesTab(driver){
     },function(err) {
         driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//p[@class='genotype-grid-no-data']")).then(function(text){
             driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//p[@class='genotype-grid-no-data']")).getText.then(function(text) {
-                assert(text).equalTo('No Genotypes data available')
+                assert(text).equalTo('No Genotypes data available');
             });
         },function(err) {
         });
@@ -297,10 +297,10 @@ function variantPopulationTab(driver){
         });
     },function(err) {
         driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//h5")).then(function(text) {
-            assert(text).equalTo('Currently for 1000 Genomes Project data only')
+            assert(text).equalTo('Currently for 1000 Genomes Project data only');
         },function(err) {
             driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[@class='popstats-no-data']")).getText().then(function(text){
-                assert(text).equalTo('No Population data available')
+                assert(text).equalTo('No Population data available');
             });
         });
     });

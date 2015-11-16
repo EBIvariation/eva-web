@@ -11,15 +11,19 @@ test.describe('Home Page ('+config.browser()+')', function() {
         config.shutdownDriver(driver);
     });
 
-    test.it('Twitter Widget should  be rendered only once', function() { twitterWidgetRendered(driver)});
+    test.it('Twitter Widget should  be rendered only once', function() {
+        twitterWidgetRendered(driver);
+    });
 
-    test.it('Statistics all four charts rendered', function() {statisticsChartsRendered(driver)});
+    test.it('Statistics all four charts rendered', function() {
+        statisticsChartsRendered(driver);
+    });
 
 });
 
 function twitterWidgetRendered(driver){
     driver.wait(until.elementLocated(By.className("twitter-timeline-rendered")), 10000).then(function(text) {
-        chai.expect('.twitter-timeline-rendered').dom.to.have.count(1)
+        chai.expect('.twitter-timeline-rendered').dom.to.have.count(1);
     });
     return driver;
 }

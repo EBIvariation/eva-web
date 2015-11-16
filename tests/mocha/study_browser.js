@@ -19,24 +19,24 @@ test.describe('Study Browser ('+config.browser()+')', function() {
     test.describe('Short Genetic Variants', function() {
         test.describe('search by Species', function() {
             test.it('Search by Barley should match with column Organism', function() {
-                sgvStudySearchBySpecies(driver)
+                sgvStudySearchBySpecies(driver);
             });
         });
         test.describe('search by Type', function() {
             test.it('Search by Curation should match with column Type', function() {
-                sgvStudySearchByType(driver)
+                sgvStudySearchByType(driver);
             });
         });
 
         test.describe('search by Species and Types', function() {
             test.it('Search by (Barley,Human) and Whole Genome Sequencing should match with column Organism and Type', function() {
-                sgvStudySearchBySpeciesType(driver)
+                sgvStudySearchBySpeciesType(driver);
             });
         });
 
         test.describe('search by Text', function() {
             test.it('Search term 1000 should match with Name', function() {
-                sgvStudySearchByText(driver)
+                sgvStudySearchByText(driver);
             });
         });
     });
@@ -44,24 +44,24 @@ test.describe('Study Browser ('+config.browser()+')', function() {
 
         test.describe('search by Species', function() {
             test.it('Search by (Chimpanzee,Dog) should match with column Organism', function() {
-                svStudySearchBySpecies(driver)
+                svStudySearchBySpecies(driver);
             });
         });
         test.describe('search by Type', function() {
             test.it('Search by Control Set should match with column Type', function() {
-                svStudySearchByType(driver)
+                svStudySearchByType(driver);
             });
         });
 
         test.describe('search by Species and Types', function() {
             test.it('Search by (Chimpanzee,Dog) and Control Set should match with column Organism and Type', function() {
-                svStudySearchBySpeciesType(driver)
+                svStudySearchBySpeciesType(driver);
             });
         });
 
         test.describe('search by Text', function() {
             test.it('Search term 1000 should match with Name', function() {
-                svStudySearchByText(driver)
+                svStudySearchByText(driver);
             });
         });
     });

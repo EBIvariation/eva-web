@@ -64,16 +64,16 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
 
     test.describe('Bottom Panel', function() {
         test.it('Summary Tab should not be empty', function() {
-            clinVarSummaryTab(driver)
+            clinVarSummaryTab(driver);
         });
         test.it('Clinical Assertion Tab should not be empty and no duplicate items', function() {
-            clinVarAssertionTab(driver)
+            clinVarAssertionTab(driver);
         });
         test.it('Annotation Tab should not be empty', function() {
-            clinVarAnnotationTab(driver)
+            clinVarAnnotationTab(driver);
         });
         test.it('External Links Tab should not be empty', function() {
-            clinVarLinksTab(driver)
+            clinVarLinksTab(driver);
         });
     });
 
@@ -173,7 +173,7 @@ function clinVarFilterByVariationType(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-variationType']")), 10000).then(function(text) {
         chai.expect('.clinvar-variationType').dom.to.have.text('Deletion');
-    });;
+    });
 
     return driver;
 }
