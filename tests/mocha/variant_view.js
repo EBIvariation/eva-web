@@ -25,7 +25,7 @@ test.describe('Variant View ('+config.browser()+')', function() {
     });
 
     test.describe('Studies Section', function() {
-        test.it(' Grid should not be empty', function() {
+        test.it('Grid should not be empty', function() {
             checkStudyGrid(driver);
         });
     });

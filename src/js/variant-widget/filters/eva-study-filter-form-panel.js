@@ -25,7 +25,7 @@ function EvaStudyFilterFormPanel(args) {
     this.id = Utils.genId("StudyFilterFormPanel");
     this.target;
     this.autoRender = true;
-    this.title = "Select Studies";
+    this.title = "Studies Mapped To Assembly";
 //    this.studies = [];
 //    this.studiesStore;
     this.border = true;

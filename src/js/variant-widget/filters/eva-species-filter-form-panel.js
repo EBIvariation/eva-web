@@ -23,7 +23,7 @@ function SpeciesFilterFormPanel(args) {
     this.id = Utils.genId("SpeciesFilterFormPanel");
     this.target;
     this.autoRender = true;
-    this.title = "Species";
+    this.title = "Genome Assembly";
     this.border = false;
     this.collapsible = true;
     this.titleCollapse = false;
