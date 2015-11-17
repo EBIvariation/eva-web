@@ -30,7 +30,7 @@ function EvaClinicalWidgetPanel(args) {
     if (this.autoRender) {
         this.render();
     }
-};
+}
 
 
 EvaClinicalWidgetPanel.prototype = {
@@ -42,7 +42,6 @@ EvaClinicalWidgetPanel.prototype = {
             this.panel = this._createPanel();
             this.rendered = true;
         }
-
     },
     draw: function () {
         if(!this.rendered) {
@@ -459,7 +458,6 @@ EvaClinicalWidgetPanel.prototype = {
             ]
         });
 
-
         var formPanel = new EvaFormPanel({
             title: 'Filter',
             headerConfig:false,
@@ -502,9 +500,7 @@ EvaClinicalWidgetPanel.prototype = {
                     }
 
                     var params = _.extend(e.values,{merge:true,source:'clinvar',species:'hsapiens_grch37'});
-
                     _this.clinvarWidget.formValues = e.values;
-
                     var url = EvaManager.url({
                         host:CELLBASE_HOST,
                         version:CELLBASE_VERSION,
@@ -512,13 +508,9 @@ EvaClinicalWidgetPanel.prototype = {
                         resource: 'all',
                         params:params
                     });
-
-
-
                     _this.clinvarWidget.retrieveData(url,e.values);
                     _this['queryParams'] = e.values;
                     _this._updateURL(e.values);
-
                 }
             }
         });
@@ -539,7 +531,6 @@ EvaClinicalWidgetPanel.prototype = {
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Clinical Browser&'+$.param( values);;
        window.history.pushState({path:newurl},'',newurl);
     }
-
 
 };
 

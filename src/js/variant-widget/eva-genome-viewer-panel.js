@@ -47,7 +47,6 @@ EvaGenomeViewerPanel.prototype = {
             this.genomeViewerDiv = document.createElement('div');
             this.genomeViewerDiv.setAttribute('class', 'genome-viewer');
             this.genomeViewerDiv.style.border = "1px solid #d3d3d3";
-            //this.genomeViewerDiv.style.marginTop = "10px";
 
             this.div.appendChild(this.formDiv);
             this.div.appendChild(this.genomeViewerDiv);
@@ -125,14 +124,11 @@ EvaGenomeViewerPanel.prototype = {
             studyFilterTpl: '<tpl><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="http://www.ebi.ac.uk/ena/data/view/{studyId}" target="_blank">{studyId}</a>) </div></tpl>'
         });
 
-
-
         speciesFilter.on('species:change', function (e) {
             if (e.species) {
                 _this._loadListStudies(studyFilter, e.species);
             }
         });
-
 
         this._loadListStudies(studyFilter);
 
@@ -315,7 +311,6 @@ EvaGenomeViewerPanel.prototype = {
             })
         });
         this.genomeViewer.addTrack(eva);
-//        this.formPanel.panel.collapse();
     },
     _createGenomeViewer: function (target) {
         var _this = this;
@@ -366,7 +361,8 @@ EvaGenomeViewerPanel.prototype = {
 
                 }
             }
-        }); //the div must exist
+        });
+        //the div must exist
         genomeViewer.navigationBar.on('leftSideButton:click', function () {
             $(_this.formPanelGenomeFilterDiv).toggle();
         });
@@ -377,7 +373,6 @@ EvaGenomeViewerPanel.prototype = {
                 console.log(event)
             }
         });
-
 
         var geneOverview = new FeatureTrack({
             // title: 'Gene overview',
@@ -490,9 +485,6 @@ EvaGenomeViewerPanel.prototype = {
         var region = {chromosome: temp[0]};
         var temp_position = temp[1].split("-");
         _.extend(region, {start: temp_position[0], end: temp_position[1]});
-
         return region;
     }
-
-
 };

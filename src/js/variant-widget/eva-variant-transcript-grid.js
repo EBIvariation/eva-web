@@ -95,21 +95,14 @@ EvaVariantTranscriptGrid.prototype = {
         this.targetDiv.appendChild(this.div);
         this.panel.render(this.div);
     },
-
     clear: function () {
         this.store.removeAll();
     },
     load: function (data) {
-
         var _this = this;
-
-
         _this.grid.setLoading(true);
         _this.clear();
         this.store.loadData(data.transcripts);
-
-
-
         this.trigger("load:finish", {sender: _this})
         this.grid.setLoading(false);
     },
@@ -122,10 +115,7 @@ EvaVariantTranscriptGrid.prototype = {
             fields: this.attributes
         });
 
-
-
         this.store = Ext.create('Ext.data.Store', {
-//                pageSize: this.pageSize,
                 model: this.model,
                 remoteSort: true,
                 proxy: {
@@ -141,11 +131,9 @@ EvaVariantTranscriptGrid.prototype = {
             }
         );
 
-
         this.grid = Ext.create('Ext.grid.Panel', {
                 title: this.title,
                 store: this.store,
-//                cls:'studybrowser',
                 header: this.headerConfig,
                 margin:this.margin,
                 loadMask: true,
@@ -158,27 +146,9 @@ EvaVariantTranscriptGrid.prototype = {
                 viewConfig: {
                     emptyText: 'No records to display',
                     enableTextSelection: true,
-                },
-//                tbar: this.paging
+                }
             }
         );
-
-
-//        this.grid = Ext.create('Ext.grid.Panel', gridArgs);
-
-//        var panel = Ext.create('Ext.container.Container', {
-//            layout: {
-//                type: 'vbox',
-//                align: 'stretch'
-//            },
-//            overflowY: true,
-//            padding: 10,
-//            items: [
-//                this.grid
-//            ]
-//        });
         return this.grid;
-
-
     }
 };

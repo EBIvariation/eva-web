@@ -85,8 +85,6 @@ EvaStudyBrowserGrid.prototype = {
             fields: this.attributes
         });
 
-
-
         this.store = Ext.create('Ext.data.Store', {
                 model: this.model,
                 remoteSort: true,
@@ -99,10 +97,8 @@ EvaStudyBrowserGrid.prototype = {
                         _this.trigger("variant:clear", {sender: _this});
                     }
                 }
-
             }
         );
-
 
         this.paging = Ext.create('Ext.PagingToolbar', {
             store: _this.store,
@@ -111,31 +107,7 @@ EvaStudyBrowserGrid.prototype = {
             displayInfo: true,
             displayMsg: 'Studies {0} - {1} of {2}',
             emptyMsg: "No studies to display",
-            inputItemWidth:40,
-//            items: {
-//                xtype: 'textfield',
-//                name: 'search',
-//                fieldLabel: 'Search',
-//                labelAlign:'right',
-//                labelWidth:50,
-//                listeners: {
-//                    change: function () {
-//                        _this.store.clearFilter();
-//                        var value = this.getValue();
-//                        if (value == "") {
-//                            _this.store.clearFilter();
-//                        } else {
-//                            var regex = new RegExp(value, "i");
-//                            _this.store.filterBy(function (e) {
-//                                return regex.test(e.get('id')) || regex.test(e.get('name')) || regex.test(e.get('description'));
-//                            });
-//                        }
-//                    },
-//                    afterrender: function() {
-//                        _this.paging.down('#refresh').hide();
-//                    }
-//                }
-//            }
+            inputItemWidth:40
         });
 
         var grid = Ext.create('Ext.grid.Panel', {
@@ -147,7 +119,6 @@ EvaStudyBrowserGrid.prototype = {
                 header: this.headerConfig,
                 loadMask: true,
                 columns: this.columnsGrid,
-                plugins: this.plugins,
                 animCollapse: false,
                 height: this.height,
                 overflowX:false,

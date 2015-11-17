@@ -84,8 +84,6 @@ ClinvarBrowserGrid.prototype = {
             fields: this.attributes
         });
 
-
-
         this.store = Ext.create('Ext.data.Store', {
                 pageSize: this.pageSize,
                 model: this.model,
@@ -107,7 +105,6 @@ ClinvarBrowserGrid.prototype = {
             var sampleName = this.samples[i];
             this._addSampleColumn(sampleName);
         }
-
 
         this.paging = Ext.create('Ext.PagingToolbar', {
             store: _this.store,
@@ -157,7 +154,6 @@ ClinvarBrowserGrid.prototype = {
     load: function (data) {
         var _this = this;
         this.store.destroy();
-//        _this.setLoading(true);
 
         if (typeof this.dataParser !== 'undefined') {
             this.dataParser(data)
@@ -165,7 +161,6 @@ ClinvarBrowserGrid.prototype = {
             this._parserFunction(data);
 
         }
-
 
         this.store = Ext.create('Ext.data.Store', {
             pageSize: this.pageSize,
@@ -175,7 +170,6 @@ ClinvarBrowserGrid.prototype = {
             proxy: {
                 type: 'memory',
                 enablePaging: true
-
             },
             listeners: {
                 load: function (store, records, successful, operation, eOpts) {
@@ -186,7 +180,6 @@ ClinvarBrowserGrid.prototype = {
                         _this._parserFunction(records);
                         _this.grid.getSelectionModel().select(0, true);
                     }
-
                     _this.setLoading(false);
                 },
                 beforeload: function (store, operation, eOpts) {
@@ -254,7 +247,6 @@ ClinvarBrowserGrid.prototype = {
                     _this.trigger("clinvar:change", {sender: _this});
                 }
             }
-
         });
 
         this.grid.reconfigure(this.store, this.columnsGrid);
@@ -265,12 +257,7 @@ ClinvarBrowserGrid.prototype = {
     _parserFunction: function (data) {
         for (var i = 0; i < data.length; i++) {
             var variant = data[i];
-
-//            if (variant.hgvs && variant.hgvs.genomic && variant.hgvs.genomic.length > 0) {
-//                variant.hgvs_name = variant.hgvs.genomic[0];
-//            }
         }
-
     },
     setLoading: function (loading) {
         this.panel.setLoading(loading);
@@ -278,13 +265,11 @@ ClinvarBrowserGrid.prototype = {
     _addSampleColumn: function (sampleName) {
 
         var _this = this;
-
         for (var i = 0; i < _this.attributes.length; i++) {
             if (_this.attributes[i].name == sampleName) {
                 return false;
             }
         }
-
         _this.attributes.push({
             "name": sampleName,
             "type": "string"

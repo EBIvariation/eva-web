@@ -85,8 +85,6 @@ EvaVariantBrowserGrid.prototype = {
             fields: this.attributes
         });
 
-
-
         this.store = Ext.create('Ext.data.Store', {
                 pageSize: this.pageSize,
                 model: this.model,
@@ -170,9 +168,7 @@ EvaVariantBrowserGrid.prototype = {
             this.dataParser(data)
         } else {
             this._parserFunction(data);
-
         }
-
         this.store = Ext.create('Ext.data.Store', {
             pageSize: this.pageSize,
             model: this.model,
@@ -240,7 +236,6 @@ EvaVariantBrowserGrid.prototype = {
                         _this._parserFunction(records);
                         _this.grid.getSelectionModel().select(0, true);
                     }
-
                     _this.setLoading(false);
                 },
                 beforeload: function (store, operation, eOpts) {
@@ -248,7 +243,6 @@ EvaVariantBrowserGrid.prototype = {
                     _this.trigger("variant:change", {sender: _this});
                 }
             }
-
         });
 
         this.grid.reconfigure(this.store, this.columnsGrid);
@@ -278,7 +272,6 @@ EvaVariantBrowserGrid.prototype = {
                 return false;
             }
         }
-
         _this.attributes.push({
             "name": sampleName,
             "type": "string"

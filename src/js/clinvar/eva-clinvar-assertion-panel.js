@@ -25,11 +25,8 @@ function ClinvarAssertionPanel(args) {
     this.height = 500;
     this.autoRender = true;
     _.extend(this, args);
-
     this.on(this.handlers);
-
     this.rendered = false;
-
     if (this.autoRender) {
         this.render();
     }
@@ -38,13 +35,10 @@ function ClinvarAssertionPanel(args) {
 ClinvarAssertionPanel.prototype = {
     render: function () {
         var _this = this;
-
         //HTML skel
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
-
         this.panel = this._createPanel();
-
     },
     draw: function () {
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
@@ -63,18 +57,6 @@ ClinvarAssertionPanel.prototype = {
     load: function (data) {
         this.clear();
         var panels = [];
-//        var clinvarList = data.clinvarList;
-//        console.log(data)
-//        console.log('------')
-//        for (var key in clinvarList) {
-//            var clinVarAssertion = clinvarList[key].clinVarAssertion;
-//            for (var key in clinVarAssertion) {
-//                var assertData =  clinVarAssertion[key];
-//                var asstPanel = this._createAssertPanel(assertData);
-//            }
-//            panels.push(asstPanel);
-//        }
-        var panels = [];
         var clinVarAssertion = data.clinvarSet.clinVarAssertion;
         for (var key in clinVarAssertion) {
                 var assertData =  clinVarAssertion[key];
@@ -89,7 +71,6 @@ ClinvarAssertionPanel.prototype = {
             layout: {
                 type: 'accordion',
                 titleCollapse: true,
-//                fill: false,
                 multi: true
             }
         });
@@ -116,14 +97,11 @@ ClinvarAssertionPanel.prototype = {
         return panel;
     },
     _createAssertPanel: function (data) {
-//        var lastEvaluated = new Date( data.clinicalSignificance.dateLastEvaluated ).toUTCString();
         var submittedDate = '-';
         if(data.clinVarSubmissionID.submitterDate){
              submittedDate = new Date( data.clinVarSubmissionID.submitterDate ).toUTCString();
         }
-
         var citation= 'NA';
-//        var publications = '-';
         var publications;
         var pubArray = [];
         var measure = data.measureSet.measure;
@@ -139,7 +117,6 @@ ClinvarAssertionPanel.prototype = {
 
         },measure);
         if(!_.isEmpty(pubArray)){
-//            publications = pubArray.join('<br/>');
             publications = pubArray.join(',');
         }
 
@@ -174,8 +151,6 @@ ClinvarAssertionPanel.prototype = {
                     '<td class="header">Clinical Significance</td>'+
                     '<td class="header">Review status</td>'+
                     '<td class="header">Date of Submission</td>'+
-        //                            '<td class="header">Origin </td>'+
-        //                            '<td class="header">Citations</td>'+
                     '<td class="header">Submitter</td>'+
                     '<td class="header">Method Type</td>'+
                     '<td class="header">Allele origin</td>'+
@@ -186,8 +161,6 @@ ClinvarAssertionPanel.prototype = {
                     '<td class="clinVarAssertion-significance"><tpl if="clinicalSignificance.description">{clinicalSignificance.description}<tpl else>-</tpl></td>'+
                     '<td class="clinVarAssertion-reviewStatus"><tpl if="clinicalSignificance.reviewStatus">{clinicalSignificance.reviewStatus}<tpl else>-</tpl></td>'+
                     '<td class="clinVarAssertion-submittedDate">'+submittedDate+'</td>'+
-        //                            '<td>'+origin+'</td>'+
-        //                            '<td>'+alleOrigin+'</td>'+
                     '<td class="clinVarAssertion-submitter"><tpl if="clinVarSubmissionID.submitter">{clinVarSubmissionID.submitter}<tpl else>-</tpl></td>'+
                     '<td class="clinVarAssertion-methodType">'+methodType+'</td>'+
                     '<td class="clinVarAssertion-alleOrigin">'+alleOrigin+'</td>'+
@@ -207,8 +180,6 @@ ClinvarAssertionPanel.prototype = {
                 xtype: 'container',
                 data: data,
                 width:960,
-//                overflowX: true,
-//                overflowY: true,
                 tpl: new Ext.XTemplate(div),
                 margin: '10 5 5 10'
             }]

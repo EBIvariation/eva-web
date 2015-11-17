@@ -70,7 +70,6 @@ EvaConservationScoreFilterFormPanel.prototype = {
             xtype:'fieldset',
             title: '',
             collapsible: false,
-//            height:150,
             width :280,
             margin:'5 0 0 0',
             defaultType: 'textfield',
@@ -89,9 +88,8 @@ EvaConservationScoreFilterFormPanel.prototype = {
                     margin:'5 0 5 0',
                     emptyText:'0.4'
                 }
-
             ]
-        }
+        };
 
         return Ext.create('Ext.form.Panel', {
             id:this.id,
@@ -131,7 +129,6 @@ EvaConservationScoreFilterFormPanel.prototype = {
             valuesArray =  valuesArray.join(',');
             return {conserved_region:valuesArray};
         }
-
     },
     clear: function () {
         this.panel.reset();

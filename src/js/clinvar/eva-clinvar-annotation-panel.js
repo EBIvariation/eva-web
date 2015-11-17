@@ -25,11 +25,8 @@ function ClinvarAnnotationPanel(args) {
     this.height = 500;
     this.autoRender = true;
     _.extend(this, args);
-
     this.on(this.handlers);
-
     this.rendered = false;
-
     this.columns = {
         items:[
             {
@@ -79,7 +76,6 @@ function ClinvarAnnotationPanel(args) {
                             }
                         },groupedArr);
                         so_array =  _.compact(so_array);
-//                              console.log(so_array)
                         meta.tdAttr = 'data-qtip="'+ so_array.join(',')+'"';
                         return value ? Ext.String.format(
                             '<tpl>'+so_array.join(',')+'</tpl>',
@@ -151,10 +147,8 @@ ClinvarAnnotationPanel.prototype = {
             console.log('target not found');
             return;
         }
-
         this.targetDiv.appendChild(this.div);
         this.panel.render(this.div);
-
     },
     clear: function () {
         this.annotContainer.removeAll(true);
@@ -163,16 +157,6 @@ ClinvarAnnotationPanel.prototype = {
         var _this = this;
         this.clear();
         var panels = [];
-//        var summaryPanel = this._createSummaryPanel(data.clinvarList);
-//        var clinvarList = data.clinvarList;
-//        for (var key in clinvarList) {
-//            var summaryData = clinvarList[key];
-//            var summaryPanel = this._createSummaryPanel(summaryData);
-//            panels.push(summaryPanel);
-//        }
-//        this.summaryContainer.removeAll();
-//        this.summaryContainer.add(panels);
-
           var annotData = data.annot;
           if(!_.isUndefined(params)){
              _.extend(annotData, params);
@@ -189,8 +173,6 @@ ClinvarAnnotationPanel.prototype = {
           var panel = this._createAnnotPanel(annotData);
           this.annotContainer.removeAll();
           this.annotContainer.add(panel);
-
-
     },
     _createPanel: function () {
         var _this = this;
@@ -232,7 +214,6 @@ ClinvarAnnotationPanel.prototype = {
         if(annotData){
             var annotColumns = _this.columns;
             var store = Ext.create("Ext.data.Store", {
-                //storeId: "GenotypeStore",
                 pageSize: 20,
                 fields: [
                     {name: 'ensemblGeneId', type: 'string'},
@@ -260,13 +241,10 @@ ClinvarAnnotationPanel.prototype = {
                 emptyMsg: "No records to display"
             });
 
-
             var grid = Ext.create('Ext.grid.Panel', {
                 store: store,
                 loadMask: true,
                 width: 800,
-//            height: 370,
-//                maxHeight:550,
                 autoHeight: true,
                 cls:'genotype-grid',
                 margin: 5,
@@ -284,12 +262,7 @@ ClinvarAnnotationPanel.prototype = {
             });
         }
 
-
-
-
-
         var annotPanel = Ext.create('Ext.panel.Panel', {
-//            overflowX:true,
             layout:'fit',
             padding: 10,
             width:800,
@@ -300,7 +273,6 @@ ClinvarAnnotationPanel.prototype = {
         if(annotData){
             paging.doRefresh();
         }
-
 
         return annotPanel;
     }

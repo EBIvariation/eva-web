@@ -26,15 +26,10 @@ function EvaStudyView(args) {
     _.extend(this, args);
     this.rendered = false;
     this.render();
-
-
 }
 EvaStudyView.prototype = {
     render: function () {
         var _this = this;
-//        $('*').css('cursor','wait');
-
-
         var params = {};
 
         if(this.type === 'dgva'){
@@ -92,18 +87,15 @@ EvaStudyView.prototype = {
                 }
             });
         }
-
     },
     _draw:function(data,content){
         var _this = this;
         var el =  document.querySelector("#"+this.target);
         el.innerHTML = '';
-//        $('*').css('cursor','default');
         var elDiv = document.createElement("div");
         $(elDiv).html(content);
         el.appendChild(elDiv);
         el.applyAuthorStyles = true;
-
     },
     _parseData:function(data){
         var _this = this;
@@ -130,7 +122,6 @@ EvaStudyView.prototype = {
             if(_this.type === 'eva'){
 
                 var taxonomyId = new Array();
-
                 if(data.summaryData[0].taxonomyId){
                     for (i = 0; i < data.summaryData[0].taxonomyId.length; i++) {
                         var taxLink = 'http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id='+data.summaryData[0].taxonomyId[i];
@@ -143,9 +134,7 @@ EvaStudyView.prototype = {
                      projectURL = ena_link;
                 }else{
                      projectURL = '<a href="'+_this._getProjectUrl(data.summaryData[0].id)+'" target="_blank">'+_this._getProjectUrl(data.summaryData[0].id)+'</a><br /><br />'+ena_link;
-
                 }
-
 
                 var _filesTable  = '<div><h3>'+data.summaryData[0].name+'</h3>' +
                     '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
@@ -164,8 +153,6 @@ EvaStudyView.prototype = {
                     '<tr><td><b>Download</b></td><td><span id="download-span"><a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/'+data.summaryData[0].id+'" target="_blank">FTP</a></div></td></tr>' +
                     '<tr><td><span><b>Publications</b></span></td><td><span id="publication-section"></span></td></tr>' +
                     '</table>'
-
-
 
                 if(data.filesData.length > 0){
                     var fileNameArr = [];
@@ -209,7 +196,6 @@ EvaStudyView.prototype = {
                         '</tr></thead><tbody>'
                     for (i = 0; i < data.filesData.length; i++) {
                         var ftpLocation = '';
-//                        if(!_.isUndefined(_.findWhere(ftpLink, {id:data.filesData[i].ftpId}))){
                         if(!_.isUndefined(_.findWhere(ftpLink, {id:data.filesData[i].fileName}))){
                             ftpLocation = _.findWhere(ftpLink, {id:data.filesData[i].fileName}).result[0];
                         }
@@ -217,7 +203,6 @@ EvaStudyView.prototype = {
                         if(ftpLink.length > 0 && ftpLocation != 'ftp:/null' && !_.isEmpty(ftpLocation)){
                             console.log(ftpLocation)
                             var downloadLink = '<a href="'+ftpLocation+'" target="_blank">'+data.filesData[i].fileName+'</a>';
-//                            var iobio_url = 'http://ega-beacon.windows.ebi.ac.uk:8080/?vcf=http://s3.amazonaws.com/vcf.files/ExAC.r0.2.sites.vep.vcf.gz';
                             iobio_url = 'http://ega-beacon.windows.ebi.ac.uk:8080/?vcf='+ftpLocation;
                             iobioLink = '<a href="?eva-iobio&url='+iobio_url+'" target="_blank">Iobio</a>'
                         }else{
@@ -319,7 +304,6 @@ EvaStudyView.prototype = {
                 if(pubDiv){
                     pubDiv.innerHTML = '<p>Attempting to retrieve publication information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '...</p>'
                 }
-
                 if(pubmedId && pubmedId !='-') {
                     var id_type = 'PubMed';
                     // Make the actual AJAX call...
@@ -330,7 +314,6 @@ EvaStudyView.prototype = {
                     }
                     $.ajax({
                         type: 'GET',
-//                        url: 'http://ega-public.ebi.ac.uk/ega/publications/get/paper/' + id_type + '/' + pubmedId,
                         url: url,
                         dataType: "json",
                         async: false,
@@ -364,8 +347,6 @@ EvaStudyView.prototype = {
                             // x.responseText should have what's wrong
                         }
                     });
-
-//                    paper_output += '<a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '" target="_blank">' + pubmedId + '</a>&nbsp;&nbsp;'
                 }
             }
 

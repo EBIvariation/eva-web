@@ -27,7 +27,7 @@ function EvaStudyBrowserWidgetPanel(args) {
     if (this.autoRender) {
         this.render();
     }
-};
+}
 
 
 EvaStudyBrowserWidgetPanel.prototype = {
@@ -39,7 +39,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
             this.panel = this._createPanel();
             this.rendered = true;
         }
-
     },
     draw: function () {
         if(!this.rendered) {
@@ -68,8 +67,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         _this.resize();
         var query = _this.formPanelStudyFilter.getValues();
         _this._updateURL(query);
-
-
     },
     hide: function () {
         this.panel.hide();
@@ -99,7 +96,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-//            border:true,
             layout: {
                 type: 'hbox',
                 align: 'fit'
@@ -144,7 +140,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     html:'<div class="variant-browser-option-div study-widget"></div>',
                     border:false,
                     forceFit:true,
-                    bodyStyle: 'border-width:0px;border-style:none;',
+                    bodyStyle: 'border-width:0px;border-style:none;'
                 }
             ],
             cls: 'variant-widget-panel'
@@ -327,7 +323,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
             ];
 
-
             var plugins = [{
                 ptype: 'rowexpander',
                 rowBodyTpl: new Ext.XTemplate()
@@ -346,9 +341,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 columnsGrid: this.studyColumns
             });
 
-
         return evaStudyBrowserGrid;
-
 
     },
     _loadFilterPanelvalues: function (values) {
@@ -364,7 +357,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         for (i=0; i < tmpSpecies.length; ++i) {
             defaultSpecies.push( tmpSpecies[i].replace(/\+/g, " "));
         }
-
         var data;
         EvaManager.get({
             category: 'meta/studies',
@@ -391,7 +383,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
                                     checked = true;
                                 }
                             }
-
                             // TODO We must take care of the types returned
                             if(key2.indexOf(',') == -1) {
                                 obj['display'] = key2;
@@ -400,7 +391,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
                                 obj['iconCls'] = "no-icon";
                                 obj['count'] = stat[key2];
                             }
-//                                obj['display'] = key2;
                             if(!_.isEmpty(obj)){
                                 arr.push(obj);
                             }
@@ -410,10 +400,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                         statsData[key] = _.sortBy(statsData[key], 'display');
                         _this.speciesFilter.store.loadRawData(statsData['species']);
                         _this.typeFilter.store.loadRawData(statsData['type']);
-
                         data = statsData;
-
-
                     }
                 } catch (e) {
                     console.log(e);
@@ -497,7 +484,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     tpl: '<tpl><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/{id}_{name}" target="_blank">FTP</a></tpl>',
                     flex:1.5
                 }
-
             ];
 
         }
@@ -515,7 +501,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         if(values['type']){
             values['studyType'] = values['type'];
         }
-
 
         delete values.species;
         delete values.type;

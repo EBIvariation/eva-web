@@ -63,22 +63,10 @@ ClinvarSummaryPanel.prototype = {
     load: function (data) {
         this.clear();
         var panels = [];
-//        var summaryPanel = this._createSummaryPanel(data.clinvarList);
-//        var clinvarList = data.clinvarList;
-//        for (var key in clinvarList) {
-//            var summaryData = clinvarList[key];
-//            var summaryPanel = this._createSummaryPanel(summaryData);
-//            panels.push(summaryPanel);
-//        }
-//        this.summaryContainer.removeAll();
-//        this.summaryContainer.add(panels);
-
           var summaryData = data;
           var panel = this._createSummaryPanel(summaryData);
           this.summaryContainer.removeAll();
           this.summaryContainer.add(panel);
-
-
     },
     _createPanel: function () {
         this.summaryContainer = Ext.create('Ext.container.Container', {
@@ -114,7 +102,6 @@ ClinvarSummaryPanel.prototype = {
         var origin = data.observedIn[0].sample.origin;
         var traitSet = data.traitSet.trait;
         var citation= 'NA';
-
         var publications = '-';
         var pubArray = [];
         _.each(_.keys(traitSet), function(key){
@@ -129,20 +116,16 @@ ClinvarSummaryPanel.prototype = {
 
         },traitSet);
 
-
         if(!_.isEmpty(pubArray)){
             publications = pubArray.join('<br/>');
         }
-//        var citation = data.traitSet.trait[0].citation;
-//        if(!_.isEmpty(citation) && citation[0].id.source == 'PubMed'){
-//            publications = 'Pubmed:<a href="http://www.ncbi.nlm.nih.gov/pubmed/'+citation[0].id.value+'" target="_blank">'+citation[0].id.value+'</a>';
-//        }
 
-        var temp_hgvs = data.measureSet.measure[0].attributeSet
+        var temp_hgvs = data.measureSet.measure[0].attributeSet;
         var variation_type = data.measureSet.measure[0].type;
-       var hgvs = '-';
-       var soTerms = '-';
-       if(!_.isUndefined(annotData)){
+        var hgvs = '-';
+        var soTerms = '-';
+
+        if(!_.isUndefined(annotData)){
           var hgvsArray = []
           if(!_.isUndefined(annotData.hgvs)){
               var hgvs_data = annotData.hgvs.sort().reverse();
@@ -163,13 +146,9 @@ ClinvarSummaryPanel.prototype = {
                },so_terms);
            },annotData.consequenceTypes);
 
-
            var groupedArr = _.groupBy(tempArray,'name');
            var so_array = [];
-//           var so_chart_array = [];
-//           var so_chart_colors_array = [];
            _.each(_.keys(groupedArr), function(key){
-//               so_chart_colors_array.push(_.findWhere(consequenceTypesColors, {id:key}).color);
                var index =  _.indexOf(consequenceTypesHierarchy, key);
                var  transcript_array = [];
                _.each(_.keys(this[key]), function(key){
@@ -192,52 +171,21 @@ ClinvarSummaryPanel.prototype = {
                }else{
                    so_array[index] = ''+key+'&nbsp;'+svg+'(<span title="'+transcripts+'">'+this[key].length+'</span>)';
                }
-//               so_chart_array.push([key,this[key].length]);
            },groupedArr);
 
            so_array =  _.compact(so_array);
            soTerms = so_array.join("<br\/>");
-
        }
 
-
-
         var summaryPanel = Ext.create('Ext.panel.Panel', {
-//            title: 'Summary',
-//            title: data.clinVarAccession.acc,
             border: false,
             layout: 'fit',
-//            overflowX: true,
-//            overflowY: true,
             items: [  {
                 xtype: 'container',
                 data: data,
                 width:970,
-//                tpl: new Ext.XTemplate(
-//                    '<div class="col-md-12"><table class="table table-bordered eva-attributes-table">',
-//                        '<tr>',
-////                            '<td class="header">Clinical Significance <br/> (Last evaluated)</td>',
-//                            '<td class="header">Review status</td>',
-//                            '<td class="header">Last Evaluated</td>',
-//                            '<td class="header">Origin </td>',
-//                            '<td class="header">Citations</td>',
-//                            '<td class="header">Submitter</td>',
-//                        '</tr>',
-//                        '<tr>',
-////                            '<td>{clinicalSignificance.description}<br/>('+lastEvaluated+')</td>',
-//                            '<td>{clinicalSignificance.reviewStatus}</td>',
-//                            '<td>'+lastEvaluated+'</td>',
-//                            '<td>'+origin+'</td>',
-//                            '<td>'+citation+'</td>',
-//                            '<td>{clinVarSubmissionID.submitter}</td>',
-//                        '</tr>',
-//                        '</table></div>'
-//                ),
                 tpl: new Ext.XTemplate(
                     '<div class="col-md-12"><table class="table table-bordered eva-stats-table">',
-//                        '<tr>',
-//                            '<td class="header">Clinical Significance<br/> (Last evaluated)</td><td>{clinicalSignificance.description}<br/>('+lastEvaluated+')</td>',
-//                        '</tr>',
                         '<tr>',
                             '<td class="header">Reference</td><td class="clinvar-reference">'+reference+'</td>',
                         '</tr>',
@@ -262,9 +210,6 @@ ClinvarSummaryPanel.prototype = {
                         '<tr>',
                             '<td class="header">Publications</td><td class="clinvar-publications">'+publications+'</td>',
                         '</tr>',
-//                        '<tr>',
-//                            '<td class="header">Submitter</td><td>{clinVarSubmissionID.submitter}</td>',
-//                        '</tr>',
                         '</table></div>'
                 ),
                 margin: '10 5 5 10'

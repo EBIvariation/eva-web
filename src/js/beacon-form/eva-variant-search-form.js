@@ -30,7 +30,6 @@ function EvaVariantSearchForm(args) {
     if (this.autoRender) {
         this.render();
     }
-
 }
 
 EvaVariantSearchForm.prototype = {
@@ -108,7 +107,6 @@ EvaVariantSearchForm.prototype = {
             tpl: new Ext.XTemplate([
                 '<div>',
                 '<h2> GA4GH Variant Search</h2>',
-//                '<p>Learn more about the Global Alliance for Genomics and Health (GA4GH) at <a href="http://genomicsandhealth.org" target="_blank">http://genomicsandhealth.org</a>as well as the GA4GH Beacon project: <a href="http://ga4gh.org/#/beacon" target="_blank">http://ga4gh.org/#/beacon</a> </p>',
                 '<div class="row">',
                 '<div class="col-md-12"><p><b>Example queries:</b></p>',
                 '<div><p> <span><a href="#"  class="loadForm"  project="PRJEB4019">DatasetID:PRJEB4019</a></span></p></div>',
@@ -123,7 +121,6 @@ EvaVariantSearchForm.prototype = {
                     element: 'el', //bind to the underlying el property on the panel
                     delegate : 'a.loadForm',
                     fn: function(record,link){
-//                        _this._resetForm();
                         var project = link.getAttribute('project');
                         var variantSetId = link.getAttribute('variantsetid');
                         var chrom = link.getAttribute('chrom');
@@ -153,7 +150,6 @@ EvaVariantSearchForm.prototype = {
             defaults: {
                 flex: 1
             },
-//                            layout: 'hbox',
             items: [
                 {
                     boxLabel  : 'Position',
@@ -259,11 +255,9 @@ EvaVariantSearchForm.prototype = {
         this.formPanel = Ext.create('Ext.form.Panel', {
             border:false,
             layout: 'vbox',
-//            labelWidth: 100,
             defaults: {
                 margin: 5
             },
-//            width:650,
             items: [
                 vSearchView,
                 this.searchType,
@@ -298,12 +292,10 @@ EvaVariantSearchForm.prototype = {
 
                             var diff = (vSearchEnd-vSearchStart);
                             if (diff > 0 && diff <= 1000) {
-
                             }else{
                                 Ext.Msg.alert('','Please Enter the region no more than 1000 range');
                                 return;
                             }
-
                             resource = 'variants/search';
                             params = {referenceName:vSearchChromosome,start:vSearchStart,end:vSearchEnd,pageSize:1}
                         }else if(form.getValues().searchType == 'variantsetId'){
@@ -333,8 +325,6 @@ EvaVariantSearchForm.prototype = {
                                 }
                             }
                         });
-
-
                     }
                 }
 
@@ -342,7 +332,6 @@ EvaVariantSearchForm.prototype = {
             buttonAlign:'left'
         });
         this.load();
-
         this.on('searchType:change', function (e) {
            if(e.searchType == 'datasetId'){
                this.formPanel.query('.field').forEach(function(c){
@@ -363,7 +352,6 @@ EvaVariantSearchForm.prototype = {
                    }else{
                        c.enable();
                        c.show();
-
                    }
                });
            }else if(e.searchType == 'position'){
@@ -375,13 +363,11 @@ EvaVariantSearchForm.prototype = {
                    }else{
                        c.enable();
                        c.show();
-
                    }
                });
            }
             var resultPanel = Ext.getCmp('variant-search-result-panel');
             resultPanel.setVisible(false);
-
         });
 
         return  this.formPanel;
@@ -426,9 +412,7 @@ EvaVariantSearchForm.prototype = {
                     "value":i
                 });
             }
-
         }
         return chrmArr;
     }
-
 };

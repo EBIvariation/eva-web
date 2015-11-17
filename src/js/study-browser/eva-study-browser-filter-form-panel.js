@@ -126,7 +126,7 @@ StudyFilterFormPanel.prototype = {
                 values.push(this[key].get('display'));
             }
         },nodes);
-        obj = {}
+        obj = {};
         var title = this.title.toLowerCase();
 
         if (values.length > 0) {

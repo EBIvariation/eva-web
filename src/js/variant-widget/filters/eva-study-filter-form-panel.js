@@ -50,8 +50,6 @@ function EvaStudyFilterFormPanel(args) {
         autoLoad: false
     });
 
-
-
     //set instantiation args, must be last
     _.extend(this, args);
 
@@ -88,73 +86,6 @@ EvaStudyFilterFormPanel.prototype = {
     },
     _createPanel: function () {
         var _this = this;
-//        var store = Ext.create('Ext.data.Store', {
-//            fields: [
-//                {name: 'studyName', type: 'string'},
-//                {name: 'studyId', type: 'string'}
-//            ],
-//            storeId: this.id + 'ConsequenceTypeSelectorStore',
-//            data: []
-//        });
-
-//        var cbg = Ext.create('Ext.form.CheckboxGroup', {
-////            layout: 'hbox',
-//            autoScroll: true,
-//            defaultType: 'checkboxfield'
-//        });
-//
-//        var cbgItems = [];
-//
-//        for (var i = 0; i < this.studies.length; i++) {
-//            var study = this.studies[i];
-//            cbgItems.push(Ext.create('Ext.form.field.Checkbox', {
-//                boxLabel: study.studyName,
-//                name: 'studies',
-//                inputValue: study.studyId,
-//                margin: '0 0 0 5',
-//                checked: false
-//            }));
-//        }
-//
-//        cbg.add(cbgItems);
-
-//        this.tagField = Ext.create('Ext.form.field.Tag', {
-////            fieldLabel: 'Select a study',
-////                    labelAlign: 'top',
-//            store: this.studiesStore,
-//            reference: this.id + 'ConsequenceTypeSelectorStore',
-//            displayField: 'studyName',
-//            valueField: 'studyId',
-//            filterPickList: true,
-//            queryMode: 'local',
-//            publishes: 'value',
-//            flex: 1,
-//            grow: false,
-//            autoScroll: true,
-//            name: 'studies',
-//            listeners: {
-//                change: function () {
-//                    var form = this.up();
-//                    if (form) {
-//                        form.update();
-//                    }
-//                }
-//            }
-//        });
-
-//
-//        this.studiesStore = Ext.create('Ext.data.Store', {
-//            pageSize: 50,
-//            proxy: {
-//                type: 'memory'
-//            },
-//            fields: [
-//                {name: 'studyName', type: 'string'},
-//                {name: 'studyId', type: 'string'}
-//            ],
-//            autoLoad: false
-//        });
-
         var studySearchField = Ext.create('Ext.form.field.Text', {
             emptyText: 'search',
             listeners: {
@@ -193,9 +124,6 @@ EvaStudyFilterFormPanel.prototype = {
                     {ftype: 'summary'}
                 ],
                 cls:'studyList',
-//                height: this.height - 70,
-//                minHeight: 250,
-//                maxHeight: this.height,
                 height: this.height,
                 viewConfig: {
                     stripeRows: false,
@@ -205,52 +133,25 @@ EvaStudyFilterFormPanel.prototype = {
                     listeners: {
                         itemclick: function (este, record) {
                             var studies = _this.grid.getSelectionModel().getSelection();
-//                            alert('ed')
-//                            _this.trigger('studies:change', {sender: _this});
                         },
                         itemcontextmenu: function (este, record, item, index, e) {
 
                         }
                     }
                 },
-//                selModel: {
-//                    listeners: {
-//                        'selectionchange': function (selModel, selectedRecord) {
-//
-//                        }
-//                    }
-//                },
                 selModel: selModel,
                 columns: [
-//                    {
-////                        text: 'Active',
-//                        xtype: 'checkcolumn',
-//                        dataIndex: 'uiactive',
-//                        width: 50,
-//                        sortable : false
-//                    },
                     {
                         text: "Name",
                         dataIndex: 'studyName',
                         flex: 10,
-//                        width: 500,
                         xtype: 'templatecolumn',
                         tpl:this.studyFilterTpl,
                         sortable : true
-
-
                     }
-//                    {
-//                        text: "ID",
-//                        dataIndex: 'studyId',
-//                        flex: 3
-//                    }
                 ]
             }
         );
-
-
-
 
         var form = Ext.create('Ext.form.Panel', {
             bodyPadding: "5",
@@ -266,7 +167,7 @@ EvaStudyFilterFormPanel.prototype = {
             },
             items: [
                 studySearchField,
-                this.grid,
+                this.grid
             ]
         });
 
@@ -279,18 +180,10 @@ EvaStudyFilterFormPanel.prototype = {
     getValues: function () {
         var _this = this;
         var values = [];
-//        var records = this.studiesStore.query().items;
         var selection = _this.grid.getSelectionModel().getSelection();
         for (var i = 0; i < selection.length; i++) {
             values.push(selection[i].data.studyId)
         }
-//        for (var i = 0; i < records.length; i++) {
-//            var record = records[i];
-//            var active = record.get('uiactive');
-//            if (active) {
-//                values.push(record.get('studyId'))
-//            }
-//        }
         var res = {};
         if (values.length > 0) {
             res['studies'] = values;

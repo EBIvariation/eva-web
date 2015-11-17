@@ -354,7 +354,6 @@ EvaVariantWidgetPanel.prototype = {
                         e.values.id = e.values.snp;
                     }
 
-
                     //CONSEQUENCE TYPES CHECK
                     if (typeof e.values.ct !== 'undefined') {
                         if (e.values.ct instanceof Array) {
@@ -362,11 +361,9 @@ EvaVariantWidgetPanel.prototype = {
                         }
                     }
 
-
                     if (regions.length > 0) {
                         e.values['region'] = regions.join(',');
                     }
-
 
                     var category = 'segments';
                     var resource =  'variants';
@@ -388,8 +385,6 @@ EvaVariantWidgetPanel.prototype = {
                         category: category,
                         resource: resource,
                         query: query,
-//                        params:{merge:true}
-//                        params:{merge:true,exclude:'files'}
                         params:{merge:true,exclude:'sourceEntries'}
                     });
 

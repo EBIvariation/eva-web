@@ -63,16 +63,6 @@ ClinvarLinksPanel.prototype = {
     load: function (data) {
         this.clear();
         var panels = [];
-//        var summaryPanel = this._createSummaryPanel(data.clinvarList);
-//        var clinvarList = data.clinvarList;
-//        for (var key in clinvarList) {
-//            var linksData = clinvarList[key];
-//            var linksPanel = this._createLinksPanel(linksData);
-//            panels.push(linksPanel);
-//        }
-//        this.linksContainer.removeAll();
-//        this.linksContainer.add(panels);
-
         var linksData = data;
         var panel = this._createLinksPanel(linksData);
         this.linksContainer.removeAll();
@@ -81,10 +71,8 @@ ClinvarLinksPanel.prototype = {
     _createPanel: function () {
         this.linksContainer = Ext.create('Ext.container.Container', {
             layout: {
-//                type: 'accordion',
                 type: 'vbox',
                 titleCollapse: true,
-//                fill: false,
                 multi: true
             }
         });
@@ -134,18 +122,11 @@ ClinvarLinksPanel.prototype = {
 
         linksTable += '</table></div></div>'
 
-
-
-
         var lovd_link = 'http://databases.ebi.lovd.nl/shared/variants#order=VariantOnGenome%2FDNA%2CASC&skip[allele_]=allele_&skip[screeningids]=screeningids&skip[created_by]=created_by&skip[created_date]=created_date&search_chromosome='+chromosome+'&search_VariantOnGenome/DNA='+position+'&page_size=100&page=1';
 
         linksTable += '<br /><div class="lovd_link"><a href="'+lovd_link+'" target="_blank">Search for variant at LOVD</a></div>'
 
-
-
-
         var linksPanel = Ext.create('Ext.panel.Panel', {
-//            title: data.clinVarAccession.acc,
             border: false,
             layout: 'vbox',
             overflowX: true,

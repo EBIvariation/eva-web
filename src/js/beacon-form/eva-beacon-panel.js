@@ -42,7 +42,6 @@ EvaBeaconPanel.prototype = {
             this.panel = this._createPanel();
             this.rendered = true;
         }
-
     },
     draw: function () {
         if(!this.rendered) {

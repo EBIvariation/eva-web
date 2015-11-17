@@ -264,7 +264,6 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
            _this.selectNodes(annotCT);
         }
 
-
         return  this.panel;
     },
     getPanel: function () {
@@ -284,8 +283,6 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
                         n.set('checked', true);
                     }
                 }
-
-
             }
         });
     }
