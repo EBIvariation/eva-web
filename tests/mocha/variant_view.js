@@ -113,7 +113,7 @@ function checkPopulationGrid(driver) {
                         });
                         //check MAF allele
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[4]/div")).getText().then(function(text){
-                            assert(text).matches(/-|^[ACGT]+$/);
+                            assert(text).matches(/^-$|^[ACGT]+$/);
                         });
                         //check missing alleles
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[5]/div")).getText().then(function(text){

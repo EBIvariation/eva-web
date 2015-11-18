@@ -129,7 +129,7 @@ EvaVariantStatsPanel.prototype = {
         return panel;
     },
     _createStudyPanel: function (data,params) {
-
+        var fileId = data.fileId;
         var stats = (data.stats) ? data.stats : {};
         var attributes = (data.attributes) ? data.attributes : {};
         // removing src from attributes
@@ -173,8 +173,14 @@ EvaVariantStatsPanel.prototype = {
             params:{species:params.species},
             success: function (response) {
                 try {
-                    infoTags = response.response[0].result[0].metadata.INFO;
-                    vcfHeaderData = response.response[0].result[0].metadata.header.trim();
+                    var results = response.response[0].result;
+                    _.each(_.keys(results), function(key){
+                       if(this[key].fileId == fileId){
+                           infoTags = this[key].metadata.INFO;
+                           vcfHeaderData = this[key].metadata.header.trim();
+                       }
+                    },results);
+
                 } catch (e) {
                     console.log(e);
                 }
@@ -194,13 +200,11 @@ EvaVariantStatsPanel.prototype = {
             margin: '5 10 10 10'
         });
         var vcfHeaderId = Utils.genId("vcf-header");
-        var vcfHeaderId1 = Utils.genId("vcf-header1");
         var vcfHeaderView =  Ext.create('Ext.view.View', {
             id:vcfHeaderId,
-            tpl: new Ext.XTemplate("<div onmouseover='overflow_show(this)'  onmouseout='overflow_hide(this)' class='vcf-header'><pre style='display: inline-block; border:0'>"+vcfHeaderData.escapeHTML()+"</pre></div>"),
+            tpl: new Ext.XTemplate("<div onmouseover='overflow_show(this)'  onmouseout='overflow_hide(this)' class='vcf-header' id='"+fileId+"'><pre style='display: inline-block; border:0'>"+vcfHeaderData.escapeHTML()+"</pre></div>"),
             hidden:true,
             margin: '5 0 0 10'
-
         });
         var vcfHeaderButtonId = vcfHeaderId+'-button';
         var vcfHeaderButton = {

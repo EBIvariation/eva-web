@@ -18,7 +18,7 @@ test.describe('Study View ('+config.browser()+')', function() {
             driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
                 driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
                     var rows = parseInt(text.split(" ")[3]);
-                    for (var i = 1; i <= rows; i++) {
+                    for (var i = 1; i <= 5; i++) {
                         driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), 10000);
                         driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
 //                            driver.findElement(By.linkText(text)).click();
@@ -51,7 +51,7 @@ test.describe('Study View ('+config.browser()+')', function() {
             driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), 10000).then(function(text) {
                 driver.findElement(By.xpath("//div[@id='study-browser-grid-panel-body']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
                     var rows = parseInt(text.split(" ")[3]);
-                    for (var i = 1; i <= rows; i++) {
+                    for (var i = 1; i <= 5; i++) {
                         driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), 10000);
                         driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
 //                            driver.findElement(By.linkText(text)).click();
@@ -117,7 +117,7 @@ function dgvaCheckSummaryTable(driver){
 function checkPublications(driver){
     driver.wait(until.elementLocated(By.id("publication-section")), 15000).then(function(text) {
        driver.findElement(By.id('publication-section')).getText().then(function(text){
-           var regExp = /-|^\w+/;
+           var regExp = /^-$|^\w+/;
            if(text != '-'){
                text = text.split("\n");
                assert(text[0]).matches(regExp);

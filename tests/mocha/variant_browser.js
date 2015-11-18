@@ -149,43 +149,43 @@ function variantAnnotationTab(driver){
             for (var i = 1; i <= rows; i++) {
                 //check Ensemble Gene ID
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[1]/div/a[text()]")).getText().then(function(text){
-                    assert(text).matches(/-|^[A-Z]+/);
+                    assert(text).matches(/^-$|^[A-Z]+/);
                 });
                 //check Ensemble Gene symbol
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[2]/div[text()]")).getText().then(function(text){
-                    assert(text).matches(/-|\w\d+$/);
+                    assert(text).matches(/^-$|^\w[\w\d-]+$/);
                 });
                 //check Ensemble Transcript ID
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div/a[text()]")).getText().then(function(text){
-                    assert(text).matches(/-|^[A-Z]+/);
+                    assert(text).matches(/^-$|^[A-Z]+/);
                 });
                 //check SO terms
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div/tpl[text()]")).getText().then(function(text){
-                    assert(text).matches(/-|^[a-zA-Z0-9_]+/);
+                    assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                 });
                 //check Biotype
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div[text()]")).getText().then(function(text){
-                    assert(text).matches(/-|^[a-zA-Z0-9_]+/);
+                    assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                 });
                 //check codon
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[6]/div[text()]")).getText().then(function(text){
-                    assert(text).matches(/-|^\w+\/\w+$/);
+                    assert(text).matches(/^-$|^\w+\/\w+$/);
                 });
                 //check cDna position
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[7]/div[text()]")).getText().then(function(text){
-                    assert(text).matches(/-|\d$/);
+                    assert(text).matches(/^-$|\d$/);
                 });
                 //check AA change
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[8]/div[text()]")).getText().then(function(text){
-                    assert(text).matches( /-|^\w+\/\w+$/);
+                    assert(text).matches( /^-$|^\w+\/\w+$/);
                 });
                 //check Polyphen
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[9]/div[text()]")).getText().then(function(text){
-                    assert(text).matches(/-|^\d+([,.]\d+)?$/);
+                    assert(text).matches(/^-$|^\d+([,.]\d+)?$/);
                 });
                 //check Sift
                 driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[9]/div[text()]")).getText().then(function(text){
-                    assert(text).matches(/-|^\d+([,.]\d+)?$/);
+                    assert(text).matches(/^-$|^\d+([,.]\d+)?$/);
                 });
             }
         });
@@ -275,7 +275,7 @@ function variantPopulationTab(driver){
                         });
                         //check MAF allele
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[4]/div")).getText().then(function(text){
-                            assert(text).matches(/-|^[ACGT]+$/);
+                            assert(text).matches(/^-$|^[ACGT]+$/);
                         });
                         //check missing alleles
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[5]/div")).getText().then(function(text){
