@@ -456,7 +456,7 @@ EvaGeneView.prototype = {
                                      '<li><a href="#transcripts">Variants</a></li>'+
                                 '</ul>'+
                             '</div>'+
-                            '<div id="scroll-able" class="grid_22">'+
+                            '<div id="scroll-able" class="grid_20">'+
                                 '<div id="summary" class="row">'+
                                     '<div  style="margin-left:20px;">'+
                                         '<h4 class="variant-view-h4"> Summary &nbsp;<img class="title-header-icon" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>'+
