@@ -116,7 +116,7 @@ EvaClinVarWidget.prototype = {
             title: this.toolPanelConfig.title,
             border: this.toolPanelConfig.border,
             margin: '10 0 0 0',
-            height:900,
+            height:this.toolPanelConfig.height,
             plain: true,
             animCollapse: false,
             header: this.toolPanelConfig.headerConfig,

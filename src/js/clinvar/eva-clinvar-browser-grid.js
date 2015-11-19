@@ -116,7 +116,7 @@ ClinvarBrowserGrid.prototype = {
         });
 
         var grid = Ext.create('Ext.grid.Panel', {
-                id:'clinvar-browser-grid',
+                id: this.id+'clinvar-browser-grid',
                 title: this.title,
                 store: this.store,
                 border: this.border,

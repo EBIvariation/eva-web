@@ -179,7 +179,12 @@ ClinvarSummaryPanel.prototype = {
 
         var summaryPanel = Ext.create('Ext.panel.Panel', {
             border: false,
-            layout: 'fit',
+            layout: {
+                type: 'vbox',
+                align: 'fit'
+            },
+            height:450,
+            overflowY:true,
             items: [  {
                 xtype: 'container',
                 data: data,

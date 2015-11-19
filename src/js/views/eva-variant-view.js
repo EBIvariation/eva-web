@@ -280,8 +280,8 @@ EvaVariantView.prototype = {
 
         var layout = '<div id="variant-view">'+
                         '<div class="row">'+
-                            '<div  class="col-sm-2  col-md-2 col-lg-2"></div>'+
-                            '<div  class="col-sm-10 col-md-10 col-lg-10"> <h2 id="variantInfo"></h2></div>'+
+                            '<div class="col-sm-2  col-md-2 col-lg-2"></div>'+
+                            '<div class="col-sm-10 col-md-10 col-lg-10"> <h2 id="variantInfo"></h2></div>'+
                         '</div>'+
                         '<div class="row">'+
                             '<div class="col-sm-1 col-md-1 col-lg-1" id="variantViewScrollspy">'+
@@ -292,15 +292,15 @@ EvaVariantView.prototype = {
                                     '<li><a href="#populationStats">Population Stats</a></li>'+
                                '</ul>'+
                             '</div>'+
-                            '<div id="scroll-able" class="col-sm-10 col-md-10 col-lg-10">'+
+                            '<div id="variant-view-scrollable-div" class="col-sm-10 col-md-10 col-lg-10">'+
                                 '<div id="summary" class="row">'+
-                                    '<div class="col-md-12" style="margin-left:10px;">'+
+                                    '<div class="col-md-10" style="margin-left:10px;">'+
                                         '<h4 class="variant-view-h4"> Summary</h4>'+
                                         '<div id="summary-grid"></div>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div  id="consequenceTypes" class="row">'+
-                                    '<div class="col-md-12" style="margin-left:10px;">'+
+                                    '<div class="col-md-10" style="margin-left:10px;">'+
                                          '<h4 class="variant-view-h4"> Consequence Type</h4>'+
                                         '<div id="consequence-types-grid"></div>'+
                                     '</div>'+

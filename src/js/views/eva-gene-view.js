@@ -95,12 +95,12 @@ EvaGeneView.prototype = {
             clinVariantsEl.appendChild(clinVariantsElDiv);
             _this._createClinvarPanel(clinVariantsElDiv,data);
 
-            var gvEl = document.querySelector("#genome-viewer-grid");
-            var gvElDiv = document.createElement("div");
-            gvElDiv.setAttribute('class', 'ocb-gv');
-            gvEl.appendChild(gvElDiv);
-            var genomeViewer = _this._createGenomeViewer(gvElDiv);
-            genomeViewer.draw();
+//            var gvEl = document.querySelector("#genome-viewer-grid");
+//            var gvElDiv = document.createElement("div");
+//            gvElDiv.setAttribute('class', 'ocb-gv');
+//            gvEl.appendChild(gvElDiv);
+//            var genomeViewer = _this._createGenomeViewer(gvElDiv);
+//            genomeViewer.draw();
         }
     },
     _renderSummaryData: function (data) {
@@ -168,7 +168,7 @@ EvaGeneView.prototype = {
             tpl: new Ext.XTemplate('<div id="clinvar-view-gv"></div>'),
             margin: '5 10 10 10'
         });
-        this.margin = '0 0 0 20';
+        this.margin = '-30 0 0 20';
         Ext.EventManager.onWindowResize(function () {
             _this.panel.doLayout();
             evaClinVarWidget.clinvarBrowserGrid.panel.doLayout()
@@ -176,19 +176,22 @@ EvaGeneView.prototype = {
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-            title:'Variants',
+//            title:'Variants',
             layout: {
                 type: 'vbox',
                 align: 'stretch'
             },
             autoHeight: true,
             overflowY: true,
-            height: 1300,
+            height: 1100,
+            border:false,
             cls: 'eva-panel',
-            header:  {
-                titlePosition:1
-            },
-            collapsible:true,
+            header:false,
+            headerPosition:'bottom',
+//            header:  {
+//                titlePosition:1
+//            },
+//            collapsible:true,
             renderTo:target,
             items: [
                     {
@@ -207,7 +210,7 @@ EvaGeneView.prototype = {
             width: 1020,
             target: 'clinvar-view-gv1',
             headerConfig: {
-                baseCls: 'eva-header-1'
+                baseCls: 'eva-header-3'
             },
             border: true,
             browserGridConfig: {
@@ -217,7 +220,8 @@ EvaGeneView.prototype = {
             toolPanelConfig: {
                 headerConfig: {
                     baseCls: 'eva-header-2'
-                }
+                },
+                height:600
             },
             defaultToolConfig: {
                 headerConfig: {
@@ -440,24 +444,33 @@ EvaGeneView.prototype = {
         var layout;
         if(!_.isUndefined(data)){
          layout = '<div id="gene-view">'+
-                        '<div class="row">'+
-                            '<div  class="col-sm-12 col-md-12 col-lg-12"> <h2 id="geneInfo"></h2></div>'+
-                        '</div>'+
-                        '<div class="row">'+
-                            '<div  class="col-sm-12 col-md-12 col-lg-12">'+
+                         '<div class="row">'+
+                             '<div  class="col-sm-1  col-md-1 col-lg-1"></div>'+
+                             '<div  class="col-sm-10 col-md-10 col-lg-10"> <h2 id="geneInfo"></h2></div>'+
+                         '</div>'+
+                        '<div class="container_24">'+
+                            '<div class="grid_2" id="geneViewScrollspy">'+
+                                '<span>&nbsp;</span>'+
+                                '<ul id="geneViewTabs" class="nav nav-stacked affix eva-tabs">'+
+                                     '<li class="active"><a href="#summary">Summary</a></li>'+
+                                     '<li><a href="#transcripts">Variants</a></li>'+
+                                '</ul>'+
+                            '</div>'+
+                            '<div id="scroll-able" class="grid_22">'+
                                 '<div id="summary" class="row">'+
-                                    '<div class="col-md-12" style="margin-left:20px;">'+
-                                        '<h4 class="gene-view-h4"> Summary &nbsp;<img class="title-header-icon" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>'+
+                                    '<div  style="margin-left:20px;">'+
+                                        '<h4 class="variant-view-h4"> Summary &nbsp;<img class="title-header-icon" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>'+
                                         '<div id="summary-grid"></div>'+
                                     '</div>'+
                                 '</div>'+
-                                '<div  id="transcripts" class="row">'+
-                                    '<div class="col-md-12" style="margin-left:10px;">'+
+                                '<div id="transcripts" class="row">'+
+                                    '<div style="margin-left:20px;">'+
+                                        '<h4 class="variant-view-h4"> Variants </h4>'+
                                         '<div id="transcripts-grid"></div>'+
                                     '</div>'+
                                 '</div>'+
                                 '<br /><div  id="clinvarVariants" class="row">'+
-                                    '<div class="col-md-12" style="margin-left:10px;">'+
+                                    '<div style="margin-left:10px;">'+
                                         '<div id="clinvar-variants-grid"></div>'+
                                     '</div>'+
                                 '</div>'+

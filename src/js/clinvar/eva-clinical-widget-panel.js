@@ -171,7 +171,8 @@ EvaClinicalWidgetPanel.prototype = {
                 title: 'ClinVar Data',
                 headerConfig: {
                     baseCls: 'eva-header-2'
-                }
+                },
+                height:900
             },
             defaultToolConfig: {
                 headerConfig: {

@@ -519,9 +519,9 @@ h4{
     /*color: #fff;*/
     /*background-color: #156765;*/
 /*}*/
-#scroll-able{
-    margin-left:100px;
-}
+/*#scroll-able{*/
+    /*margin-left:100px;*/
+/*}*/
 
 .resultShow{
     color: #426783;
@@ -661,6 +661,18 @@ h4{
 .eva-radio label {
     font-weight:normal;
 }
+
+#variant-view-scrollable-div{
+    margin-left:175px;
+}
+#variantInfo{
+    margin-left:-50px;
+}
+#geneInfo{
+    margin-left:10px;
+}
+
+
 
 
 
