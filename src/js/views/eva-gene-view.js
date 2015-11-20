@@ -44,7 +44,7 @@ EvaGeneView.prototype = {
 
         console.log(CELLBASE_HOST)
         CellBaseManager.get({
-//            host:CELLBASE_HOST,
+            host:CELLBASE_HOST,
             species: 'hsapiens',
             category: 'feature',
             subCategory: 'gene',
