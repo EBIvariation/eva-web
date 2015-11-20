@@ -187,7 +187,7 @@ EvaGeneView.prototype = {
             overflowY: true,
             height: 1100,
             border:false,
-            cls: 'eva-panel',
+//            cls: 'eva-panel',
             header:false,
             headerPosition:'bottom',
 //            header:  {
