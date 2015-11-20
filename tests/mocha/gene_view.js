@@ -1,5 +1,6 @@
 var config = require('./config.js');
 config.loadModules();
+var clinvar = require('./clinvar_bottom_panel_tests.js');
 var value;
 test.describe('Gene View ('+config.browser()+')', function() {
     var driver;
@@ -18,11 +19,27 @@ test.describe('Gene View ('+config.browser()+')', function() {
         });
     });
 
-    test.describe('ClinVar widget', function() {
-        test.it('Check Grid is present', function() {
+    test.describe('ClinVar widget Top grid', function() {
+        test.it('Check Grid is present and not empty', function() {
             checkClinvarGrid(driver);
         });
     });
+
+    test.describe('ClinVar widget Bottom Panel', function() {
+        test.it('Summary Tab should not be empty', function() {
+            clinvar.clinVarSummaryTab(driver);
+        });
+        test.it('Clinical Assertion Tab should not be empty and no duplicate items', function() {
+            clinvar.clinVarAssertionTab(driver);
+        });
+        test.it('Annotation Tab should not be empty', function() {
+            clinvar.clinVarAnnotationTab(driver);
+        });
+        test.it('External Links Tab should not be empty', function() {
+            clinvar.clinVarLinksTab(driver);
+        });
+    });
+
 });
 
 
@@ -40,10 +57,21 @@ function checkSummaryTable(driver){
 }
 
 function checkClinvarGrid(driver){
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")).getText().then(function(text){
-            assert(text).equalTo('2');
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 10000).then(function(text) {
+            for (var i = 1; i <= 10; i++){
+                driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table["+i+"]//td[1]/div[text()]")).getText().then(function(text){
+                    assert(text).equalTo('2');
+                });
+                driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table["+i+"]//td[2]/div[text()]")).getText().then(function(text){
+                    text = parseInt(text);
+                    assert(text).greaterThanEqualTo(47922669);
+                    assert(text).lessThanEqualTo(48037240);
+                });
+                driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table["+i+"]//td[3]/div/a[text()]")).getText().then(function(text){
+                    assert(text).equalTo('MSH6');
+                });
+            }
+
         });
-    });
-    return driver;
+        return driver;
 }

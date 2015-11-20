@@ -201,7 +201,7 @@ EvaGeneView.prototype = {
                         flex: 1,
                         collapsible: false,
                         collapseMode: 'header',
-                        html:'<div id="clinvar-view-gv1"></div>',
+                        html:'<div id="clinvar-view-gv1" class="clinical-widget"></div>',
                         border:false,
                         bodyStyle: 'border-width:0px;border-style:none;'
                     }

@@ -1,5 +1,5 @@
-var baseURL = 'http://wwwint.ebi.ac.uk/eva';
-//var baseURL = 'http://localhost/eva-web/build/1.0.0/index.html';
+//var baseURL = 'http://wwwint.ebi.ac.uk/eva';
+var baseURL = 'http://localhost/eva-web/build/1.0.0/index.html';
 //var baseURL = 'http://localhost/eva-web/src/index.html';
 var browser = process.env.BROWSER;
 
@@ -34,7 +34,6 @@ module.exports = {
             flow = webdriver.promise.controlFlow(),
             chai = require('chai'),
             chaiWebdriver = require('chai-webdriver');
-
     },
     sleep:function(value){
         flow.execute(function () { return webdriver.promise.delayed(value * 1000);});
