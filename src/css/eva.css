@@ -679,6 +679,14 @@ h4{
     margin-right: 0%;
 }
 
+@-moz-document url-prefix() {
+    .x-panel-body-default{
+        border-bottom: solid #C1C1C1;
+        border-bottom-width: 0.15em;
+    }
+}
+
+
 
 
 

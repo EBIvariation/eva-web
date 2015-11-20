@@ -220,9 +220,9 @@ EvaGeneView.prototype = {
                 border: true
             },
             toolPanelConfig: {
-                headerConfig: {
-                    baseCls: 'eva-header-2'
-                },
+//                headerConfig: {
+//                    baseCls: 'eva-header-2'
+//                },
                 height:600
             },
             defaultToolConfig: {
