@@ -42,7 +42,9 @@ EvaGeneView.prototype = {
         geneID = this.geneId;
         _this.geneData;
 
+        console.log(CELLBASE_HOST)
         CellBaseManager.get({
+//            host:CELLBASE_HOST,
             species: 'hsapiens',
             category: 'feature',
             subCategory: 'gene',
@@ -210,7 +212,7 @@ EvaGeneView.prototype = {
             width: 1020,
             target: 'clinvar-view-gv1',
             headerConfig: {
-                baseCls: 'eva-header-3'
+                baseCls: 'eva-header-2'
             },
             border: true,
             browserGridConfig: {

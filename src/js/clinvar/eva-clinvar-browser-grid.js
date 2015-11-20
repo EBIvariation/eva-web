@@ -30,7 +30,7 @@ function ClinvarBrowserGrid(args) {
     this.columns;
     this.attributes;
     this.type;
-    this.height = 400;
+    this.height = 420;
     this.pageSize = 10;
     this.title = "ClinVarBrowserGrid";
     this.autoRender = true;
@@ -125,7 +125,7 @@ ClinvarBrowserGrid.prototype = {
                 columns: this.columns,
                 plugins: this.plugins,
                 animCollapse: false,
-                height: this.height,
+                height: this.fheight,
                 overflowX:true,
                 features: [
                     {ftype: 'summary'}
