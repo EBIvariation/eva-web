@@ -154,7 +154,7 @@ EvaVariantBrowserGrid.prototype = {
         });
 
         grid.on('rowclick', function(grid, rowIndex, columnIndex, e) {
-            _this.trigger("variant:change", {sender: _this, args: rowIndex.data});
+//            _this.trigger("variant:change", {sender: _this, args: rowIndex.data});
         }, this);
 
         this.grid = grid;

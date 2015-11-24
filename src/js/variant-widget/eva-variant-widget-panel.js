@@ -91,7 +91,7 @@ EvaVariantWidgetPanel.prototype = {
             if(value){
                 _this.panel.doLayout();
             }
-            _this.variantWidget.variantBrowserGrid.panel.doLayout()
+            _this.variantWidget.variantBrowserGrid.panel.doLayout();
             _this.variantWidget.toolTabPanel.doLayout();
             _this.formPanelVariantFilter.panel.doLayout();
             var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();

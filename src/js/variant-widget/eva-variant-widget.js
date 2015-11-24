@@ -286,7 +286,9 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'id',
                     flex: 0.68,
                     iconCls : 'icon-info',
-                    tooltip:'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)',
+                    xtype: "templatecolumn",
+                    tpl: '<tpl class="variantId"><span>{id}</span></tpl>',
+                    tooltip:'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)'
                 },
                 {
                     text: 'Alleles',

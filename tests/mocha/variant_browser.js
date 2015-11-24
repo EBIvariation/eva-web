@@ -60,8 +60,8 @@ function variantSearchById(driver){
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys("rs666");
     driver.findElement(By.id("vb-submit-button")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[1]/div[text()]")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[3]/div[text()]")).getText().then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[3]/div/span[text()]")), 10000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[3]/div/span[text()]")).getText().then(function(text) {
             assert(text).equalTo('rs666');
         });
     });
@@ -200,9 +200,10 @@ function variantFilesTab(driver){
     driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
+        var filesArray = new Array();
         driver.findElements(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
             for (var i = 0; i < rows.length; i++){
-                // check for duplication study
+//                check for duplication study
                 rows[i].findElement(By.tagName("a")).getAttribute('href').then(function(text){
                     text = text.split("?");
                     chai.expect('span[class="stats-panel-study-title"] > a[href="?'+text[1]+'"]').dom.to.have.count(1)
@@ -213,8 +214,16 @@ function variantFilesTab(driver){
                 });
                 //check for VCF Data
                 rows[i].findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//span[contains(text(), '+')]")).click();
-                rows[i].findElement(By.tagName("pre")).getText().then(function(text){
-                    assert(text).startsWith('##fileformat=');
+                rows[i].findElement(By.tagName("pre")).getText().then(function(vcftext){
+                    assert(vcftext).startsWith('##fileformat=');
+                });
+                //check for duplicate content
+                rows[i].findElement(By.className("x-accordion-body")).getAttribute('id').then(function(id){
+                    driver.findElement(By.xpath("//div[@id='"+id+"']")).getText().then(function(text){
+                        chai.assert.notInclude(filesArray, config.hashCode(text))
+                        filesArray.push(config.hashCode(text));
+                    });
+
                 });
             }
 
@@ -224,9 +233,10 @@ function variantFilesTab(driver){
 }
 function variantGenotypesTab(driver){
     driver.findElement(By.xpath("//span[text()='Genotypes']")).click();
-    driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div//a[text()]")).then(function(text) {
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div//a[text()]")), 10000).then(function(text) {
-            driver.findElements(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
+    driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div")).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div//a[text()]")), 10000).then(function(text) {
+            driver.findElements(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
+                var genotypesArray = new Array();
                 for (var i = 0; i < rows.length; i++){
                     // check for duplication study
                     rows[i].findElement(By.tagName("a")).getAttribute('href').then(function(text){
@@ -238,6 +248,13 @@ function variantGenotypesTab(driver){
                         chai.expect('#'+id).dom.to.have.count(1);
                     });
                     rows[i].findElement(By.xpath("//div[contains(@class,'genotype-grid')]//table[1]//td[1]/div[text()]")).getText();
+                    //check for duplicate content
+                    rows[i].findElement(By.className("x-accordion-body")).getAttribute('id').then(function(id){
+                        driver.findElement(By.xpath("//div[@id='"+id+"']")).getText().then(function(text){
+                            chai.assert.notInclude(genotypesArray, config.hashCode(text))
+                            genotypesArray.push(config.hashCode(text));
+                        });
+                    });
                 }
             });
         });
@@ -258,6 +275,7 @@ function variantPopulationTab(driver){
     driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).then(function(webElement) {
         driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
             driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
+                var popStatsArray = new Array();
                 for (var i = 0; i < rows.length; i++){
                     // check for duplication study
                     rows[i].findElement(By.tagName("a")).getAttribute('href').then(function(text){
@@ -290,6 +308,13 @@ function variantPopulationTab(driver){
                             driver.findElement(By.xpath("//div[@id='" + id + "']//table//div[@class='highcharts-container']")).getAttribute('id').then(function(chartID){
                                 chai.expect('#'+chartID).dom.to.have.count(1);
                             });
+                        });
+                    });
+                    //check for duplicate content
+                    rows[i].findElement(By.className("x-accordion-body")).getAttribute('id').then(function(id){
+                        driver.findElement(By.xpath("//div[@id='"+id+"']")).getText().then(function(text){
+                            chai.assert.notInclude(popStatsArray, config.hashCode(text))
+                            popStatsArray.push(config.hashCode(text));
                         });
                     });
                 }
