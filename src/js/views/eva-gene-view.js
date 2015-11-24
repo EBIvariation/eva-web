@@ -173,10 +173,10 @@ EvaGeneView.prototype = {
         this.margin = '-30 0 0 20';
         Ext.EventManager.onWindowResize(function () {
             _this.panel.doLayout();
-            evaClinVarWidget.clinvarBrowserGrid.panel.doLayout()
+            evaClinVarWidget.clinvarBrowserGrid.panel.doLayout();
             evaClinVarWidget.toolTabPanel.doLayout();
         });
-
+        this.class = Utils.genId("clinical-widget");
         this.panel = Ext.create('Ext.panel.Panel', {
 //            title:'Variants',
             layout: {
@@ -201,7 +201,7 @@ EvaGeneView.prototype = {
                         flex: 1,
                         collapsible: false,
                         collapseMode: 'header',
-                        html:'<div id="clinvar-view-gv1" class="clinical-widget"></div>',
+                        html:'<div id="clinvar-view-gv1" class="'+this.class+'"></div>',
                         border:false,
                         bodyStyle: 'border-width:0px;border-style:none;'
                     }

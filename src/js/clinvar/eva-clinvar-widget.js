@@ -20,7 +20,7 @@ function EvaClinVarWidget(args) {
 
     _.extend(this, Backbone.Events);
 
-    this.id = Utils.genId("VariantWidget");
+    this.id = Utils.genId("ClinvarWidget");
 
     //set default args
     this.target;

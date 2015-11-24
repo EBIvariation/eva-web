@@ -23,26 +23,35 @@
 if(window.location.protocol == 'https:'){
     if(document.location.host == 'wwwint.ebi.ac.uk'){
         METADATA_HOST = "https://wwwint.ebi.ac.uk/eva/webservices/rest";
+        CELLBASE_HOST = "https://wwwint.ebi.ac.uk/cellbase/webservices/rest";
     }else if(document.location.host == 'wwwdev.ebi.ac.uk'){
         METADATA_HOST = "https://wwwdev.ebi.ac.uk/eva/webservices/rest";
+        CELLBASE_HOST = "https://wwwdev.ebi.ac.uk/cellbase/webservices/rest";
     }else if(document.location.host == 'www.ebi.ac.uk'){
         METADATA_HOST = "https://www.ebi.ac.uk/eva/webservices/rest";
+        CELLBASE_HOST = "https://www.ebi.ac.uk/cellbase/webservices/rest";
     }else{
         METADATA_HOST = "https://wwwint.ebi.ac.uk/eva/webservices/rest";
+        CELLBASE_HOST = "https://wwwint.ebi.ac.uk/cellbase/webservices/rest";
     }
 }else{
    if(document.location.host == 'wwwint.ebi.ac.uk'){
        METADATA_HOST = "http://wwwint.ebi.ac.uk/eva/webservices/rest";
+       CELLBASE_HOST = "http://wwwint.ebi.ac.uk/cellbase/webservices/rest";
    }else if(document.location.host == 'wwwdev.ebi.ac.uk'){
        METADATA_HOST = "http://wwwdev.ebi.ac.uk/eva/webservices/rest";
+       CELLBASE_HOST = "http://wwwdev.ebi.ac.uk/cellbase/webservices/rest";
    }else if(document.location.host == 'www.ebi.ac.uk'){
        METADATA_HOST = "http://www.ebi.ac.uk/eva/webservices/rest";
+       CELLBASE_HOST = "http://www.ebi.ac.uk/cellbase/webservices/rest";
    }else{
      METADATA_HOST = "http://wwwint.ebi.ac.uk/eva/webservices/rest";
+     CELLBASE_HOST = "http://wwwint.ebi.ac.uk/cellbase/webservices/rest";
    }
 }
 
 METADATA_VERSION = 'v1';
+CELLBASE_VERSION = 'v3';
 var EvaManager = {
     host: METADATA_HOST,
     version: METADATA_VERSION,
