@@ -46,21 +46,23 @@ test.describe('Study View ('+config.browser()+')', function() {
 
     test.describe('DGVA Study', function() {
         test.it('Check Summary Table Values are not empty', function() {
-            driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
-            config.submit(driver);
-            driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), 10000).then(function(text) {
-                driver.findElement(By.xpath("//div[@id='study-browser-grid-panel-body']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
-                    var rows = parseInt(text.split(" ")[3]);
-                    for (var i = 1; i <= 5; i++) {
-                        driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), 10000);
-                        driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
+            driver.wait(until.elementLocated(By.xpath("//label[@id='sv-boxLabelEl']")), 10000).then(function(text) {
+                driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
+                config.submit(driver);
+                driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), 10000).then(function(text) {
+                    driver.findElement(By.xpath("//div[@id='study-browser-grid-panel-body']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
+                        var rows = parseInt(text.split(" ")[3]);
+                        for (var i = 1; i <= 5; i++) {
+                            driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), 10000);
+                            driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
 //                            driver.findElement(By.linkText(text)).click();
-                            driver.get(config.baseURL()+'?dgva-study='+text);
-                            dgvaCheckSummaryTable(driver);
-                            checkPublications(driver);
-                            config.back(driver);
-                        });
-                    }
+                                driver.get(config.baseURL()+'?dgva-study='+text);
+                                dgvaCheckSummaryTable(driver);
+                                checkPublications(driver);
+                                config.back(driver);
+                            });
+                        }
+                    });
                 });
             });
         });
