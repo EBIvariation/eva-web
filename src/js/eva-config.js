@@ -16,12 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-if(window.location.protocol == 'https:'){
-    CELLBASE_HOST = 'https://wwwdev.ebi.ac.uk/cellbase/webservices/rest';
-}else{
-    CELLBASE_HOST = 'http://wwwdev.ebi.ac.uk/cellbase/webservices/rest';
-}
-CELLBASE_VERSION = 'v3';
 
 clinVarSpeciesList = [
                         {
