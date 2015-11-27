@@ -114,6 +114,9 @@ div#local-masthead{
 .genotype-grid .x-column-header-inner {
     background-color:#DFE7E7;
 }
+.population-stats-grid .x-column-header-inner {
+    background-color:#DFE7E7;
+}
 
 .eva-beacon-panel .x-toolbar-footer{
     background-color: #ffffff;
@@ -516,9 +519,9 @@ h4{
     /*color: #fff;*/
     /*background-color: #156765;*/
 /*}*/
-#scroll-able{
-    margin-left:100px;
-}
+/*#scroll-able{*/
+    /*margin-left:100px;*/
+/*}*/
 
 .resultShow{
     color: #426783;
@@ -658,6 +661,33 @@ h4{
 .eva-radio label {
     font-weight:normal;
 }
+
+#variant-view-scrollable-div{
+    margin-left:175px;
+}
+#variantInfo{
+    margin-left:-50px;
+}
+#geneInfo{
+    margin-left:10px;
+}
+#gene-view > .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16, .grid_17, .grid_18, .grid_19, .grid_20, .grid_21, .grid_22, .grid_23, .grid_24 {
+    display: inline;
+    float: left;
+    position: relative;
+    margin-left: 1%;
+    margin-right: 0%;
+}
+
+@-moz-document url-prefix() {
+    .x-panel-body-default{
+        border-bottom: solid #C1C1C1;
+        border-bottom-width: 0.15em;
+    }
+}
+
+
+
 
 
 

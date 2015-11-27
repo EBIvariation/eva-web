@@ -126,7 +126,6 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
                     width  : 240,
                     labelWidth:120
                 }
-
             ]
         }
 
@@ -160,8 +159,6 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
                 valuesArray[key] = values[key];
             }
         }
-
-//        return {pop_freq:valuesArray};
     },
     clear: function () {
         this.panel.reset();

@@ -30,7 +30,6 @@ function EvaBeaconForm(args) {
     if (this.autoRender) {
         this.render();
     }
-
 }
 
 EvaBeaconForm.prototype = {
@@ -56,7 +55,6 @@ EvaBeaconForm.prototype = {
                 _this.projectStore.loadRawData(studies);
             }
         });
-
     },
 
     draw: function () {
@@ -247,14 +245,12 @@ EvaBeaconForm.prototype = {
                     var form = this.up('form').getForm();
                     if (form.isValid()) {
                         var region =  form.getValues().beaconChromosome+':'+ form.getValues().beaconCoordinate+'::'+form.getValues().beaconAllele;
-//                        var params ={studies:form.getValues().beaconProject};
                         var params ={referenceName:form.getValues().beaconChromosome,start:form.getValues().beaconCoordinate,allele:form.getValues().beaconAllele,datasetIds:form.getValues().beaconProject};
                         var resultPanel = Ext.getCmp('beacon-result-panel');
                         var studyName = Ext.getCmp('beacon-project').getRawValue();
                         EvaManager.get({
                             category: 'ga4gh',
                             resource: 'beacon',
-//                            query:region,
                             params:params,
                             success: function (response) {
                                 try {
@@ -281,7 +277,6 @@ EvaBeaconForm.prototype = {
                                         console.log()
                                         resultTplMarkup = {query:{Project:studyName,Chromosome:form.getValues().beaconChromosome,Coordinate:form.getValues().beaconCoordinate,Allele:_.escape(form.getValues().beaconAllele)},Exist:exists};
                                         resultTplMarkup = '<br/><pre><code>'+vkbeautify.json(resultTplMarkup)+'</code></pre>';
-//                                        resultTplMarkup = '<br/>'+JSON.stringify(resultTplMarkup);
                                         resultPanel.setHeight(300);
                                         resultPanel.setWidth(900);
                                     }
@@ -345,7 +340,6 @@ EvaBeaconForm.prototype = {
                     "value":i
                 });
             }
-
         }
         return chrmArr;
     }

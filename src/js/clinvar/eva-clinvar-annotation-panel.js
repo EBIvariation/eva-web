@@ -18,18 +18,15 @@
  */
 function ClinvarAnnotationPanel(args) {
     _.extend(this, Backbone.Events);
-    this.id = Utils.genId("ClinVarSummaryDataPanel");
+    this.id = Utils.genId("ClinVarAnnotationDataPanel");
 
     this.target;
     this.title = "Stats";
     this.height = 500;
     this.autoRender = true;
     _.extend(this, args);
-
     this.on(this.handlers);
-
     this.rendered = false;
-
     this.columns = {
         items:[
             {
@@ -37,19 +34,21 @@ function ClinvarAnnotationPanel(args) {
                 dataIndex: "ensemblGeneId",
                 flex: 1.4,
                 xtype: "templatecolumn",
-                tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a>',
+                tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>',
             },
             {
                 text: "Ensembl <br /> Gene Symbol",
                 dataIndex: "geneName",
-                flex: 0.9
+                xtype: "templatecolumn",
+                flex: 0.9,
+                tpl: '<tpl if="geneName">{geneName}<tpl else>-</tpl>',
             },
             {
                 text: "Ensembl <br />Transcript ID",
                 dataIndex: "ensemblTranscriptId",
                 flex: 1.3,
                 xtype: "templatecolumn",
-                tpl: '<tpl><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a>',
+                tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>',
             },
             {
                 text: "SO Term(s)",
@@ -77,7 +76,6 @@ function ClinvarAnnotationPanel(args) {
                             }
                         },groupedArr);
                         so_array =  _.compact(so_array);
-//                              console.log(so_array)
                         meta.tdAttr = 'data-qtip="'+ so_array.join(',')+'"';
                         return value ? Ext.String.format(
                             '<tpl>'+so_array.join(',')+'</tpl>',
@@ -92,21 +90,29 @@ function ClinvarAnnotationPanel(args) {
             {
                 text: "Biotype",
                 dataIndex: "biotype",
+                xtype: "templatecolumn",
+                tpl: '<tpl if="biotype">{biotype}<tpl else>-</tpl>',
                 flex: 1.3
             },
             {
                 text: "Codon",
                 dataIndex: "codon",
+                xtype: "templatecolumn",
+                tpl: '<tpl if="codon">{codon}<tpl else>-</tpl>',
                 flex: 0.6
             },
             {
                 text: "cDna <br />Position",
                 dataIndex: "cDnaPosition",
+                xtype: "templatecolumn",
+                tpl: '<tpl if="cDnaPosition">{cDnaPosition}<tpl elseif="cDnaPosition == 0">{cDnaPosition}<tpl else>-</tpl>',
                 flex: 0.6
             },
             {
-                text: "AA <br />Change",
+                text: "AA<br />Change",
                 dataIndex: "aaChange",
+                xtype: "templatecolumn",
+                tpl: '<tpl if="aaChange">{aaChange}<tpl else>-</tpl>',
                 flex: 0.6
             }
 
@@ -141,10 +147,8 @@ ClinvarAnnotationPanel.prototype = {
             console.log('target not found');
             return;
         }
-
         this.targetDiv.appendChild(this.div);
         this.panel.render(this.div);
-
     },
     clear: function () {
         this.annotContainer.removeAll(true);
@@ -153,16 +157,6 @@ ClinvarAnnotationPanel.prototype = {
         var _this = this;
         this.clear();
         var panels = [];
-//        var summaryPanel = this._createSummaryPanel(data.clinvarList);
-//        var clinvarList = data.clinvarList;
-//        for (var key in clinvarList) {
-//            var summaryData = clinvarList[key];
-//            var summaryPanel = this._createSummaryPanel(summaryData);
-//            panels.push(summaryPanel);
-//        }
-//        this.summaryContainer.removeAll();
-//        this.summaryContainer.add(panels);
-
           var annotData = data.annot;
           if(!_.isUndefined(params)){
              _.extend(annotData, params);
@@ -179,8 +173,6 @@ ClinvarAnnotationPanel.prototype = {
           var panel = this._createAnnotPanel(annotData);
           this.annotContainer.removeAll();
           this.annotContainer.add(panel);
-
-
     },
     _createPanel: function () {
         var _this = this;
@@ -222,7 +214,6 @@ ClinvarAnnotationPanel.prototype = {
         if(annotData){
             var annotColumns = _this.columns;
             var store = Ext.create("Ext.data.Store", {
-                //storeId: "GenotypeStore",
                 pageSize: 20,
                 fields: [
                     {name: 'ensemblGeneId', type: 'string'},
@@ -250,13 +241,10 @@ ClinvarAnnotationPanel.prototype = {
                 emptyMsg: "No records to display"
             });
 
-
             var grid = Ext.create('Ext.grid.Panel', {
                 store: store,
                 loadMask: true,
                 width: 800,
-//            height: 370,
-//                maxHeight:550,
                 autoHeight: true,
                 cls:'genotype-grid',
                 margin: 5,
@@ -274,12 +262,7 @@ ClinvarAnnotationPanel.prototype = {
             });
         }
 
-
-
-
-
         var annotPanel = Ext.create('Ext.panel.Panel', {
-//            overflowX:true,
             layout:'fit',
             padding: 10,
             width:800,
@@ -290,7 +273,6 @@ ClinvarAnnotationPanel.prototype = {
         if(annotData){
             paging.doRefresh();
         }
-
 
         return annotPanel;
     }

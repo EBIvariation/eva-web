@@ -44,11 +44,9 @@ ClinVarTraitFilterFormPanel.prototype = {
     render: function () {
         var _this = this;
         console.log("Initializing " + this.id);
-
         //HTML skel
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
-
         this.panel = this._createPanel();
     },
     draw: function () {
@@ -58,7 +56,6 @@ ClinVarTraitFilterFormPanel.prototype = {
             return;
         }
         this.targetDiv.appendChild(this.div);
-
         this.panel.render(this.div);
     },
     _createPanel: function () {
@@ -67,14 +64,10 @@ ClinVarTraitFilterFormPanel.prototype = {
             id: this.id + "phenotype",
             name: "phenotype",
             margin: '0 0 0 5',
-            //allowBlank: true,
             width: '100%',
             fieldLabel: 'Trait Name',
             labelAlign: 'top'
         });
-
-
-
 
         var formPanel =  Ext.create('Ext.form.Panel', {
                             bodyPadding: "5",

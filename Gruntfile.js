@@ -61,6 +61,7 @@ module.exports = function (grunt) {
                     'src/js/views/eva-study-view.js',
                     'src/js/views/eva-variant-view.js',
                     'src/js/views/eva-gene-view.js',
+                    'src/js/views/eva-iobio-view.js',
                     'src/js/statistics/eva-statistics.js',
                     'src/js/statistics/dgva-statistics.js',
                     'src/js/beacon-form/eva-beacon-panel.js',
@@ -245,7 +246,26 @@ module.exports = function (grunt) {
                 options: {spawn: false}
             }
 
+        },
+        mochaTest: {
+            test: {
+                options: {
+                    quiet: false,
+                    clearRequireCache: false,
+                    timeout:1500000
+                },
+                src: ['tests/mocha/*.js']
+            }
+        },
+        exec: {
+            firefox: {
+                 cmd: 'env BROWSER=firefox  grunt test  --force --colors'
+            },
+            chrome: {
+                cmd: 'env BROWSER=chrome  grunt test  --force --colors'
+            }
         }
+
     });
 
 
@@ -261,13 +281,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-html-build');
     grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-hub');
-
+    grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-exec');
     grunt.registerTask('vendor', ['curl-dir']);
+    //selenium with mocha
+    grunt.registerTask('test',['mochaTest']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','exec'])
 
 
-//    grunt.registerTask('clean', ['clean:eva']);
 
 };

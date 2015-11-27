@@ -39,14 +39,12 @@ EvaGeneView.prototype = {
             return;
         }
 
-
         geneID = this.geneId;
         _this.geneData;
 
-
-
-
+        console.log(CELLBASE_HOST)
         CellBaseManager.get({
+            host:CELLBASE_HOST,
             species: 'hsapiens',
             category: 'feature',
             subCategory: 'gene',
@@ -54,7 +52,6 @@ EvaGeneView.prototype = {
             resource: "info",
             async: false,
             params: {
-//                include: 'chromosome,start,end'
             },
             success: function (data) {
                 console.log(data)
@@ -66,7 +63,7 @@ EvaGeneView.prototype = {
                     }
                 }
             }
-        })
+        });
 
         this.targetDiv.innerHTML = _this._varinatViewlayout(_this.geneData);
         _this.draw(_this.geneData);
@@ -81,64 +78,36 @@ EvaGeneView.prototype = {
     },
     draw: function (data) {
 
-            if(!_.isUndefined(data))
-            var _this = this;
-            var geneInfoTitle =  document.querySelector("#geneInfo").textContent = this.geneId;
-//                     var variantInfoTitle =  document.querySelector("#variantInfo").textContent = variantID+' Info';
+        if(!_.isUndefined(data))
+        var _this = this;
+        var geneInfoTitle =  document.querySelector("#geneInfo").textContent = this.geneId;
+
         if(!_.isUndefined(data)){
             var geneViewDiv = document.querySelector("#geneView");
             $(geneViewDiv).addClass('show-div');
             var summaryContent =  _this._renderSummaryData(data);
             var summaryEl = document.querySelector("#summary-grid");
             var summaryElDiv =  document.createElement("div");
-            //       summaryElDiv.innerHTML = '<h4>Summary</h4>';
             summaryElDiv.innerHTML = summaryContent;
             summaryEl.appendChild(summaryElDiv);
-
-
-
-
-//            var transcriptEl = document.querySelector("#transcripts-grid");
-//            var transcriptElDiv = document.createElement("div");
-//            transcriptElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
-//            //       transcriptElDiv.innerHTML = '<h4>Studies</h4>';
-//            transcriptEl.appendChild(transcriptElDiv);
-//            _this.createTranscriptsPanel(transcriptElDiv,data);
 
             var clinVariantsEl = document.querySelector("#clinvar-variants-grid");
             var clinVariantsElDiv = document.createElement("div");
             clinVariantsElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
-            //       transcriptElDiv.innerHTML = '<h4>Studies</h4>';
             clinVariantsEl.appendChild(clinVariantsElDiv);
             _this._createClinvarPanel(clinVariantsElDiv,data);
 
-            var gvEl = document.querySelector("#genome-viewer-grid");
-            var gvElDiv = document.createElement("div");
-            gvElDiv.setAttribute('class', 'ocb-gv');
-            gvEl.appendChild(gvElDiv);
-            var genomeViewer = _this._createGenomeViewer(gvElDiv);
-            genomeViewer.draw();
-
-//            this.clinicalWidgetPanel = this._createClinicalWidgetPanel(transcriptElDiv);
-//            var evaClinicalWidgetPanel = new EvaClinicalWidgetPanel({
-//                target: transcriptElDiv,
-//                showFilters:false,
-//                title:'',
-//            });
-//            evaClinicalWidgetPanel.draw();
-//            evaClinicalWidgetPanel.panel.setHeight(1200)
-//            evaClinicalWidgetPanel.panel.setMargin('10 0 0 20')
-//            _this._createClinvarPanel(transcriptElDiv,data);
-
-//            this.clinicalWidgetPanel.formPanelVariantFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelVariantFilter.getValues(), sender: _this});
+//            var gvEl = document.querySelector("#genome-viewer-grid");
+//            var gvElDiv = document.createElement("div");
+//            gvElDiv.setAttribute('class', 'ocb-gv');
+//            gvEl.appendChild(gvElDiv);
+//            var genomeViewer = _this._createGenomeViewer(gvElDiv);
+//            genomeViewer.draw();
         }
-
-
-
     },
     _renderSummaryData: function (data) {
             var source = '<a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+data.id+'" target="_blank">'+data.source+':'+data.id+'</a>'
-            var _summaryTable  = '<div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
+            var _summaryTable  = '<div class="row"><div class="col-md-8"><table id="gene-view-summary-table" class="table ocb-stats-table">'
             var description = data.description;
             var start_pos = description.indexOf('[') + 1;
             var end_pos = description.indexOf(']',start_pos);
@@ -147,19 +116,17 @@ EvaGeneView.prototype = {
             if(text_to_get.split(':')[2]){
                 hgnc_name = '<a href="http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=HGNC:'+text_to_get.split(':')[2]+'" target="_blank">'+data.name+'</a>'
             }
-
-            _summaryTable +='<tr><td class="header">HGNC Symbol</td><td>'+hgnc_name+'</td></tr>' +
-                '<tr><td class="header">Gene Biotype</td><td>'+data.biotype+'</td></tr>' +
-                '<tr><td class="header">Location</td><td>'+data.chromosome+':'+data.start+'-'+data.end+'</td></tr>' +
-                '<tr><td class="header">Assembly</td><td>GRCh37</td></tr>' +
-                '<tr><td class="header">Description</td><td>'+data.description+'</td></tr>' +
-                '<tr><td class="header">Source</td><td>'+source+'</td></tr>' +
+            _summaryTable +='<tr><td class="header">HGNC Symbol</td><td id="gene-view-hgnc">'+hgnc_name+'</td></tr>' +
+                '<tr><td class="header">Gene Biotype</td><td id="gene-view-biotype">'+data.biotype+'</td></tr>' +
+                '<tr><td class="header">Location</td><td id="gene-view-location">'+data.chromosome+':'+data.start+'-'+data.end+'</td></tr>' +
+                '<tr><td class="header">Assembly</td><td id="gene-view-assembly">GRCh37</td></tr>' +
+                '<tr><td class="header">Description</td><td id="gene-view-description">'+data.description+'</td></tr>' +
+                '<tr><td class="header">Source</td><td id="gene-view-source">'+source+'</td></tr>' +
                 '</table>'
 
             _summaryTable += '</div></div>'
 
             return _summaryTable;
-
     },
     createTranscriptsPanel: function (target,data) {
         var _this = this;
@@ -184,7 +151,6 @@ EvaGeneView.prototype = {
                 titlePosition:1
             },
             collapsible:true,
-//            padding: 10,
             renderTo:target,
             items: [View],
             margin:this.margin
@@ -196,7 +162,6 @@ EvaGeneView.prototype = {
         variantTranscriptGrid.load(data);
         variantTranscriptGrid.draw();
 
-
         return variantTranscriptGrid;
     },
     _createClinvarPanel: function (target,data) {
@@ -205,31 +170,30 @@ EvaGeneView.prototype = {
             tpl: new Ext.XTemplate('<div id="clinvar-view-gv"></div>'),
             margin: '5 10 10 10'
         });
-        this.margin = '0 0 0 20';
-
+        this.margin = '-30 0 0 20';
         Ext.EventManager.onWindowResize(function () {
             _this.panel.doLayout();
-            evaClinVarWidget.clinvarBrowserGrid.panel.doLayout()
+            evaClinVarWidget.clinvarBrowserGrid.panel.doLayout();
             evaClinVarWidget.toolTabPanel.doLayout();
         });
-
-
-
+        this.class = Utils.genId("clinical-widget");
         this.panel = Ext.create('Ext.panel.Panel', {
-            title:'Variants',
+//            title:'Variants',
             layout: {
                 type: 'vbox',
                 align: 'stretch'
             },
             autoHeight: true,
             overflowY: true,
-            height: 1300,
-            cls: 'eva-panel',
-            header:  {
-                titlePosition:1
-            },
-            collapsible:true,
-//            padding: 10,
+            height: 1100,
+            border:false,
+//            cls: 'eva-panel',
+            header:false,
+            headerPosition:'bottom',
+//            header:  {
+//                titlePosition:1
+//            },
+//            collapsible:true,
             renderTo:target,
             items: [
                     {
@@ -237,9 +201,9 @@ EvaGeneView.prototype = {
                         flex: 1,
                         collapsible: false,
                         collapseMode: 'header',
-                        html:'<div id="clinvar-view-gv1"></div>',
+                        html:'<div id="clinvar-view-gv1" class="'+this.class+'"></div>',
                         border:false,
-                        bodyStyle: 'border-width:0px;border-style:none;',
+                        bodyStyle: 'border-width:0px;border-style:none;'
                     }
             ],
             margin:this.margin
@@ -248,19 +212,18 @@ EvaGeneView.prototype = {
             width: 1020,
             target: 'clinvar-view-gv1',
             headerConfig: {
-                baseCls: 'eva-header-1'
+                baseCls: 'eva-header-2'
             },
             border: true,
             browserGridConfig: {
-//                title: 'Variant Browser <span class="assembly">Assembly:GRCh37</span>',
                 title: _this.title,
                 border: true
             },
             toolPanelConfig: {
-//                title: 'ClinVar Data',
-                headerConfig: {
-                    baseCls: 'eva-header-2'
-                }
+//                headerConfig: {
+//                    baseCls: 'eva-header-2'
+//                },
+                height:600
             },
             defaultToolConfig: {
                 headerConfig: {
@@ -268,7 +231,6 @@ EvaGeneView.prototype = {
                 },
                 assertion: true,
                 genomeViewer:false
-
             },
             responseParser: function (response) {
                 var res = [];
@@ -285,42 +247,15 @@ EvaGeneView.prototype = {
         });
         evaClinVarWidget.draw();
         evaClinVarWidget.species = _this.species;
-
-//        evaClinVarWidget.clinvarBrowserGrid.setLoading(true);
         var params = {merge:true,source:'clinvar',gene:_this.geneId};
-//        EvaManager.get({
-//            host:CELLBASE_HOST,
-//            version:CELLBASE_VERSION,
-//            category: 'hsapiens/feature',
-//            resource: 'all',
-//            query:'clinical',
-//            params:params,
-//            success: function (response) {
-//                try {
-//                    var data = response.response[0].result;
-//                    console.log(data)
-//                    console.log()
-//                    evaClinVarWidget.clinvarBrowserGrid.load(data);
-//                    evaClinVarWidget.clinvarBrowserGrid.setLoading(false);
-//
-//                } catch (e) {
-//                    console.log(e);
-//                }
-//            }
-//        });
-
         var url = EvaManager.url({
             host:CELLBASE_HOST,
             version:CELLBASE_VERSION,
             category: 'hsapiens/feature/clinical',
             resource: 'all',
-//                        query: regions,
             params:params
         });
-
-        evaClinVarWidget.retrieveData(url,params)
-
-
+        evaClinVarWidget.retrieveData(url,params);
         return evaClinVarWidget;
     },
     _createGenomeViewer: function (target) {
@@ -395,7 +330,7 @@ EvaGeneView.prototype = {
                     chromosomeButtonLabel: false,
                     //regionButton: false,
 //                    zoomControl: false,
-                    windowSizeControl: false,
+                    windowSizeControl: false
 //                    positionControl: false,
 //                    moveControl: false,
 //                    autoheightButton: false,
@@ -511,46 +446,36 @@ EvaGeneView.prototype = {
         var layout;
         if(!_.isUndefined(data)){
          layout = '<div id="gene-view">'+
-                        '<div class="row">'+
-//                            '<div  class="col-sm-2  col-md-2 col-lg-2"></div>'+
-                            '<div  class="col-sm-12 col-md-12 col-lg-12"> <h2 id="geneInfo"></h2></div>'+
-                        '</div>'+
-                        '<div class="row">'+
-//                            '<div class="col-sm-1  col-md-1 col-lg-1" id="geneViewScrollspy">'+
-//                                '<ul id="geneViewTabs" class="nav nav-stacked affix eva-tabs">'+
-//                                    '<li class="active"><a href="#summary">Summary</a></li>'+
-//                                    '<li><a href="#transcripts">Transcripts</a></li>'+
-//                                    '<li><a href="#clinvarVariants">Variants</a></li>'+
-//                                    '<li><a href="#genomeViewer">Genomic Context</a></li>'+
-////                                    '<li><a href="#genomeViewer">Genomic Co</a></li>'+
-//                               '</ul>'+
-//                            '</div>'+
-//                            '<div id="scroll-able" class="col-sm-12 col-md-12 col-lg-12">'+
-                            '<div  class="col-sm-12 col-md-12 col-lg-12">'+
+                         '<div class="row">'+
+                             '<div  class="col-sm-1  col-md-1 col-lg-1"></div>'+
+                             '<div  class="col-sm-10 col-md-10 col-lg-10"> <h2 id="geneInfo"></h2></div>'+
+                         '</div>'+
+                        '<div class="container_24">'+
+                            '<div class="grid_2" id="geneViewScrollspy">'+
+                                '<span>&nbsp;</span>'+
+                                '<ul id="geneViewTabs" class="nav nav-stacked affix eva-tabs">'+
+                                     '<li class="active"><a href="#summary">Summary</a></li>'+
+                                     '<li><a href="#transcripts">Variants</a></li>'+
+                                '</ul>'+
+                            '</div>'+
+                            '<div id="scroll-able" class="grid_20">'+
                                 '<div id="summary" class="row">'+
-                                    '<div class="col-md-12" style="margin-left:20px;">'+
-                                        '<h4 class="gene-view-h4"> Summary &nbsp;<img class="title-header-icon" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>'+
+                                    '<div  style="margin-left:20px;">'+
+                                        '<h4 class="variant-view-h4"> Summary &nbsp;<img class="title-header-icon" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>'+
                                         '<div id="summary-grid"></div>'+
                                     '</div>'+
                                 '</div>'+
-                                '<div  id="transcripts" class="row">'+
-                                    '<div class="col-md-12" style="margin-left:10px;">'+
-//                                        '<h4 class="gene-view-h4"> Transcripts </h4>'+
+                                '<div id="transcripts" class="row">'+
+                                    '<div style="margin-left:20px;">'+
+                                        '<h4 class="variant-view-h4"> Variants </h4>'+
                                         '<div id="transcripts-grid"></div>'+
                                     '</div>'+
                                 '</div>'+
                                 '<br /><div  id="clinvarVariants" class="row">'+
-                                    '<div class="col-md-12" style="margin-left:10px;">'+
-//                                        '<h4 class="gene-view-h4"> Variants </h4>'+
+                                    '<div style="margin-left:10px;">'+
                                         '<div id="clinvar-variants-grid"></div>'+
                                     '</div>'+
                                 '</div>'+
-//                                '<br /><div  id="genomeViewer" class="row">'+
-//                                    '<div class="col-md-12" style="margin-left:10px;">'+
-////                                        '<h4 class="gene-view-h4"> Genome Viewer </h4>'+
-//                                        '<div id="genome-viewer-grid"></div>'+
-//                                    '</div>'+
-//                                '</div>'+
                             '</div>'+
                         '</div>'+
                     '</div>'
@@ -561,11 +486,9 @@ EvaGeneView.prototype = {
                             '<div  class="col-sm-12 col-md-12 col-lg-12"><h5>Sorry No Data Avalibale</h5></div>'+
                         '</div>'+
                     '</div>'
-
        }
        return layout;
     }
-
 }
 
 

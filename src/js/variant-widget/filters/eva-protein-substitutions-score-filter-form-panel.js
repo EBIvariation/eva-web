@@ -71,8 +71,6 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
             xtype:'fieldset',
             title: '',
             collapsible: false,
-//            height:150,
-//            width :280,
             margin:'5 0 0 0',
             defaultType: 'textfield',
             items :[
@@ -92,7 +90,6 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
                     value:_this.sift,
                     emptyText:'ex:0.1'
                 }
-
             ]
         }
 

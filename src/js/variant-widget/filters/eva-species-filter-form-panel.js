@@ -23,7 +23,7 @@ function SpeciesFilterFormPanel(args) {
     this.id = Utils.genId("SpeciesFilterFormPanel");
     this.target;
     this.autoRender = true;
-    this.title = "Species";
+    this.title = "Genome Assembly";
     this.border = false;
     this.collapsible = true;
     this.titleCollapse = false;
@@ -77,12 +77,9 @@ SpeciesFilterFormPanel.prototype = {
                     name: 'displayName',
                     type: 'string',
                     convert: function( v, record ) {
-
                         if( record.get( 'taxonomyEvaName')){
                             return record.get( 'taxonomyEvaName').substr(0,1).toUpperCase()+record.get( 'taxonomyEvaName').substr(1) + ' / ' + record.get( 'assemblyName' )
                         }
-
-
                     }
                 },
                 {
@@ -108,7 +105,7 @@ SpeciesFilterFormPanel.prototype = {
 
         var speciesFormField  =  Ext.create('Ext.form.ComboBox', {
             fieldLabel: 'Organism / Assembly',
-//            id:'species',
+            id: "speciesFilter",
             name:'species',
             labelAlign: 'top',
             store: speciesStore,
@@ -118,7 +115,6 @@ SpeciesFilterFormPanel.prototype = {
             width: '100%',
             listeners: {
                 afterrender: function (field) {
-//                    field.setValue('hsapiens_grch37');
                     field.setValue(_this.defaultValue);
                 },
                 change: function (field, newValue, oldValue) {

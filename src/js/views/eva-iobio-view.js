@@ -38,7 +38,6 @@ EvaIobioView.prototype = {
             return;
         }
         _this.draw(_this.url);
-
     },
     draw: function (data) {
         var _this = this;
@@ -49,7 +48,6 @@ EvaIobioView.prototype = {
             var elDiv = document.createElement("div");
             elDiv.innerHTML = '<iframe id="iobio" frameBorder="0"  scrolling="no" style="width:1330px;height:1200px;" src="'+data+'"></iframe>';
             iobioViewDiv.appendChild(elDiv);
-
         }
     }
 }

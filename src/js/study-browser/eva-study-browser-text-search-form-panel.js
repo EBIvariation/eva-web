@@ -29,7 +29,6 @@ function StudyBrowserTextSearchFormPanel(args) {
     this.titleCollapse = false;
     this.headerConfig;
     this.defaultValue = 'sgv';
-    
 
     //set instantiation args, must be last
     _.extend(this, args);
@@ -76,7 +75,6 @@ StudyBrowserTextSearchFormPanel.prototype = {
                 change: function (field, newValue, oldValue) {
                     _this.trigger('studySearch:change', {search: newValue, sender: _this});
                 }
-
             }
         });
 
@@ -92,7 +90,6 @@ StudyBrowserTextSearchFormPanel.prototype = {
             header: this.headerConfig,
             items: [searchFormField]
         });
-
     },
     getPanel: function () {
         return this.panel;

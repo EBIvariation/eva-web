@@ -80,7 +80,6 @@ VariantRawDataPanel.prototype = {
             layout: {
                 type: 'accordion',
                 titleCollapse: true,
-//                fill: false,
                 multi: true
             }
         });
@@ -148,7 +147,6 @@ VariantRawDataPanel.prototype = {
                             data: vcfHeader,
                             tpl: new Ext.XTemplate('<div>{vcfHeader}</div>'),
                             margin: '5 5 5 10'
-//                            hidden: true
                         }
                     ]
                 }

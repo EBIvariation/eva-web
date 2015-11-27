@@ -22,8 +22,6 @@ function EvaStatistics(args) {
     _.extend(this, args);
     this.rendered = false;
     this.render();
-
-
 }
 
 EvaStatistics.prototype = {
@@ -36,7 +34,6 @@ EvaStatistics.prototype = {
             EvaManager.get({
                 category: 'meta/studies',
                 resource: 'stats',
-//                        query:variantID,
                 success: function (response) {
                     try {
                         var stats = response.response[0].result[0];
@@ -46,8 +43,6 @@ EvaStatistics.prototype = {
                     _this._parseData(stats);
                 }
             });
-
-
         }
     },
     _parseData: function (data) {
@@ -85,7 +80,6 @@ EvaStatistics.prototype = {
                 width = 230;
             }
             var id = '#'+data.id;
-//                    var render_id = _this.shadowRoot.querySelector(id);
             var render_id = document.querySelector(id);
             var dataArray  = data.chartData;
             var title = data.title;
@@ -122,21 +116,11 @@ EvaStatistics.prototype = {
                     },
                     title: {
                         text: 'Top 5 Studies <br> <span style="font-size:12px;">by '+title+'</span>',
-                        style: {
-//                                    display: 'none'
-                        },
+                        style: {},
                         align: 'left'
                     },
-//                            subtitle: {
-//                                text: 'by ' + title,
-//                                style: {
-////                                    display: 'none'
-//                                },
-//                                align: 'left'
-//                            },
                     tooltip: {
                         pointFormat: '<b>{point.y}</b>'
-//                                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                     },
                     plotOptions: {
                         pie: {
@@ -157,10 +141,6 @@ EvaStatistics.prototype = {
                         enabled: false
                     }
                 });
-
             });
-
-
     }
-
 }

@@ -27,7 +27,7 @@ function EvaStudyBrowserWidgetPanel(args) {
     if (this.autoRender) {
         this.render();
     }
-};
+}
 
 
 EvaStudyBrowserWidgetPanel.prototype = {
@@ -39,7 +39,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
             this.panel = this._createPanel();
             this.rendered = true;
         }
-
     },
     draw: function () {
         if(!this.rendered) {
@@ -68,8 +67,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         _this.resize();
         var query = _this.formPanelStudyFilter.getValues();
         _this._updateURL(query);
-
-
     },
     hide: function () {
         this.panel.hide();
@@ -99,7 +96,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
-//            border:true,
             layout: {
                 type: 'hbox',
                 align: 'fit'
@@ -136,7 +132,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     header:{
                         baseCls: 'eva-header-1'
                     },
-                    id:'study-browser-grid',
+                    id:'study-browser-grid-panel',
                     title: 'Study Browser',
                     flex: 4.8,
                     collapsible: false,
@@ -144,7 +140,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     html:'<div class="variant-browser-option-div study-widget"></div>',
                     border:false,
                     forceFit:true,
-                    bodyStyle: 'border-width:0px;border-style:none;',
+                    bodyStyle: 'border-width:0px;border-style:none;'
                 }
             ],
             cls: 'variant-widget-panel'
@@ -244,9 +240,9 @@ EvaStudyBrowserWidgetPanel.prototype = {
             var params;
             if(btValue.browserType == 'sv'){
                 params = {structural:true}
-                Ext.getCmp('study-browser-grid').setTitle('Structural Variants (>50bp) Browser');
+                Ext.getCmp('study-browser-grid-panel').setTitle('Structural Variants (>50bp) Browser');
             }else{
-                Ext.getCmp('study-browser-grid').setTitle('Short Genetic Variants (<50bp) Browser');
+                Ext.getCmp('study-browser-grid-panel').setTitle('Short Genetic Variants (<50bp) Browser');
             }
 
             _this._loadFilterPanelvalues(params)
@@ -274,7 +270,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         meta.tdAttr = 'data-qtip="Click to see  more detailed information"';
                         return value ? Ext.String.format(
-                            '<a href="?eva-study='+value+'" target="_blank">'+value+'</a>',
+                            '<a href="?eva-study='+value+'">'+value+'</a>',
                             value
                         ) : '';
                     }
@@ -327,7 +323,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
             ];
 
-
             var plugins = [{
                 ptype: 'rowexpander',
                 rowBodyTpl: new Ext.XTemplate()
@@ -346,9 +341,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 columnsGrid: this.studyColumns
             });
 
-
         return evaStudyBrowserGrid;
-
 
     },
     _loadFilterPanelvalues: function (values) {
@@ -364,7 +357,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         for (i=0; i < tmpSpecies.length; ++i) {
             defaultSpecies.push( tmpSpecies[i].replace(/\+/g, " "));
         }
-
         var data;
         EvaManager.get({
             category: 'meta/studies',
@@ -391,7 +383,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
                                     checked = true;
                                 }
                             }
-
                             // TODO We must take care of the types returned
                             if(key2.indexOf(',') == -1) {
                                 obj['display'] = key2;
@@ -400,7 +391,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
                                 obj['iconCls'] = "no-icon";
                                 obj['count'] = stat[key2];
                             }
-//                                obj['display'] = key2;
                             if(!_.isEmpty(obj)){
                                 arr.push(obj);
                             }
@@ -410,10 +400,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                         statsData[key] = _.sortBy(statsData[key], 'display');
                         _this.speciesFilter.store.loadRawData(statsData['species']);
                         _this.typeFilter.store.loadRawData(statsData['type']);
-
                         data = statsData;
-
-
                     }
                 } catch (e) {
                     console.log(e);
@@ -453,7 +440,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         meta.tdAttr = 'data-qtip="Click to see  more detailed information"';
                         return value ? Ext.String.format(
-                            '<a href="?dgva-study='+value+'" target="_blank">'+value+'</a>',
+                            '<a href="?dgva-study='+value+'">'+value+'</a>',
                             value
                         ) : '';
                     }
@@ -486,7 +473,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     }
                 },
                 {
-                    text: "Study Type",
+                    text: "Type",
                     dataIndex: 'typeName',
                     flex: 2
                 },
@@ -497,7 +484,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     tpl: '<tpl><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/{id}_{name}" target="_blank">FTP</a></tpl>',
                     flex:1.5
                 }
-
             ];
 
         }
@@ -515,7 +501,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         if(values['type']){
             values['studyType'] = values['type'];
         }
-
 
         delete values.species;
         delete values.type;

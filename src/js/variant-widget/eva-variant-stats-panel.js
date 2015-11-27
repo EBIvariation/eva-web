@@ -21,7 +21,6 @@
 function EvaVariantStatsPanel(args) {
     _.extend(this, Backbone.Events);
     this.id = Utils.genId("VariantStatsPanel");
-
     this.target;
     this.title = "Stats";
     this.height = 500;
@@ -89,23 +88,13 @@ EvaVariantStatsPanel.prototype = {
     },
     load: function (data,params) {
         this.clear();
-
         var panels = [];
-
         for (var key in data) {
             var study = data[key];
             var studyPanel = this._createStudyPanel(study,params);
             panels.push(studyPanel);
 
         }
-
-//        if(params.species == 'hsapiens_grch37'){
-//            Ext.getCmp('fileStats').update('<h4>Studies</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
-//        }else{
-//            Ext.getCmp('fileStats').update('<h4>Studies</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;"></h5>')
-//        }
-
-
         this.studiesContainer.add(panels);
     },
     _createPanel: function () {
@@ -113,10 +102,8 @@ EvaVariantStatsPanel.prototype = {
             layout: {
                 type: 'accordion',
                 titleCollapse: true,
-//                fill: false,
                 multi: true
             }
-
         });
 
         var panel = Ext.create('Ext.container.Container', {
@@ -142,7 +129,7 @@ EvaVariantStatsPanel.prototype = {
         return panel;
     },
     _createStudyPanel: function (data,params) {
-
+        var fileId = data.fileId;
         var stats = (data.stats) ? data.stats : {};
         var attributes = (data.attributes) ? data.attributes : {};
         // removing src from attributes
@@ -150,8 +137,6 @@ EvaVariantStatsPanel.prototype = {
         _.extend(attributesData,attributes);
         delete attributesData['src'];
         delete attributesData['ACC'];
-
-
         //TO BE REMOVED
         var study_title;
         var projectList = '';
@@ -160,11 +145,9 @@ EvaVariantStatsPanel.prototype = {
             resource: 'list',
             params:{species:params.species},
             async: false,
-//            params:{species:params.species},
             success: function (response) {
                 try {
                     projectList = response.response[0].result;
-//                    console.log(projectList)
                 } catch (e) {
                     console.log(e);
                 }
@@ -190,41 +173,38 @@ EvaVariantStatsPanel.prototype = {
             params:{species:params.species},
             success: function (response) {
                 try {
-                    infoTags = response.response[0].result[0].metadata.INFO;
-                    vcfHeaderData = response.response[0].result[0].metadata.header.trim();
+                    var results = response.response[0].result;
+                    _.each(_.keys(results), function(key){
+                       if(this[key].fileId == fileId){
+                           infoTags = this[key].metadata.INFO;
+                           vcfHeaderData = this[key].metadata.header.trim();
+                       }
+                    },results);
+
                 } catch (e) {
                     console.log(e);
                 }
-
-
             }
         });
-
-
 
         attributesData =  _.invert(attributesData);
         var vcfData = '';
         if(attributes['src']){
             vcfData = attributes['src'];
         }
-
         var vcfDataId = Utils.genId("vcf-data");
-
-       var vcfDataView =  Ext.create('Ext.view.View', {
+        var vcfDataView =  Ext.create('Ext.view.View', {
             id:vcfDataId,
             tpl: new Ext.XTemplate('<div>'+vcfData+'</div>'),
             hidden:true,
             margin: '5 10 10 10'
         });
-
         var vcfHeaderId = Utils.genId("vcf-header");
-        var vcfHeaderId1 = Utils.genId("vcf-header1");
         var vcfHeaderView =  Ext.create('Ext.view.View', {
             id:vcfHeaderId,
-            tpl: new Ext.XTemplate("<div onmouseover='overflow_show(this)'  onmouseout='overflow_hide(this)' class='vcf-header'><pre style='display: inline-block; border:0'>"+vcfHeaderData.escapeHTML()+"</pre></div>"),
+            tpl: new Ext.XTemplate("<div onmouseover='overflow_show(this)'  onmouseout='overflow_hide(this)' class='vcf-header' id='"+fileId+"'><pre style='display: inline-block; border:0'>"+vcfHeaderData.escapeHTML()+"</pre></div>"),
             hidden:true,
             margin: '5 0 0 10'
-
         });
         var vcfHeaderButtonId = vcfHeaderId+'-button';
         var vcfHeaderButton = {
@@ -247,16 +227,14 @@ EvaVariantStatsPanel.prototype = {
                         vcfHeaderCtn.hide();
                         this.setText('Show Full Header')
                     }
-
                 }
-
             };
 
         var studyPanel = Ext.create('Ext.panel.Panel', {
             header:{
                 titlePosition:1
             },
-            title: study_title,
+            title: '<span class="stats-panel-study-title">'+study_title+'</span>',
             border: false,
             layout: {
                 type: 'vbox',
@@ -318,7 +296,6 @@ EvaVariantStatsPanel.prototype = {
 
                                         vcfSubButton.setText('Hide Full Header')
                                     }
-
                                 }
                                 else {
                                     vcfDataCtn.hide();
@@ -326,48 +303,21 @@ EvaVariantStatsPanel.prototype = {
                                     vcfSubButton.setText('Show Full Header')
                                     vcfHeaderCtn.hide();
                                 }
-
-
-
                                 if(vcfSubButton.isHidden()) {
                                     vcfSubButton.show();
                                 }
                                 else {
                                     vcfSubButton.hide();
-
                                 }
-
                             }
                         },
                         {
                             xtype: 'container',
-//                            tpl: new Ext.XTemplate('<div>{vcfData}</div>'),
                             margin: '5 0 0 0',
-//                            hidden: true,
                             items:[vcfHeaderButton,vcfHeaderView,vcfDataView]
                         }
                     ]
                 }
-
-//                {
-//                    xtype: 'box',
-//                    cls: 'ocb-header-5',
-//                    margin: '5 5 5 10',
-//                    html: '<h5>Stats</h5>'
-//                },
-//                {
-//                    xtype: 'container',
-//                    layout: 'hbox',
-//                    items: [
-//                        {
-//                            xtype: 'container',
-//                            data: stats,
-//                            tpl: this.statsTpl,
-//                            margin: '5 5 5 10'
-//                        }
-//                    ]
-//                }
-
             ]
         });
 

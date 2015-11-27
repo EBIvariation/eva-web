@@ -29,7 +29,6 @@ function StudyBrowserTypeFilterFormPanel(args) {
     this.titleCollapse = false;
     this.headerConfig;
     this.defaultValue = 'sgv';
-    
 
     //set instantiation args, must be last
     _.extend(this, args);
@@ -107,7 +106,7 @@ StudyBrowserTypeFilterFormPanel.prototype = {
                         boxLabel  : 'Short Genetic Variants (<50bp)',
                         name      : 'browserType',
                         inputValue: 'sgv',
-                        id        : 'sgv    '
+                        id        : 'sgv'
                     }
                 ],
                 listeners: {

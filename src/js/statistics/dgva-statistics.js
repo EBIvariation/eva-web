@@ -23,8 +23,6 @@ function DgvaStatistics(args) {
     _.extend(this, args);
     this.rendered = false;
     this.render();
-
-
 }
 
 DgvaStatistics.prototype = {
@@ -38,7 +36,6 @@ DgvaStatistics.prototype = {
                 category: 'meta/studies',
                 resource: 'stats',
                 params: {structural:true},
-//                        query:variantID,
                 success: function (response) {
                     try {
                         var stats = response.response[0].result[0];
@@ -48,8 +45,6 @@ DgvaStatistics.prototype = {
                     _this.parseData(stats);
                 }
             });
-
-
         }
     },
     parseData: function (data) {
@@ -70,9 +65,7 @@ DgvaStatistics.prototype = {
             }
         }
         var typeChartData = {id:'dgva-statistics-chart-type',title:'Type',chartData:typeArray};
-        _this.drawChart(typeChartData)
-
-
+        _this.drawChart(typeChartData);
     },
     drawChart: function (data) {
             var _this = this;
@@ -82,7 +75,6 @@ DgvaStatistics.prototype = {
 
             }else if(data.id == 'dgva-statistics-chart-species'){
                 data.chartData = data.chartData.slice(0, 5);
-
             }
             var id = '#'+data.id;
             var render_id = document.querySelector(id);
@@ -106,7 +98,6 @@ DgvaStatistics.prototype = {
                         width: width,
                         marginLeft:-50,
                         marginTop:50
-
                     },
                     legend: {
                         enabled: true,
@@ -117,25 +108,14 @@ DgvaStatistics.prototype = {
                         },
                         layout:'vertical',
                         useHTML:true
-
                     },
                     title: {
                         text: 'Top 5 Studies <br> <span style="font-size:12px;">by '+title+'</span>',
-                        style: {
-//                                    display: 'none'
-                        },
+                        style: {},
                         align: 'left'
                     },
-//                            subtitle: {
-//                                text: 'by ' + title,
-//                                style: {
-////                                    display: 'none'
-//                                },
-//                                align: 'left'
-//                            },
                     tooltip: {
                         pointFormat: '<b>{point.y}</b>'
-//                                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                     },
                     plotOptions: {
                         pie: {
@@ -156,10 +136,7 @@ DgvaStatistics.prototype = {
                         enabled: false
                     }
                 });
-
             });
-
-
     }
 
 }

@@ -117,9 +117,6 @@ EvaFormPanel.prototype = {
                     _this.lastSelectedValues = _this.getValues();
                     _this.clear();
                     Utils.msg(_this.clearButtonText, 'Successful');
-//                    if(_this.type == 'variantBrowser'){
-//                        Ext.Msg.alert('','Please select a Organism/Assembly and enter a valid Positional Filter');
-//                    }
                     _this.trigger('submit', {values: _this.getValues(), sender: _this});
                     _this.trigger('form:clear', {values: _this.getValues(), sender: _this});
                 }
@@ -133,22 +130,11 @@ EvaFormPanel.prototype = {
                 flex:1,
                 handler: function () {
                     _this.trigger('submit', {values: _this.getValues(), sender: _this});
-//                            console.log(values);
-//
-//                            for (var i = 0; i < _this.filters.length; i++) {
-//                                var filter = _this.filters[i];
-//                                var form = filter.filter.getForm();
-//                                _.extend(values, form);
-//
-//                            }
-
                 }
             }
         ];
         barItems = barItems.concat(this.barItems);
 
-
-        var pan;
         switch (this.mode) {
             case 'tabs':
                 this.filtersPanel = Ext.create('Ext.tab.Panel', {
@@ -204,16 +190,6 @@ EvaFormPanel.prototype = {
                 },
                 this.filtersPanel
             ]
-//            dockedItems: [
-//                {
-//                    xtype: 'toolbar',
-//                    dock: this.toolbarPosition,
-//                    width: '100%',
-//                    height: 45,
-////                border:false,
-//                    items: barItems
-//                }
-//            ]
         });
         return form;
 

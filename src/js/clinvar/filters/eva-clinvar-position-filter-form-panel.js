@@ -71,7 +71,7 @@ ClinVarPositionFilterFormPanel.prototype = {
         var filters = Ext.create('Ext.data.Store', {
             fields: ['value', 'name'],
             data : [
-                {"value":"accessionId", "name":"ClinVar  Accession"},
+                {"value":"accessionId", "name":"ClinVar Accession"},
                 {"value":"region", "name":"Chromosomal Location"},
                 {"value":"gene", "name":"Ensembl Gene Symbol/Accession"}
             ]
@@ -103,21 +103,13 @@ ClinVarPositionFilterFormPanel.prototype = {
             id: this.id + "accessionId",
             name: "accessionId",
             margin: '0 0 0 5',
-            //allowBlank: true,
             width: '100%',
-//            fieldLabel: 'ClinVar Accession',
             fieldLabel: '<br />',
             labelAlign: 'top',
-//            regex: /^[R][C][V]\d+$/,
             labelSeparator : '',
             emptyText: 'ex: RCV000030271',
             listeners: {
                 'change': function(field, newVal, oldVal){
-//                    if(newVal){
-//                        _this.disableFields(_this.id+"accessionId");
-//                    }else{
-//                        _this.enableFields();
-//                    }
                 }
             }
         });
@@ -127,12 +119,9 @@ ClinVarPositionFilterFormPanel.prototype = {
             name: "clinvarRegion",
             emptyText:  this.emptyText,
             margin: '0 0 0 5',
-            //allowBlank: true,
             width: '100%',
-//            fieldLabel: 'Chromosomal Location',
             fieldLabel: '<br />',
             labelAlign: 'top',
-//            value: this.testRegion,
             labelSeparator : '',
             emptyText: 'ex: 2:48000000-49000000',
             listeners: {
@@ -140,11 +129,6 @@ ClinVarPositionFilterFormPanel.prototype = {
                     field.setValue(_this.defaultClinvarRegion);
                 },
                 'change': function(field, newVal, oldVal){
-//                    if(newVal){
-//                        _this.disableFields(_this.id+"region");
-//                    }else{
-//                        _this.enableFields();
-//                    }
                 }
             }
         });
@@ -153,23 +137,15 @@ ClinVarPositionFilterFormPanel.prototype = {
             id: this.id + "gene",
             name: "gene",
             margin: '0 0 0 5',
-            //allowBlank: true,
             width: '100%',
-//            fieldLabel: 'Ensembl Gene Symbol',
             fieldLabel: '<br />',
             labelAlign: 'top',
             labelSeparator : '',
             emptyText: 'ex: BRCA2',
             listeners: {
                 'change': function(field, newVal, oldVal){
-//                    if(newVal){
-//                        _this.disableFields(_this.id+"gene");
-//                    }else{
-//                        _this.enableFields();
-//                    }
                 }
             }
-
         });
 
         var assemblyText = {
@@ -240,7 +216,6 @@ ClinVarPositionFilterFormPanel.prototype = {
                 values[key] = values[key].replace(/\s/g, "");
             }
         }
-//        values = _.omit(values, 'clinvarSelectFilter');
         return values;
     },
     clear: function () {
