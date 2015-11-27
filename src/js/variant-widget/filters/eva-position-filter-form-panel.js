@@ -70,35 +70,33 @@ EvaPositionFilterFormPanel.prototype = {
 
         var filters = Ext.create('Ext.data.Store', {
             fields: ['value', 'name'],
-            data : [
-                {"value":"snp", "name":"Variant ID"},
-                {"value":"region", "name":"Chromosomal Location"},
-                {"value":"gene", "name":"Ensembl Gene Symbol/Accession"}
+            data: [
+                {"value": "snp", "name": "Variant ID"},
+                {"value": "region", "name": "Chromosomal Location"},
+                {"value": "gene", "name": "Ensembl Gene Symbol/Accession"}
             ]
         });
 
+        var selectFilter = Ext.create('Ext.form.ComboBox', {
+            id: "selectFilter",
+            fieldLabel: 'Filter By',
+            name: 'selectFilter',
+            store: filters,
+            queryMode: 'local',
+            displayField: 'name',
+            valueField: 'value',
+            width: '100%',
+            labelAlign: 'top',
+            margin: '0 0 0 5',
+            listeners: {
+                afterrender: function (field) {
+                    field.setValue(_this.defaultFilterValue);
+                },
+                change: function (field, newValue, oldValue) {
+                    _this.hideFields(_this.id + newValue);
+                }
 
-
-       var selectFilter =  Ext.create('Ext.form.ComboBox', {
-             id: "selectFilter",
-             fieldLabel: 'Filter By',
-             name:'selectFilter',
-             store: filters,
-             queryMode: 'local',
-             displayField: 'name',
-             valueField: 'value',
-             width: '100%',
-             labelAlign: 'top',
-             margin: '0 0 0 5',
-             listeners: {
-               afterrender: function (field) {
-                   field.setValue(_this.defaultFilterValue);
-               },
-               change: function (field, newValue, oldValue) {
-                   _this.hideFields(_this.id+newValue);
-               }
-
-             }
+            }
         });
         var snp = Ext.create('Ext.form.field.TextArea', {
             id: this.id + "snp",
@@ -108,14 +106,13 @@ EvaPositionFilterFormPanel.prototype = {
             width: '100%',
             fieldLabel: '<br />',
             labelAlign: 'top',
-            labelSeparator : '',
+            labelSeparator: '',
             emptyText: 'ex: rs666',
             listeners: {
-                'change': function(field, newVal, oldVal){
+                'change': function (field, newVal, oldVal) {
                 }
             }
         });
-
 
         var regionList = Ext.create('Ext.form.field.TextArea', {
             id: this.id + "region",
@@ -125,12 +122,12 @@ EvaPositionFilterFormPanel.prototype = {
             width: '100%',
             fieldLabel: '<br />',
             labelAlign: 'top',
-            labelSeparator : '',
+            labelSeparator: '',
             listeners: {
                 afterrender: function (field) {
                     field.setValue(_this.defaultRegion);
                 },
-                'change': function(field, newVal, oldVal){
+                'change': function (field, newVal, oldVal) {
                 }
             }
         });
@@ -142,10 +139,10 @@ EvaPositionFilterFormPanel.prototype = {
             width: '100%',
             fieldLabel: '<br />',
             labelAlign: 'top',
-            labelSeparator : '',
+            labelSeparator: '',
             emptyText: 'ex: BRCA2',
             listeners: {
-                'change': function(field, newVal, oldVal){
+                'change': function (field, newVal, oldVal) {
                 }
             }
         });
@@ -161,7 +158,7 @@ EvaPositionFilterFormPanel.prototype = {
             titleCollapse: this.titleCollapse,
             header: this.headerConfig,
             allowBlank: false,
-            items: [selectFilter,snp, regionList, gene]
+            items: [selectFilter, snp, regionList, gene]
         });
 
         this.panel.getForm().findField('region').setValue(_this.defaultRegion);
@@ -183,25 +180,25 @@ EvaPositionFilterFormPanel.prototype = {
         }
         return values;
     },
-    disableFields:function(id){
-        this.panel.getForm().getFields().each(function(field) {
-            if(id != field.id ){
+    disableFields: function (id) {
+        this.panel.getForm().getFields().each(function (field) {
+            if (id != field.id) {
                 field.disable(true);
             }
         });
     },
-    enableFields:function(){
-        this.panel.getForm().getFields().each(function(field) {
+    enableFields: function () {
+        this.panel.getForm().getFields().each(function (field) {
             console.log(field)
             field.enable(true);
         });
     },
-    hideFields:function(id){
-        this.panel.getForm().getFields().each(function(field) {
-            if(id != field.id && field.name != 'selectFilter' ){
+    hideFields: function (id) {
+        this.panel.getForm().getFields().each(function (field) {
+            if (id != field.id && field.name != 'selectFilter') {
                 field.disable(true);
                 field.hide(true);
-            }else{
+            } else {
                 field.enable(true);
                 field.show(true);
             }

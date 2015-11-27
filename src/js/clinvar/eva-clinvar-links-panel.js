@@ -77,7 +77,7 @@ ClinvarLinksPanel.prototype = {
             }
         });
 
-      this.panel = Ext.create('Ext.container.Container', {
+        this.panel = Ext.create('Ext.container.Container', {
             layout: {
                 type: 'vbox',
                 align: 'stretch'
@@ -102,41 +102,43 @@ ClinvarLinksPanel.prototype = {
         var position = data.start;
         data = data.clinvarSet.referenceClinVarAssertion;
         var measure = data.measureSet.measure;
-        var linksTable  = '<div class="row"><div class="col-md-8"><table class="table ocb-attributes-table">'
+        var linksTable = '<div class="row"><div class="col-md-8"><table class="table ocb-attributes-table">'
         linksTable += '<tr><td class="header">Database</td><td class="header">Accession</td><td class="header">Type</td><td class="header">Status</td></tr>'
-        _.each(_.keys(measure), function(key){
+        _.each(_.keys(measure), function (key) {
             var xref = this[key].xref;
-            if(xref){
-                _.each(_.keys(xref), function(key){
+            if (xref) {
+                _.each(_.keys(xref), function (key) {
                     var id = this[key].id;
-                    if(this[key].type == 'rs'){
-                        id = '<a href="http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs='+id+'" target="_blank">rs'+id+'</a>'
-                    }else if(this[key].db == 'OMIM'){
+                    if (this[key].type == 'rs') {
+                        id = '<a href="http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs=' + id + '" target="_blank">rs' + id + '</a>'
+                    } else if (this[key].db == 'OMIM') {
                         var OMIMId = id.split('.');
-                        id = '<a href="http://www.omim.org/entry/'+OMIMId[0]+'#'+OMIMId[1]+'" target="_blank">'+id+'</a>'
+                        id = '<a href="http://www.omim.org/entry/' + OMIMId[0] + '#' + OMIMId[1] + '" target="_blank">' + id + '</a>'
                     }
-                    linksTable += '<tr><td class="clinvar-links-db">'+this[key].db+'</td><td class="clinvar-links-id">'+id+'</td><td class="clinvar-links-type">'+this[key].type+'</td><td class="clinvar-links-status">'+this[key].status+'</td></tr>'
-                },xref);
+                    linksTable += '<tr><td class="clinvar-links-db">' + this[key].db + '</td><td class="clinvar-links-id">' + id + '</td><td class="clinvar-links-type">' + this[key].type + '</td><td class="clinvar-links-status">' + this[key].status + '</td></tr>'
+                }, xref);
             }
-        },measure);
+        }, measure);
 
         linksTable += '</table></div></div>'
 
-        var lovd_link = 'http://databases.ebi.lovd.nl/shared/variants#order=VariantOnGenome%2FDNA%2CASC&skip[allele_]=allele_&skip[screeningids]=screeningids&skip[created_by]=created_by&skip[created_date]=created_date&search_chromosome='+chromosome+'&search_VariantOnGenome/DNA='+position+'&page_size=100&page=1';
+        var lovd_link = 'http://databases.ebi.lovd.nl/shared/variants#order=VariantOnGenome%2FDNA%2CASC&skip[allele_]=allele_&skip[screeningids]=screeningids&skip[created_by]=created_by&skip[created_date]=created_date&search_chromosome=' + chromosome + '&search_VariantOnGenome/DNA=' + position + '&page_size=100&page=1';
 
-        linksTable += '<br /><div class="lovd_link"><a href="'+lovd_link+'" target="_blank">Search for variant at LOVD</a></div>'
+        linksTable += '<br /><div class="lovd_link"><a href="' + lovd_link + '" target="_blank">Search for variant at LOVD</a></div>'
 
         var linksPanel = Ext.create('Ext.panel.Panel', {
             border: false,
             layout: 'vbox',
             overflowX: true,
-            items: [  {
-                xtype: 'container',
-                data: data,
-                width:970,
-                tpl: new Ext.XTemplate(linksTable),
-                margin: '10 5 5 10'
-            }]
+            items: [
+                {
+                    xtype: 'container',
+                    data: data,
+                    width: 970,
+                    tpl: new Ext.XTemplate(linksTable),
+                    margin: '10 5 5 10'
+                }
+            ]
         });
 
         return linksPanel;

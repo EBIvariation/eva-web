@@ -67,32 +67,32 @@ EvaConservationScoreFilterFormPanel.prototype = {
     _createPanel: function () {
 
         var items = {
-            xtype:'fieldset',
+            xtype: 'fieldset',
             title: '',
             collapsible: false,
-            width :280,
-            margin:'5 0 0 0',
+            width: 280,
+            margin: '5 0 0 0',
             defaultType: 'textfield',
-            items :[
+            items: [
                 {
                     fieldLabel: 'PhastCons \<',
                     name: 'phastCons',
-                    width  : 240,
-                    margin:'5 0 0 0',
-                    emptyText:'0.02'
+                    width: 240,
+                    margin: '5 0 0 0',
+                    emptyText: '0.02'
                 },
                 {
                     fieldLabel: 'phyloP \>',
                     name: 'phylop',
-                    width  : 240,
-                    margin:'5 0 5 0',
-                    emptyText:'0.4'
+                    width: 240,
+                    margin: '5 0 5 0',
+                    emptyText: '0.4'
                 }
             ]
         };
 
         return Ext.create('Ext.form.Panel', {
-            id:this.id,
+            id: this.id,
             bodyPadding: "5",
             margin: "0 0 5 0",
             buttonAlign: 'center',
@@ -116,18 +116,18 @@ EvaConservationScoreFilterFormPanel.prototype = {
         for (key in values) {
             if (values[key] == '') {
                 delete values[key]
-            }else{
-                if(key == 'phastCons'){
-                    value = '<'+ values[key];
-                }else{
-                    value = '>'+ values[key];
+            } else {
+                if (key == 'phastCons') {
+                    value = '<' + values[key];
+                } else {
+                    value = '>' + values[key];
                 }
-                valuesArray.push(key+':'+value);
+                valuesArray.push(key + ':' + value);
             }
         }
-        if(!_.isEmpty(valuesArray)){
-            valuesArray =  valuesArray.join(',');
-            return {conserved_region:valuesArray};
+        if (!_.isEmpty(valuesArray)) {
+            valuesArray = valuesArray.join(',');
+            return {conserved_region: valuesArray};
         }
     },
     clear: function () {

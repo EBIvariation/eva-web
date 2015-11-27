@@ -63,7 +63,6 @@ EvaVariantBrowserGrid.prototype = {
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
 
-
         this.panel = this._createPanel();
     },
     draw: function () {
@@ -107,7 +106,6 @@ EvaVariantBrowserGrid.prototype = {
             this._addSampleColumn(sampleName);
         }
 
-
         this.paging = Ext.create('Ext.PagingToolbar', {
             store: _this.store,
             id: _this.id + "_pagingToolbar",
@@ -115,13 +113,13 @@ EvaVariantBrowserGrid.prototype = {
             displayInfo: true,
             displayMsg: 'Variants {0} - {1} of {2}',
             emptyMsg: "No variants to display",
-            inputItemWidth:40
+            inputItemWidth: 40
         });
 
         var grid = Ext.create('Ext.grid.Panel', {
-                id:'variant-browser-grid',
+                id: 'variant-browser-grid',
                 title: this.title,
-                margin:this.margin,
+                margin: this.margin,
                 store: this.store,
                 border: this.border,
                 header: this.headerConfig,
@@ -130,16 +128,16 @@ EvaVariantBrowserGrid.prototype = {
                 plugins: this.plugins,
                 animCollapse: false,
                 height: this.height,
-                overflowX:true,
+                overflowX: true,
                 overflowY: true,
-                collapsible:true,
+                collapsible: true,
                 features: [
                     {ftype: 'summary'}
                 ],
                 viewConfig: {
                     emptyText: 'No records to display',
                     enableTextSelection: true,
-                    listeners:this.viewConfigListeners
+                    listeners: this.viewConfigListeners
                 },
                 tbar: this.paging
             }
@@ -153,7 +151,7 @@ EvaVariantBrowserGrid.prototype = {
             }
         });
 
-        grid.on('rowclick', function(grid, rowIndex, columnIndex, e) {
+        grid.on('rowclick', function (grid, rowIndex, columnIndex, e) {
 //            _this.trigger("variant:change", {sender: _this, args: rowIndex.data});
         }, this);
 
@@ -232,7 +230,7 @@ EvaVariantBrowserGrid.prototype = {
                 load: function (store, records, successful, operation, eOpts) {
                     if (typeof this.dataParser !== 'undefined') {
                         _this.dataParser(records);
-                    } else if(!_.isNull(records)){
+                    } else if (!_.isNull(records)) {
                         _this._parserFunction(records);
                         _this.grid.getSelectionModel().select(0, true);
                     }

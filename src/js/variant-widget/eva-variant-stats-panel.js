@@ -26,29 +26,29 @@ function EvaVariantStatsPanel(args) {
     this.height = 500;
     this.autoRender = true;
     this.statsTpl = new Ext.XTemplate(
-                        '<table class="ocb-stats-table">' +
-                            '<tr>' +
-                            '<td class="header">Minor Allele Frequency:</td>' +
-                            '<td>{maf} ({mafAllele})</td>' +
-                            '</tr>',
-                        '<tr>' +
-                            '<td class="header">Minor Genotype Frequency:</td>' +
-                            '<td>{mgf} ({mgfAllele})</td>' +
-                            '</tr>',
-                        '<tr>' +
-                            '<td class="header">Mendelian Errors:</td>' +
-                            '<td>{mendelianErrors}</td>' +
-                            '</tr>',
-                        '<tr>' +
-                            '<td class="header">Missing Alleles:</td>' +
-                            '<td>{missingAlleles}</td>' +
-                            '</tr>',
-                        '<tr>' +
-                            '<td class="header">Missing Genotypes:</td>' +
-                            '<td>{missingGenotypes}</td>' +
-                            '</tr>',
-                        '</table>'
-                    );
+        '<table class="ocb-stats-table">' +
+            '<tr>' +
+            '<td class="header">Minor Allele Frequency:</td>' +
+            '<td>{maf} ({mafAllele})</td>' +
+            '</tr>',
+        '<tr>' +
+            '<td class="header">Minor Genotype Frequency:</td>' +
+            '<td>{mgf} ({mgfAllele})</td>' +
+            '</tr>',
+        '<tr>' +
+            '<td class="header">Mendelian Errors:</td>' +
+            '<td>{mendelianErrors}</td>' +
+            '</tr>',
+        '<tr>' +
+            '<td class="header">Missing Alleles:</td>' +
+            '<td>{missingAlleles}</td>' +
+            '</tr>',
+        '<tr>' +
+            '<td class="header">Missing Genotypes:</td>' +
+            '<td>{missingGenotypes}</td>' +
+            '</tr>',
+        '</table>'
+    );
 
     _.extend(this, args);
 
@@ -86,12 +86,12 @@ EvaVariantStatsPanel.prototype = {
     clear: function () {
         this.studiesContainer.removeAll(true);
     },
-    load: function (data,params) {
+    load: function (data, params) {
         this.clear();
         var panels = [];
         for (var key in data) {
             var study = data[key];
-            var studyPanel = this._createStudyPanel(study,params);
+            var studyPanel = this._createStudyPanel(study, params);
             panels.push(studyPanel);
 
         }
@@ -117,7 +117,7 @@ EvaVariantStatsPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
-                    id:'fileStats',
+                    id: 'fileStats',
                     cls: 'ocb-header-4',
                     html: '<h4>Files and Statistics <img class="title-header-icon" data-qtip="Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF files are displayed." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
                     margin: '5 0 10 15'
@@ -128,13 +128,13 @@ EvaVariantStatsPanel.prototype = {
         });
         return panel;
     },
-    _createStudyPanel: function (data,params) {
+    _createStudyPanel: function (data, params) {
         var fileId = data.fileId;
         var stats = (data.stats) ? data.stats : {};
         var attributes = (data.attributes) ? data.attributes : {};
         // removing src from attributes
         var attributesData = {};
-        _.extend(attributesData,attributes);
+        _.extend(attributesData, attributes);
         delete attributesData['src'];
         delete attributesData['ACC'];
         //TO BE REMOVED
@@ -143,7 +143,7 @@ EvaVariantStatsPanel.prototype = {
         EvaManager.get({
             category: 'meta/studies',
             resource: 'list',
-            params:{species:params.species},
+            params: {species: params.species},
             async: false,
             success: function (response) {
                 try {
@@ -154,32 +154,32 @@ EvaVariantStatsPanel.prototype = {
             }
         });
 
-        if(projectList){
+        if (projectList) {
             for (var i = 0; i < projectList.length; i++) {
                 if (projectList[i].studyId === data.studyId) {
-                    study_title = '<a href="?eva-study='+projectList[i].studyId+'" target="_blank">'+projectList[i].studyName+'</a> ('+ projectList[i].studyId +')';
+                    study_title = '<a href="?eva-study=' + projectList[i].studyId + '" target="_blank">' + projectList[i].studyName + '</a> (' + projectList[i].studyId + ')';
                 }
             }
-        }else{
-            study_title = '<a href="?eva-study='+data.studyId+'" target="_blank">'+data.studyId+'</a>';
+        } else {
+            study_title = '<a href="?eva-study=' + data.studyId + '" target="_blank">' + data.studyId + '</a>';
         }
         var infoTags = '';
         var vcfHeaderData = '';
         EvaManager.get({
             category: 'studies',
             resource: 'files',
-            query:data.studyId,
+            query: data.studyId,
             async: false,
-            params:{species:params.species},
+            params: {species: params.species},
             success: function (response) {
                 try {
                     var results = response.response[0].result;
-                    _.each(_.keys(results), function(key){
-                       if(this[key].fileId == fileId){
-                           infoTags = this[key].metadata.INFO;
-                           vcfHeaderData = this[key].metadata.header.trim();
-                       }
-                    },results);
+                    _.each(_.keys(results), function (key) {
+                        if (this[key].fileId == fileId) {
+                            infoTags = this[key].metadata.INFO;
+                            vcfHeaderData = this[key].metadata.header.trim();
+                        }
+                    }, results);
 
                 } catch (e) {
                     console.log(e);
@@ -187,60 +187,60 @@ EvaVariantStatsPanel.prototype = {
             }
         });
 
-        attributesData =  _.invert(attributesData);
+        attributesData = _.invert(attributesData);
         var vcfData = '';
-        if(attributes['src']){
+        if (attributes['src']) {
             vcfData = attributes['src'];
         }
         var vcfDataId = Utils.genId("vcf-data");
-        var vcfDataView =  Ext.create('Ext.view.View', {
-            id:vcfDataId,
-            tpl: new Ext.XTemplate('<div>'+vcfData+'</div>'),
-            hidden:true,
+        var vcfDataView = Ext.create('Ext.view.View', {
+            id: vcfDataId,
+            tpl: new Ext.XTemplate('<div>' + vcfData + '</div>'),
+            hidden: true,
             margin: '5 10 10 10'
         });
         var vcfHeaderId = Utils.genId("vcf-header");
-        var vcfHeaderView =  Ext.create('Ext.view.View', {
-            id:vcfHeaderId,
-            tpl: new Ext.XTemplate("<div onmouseover='overflow_show(this)'  onmouseout='overflow_hide(this)' class='vcf-header' id='"+fileId+"'><pre style='display: inline-block; border:0'>"+vcfHeaderData.escapeHTML()+"</pre></div>"),
-            hidden:true,
+        var vcfHeaderView = Ext.create('Ext.view.View', {
+            id: vcfHeaderId,
+            tpl: new Ext.XTemplate("<div onmouseover='overflow_show(this)'  onmouseout='overflow_hide(this)' class='vcf-header' id='" + fileId + "'><pre style='display: inline-block; border:0'>" + vcfHeaderData.escapeHTML() + "</pre></div>"),
+            hidden: true,
             margin: '5 0 0 10'
         });
-        var vcfHeaderButtonId = vcfHeaderId+'-button';
+        var vcfHeaderButtonId = vcfHeaderId + '-button';
         var vcfHeaderButton = {
-                id:vcfHeaderButtonId,
-                xtype: 'button',
-                text : 'Hide Full Header',
-                margin: '5 0 0 10',
-                enableToggle: true,
-                hidden:true,
-                style: {
-                    borderStyle: 'solid'
-                },
-                handler: function () {
-                    var vcfHeaderCtn = Ext.getCmp(vcfHeaderId);
-                    if(vcfHeaderCtn.isHidden()) {
-                        vcfHeaderCtn.show();
-                        this.setText('Hide Full Header')
-                    }
-                    else {
-                        vcfHeaderCtn.hide();
-                        this.setText('Show Full Header')
-                    }
+            id: vcfHeaderButtonId,
+            xtype: 'button',
+            text: 'Hide Full Header',
+            margin: '5 0 0 10',
+            enableToggle: true,
+            hidden: true,
+            style: {
+                borderStyle: 'solid'
+            },
+            handler: function () {
+                var vcfHeaderCtn = Ext.getCmp(vcfHeaderId);
+                if (vcfHeaderCtn.isHidden()) {
+                    vcfHeaderCtn.show();
+                    this.setText('Hide Full Header')
                 }
-            };
+                else {
+                    vcfHeaderCtn.hide();
+                    this.setText('Show Full Header')
+                }
+            }
+        };
 
         var studyPanel = Ext.create('Ext.panel.Panel', {
-            header:{
-                titlePosition:1
+            header: {
+                titlePosition: 1
             },
-            title: '<span class="stats-panel-study-title">'+study_title+'</span>',
+            title: '<span class="stats-panel-study-title">' + study_title + '</span>',
             border: false,
             layout: {
                 type: 'vbox',
                 align: 'fit'
             },
-            overflowX:true,
+            overflowX: true,
             items: [
                 {
                     xtype: 'container',
@@ -250,17 +250,17 @@ EvaVariantStatsPanel.prototype = {
                         '<tpl foreach=".">',
                         '<td class="header"><span>{.}&nbsp;<tpl if="this.getInfo(values)"><img  data-qtip="{[this.getInfo(values)]}" class="eva-help-img" src="img/help.jpg"/></tpl></span></td>', // the special **`{$}`** variable contains the property name
                         '</tpl>' +
-                        '</tr><tr>',
+                            '</tr><tr>',
                         '<tpl foreach=".">',
                         '<td>{$}</td>', // within the loop, the **`{.}`** variable is set to the property value
                         '</tpl>',
                         '</tr></table>',
                         {
-                            getInfo:function(value){
-                                var info =_.findWhere(infoTags, {id:value});
-                                if(!_.isUndefined(info)){
+                            getInfo: function (value) {
+                                var info = _.findWhere(infoTags, {id: value});
+                                if (!_.isUndefined(info)) {
                                     return info.description;
-                                }else{
+                                } else {
                                     return;
                                 }
                             }
@@ -276,7 +276,7 @@ EvaVariantStatsPanel.prototype = {
                     items: [
                         {
                             xtype: 'button',
-                            text : '+',
+                            text: '+',
                             margin: '5 10 10 90',
                             enableToggle: true,
                             style: {
@@ -286,13 +286,13 @@ EvaVariantStatsPanel.prototype = {
                                 var vcfHeaderCtn = Ext.getCmp(vcfHeaderId);
                                 var vcfDataCtn = Ext.getCmp(vcfDataId);
                                 var vcfSubButton = Ext.getCmp(vcfHeaderButtonId);
-                                if(vcfDataCtn.isHidden()) {
+                                if (vcfDataCtn.isHidden()) {
                                     vcfDataCtn.show();
                                     vcfHeaderCtn.show();
                                     this.setText('-')
-                                    if(vcfHeaderCtn.isHidden()){
+                                    if (vcfHeaderCtn.isHidden()) {
                                         vcfSubButton.setText('Show Full Header')
-                                    }else{
+                                    } else {
 
                                         vcfSubButton.setText('Hide Full Header')
                                     }
@@ -303,7 +303,7 @@ EvaVariantStatsPanel.prototype = {
                                     vcfSubButton.setText('Show Full Header')
                                     vcfHeaderCtn.hide();
                                 }
-                                if(vcfSubButton.isHidden()) {
+                                if (vcfSubButton.isHidden()) {
                                     vcfSubButton.show();
                                 }
                                 else {
@@ -314,13 +314,12 @@ EvaVariantStatsPanel.prototype = {
                         {
                             xtype: 'container',
                             margin: '5 0 0 0',
-                            items:[vcfHeaderButton,vcfHeaderView,vcfDataView]
+                            items: [vcfHeaderButton, vcfHeaderView, vcfDataView]
                         }
                     ]
                 }
             ]
         });
-
 
         return studyPanel;
     },
@@ -337,17 +336,17 @@ EvaVariantStatsPanel.prototype = {
 };
 
 function overflow_show(div) {
-    $(div).css("overflow-y","auto");
+    $(div).css("overflow-y", "auto");
 }
 function overflow_hide(div) {
-    $(div).css("overflow","hidden");
+    $(div).css("overflow", "hidden");
 }
 
 String.prototype.escapeHTML = function () {
     return(
-        this.replace(/>/g,'&gt;').
-            replace(/</g,'&lt;').
-            replace(/"/g,'&quot;')
+        this.replace(/>/g, '&gt;').
+            replace(/</g, '&lt;').
+            replace(/"/g, '&quot;')
         );
 };
 

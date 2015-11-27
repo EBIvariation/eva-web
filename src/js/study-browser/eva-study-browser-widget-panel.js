@@ -29,11 +29,10 @@ function EvaStudyBrowserWidgetPanel(args) {
     }
 }
 
-
 EvaStudyBrowserWidgetPanel.prototype = {
     render: function () {
         var _this = this;
-        if(!this.rendered) {
+        if (!this.rendered) {
             this.div = document.createElement('div');
             this.div.setAttribute('id', this.id);
             this.panel = this._createPanel();
@@ -41,7 +40,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         }
     },
     draw: function () {
-        if(!this.rendered) {
+        if (!this.rendered) {
             this.render();
         }
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
@@ -58,7 +57,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         this.studyBrowserWidget.draw();
 
         this.formPanelStudyFilterDiv = document.querySelector('.form-panel-study-filter');
-        this.formPanelStudyFilter= this._createFormPanelVariantFilter(this.formPanelStudyFilterDiv);
+        this.formPanelStudyFilter = this._createFormPanelVariantFilter(this.formPanelStudyFilterDiv);
         this.formPanelStudyFilter.draw();
     },
     show: function () {
@@ -82,7 +81,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         var _this = this;
         if (_this.panel.isVisible()) {
             value = value || 0;
-            if(value){
+            if (value) {
                 _this.panel.doLayout();
             }
             _this.formPanelStudyFilter.panel.doLayout();
@@ -101,57 +100,55 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 align: 'fit'
             },
             bodyStyle: 'border-width:0px;border-style:none;',
-            items:[
+            items: [
                 {
                     xtype: 'panel',
-                    header:{
+                    header: {
                         baseCls: 'eva-header-1',
-                        titlePosition:1
+                        titlePosition: 1
                     },
                     frame: false,
-                    title:'<span style="margin-left:5px;">Filter</span>',
+                    title: '<span style="margin-left:5px;">Filter</span>',
                     flex: 1.5,
                     collapsible: true,
                     collapseMode: 'header',
-                    html:'<div class="variant-browser-option-div form-panel-study-filter"></div>',
+                    html: '<div class="variant-browser-option-div form-panel-study-filter"></div>',
                     collapseDirection: 'left',
-                    border:false,
-                    animCollapse:false,
+                    border: false,
+                    animCollapse: false,
                     bodyStyle: 'border-width:0px;border-style:none;',
                     listeners: {
-                        collapse: function(){
+                        collapse: function () {
                             _this.resize();
                         },
-                        expand: function(){
+                        expand: function () {
                             _this.resize();
                         }
                     }
                 },
                 {
                     xtype: 'panel',
-                    header:{
+                    header: {
                         baseCls: 'eva-header-1'
                     },
-                    id:'study-browser-grid-panel',
+                    id: 'study-browser-grid-panel',
                     title: 'Study Browser',
                     flex: 4.8,
                     collapsible: false,
                     collapseMode: 'header',
-                    html:'<div class="variant-browser-option-div study-widget"></div>',
-                    border:false,
-                    forceFit:true,
+                    html: '<div class="variant-browser-option-div study-widget"></div>',
+                    border: false,
+                    forceFit: true,
                     bodyStyle: 'border-width:0px;border-style:none;'
                 }
             ],
             cls: 'variant-widget-panel'
         });
 
-
         return  this.panel;
     },
     _createFormPanelVariantFilter: function (target) {
         var _this = this;
-
 
         this.browserTypeFilter = new StudyBrowserTypeFilterFormPanel({
             defaultValue: _this.browserType
@@ -161,11 +158,10 @@ EvaStudyBrowserWidgetPanel.prototype = {
             defaultValue: _this.search
         });
 
-
         this.speciesFilter = new StudyFilterFormPanel({
-            title:'Species',
+            title: 'Species',
             collapsed: false,
-            defaultValues:_this.species,
+            defaultValues: _this.species,
             fields: [
                 {name: 'display', type: 'string'}
             ],
@@ -180,7 +176,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         });
 
         this.typeFilter = new StudyFilterFormPanel({
-            title:'Type',
+            title: 'Type',
             collapsed: false,
             fields: [
                 {name: 'display', type: 'string'}
@@ -195,40 +191,38 @@ EvaStudyBrowserWidgetPanel.prototype = {
             ]
         });
 
-
         var formPanel = new EvaFormPanel({
             header: false,
             title: 'Filter',
             type: 'variantBrowser',
-            headerConfig:false,
+            headerConfig: false,
             mode: 'accordion',
             target: target,
             submitButtonText: 'Submit',
             submitButtonId: 'study-submit-button',
-            filters: [this.browserTypeFilter,this.searchFilter,this.speciesFilter,this.typeFilter],
+            filters: [this.browserTypeFilter, this.searchFilter, this.speciesFilter, this.typeFilter],
             height: 1359,
             border: false,
             handlers: {
                 'submit': function (e) {
                     console.log(e)
                     var params = e.values;
-                    if(params.browserType == 'sv'){
-                        _.extend(params, {structural:true})
+                    if (params.browserType == 'sv') {
+                        _.extend(params, {structural: true})
                     }
 
                     _this._loadStudies(params);
-                    if(params.search){
+                    if (params.search) {
                         _this._textSearch(params.search);
                     }
                     _this._updateURL(params);
-
 
                 }
             }
         });
 
         formPanel.on('form:clear', function (e) {
-            _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').setValue({browserType:'sgv'})
+            _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').setValue({browserType: 'sgv'})
         });
 
         this.searchFilter.on('studySearch:change', function (e) {
@@ -236,110 +230,109 @@ EvaStudyBrowserWidgetPanel.prototype = {
         });
 
         this.browserTypeFilter.on('browserType:change', function (e) {
-            var btValue =  _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').getValue();
+            var btValue = _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').getValue();
             var params;
-            if(btValue.browserType == 'sv'){
-                params = {structural:true}
+            if (btValue.browserType == 'sv') {
+                params = {structural: true}
                 Ext.getCmp('study-browser-grid-panel').setTitle('Structural Variants (>50bp) Browser');
-            }else{
+            } else {
                 Ext.getCmp('study-browser-grid-panel').setTitle('Short Genetic Variants (<50bp) Browser');
             }
 
             _this._loadFilterPanelvalues(params)
             var values = formPanel.getValues();
-            _.extend(values,params)
+            _.extend(values, params)
             _this._loadStudies(values);
             _this._updateURL(values);
 
-
         });
-
 
         return formPanel;
     },
     _createStudyBrowser: function (target) {
-           var _this = this;
+        var _this = this;
 
-
-           this.studyColumns =[
-                {
-                    text: "ID",
-                    dataIndex: 'id',
-                    flex: 2.2,
-                    // To render a link to FTP
-                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
-                        meta.tdAttr = 'data-qtip="Click to see  more detailed information"';
-                        return value ? Ext.String.format(
-                            '<a href="?eva-study='+value+'">'+value+'</a>',
-                            value
-                        ) : '';
-                    }
-                },
-                {
-                    text: "Name",
-                    dataIndex: 'name',
-                    flex: 7
-                },
-                {
-                    text: "Organism",
-                    dataIndex: 'speciesCommonName',
-                    flex: 2
-                },
-                {
-                    text: "Species",
-                    dataIndex: 'speciesScientificName',
-                    flex: 2.7,
-                    renderer: function(value, p, record) {
-                        return value ? Ext.String.format(
-                            '<div data-toggle="popover" title="" data-content="And her...">{0}</div>',
-                            value
-                        ) : '';
-                    }
-                },
-                {
-                    text: "Type",
-                    dataIndex: 'experimentTypeAbbreviation',
-                    flex: 1.5,
-                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
-                        meta.tdAttr = 'data-qtip="'+rec.data.experimentType+'"';
-                        return value ? Ext.String.format(
-                            '<tpl>'+value+'</tpl>',
-                            value
-                        ) : '';
-                    }
-                },
-                {
-                    text: "Download",
-                    dataIndex: 'id',
-                    flex: 1.5,
-                    renderer: function (value, p, record) {
-                        return value ? Ext.String.format(
-                            '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/{0}" target="_blank">FTP</a>',
-                            value,
-                            record.data.threadid
-                        ) : '';
-                    }
+        this.studyColumns = [
+            {
+                text: "ID",
+                dataIndex: 'id',
+                flex: 2.2,
+                // To render a link to FTP
+                renderer: function (value, meta, rec, rowIndex, colIndex, store) {
+                    meta.tdAttr = 'data-qtip="Click to see  more detailed information"';
+                    return value ? Ext.String.format(
+                        '<a href="?eva-study=' + value + '">' + value + '</a>',
+                        value
+                    ) : '';
                 }
+            },
+            {
+                text: "Name",
+                dataIndex: 'name',
+                flex: 7
+            },
+            {
+                text: "Organism",
+                dataIndex: 'speciesCommonName',
+                flex: 2
+            },
+            {
+                text: "Species",
+                dataIndex: 'speciesScientificName',
+                flex: 2.7,
+                renderer: function (value, p, record) {
+                    return value ? Ext.String.format(
+                        '<div data-toggle="popover" title="" data-content="And her...">{0}</div>',
+                        value
+                    ) : '';
+                }
+            },
+            {
+                text: "Type",
+                dataIndex: 'experimentTypeAbbreviation',
+                flex: 1.5,
+                renderer: function (value, meta, rec, rowIndex, colIndex, store) {
+                    meta.tdAttr = 'data-qtip="' + rec.data.experimentType + '"';
+                    return value ? Ext.String.format(
+                        '<tpl>' + value + '</tpl>',
+                        value
+                    ) : '';
+                }
+            },
+            {
+                text: "Download",
+                dataIndex: 'id',
+                flex: 1.5,
+                renderer: function (value, p, record) {
+                    return value ? Ext.String.format(
+                        '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/{0}" target="_blank">FTP</a>',
+                        value,
+                        record.data.threadid
+                    ) : '';
+                }
+            }
 
-            ];
+        ];
 
-            var plugins = [{
+        var plugins = [
+            {
                 ptype: 'rowexpander',
                 rowBodyTpl: new Ext.XTemplate()
-            }];
+            }
+        ];
 
-            var evaStudyBrowserGrid = new EvaStudyBrowserGrid({
-                title: '',
-                target: target,
-                data: this.data,
-                height:775,
-                margin: '-25 0 0 0',
-                headerConfig: {
-                    baseCls: 'eva-header-2'
-                },
-                border:true,
-                columnsGrid: this.studyColumns
-            });
+        var evaStudyBrowserGrid = new EvaStudyBrowserGrid({
+            title: '',
+            target: target,
+            data: this.data,
+            height: 775,
+            margin: '-25 0 0 0',
+            headerConfig: {
+                baseCls: 'eva-header-2'
+            },
+            border: true,
+            columnsGrid: this.studyColumns
+        });
 
         return evaStudyBrowserGrid;
 
@@ -347,22 +340,22 @@ EvaStudyBrowserWidgetPanel.prototype = {
     _loadFilterPanelvalues: function (values) {
         var _this = this;
 
-        var tmpSpecies= _this.species.split(",");
+        var tmpSpecies = _this.species.split(",");
         var tmpType = _this.type.split(",");
         var defaultType = [];
         var defaultSpecies = [];
-        for (i=0; i < tmpType.length; ++i) {
-            defaultType.push( tmpType[i].replace(/\+/g, " "));
+        for (i = 0; i < tmpType.length; ++i) {
+            defaultType.push(tmpType[i].replace(/\+/g, " "));
         }
-        for (i=0; i < tmpSpecies.length; ++i) {
-            defaultSpecies.push( tmpSpecies[i].replace(/\+/g, " "));
+        for (i = 0; i < tmpSpecies.length; ++i) {
+            defaultSpecies.push(tmpSpecies[i].replace(/\+/g, " "));
         }
         var data;
         EvaManager.get({
             category: 'meta/studies',
             resource: 'stats',
             params: values,
-            async:false,
+            async: false,
             success: function (response) {
                 try {
                     var statsData = {};
@@ -374,24 +367,24 @@ EvaStudyBrowserWidgetPanel.prototype = {
                         for (key2 in stat) {
                             var obj = {};
                             var checked = false;
-                            if(key == 'species'){
-                                if(_.indexOf(defaultSpecies, key2) > -1){
+                            if (key == 'species') {
+                                if (_.indexOf(defaultSpecies, key2) > -1) {
                                     checked = true;
                                 }
-                            }else if(key == 'type'){
-                                if(_.indexOf(defaultType, key2) > -1){
+                            } else if (key == 'type') {
+                                if (_.indexOf(defaultType, key2) > -1) {
                                     checked = true;
                                 }
                             }
                             // TODO We must take care of the types returned
-                            if(key2.indexOf(',') == -1) {
+                            if (key2.indexOf(',') == -1) {
                                 obj['display'] = key2;
                                 obj['leaf'] = true;
                                 obj['checked'] = checked;
                                 obj['iconCls'] = "no-icon";
                                 obj['count'] = stat[key2];
                             }
-                            if(!_.isEmpty(obj)){
+                            if (!_.isEmpty(obj)) {
                                 arr.push(obj);
                             }
                         }
@@ -408,14 +401,14 @@ EvaStudyBrowserWidgetPanel.prototype = {
             }
         });
     },
-    _loadStudies: function(params){
+    _loadStudies: function (params) {
         var _this = this;
         _this._updateColumns(params)
         EvaManager.get({
             category: 'meta/studies',
             resource: 'all',
             params: params,
-            async:false,
+            async: false,
             success: function (response) {
                 var studies = [];
                 try {
@@ -427,10 +420,10 @@ EvaStudyBrowserWidgetPanel.prototype = {
             }
         });
     },
-    _updateColumns: function(params){
+    _updateColumns: function (params) {
         var _this = this;
         var columns = _this.studyColumns;
-        if(params.browserType == 'sv'){
+        if (params.browserType == 'sv') {
             columns = [
                 {
                     text: "ID",
@@ -440,7 +433,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         meta.tdAttr = 'data-qtip="Click to see  more detailed information"';
                         return value ? Ext.String.format(
-                            '<a href="?dgva-study='+value+'">'+value+'</a>',
+                            '<a href="?dgva-study=' + value + '">' + value + '</a>',
                             value
                         ) : '';
                     }
@@ -454,7 +447,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     text: "Organism",
                     dataIndex: 'speciesCommonName',
                     flex: 3,
-                    renderer: function(value, p, record) {
+                    renderer: function (value, p, record) {
                         return value ? Ext.String.format(
                             '<div data-toggle="popover" title="Organism" data-content="And her...">{0}</div>',
                             value
@@ -465,7 +458,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     text: "Species",
                     dataIndex: 'speciesScientificName',
                     flex: 3,
-                    renderer: function(value, p, record) {
+                    renderer: function (value, p, record) {
                         return value ? Ext.String.format(
                             '<div data-toggle="popover" title="Organism" data-content="And her...">{0}</div>',
                             value
@@ -482,7 +475,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     //dataIndex: 'id',
                     xtype: 'templatecolumn',
                     tpl: '<tpl><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/{id}_{name}" target="_blank">FTP</a></tpl>',
-                    flex:1.5
+                    flex: 1.5
                 }
             ];
 
@@ -490,31 +483,32 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         _this.studyBrowserWidget.columnsGrid = columns;
     },
-    _updateURL:function(values){
+    _updateURL: function (values) {
         var _this = this;
         var _tempValues = values;
 
-        if(values['species']){
+        if (values['species']) {
             values['studySpecies'] = values['species'];
         }
 
-        if(values['type']){
+        if (values['type']) {
             values['studyType'] = values['type'];
         }
 
         delete values.species;
         delete values.type;
         delete values.structural;
-        _.each(_.keys(_tempValues), function(key){
-            if(_.isArray(this[key])){
+        _.each(_.keys(_tempValues), function (key) {
+            if (_.isArray(this[key])) {
                 values[key] = this[key].join();
             }
-        },_tempValues);
+        }, _tempValues);
 
-        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+'Study Browser&'+$.param( values);;
-        window.history.pushState({path:newurl},'',newurl);
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Study Browser&' + $.param(values);
+        ;
+        window.history.pushState({path: newurl}, '', newurl);
     },
-    _textSearch: function(value){
+    _textSearch: function (value) {
         var _this = this;
         var store = _this.studyBrowserWidget.store;
         store.clearFilter();

@@ -28,7 +28,7 @@ function ClinvarAnnotationPanel(args) {
     this.on(this.handlers);
     this.rendered = false;
     this.columns = {
-        items:[
+        items: [
             {
                 text: "Ensembl<br /> Gene ID",
                 dataIndex: "ensemblGeneId",
@@ -54,34 +54,34 @@ function ClinvarAnnotationPanel(args) {
                 text: "SO Term(s)",
                 dataIndex: "soTerms",
                 flex: 1.7,
-                renderer: function(value, meta, rec, rowIndex, colIndex, store){
+                renderer: function (value, meta, rec, rowIndex, colIndex, store) {
 
-                    if(!_.isUndefined(value)){
+                    if (!_.isUndefined(value)) {
 
                         var tempArray = [];
-                        _.each(_.keys(value), function(key){
+                        _.each(_.keys(value), function (key) {
                             tempArray.push(this[key].soName);
-                        },value);
+                        }, value);
 
                         var groupedArr = _.groupBy(tempArray);
                         var so_array = [];
-                        _.each(_.keys(groupedArr), function(key){
-                            var index =  _.indexOf(consequenceTypesHierarchy, key);
+                        _.each(_.keys(groupedArr), function (key) {
+                            var index = _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
-                            if(index < 0){
+                            if (index < 0) {
                                 so_array.push(key)
-                            }else{
+                            } else {
                                 so_array[index] = key;
                             }
-                        },groupedArr);
-                        so_array =  _.compact(so_array);
-                        meta.tdAttr = 'data-qtip="'+ so_array.join(',')+'"';
+                        }, groupedArr);
+                        so_array = _.compact(so_array);
+                        meta.tdAttr = 'data-qtip="' + so_array.join(',') + '"';
                         return value ? Ext.String.format(
-                            '<tpl>'+so_array.join(',')+'</tpl>',
+                            '<tpl>' + so_array.join(',') + '</tpl>',
                             value
                         ) : '';
-                    }else{
+                    } else {
                         return '';
                     }
 
@@ -118,8 +118,8 @@ function ClinvarAnnotationPanel(args) {
 
         ],
         defaults: {
-            align:'left' ,
-            sortable : true
+            align: 'left',
+            sortable: true
         }
     };
 
@@ -153,26 +153,26 @@ ClinvarAnnotationPanel.prototype = {
     clear: function () {
         this.annotContainer.removeAll(true);
     },
-    load: function (data,params) {
+    load: function (data, params) {
         var _this = this;
         this.clear();
         var panels = [];
-          var annotData = data.annot;
-          if(!_.isUndefined(params)){
-             _.extend(annotData, params);
-             var annText = _.findWhere(annotation_text, {species:  params.species})
-             if(!_.isEmpty(annText.text)){
-                var tooltip =  annText.text;
-                Ext.getCmp(_this.id+'-annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="'+tooltip+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
-             }else{
-                Ext.getCmp(_this.id+'-annotationStats').update('<h4>Annotations</h4>')
-             }
-          }else{
-              Ext.getCmp(_this.id+'-annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="Variant Effect Predictor (VEP) v78 annotation against the GENCODE Basic Ensembl v78 geneset." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
-          }
-          var panel = this._createAnnotPanel(annotData);
-          this.annotContainer.removeAll();
-          this.annotContainer.add(panel);
+        var annotData = data.annot;
+        if (!_.isUndefined(params)) {
+            _.extend(annotData, params);
+            var annText = _.findWhere(annotation_text, {species: params.species})
+            if (!_.isEmpty(annText.text)) {
+                var tooltip = annText.text;
+                Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="' + tooltip + '" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+            } else {
+                Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4>')
+            }
+        } else {
+            Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="Variant Effect Predictor (VEP) v78 annotation against the GENCODE Basic Ensembl v78 geneset." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+        }
+        var panel = this._createAnnotPanel(annotData);
+        this.annotContainer.removeAll();
+        this.annotContainer.add(panel);
     },
     _createPanel: function () {
         var _this = this;
@@ -181,7 +181,7 @@ ClinvarAnnotationPanel.prototype = {
             layout: 'fit'
         });
 
-      this.panel = Ext.create('Ext.container.Container', {
+        this.panel = Ext.create('Ext.container.Container', {
             layout: {
                 type: 'vbox',
                 align: 'stretch'
@@ -191,7 +191,7 @@ ClinvarAnnotationPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
-                    id:_this.id+'-annotationStats',
+                    id: _this.id + '-annotationStats',
                     cls: 'ocb-header-4',
                     html: '<h4>Annotations</h4>',
                     margin: '5 0 10 10'
@@ -207,11 +207,11 @@ ClinvarAnnotationPanel.prototype = {
         var _this = this;
 
         var annotData = '';
-        if(!_.isUndefined(data)){
+        if (!_.isUndefined(data)) {
             annotData = data.consequenceTypes;
         }
 
-        if(annotData){
+        if (annotData) {
             var annotColumns = _this.columns;
             var store = Ext.create("Ext.data.Store", {
                 pageSize: 20,
@@ -225,8 +225,7 @@ ClinvarAnnotationPanel.prototype = {
                     type: 'memory',
                     enablePaging: true
                 },
-                sorters:
-                {
+                sorters: {
                     property: 'id',
                     direction: 'ASC'
                 }
@@ -246,31 +245,31 @@ ClinvarAnnotationPanel.prototype = {
                 loadMask: true,
                 width: 800,
                 autoHeight: true,
-                cls:'genotype-grid',
+                cls: 'genotype-grid',
                 margin: 5,
                 viewConfig: {
                     emptyText: 'No records to display',
                     enableTextSelection: true,
-                    deferEmptyText:false
+                    deferEmptyText: false
                 },
                 columns: annotColumns,
                 tbar: paging
             });
-        }else{
+        } else {
             var grid = Ext.create('Ext.view.View', {
                 tpl: new Ext.XTemplate(['<div style="margin-left:5px;">No Annotation data available</div>'])
             });
         }
 
         var annotPanel = Ext.create('Ext.panel.Panel', {
-            layout:'fit',
+            layout: 'fit',
             padding: 10,
-            width:800,
+            width: 800,
             border: false,
             items: [grid]
         });
 
-        if(annotData){
+        if (annotData) {
             paging.doRefresh();
         }
 

@@ -70,17 +70,17 @@ ClinVarPositionFilterFormPanel.prototype = {
 
         var filters = Ext.create('Ext.data.Store', {
             fields: ['value', 'name'],
-            data : [
-                {"value":"accessionId", "name":"ClinVar Accession"},
-                {"value":"region", "name":"Chromosomal Location"},
-                {"value":"gene", "name":"Ensembl Gene Symbol/Accession"}
+            data: [
+                {"value": "accessionId", "name": "ClinVar Accession"},
+                {"value": "region", "name": "Chromosomal Location"},
+                {"value": "gene", "name": "Ensembl Gene Symbol/Accession"}
             ]
         });
 
-        var selectFilter =  Ext.create('Ext.form.ComboBox', {
+        var selectFilter = Ext.create('Ext.form.ComboBox', {
             id: this.id + "selectFilter",
             fieldLabel: 'Filter By',
-            name:'clinvarSelectFilter',
+            name: 'clinvarSelectFilter',
             store: filters,
             queryMode: 'local',
             displayField: 'name',
@@ -93,7 +93,7 @@ ClinVarPositionFilterFormPanel.prototype = {
                     field.setValue(_this.defaultFilterValue);
                 },
                 change: function (field, newValue, oldValue) {
-                    _this.hideFields(_this.id+newValue);
+                    _this.hideFields(_this.id + newValue);
                 }
 
             }
@@ -106,10 +106,10 @@ ClinVarPositionFilterFormPanel.prototype = {
             width: '100%',
             fieldLabel: '<br />',
             labelAlign: 'top',
-            labelSeparator : '',
+            labelSeparator: '',
             emptyText: 'ex: RCV000030271',
             listeners: {
-                'change': function(field, newVal, oldVal){
+                'change': function (field, newVal, oldVal) {
                 }
             }
         });
@@ -117,18 +117,18 @@ ClinVarPositionFilterFormPanel.prototype = {
         var regionList = Ext.create('Ext.form.field.TextArea', {
             id: this.id + "region",
             name: "clinvarRegion",
-            emptyText:  this.emptyText,
+            emptyText: this.emptyText,
             margin: '0 0 0 5',
             width: '100%',
             fieldLabel: '<br />',
             labelAlign: 'top',
-            labelSeparator : '',
+            labelSeparator: '',
             emptyText: 'ex: 2:48000000-49000000',
             listeners: {
                 'afterrender': function (field) {
                     field.setValue(_this.defaultClinvarRegion);
                 },
-                'change': function(field, newVal, oldVal){
+                'change': function (field, newVal, oldVal) {
                 }
             }
         });
@@ -140,10 +140,10 @@ ClinVarPositionFilterFormPanel.prototype = {
             width: '100%',
             fieldLabel: '<br />',
             labelAlign: 'top',
-            labelSeparator : '',
+            labelSeparator: '',
             emptyText: 'ex: BRCA2',
             listeners: {
-                'change': function(field, newVal, oldVal){
+                'change': function (field, newVal, oldVal) {
                 }
             }
         });
@@ -153,23 +153,22 @@ ClinVarPositionFilterFormPanel.prototype = {
             forId: 'myFieldId',
             html: '<span style="font-size:14px;color:#996a44;"> Assembly : GRCh37</span>',
             margin: '0 0 10 5',
-            cls:'color:red'
+            cls: 'color:red'
         };
 
-        this.panel =  Ext.create('Ext.form.Panel', {
-                            bodyPadding: "5",
-                            margin: "0 0 5 0",
-                            buttonAlign: 'center',
-                            layout: 'vbox',
-                            title: this.title,
-                            border: this.border,
-                            collapsible: this.collapsible,
-                            titleCollapse: this.titleCollapse,
-                            header: this.headerConfig,
-                            allowBlank: false,
-                            items: [assemblyText,selectFilter,accessionId,regionList, gene]
-                        });
-
+        this.panel = Ext.create('Ext.form.Panel', {
+            bodyPadding: "5",
+            margin: "0 0 5 0",
+            buttonAlign: 'center',
+            layout: 'vbox',
+            title: this.title,
+            border: this.border,
+            collapsible: this.collapsible,
+            titleCollapse: this.titleCollapse,
+            header: this.headerConfig,
+            allowBlank: false,
+            items: [assemblyText, selectFilter, accessionId, regionList, gene]
+        });
 
         this.panel.getForm().findField('clinvarRegion').setValue(_this.defaultClinvarRegion);
         this.panel.getForm().findField('accessionId').setValue(_this.defaultAccessionId);
@@ -181,24 +180,24 @@ ClinVarPositionFilterFormPanel.prototype = {
     getPanel: function () {
         return this.panel;
     },
-    disableFields:function(id){
-        this.panel.getForm().getFields().each(function(field) {
-           if(id != field.id){
-               field.disable(true);
-           }
+    disableFields: function (id) {
+        this.panel.getForm().getFields().each(function (field) {
+            if (id != field.id) {
+                field.disable(true);
+            }
         });
     },
-    enableFields:function(){
-        this.panel.getForm().getFields().each(function(field) {
-           field.enable(true);
+    enableFields: function () {
+        this.panel.getForm().getFields().each(function (field) {
+            field.enable(true);
         });
     },
-    hideFields:function(id){
-        this.panel.getForm().getFields().each(function(field) {
-            if(id != field.id && field.name != 'clinvarSelectFilter' ){
+    hideFields: function (id) {
+        this.panel.getForm().getFields().each(function (field) {
+            if (id != field.id && field.name != 'clinvarSelectFilter') {
                 field.disable(true);
                 field.hide(true);
-            }else{
+            } else {
                 field.enable(true);
                 field.show(true);
             }
@@ -207,12 +206,12 @@ ClinVarPositionFilterFormPanel.prototype = {
     getValues: function () {
         var values = this.panel.getValues();
         for (key in values) {
-            if(key == 'gene'){
+            if (key == 'gene') {
                 values['gene'] = values.gene.toUpperCase();
             }
             if (values[key] == '') {
                 delete values[key]
-            }else{
+            } else {
                 values[key] = values[key].replace(/\s/g, "");
             }
         }

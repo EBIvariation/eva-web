@@ -67,70 +67,70 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
     _createPanel: function () {
 
         var genomesitems = {
-            xtype:'fieldset',
+            xtype: 'fieldset',
             title: '1000Genomes',
             collapsible: false,
-            height:240,
-            width :280,
+            height: 240,
+            width: 280,
             defaultType: 'textfield',
-            items :[
+            items: [
                 {
                     fieldLabel: 'All MAF \< ',
                     name: 'ALL',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: 'African MAF \< ',
                     name: 'AFR',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: 'American MAF \< ',
                     name: 'AMR',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: 'Asian MAF \< ',
                     name: 'ASN',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: 'European MAF \<',
                     name: 'EUR',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 }
             ]
         }
         var ESP6500 = {
-            xtype:'fieldset',
+            xtype: 'fieldset',
             title: 'ESP6500',
             collapsible: false,
-            height:180,
-            width :280,
+            height: 180,
+            width: 280,
             defaultType: 'textfield',
-            items :[
+            items: [
                 {
                     fieldLabel: 'African-American MAF \<',
                     name: 'AA_AF',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: ' European-American MAF \< ',
                     name: 'EA_AF',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 }
             ]
         }
 
         return Ext.create('Ext.form.Panel', {
-            id:this.id,
+            id: this.id,
             bodyPadding: "5",
             margin: "0 0 5 0",
             buttonAlign: 'center',
@@ -142,7 +142,7 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
             header: this.headerConfig,
             collapsed: this.collapsed,
             allowBlank: false,
-            items: [genomesitems,ESP6500]
+            items: [genomesitems, ESP6500]
         });
 
     },
@@ -155,7 +155,7 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
         for (key in values) {
             if (values[key] == '') {
                 delete values[key]
-            }else{
+            } else {
                 valuesArray[key] = values[key];
             }
         }

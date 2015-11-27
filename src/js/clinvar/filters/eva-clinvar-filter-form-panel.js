@@ -156,30 +156,36 @@ EvaClinVarFilterFormPanel.prototype = {
                     });
                 }
             },
-            plugins: [{
-                ptype: 'treefilter',
-                allowParentFolders: true
-            }],
-            dockedItems: [{
-                xtype: 'toolbar',
-                dock: 'top',
-                border:false,
-                items: [{
-                    xtype: 'trigger',
-                    width:'100%',
-                    emptyText:'search',
-                    triggerCls: 'x-form-clear-trigger',
-                    listeners: {
-                        change: function (field, newVal){
-                            treePanel.filter(newVal);
-                        },
-                        buffer: 250
-                    }
-                }]
-            }]
+            plugins: [
+                {
+                    ptype: 'treefilter',
+                    allowParentFolders: true
+                }
+            ],
+            dockedItems: [
+                {
+                    xtype: 'toolbar',
+                    dock: 'top',
+                    border: false,
+                    items: [
+                        {
+                            xtype: 'trigger',
+                            width: '100%',
+                            emptyText: 'search',
+                            triggerCls: 'x-form-clear-trigger',
+                            listeners: {
+                                change: function (field, newVal) {
+                                    treePanel.filter(newVal);
+                                },
+                                buffer: 250
+                            }
+                        }
+                    ]
+                }
+            ]
         });
 
-        if(!_.isEmpty(_this.defaultValue)){
+        if (!_.isEmpty(_this.defaultValue)) {
             var values = _this.defaultValue.split(",");
             _this.selectNodes(values);
         }
@@ -189,12 +195,12 @@ EvaClinVarFilterFormPanel.prototype = {
     getPanel: function () {
         return this.panel;
     },
-    selectNodes:function(values){
+    selectNodes: function (values) {
         var _this = this;
         var nodes = _this.panel.getRootNode()
         nodes.cascadeBy(function (n) {
-            if(n.isLeaf()){
-                if(_.indexOf(values, n.data.value) > -1){
+            if (n.isLeaf()) {
+                if (_.indexOf(values, n.data.value) > -1) {
                     n.set('checked', true);
                 }
             }

@@ -29,7 +29,6 @@ function EvaMenu(args) {
 
     this.on(this.handlers);
 
-
     this.rendered = false;
     if (this.autoRender) {
         this.render(this.targetId);
@@ -40,7 +39,6 @@ EvaMenu.prototype = {
     render: function () {
         var _this = this;
         console.log("Initializing");
-
 
 //        var navgationHtml = '' +
 //
