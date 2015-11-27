@@ -217,11 +217,13 @@ EvaVariantView.prototype = {
 
                 var ensemblGeneId = '-';
                 if(annotationDetails.ensemblGeneId){
-                     ensemblGeneId = '<a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+annotationDetails.ensemblGeneId+'" target="_blank">'+annotationDetails.ensemblGeneId+'</a>';
+//                     ensemblGeneId = '<a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+annotationDetails.ensemblGeneId+'" target="_blank">'+annotationDetails.ensemblGeneId+'</a>';
+                     ensemblGeneId = annotationDetails.ensemblGeneId;
                 }
                 var ensemblTranscriptId = '-';
                 if(annotationDetails.ensemblTranscriptId){
-                    ensemblTranscriptId = '<a href="http://www.ensembl.org/Homo_sapiens/transview?transcript='+annotationDetails.ensemblTranscriptId+'" target="_blank">'+annotationDetails.ensemblTranscriptId+'</a>';
+//                    ensemblTranscriptId = '<a href="http://www.ensembl.org/Homo_sapiens/transview?transcript='+annotationDetails.ensemblTranscriptId+'" target="_blank">'+annotationDetails.ensemblTranscriptId+'</a>';
+                    ensemblTranscriptId = annotationDetails.ensemblTranscriptId;
                 }
                 _consequenceTypeTable += '<tr><td class="variant-view-ensemblGeneId">'+ensemblGeneId+'</td><td class="variant-view-ensemblTranscriptId">'+ensemblTranscriptId+'</td><td class="variant-view-link">'+link+'</td><td class="variant-view-soname">'+this[key].soName+'&nbsp;'+svg+'</td></tr>'
             },soTerms);
