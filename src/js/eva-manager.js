@@ -26,7 +26,7 @@ if(document.location.host.includes('ebi.ac.uk')){
 }else{
     METADATA_HOST = window.location.protocol+"//wwwint.ebi.ac.uk/eva/webservices/rest";
     CELLBASE_HOST = window.location.protocol+"//wwwint.ebi.ac.uk/cellbase/webservices/rest";
-}
+}   
 
 METADATA_VERSION = 'v1';
 CELLBASE_VERSION = 'v3';
