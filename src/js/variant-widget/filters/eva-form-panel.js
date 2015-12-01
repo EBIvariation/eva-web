@@ -123,11 +123,11 @@ EvaFormPanel.prototype = {
             },
             {
                 xtype: 'button',
-                id:this.submitButtonId,
+                id: this.submitButtonId,
                 text: this.submitButtonText,
                 tooltip: this.submitButtonText,
                 formBind: true,
-                flex:1,
+                flex: 1,
                 handler: function () {
                     _this.trigger('submit', {values: _this.getValues(), sender: _this});
                 }

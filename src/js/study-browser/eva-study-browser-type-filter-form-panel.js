@@ -68,68 +68,69 @@ StudyBrowserTypeFilterFormPanel.prototype = {
             extend: 'Ext.data.Model',
             fields: [
                 {name: 'name', type: 'string'},
-                {name: 'value',  type: 'string'}
+                {name: 'value', type: 'string'}
             ]
         });
 
         var browserTypeValues = [
-                {name:'Structural Variants (>50bp)',value:'sv'},
-                {name:'Short Genetic Variants (<50bp)',value:'sgv'}
+            {name: 'Structural Variants (>50bp)', value: 'sv'},
+            {name: 'Short Genetic Variants (<50bp)', value: 'sgv'}
         ];
 
         var browserTypeStore = Ext.create('Ext.data.Store', {
             model: 'BrowserTypeModel',
-            data : browserTypeValues,
-            sorters: [{
-                property: 'taxonomyEvaName',
-                direction: 'ASC'
-            }]
+            data: browserTypeValues,
+            sorters: [
+                {
+                    property: 'taxonomyEvaName',
+                    direction: 'ASC'
+                }
+            ]
         });
 
         var browserTypeFormFieldRadio = {
-                xtype      : 'radiogroup',
-                name:'browserTypeRadio',
-                defaultType: 'radiofield',
-                defaults: {
-                    flex: 1
+            xtype: 'radiogroup',
+            name: 'browserTypeRadio',
+            defaultType: 'radiofield',
+            defaults: {
+                flex: 1
+            },
+            cls: 'eva-radio',
+            layout: 'vbox',
+            items: [
+                {
+                    boxLabel: 'Structural Variants (>50bp)',
+                    name: 'browserType',
+                    inputValue: 'sv',
+                    id: 'sv'
                 },
-                cls:'eva-radio',
-                layout: 'vbox',
-                items: [
-                    {
-                        boxLabel  : 'Structural Variants (>50bp)',
-                        name      : 'browserType',
-                        inputValue: 'sv',
-                        id        : 'sv'
-                    },
-                    {
-                        boxLabel  : 'Short Genetic Variants (<50bp)',
-                        name      : 'browserType',
-                        inputValue: 'sgv',
-                        id        : 'sgv'
-                    }
-                ],
-                listeners: {
-                    afterrender: function (field) {
-                        field.setValue({browserType:_this.defaultValue});
-                    },
-                    change: function (field, newValue, oldValue) {
-                        _this.trigger('browserType:change', {browserType: newValue, sender: _this});
-                    }
-
+                {
+                    boxLabel: 'Short Genetic Variants (<50bp)',
+                    name: 'browserType',
+                    inputValue: 'sgv',
+                    id: 'sgv'
                 }
-            };
+            ],
+            listeners: {
+                afterrender: function (field) {
+                    field.setValue({browserType: _this.defaultValue});
+                },
+                change: function (field, newValue, oldValue) {
+                    _this.trigger('browserType:change', {browserType: newValue, sender: _this});
+                }
 
+            }
+        };
 
-        var browserTypeFormField  =  Ext.create('Ext.form.ComboBox', {
+        var browserTypeFormField = Ext.create('Ext.form.ComboBox', {
             fieldLabel: 'Variant Type',
-            name:'browserType',
+            name: 'browserType',
             labelAlign: 'top',
             store: browserTypeStore,
             queryMode: 'local',
             displayField: 'name',
             valueField: 'value',
-            width:'100%',
+            width: '100%',
             listeners: {
                 afterrender: function (field) {
                     field.setValue(_this.defaultValue);

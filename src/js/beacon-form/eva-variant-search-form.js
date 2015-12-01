@@ -34,7 +34,7 @@ function EvaVariantSearchForm(args) {
 
 EvaVariantSearchForm.prototype = {
     render: function () {
-        if(!this.rendered) {
+        if (!this.rendered) {
             this.div = document.createElement('div');
             this.div.setAttribute('id', this.id);
             this.panel = this._createPanel();
@@ -42,7 +42,7 @@ EvaVariantSearchForm.prototype = {
         }
     },
 
-    load:function(){
+    load: function () {
         var _this = this;
         EvaManager.get({
             category: 'meta/studies',
@@ -58,9 +58,8 @@ EvaVariantSearchForm.prototype = {
         });
     },
 
-
     draw: function () {
-        if(!this.rendered) {
+        if (!this.rendered) {
             this.render();
         }
         // Checking whether 'this.target' is a HTMLElement or a string.
@@ -96,13 +95,12 @@ EvaVariantSearchForm.prototype = {
 
         this.chromosomeStore = Ext.create('Ext.data.Store', {
             fields: ['text', 'value'],
-            data:this._chromosomeValues()
+            data: this._chromosomeValues()
 
         });
 
-
         var vSearchView = Ext.create('Ext.view.View', {
-            width:1200,
+            width: 1200,
             itemSelector: 'a.serviceLink',
             tpl: new Ext.XTemplate([
                 '<div>',
@@ -115,23 +113,23 @@ EvaVariantSearchForm.prototype = {
                 '</div>',
                 '</div>',
                 '</div>'
-                ]),
+            ]),
             listeners: {
                 click: {
                     element: 'el', //bind to the underlying el property on the panel
-                    delegate : 'a.loadForm',
-                    fn: function(record,link){
+                    delegate: 'a.loadForm',
+                    fn: function (record, link) {
                         var project = link.getAttribute('project');
                         var variantSetId = link.getAttribute('variantsetid');
                         var chrom = link.getAttribute('chrom');
                         var start = link.getAttribute('start');
                         var end = link.getAttribute('end');
                         _this.formPanel.getForm().setValues({
-                            vSearchDatasetId:project,
-                            vSearchVariantsetId:variantSetId,
-                            vSearchChromosome:chrom,
-                            vSearchStart:start,
-                            vSearchEnd:end
+                            vSearchDatasetId: project,
+                            vSearchVariantsetId: variantSetId,
+                            vSearchChromosome: chrom,
+                            vSearchStart: start,
+                            vSearchEnd: end
                         })
 
                     }
@@ -142,43 +140,44 @@ EvaVariantSearchForm.prototype = {
         this.searchType = {
             xtype: 'radiogroup',
             id: 'searchType',
-            fieldLabel : 'Search by',
+            fieldLabel: 'Search by',
             defaultType: 'radiofield',
             allowBlank: false,
-            width:500,
+            width: 500,
             labelWidth: 120,
             defaults: {
                 flex: 1
             },
             items: [
                 {
-                    boxLabel  : 'Position',
-                    name      : 'searchType',
+                    boxLabel: 'Position',
+                    name: 'searchType',
                     inputValue: 'position',
-                    id        : 'position',
+                    id: 'position',
                     checked: true
-                }, {
-                    boxLabel  : 'Dataset ID',
-                    name      : 'searchType',
+                },
+                {
+                    boxLabel: 'Dataset ID',
+                    name: 'searchType',
                     inputValue: 'datasetId',
-                    id        : 'datasetId',
+                    id: 'datasetId',
 
                 },
                 {
-                    boxLabel  : 'Variant Set ID',
-                    name      : 'searchType',
+                    boxLabel: 'Variant Set ID',
+                    name: 'searchType',
                     inputValue: 'variantsetId',
-                    id        : 'variantsetId'
+                    id: 'variantsetId'
                 }
             ],
             listeners: {
                 afterrender: function (field) {
-                    var value =  field.getValue().searchType;
-                    _this.trigger('searchType:change', {searchType:value, sender: _this});
+                    var value = field.getValue().searchType;
+                    _this.trigger('searchType:change', {searchType: value, sender: _this});
                 },
                 change: function (field, newValue) {
                     var value = newValue.searchType;
-                    _this.trigger('searchType:change', {searchType:value, sender: _this});
+                    _this.trigger('searchType:change', {searchType: value, sender: _this});
                 }
             }
         };
@@ -191,7 +190,7 @@ EvaVariantSearchForm.prototype = {
             valueField: 'id',
             name: 'vSearchDatasetId',
             allowBlank: false,
-            width:650,
+            width: 650,
             tpl: Ext.create('Ext.XTemplate', '<tpl for=".">', '<div class="x-boundlist-item">{id} - {name}</div>', '</tpl>'),
             displayTpl: Ext.create('Ext.XTemplate', '<tpl for=".">', '{id} - {name}', '</tpl>'),
             labelWidth: 120
@@ -218,7 +217,6 @@ EvaVariantSearchForm.prototype = {
             allowBlank: false
         });
 
-
         this.start = {
             xtype: 'textfield',
             id: 'vSearchStart',
@@ -227,7 +225,7 @@ EvaVariantSearchForm.prototype = {
             allowBlank: false,
             labelWidth: 120,
             regex: /^[1-9]/
-          };
+        };
 
         this.end = {
             xtype: 'textfield',
@@ -237,23 +235,22 @@ EvaVariantSearchForm.prototype = {
             allowBlank: false,
             labelWidth: 120,
             regex: /^[1-9]/
-           };
-
+        };
 
         this.resultPanel = {
             xtype: 'panel',
             id: 'variant-search-result-panel',
             title: 'Result',
             region: 'center',
-            height:525,
-            width:530,
-            overflowX:'auto',
-            overflowY:'auto',
+            height: 525,
+            width: 530,
+            overflowX: 'auto',
+            overflowY: 'auto',
             hidden: true
         };
 
         this.formPanel = Ext.create('Ext.form.Panel', {
-            border:false,
+            border: false,
             layout: 'vbox',
             defaults: {
                 margin: 5
@@ -268,104 +265,107 @@ EvaVariantSearchForm.prototype = {
                 this.end,
                 this.resultPanel
             ],
-            buttons: [{
-                text: 'Reset',
-                handler: function() {
-                    _this._resetForm();
-                }
-            }, {
-                text: 'Search',
-                formBind: false,
-                //only enabled once the form is valid
-                disabled: false,
-                handler: function() {
-                    var form = this.up('form').getForm();
-                    var vSearchVariantsetId = form.getValues().vSearchVariantsetId;
-                    var vSearchDatasetId = form.getValues().vSearchDatasetId;
-                    var vSearchChromosome = form.getValues().vSearchChromosome;
-                    var vSearchStart = form.getValues().vSearchStart;
-                    var vSearchEnd = form.getValues().vSearchEnd;
-                    var resource;
-                    var params;
-                    if (form.isValid()) {
-                        if(form.getValues().searchType == 'position'){
-
-                            var diff = (vSearchEnd-vSearchStart);
-                            if (diff > 0 && diff <= 1000) {
-                            }else{
-                                Ext.Msg.alert('','Please Enter the region no more than 1000 range');
-                                return;
-                            }
-                            resource = 'variants/search';
-                            params = {referenceName:vSearchChromosome,start:vSearchStart,end:vSearchEnd,pageSize:1}
-                        }else if(form.getValues().searchType == 'variantsetId'){
-                            resource = 'callsets/search';
-                            params = {variantSetIds:vSearchVariantsetId,pageSize:1}
-                        }else if(form.getValues().searchType == 'datasetId'){
-                            resource = 'variantsets/search';
-                            params = {datasetIds:vSearchDatasetId,pageSize:1}
-                        }
-                        var resultPanel = Ext.getCmp('variant-search-result-panel');
-                        EvaManager.get({
-                            category: 'ga4gh',
-                            resource: resource,
-                            params:params,
-                            success: function (response) {
-                                try {
-                                    var resultTplMarkup = '<br/><pre><code>'+vkbeautify.json(response)+'</code></pre>';
-                                    resultPanel.setVisible(true);
-                                    resultPanel.update(resultTplMarkup);
-                                    resultPanel.setWidth(1230);
-
-                                    console.log('++++')
-                                    console.log(response)
-
-                                } catch (e) {
-                                    console.log(e);
-                                }
-                            }
-                        });
+            buttons: [
+                {
+                    text: 'Reset',
+                    handler: function () {
+                        _this._resetForm();
                     }
-                }
+                },
+                {
+                    text: 'Search',
+                    formBind: false,
+                    //only enabled once the form is valid
+                    disabled: false,
+                    handler: function () {
+                        var form = this.up('form').getForm();
+                        var vSearchVariantsetId = form.getValues().vSearchVariantsetId;
+                        var vSearchDatasetId = form.getValues().vSearchDatasetId;
+                        var vSearchChromosome = form.getValues().vSearchChromosome;
+                        var vSearchStart = form.getValues().vSearchStart;
+                        var vSearchEnd = form.getValues().vSearchEnd;
+                        var resource;
+                        var params;
+                        if (form.isValid()) {
+                            if (form.getValues().searchType == 'position') {
 
-            }],
-            buttonAlign:'left'
+                                var diff = (vSearchEnd - vSearchStart);
+                                if (diff > 0 && diff <= 1000) {
+                                } else {
+                                    Ext.Msg.alert('', 'Please Enter the region no more than 1000 range');
+                                    return;
+                                }
+                                resource = 'variants/search';
+                                params = {referenceName: vSearchChromosome, start: vSearchStart, end: vSearchEnd, pageSize: 1}
+                            } else if (form.getValues().searchType == 'variantsetId') {
+                                resource = 'callsets/search';
+                                params = {variantSetIds: vSearchVariantsetId, pageSize: 1}
+                            } else if (form.getValues().searchType == 'datasetId') {
+                                resource = 'variantsets/search';
+                                params = {datasetIds: vSearchDatasetId, pageSize: 1}
+                            }
+                            var resultPanel = Ext.getCmp('variant-search-result-panel');
+                            EvaManager.get({
+                                category: 'ga4gh',
+                                resource: resource,
+                                params: params,
+                                success: function (response) {
+                                    try {
+                                        var resultTplMarkup = '<br/><pre><code>' + vkbeautify.json(response) + '</code></pre>';
+                                        resultPanel.setVisible(true);
+                                        resultPanel.update(resultTplMarkup);
+                                        resultPanel.setWidth(1230);
+
+                                        console.log('++++')
+                                        console.log(response)
+
+                                    } catch (e) {
+                                        console.log(e);
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                }
+            ],
+            buttonAlign: 'left'
         });
         this.load();
         this.on('searchType:change', function (e) {
-           if(e.searchType == 'datasetId'){
-               this.formPanel.query('.field').forEach(function(c){
-                   if( c.name!='searchType' && c.name!='vSearchDatasetId' ){
-                       c.disable();
-                       c.hide();
-                   }else{
-                       c.enable();
-                       c.show();
-                   }
-               });
-           }else if(e.searchType == 'variantsetId'){
-               this.formPanel.query('.field').forEach(function(c){
+            if (e.searchType == 'datasetId') {
+                this.formPanel.query('.field').forEach(function (c) {
+                    if (c.name != 'searchType' && c.name != 'vSearchDatasetId') {
+                        c.disable();
+                        c.hide();
+                    } else {
+                        c.enable();
+                        c.show();
+                    }
+                });
+            } else if (e.searchType == 'variantsetId') {
+                this.formPanel.query('.field').forEach(function (c) {
 
-                   if( c.name!='searchType' && c.name!='vSearchVariantsetId' ){
-                       c.disable();
-                       c.hide();
-                   }else{
-                       c.enable();
-                       c.show();
-                   }
-               });
-           }else if(e.searchType == 'position'){
-               this.formPanel.query('.field').forEach(function(c){
-                   console.log(c.name)
-                   if( c.name!='searchType' && c.name!='vSearchChromosome' && c.name!='vSearchStart' && c.name!='vSearchEnd' ){
-                       c.disable();
-                       c.hide();
-                   }else{
-                       c.enable();
-                       c.show();
-                   }
-               });
-           }
+                    if (c.name != 'searchType' && c.name != 'vSearchVariantsetId') {
+                        c.disable();
+                        c.hide();
+                    } else {
+                        c.enable();
+                        c.show();
+                    }
+                });
+            } else if (e.searchType == 'position') {
+                this.formPanel.query('.field').forEach(function (c) {
+                    console.log(c.name)
+                    if (c.name != 'searchType' && c.name != 'vSearchChromosome' && c.name != 'vSearchStart' && c.name != 'vSearchEnd') {
+                        c.disable();
+                        c.hide();
+                    } else {
+                        c.enable();
+                        c.show();
+                    }
+                });
+            }
             var resultPanel = Ext.getCmp('variant-search-result-panel');
             resultPanel.setVisible(false);
         });
@@ -382,34 +382,34 @@ EvaVariantSearchForm.prototype = {
             this.panel.update();
         }
     },
-    getPanel: function(){
+    getPanel: function () {
         this.load();
         return this.panel;
     },
-    _resetForm:function(){
+    _resetForm: function () {
         var _this = this;
         var resultPanel = Ext.getCmp('variant-search-result-panel');
         resultPanel.setVisible(false);
         _this.formPanel.getForm().reset();
     },
-    _chromosomeValues : function(){
+    _chromosomeValues: function () {
         var chrmArr = [];
         for (var i = 1; i < 25; i++) {
-            if(i == 23){
+            if (i == 23) {
                 chrmArr.push({
                     "text": "Chr X",
                     "value": 23
                 });
             }
-            else if(i == 24){
+            else if (i == 24) {
                 chrmArr.push({
                     "text": "Chr Y",
                     "value": 24
                 });
-            }else{
+            } else {
                 chrmArr.push({
                     "text": i,
-                    "value":i
+                    "value": i
                 });
             }
         }

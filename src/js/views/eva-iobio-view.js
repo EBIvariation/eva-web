@@ -26,7 +26,6 @@ function EvaIobioView(args) {
     this.rendered = false;
     this.render();
 
-
 }
 EvaIobioView.prototype = {
     render: function () {
@@ -41,12 +40,12 @@ EvaIobioView.prototype = {
     },
     draw: function (data) {
         var _this = this;
-        if(!_.isUndefined(data)){
+        if (!_.isUndefined(data)) {
             var iobioViewDiv = document.querySelector("#evaIobioView");
             $(iobioViewDiv).addClass('show-div');
 
             var elDiv = document.createElement("div");
-            elDiv.innerHTML = '<iframe id="iobio" frameBorder="0"  scrolling="no" style="width:1330px;height:1200px;" src="'+data+'"></iframe>';
+            elDiv.innerHTML = '<iframe id="iobio" frameBorder="0"  scrolling="no" style="width:1330px;height:1200px;" src="' + data + '"></iframe>';
             iobioViewDiv.appendChild(elDiv);
         }
     }

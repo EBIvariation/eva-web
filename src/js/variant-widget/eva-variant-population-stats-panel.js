@@ -78,44 +78,44 @@ EvaVariantPopulationStatsPanel.prototype = {
     clear: function () {
         this.studiesContainer.removeAll(true);
     },
-    load: function (data,params) {
+    load: function (data, params) {
         var _this = this;
         this.clear();
         var panels = [];
-        var availableStudies = ['301','8616', 'PRJEB6930','PRJEB4019'];
+        var availableStudies = ['301', '8616', 'PRJEB6930', 'PRJEB4019'];
 
-        if(params.species == 'hsapiens_grch37'){
+        if (params.species == 'hsapiens_grch37') {
             for (var key in data) {
                 var study = data[key];
-                if(params.species == 'hsapiens_grch37'){
-                    if(_.indexOf(availableStudies, study.studyId) > -1){
-                        var studyPanel = this._createPopulationGridPanel(study,params);
-                    }else{
+                if (params.species == 'hsapiens_grch37') {
+                    if (_.indexOf(availableStudies, study.studyId) > -1) {
+                        var studyPanel = this._createPopulationGridPanel(study, params);
+                    } else {
                         Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;">Currently for 1000 Genomes Project data only</h5>')
                     }
-                }else{
-                    var studyPanel = this._createPopulationGridPanel(study,params);
+                } else {
+                    var studyPanel = this._createPopulationGridPanel(study, params);
                 }
                 panels.push(studyPanel);
             }
             this.studiesContainer.add(panels);
-        }else{
+        } else {
             var grid = Ext.create('Ext.view.View', {
                 tpl: new Ext.XTemplate(['<div style="margin-left:5px;" class="popstats-no-data">No Population data available</div>'])
             });
             var studyPanel = Ext.create('Ext.panel.Panel', {
-                id:'popStats',
+                id: 'popStats',
                 title: '',
                 border: false,
                 layout: {
                     type: 'vbox',
                     align: 'fit'
                 },
-                overflowX:true,
+                overflowX: true,
                 items: [grid]
             });
             this.studiesContainer.add(studyPanel);
-            if(Ext.getCmp('popStats').getHeader()){
+            if (Ext.getCmp('popStats').getHeader()) {
                 Ext.getCmp('popStats').getHeader().hide();
             }
         }
@@ -140,7 +140,7 @@ EvaVariantPopulationStatsPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
-                    id:'populationStats',
+                    id: 'populationStats',
                     cls: 'ocb-header-4',
                     html: '<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data. Currently available only for the 1000 Genomes project." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
                     margin: '5 0 10 15'
@@ -151,14 +151,14 @@ EvaVariantPopulationStatsPanel.prototype = {
         });
         return this.panel;
     },
-    _createPopulationGridPanel: function (data,params) {
+    _createPopulationGridPanel: function (data, params) {
         var _this = this;
         var populationData = [];
-        _.each(_.keys(data.cohortStats), function(key){
-            var tempObj =  _.extend(this[key], {id:key})
+        _.each(_.keys(data.cohortStats), function (key) {
+            var tempObj = _.extend(this[key], {id: key})
             populationData.push(tempObj);
 
-        },data.cohortStats);
+        }, data.cohortStats);
 
         //TO BE REMOVED
         var study_title;
@@ -166,7 +166,7 @@ EvaVariantPopulationStatsPanel.prototype = {
         EvaManager.get({
             category: 'meta/studies',
             resource: 'list',
-            params:{species:params.species},
+            params: {species: params.species},
             async: false,
             success: function (response) {
                 try {
@@ -177,18 +177,18 @@ EvaVariantPopulationStatsPanel.prototype = {
             }
         });
 
-        if(projectList){
+        if (projectList) {
             for (var i = 0; i < projectList.length; i++) {
                 if (projectList[i].studyId === data.studyId) {
-                    study_title = '<a href="?eva-study='+projectList[i].studyId+'" target="_blank">'+projectList[i].studyName+'</a> ('+ projectList[i].studyId +')';
+                    study_title = '<a href="?eva-study=' + projectList[i].studyId + '" target="_blank">' + projectList[i].studyName + '</a> (' + projectList[i].studyId + ')';
                 }
             }
-        }else{
-            study_title = '<a href="?eva-study='+data.studyId+'" target="_blank">'+data.studyId+'</a>';
+        } else {
+            study_title = '<a href="?eva-study=' + data.studyId + '" target="_blank">' + data.studyId + '</a>';
         }
 
         var populationStatsColumns = {
-            items:[
+            items: [
                 {
                     text: "Population",
                     dataIndex: "id",
@@ -212,20 +212,20 @@ EvaVariantPopulationStatsPanel.prototype = {
                     text: "Missing Alleles",
                     dataIndex: "missingAlleles",
                     xtype: "templatecolumn",
-                    tpl:'<tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl>',
+                    tpl: '<tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl>',
                     flex: 0.6
                 },
                 {
                     text: "Missing Genotypes",
                     dataIndex: "missingGenotypes",
                     xtype: "templatecolumn",
-                    tpl:'<tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl>',
+                    tpl: '<tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl>',
                     flex: 0.7
                 }
             ],
             defaults: {
-                align:'center' ,
-                sortable : true
+                align: 'center',
+                sortable: true
             }
         };
 
@@ -238,63 +238,63 @@ EvaVariantPopulationStatsPanel.prototype = {
             ],
             data: populationData,
             proxy: {
-                    type: 'memory'
+                type: 'memory'
             },
-            sorters:
-            {
+            sorters: {
                 property: 'id',
                 direction: 'ASC'
             }
         });
 
-        var plugins =  [{
-            ptype: 'rowexpander',
-            rowBodyTpl : new Ext.XTemplate()
-        }];
+        var plugins = [
+            {
+                ptype: 'rowexpander',
+                rowBodyTpl: new Ext.XTemplate()
+            }
+        ];
 
         var grid = Ext.create('Ext.grid.Panel', {
             store: store,
             loadMask: true,
             width: 900,
-            cls:'population-stats-grid',
+            cls: 'population-stats-grid',
             margin: 20,
             viewConfig: {
                 emptyText: 'No records to display',
                 enableTextSelection: true,
-                deferEmptyText:false
+                deferEmptyText: false
             },
             columns: populationStatsColumns,
-            plugins:plugins
+            plugins: plugins
         });
 
-        grid.view.on('expandbody', function(rowNode, record, body, rowIndex){
+        grid.view.on('expandbody', function (rowNode, record, body, rowIndex) {
             var genotypesCount = record.data.genotypesCount;
-            var divID = 'population-stats-grid-'+record.data.id+data.fileId;
-            if(!_.isEmpty(genotypesCount)){
-                body.innerHTML = '<div style="width:800px;" id="'+divID+'"></div>';
-                var genotypesCountArray=[];
-                _.each(_.keys(genotypesCount), function(key){
-                    genotypesCountArray.push([key,  this[key]]);
+            var divID = 'population-stats-grid-' + record.data.id + data.fileId;
+            if (!_.isEmpty(genotypesCount)) {
+                body.innerHTML = '<div style="width:800px;" id="' + divID + '"></div>';
+                var genotypesCountArray = [];
+                _.each(_.keys(genotypesCount), function (key) {
+                    genotypesCountArray.push([key, this[key]]);
 
-                },genotypesCount);
-                var genotypesCountChartData = {id:divID,title:'Genotype Count',chartData:genotypesCountArray};
+                }, genotypesCount);
+                var genotypesCountChartData = {id: divID, title: 'Genotype Count', chartData: genotypesCountArray};
                 _this._drawChart(genotypesCountChartData);
-            }else{
+            } else {
                 body.innerHTML = '<div style="width:800px;">No Genotypes Count available</div>';
             }
         });
 
         var studyPanel = Ext.create('Ext.panel.Panel', {
-            header:{
-                titlePosition:1
+            header: {
+                titlePosition: 1
             },
-            title: '<span class="popStats-panel-study-title">'+study_title+'</span>',
+            title: '<span class="popStats-panel-study-title">' + study_title + '</span>',
             border: false,
-            layout:'fit',
-            overflowX:true,
+            layout: 'fit',
+            overflowX: true,
             items: [grid]
         });
-
 
         return studyPanel;
     },
@@ -308,18 +308,18 @@ EvaVariantPopulationStatsPanel.prototype = {
         }
         return res;
     },
-    _drawChart:function(data){
+    _drawChart: function (data) {
         var _this = this;
         var height = 290;
         var width = 250;
-        var id = '#'+data.id;
+        var id = '#' + data.id;
         var render_id = document.querySelector(id);
-        var dataArray  = data.chartData;
+        var dataArray = data.chartData;
         var title = data.title;
 
         $(function () {
             Highcharts.setOptions({
-                colors: ['#207A7A', '#2BA32B','#2E4988','#54BDBD', '#5DD15D','#6380C4', '#70BDBD', '#7CD17C','#7D92C4','#295C5C', '#377A37','#344366','#0A4F4F', '#0E6A0E','#0F2559' ],
+                colors: ['#207A7A', '#2BA32B', '#2E4988', '#54BDBD', '#5DD15D', '#6380C4', '#70BDBD', '#7CD17C', '#7D92C4', '#295C5C', '#377A37', '#344366', '#0A4F4F', '#0E6A0E', '#0F2559' ],
                 chart: {
                     style: {
                         fontFamily: 'sans-serif;'
@@ -332,18 +332,18 @@ EvaVariantPopulationStatsPanel.prototype = {
                     plotBorderWidth: null,
                     plotShadow: false,
                     height: height,
-                    marginLeft:50,
-                    marginTop:50
+                    marginLeft: 50,
+                    marginTop: 50
                 },
                 legend: {
                     enabled: true,
                     margin: 0,
-                    labelFormatter: function() {
-                        return '<div>' + this.name + '('+ this.y + ')</div>';
+                    labelFormatter: function () {
+                        return '<div>' + this.name + '(' + this.y + ')</div>';
                     },
-                    layout:'horizontal',
-                    useHTML:true,
-                    align:'center'
+                    layout: 'horizontal',
+                    useHTML: true,
+                    align: 'center'
                 },
                 title: {
                     text: title,
@@ -363,11 +363,13 @@ EvaVariantPopulationStatsPanel.prototype = {
                         showInLegend: true
                     }
                 },
-                series: [{
-                    type: 'pie',
-                    name: 'Studies by '+title,
-                    data: dataArray
-                }],
+                series: [
+                    {
+                        type: 'pie',
+                        name: 'Studies by ' + title,
+                        data: dataArray
+                    }
+                ],
                 credits: {
                     enabled: false
                 }
@@ -380,9 +382,9 @@ EvaVariantPopulationStatsPanel.prototype = {
 
 String.prototype.escapeHTML = function () {
     return(
-        this.replace(/>/g,'&gt;').
-            replace(/</g,'&lt;').
-            replace(/"/g,'&quot;')
+        this.replace(/>/g, '&gt;').
+            replace(/</g, '&lt;').
+            replace(/"/g, '&quot;')
         );
 };
 

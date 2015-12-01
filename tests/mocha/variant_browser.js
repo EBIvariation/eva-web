@@ -143,12 +143,12 @@ function variantFilterByPolyphenSift(driver){
 
 function variantAnnotationTab(driver){
     driver.findElement(By.xpath("//span[text()='Reset']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//div[contains(@id,'_annotatPagingToolbar-targetEl')]//div[contains(text(), 'Transcripts 1 -')]")).getText().then(function(text) {
             var rows = parseInt(text.split(" ")[3]);
             for (var i = 1; i <= rows; i++) {
                 //check Ensemble Gene ID
-                driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[1]/div/a[text()]")).getText().then(function(text){
+                driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[1]/div[text()]")).getText().then(function(text){
                     assert(text).matches(/^-$|^[A-Z]+/);
                 });
                 //check Ensemble Gene symbol
@@ -156,7 +156,7 @@ function variantAnnotationTab(driver){
                     assert(text).matches(/^-$|^\w[\w\d-]+$/);
                 });
                 //check Ensemble Transcript ID
-                driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div/a[text()]")).getText().then(function(text){
+                driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div[text()]")).getText().then(function(text){
                     assert(text).matches(/^-$|^[A-Z]+/);
                 });
                 //check SO terms

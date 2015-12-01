@@ -62,7 +62,6 @@ ClinvarBrowserGrid.prototype = {
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
 
-
         this.panel = this._createPanel();
     },
     draw: function () {
@@ -116,7 +115,7 @@ ClinvarBrowserGrid.prototype = {
         });
 
         var grid = Ext.create('Ext.grid.Panel', {
-                id: this.id+'clinvar-browser-grid',
+                id: this.id + 'clinvar-browser-grid',
                 title: this.title,
                 store: this.store,
                 border: this.border,
@@ -126,15 +125,15 @@ ClinvarBrowserGrid.prototype = {
                 plugins: this.plugins,
                 animCollapse: false,
                 height: this.fheight,
-                overflowX:true,
+                overflowX: true,
                 features: [
                     {ftype: 'summary'}
                 ],
                 viewConfig: {
                     emptyText: 'No records to display',
                     enableTextSelection: true,
-                    listeners:this.viewConfigListeners,
-                    loadMask:true
+                    listeners: this.viewConfigListeners,
+                    loadMask: true
 
                 },
                 tbar: this.paging
@@ -176,7 +175,7 @@ ClinvarBrowserGrid.prototype = {
 
                     if (typeof this.dataParser !== 'undefined') {
                         _this.dataParser(records);
-                    } else if(!_.isNull(records)){
+                    } else if (!_.isNull(records)) {
                         _this._parserFunction(records);
                         _this.grid.getSelectionModel().select(0, true);
                     }
@@ -235,7 +234,7 @@ ClinvarBrowserGrid.prototype = {
 
                     if (typeof this.dataParser !== 'undefined') {
                         _this.dataParser(records);
-                    } else if(!_.isNull(records)){
+                    } else if (!_.isNull(records)) {
                         _this._parserFunction(records);
                         _this.grid.getSelectionModel().select(0, true);
                     }

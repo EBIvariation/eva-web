@@ -64,10 +64,10 @@ StudyBrowserTextSearchFormPanel.prototype = {
     _createPanel: function () {
         var _this = this;
 
-        var searchFormField  =  Ext.create('Ext.form.Text', {
+        var searchFormField = Ext.create('Ext.form.Text', {
             name: 'search',
-            width:'100%',
-            margin:'5 0 0 0',
+            width: '100%',
+            margin: '5 0 0 0',
             listeners: {
                 afterrender: function (field) {
                     field.setValue(_this.defaultValue);

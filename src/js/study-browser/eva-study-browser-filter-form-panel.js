@@ -30,7 +30,6 @@ function StudyFilterFormPanel(args) {
     this.headerConfig;
     this.speciesList = speciesList;
     this.defaultValue = 'hsapiens_grch37';
-    
 
     //set instantiation args, must be last
     _.extend(this, args);
@@ -75,7 +74,7 @@ StudyFilterFormPanel.prototype = {
             model: 'Tree Model',
             proxy: {
                 type: 'memory',
-                data:[],
+                data: [],
                 reader: {
                     type: 'json'
                 }
@@ -87,7 +86,7 @@ StudyFilterFormPanel.prototype = {
             border: this.border,
             useArrows: true,
             rootVisible: true,
-            store:  this.store,
+            store: this.store,
             multiSelect: true,
             singleExpand: true,
             hideHeaders: true,
@@ -105,7 +104,7 @@ StudyFilterFormPanel.prototype = {
             }
         });
 
-        if(!_.isEmpty(_this.defaultValues)){
+        if (!_.isEmpty(_this.defaultValues)) {
             var values = _this.defaultValues.split(",");
             console.log(values)
             _this.selectNodes(values);
@@ -121,11 +120,11 @@ StudyFilterFormPanel.prototype = {
         var _this = this;
         var nodes = this.panel.getRootNode().treeStore.data.items;
         var values = [];
-        _.each(_.keys(nodes), function(key){
+        _.each(_.keys(nodes), function (key) {
             if (this[key].get('checked') && this[key].isLeaf()) {
                 values.push(this[key].get('display'));
             }
-        },nodes);
+        }, nodes);
         obj = {};
         var title = this.title.toLowerCase();
 
@@ -139,7 +138,7 @@ StudyFilterFormPanel.prototype = {
     clear: function () {
 //        this.panel.reset();
     },
-    selectNodes:function(values){
+    selectNodes: function (values) {
 
     }
 }

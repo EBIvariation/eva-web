@@ -32,11 +32,10 @@ function EvaBeaconPanel(args) {
     }
 };
 
-
 EvaBeaconPanel.prototype = {
     render: function () {
         var _this = this;
-        if(!this.rendered) {
+        if (!this.rendered) {
             this.div = document.createElement('div');
             this.div.setAttribute('id', this.id);
             this.panel = this._createPanel();
@@ -44,7 +43,7 @@ EvaBeaconPanel.prototype = {
         }
     },
     draw: function () {
-        if(!this.rendered) {
+        if (!this.rendered) {
             this.render();
         }
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
@@ -76,21 +75,21 @@ EvaBeaconPanel.prototype = {
         var evaVariantSearchForm = new EvaVariantSearchForm();
 
         this.toolTabPanel = Ext.create("Ext.tab.Panel", {
-                activeTab: 0,
-                plain: true,
-                items: [
-                    {
-                        title: 'Beacon',
-                        items:[evaBeaconForm.getPanel()],
-                        height:1200
-                    },
-                    {
-                        title: 'Variant Search',
-                        items:[evaVariantSearchForm.getPanel()],
-                        height:1200
-                    }
-                ]
-            });
+            activeTab: 0,
+            plain: true,
+            items: [
+                {
+                    title: 'Beacon',
+                    items: [evaBeaconForm.getPanel()],
+                    height: 1200
+                },
+                {
+                    title: 'Variant Search',
+                    items: [evaVariantSearchForm.getPanel()],
+                    height: 1200
+                }
+            ]
+        });
 
         this.toolTabPanel.setActiveTab(0);
 
@@ -103,7 +102,7 @@ EvaBeaconPanel.prototype = {
             defaults: {
                 margin: 5
             },
-            cls:'eva-beacon-panel',
+            cls: 'eva-beacon-panel',
             items: [this.toolTabPanel]
         });
 
@@ -120,7 +119,7 @@ function loadEvaBeacon(el) {
     var chromEl = document.querySelector('#beacon-chrom');
     var coordinateEl = document.querySelector('#beacon-coordinate');
     var alleleEl = document.querySelector('#beacon-allele');
-    var projectEl =  document.querySelector('#beacon-project');
+    var projectEl = document.querySelector('#beacon-project');
     chromEl.value = chrom;
     coordinateEl.value = coordinate;
     alleleEl.value = allele;

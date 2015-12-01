@@ -30,7 +30,6 @@ function SpeciesFilterFormPanel(args) {
     this.headerConfig;
     this.speciesList = speciesList;
     this.defaultValue = 'hsapiens_grch37';
-    
 
     //set instantiation args, must be last
     _.extend(this, args);
@@ -70,24 +69,24 @@ SpeciesFilterFormPanel.prototype = {
             extend: 'Ext.data.Model',
             fields: [
                 {name: 'taxonomyCommonName', type: 'string'},
-                {name: 'taxonomyCode',  type: 'string'},
-                {name: 'assemblyName',       type: 'string'},
-                {name: 'assemblyCode',  type: 'string'},
+                {name: 'taxonomyCode', type: 'string'},
+                {name: 'assemblyName', type: 'string'},
+                {name: 'assemblyCode', type: 'string'},
                 {
                     name: 'displayName',
                     type: 'string',
-                    convert: function( v, record ) {
-                        if( record.get( 'taxonomyEvaName')){
-                            return record.get( 'taxonomyEvaName').substr(0,1).toUpperCase()+record.get( 'taxonomyEvaName').substr(1) + ' / ' + record.get( 'assemblyName' )
+                    convert: function (v, record) {
+                        if (record.get('taxonomyEvaName')) {
+                            return record.get('taxonomyEvaName').substr(0, 1).toUpperCase() + record.get('taxonomyEvaName').substr(1) + ' / ' + record.get('assemblyName')
                         }
                     }
                 },
                 {
                     name: 'value',
                     type: 'string',
-                    convert: function( v, record ) {
-                        if( record.get( 'taxonomyCode')){
-                            return record.get( 'taxonomyCode' ) + '_' + record.get( 'assemblyCode' )
+                    convert: function (v, record) {
+                        if (record.get('taxonomyCode')) {
+                            return record.get('taxonomyCode') + '_' + record.get('assemblyCode')
                         }
                     }
                 }
@@ -96,17 +95,19 @@ SpeciesFilterFormPanel.prototype = {
 
         var speciesStore = Ext.create('Ext.data.Store', {
             model: 'SpeciesListModel',
-            data : _this.speciesList,
-            sorters: [{
-                property: 'taxonomyEvaName',
-                direction: 'ASC'
-            }]
+            data: _this.speciesList,
+            sorters: [
+                {
+                    property: 'taxonomyEvaName',
+                    direction: 'ASC'
+                }
+            ]
         });
 
-        var speciesFormField  =  Ext.create('Ext.form.ComboBox', {
+        var speciesFormField = Ext.create('Ext.form.ComboBox', {
             fieldLabel: 'Organism / Assembly',
             id: "speciesFilter",
-            name:'species',
+            name: 'species',
             labelAlign: 'top',
             store: speciesStore,
             queryMode: 'local',
