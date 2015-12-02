@@ -692,9 +692,10 @@ EvaVariantWidget.prototype = {
                 {
                     text: "Ensembl<br /> Gene ID",
                     dataIndex: "ensemblGeneId",
-                    flex: 1.4
-//                    xtype: "templatecolumn",
+                    flex: 1.4,
+                    xtype: "templatecolumn",
 //                    tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblGeneId">{ensemblGeneId}<tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br /> Gene Symbol",
@@ -706,9 +707,10 @@ EvaVariantWidget.prototype = {
                 {
                     text: "Ensembl <br />Transcript ID",
                     dataIndex: "ensemblTranscriptId",
-                    flex: 1.3
-//                    xtype: "templatecolumn",
+                    flex: 1.3,
+                    xtype: "templatecolumn",
 //                    tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblTranscriptId">{ensemblTranscriptId}<tpl else>-</tpl>'
                 },
                 {
                     text: "SO Term(s)",
