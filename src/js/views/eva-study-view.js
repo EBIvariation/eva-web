@@ -67,7 +67,7 @@ EvaStudyView.prototype = {
                     }
                 }
             });
-            if (!_.isUndefined(_.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName)) {
+            if (!_.isUndefined(_.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}))) {
                 var speciesCode = _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).taxonomyCode + '_' + _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyCode
                 var filesParams = {species: speciesCode};
             }
