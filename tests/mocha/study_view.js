@@ -74,7 +74,7 @@ test.describe('Study View ('+config.browser()+')', function() {
 function evaCheckSummaryTable(driver){
     driver.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
         var value = driver.findElement(By.xpath("//table[@id='summaryTable']")).getText();
-        var regExp = /^\w+/;
+        var regExp = /^-$|^\w+/
         var numExp = /^\d+$/;
         var resourceExp = /^\w+|\d+$/;
         chai.expect('#organism-span').dom.to.have.text(regExp);

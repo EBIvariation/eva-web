@@ -300,7 +300,6 @@ Eva.prototype = {
         if (!_.isEmpty($.urlParam('polyphen'))) {
             var _polyphen = decodeURIComponent($.urlParam('polyphen'))
             polyphen = _polyphen.replace(/\>/g, "");
-
         }
 
         if (!_.isEmpty($.urlParam('sift'))) {

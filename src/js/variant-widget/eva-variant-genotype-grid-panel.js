@@ -143,6 +143,8 @@ EvaVariantGenotypeGridPanel.prototype = {
     _createGenotypePanel: function (data, params) {
         var study_title;
         var projectList = '';
+        var fileId = data.fileId;
+        var project_name = data.studyId;
         EvaManager.get({
             category: 'meta/studies',
             resource: 'list',
@@ -160,15 +162,15 @@ EvaVariantGenotypeGridPanel.prototype = {
         if (projectList) {
             for (var i = 0; i < projectList.length; i++) {
                 if (projectList[i].studyId === data.studyId) {
-                    study_title = '<a href="?eva-study=' + projectList[i].studyId + '" target="_blank">' + projectList[i].studyName + '</a> (' + projectList[i].studyId + ')';
+                    project_name = projectList[i].studyName;
                 }
             }
-        } else {
-            study_title = '<a href="?eva-study=' + data.studyId + '" target="_blank">' + data.studyId + '</a>';
         }
+        study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="http://www.ebi.ac.uk/ena/data/view/' + data.studyId + '" class="ena_link" target="_blank">' + data.studyId +'</a>) : <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>';
+
         var samples = data.samplesData;
         var finalData = [];
-        var chartData = []
+        var chartData = [];
         for (var key in samples) {
             var s = samples[key];
 

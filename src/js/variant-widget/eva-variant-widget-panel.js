@@ -98,7 +98,6 @@ EvaVariantWidgetPanel.prototype = {
                 _this.variantWidget.resizeGV();
             }
             _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
-
         }
     },
 

@@ -61,13 +61,14 @@ EvaStudyView.prototype = {
                 success: function (response) {
                     try {
                         studySpeciesList = response.response[0].result;
+                        console.log(studySpeciesList)
                     } catch (e) {
                         console.log(e);
                     }
                 }
             });
-            if (!_.isUndefined(_.findWhere(studySpeciesList, {taxonomyEvaName: summary[0].speciesCommonName.toLowerCase()}))) {
-                var speciesCode = _.findWhere(studySpeciesList, {taxonomyEvaName: summary[0].speciesCommonName.toLowerCase()}).taxonomyCode + '_' + _.findWhere(studySpeciesList, {taxonomyEvaName: summary[0].speciesCommonName.toLowerCase()}).assemblyCode
+            if (!_.isUndefined(_.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName)) {
+                var speciesCode = _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).taxonomyCode + '_' + _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyCode
                 var filesParams = {species: speciesCode};
             }
 
