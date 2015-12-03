@@ -160,13 +160,16 @@ ClinvarAnnotationPanel.prototype = {
         var annotData = data.annot;
         if (!_.isUndefined(params)) {
             _.extend(annotData, params);
-            var annText = _.findWhere(annotation_text, {species: params.species})
-            if (!_.isEmpty(annText.text)) {
-                var tooltip = annText.text;
-                Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="' + tooltip + '" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
-            } else {
-                Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4>')
+            if( !_.isUndefined(_.findWhere(annotation_text, {species: params.species}))){
+                var annText = _.findWhere(annotation_text, {species: params.species})
+                if (!_.isEmpty(annText.text)) {
+                    var tooltip = annText.text;
+                    Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="' + tooltip + '" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+                } else {
+                    Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4>')
+                }
             }
+
         } else {
             Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations <img class="title-header-icon" data-qtip="Variant Effect Predictor (VEP) v78 annotation against the GENCODE Basic Ensembl v78 geneset." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
         }
