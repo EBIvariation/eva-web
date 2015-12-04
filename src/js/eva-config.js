@@ -261,7 +261,7 @@ var speciesList = '';
 EvaManager.get({
     category: 'meta/species',
     resource: 'list',
-    params: {loaded: true},
+//    params: {loaded: true},
     async: false,
     success: function (response) {
         try {

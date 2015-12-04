@@ -124,7 +124,7 @@ ClinvarBrowserGrid.prototype = {
                 columns: this.columns,
                 plugins: this.plugins,
                 animCollapse: false,
-                height: this.fheight,
+                height: this.height,
                 overflowX: true,
                 features: [
                     {ftype: 'summary'}

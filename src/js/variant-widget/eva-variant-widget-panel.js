@@ -252,9 +252,13 @@ EvaVariantWidgetPanel.prototype = {
 
             //setting default positional value
             if (e.species == 'agambiae_agamp4') {
-                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('X:10000000-11000000')
+                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('X:10000000-11000000');
+            } else if (e.species == 'aaegypti_aaegl3') {
+                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('supercont1.18:165624-165624');
+            }else if (e.species == 'ggallus_galgal4') {
+               _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:2100000-2500000');
             } else {
-                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(_this.region)
+                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:3000000-3100000');
             }
 
             //hidding tabs for species
