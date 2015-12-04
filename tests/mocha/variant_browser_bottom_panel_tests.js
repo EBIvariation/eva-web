@@ -18,8 +18,9 @@ module.exports = {
                     rows[i].findElement(By.className("study_link")).getAttribute('href').then(function(text){
                         assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                     });
-                    rows[i].findElement(By.className("ena_link")).getAttribute('href').then(function(text){
-                        assert(text).matches(/http\:\/\/www\.ebi\.ac\.uk\/ena\/data\/view\/PRJEB[0-9]+$/);
+                    rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
+//                        assert(text).matches(/http\:\/\/www\.ebi\.ac\.uk\/ena\/data\/view\/PRJEB[0-9]+$/);
+                        assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                     });
                     rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
                         assert(text).matches(/ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJEB[0-9]+\/[0-9]+$/);
@@ -113,8 +114,9 @@ module.exports = {
                         rows[i].findElement(By.className("study_link")).getAttribute('href').then(function(text){
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                         });
-                        rows[i].findElement(By.className("ena_link")).getAttribute('href').then(function(text){
-                            assert(text).matches(/http\:\/\/www\.ebi\.ac\.uk\/ena\/data\/view\/PRJEB[0-9]+$/);
+                        rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
+//                            assert(text).matches(/http\:\/\/www\.ebi\.ac\.uk\/ena\/data\/view\/PRJEB[0-9]+$/);
+                            assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                         });
                         rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
                             assert(text).matches(/ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJEB[0-9]+\/[0-9]+$/);
@@ -161,8 +163,9 @@ module.exports = {
                         rows[i].findElement(By.className("study_link")).getAttribute('href').then(function(text){
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                         });
-                        rows[i].findElement(By.className("ena_link")).getAttribute('href').then(function(text){
-                            assert(text).matches(/http\:\/\/www\.ebi\.ac\.uk\/ena\/data\/view\/PRJEB[0-9]+$/);
+                        rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
+//                            assert(text).matches(/http\:\/\/www\.ebi\.ac\.uk\/ena\/data\/view\/PRJEB[0-9]+$/);
+                            assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                         });
                         rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
                             assert(text).matches(/ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJEB[0-9]+\/[0-9]+$/);

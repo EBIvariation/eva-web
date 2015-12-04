@@ -243,7 +243,7 @@ EvaVariantWidgetPanel.prototype = {
             collapsed: false,
             height: 790,
             studiesStore: this.studiesStore,
-            studyFilterTpl: '<tpl if="studyId"><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="http://www.ebi.ac.uk/ena/data/view/{studyId}" target="_blank">{studyId}</a>) </div><tpl else><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a></div></tpl>'
+            studyFilterTpl: '<tpl if="studyId"><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="?eva-study={studyId}" target="_blank">{studyId}</a>) </div><tpl else><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a></div></tpl>'
         });
 
         speciesFilter.on('species:change', function (e) {
@@ -500,7 +500,6 @@ EvaVariantWidgetPanel.prototype = {
     _updateURL: function (values) {
         var _this = this;
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Variant Browser&' + $.param(values);
-        ;
         window.history.pushState({path: newurl}, '', newurl);
     }
 
