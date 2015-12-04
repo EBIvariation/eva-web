@@ -166,7 +166,7 @@ EvaVariantGenotypeGridPanel.prototype = {
                 }
             }
         }
-        study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="http://www.ebi.ac.uk/ena/data/view/' + data.studyId + '" class="ena_link" target="_blank">' + data.studyId +'</a>) : <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>';
+        study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="http://www.ebi.ac.uk/ena/data/view/' + data.studyId + '" class="ena_link" target="_blank">' + data.studyId +'</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
 
         var samples = data.samplesData;
         var finalData = [];
