@@ -177,6 +177,7 @@ EvaVariantGenotypeGridPanel.prototype = {
             if (s.GT.match(/-1\/-1/)) {
                 s.GT = './.';
             }
+            console.log(s.GT)
             chartData.push({value: s.GT});
             finalData.push({
                 sample: key,

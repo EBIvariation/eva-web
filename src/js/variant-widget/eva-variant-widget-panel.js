@@ -326,7 +326,7 @@ EvaVariantWidgetPanel.prototype = {
             target: target,
             submitButtonText: 'Submit',
             submitButtonId: 'vb-submit-button',
-            filters: [speciesFilter, positionFilter, conseqTypeFilter, proteinSubScoreFilter, studyFilter],
+            filters: [speciesFilter, positionFilter, conseqTypeFilter,populationFrequencyFilter,proteinSubScoreFilter, studyFilter],
             height: 1359,
             border: false,
             handlers: {
@@ -478,11 +478,11 @@ EvaVariantWidgetPanel.prototype = {
 
                 if (_.isEmpty(_this.selectStudies)) {
                     //set all records checked default
-                    _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().selectAll()
+                    _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().selectAll()
                 } else {
                     console.log(_this.selectStudies)
                     var studyArray = _this.selectStudies.split(",");
-                    var items = _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().store.data.items;
+                    var items = _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().store.data.items;
                     var selectStudies = [];
                     _.each(_.keys(items), function (key) {
                         if (_.indexOf(studyArray, this[key].data.studyId) > -1) {
@@ -490,7 +490,7 @@ EvaVariantWidgetPanel.prototype = {
                         }
                     }, items);
 
-                    _this.formPanelVariantFilter.filters[4].grid.getSelectionModel().select(selectStudies)
+                    _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().select(selectStudies)
                 }
 
                 _this.trigger('studies:change', {studies: studies, sender: _this});

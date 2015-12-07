@@ -82,42 +82,13 @@ EvaVariantPopulationStatsPanel.prototype = {
         var _this = this;
         this.clear();
         var panels = [];
-        var availableStudies = ['301', '8616', 'PRJEB6930', 'PRJEB4019'];
-
-        if (params.species == 'hsapiens_grch37') {
+        if (params.species) {
             for (var key in data) {
                 var study = data[key];
-                if (params.species == 'hsapiens_grch37') {
-                    if (_.indexOf(availableStudies, study.studyId) > -1) {
-                        var studyPanel = this._createPopulationGridPanel(study, params);
-                    } else {
-                        Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h5 style="color:#436883;margin-left:-15px;font-size:14px;">Currently for 1000 Genomes Project data only</h5>')
-                    }
-                } else {
-                    var studyPanel = this._createPopulationGridPanel(study, params);
-                }
+                var studyPanel = this._createPopulationGridPanel(study, params);
                 panels.push(studyPanel);
             }
             this.studiesContainer.add(panels);
-        } else {
-            var grid = Ext.create('Ext.view.View', {
-                tpl: new Ext.XTemplate(['<div style="margin-left:5px;" class="popstats-no-data">No Population data available</div>'])
-            });
-            var studyPanel = Ext.create('Ext.panel.Panel', {
-                id: 'popStats',
-                title: '',
-                border: false,
-                layout: {
-                    type: 'vbox',
-                    align: 'fit'
-                },
-                overflowX: true,
-                items: [grid]
-            });
-            this.studiesContainer.add(studyPanel);
-            if (Ext.getCmp('popStats').getHeader()) {
-                Ext.getCmp('popStats').getHeader().hide();
-            }
         }
     },
     _createPanel: function () {
@@ -230,6 +201,9 @@ EvaVariantPopulationStatsPanel.prototype = {
             }
         };
 
+        console.log('++++++++++++')
+        console.log(populationData)
+        console.log('++++++++++++')
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",
             pageSize: 10,
@@ -254,9 +228,15 @@ EvaVariantPopulationStatsPanel.prototype = {
             }
         ];
 
+        var gridHeight = '';
+        if(_.isEmpty(populationData)){
+            gridHeight = 100;
+        }
+
         var grid = Ext.create('Ext.grid.Panel', {
             store: store,
             loadMask: true,
+            height:gridHeight,
             width: 900,
             cls: 'population-stats-grid',
             margin: 20,
