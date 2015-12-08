@@ -171,16 +171,46 @@ EvaVariantGenotypeGridPanel.prototype = {
         var samples = data.samplesData;
         var finalData = [];
         var chartData = [];
+
         for (var key in samples) {
             var s = samples[key];
+            var allels = s.GT;
+            var temp;
+            var first;
+            var second;
+            var split;
 
-            if (s.GT.match(/-1\/-1/)) {
-                s.GT = './.';
+            if (allels.match(/-1\/-1/)) {
+                allels = './.';
+            }else if(allels.match(/-1\|-1/)){
+                allels = '.|.';
             }
-            chartData.push({value: s.GT});
+
+            if (s.GT.indexOf("|") > -1) {
+                temp = allels.split("|");
+                split = '|';
+            }else if(s.GT.indexOf("/") > -1) {
+                temp = allels.split("/");
+                split = '/';
+            }
+            if(!_.isEmpty( temp[0]) && !_.isUndefined(temp[0]) && temp[0] > 1){
+                first = '*';
+            }else{
+                first = temp[0];
+            }
+
+            if(!_.isEmpty( temp[1]) && !_.isUndefined(temp[1]) && temp[1] > 1){
+                second = '*';
+            }else{
+                second = temp[1];
+            }
+
+            allels = first+split+second;
+
+            chartData.push({value: allels});
             finalData.push({
                 sample: key,
-                genotype: s.GT
+                genotype: allels
             });
         }
 
