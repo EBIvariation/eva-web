@@ -276,8 +276,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 body.innerHTML = '<div style="width:800px;" id="' + divID + '"></div>';
                 var genotypesCountArray = [];
                 _.each(_.keys(genotypesCount), function (key) {
-                    genotypesCountArray.push([key, this[key]]);
-
+                    genotypesCountArray.push([key.formatAlleles(), this[key]]);
                 }, genotypesCount);
                 var genotypesCountChartData = {id: divID, title: 'Genotype Count', chartData: genotypesCountArray};
                 _this._drawChart(genotypesCountChartData);
