@@ -254,6 +254,11 @@ EvaVariantPopulationStatsPanel.prototype = {
             }
         ];
 
+        var gridHeight = '';
+        if(_.isEmpty(populationData)){
+            gridHeight = 100;
+        }
+        
         var grid = Ext.create('Ext.grid.Panel', {
             store: store,
             loadMask: true,
