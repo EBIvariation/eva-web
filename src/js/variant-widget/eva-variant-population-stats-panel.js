@@ -158,7 +158,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 }
             }
         }
-        study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId +'</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
+        study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId + '</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/' + fileId + '" class="ftp_link" target="_blank">' + fileId + '</a>)';
 
         var populationStatsColumns = {
             items: [
@@ -202,10 +202,10 @@ EvaVariantPopulationStatsPanel.prototype = {
             }
         };
 
-        if(_.isEmpty(populationData)){
+        if (_.isEmpty(populationData)) {
             Ext.getCmp('populationStats').update('<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data." style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">&nbsp;No Population data available</p>')
             return;
-        }else{
+        } else {
             Ext.getCmp('populationStats').update('<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
         }
 
@@ -234,15 +234,15 @@ EvaVariantPopulationStatsPanel.prototype = {
         ];
 
         var gridHeight = '';
-        if(_.isEmpty(populationData)){
+        if (_.isEmpty(populationData)) {
             gridHeight = 100;
         }
-        
+
         var grid = Ext.create('Ext.grid.Panel', {
             store: store,
             loadMask: true,
             width: 900,
-            height:gridHeight,
+            height: gridHeight,
             cls: 'population-stats-grid',
             margin: 20,
             viewConfig: {
