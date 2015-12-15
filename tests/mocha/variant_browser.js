@@ -36,6 +36,12 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('Filter by  MAF', function() {
+        test.it('should match with MAF column "Minor Allele Frequency greater than 0.3" in Poulation Statistics Tab', function() {
+            variantFilterByMAF(driver);
+        });
+    });
+
     test.describe('Bottom Panel', function() {
         test.it('Annotation Tab should not be empty', function() {
             variantAnnotationTab(driver);
@@ -137,6 +143,37 @@ function variantFilterByPolyphenSift(driver){
     driver.findElement(By.name("polyphen")).clear();
     driver.findElement(By.name("sift")).clear();
 
+    return driver;
+}
+
+function variantFilterByMAF(driver){
+    driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'PopulationFrequencyFilterFormPanel')]//img[@class='x-tool-img x-tool-expand-bottom']")).click();
+    driver.findElement(By.name("maf")).clear();
+    driver.findElement(By.name("maf")).sendKeys(">0.3");
+    driver.findElement(By.id("vb-submit-button")).click();
+    driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
+        driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
+            for (var i = 0; i < rows.length; i++){
+                rows[i].findElement(By.className("population-stats-grid")).getAttribute('id').then(function(id){
+                    //check MAF
+                    driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[3]/div")).getText().then(function(text){
+                        chai.assert.operator(text, '>', 0.3);
+                    });
+                });
+            }
+
+        });
+
+    },function(err) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//h5")).then(function(text) {
+            assert(text).equalTo('Currently for 1000 Genomes Project data only');
+        },function(err) {
+            driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[@class='popstats-no-data']")).getText().then(function(text){
+                assert(text).equalTo('No Population data available');
+            });
+        });
+    });
     return driver;
 }
 

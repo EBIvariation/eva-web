@@ -306,7 +306,8 @@ EvaVariantWidgetPanel.prototype = {
             ]
         });
         var populationFrequencyFilter = new EvaPopulationFrequencyFilterFormPanel({
-            collapsed: true
+            collapsed: true,
+            maf: _this.maf,
         });
         var proteinSubScoreFilter = new EvaProteinSubstitutionScoreFilterFormPanel({
             collapsed: true,
@@ -408,8 +409,15 @@ EvaVariantWidgetPanel.prototype = {
                         e.values["annot-ct"] = e.values["annot-ct"].join(',');
                     }
 
+                    var values = _.clone(e.values);
+                    delete values['region'];
+                    delete values['id'];
+                    delete values['snp'];
+                    delete values['selectFilter'];
+                    delete values['gene'];
+
                     if (!limitExceeds) {
-                        _this.variantWidget.retrieveData(url, e.values)
+                        _this.variantWidget.retrieveData(url,values)
                     } else {
                         _this.variantWidget.retrieveData('', '')
                     }

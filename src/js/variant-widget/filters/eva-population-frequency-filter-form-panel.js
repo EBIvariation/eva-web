@@ -65,7 +65,7 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
         this.panel.render(this.div);
     },
     _createPanel: function () {
-
+        var _this = this;
         var genomesitems = {
             xtype: 'fieldset',
             title: '1000Genomes',
@@ -128,6 +128,23 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
                 }
             ]
         }
+        var MAF = {
+            xtype: 'fieldset',
+            title: '',
+            collapsible: false,
+            width: 280,
+            defaultType: 'textfield',
+            items: [
+                {
+                    fieldLabel: 'MAF',
+                    name: 'maf',
+                    width: '100%',
+                    margin: '5 0 5 0',
+                    value: _this.maf,
+                    emptyText: 'ex: >0.3'
+                }
+            ]
+        }
 
         return Ext.create('Ext.form.Panel', {
             id: this.id,
@@ -142,7 +159,7 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
             header: this.headerConfig,
             collapsed: this.collapsed,
             allowBlank: false,
-            items: [genomesitems, ESP6500]
+            items: [MAF]
         });
 
     },
@@ -159,6 +176,10 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
                 valuesArray[key] = values[key];
             }
         }
+
+        console.log(valuesArray)
+        console.log('+++++')
+        return valuesArray;
     },
     clear: function () {
         this.panel.reset();

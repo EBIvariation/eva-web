@@ -83,7 +83,7 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
                     emptyText: 'ex:0.5'
                 },
                 {
-                    fieldLabel: 'Sift \< ',
+                    fieldLabel: 'Sift \<',
                     name: 'sift',
                     width: '100%',
                     margin: '5 0 5 0',

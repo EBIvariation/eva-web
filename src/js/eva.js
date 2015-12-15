@@ -272,6 +272,7 @@ Eva.prototype = {
         var annotCT = '';
         var polyphen = '';
         var sift = '';
+        var maf = '';
 
         if (!_.isEmpty($.urlParam('region'))) {
             region = decodeURIComponent($.urlParam('region'))
@@ -310,6 +311,13 @@ Eva.prototype = {
             var _sift = decodeURIComponent($.urlParam('sift'))
             sift = _sift.replace(/\</g, "");
         }
+
+        if (!_.isEmpty($.urlParam('maf'))) {
+            var _maf = decodeURIComponent($.urlParam('maf'))
+//            maf = _maf.replace(/\>/g, "");
+            maf = _maf;
+        }
+
         var variantWidget = new EvaVariantWidgetPanel({
             target: target,
             region: region,
@@ -320,7 +328,8 @@ Eva.prototype = {
             selectStudies: studies,
             selectAnnotCT: annotCT,
             polyphen: polyphen,
-            sift: sift
+            sift: sift,
+            maf: maf
         });
         variantWidget.draw();
         return variantWidget;
