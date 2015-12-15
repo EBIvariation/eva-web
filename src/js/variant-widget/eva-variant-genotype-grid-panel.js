@@ -171,17 +171,18 @@ EvaVariantGenotypeGridPanel.prototype = {
         var samples = data.samplesData;
         var finalData = [];
         var chartData = [];
+
         for (var key in samples) {
             var s = samples[key];
-
+            var allels = s.GT.formatAlleles();
+            
             if (s.GT.match(/-1\/-1/)) {
                 s.GT = './.';
             }
-            console.log(s.GT)
-            chartData.push({value: s.GT});
+            chartData.push({value: allels});
             finalData.push({
                 sample: key,
-                genotype: s.GT
+                genotype: allels
             });
         }
 
@@ -356,4 +357,40 @@ EvaVariantGenotypeGridPanel.prototype = {
         });
 
     }
+};
+String.prototype.formatAlleles = function () {
+    var allels = this;
+    var temp;
+    var first;
+    var second;
+    var split;
+
+    if (allels.match(/-1\/-1/)) {
+        allels = './.';
+    }else if(allels.match(/-1\|-1/)){
+        allels = '.|.';
+    }
+
+    if (this.indexOf("|") > -1) {
+        temp = allels.split("|");
+        split = '|';
+    }else if(this.indexOf("/") > -1) {
+        temp = allels.split("/");
+        split = '/';
+    }
+    if(!_.isEmpty( temp[0]) && !_.isUndefined(temp[0]) && temp[0] > 1){
+        first = '*';
+    }else{
+        first = temp[0];
+    }
+
+    if(!_.isEmpty( temp[1]) && !_.isUndefined(temp[1]) && temp[1] > 1){
+        second = '*';
+    }else{
+        second = temp[1];
+    }
+
+    allels = first+split+second;
+
+    return allels;
 };

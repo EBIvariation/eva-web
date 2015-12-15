@@ -185,17 +185,19 @@ module.exports = {
                             });
                             //check missing alleles
                             driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[5]/div")).getText().then(function(text){
-                                assert(text).matches(/^\d+$/);
+                                assert(text).matches(/^NA$|^\d+$/);
                             });
                             //check missing genotypes
                             driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[6]/div")).getText().then(function(text){
-                                assert(text).matches( /^\d+$/);
+                                assert(text).matches( /^NA$|^\d+$/);
                             });
                             //check pie chart is present for every ALL population.
                             driver.findElement(By.xpath("//div[@id='" + id + "']//table//td/div[contains(text(),'ALL')]/../..//div[contains(@class,'x-grid-row-expander')]")).click().then(function(){
                                 driver.findElement(By.xpath("//div[@id='" + id + "']//table//div[@class='highcharts-container']")).getAttribute('id').then(function(chartID){
                                     chai.expect('#'+chartID).dom.to.have.count(1);
                                 });
+                            },function(err) {
+
                             });
                         });
                         //check for duplicate content

@@ -113,7 +113,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     xtype: 'box',
                     id: 'populationStats',
                     cls: 'ocb-header-4',
-                    html: '<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data. Currently available only for the 1000 Genomes project." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
+                    html: '<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data." style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">&nbsp;No Population data available</p>',
                     margin: '5 0 10 15'
                 },
                 this.studiesContainer
@@ -157,7 +157,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 }
             }
         }
-        study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId +'</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
+        study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId + '</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/' + fileId + '" class="ftp_link" target="_blank">' + fileId + '</a>)';
 
         var populationStatsColumns = {
             items: [
@@ -201,9 +201,12 @@ EvaVariantPopulationStatsPanel.prototype = {
             }
         };
 
-        console.log('++++++++++++')
-        console.log(populationData)
-        console.log('++++++++++++')
+        if (_.isEmpty(populationData)) {
+            Ext.getCmp('populationStats').update('<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data." style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">&nbsp;No Population data available</p>')
+            return;
+        } else {
+            Ext.getCmp('populationStats').update('<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+        }
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",
             pageSize: 10,
@@ -229,7 +232,7 @@ EvaVariantPopulationStatsPanel.prototype = {
         ];
 
         var gridHeight = '';
-        if(_.isEmpty(populationData)){
+        if (_.isEmpty(populationData)) {
             gridHeight = 100;
         }
 
@@ -256,8 +259,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 body.innerHTML = '<div style="width:800px;" id="' + divID + '"></div>';
                 var genotypesCountArray = [];
                 _.each(_.keys(genotypesCount), function (key) {
-                    genotypesCountArray.push([key, this[key]]);
-
+                    genotypesCountArray.push([key.formatAlleles(), this[key]]);
                 }, genotypesCount);
                 var genotypesCountChartData = {id: divID, title: 'Genotype Count', chartData: genotypesCountArray};
                 _this._drawChart(genotypesCountChartData);
