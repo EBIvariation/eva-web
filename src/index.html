@@ -455,42 +455,114 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> What is HTML?</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> What is the European Variation Archive (EVA)?</a>
                                 <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
                             </h3>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse in">
                             <div class="panel-body">
-                                <p>HTML stands for HyperText Markup Language. HTML is the main markup language for describing the structure of Web pages. <a href="http://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+                                <p>The European Variation Archive (EVA) is EMBL-EBI’s open-access genetic variation archive. The EVA accepts submission of all types of genetic variants, ranging from single nucleotide polymorphisms to large structural variants, observed in germline or somatic sources, from any eukaryotic organism. The EVA permits access to these data at two distinct levels:</p>
+                                <p> i) The raw variant data as was submitted to the EVA, via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a></p>
+                                <p> ii) The normalised and processed variant data, via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a></p>
                             </div>
                         </div>
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> What is Bootstrap?</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> Is my data suitable for submission to the EVA?</a>
                                 <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
                             </h3>
                         </div>
                         <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
-                                <p>Bootstrap is a powerful front-end framework for faster and easier web development. It is a collection of CSS and HTML conventions. <a href="http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank">Learn more.</a></p>
+                                <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter’s responsibility to ensure that the data archived at the EVA complies to this open access policy.</p>
+                                <p>Genetic variants submitted to the EVA must be described in the the <a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">Variant Call Format </a>. VCF files submitted to the EVA should provide either genotypes from the individual samples analysed, or aggregated sample summary information, such as allele frequencies.</p>
+                                <p>Finally, each submission to the EVA is accompanied by a completed metadata <a href="http://www.ebi.ac.uk/eva/?Templates" target="_blank">template </a>. This metadata template captures the study description; details of the sample(s) analysed and the experimental methodology. Submission of as much metadata as possible is strongly encouraged as this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused.</p>
                             </div>
                         </div>
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">What is CSS?</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Why submit data to the EVA?</a>
                                 <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
                             </h3>
                         </div>
                         <div id="collapseThree" class="panel-collapse collapse">
                             <div class="panel-body">
+                                <p>The EVA provides to the community a completely free, secure and permanent solution to data sharing. Each project, VCF file and sample that is submitted to the EVA is assigned a unique identifier that is accessible in perpetuity and is therefore able to be referenced in publication, for example. The EVA helpdesk provides support to submitters, and users, to ensure accurate represention and proper integration of the submitted data with other EMBL-EBI resources such as the <a href="https://www.ebi.ac.uk/ega/" target="_blank">EGA</a> and <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>. A final advantage of submitting to the EVA is that variants are brokered to the National Centre for Biotechnology Information (NCBI) on the submitter’s behalf, negating the requirement for independent submissions.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title study-browser-panel">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">What happens to my data once submitted?</a>
+                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                            </h3>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p> All  VCF files and novel samples that are submitted to EVA are permanently and securely archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive </a> and <a href="http://www.ebi.ac.uk/biosamples/" target="_blank">BioSamples </a>, respectively. The EVA provides access to all submitted data via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a>.</p>
+                                <p> Variants within VCF files submitted to EVA are normalised, annotated and used for statistical calculations (via methodologies described below) and these EVA processed data are available via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a>.
+                                <p> Finally, the EVA brokers all submitted data to the NCBI: <a href="http://www.ncbi.nlm.nih.gov/projects/SNP/" target="_blank">dbSNP</a>, for short variants (<50bp); <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a>for large variants (>50bp) or <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, for variants associated with a phenotype and clinical significance.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title study-browser-panel">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">What are the EVA normalisation and variant processing steps?</a>
+                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                            </h3>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse">
+                            <div class="panel-body">
                                 <p>CSS stands for Cascading Style Sheet. CSS allows you to specify various style properties for a given HTML element such as colors, backgrounds, fonts etc. <a href="http://www.tutorialrepublic.com/css-tutorial/" target="_blank">Learn more.</a></p>
                             </div>
                         </div>
                     </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title study-browser-panel">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">What data is shown in the EVA Clinical Browser?</a>
+                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                            </h3>
+                        </div>
+                        <div id="collapseSix" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>CSS stands for Cascading Style Sheet. CSS allows you to specify various style properties for a given HTML element such as colors, backgrounds, fonts etc. <a href="http://www.tutorialrepublic.com/css-tutorial/" target="_blank">Learn more.</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title study-browser-panel">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">With whom does the EVA collaborate?</a>
+                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                            </h3>
+                        </div>
+                        <div id="collapseSeven" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>CSS stands for Cascading Style Sheet. CSS allows you to specify various style properties for a given HTML element such as colors, backgrounds, fonts etc. <a href="http://www.tutorialrepublic.com/css-tutorial/" target="_blank">Learn more.</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title study-browser-panel">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">Which browsers does the EVA website support?</a>
+                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                            </h3>
+                        </div>
+                        <div id="collapseEight" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>CSS stands for Cascading Style Sheet. CSS allows you to specify various style properties for a given HTML element such as colors, backgrounds, fonts etc. <a href="http://www.tutorialrepublic.com/css-tutorial/" target="_blank">Learn more.</a></p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div id="studyView" class="hide-div"></div>
