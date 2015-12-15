@@ -106,6 +106,10 @@ Eva.prototype = {
         /* iobioView */
         $(this.iobioView).addClass('eva-child');
         this.childDivMenuMap['eva-iobio'] = this.iobioView;
+
+        /* help */
+        $(this.iobioView).addClass('eva-child');
+        this.childDivMenuMap['Help'] = this.helpDiv;
     },
     draw: function () {
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
