@@ -175,16 +175,14 @@ EvaVariantGenotypeGridPanel.prototype = {
         for (var key in samples) {
             var s = samples[key];
             var allels = s.GT.formatAlleles();
-            
-            if (s.GT.match(/-1\/-1/)) {
-                s.GT = './.';
-            }
+
             chartData.push({value: allels});
             finalData.push({
                 sample: key,
                 genotype: allels
             });
         }
+
 
         var store = Ext.create('Ext.data.Store', {
             fields: [
