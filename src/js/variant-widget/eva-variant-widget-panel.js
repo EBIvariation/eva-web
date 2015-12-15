@@ -307,7 +307,7 @@ EvaVariantWidgetPanel.prototype = {
         });
         var populationFrequencyFilter = new EvaPopulationFrequencyFilterFormPanel({
             collapsed: true,
-            maf: _this.maf,
+            maf: _this.maf
         });
         var proteinSubScoreFilter = new EvaProteinSubstitutionScoreFilterFormPanel({
             collapsed: true,
