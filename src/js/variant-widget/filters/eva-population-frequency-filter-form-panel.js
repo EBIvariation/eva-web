@@ -141,7 +141,7 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
                     width: '100%',
                     margin: '5 0 5 0',
                     value: _this.maf,
-                    emptyText: 'ex: >0.3',
+                    emptyText: 'ex: >0.3 or <0.3',
                     regex:/^[\<\>]\d+(\.\d+)?$/
                 }
             ]
