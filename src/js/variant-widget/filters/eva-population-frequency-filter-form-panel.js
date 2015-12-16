@@ -136,7 +136,7 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
             defaultType: 'textfield',
             items: [
                 {
-                    fieldLabel: '<span class="title-header-icon" data-qtip="Minor Allele Frequency" style="margin-bottom:0px;">MAF</span>',
+                    fieldLabel: '<img class="text-header-icon" data-qtip="Minor Allele Frequency." style="margin-bottom:0px;" src="img/icon-info.png"/>&nbsp;<span class="title-header-icon" data-qtip="Minor Allele Frequency" style="margin-bottom:0px;">MAF</span>',
                     name: 'maf',
                     width: '100%',
                     margin: '5 0 5 0',
