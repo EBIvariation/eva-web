@@ -101,7 +101,7 @@
                         <li><a>API</a></li>
                         <li><a>About</a></li>
                         <li><a>Contact</a></li>
-                        <li><a>Help</a></li>
+                        <li><a>FAQ</a></li>
                     </ul>
                 </nav>
                 <!-- /local-nav -->
@@ -450,7 +450,7 @@
                 </div>
             </div>
             <div id="help-section" class="hide-div">
-                <h2>Help</h2>
+                <h2>FAQ</h2>
                 <div class="panel-group" id="accordion">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -771,7 +771,7 @@
               var apiDiv =  document.querySelector('#api');
               var submissionFormDiv =  document.querySelector('#submissionForm');
               var iobioViewDiv = document.querySelector('#evaIobioView');
-              var helpDiv = document.querySelector('#help-section');
+              var faqDiv = document.querySelector('#help-section');
 
             var tab = getUrlParameters("");
             var tabId =  decodeURI(tab.id);
@@ -842,7 +842,7 @@
                 apiDiv:apiDiv,
                 submissionForm:submissionFormDiv,
                 iobioView:iobioViewDiv,
-                helpDiv:helpDiv
+                faqDiv:faqDiv
             });
             eva.draw();
 
