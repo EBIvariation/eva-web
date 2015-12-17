@@ -1,5 +1,6 @@
 var config = require('./config.js');
 config.loadModules();
+var ERZLinkRegEx = /ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJEB[0-9]+\/ERZ[A-Z0-9]\d+$/;
 module.exports = {
     filesTab:function(driver){
         driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
@@ -23,7 +24,7 @@ module.exports = {
                         assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                     });
                     rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
-                        assert(text).matches(/ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJEB[0-9]+\/[0-9]+$/);
+                        assert(text).matches(ERZLinkRegEx);
                     });
                     // check for attributes table
                     rows[i].findElement(By.tagName("table")).getText().then(function(text){
@@ -119,7 +120,7 @@ module.exports = {
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                         });
                         rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
-                            assert(text).matches(/ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJEB[0-9]+\/ERZ[A-Z0-9]\d+$/);
+                            assert(text).matches(ERZLinkRegEx);
                         });
                         // check for pie chart study
                         rows[i].findElement(By.className("highcharts-container")).getAttribute('id').then(function(id){
@@ -168,7 +169,7 @@ module.exports = {
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                         });
                         rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
-                            assert(text).matches(/ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJEB[0-9]+\/[0-9]+$/);
+                            assert(text).matches(ERZLinkRegEx);
                         });
                         rows[i].findElement(By.className("population-stats-grid")).getAttribute('id').then(function(id){
                             //check Population column
