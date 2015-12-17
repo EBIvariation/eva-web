@@ -119,7 +119,7 @@ module.exports = {
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJEB[0-9]+$/);
                         });
                         rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
-                            assert(text).matches(/ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJEB[0-9]+\/[0-9]+$/);
+                            assert(text).matches(/ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJEB[0-9]+\/ERZ[A-Z0-9]\d+$/);
                         });
                         // check for pie chart study
                         rows[i].findElement(By.className("highcharts-container")).getAttribute('id').then(function(id){
