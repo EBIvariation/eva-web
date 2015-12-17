@@ -99,9 +99,10 @@
                         <li><a>GA4GH</a></li>
                         <!--<li><a>Genome Browser</a></li>-->
                         <li><a>API</a></li>
-                        <li><a>About</a></li>
-                        <li><a>Contact</a></li>
                         <li><a>FAQ</a></li>
+                        <!--<li><a>About</a></li>-->
+                        <li><a>Contact</a></li>
+
                     </ul>
                 </nav>
                 <!-- /local-nav -->
@@ -477,10 +478,10 @@
                                 <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter’s responsibility to ensure that the data archived at the EVA complies to this open access policy.</p>
                                 <p>
                                     Genetic variants submitted to the EVA must be described in the the Variant Call Format ( <a href="http://samtools.github.io/hts-specs/" target="_blank"> VCF </a>).
-                                    The EVA has developed a custom VCF file validator and accepts submission of only VCF files that pass this validation step (<a href="https://github.com/ebivariation/vcf-validator" target="_blank">https://github.com/ebivariation/vcf-validator</a> feature list: <a href="https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit" target="_blank">https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit</a>).
+                                    The EVA has developed a custom <a href="https://github.com/ebivariation/vcf-validator" target="_blank">VCF file validator</a> and accepts submission of only VCF files that pass <a href="https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit" target="_blank">these validation steps</a>.
                                     Furthermore, VCF files submitted to the EVA should provide either genotypes from the individual samples analysed, or aggregated sample summary information, such as allele frequencies.
                                 </p>
-                                <p>Finally, each submission to the EVA is accompanied by a completed metadata <a href="http://www.ebi.ac.uk/eva/?Templates" target="_blank">template </a>. This metadata template captures the study description; details of the sample(s) analysed and the experimental methodology. Submission of as much metadata as possible is strongly encouraged as this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused.</p>
+                                <p>Finally, each submission to the EVA is accompanied by a completed metadata <a href="http://www.ebi.ac.uk/eva/?Templates" target="_blank">template </a>. This metadata template captures the study description, details of the sample(s) analysed and the experimental methodology. Submission of as much metadata as possible is strongly encouraged as this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused.</p>
                             </div>
                         </div>
                     </div>
@@ -507,7 +508,7 @@
                             <div class="panel-body">
                                 <p> All  VCF files and novel samples that are submitted to EVA are permanently and securely archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive </a> and <a href="http://www.ebi.ac.uk/biosamples/" target="_blank">BioSamples </a>, respectively. The EVA provides access to all submitted data via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a>.</p>
                                 <p> Variants within VCF files submitted to EVA are normalised, annotated and used for statistical calculations (via methodologies described below) and these EVA processed data are available via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a>.
-                                <p> Finally, the EVA brokers all submitted data to the NCBI: <a href="http://www.ncbi.nlm.nih.gov/projects/SNP/" target="_blank">dbSNP</a>, for short variants (<50bp); <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a>for large variants (>50bp) or <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, for variants associated with a phenotype and clinical significance.</p>
+                                <p> Finally, the EVA brokers all submitted data to the NCBI: <a href="http://www.ncbi.nlm.nih.gov/projects/SNP/" target="_blank">dbSNP</a>, for short variants (<50bp); <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a> for large variants (>50bp) or <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, for variants associated with both a phenotype and clinical significance.</p>
                             </div>
                         </div>
                     </div>
@@ -522,7 +523,7 @@
                                <div>
                                    <h5>Normalisation</h5>
                                    <p>
-                                       The variants submitted to the EVA have been determined by a number of different algorithms and software packages. As a result, the VCF files generated by these differing methodologies describe variants in a number of different ways. The primary processing step of the EVA is to normalise variant representation following two basic rules:
+                                       Variants submitted to the EVA have been determined by a number of different algorithms and software packages. As a result, the VCF files generated by these differing methodologies describe variants in a number of different ways. The primary processing step of the EVA is to normalise variant representation following two basic rules:
                                        <ol>
                                            <li>Each variant is shifted to be left-aligned</li>
                                            <li>The Start and End positions represent exactly the range where the variation occurs (which could, in the case of insertions, result in the reference allele being recorded as ‘empty’)</li>
@@ -534,7 +535,7 @@
                                 <div>
                                     <h5>Annotation</h5>
                                     <p>
-                                        Once variants have been normalised, the EVA uses the <a href="http://www.ensembl.org/info/docs/tools/vep/" target="_blank">Variant Effect Predictor </a>  of Ensembl to annotate variant consequences.
+                                        Once variants have been normalised, the EVA uses the <a href="http://www.ensembl.org/info/docs/tools/vep/" target="_blank">Variant Effect Predictor (VEP) </a>  of Ensembl to annotate variant consequences.
                                         The variant consequences are described using Sequence Ontology terms and both the VEP version and Ensembl gene build used are described via the “i” help bubbles on the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a>.
                                        <br /><br /> N.B. Variants that have been mapped to a reference genome sequence that is not supported by Ensembl are not annotated.
                                     </p>
@@ -576,8 +577,8 @@
                         <div id="collapseSix" class="panel-collapse collapse">
                             <div class="panel-body">
                                <p>
-                                   The EVA Clinical Browser displays variant data imported from the NCBI resource <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, where each variant is associated with a phenotype and a clinical significance assigned using the guidlines from the <a href="http://www.ncbi.nlm.nih.gov/pubmed/18414213" target="_blank">American College of Medical Genetics and Genomics</a>.
-                                   Importantly, the variants shown via the EVA Clinical Browser have been annotated against the human GRCh37 genome using both the VEP and gene build of Ensembl version 78.
+                                   The EVA Clinical Browser displays variant data imported from the NCBI resource <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, where each variant is associated with both a phenotype and a clinical significance assigned using the guidlines from the <a href="http://www.ncbi.nlm.nih.gov/pubmed/18414213" target="_blank">American College of Medical Genetics and Genomics</a>.
+                                   Importantly, the variants shown via the EVA Clinical Browser have been annotated against the human GRCh37 genome using both the VEP and GENCODE Basic gene build of Ensembl version 78.
                                </p>
                             </div>
                         </div>
@@ -599,10 +600,10 @@
                                   </p>
                                 </div>
                                 <h5>The EVA & Príncipe Felipe Research Cent​er​</h5>
-                                <p>Some of the technical and analytical features of the EVA were developed in collaboration with the department of Computational Genomics led by Joaquin Dopazo at the Principe Felipe Research Centre (,<a href="http://bioinfo.cipf.es/" target="_blank">Computational Genomics DepartmentCIPF</a>).</p>
+                                <p>Some of the technical and analytical features of the EVA were developed in collaboration with the department of Computational Genomics led by Joaquin Dopazo at the Principe Felipe Research Centre <a href="http://bioinfo.cipf.es/" target="_blank">Computational Genomics Department (CIPF)</a>.</p>
                                 <h4 style="color:#996a44;">Past Collaborations</h4>
                                 <h5>EVA & The Genomics and Bioinformatics Platform of Andalusia​</h5>
-                                <div><p>Early development of the EVA was being carried out in collaboration with the Bioinformatics Department at the <a href="http://www.gbpa.es" target="_blank">Genomics and Bioinformatics Platform of Andalusia</a>.</p></div>
+                                <div><p>Early development of the EVA was carried out in collaboration with the Bioinformatics Department at the <a href="http://www.gbpa.es" target="_blank">Genomics and Bioinformatics Platform of Andalusia</a>.</p></div>
                             </div>
                         </div>
                     </div>
