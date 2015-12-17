@@ -455,8 +455,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> What is the European Variation Archive (EVA)?</a>
-                                <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> What is the European Variation Archive (EVA)? <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse in">
@@ -470,14 +469,17 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> Is my data suitable for submission to the EVA?</a>
-                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> Is my data suitable for submission to the EVA?  <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter’s responsibility to ensure that the data archived at the EVA complies to this open access policy.</p>
-                                <p>Genetic variants submitted to the EVA must be described in the the <a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">Variant Call Format </a>. VCF files submitted to the EVA should provide either genotypes from the individual samples analysed, or aggregated sample summary information, such as allele frequencies.</p>
+                                <p>
+                                    Genetic variants submitted to the EVA must be described in the the Variant Call Format ( <a href="http://samtools.github.io/hts-specs/" target="_blank"> VCF </a>).
+                                    The EVA has developed a custom VCF file validator and accepts submission of only VCF files that pass this validation step (<a href="https://github.com/ebivariation/vcf-validator" target="_blank">https://github.com/ebivariation/vcf-validator</a> feature list: <a href="https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit" target="_blank">https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit</a>).
+                                    Furthermore, VCF files submitted to the EVA should provide either genotypes from the individual samples analysed, or aggregated sample summary information, such as allele frequencies.
+                                </p>
                                 <p>Finally, each submission to the EVA is accompanied by a completed metadata <a href="http://www.ebi.ac.uk/eva/?Templates" target="_blank">template </a>. This metadata template captures the study description; details of the sample(s) analysed and the experimental methodology. Submission of as much metadata as possible is strongly encouraged as this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused.</p>
                             </div>
                         </div>
@@ -485,22 +487,20 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Why submit data to the EVA?</a>
-                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Why submit data to the EVA?  <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseThree" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <p>The EVA provides to the community a completely free, secure and permanent solution to data sharing. Each project, VCF file and sample that is submitted to the EVA is assigned a unique identifier that is accessible in perpetuity and is therefore able to be referenced in publication, for example.
-                                    The EVA helpdesk provides support to submitters, and users, to ensure accurate represention and proper integration of the submitted data with other EMBL-EBI resources such as the <a href="https://www.ebi.ac.uk/ega/" target="_blank">EGA</a> and <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>. A final advantage of submitting to the EVA is that variants are brokered to the National Centre for Biotechnology Information (NCBI) on the submitter’s behalf, negating the requirement for independent submissions.</p>
+                                    The <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">EVA helpdesk</a> provides support to submitters, and users, to ensure accurate represention and proper integration of the submitted data with other EMBL-EBI resources such as the <a href="https://www.ebi.ac.uk/ega/" target="_blank">EGA</a> and <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>. A final advantage of submitting to the EVA is that variants are brokered to the National Centre for Biotechnology Information (NCBI) on the submitter’s behalf, negating the requirement for independent submissions.</p>
                             </div>
                         </div>
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">What happens to my data once submitted?</a>
-                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">What happens to my data once submitted?  <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseFour" class="panel-collapse collapse">
@@ -514,8 +514,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">What are the EVA normalisation and variant processing steps?</a>
-                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">What are the EVA normalisation and variant processing steps?  <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseFive" class="panel-collapse collapse">
@@ -571,8 +570,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">What data is shown in the EVA Clinical Browser?</a>
-                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">What data is shown in the EVA Clinical Browser? <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseSix" class="panel-collapse collapse">
@@ -587,8 +585,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">With whom does the EVA collaborate?</a>
-                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">With whom does the EVA collaborate?  <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseSeven" class="panel-collapse collapse">
@@ -601,18 +598,18 @@
                                       As part of this collaboration, we fully endorse the variant calling protocol detailed on the <a href="http://geevs.crg.eu/home" target="_blank">GEEVS</a> website as adherence to this protocol for variant calling permits direct comparison and/or aggregation of results from different datasets.
                                   </p>
                                 </div>
-                                <h5>EVA & Príncipe Felipe Research Cent​er​</h5>
+                                <h5>The EVA & Príncipe Felipe Research Cent​er​</h5>
                                 <p>Some of the technical and analytical features of the EVA were developed in collaboration with the department of Computational Genomics led by Joaquin Dopazo at the Principe Felipe Research Centre (,<a href="http://bioinfo.cipf.es/" target="_blank">Computational Genomics DepartmentCIPF</a>).</p>
+                                <h4 style="color:#996a44;">Past Collaborations</h4>
                                 <h5>EVA & The Genomics and Bioinformatics Platform of Andalusia​</h5>
-                                <div><p>Development of EVA is being carried out in collaboration with the Bioinformatics Department at the <a href="http://www.gbpa.es" target="_blank">Genomics and Bioinformatics Platform of Andalusia</a>.</p></div>
+                                <div><p>Early development of the EVA was being carried out in collaboration with the Bioinformatics Department at the <a href="http://www.gbpa.es" target="_blank">Genomics and Bioinformatics Platform of Andalusia</a>.</p></div>
                             </div>
                         </div>
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">Which browsers does the EVA website support?</a>
-                                <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">Which browsers does the EVA website support? <i class="indicator glyphicon glyphicon-chevron-up  pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseEight" class="panel-collapse collapse">
@@ -621,7 +618,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div id="studyView" class="hide-div"></div>

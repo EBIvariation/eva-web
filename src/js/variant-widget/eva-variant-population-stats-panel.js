@@ -47,7 +47,7 @@ function EvaVariantPopulationStatsPanel(args) {
             '</tr>',
         '</table>'
     );
-
+    this.tooltipText = "Population frequency data. N.B. “*” in the genotype denotes ‘not reference but exact ALT not known’. This is a temporary solution whilst we work with the VCF specification team to better describe these complex cases";
     _.extend(this, args);
     this.on(this.handlers);
     this.rendered = false;
@@ -113,7 +113,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     xtype: 'box',
                     id: 'populationStats',
                     cls: 'ocb-header-4',
-                    html: '<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data." style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">&nbsp;No Population data available</p>',
+                    html: '<h4>Population Statistics <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">&nbsp;No Population data available</p>',
                     margin: '5 0 10 15'
                 },
                 this.studiesContainer
@@ -202,10 +202,10 @@ EvaVariantPopulationStatsPanel.prototype = {
         };
 
         if (_.isEmpty(populationData)) {
-            Ext.getCmp('populationStats').update('<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data." style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">&nbsp;No Population data available</p>')
+            Ext.getCmp('populationStats').update('<h4>Population Statistics <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">&nbsp;No Population data available</p>')
             return;
         } else {
-            Ext.getCmp('populationStats').update('<h4>Population Statistics <img class="title-header-icon" data-qtip="Population frequency data." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+            Ext.getCmp('populationStats').update('<h4>Population Statistics <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
         }
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",

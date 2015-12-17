@@ -49,6 +49,8 @@ function EvaVariantGenotypeGridPanel(args) {
         }
     ];
 
+    this.tooltipText = "Genotype data for the selected variant, split by study. N.B. “*” in the genotype denotes ‘not reference but exact ALT unknown’. This is a temporary solution whilst we work with the VCF specification team to better describe these complex cases";
+
     _.extend(this, args);
 
     this.on(this.handlers);
@@ -92,7 +94,7 @@ EvaVariantGenotypeGridPanel.prototype = {
         for (var key in data) {
             var study = data[key];
             if (Object.keys(study.samplesData).length > 0) {
-                Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+                Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
                 var genotypePanel = this._createGenotypePanel(study, params);
                 genotypeChartData.push(genotypePanel.chartData)
                 panels.push(genotypePanel);
@@ -100,7 +102,7 @@ EvaVariantGenotypeGridPanel.prototype = {
         }
 
         if (_.isEmpty(panels)) {
-            Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">No Genotypes data available</p>')
+            Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">No Genotypes data available</p>')
         }
         this.clear();
         this.studiesContainer.add(panels);
@@ -130,7 +132,7 @@ EvaVariantGenotypeGridPanel.prototype = {
                     xtype: 'box',
                     id: 'genotypeTitle',
                     cls: 'ocb-header-4',
-                    html: '<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
+                    html: '<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
                     margin: '5 0 10 10'
                 },
                 this.studiesContainer
