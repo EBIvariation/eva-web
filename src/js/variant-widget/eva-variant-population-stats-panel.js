@@ -254,13 +254,25 @@ EvaVariantPopulationStatsPanel.prototype = {
 
         grid.view.on('expandbody', function (rowNode, record, body, rowIndex) {
             var genotypesCount = record.data.genotypesCount;
+            console.log(genotypesCount)
             var divID = 'population-stats-grid-' + record.data.id + data.fileId;
             if (!_.isEmpty(genotypesCount)) {
                 body.innerHTML = '<div style="width:800px;" id="' + divID + '"></div>';
-                var genotypesCountArray = [];
+                var tempArray = [];
                 _.each(_.keys(genotypesCount), function (key) {
-                    genotypesCountArray.push([key.formatAlleles(), this[key]]);
+//                    genotypesCountArray.push([key.formatAlleles(), this[key]]);
+                    tempArray.push({Name:key.formatAlleles(), Value:this[key]});
                 }, genotypesCount);
+                var linq = Enumerable.From(tempArray);
+                var result =
+                    linq.GroupBy(function(x){return x.Name;})
+                        .Select(function(x){return { Name:x.Key(), Value: x.Sum(function(y){return y.Value|0;}) };})
+                        .ToArray();
+                var genotypesCountArray = [];
+                _.each(_.keys(result), function (key) {
+                    console.log(this[key])
+                    genotypesCountArray.push([this[key].Name, this[key].Value]);
+                },result);
                 var genotypesCountChartData = {id: divID, title: 'Genotype Count', chartData: genotypesCountArray};
                 _this._drawChart(genotypesCountChartData);
             } else {

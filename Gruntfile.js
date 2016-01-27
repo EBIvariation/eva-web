@@ -148,6 +148,7 @@ module.exports = function (grunt) {
                     {   expand: true, src: ['vendor/highcharts-4.0.3/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['vendor/platform-0.4.1/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['vendor/vkbeautify/**'], dest: 'build/<%= meta.version.eva %>'},
+                    {   expand: true, src: ['vendor/linqJS/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['src/js/browser-detect.js'], dest: 'build/<%= meta.version.eva %>/js',flatten: true},
                     {   expand: true, src: ['src/js/ebi-web-guidelines/*'], dest: 'build/<%= meta.version.eva %>/js/ebi-web-guidelines',flatten: true}
                 ]
@@ -184,7 +185,8 @@ module.exports = function (grunt) {
                             'build/<%= meta.version.eva %>/lib/jsorolla/vendor/purl.min.js',
                             'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.qtip.min.js',
                             'build/<%= meta.version.eva %>/vendor/highcharts-4.0.3/js/highcharts.js',
-                            'build/<%= meta.version.eva %>/vendor/vkbeautify/vkbeautify.0.99.00.beta.js'
+                            'build/<%= meta.version.eva %>/vendor/vkbeautify/vkbeautify.0.99.00.beta.js',
+                            'build/<%= meta.version.eva %>/vendor/linqJS/linq.min.js'
 
                         ],
 //                        'platform': [
