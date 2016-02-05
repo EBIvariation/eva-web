@@ -344,7 +344,8 @@ EvaStudyView.prototype = {
 
                     },
                     error: function (x, y, z) {
-                        pubDiv.innerHTML = '<p>Publication Information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '</a> could not be retrieved at this time.</p>';
+//                        paper_output += '<p>Publication Information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '</a> could not be retrieved at this time.</p>';
+                        paper_output +=  '<a class="external publication" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + pubmedId + '" target="_blank">' + pubmedId + '</a><br />';
                         // x.responseText should have what's wrong
                     }
                 });
