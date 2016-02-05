@@ -91,43 +91,6 @@ module.exports = function (grunt) {
                 dest: 'build/<%= meta.version.eva %>/js/eva-<%= meta.version.eva %>.min.js'
             }
         },
-        jshint: {
-            options: {
-                curly: true,
-                eqeqeq: true,
-                immed: true,
-                latedef: true,
-                newcap: true,
-                noarg: true,
-                sub: true,
-                undef: true,
-                unused: true,
-                boss: true,
-                eqnull: true,
-                browser: true,
-                globals: {}
-            },
-            gruntfile: {
-                src: 'Gruntfile.js'
-            },
-            lib_test: {
-                src: ['lib/**/*.js', 'test/**/*.js']
-            }
-        },
-        qunit: {
-            files: ['test/**/*.html']
-        },
-
-        watch: {
-            gruntfile: {
-                files: '<%= jshint.gruntfile.src %>',
-                tasks: ['jshint:gruntfile']
-            },
-            lib_test: {
-                files: '<%= jshint.lib_test.src %>',
-                tasks: ['jshint:lib_test', 'qunit']
-            }
-        },
 
         copy: {
 
@@ -137,7 +100,8 @@ module.exports = function (grunt) {
                     {   expand: true, src: ['src/fonts/*'], dest: 'build/<%= meta.version.eva %>/fonts', flatten: true},
                     {   expand: true, src: ['src/css/*'], dest: 'build/<%= meta.version.eva %>/css', flatten: true},
                     {   expand: true, src: ['src/css/ebi-complaince/*'], dest: 'build/<%= meta.version.eva %>/css/ebi-complaince/', flatten: true},
-                    {   expand: true, src: ['src/img/*'], dest: 'build/<%= meta.version.eva %>/img', flatten: true},
+//                    {   expand: true, src: ['src/img/*'], dest: 'build/<%= meta.version.eva %>/img', flatten: true},
+                    {   expand: true, src: ['src/img/'], dest: 'build/<%= meta.version.eva %>/', flatten: true},
 //                    {   expand: true, src: ['src/web-components/*'], dest: 'build/<%= meta.version.eva %>/web-components', flatten: true},
                     {   expand: true, src: ['src/*.html'], dest: 'build/<%= meta.version.eva %>/', flatten: true, filter: 'isFile'},
                     {   expand: true, src: ['lib/jsorolla/build/1.1.9/genome-viewer/*.js'], dest: 'build/<%= meta.version.eva %>',flatten: false},
@@ -156,6 +120,18 @@ module.exports = function (grunt) {
 
         },
 
+        cssmin: {
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/<%= meta.version.eva %>/css',
+                    src: ['*.css'],
+                    dest: 'build/<%= meta.version.eva %>/css',
+                    ext: '.min.css'
+                }]
+            }
+        },
+
         clean: {
             eva: ['build/<%= meta.version.eva %>/']
         },
@@ -169,7 +145,7 @@ module.exports = function (grunt) {
                     scripts: {
                         'eva-js': '<%= uglify.eva.dest %>',
                         'lib': [
-                                'build/<%= meta.version.eva %>/lib/jsorolla/build/*/genome-viewer/genome-viewer.js',
+                                'build/<%= meta.version.eva %>/lib/jsorolla/build/*/genome-viewer/genome-viewer.min.js',
                                 'build/<%= meta.version.eva %>/lib/jsorolla/build/*/genome-viewer/gv-config.js'
 //                                'build/<%= meta.version.eva %>/lib/jsorolla/build/*/lib.min.js'
                                ],
@@ -202,7 +178,7 @@ module.exports = function (grunt) {
                     styles: {
                         'css': [
                             'build/<%= meta.version.eva %>/lib/jsorolla/styles/css/style.css',
-                            'build/<%= meta.version.eva %>/css/eva.css'
+                            'build/<%= meta.version.eva %>/css/eva.min.css'
                         ],
                         'vendor': [
 //                            'build/<%= meta.version.eva %>/vendor/ext-5.0.1/theme/theme-eva-ebi-all.css',
@@ -215,30 +191,28 @@ module.exports = function (grunt) {
                 }
             }
         },
-
-
-        'curl-dir': {
-            long: {
-                src: [
-                    'http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js',
-                    'http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.map',
-                    'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-1.5.2.min.js',
-                    'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js',
-                    'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.map',
-                    'http://hub.chemdoodle.com/cwc/5.1.0/ChemDoodleWeb.css',
-                    'http://hub.chemdoodle.com/cwc/5.1.0/ChemDoodleWeb.js',
-                    'http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.0.6/jquery.mousewheel.min.js',
-                    'https://raw.github.com/toji/gl-matrix/master/dist/gl-matrix-min.js',
-                    'http://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.3.1/jquery.cookie.js',
-                    'http://cdnjs.cloudflare.com/ajax/libs/jquery-url-parser/2.2.1/purl.min.js',
-                    'http://jsapi.bioinfo.cipf.es/ext-libs/jquery-plugins/jquery.sha1.js',
-                    'http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.js',
-                    'http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.css',
-//                    'http://jsapi.bioinfo.cipf.es/ext-libs/qtip2/jquery.qtip.min.js',
-//                    'http://jsapi.bioinfo.cipf.es/ext-libs/qtip2/jquery.qtip.min.css',
-                    'http://jsapi.bioinfo.cipf.es/ext-libs/rawdeflate.js'
-                ],
-                dest: 'vendor'
+        minifyHtml: {
+            options: {
+                cdata: true
+            },
+            dist: {
+                files: {
+                    'build/<%= meta.version.eva %>/index.html': 'build/<%= meta.version.eva %>/index.html'
+                }
+            }
+        },
+        imagemin: {
+            dynamic: {
+                options: {
+                    optimizationLevel: 3,
+                    svgoPlugins: [{ removeViewBox: false }]
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'src/img/',
+                    src: ['**/*.{png,jpg,gif}'],
+                    dest: 'build/<%= meta.version.eva %>/img/'
+                }]
             }
         },
 
@@ -268,6 +242,7 @@ module.exports = function (grunt) {
             }
         }
 
+
     });
 
 
@@ -285,12 +260,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-hub');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-minify-html');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.registerTask('vendor', ['curl-dir']);
     //selenium with mocha
     grunt.registerTask('test',['mochaTest']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'htmlbuild:eva','exec'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'cssmin', 'htmlbuild:eva','minifyHtml', 'imagemin','exec'])
 
 
 
