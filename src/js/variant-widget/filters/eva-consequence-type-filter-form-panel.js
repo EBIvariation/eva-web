@@ -256,7 +256,8 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
                             triggerCls: 'x-form-clear-trigger',
                             listeners: {
                                 change: function (field, newVal) {
-                                    treePanel.filter(newVal);
+//                                    treePanel.filter(newVal);
+                                    _this.panel.plugins[0].tree.filter(newVal);
                                 },
                                 buffer: 250
                             }

@@ -7,13 +7,13 @@
 <meta charset="utf-8">
 
 <!-- build:style vendor -->
-<!--<link type="text/css" rel="stylesheet" href="../vendor/ext-5.0.1/theme/theme-eva-ebi-all.css"/>-->
 <link type="text/css" rel="stylesheet" href="../vendor/ext-5.1.0/theme/theme-ebi-embl-all.css"/>
-<link type="text/css" rel="stylesheet" href="../lib/jsorolla/vendor/jquery.qtip.min.css"/>
+<!--<link type="text/css" rel="stylesheet" href="../lib/jsorolla/vendor/jquery.qtip.min.css"/>-->
 <link rel="stylesheet" href="../vendor/bootstrap-3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="../lib/jsorolla/vendor/font-awesome/css/font-awesome.min.css">
-<!-- /build -->
+<!--<link rel="stylesheet" href="../lib/jsorolla/vendor/font-awesome/css/font-awesome.min.css">-->
 <link rel="stylesheet" href="css/ebi-complaince/ebi-fluid-embl.css">
+<!-- /build -->
+
 
 <!-- build:style css -->
 <link type="text/css" rel="stylesheet" href="../lib/jsorolla/styles/css/style.css"/>
@@ -37,7 +37,7 @@
         <header>
             <div id="global-masthead" class="masthead grid_24">
                 <!--This has to be one line and no newline characters-->
-                <a href="//www.ebi.ac.uk/" title="Go to the EMBL-EBI homepage"><img src="img/EMBL_EBI_Logo_white.png" alt="EMBL European Bioinformatics Institute"></a>
+                <a href="//www.ebi.ac.uk/" title="Go to the EMBL-EBI homepage"><img src="img/EMBL_EBI_Logo_white.png" alt="EMBL European Bioinformatics Institute" width="75" height="75"></a>
 
                 <nav>
                     <ul id="global-nav">
@@ -114,7 +114,7 @@
                     <div class="col-md-6">
                         <h3><span class="icon icon-generic" data-icon="&"></span>Overview</h3>
                         <div><p> The European Variation Archive is an open-access database of all types of genetic variation data from all species.</p></div>
-                        <div><p> ​All users can <a href="?Study Browser "> download ​data </a> from any​ ​study, or <a href="?Submit Data"> submit their own data </a>to the archive. You can also query all variants in the EVA by study, gene, chromosomal location or dbSNP identifier using our <a href="?Variant Browser"> Variant Browser</a>. </p></div>
+                        <div><p> ​All users can <a href="?Study Browser "> download ​data </a> from any​ ​study, or <a href="?Submit Data"> submit their own data</a> to the archive. You can also query all variants in the EVA by study, gene, chromosomal location or dbSNP identifier using our <a href="?Variant Browser"> Variant Browser</a>. </p></div>
                         <div><p> We will be adding new features to the EVA on a regular basis, and welcome <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">your comments and feedback</a>. </p></div>
                     </div>
 
@@ -194,43 +194,6 @@
                             <!--A completed template for a fictional study can be found <a href="files/EVA_Submission_template.EVA.V1.0.1_live_mockup_plus_Clinical_Variants.xlsx" target="_blank">here</a>.</p>-->
                         <!--<p>If you would like to discuss any aspect of EVA, or if anything is unclear, please contact us directly at <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a>. </p>-->
                     </div>
-                </div>
-            </div>
-
-            <div id="about-us" class="hide-div">
-                <h2>About EVA</h2>
-                <div>
-                    <p>The European Variation Archive (EVA) accepts submission of, and provides access to, all types of genetic variants from any species, observed in germline or somatic sources, ranging from SNVs to large structural <span> variants<sup>[1]</sup>.</span></p>
-                    <p>All of our data is open access via direct query through web and/or programmatic interfaces.</p>
-                    <p>The main submission format is a VCF file. VCF files should provide either genotypes from individual samples or aggregate summary information, such as allele frequencies, and be accompanyed by descriptive metadata. Examples of such include: study description, sample origins, experimental details, methodology for variant and/or genotype calls, etc. We strongly encourage the submission of as much metadata possible as this information is extremely useful for downstream analysis.</p>
-                    <p>In addition to archiving VCF data, each submission is also standardized to permit variant accessioning, global quering, re-mapping across genome builds and calculation of aggregate summary information based on the individual level genotypes.</p>
-                    <p style="font-style:italic"><sup>[1]</sup><a href="http://www.ncbi.nlm.nih.gov/pubmed/23193291#" target="_blank">Nucleic Acids Res</a>. 2013 Jan;41(Database issue):D936-41. doi: 10.1093/nar/gks1213. Epub 2012 Nov 27.</p>
-                </div>
-
-                <h2>EVA Clinical Browser</h2>
-                <div>
-                    <p>Clinically relevant variation data submitted to EVA is brokered to <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar at NCBI</a>. The complete ClinVar dataset is queryable via our <a href="?Clinical Browser">Clinical Browser</a> and we permit users to download the results in CSV format.
-                        We annotate all clinically relevant variants using the <a href="http://grch37.ensembl.org/Homo_sapiens/Tools/VEP" target="_blank"> Variant Effect Predictor (VEP)</a> of Ensembl (v78) against the <a href="http://www.gencodegenes.org/gencode_tags.html#" target="_blank">GENCODE Basic</a> geneset and employ the same <a href="http://www.ensembl.org/info/genome/variation/predicted_data.html" target="_blank">hierarchy</a> as Ensembl to determine the most severe consequence associated with each variant.</p>
-                    <p>We welcome all comments and feedback on our Clinical Browser, please email us at  <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> </p>
-                    <p>To submit clinically relevant data to EVA please see our <a href="?Submit Data">Submit Data</a> page.</p>
-                </div>
-                <h2>Collaborations and project links</h2>
-                <div><img src="img/EVA_Related_Projects.png"><br/><br/><br/></div>
-                <h3> EVA & GEUVADIS European Exome Variant Server </h3>
-                <div>
-                    <p>​​EVA & <span> GE​UVADIS European Exome Variant Server<sup>[1]</sup></span> ​(GEEVS) work in collaboration to ​coordinate​​ common ​data formats ​for ​data​ exchange​​. As part of this collaboration, we fully endorse the variant calling protocol detailed on the <a href="http://geevs.crg.eu/home" target="_blank">GEEVS website</a>.
-                        Adherence to this protocol for variant calling permits direct comparison and/or aggregation of results from different datasets.</p>
-                    <p style="font-style:italic">​<sup>[1]</sup>Nature. 2013 Sep 26;501(7468):506-11. doi: 10.1038/nature12531. Epub 2013 Sep 15.</p>
-                </div>
-                <h3>EVA & Príncipe Felipe Research Cent​er​</h3>
-                <div><p>Some of the technical and analytical features of EVA were developed in collaboration with the department of Computational Genomics led by Joaquin Dopazo at the Principe Felipe Research Centre <a href="http://bioinfo.cipf.es/" target="_blank"><span>(Computational Genomics Department,CIPF)</span></a>.<sup>[1,2]</sup></p></div>
-                <p style="font-style:italic"><sup>[1]</sup>​<a href="http://nar.oxfordjournals.org/content/40/W1/W609" target="_blank">​Nucleic Acids Res</a>. 2012 Jul;40(Web Server issue):W609-14. doi: 10.1093/nar/gks575. Epub 2012 Jun 12.</p>
-                <p style="font-style:italic"><sup>[2]</sup><a href="http://www.ncbi.nlm.nih.gov/pubmed/24803668#" target="_blank">​Nucleic Acids Res</a>. 2014 Jul;42(Web Server issue):W88-93. doi: 10.1093/nar/gku407. Epub 2014 May 6.</p>
-                <h3>EVA & The Genomics and Bioinformatics Platform of Andalusia​</h3>
-                <div><p>Development of EVA is being carried out in collaboration with the Bioinformatics Department at the <a href="http://www.gbpa.es" target="_blank">Genomics and Bioinformatics Platform of Andalusia</a>.</p></div>
-                <h2>Web Browser Technical Notes</h2>
-                <div>
-                    <p>This website employs HTML5 technologies and standards. Chrome (version 18 or higher), Firefox (version 12 or higher), Safari (version 6 or higher) , Opera (version 12 or higher) and Internet Explore (version 10 or higher) are fully supported. Older versions of these browsers may give rise to errors when browsing this website.</p>
                 </div>
             </div>
 
@@ -672,7 +635,6 @@
     <script type="text/javascript" src="js/browser-detect.js"></script>
     <!-- /build -->
     <!-- build:script vendor -->
-    <!--<script type="text/javascript" src="../vendor/ext-5.0.1/js/ext-all.js"></script>-->
     <script type="text/javascript" src="../vendor/ext-5.1.0/js/ext-all.js"></script>
     <script type="text/javascript" src="../lib/jsorolla/vendor/underscore-min.js"></script>
     <script type="text/javascript" src="../lib/jsorolla/vendor/backbone-min.js"></script>
@@ -681,19 +643,19 @@
     <!--<script type="text/javascript" src="../lib/jsorolla/vendor/bootstrap-scoped-dist/js/bootstrap.min.js"></script>-->
     <script type="text/javascript" src="../vendor/highcharts-4.0.3/js/highcharts.js"></script>
     <script type="text/javascript" src="../vendor/bootstrap-3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../lib/jsorolla/vendor/jquery.cookie.js"></script>
-    <script type="text/javascript" src="../lib/jsorolla/vendor/jquery.sha1.js"></script>
-    <script type="text/javascript" src="../lib/jsorolla/vendor/purl.min.js"></script>
-    <script type="text/javascript" src="../lib/jsorolla/vendor/jquery.qtip.min.js"></script>
-    <script type="text/javascript" src="../vendor/vkbeautify/vkbeautify.0.99.00.beta.js"></script>
+    <!--<script type="text/javascript" src="../lib/jsorolla/vendor/jquery.cookie.js"></script>-->
+    <!--<script type="text/javascript" src="../lib/jsorolla/vendor/jquery.sha1.js"></script>-->
+    <!--<script type="text/javascript" src="../lib/jsorolla/vendor/purl.min.js"></script>-->
+    <!--<script type="text/javascript" src="../lib/jsorolla/vendor/jquery.qtip.min.js"></script>-->
     <script type="text/javascript" src="../vendor/linqJS/linq.min.js"></script>
     <!-- /build -->
-
+    <!-- build:script vkbeautify -->
+    <script type="text/javascript" src="../vendor/vkbeautify/vkbeautify.0.99.00.beta.js"></script>
+    <!-- /build -->
     <!-- build:script lib -->
     <script type="text/javascript" src="../lib/jsorolla/build/1.1.9/genome-viewer/genome-viewer.js"></script>
     <script type="text/javascript" src="../lib/jsorolla/build/1.1.9/genome-viewer/gv-config.js"></script>
     <!-- /build -->
-
     <!-- build:script eva-js -->
     <script type="text/javascript" src="js/eva-manager.js"></script>
     <script type="text/javascript" src="js/eva-config.js"></script>
@@ -743,10 +705,12 @@
     <script type="text/javascript" src="js/clinvar/eva-clinvar-annotation-panel.js"></script>
     <script type="text/javascript" src="js/eva.js"></script>
     <!-- /build -->
+    <!-- build:script ebi-web-guidelines-js -->
     <script defer="defer" src="js/ebi-web-guidelines/modernizr.custom.49274.js"></script>
     <script defer="defer" src="js/ebi-web-guidelines/google-analytics.js"></script>
     <script defer="defer" src="js/ebi-web-guidelines/cookiebanner.js"></script>
     <script defer="defer" src="js/ebi-web-guidelines/foot.js"></script>
+    <!-- /build -->
     <!-- end scripts-->
 
     <script type="text/javascript">

@@ -81,14 +81,34 @@ module.exports = function (grunt) {
                     'src/js/eva.js'
                 ],
                 dest: 'build/<%= meta.version.eva %>/js/eva-<%= meta.version.eva %>.js'
+            },
+            ebi_web_guidelines_js: {
+                src:[
+                    'src/js/ebi-web-guidelines/modernizr.custom.49274.js',
+                    'src/js/ebi-web-guidelines/google-analytics.js',
+                    'src/js/ebi-web-guidelines/cookiebanner.js',
+                    'src/js/ebi-web-guidelines/foot.js'
+                ],
+                dest: 'build/<%= meta.version.eva %>/js/ebi-web-guidelines.js'
             }
-
         },
         uglify: {
 
             eva: {
                 src: '<%= concat.eva.dest %>',
                 dest: 'build/<%= meta.version.eva %>/js/eva-<%= meta.version.eva %>.min.js'
+            },
+            vkbeautify: {
+                src: 'vendor/vkbeautify/vkbeautify.0.99.00.beta.js',
+                dest: 'build/<%= meta.version.eva %>/vendor/vkbeautify/vkbeautify.min.js'
+            },
+            browser_detect: {
+                src: 'src/js/browser-detect.js',
+                dest: 'build/<%= meta.version.eva %>/js/browser-detect.min.js'
+            },
+            gv_config:{
+                src: 'lib/jsorolla/build/1.1.9/genome-viewer/gv-config.js',
+                dest: 'lib/jsorolla/build/1.1.9/genome-viewer/gv-config.min.js'
             }
         },
 
@@ -114,19 +134,37 @@ module.exports = function (grunt) {
                     {   expand: true, src: ['vendor/vkbeautify/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['vendor/linqJS/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['src/js/browser-detect.js'], dest: 'build/<%= meta.version.eva %>/js',flatten: true},
-                    {   expand: true, src: ['src/js/ebi-web-guidelines/*'], dest: 'build/<%= meta.version.eva %>/js/ebi-web-guidelines',flatten: true}
+//                    {   expand: true, src: ['src/js/ebi-web-guidelines/ebi-web-guidelines*'], dest: 'build/<%= meta.version.eva %>/js/ebi-web-guidelines',flatten: true}
                 ]
             }
 
         },
 
         cssmin: {
-            target: {
+            eva: {
                 files: [{
                     expand: true,
                     cwd: 'build/<%= meta.version.eva %>/css',
                     src: ['*.css'],
                     dest: 'build/<%= meta.version.eva %>/css',
+                    ext: '.min.css'
+                }]
+            },
+            ebi: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/<%= meta.version.eva %>/css/ebi-complaince',
+                    src: ['*.css'],
+                    dest: 'build/<%= meta.version.eva %>/css/ebi-complaince',
+                    ext: '.min.css'
+                }]
+            },
+            jsorolla: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/<%= meta.version.eva %>/lib/jsorolla/styles/css',
+                    src: ['*.css'],
+                    dest: 'build/<%= meta.version.eva %>/lib/jsorolla/styles/css',
                     ext: '.min.css'
                 }]
             }
@@ -146,9 +184,9 @@ module.exports = function (grunt) {
                         'eva-js': '<%= uglify.eva.dest %>',
                         'lib': [
                                 'build/<%= meta.version.eva %>/lib/jsorolla/build/*/genome-viewer/genome-viewer.min.js',
-                                'build/<%= meta.version.eva %>/lib/jsorolla/build/*/genome-viewer/gv-config.js'
+                                'build/<%= meta.version.eva %>/lib/jsorolla/build/*/genome-viewer/gv-config.min.js'
 //                                'build/<%= meta.version.eva %>/lib/jsorolla/build/*/lib.min.js'
-                               ],
+                        ],
                         'vendor': [
 //                            'build/<%= meta.version.eva %>/vendor/ext-5.0.1/js/ext-all.js',
                             'build/<%= meta.version.eva %>/vendor/ext-5.1.0/js/ext-all.js',
@@ -156,36 +194,41 @@ module.exports = function (grunt) {
                             'build/<%= meta.version.eva %>/lib/jsorolla/vendor/backbone-min.js',
                             'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.min.js',
                             'build/<%= meta.version.eva %>/vendor/bootstrap-*/js/bootstrap.min.js',
-                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.cookie.js',
-                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.sha1.js',
-                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/purl.min.js',
-                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.qtip.min.js',
+//                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.cookie.js',
+//                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.sha1.js',
+//                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/purl.min.js',
+//                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.qtip.min.js',
                             'build/<%= meta.version.eva %>/vendor/highcharts-4.0.3/js/highcharts.js',
-                            'build/<%= meta.version.eva %>/vendor/vkbeautify/vkbeautify.0.99.00.beta.js',
                             'build/<%= meta.version.eva %>/vendor/linqJS/linq.min.js'
-
+                        ],
+                        'vkbeautify': [
+                        'build/<%= meta.version.eva %>/vendor/vkbeautify/vkbeautify.min.js'
                         ],
 //                        'platform': [
 //                            'build/<%= meta.version.eva %>/vendor/platform-0.4.1/js/platform.js'
 //                        ],
                         'browser-detect':[
-                            'build/<%= meta.version.eva %>/js/browser-detect.js'
-                        ]
+                            'build/<%= meta.version.eva %>/js/browser-detect.min.js'
+                        ],
+                        'ebi-web-guidelines-js':[
+                            'build/<%= meta.version.eva %>/js/ebi-web-guidelines.js'
+                        ],
+
 //                        'internal-dependencies': [
 //                            'build/<%= meta.version.eva %>/gv-config.js'
 //                        ]
                     },
                     styles: {
                         'css': [
-                            'build/<%= meta.version.eva %>/lib/jsorolla/styles/css/style.css',
+                            'build/<%= meta.version.eva %>/lib/jsorolla/styles/css/style.min.css',
                             'build/<%= meta.version.eva %>/css/eva.min.css'
                         ],
                         'vendor': [
-//                            'build/<%= meta.version.eva %>/vendor/ext-5.0.1/theme/theme-eva-ebi-all.css',
                             'build/<%= meta.version.eva %>/vendor/ext-5.1.0/theme/theme-ebi-embl-all.css',
-                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.qtip.min.css',
+//                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.qtip.min.css',
                             'build/<%= meta.version.eva %>/vendor/bootstrap-3.2.0/css/bootstrap.min.css',
-                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/font-awesome/css/font-awesome.min.css'
+//                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/font-awesome/css/font-awesome.min.css'
+                            'build/<%= meta.version.eva %>/css/ebi-complaince/ebi-fluid-embl.min.css'
                         ]
                     }
                 }
@@ -263,12 +306,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-minify-html');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
+    grunt.loadNpmTasks('grunt-uncss');
     grunt.registerTask('vendor', ['curl-dir']);
     //selenium with mocha
     grunt.registerTask('test',['mochaTest']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat:eva','uglify:eva', 'copy:eva', 'cssmin', 'htmlbuild:eva','minifyHtml', 'imagemin','exec'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'minifyHtml',  'imagemin'])
 
 
 
