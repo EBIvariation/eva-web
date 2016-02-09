@@ -244,16 +244,13 @@ module.exports = function (grunt) {
                 }
             }
         },
+
         imagemin: {
             dynamic: {
-                options: {
-                    optimizationLevel: 3,
-                    svgoPlugins: [{ removeViewBox: false }]
-                },
                 files: [{
                     expand: true,
                     cwd: 'src/img/',
-                    src: ['**/*.{png,jpg,gif}'],
+                    src: ['**/*.{png,jpg,gif,svg}'],
                     dest: 'build/<%= meta.version.eva %>/img/'
                 }]
             }
@@ -306,7 +303,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-minify-html');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
-    grunt.loadNpmTasks('grunt-uncss');
+    grunt.loadNpmTasks('grunt-tinyimg');
+    grunt.loadNpmTasks('grunt-image');
     grunt.registerTask('vendor', ['curl-dir']);
     //selenium with mocha
     grunt.registerTask('test',['mochaTest']);

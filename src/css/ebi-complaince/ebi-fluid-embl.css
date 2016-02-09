@@ -551,7 +551,7 @@ input.submit {
     height: 24px;
     margin: 0;
     display: inline;
-    background: url(/web_guidelines/images/global/search-button.png) no-repeat;
+    background: url(../../img/search-button-opt.png) no-repeat;
     background-position: 0 0;
     width: 24px;
     height: 24px;

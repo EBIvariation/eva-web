@@ -30,6 +30,7 @@
     "grunt-contrib-cssmin": "0.14.0",
     "grunt-minify-html": "2.0.0",
     "grunt-contrib-imagemin": "1.0.0",
-    "grunt-uncss": "0.4.4"
+    "grunt-tinyimg": "1.0.0",
+    "grunt-image": "1.2.2"
   }
 }
