@@ -1,6 +1,6 @@
 /*global module:false*/
 module.exports = function (grunt) {
-
+    var date = '<%= grunt.template.today("yyyymmddHHMM") %>';
     // Project configuration.
     grunt.initConfig({
 
@@ -96,7 +96,7 @@ module.exports = function (grunt) {
 
             eva: {
                 src: '<%= concat.eva.dest %>',
-                dest: 'build/<%= meta.version.eva %>/js/eva-<%= meta.version.eva %>.min.js'
+                dest: 'build/<%= meta.version.eva %>/js/eva-<%= meta.version.eva %>-'+date+'.min.js'
             },
             vkbeautify: {
                 src: 'vendor/vkbeautify/vkbeautify.0.99.00.beta.js',
@@ -147,7 +147,7 @@ module.exports = function (grunt) {
                     cwd: 'build/<%= meta.version.eva %>/css',
                     src: ['*.css'],
                     dest: 'build/<%= meta.version.eva %>/css',
-                    ext: '.min.css'
+                    ext: '-'+date+'.min.css'
                 }]
             },
             ebi: {
@@ -221,7 +221,7 @@ module.exports = function (grunt) {
                     styles: {
                         'css': [
                             'build/<%= meta.version.eva %>/lib/jsorolla/styles/css/style.min.css',
-                            'build/<%= meta.version.eva %>/css/eva.min.css'
+                            'build/<%= meta.version.eva %>/css/eva-'+date+'.min.css'
                         ],
                         'vendor': [
                             'build/<%= meta.version.eva %>/vendor/ext-5.1.0/theme/theme-ebi-embl-all.css',
@@ -310,7 +310,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test',['mochaTest']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'minifyHtml', 'imagemin'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'imagemin'])
 
 
 
