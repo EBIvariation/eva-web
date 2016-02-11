@@ -108,8 +108,8 @@ ClinvarSummaryPanel.prototype = {
             var citation = this[key].citation;
           if(citation){
               _.each(_.keys(citation), function(key){
-                  if(this[key].id && this[key].id.source == 'PubMed'){
-                      pubArray.push('PMID:<a href="http://www.ncbi.nlm.nih.gov/pubmed/'+this[key].id.value+'" target="_blank">'+this[key].id.value+'</a>')
+                  if(this[key].id && this[key].id[0].source == 'PubMed'){
+                      pubArray.push('PMID:<a href="http://www.ncbi.nlm.nih.gov/pubmed/'+this[key].id[0].value+'" target="_blank">'+this[key].id[0].value+'</a>')
                   }
               },citation);
           }
