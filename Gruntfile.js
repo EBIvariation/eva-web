@@ -310,7 +310,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test',['mochaTest']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'imagemin'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'minifyHtml', 'imagemin'])
 
 
 
