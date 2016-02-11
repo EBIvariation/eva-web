@@ -1,6 +1,6 @@
 /*global module:false*/
 module.exports = function (grunt) {
-    var date = '<%= grunt.template.today("yyyymmddHHMM") %>';
+    var date = '<%= grunt.template.today("yyyymmddHH") %>';
     // Project configuration.
     grunt.initConfig({
 
