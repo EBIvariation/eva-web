@@ -138,11 +138,12 @@ ClinvarSummaryPanel.prototype = {
           }
 
            var tempArray = [];
+            console.log(annotData)
            _.each(_.keys(annotData.consequenceTypes), function(key){
-               var so_terms = this[key].soTerms;
+               var so_terms = this[key].sequenceOntologyTerms;
                var transcript_id = this[key].ensemblTranscriptId;
                _.each(_.keys(so_terms), function(key){
-                   tempArray.push({name:this[key].soName,transcript_id:transcript_id})
+                   tempArray.push({name:this[key].name,transcript_id:transcript_id})
                },so_terms);
            },annotData.consequenceTypes);
 

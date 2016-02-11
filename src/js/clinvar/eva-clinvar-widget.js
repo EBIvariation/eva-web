@@ -297,9 +297,9 @@ EvaClinVarWidget.prototype = {
                         if(!_.isUndefined(value)){
                             var tempArray = [];
                             _.each(_.keys(value), function(key){
-                                var so_terms = this[key].soTerms;
+                                var so_terms = this[key].sequenceOntologyTerms;
                                 _.each(_.keys(so_terms), function(key){
-                                    tempArray.push(this[key].soName)
+                                    tempArray.push(this[key].name)
                                 },so_terms);
                             },value);
 
@@ -825,9 +825,9 @@ EvaClinVarWidget.prototype = {
                     if(!_.isUndefined(value)){
                         var tempArray = [];
                         _.each(_.keys(value), function(key){
-                            var so_terms = this[key].soTerms;
+                            var so_terms = this[key].sequenceOntologyTerms;
                             _.each(_.keys(so_terms), function(key){
-                                tempArray.push(this[key].soName)
+                                tempArray.push(this[key].name)
                             },so_terms);
                         },value);
 

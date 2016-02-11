@@ -60,7 +60,7 @@ function ClinvarAnnotationPanel(args) {
 
                         var tempArray = [];
                         _.each(_.keys(value), function(key){
-                            tempArray.push(this[key].soName);
+                            tempArray.push(this[key].name);
                         },value);
 
                         var groupedArr = _.groupBy(tempArray);
