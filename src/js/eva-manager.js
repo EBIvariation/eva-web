@@ -29,7 +29,7 @@ if(document.location.host.includes('ebi.ac.uk')){
 }
 
 METADATA_VERSION = 'v1';
-CELLBASE_VERSION = 'v3';
+CELLBASE_VERSION = 'v4';
 var EvaManager = {
     host: METADATA_HOST,
     version: METADATA_VERSION,
