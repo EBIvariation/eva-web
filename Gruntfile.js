@@ -109,6 +109,10 @@ module.exports = function (grunt) {
             gv_config:{
                 src: 'lib/jsorolla/build/1.1.9/genome-viewer/gv-config.js',
                 dest: 'lib/jsorolla/build/1.1.9/genome-viewer/gv-config.min.js'
+            },
+            highcharts:{
+                src: 'vendor/highcharts-4.0.3/js/highcharts.js',
+                dest: 'vendor/highcharts-4.0.3/js/highcharts.min.js'
             }
         },
 
@@ -198,11 +202,11 @@ module.exports = function (grunt) {
 //                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.sha1.js',
 //                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/purl.min.js',
 //                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.qtip.min.js',
-                            'build/<%= meta.version.eva %>/vendor/highcharts-4.0.3/js/highcharts.js',
+                            'build/<%= meta.version.eva %>/vendor/highcharts-4.0.3/js/highcharts.min.js',
                             'build/<%= meta.version.eva %>/vendor/linqJS/linq.min.js'
                         ],
                         'vkbeautify': [
-                        'build/<%= meta.version.eva %>/vendor/vkbeautify/vkbeautify.min.js'
+                        '<%= uglify.vkbeautify.dest %>'
                         ],
 //                        'platform': [
 //                            'build/<%= meta.version.eva %>/vendor/platform-0.4.1/js/platform.js'
@@ -212,7 +216,7 @@ module.exports = function (grunt) {
                         ],
                         'ebi-web-guidelines-js':[
                             'build/<%= meta.version.eva %>/js/ebi-web-guidelines.js'
-                        ],
+                        ]
 
 //                        'internal-dependencies': [
 //                            'build/<%= meta.version.eva %>/gv-config.js'
@@ -310,7 +314,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test',['mochaTest']);
 
     // Default task.
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'minifyHtml', 'imagemin'])
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'minifyHtml',  'imagemin', 'exec'])
 
 
 
