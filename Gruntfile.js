@@ -151,7 +151,7 @@ module.exports = function (grunt) {
                     cwd: 'build/<%= meta.version.eva %>/css',
                     src: ['*.css'],
                     dest: 'build/<%= meta.version.eva %>/css',
-                    ext: '-'+date+'.min.css'
+                    ext: '-<%= meta.version.eva %>-'+date+'.min.css'
                 }]
             },
             ebi: {
@@ -225,7 +225,7 @@ module.exports = function (grunt) {
                     styles: {
                         'css': [
                             'build/<%= meta.version.eva %>/lib/jsorolla/styles/css/style.min.css',
-                            'build/<%= meta.version.eva %>/css/eva-'+date+'.min.css'
+                            'build/<%= meta.version.eva %>/css/eva-<%= meta.version.eva %>-'+date+'.min.css'
                         ],
                         'vendor': [
                             'build/<%= meta.version.eva %>/vendor/ext-5.1.0/theme/theme-ebi-embl-all.css',
