@@ -247,7 +247,7 @@ EvaGeneView.prototype = {
         });
         evaClinVarWidget.draw();
         evaClinVarWidget.species = _this.species;
-        var params = {merge:true,source:'clinvar',gene:_this.geneId};
+        var params = {merge:true,source:'clinvar',gene:_this.geneId,sort:'chromosome,start'};
         var url = EvaManager.url({
             host:CELLBASE_HOST,
             version:CELLBASE_VERSION,

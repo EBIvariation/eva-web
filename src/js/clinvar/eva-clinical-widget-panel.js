@@ -500,7 +500,7 @@ EvaClinicalWidgetPanel.prototype = {
                        e.values['region'] = regions.join(',');
                     }
 
-                    var params = _.extend(e.values,{merge:true,source:'clinvar',species:'hsapiens_grch37'});
+                    var params = _.extend(e.values,{merge:true,source:'clinvar',species:'hsapiens_grch37',sort:'chromosome,start'});
                     _this.clinvarWidget.formValues = e.values;
                     var url = EvaManager.url({
                         host:CELLBASE_HOST,
