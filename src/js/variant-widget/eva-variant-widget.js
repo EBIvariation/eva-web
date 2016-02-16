@@ -670,7 +670,9 @@ EvaVariantWidget.prototype = {
                         async: false,
                         success: function (response) {
                             try {
-                                _.extend(variant, response.response[0].result[0])
+//                                _.extend(variant, response.response[0].result[0]);
+                                var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
+                                _.extend(variant,result);
                             } catch (e) {
                                 console.log(e);
                             }
@@ -968,7 +970,9 @@ EvaVariantWidget.prototype = {
                         async: false,
                         success: function (response) {
                             try {
-                                _.extend(variant, response.response[0].result[0])
+//                                _.extend(variant, response.response[0].result[0]);
+                                var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
+                                _.extend(variant,result);
                             } catch (e) {
                                 console.log(e);
                             }
@@ -1037,7 +1041,9 @@ EvaVariantWidget.prototype = {
                         params: params,
                         success: function (response) {
                             try {
-                                var variantSourceEntries = response.response[0].result[0].sourceEntries;
+//                                var variantSourceEntries = response.response[0].result[0].sourceEntries;
+                                var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
+                                var variantSourceEntries = result.sourceEntries;
 
                             } catch (e) {
 
