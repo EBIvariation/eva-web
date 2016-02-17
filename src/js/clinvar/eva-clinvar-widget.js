@@ -73,6 +73,7 @@ function EvaClinVarWidget(args) {
             baseCls: 'ocb-title-2'
         }
     };
+    this.geneID = false;
 
 
     _.extend(this.filters, args.filters);
@@ -260,6 +261,11 @@ EvaClinVarWidget.prototype = {
     _createClinVarBrowserGrid: function (target) {
         var _this = this;
 
+        var conseqTypeColumn = 'Most Severe <br />Consequence Type'
+        if(_this.geneID){
+            conseqTypeColumn = 'Consequence Type';
+        }
+
         var columns ={
             items:[
                 {
@@ -279,22 +285,32 @@ EvaClinVarWidget.prototype = {
                     iconCls : 'icon-info',
                     tooltip:'Gene affected by this variant as reported by submitter',
                     renderer: function(value, meta, rec, rowIndex, colIndex, store){
-                              if(value.measureSet.measure[0].measureRelationship){
-                                  var gene = value.measureSet.measure[0].measureRelationship[0].symbol[0].elementValue.value;
-                                  value = '<a href="?gene='+gene+'&species=hsapiens_grch37" target="_blank">'+gene+'</a>'
-                              }else{
-                                  value = '';
-                              }
+                             if(_this.geneID){
+                                return _this.geneID
+                             }else{
+                                 if(value.measureSet.measure[0].measureRelationship){
+                                     var gene = value.measureSet.measure[0].measureRelationship[0].symbol[0].elementValue.value;
+                                     value = '<a href="?gene='+gene+'&species=hsapiens_grch37" target="_blank">'+gene+'</a>'
+                                 }else{
+                                     value = '';
+                                 }
+                             }
+
                         return value;
                     }
                 },
                 {
-                    text: "Most Severe <br />Consequence Type",
+                    text: conseqTypeColumn,
                     dataIndex: 'most_severe_so_term',
                     flex:0.6,
-                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
-
-                        if(!_.isUndefined(value)){
+                    renderer: function(values, meta, rec, rowIndex, colIndex, store){
+                        var value = Array();
+                        if(!_.isUndefined(values)){
+                            if(_this.geneID){
+                                value.push(_.findWhere(values, {geneName:_this.geneID}));
+                            }else{
+                                value = values;
+                            }
                             var tempArray = [];
                             _.each(_.keys(value), function(key){
                                 var so_terms = this[key].sequenceOntologyTerms;

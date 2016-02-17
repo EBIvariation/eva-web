@@ -706,10 +706,6 @@
         $.urlParam = function(name){
 
             var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
-            console.log('+++======+++')
-            console.log(results)
-            console.log(name)
-            console.log('++++======++++')
             if (results==null){
                 return null;
             }

@@ -52,7 +52,7 @@ function ClinvarAnnotationPanel(args) {
             },
             {
                 text: "SO Term(s)",
-                dataIndex: "soTerms",
+                dataIndex: "sequenceOntologyTerms",
                 flex: 1.7,
                 renderer: function(value, meta, rec, rowIndex, colIndex, store){
 

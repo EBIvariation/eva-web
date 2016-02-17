@@ -232,6 +232,7 @@ EvaGeneView.prototype = {
                 assertion: true,
                 genomeViewer:false
             },
+            geneID: geneID,
             responseParser: function (response) {
                 var res = [];
                 try {
