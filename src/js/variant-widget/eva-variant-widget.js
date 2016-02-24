@@ -670,7 +670,7 @@ EvaVariantWidget.prototype = {
                         async: false,
                         success: function (response) {
                             try {
-//                                _.extend(variant, response.response[0].result[0])
+//                                _.extend(variant, response.response[0].result[0]);
                                 var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
                                 _.extend(variant,result);
                             } catch (e) {
@@ -970,7 +970,7 @@ EvaVariantWidget.prototype = {
                         async: false,
                         success: function (response) {
                             try {
-//                                _.extend(variant, response.response[0].result[0])
+//                                _.extend(variant, response.response[0].result[0]);
                                 var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
                                 _.extend(variant,result);
                             } catch (e) {
