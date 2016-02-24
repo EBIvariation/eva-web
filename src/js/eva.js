@@ -468,7 +468,6 @@ Eva.prototype = {
             obj = $(obj);
             var pubmedId = obj.html();
             obj.html('<p>Attempting to retrieve publication information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '...</p>');
-
             if(pubmedId && pubmedId != '-') {
                 var id_type = 'PubMed';
 
@@ -514,6 +513,8 @@ Eva.prototype = {
                         // x.responseText should have what's wrong
                     }
                 });
+            }else{
+                obj.html(pubmedId);
             }
         });
         return;
