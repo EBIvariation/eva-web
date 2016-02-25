@@ -170,7 +170,25 @@ EvaVariantPopulationStatsPanel.prototype = {
                     text: "Minor Allele Frequency",
                     dataIndex: "maf",
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="maf == -1">NA <tpl else>{maf:number( "0.000" )} </tpl>',
+                    tpl: new Ext.XTemplate('<tpl if="maf == -1">NA <tpl else>{[this.testInfo(values)]} </tpl>',
+                    {
+                        testInfo: function (data) {
+                           var value = '';
+                            if(data.maf){
+                                if(data.maf < 0.001){
+                                    value = data.maf.toExponential(3);
+                                }else{
+                                    value = (Math.floor(1000 * data.maf) / 1000).toFixed(3);
+                                }
+                            }else if (data.maf == 0){
+                               value = data.maf;
+                            }else{
+                               value = '-';
+                            }
+
+                            return value;
+                        }
+                    }),
                     flex: 0.75
                 },
                 {
@@ -382,4 +400,5 @@ String.prototype.escapeHTML = function () {
             replace(/"/g, '&quot;')
         );
 };
+
 
