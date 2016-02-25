@@ -284,10 +284,41 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'id',
                     flex: 0.68,
                     iconCls: 'icon-info',
-                    xtype: "templatecolumn",
-//                    tpl: '<tpl class="variantId"><span>{id}</span></tpl>',
-                    tpl: '<tpl  class="variantId" if="id"><span>{id}</span><tpl else>-</tpl>',
-                    tooltip: 'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)'
+//                    xtype: "templatecolumn",
+//                    tpl: '<tpl  class="variantId" if="id"><span>{id}</span><tpl else>-</tpl>',
+                    tooltip: 'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)',
+                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
+                        var id = value;
+                        if(value && value.split(",").length > 1){
+                            var _temp = value.split(",");
+                            var rsRegEx = /^rs\d+$/;
+                            var ssRegEx = /^ss\d+$/;
+                            var rsArray = [];
+                            var ssArray = [];
+                            var otherArray = [];
+                            _.each(_.keys(_temp), function (key) {
+                                if(this[key].match(rsRegEx)){
+                                    rsArray.push(this[key]);
+                                }else if(this[key].match(ssRegEx)){
+                                    ssArray.push(this[key]);
+                                }else{
+                                    otherArray.push(this[key]);
+                                }
+                            }, _temp);
+
+                            if(!_.isEmpty(rsArray)){
+                                rsArray.sort();
+                                id =  _.first(rsArray);
+                            }else if(!_.isEmpty(ssArray)){
+                                ssArray.sort();
+                                id = _.first(ssArray);
+                            }else{
+                                otherArray.sort();
+                                id = _.first(otherArray);
+                            }
+                        }
+                        return id;
+                    }
                 },
                 {
                     text: 'Alleles',
