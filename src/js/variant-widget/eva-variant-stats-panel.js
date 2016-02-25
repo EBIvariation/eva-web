@@ -193,12 +193,26 @@ EvaVariantStatsPanel.prototype = {
         attributesData = _.invert(attributesData);
         var vcfData = '';
         if (attributes['src']) {
-            vcfData = attributes['src'];
+            vcfData = attributes['src'].split('\t');
         }
         var vcfDataId = Utils.genId("vcf-data");
         var vcfDataView = Ext.create('Ext.view.View', {
             id: vcfDataId,
-            tpl: new Ext.XTemplate('<div>' + vcfData + '</div>'),
+//            tpl: new Ext.XTemplate('<div>' + vcfData + '</div>'),
+            tpl: new Ext.XTemplate(
+                '<table class="ocb-attributes-table">' +
+                    '<tr><td class="header"><span>CHROM</span></td>' +
+                    '<td class="header"><span>POS</span></td>' +
+                    '<td class="header"><span>ID</span></td>' +
+                    '<td class="header"><span>REF</span></td>' +
+                    '<td class="header"><span>ALT</span></td></tr>' +
+                    '<tr><td>'+vcfData[0]+'</td>'+
+                    '<td>'+vcfData[1]+'</td>'+
+                    '<td>'+vcfData[2]+'</td>'+
+                    '<td>'+vcfData[3]+'</td>'+
+                    '<td>'+vcfData[4]+'</td></tr>'+
+                    '</table>'
+            ),
             hidden: true,
             margin: '5 10 10 10'
         });
@@ -317,7 +331,12 @@ EvaVariantStatsPanel.prototype = {
                         {
                             xtype: 'container',
                             margin: '5 0 0 0',
-                            items: [vcfHeaderButton, vcfHeaderView, vcfDataView]
+                            items: [vcfHeaderButton, vcfHeaderView]
+                        },
+                        {
+                            xtype: 'container',
+                            margin: '5 0 0 0',
+                            items: [vcfDataView]
                         }
                     ]
                 }
