@@ -35,7 +35,7 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
     });
 
     test.describe('search by Trait', function() {
-        test.it('Search term "Lung cancer" should match with column "Trait"', function() {
+        test.it('Search term "Lynch syndrome" should match with column "Trait"', function() {
             clinVarSearchByTrait(driver);
         });
     });
@@ -59,7 +59,7 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
     });
 
     test.describe('Filter by Review Status', function() {
-        test.it('filter term "Single submitter"  should match with  column "Review Status" in Summary tab', function() {
+        test.it('filter term "Expert panel"  should match with  column "Review Status" in Summary tab', function() {
             clinVarFilterByReviewStatus(driver);
         });
     });
@@ -132,7 +132,7 @@ function clinVarSearchByGene(driver){
         });
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[2]/div[text()]")).getText().then(function(text){
             text = parseInt(text);
-            assert(text).greaterThanEqualTo(41196312);
+            assert(text).greaterThanEqualTo(41190000);
             assert(text).lessThanEqualTo(41277500);
         });
     });
@@ -143,13 +143,13 @@ function clinVarSearchByTrait(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
     driver.findElement(By.name("clinvarRegion")).clear();
-    driver.findElement(By.name("clinvarRegion")).sendKeys("2:47000000-49000000");
+    driver.findElement(By.name("clinvarRegion")).sendKeys("2:48000000-49000000");
     driver.findElement(By.name("phenotype")).clear();
-    driver.findElement(By.name("phenotype")).sendKeys("Lung cancer");
+    driver.findElement(By.name("phenotype")).sendKeys("Lynch syndrome");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div[text()]")).getText().then(function(text){
-            assert(text).contains('Lung cancer');
+            assert(text).contains('Lynch syndrome');
         });
     });
     driver.findElement(By.name("phenotype")).clear();
@@ -191,10 +191,10 @@ function clinVarFilterByClincalSignificance(driver){
     return driver;
 }
 function clinVarFilterByReviewStatus(driver){
-    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Single submitter')]//..//input")).click();
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Expert panel')]//..//input")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-reviewStatus']")), 10000).then(function(text) {
-        chai.expect('.clinvar-reviewStatus').dom.to.have.text('CLASSIFIED_BY_SINGLE_SUBMITTER');
+        chai.expect('.clinvar-reviewStatus').dom.to.have.text('REVIEWED_BY_EXPERT_PANEL');
     });
 
     return driver;

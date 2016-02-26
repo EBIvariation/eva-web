@@ -67,7 +67,7 @@ function checkClinvarGrid(driver){
                     assert(text).greaterThanEqualTo(47922669);
                     assert(text).lessThanEqualTo(48037240);
                 });
-                driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table["+i+"]//td[3]/div/a[text()]")).getText().then(function(text){
+                driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table["+i+"]//td[3]/div[text()]")).getText().then(function(text){
                     assert(text).equalTo('MSH6');
                 });
             }

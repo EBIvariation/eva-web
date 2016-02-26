@@ -62,35 +62,35 @@ module.exports = {
                     //check Ensemble Gene ID
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[1]/div/a[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[A-Z]+/);
-                    });
+                    },function(err) {});
                     //check Ensemble Gene symbol
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[2]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^\w[\w\d-]+$/);
-                    });
+                    },function(err) {});
                     //check Ensemble Transcript ID
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div/a[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[A-Z]+/);
-                    });
+                    },function(err) {});
                     //check SO terms
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div/tpl[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
-                    });
+                    },function(err) {});
                     //check Biotype
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
-                    });
+                    },function(err) {});
                     //check codon
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[6]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^\w+\/\w+$/);
-                    });
+                    },function(err) {});
                     //check cDna position
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[7]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|\d+$/);
-                    });
+                    },function(err) {});
                     //check AA change
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[8]/div[text()]")).getText().then(function(text){
                         assert(text).matches( /^-$|^\w+\/\w+$/);
-                    });
+                    },function(err) {});
                 }
             });
         });
