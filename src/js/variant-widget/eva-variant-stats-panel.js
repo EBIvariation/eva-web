@@ -200,7 +200,7 @@ EvaVariantStatsPanel.prototype = {
             id: vcfDataId,
 //            tpl: new Ext.XTemplate('<div>' + vcfData + '</div>'),
             tpl: new Ext.XTemplate(
-                '<table class="ocb-attributes-table">' +
+                '<table class="ocb-attributes-table chrom-table">' +
                     '<tr><td class="header"><span>CHROM</span></td>' +
                     '<td class="header"><span>POS</span></td>' +
                     '<td class="header"><span>ID</span></td>' +
@@ -213,8 +213,8 @@ EvaVariantStatsPanel.prototype = {
                     '<td>'+vcfData[4]+'</td></tr>'+
                     '</table>'
             ),
-            hidden: true,
-            margin: '5 10 10 10'
+            hidden: false,
+            margin: '10 10 10 10'
         });
         var vcfHeaderId = Utils.genId("vcf-header");
         var vcfHeaderView = Ext.create('Ext.view.View', {
@@ -227,10 +227,10 @@ EvaVariantStatsPanel.prototype = {
         var vcfHeaderButton = {
             id: vcfHeaderButtonId,
             xtype: 'button',
-            text: 'Hide Full Header',
-            margin: '5 0 0 10',
+            text: 'Show Full Header',
+            margin: '5 10 10 10',
             enableToggle: true,
-            hidden: true,
+            hidden: false,
             style: {
                 borderStyle: 'solid'
             },
@@ -259,11 +259,12 @@ EvaVariantStatsPanel.prototype = {
             },
             overflowX: true,
             items: [
+                vcfDataView,
                 {
                     xtype: 'container',
                     data: attributesData,
                     tpl: new Ext.XTemplate(
-                        '<table class="ocb-attributes-table"><tr>',
+                        '<table class="ocb-attributes-table attributes-table"><tr>',
                         '<tpl foreach=".">',
                         '<td class="header"><span>{.}&nbsp;<tpl if="this.getInfo(values)"><img  data-qtip="{[this.getInfo(values)]}" class="eva-help-img" src="img/help.jpg"/></tpl></span></td>', // the special **`{$}`** variable contains the property name
                         '</tpl>' +
@@ -282,63 +283,12 @@ EvaVariantStatsPanel.prototype = {
                                 }
                             }
                         }),
-                    margin: '10 5 5 10'
+                    margin: '5 5 5 10'
                 },
                 {
                     xtype: 'container',
-                    cls: 'ocb-header-5',
                     margin: '5 0 0 0',
-                    html: '<h5>VCF data</h5>',
-                    layout: 'vbox',
-                    items: [
-                        {
-                            xtype: 'button',
-                            text: '+',
-                            margin: '5 10 10 90',
-                            enableToggle: true,
-                            style: {
-                                borderStyle: 'solid'
-                            },
-                            handler: function () {
-                                var vcfHeaderCtn = Ext.getCmp(vcfHeaderId);
-                                var vcfDataCtn = Ext.getCmp(vcfDataId);
-                                var vcfSubButton = Ext.getCmp(vcfHeaderButtonId);
-                                if (vcfDataCtn.isHidden()) {
-                                    vcfDataCtn.show();
-                                    vcfHeaderCtn.show();
-                                    this.setText('-')
-                                    if (vcfHeaderCtn.isHidden()) {
-                                        vcfSubButton.setText('Show Full Header')
-                                    } else {
-
-                                        vcfSubButton.setText('Hide Full Header')
-                                    }
-                                }
-                                else {
-                                    vcfDataCtn.hide();
-                                    this.setText('+')
-                                    vcfSubButton.setText('Show Full Header')
-                                    vcfHeaderCtn.hide();
-                                }
-                                if (vcfSubButton.isHidden()) {
-                                    vcfSubButton.show();
-                                }
-                                else {
-                                    vcfSubButton.hide();
-                                }
-                            }
-                        },
-                        {
-                            xtype: 'container',
-                            margin: '5 0 0 0',
-                            items: [vcfHeaderButton, vcfHeaderView]
-                        },
-                        {
-                            xtype: 'container',
-                            margin: '5 0 0 0',
-                            items: [vcfDataView]
-                        }
-                    ]
+                    items: [vcfHeaderButton, vcfHeaderView]
                 }
             ]
         });

@@ -149,17 +149,19 @@ function variantFilterByPolyphenSift(driver){
 function variantFilterByMAF(driver){
     driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'PopulationFrequencyFilterFormPanel')]//img[@class='x-tool-img x-tool-expand-bottom']")).click();
     driver.findElement(By.name("maf")).clear();
-    driver.findElement(By.name("maf")).sendKeys(">0.3");
+    driver.findElement(By.name("maf")).sendKeys("<0.3");
     driver.findElement(By.id("vb-submit-button")).click();
     driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
         driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
             for (var i = 0; i < rows.length; i++){
                 rows[i].findElement(By.className("population-stats-grid")).getAttribute('id').then(function(id){
-                    //check MAF
-                    driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[3]/div")).getText().then(function(text){
-                        chai.assert.operator(text, '>', 0.3);
-                    });
+                    for (var i = 1; i <=6; i++){
+                        //check MAF
+                        driver.findElement(By.xpath("//div[@id='" + id + "']//table["+i+"]//td[3]/div")).getText().then(function(text){
+                            chai.assert.operator(text, '<', 0.3);
+                        },function(err) {});
+                    }
                 });
             }
 
@@ -185,12 +187,13 @@ function variantAnnotationTab(driver){
 }
 function variantFilesTab(driver){
     driver.findElement(By.xpath("//span[text()='Files']")).click();
-    driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[5]")).click();
+    driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]")).click();
     variantBrowser.filesTab(driver);
     return driver;
 }
 function variantGenotypesTab(driver){
     driver.findElement(By.xpath("//span[text()='Genotypes']")).click();
+    driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]")).click();
     variantBrowser.genotypesTab(driver);
     return driver;
 }

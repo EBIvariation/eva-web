@@ -183,7 +183,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                             }else if (data.maf == 0){
                                value = data.maf;
                             }else{
-                               value = '-';
+                               value = 0;
                             }
 
                             return value;
@@ -294,7 +294,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 var genotypesCountChartData = {id: divID, title: 'Genotype Count', chartData: genotypesCountArray};
                 _this._drawChart(genotypesCountChartData);
             } else {
-                body.innerHTML = '<div style="width:800px;">No Genotypes Count available</div>';
+                body.innerHTML = '<div class="popstats-no-genotype-data"style="width:800px;">No Genotypes Count available</div>';
             }
         });
 
