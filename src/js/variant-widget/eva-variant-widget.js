@@ -664,7 +664,7 @@ EvaVariantWidget.prototype = {
             },
             height: 820,
             statsTpl: new Ext.XTemplate(
-                '<table class="ocb-attributes-table">' +
+                '<table class="eva-attributes-table">' +
                     '<tr>' +
                     '<td class="header">Minor Allele Frequency</td>' +
                     '<td class="header">Mendelian Errors</td>' +
@@ -964,7 +964,7 @@ EvaVariantWidget.prototype = {
             },
             height: 820,
             statsTpl: new Ext.XTemplate(
-                '<table class="ocb-attributes-table">' +
+                '<table class="eva-attributes-table">' +
                     '<tr>' +
                     '<td class="header">Minor Allele Frequency</td>' +
                     '<td class="header">Mendelian Errors</td>' +

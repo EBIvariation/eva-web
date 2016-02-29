@@ -304,30 +304,30 @@ div#local-masthead{
 
 
 
-.ocb-attributes-table {
+.eva-attributes-table {
     cellspacing: 0;
     border-collapse: collapse;
     border: 1px solid #d3d3d3;
 }
 
-.ocb-attributes-table tr {
+.eva-attributes-table tr {
     border-collapse: collapse;
     border: 1px solid #d3d3d3;
 }
 
-.ocb-attributes-table td {
+.eva-attributes-table td {
     border-collapse: collapse;
     border: 1px solid #d3d3d3;
     padding: 5px;
-    max-width: 200px;
+    /*max-width: 200px;*/
     /*overflow: hidden;*/
-    text-align: center;
-    word-wrap:break-word;
-    white-space:nowrap;
+    /*text-align: center;*/
+    /*word-wrap:break-word;*/
+    /*white-space:nowrap;*/
 
 }
 
-.ocb-attributes-table td.header {
+.eva-attributes-table td.header {
     border-collapse: collapse;
     border: 1px solid #d3d3d3;
     padding: 5px;

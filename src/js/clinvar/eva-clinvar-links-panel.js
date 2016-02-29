@@ -102,7 +102,7 @@ ClinvarLinksPanel.prototype = {
         var position = data.start;
         data = data.clinvarSet.referenceClinVarAssertion;
         var measure = data.measureSet.measure;
-        var linksTable = '<div class="row"><div class="col-md-8"><table class="table ocb-attributes-table">'
+        var linksTable = '<div class="row"><div class="col-md-8"><table class="table eva-attributes-table">'
         linksTable += '<tr><td class="header">Database</td><td class="header">Accession</td><td class="header">Type</td><td class="header">Status</td></tr>'
         _.each(_.keys(measure), function (key) {
             var xref = this[key].xref;

@@ -200,7 +200,7 @@ EvaVariantStatsPanel.prototype = {
             id: vcfDataId,
 //            tpl: new Ext.XTemplate('<div>' + vcfData + '</div>'),
             tpl: new Ext.XTemplate(
-                '<table class="ocb-attributes-table chrom-table">' +
+                '<table class="eva-attributes-table chrom-table">' +
                     '<tr><td class="header"><span>CHROM</span></td>' +
                     '<td class="header"><span>POS</span></td>' +
                     '<td class="header"><span>ID</span></td>' +
@@ -264,7 +264,7 @@ EvaVariantStatsPanel.prototype = {
                     xtype: 'container',
                     data: attributesData,
                     tpl: new Ext.XTemplate(
-                        '<table class="ocb-attributes-table attributes-table"><tr>',
+                        '<table class="eva-attributes-table attributes-table"><tr>',
                         '<tpl foreach=".">',
                         '<td class="header"><span>{.}&nbsp;<tpl if="this.getInfo(values)"><img  data-qtip="{[this.getInfo(values)]}" class="eva-help-img" src="img/help.jpg"/></tpl></span></td>', // the special **`{$}`** variable contains the property name
                         '</tpl>' +
@@ -288,7 +288,8 @@ EvaVariantStatsPanel.prototype = {
                 {
                     xtype: 'container',
                     margin: '5 0 0 0',
-                    items: [vcfHeaderButton, vcfHeaderView]
+                    items: [vcfHeaderButton, vcfHeaderView],
+                    layout: 'vbox'
                 }
             ]
         });
