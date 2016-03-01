@@ -541,7 +541,7 @@ EvaVariantWidget.prototype = {
             title: this.browserGridConfig.title,
             target: target,
             data: this.data,
-            height: 480,
+            height: 440,
             margin: '0 0 0 0',
             border: this.browserGridConfig.border,
             dataParser: this.dataParser,

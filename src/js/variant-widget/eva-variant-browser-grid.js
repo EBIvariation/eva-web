@@ -127,7 +127,7 @@ EvaVariantBrowserGrid.prototype = {
                 columns: this.columns,
                 plugins: this.plugins,
                 animCollapse: false,
-//                height: this.height,
+                height: this.height,
                 overflowX: true,
                 overflowY: true,
                 collapsible: true,
