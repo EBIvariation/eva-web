@@ -192,14 +192,10 @@ EvaVariantStatsPanel.prototype = {
 
         attributesData = _.invert(attributesData);
         var vcfData = '';
+        var vcfTpl =  new Ext.XTemplate();
         if (attributes['src']) {
             vcfData = attributes['src'].split('\t');
-        }
-        var vcfDataId = Utils.genId("vcf-data");
-        var vcfDataView = Ext.create('Ext.view.View', {
-            id: vcfDataId,
-//            tpl: new Ext.XTemplate('<div>' + vcfData + '</div>'),
-            tpl: new Ext.XTemplate(
+            vcfTpl = new Ext.XTemplate(
                 '<table class="eva-attributes-table chrom-table">' +
                     '<tr><td class="header"><span>CHROM</span></td>' +
                     '<td class="header"><span>POS</span></td>' +
@@ -212,7 +208,13 @@ EvaVariantStatsPanel.prototype = {
                     '<td>'+vcfData[3]+'</td>'+
                     '<td>'+vcfData[4]+'</td></tr>'+
                     '</table>'
-            ),
+            );
+        }
+        var vcfDataId = Utils.genId("vcf-data");
+        var vcfDataView = Ext.create('Ext.view.View', {
+            id: vcfDataId,
+//            tpl: new Ext.XTemplate('<div>' + vcfData + '</div>'),
+            tpl: vcfTpl,
             hidden: false,
             margin: '10 10 10 10'
         });
