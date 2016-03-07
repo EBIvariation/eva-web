@@ -316,6 +316,10 @@ EvaVariantWidget.prototype = {
                                 otherArray.sort();
                                 id = _.first(otherArray);
                             }
+                        }else{
+                            if(_.isEmpty(value)){
+                                id = '-';
+                            }
                         }
                         return id;
                     }
