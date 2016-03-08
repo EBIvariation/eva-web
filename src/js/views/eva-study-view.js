@@ -122,8 +122,12 @@ EvaStudyView.prototype = {
 
         var publications = data.summaryData[0].publications;
         var pubLinks = '';
-        for (i = 0; i < publications.length; i++) {
-            pubLinks += '<a class="pubmed-id" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + publications[i] + '" target="_blank">' + publications[i]  + '</a><br />'
+        if(!_.isEmpty(publications)){
+            for (i = 0; i < publications.length; i++) {
+                pubLinks += '<a class="pubmed-id" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + publications[i] + '" target="_blank">' + publications[i]  + '</a><br />'
+            }
+        }else{
+            pubLinks = '<span class="pubmed-id">-</span>';
         }
 
         if (_this.type === 'eva') {
