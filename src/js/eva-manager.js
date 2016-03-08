@@ -20,8 +20,7 @@
  * along with EVA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-console.log(document.location.host.includes('ebi.ac.uk'))
-if (document.location.host.includes('ebi.ac.uk')) {
+if (document.location.host.indexOf('ebi.ac.uk') > -1) {
     METADATA_HOST = window.location.protocol + "//" + document.location.host + "/eva/webservices/rest";
     CELLBASE_HOST = window.location.protocol + "//" + document.location.host + "/cellbase/webservices/rest";
 } else {
