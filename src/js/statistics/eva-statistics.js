@@ -71,7 +71,7 @@ EvaStatistics.prototype = {
         var height = 250;
         var width = 200;
         if (data.id == 'eva-statistics-chart-type') {
-            height = 285;
+            height = 275;
             width = 220;
         } else if (data.id == 'eva-statistics-chart-species') {
             data.chartData = data.chartData.slice(0, 5);
