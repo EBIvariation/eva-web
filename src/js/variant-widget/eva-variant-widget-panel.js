@@ -243,7 +243,7 @@ EvaVariantWidgetPanel.prototype = {
             collapsed: false,
             height: 790,
             studiesStore: this.studiesStore,
-            studyFilterTpl: '<tpl if="studyId"><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="?eva-study={studyId}" target="_blank">{studyId}</a>) </div><tpl else><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a></div></tpl>'
+            studyFilterTpl: '<tpl if="studyId"><div class="ocb-study-filter"><tpl if="link"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="?eva-study={studyId}" target="_blank">{studyId}</a>)<tpl else>{studyName} ({studyId}) </tpl></div><tpl else><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a></div></tpl>'
         });
 
         speciesFilter.on('species:change', function (e) {
@@ -478,7 +478,18 @@ EvaVariantWidgetPanel.prototype = {
             params: {species: species},
             success: function (response) {
                 try {
-                    studies = response.response[0].result;
+                    var _tempStudies = response.response[0].result;
+                    _.each(_.keys(_tempStudies), function (key) {
+
+                        if(this[key].studyId == 'PRJX00001'){
+                            this[key].link = false;
+                        }else{
+                            this[key].link = true;
+                        }
+                        studies.push(this[key])
+
+                    },_tempStudies);
+
                 } catch (e) {
                     console.log(e);
                 }
