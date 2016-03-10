@@ -493,7 +493,7 @@ EvaVariantWidgetPanel.prototype = {
                     var items = _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().store.data.items;
                     var selectStudies = [];
                     _.each(_.keys(items), function (key) {
-                        if (_.indexOf(studyArray, this[key].data.studyId) > -1) {
+                        if (_.indexOf(studyArray, this[key].data.studyId) > -1 && this[key].data.studyId!= 'PRJX00001' ) {
                             selectStudies.push(this[key])
                         }
                     }, items);
