@@ -281,7 +281,7 @@ EvaVariantWidget.prototype = {
                 },
                 {
                     header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>Variant ID',
-                    dataIndex: 'id',
+                    dataIndex: 'ids',
                     flex: 0.68,
                     iconCls: 'icon-info',
 //                    xtype: "templatecolumn",
@@ -519,7 +519,7 @@ EvaVariantWidget.prototype = {
         };
 
         var attributes = [
-            {name: 'id', type: 'string'},
+            {name: 'ids', type: 'string'},
             {name: "chromosome", type: "string"},
             {name: "start", type: "int"},
             {name: "end", type: "int"},
