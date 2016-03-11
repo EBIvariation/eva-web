@@ -332,3 +332,5 @@ var AVAILABLE_SPECIES = {
         }
     ]
 };
+
+DISABLE_STUDY_LINK = ['PRJX00001'];

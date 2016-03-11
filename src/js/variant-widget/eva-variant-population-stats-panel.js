@@ -78,14 +78,14 @@ EvaVariantPopulationStatsPanel.prototype = {
     clear: function () {
         this.studiesContainer.removeAll(true);
     },
-    load: function (data, params) {
+    load: function (data, params, studies) {
         var _this = this;
         this.clear();
         var panels = [];
         if (params.species) {
             for (var key in data) {
                 var study = data[key];
-                var studyPanel = this._createPopulationGridPanel(study, params);
+                var studyPanel = this._createPopulationGridPanel(study, params, studies);
                 panels.push(studyPanel);
             }
             this.studiesContainer.add(panels);
@@ -122,7 +122,7 @@ EvaVariantPopulationStatsPanel.prototype = {
         });
         return this.panel;
     },
-    _createPopulationGridPanel: function (data, params) {
+    _createPopulationGridPanel: function (data, params, studies) {
         var _this = this;
         var populationData = [];
         var fileId = data.fileId;
@@ -134,30 +134,21 @@ EvaVariantPopulationStatsPanel.prototype = {
 
         //TO BE REMOVED
         var study_title;
-        var projectList = '';
         var project_name = data.studyId;
-        EvaManager.get({
-            category: 'meta/studies',
-            resource: 'list',
-            params: {species: params.species},
-            async: false,
-            success: function (response) {
-                try {
-                    projectList = response.response[0].result;
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-        });
-
-        if (projectList) {
-            for (var i = 0; i < projectList.length; i++) {
-                if (projectList[i].studyId === data.studyId) {
-                    project_name = projectList[i].studyName;
+        if (studies) {
+            for (var i = 0; i < studies.length; i++) {
+                if (studies[i].studyId === data.studyId) {
+                    project_name = studies[i].studyName;
+                    link = studies[i].link;
                 }
             }
         }
-        study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId + '</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/' + fileId + '" class="ftp_link" target="_blank">' + fileId + '</a>)';
+
+        study_title = project_name + ' (' + data.studyId +' - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
+        if(link){
+            study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId +'</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
+        }
+
 
         var populationStatsColumns = {
             items: [

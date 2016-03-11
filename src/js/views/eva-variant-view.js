@@ -39,19 +39,35 @@ EvaVariantView.prototype = {
 
         this.targetDiv.innerHTML = _this._variantViewlayout();
         variantID = this.position;
+        _this.studiesList = [];
 
         EvaManager.get({
             category: 'meta/studies',
             resource: 'list',
             params: {species: this.species},
+            async: false,
             success: function (response) {
                 try {
-                    projects = response.response[0].result;
+
+                    console.log(response)
+                    var _tempStudies = response.response[0].result;
+                    _.each(_.keys(_tempStudies), function (key) {
+
+                        if(_.indexOf(DISABLE_STUDY_LINK, this[key].studyId) > -1){
+                            this[key].link = false;
+                        }else{
+                            this[key].link = true;
+                        }
+                        _this.studiesList.push(this[key])
+
+                    },_tempStudies);
+
                 } catch (e) {
                     console.log(e);
                 }
             }
         });
+
 
         EvaManager.get({
             category: 'variants',
@@ -115,8 +131,9 @@ EvaVariantView.prototype = {
             )
         });
 
+
         if (variant[0].sourceEntries) {
-            variantStatsPanel.load(variant[0].sourceEntries, {species: this.species});
+            variantStatsPanel.load(variant[0].sourceEntries, {species: this.species},  _this.studiesList);
         }
         variantStatsPanel.draw();
 
@@ -250,7 +267,6 @@ EvaVariantView.prototype = {
     },
     _createPopulationStatsPanel: function (target, data) {
         var _this = this;
-        console.log(data)
         this.defaultToolConfig = {
             headerConfig: {
                 baseCls: 'eva-header-2'
@@ -266,7 +282,8 @@ EvaVariantView.prototype = {
             height: 800
 
         });
-        variantPopulationStatsPanel.load(data.sourceEntries, {species: data.species});
+
+        variantPopulationStatsPanel.load(data.sourceEntries, {species: data.species},  _this.studiesList);
         variantPopulationStatsPanel.draw();
 
         if (data.species != 'hsapiens_grch37') {

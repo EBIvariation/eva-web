@@ -85,7 +85,7 @@ EvaVariantGenotypeGridPanel.prototype = {
     clear: function () {
         this.studiesContainer.removeAll(true);
     },
-    load: function (data, params) {
+    load: function (data, params, studies) {
         var _this = this;
         this.clear();
         var panels = [];
@@ -95,7 +95,7 @@ EvaVariantGenotypeGridPanel.prototype = {
             var study = data[key];
             if (Object.keys(study.samplesData).length > 0) {
                 Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
-                var genotypePanel = this._createGenotypePanel(study, params);
+                var genotypePanel = this._createGenotypePanel(study, params, studies);
                 genotypeChartData.push(genotypePanel.chartData)
                 panels.push(genotypePanel);
             }
@@ -142,33 +142,23 @@ EvaVariantGenotypeGridPanel.prototype = {
         });
         return this.panel;
     },
-    _createGenotypePanel: function (data, params) {
+    _createGenotypePanel: function (data, params, studies) {
         var study_title;
-        var projectList = '';
         var fileId = data.fileId;
         var project_name = data.studyId;
-        EvaManager.get({
-            category: 'meta/studies',
-            resource: 'list',
-            params: {species: params.species},
-            async: false,
-            success: function (response) {
-                try {
-                    projectList = response.response[0].result;
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-        });
-
-        if (projectList) {
-            for (var i = 0; i < projectList.length; i++) {
-                if (projectList[i].studyId === data.studyId) {
-                    project_name = projectList[i].studyName;
+        if (studies) {
+            for (var i = 0; i < studies.length; i++) {
+                if (studies[i].studyId === data.studyId) {
+                    project_name = studies[i].studyName;
+                    link = studies[i].link;
                 }
             }
         }
-        study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId +'</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
+
+        study_title = project_name + ' (' + data.studyId +' - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
+        if(link){
+            study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId +'</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
+        }
 
         var samples = data.samplesData;
         var finalData = [];

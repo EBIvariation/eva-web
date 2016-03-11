@@ -481,7 +481,7 @@ EvaVariantWidgetPanel.prototype = {
                     var _tempStudies = response.response[0].result;
                     _.each(_.keys(_tempStudies), function (key) {
 
-                        if(this[key].studyId == 'PRJX00001'){
+                        if(_.indexOf(DISABLE_STUDY_LINK, this[key].studyId) > -1){
                             this[key].link = false;
                         }else{
                             this[key].link = true;
@@ -493,6 +493,8 @@ EvaVariantWidgetPanel.prototype = {
                 } catch (e) {
                     console.log(e);
                 }
+
+                _this.variantWidget.studies = studies;
                 filter.studiesStore.loadRawData(studies);
 
                 if (_.isEmpty(_this.selectStudies)) {

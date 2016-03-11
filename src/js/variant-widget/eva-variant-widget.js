@@ -714,7 +714,7 @@ EvaVariantWidget.prototype = {
                         }
                     });
                     if (variant.sourceEntries) {
-                        variantStatsPanel.load(variant.sourceEntries, {species: proxy.extraParams.species});
+                        variantStatsPanel.load(variant.sourceEntries, {species: proxy.extraParams.species},_this.studies);
                     }
                 }
             }
@@ -1014,7 +1014,7 @@ EvaVariantWidget.prototype = {
                         }
                     });
                     if (variant.sourceEntries) {
-                        variantPopulationStatsPanel.load(variant.sourceEntries, proxy.extraParams);
+                        variantPopulationStatsPanel.load(variant.sourceEntries, proxy.extraParams,_this.studies);
                     }
                 }
             }
@@ -1086,7 +1086,7 @@ EvaVariantWidget.prototype = {
                             }
 
                             if (variantSourceEntries) {
-                                variantGenotypeGridPanel.load(variantSourceEntries, params);
+                                variantGenotypeGridPanel.load(variantSourceEntries, params, _this.studies);
                             }
                         }
                     });
