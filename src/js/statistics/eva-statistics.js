@@ -100,7 +100,6 @@ EvaStatistics.prototype = {
                     width: width,
                     marginLeft: -50,
                     marginTop: 50
-
                 },
                 legend: {
                     enabled: true,

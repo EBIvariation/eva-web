@@ -132,7 +132,7 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
             xtype: 'fieldset',
             title: '',
             collapsible: false,
-            width: 280,
+            width: '100%',
             defaultType: 'textfield',
             items: [
                 {
@@ -142,7 +142,8 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
                     margin: '5 0 5 0',
                     value: _this.maf,
                     emptyText: 'ex: >0.3 or <0.3',
-                    regex:/^[\<\>]\d+(\.\d+)?$/
+                    regex:/^[\<\>]\d+(\.\d+)?$/,
+                    labelPad:-40
                 }
             ]
         }
