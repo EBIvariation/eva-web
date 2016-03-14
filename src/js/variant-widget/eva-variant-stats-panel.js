@@ -95,8 +95,8 @@ EvaVariantStatsPanel.prototype = {
             var study = data[key];
             var studyPanel = this._createStudyPanel(study, params, studies);
             panels.push(studyPanel);
-
         }
+        panels = _.sortBy(panels, 'projectName');
         this.studiesContainer.add(panels);
     },
     _createPanel: function () {
@@ -247,6 +247,7 @@ EvaVariantStatsPanel.prototype = {
                 titlePosition: 1
             },
             title: '<span class="stats-panel-study-title">' + study_title + '</span>',
+            projectName:project_name,
             border: false,
             layout: {
                 type: 'vbox',

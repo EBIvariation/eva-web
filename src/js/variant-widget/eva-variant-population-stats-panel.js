@@ -88,6 +88,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 var studyPanel = this._createPopulationGridPanel(study, params, studies);
                 panels.push(studyPanel);
             }
+            panels = _.sortBy(panels, 'projectName');
             this.studiesContainer.add(panels);
         }
     },
@@ -294,6 +295,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 titlePosition: 1
             },
             title: '<span class="popStats-panel-study-title">' + study_title + '</span>',
+            projectName:project_name,
             border: false,
             layout: 'fit',
             overflowX: true,
