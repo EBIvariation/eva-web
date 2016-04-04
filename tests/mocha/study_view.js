@@ -28,13 +28,7 @@ test.describe('Study View ('+config.browser()+')', function() {
                             driver.findElement(By.id('filesTable')).then(function(webElement) {
                                 checkFilesTable(driver);
                                 checkFilesTableLinks(driver);
-                            },function(err) {
-                                if (err.state && err.state === 'no such element') {
-//                                    console.log('File table not found for ' +text+' study');
-                                } else {
-                                    webdriver.promise.rejected(err);
-                                }
-                            });
+                            },function(err) {});
                             config.back(driver);
                         });
                     }

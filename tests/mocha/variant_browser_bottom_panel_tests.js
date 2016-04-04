@@ -18,11 +18,10 @@ module.exports = {
                     //check study title links
                     rows[i].findElement(By.className("study_link")).getAttribute('href').then(function(text){
                         assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
-                    });
+                    },function(err) {});
                     rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
-//                        assert(text).matches(/http\:\/\/www\.ebi\.ac\.uk\/ena\/data\/view\/PRJEB[0-9]+$/);
                         assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
-                    });
+                    },function(err) {});
                     rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
                         assert(text).matches(ERZLinkRegEx);
                     });
@@ -118,11 +117,10 @@ module.exports = {
                         //check study title links
                         rows[i].findElement(By.className("study_link")).getAttribute('href').then(function(text){
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
-                        });
+                        },function(err) {});
                         rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
-//                            assert(text).matches(/http\:\/\/www\.ebi\.ac\.uk\/ena\/data\/view\/PRJEB[0-9]+$/);
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
-                        });
+                        },function(err) {});
                         rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
                             assert(text).matches(ERZLinkRegEx);
                         });
@@ -167,11 +165,10 @@ module.exports = {
                         //check study title links
                         rows[i].findElement(By.className("study_link")).getAttribute('href').then(function(text){
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
-                        });
+                        },function(err) {});
                         rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
-//                            assert(text).matches(/http\:\/\/www\.ebi\.ac\.uk\/ena\/data\/view\/PRJEB[0-9]+$/);
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
-                        });
+                        },function(err) {});
                         rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
                             assert(text).matches(ERZLinkRegEx);
                         });
@@ -206,11 +203,9 @@ module.exports = {
                                 },function(err) {
                                     driver.findElement(By.xpath("//div[@id='" + id + "']//div[@class='popstats-no-genotype-data']")).getText().then(function(text){
                                         assert(text).equalTo('No Genotypes Count available');
-                                    });
+                                    },function(err) {});
                                 });
-                            },function(err) {
-
-                            });
+                            },function(err) {});
                         });
                         //check for duplicate content
                         rows[i].findElement(By.className("x-accordion-body")).getAttribute('id').then(function(id){

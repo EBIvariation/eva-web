@@ -29,7 +29,7 @@ test.describe('Study Browser ('+config.browser()+')', function() {
         });
 
         test.describe('search by Species and Types', function() {
-            test.it('Search by (Barley,Human) and Whole Genome Sequencing should match with column Organism and Type', function() {
+            test.it('Search by (Barley,Human) and Exome Sequencing should match with column Organism and Type', function() {
                 sgvStudySearchBySpeciesType(driver);
             });
         });
@@ -72,7 +72,7 @@ function sgvStudySearchBySpeciesType(driver){
     config.reset(driver);
     driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//input")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Human')]//..//input")).click();
-    driver.findElement(By.xpath("//span[contains(text(),'Whole Genome Sequencing')]//..//input")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Exome Sequencing')]//..//input")).click();
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {

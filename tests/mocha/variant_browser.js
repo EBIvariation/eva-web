@@ -66,9 +66,9 @@ function variantSearchById(driver){
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys("rs666");
     driver.findElement(By.id("vb-submit-button")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[3]/div/span[text()]")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[3]/div/span[text()]")).getText().then(function(text) {
-            assert(text).equalTo('rs666');
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[3]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(text){
+            chai.assert.equal(text, 'rs666');
         });
     });
     return driver;
@@ -87,8 +87,8 @@ function variantSearchBySpeciesandChrLocation(driver){
         });
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[2]/div[text()]")).getText().then(function(text){
             text = parseInt(text);
-            assert(text).greaterThanEqualTo(4000000);
-            assert(text).lessThanEqualTo(4100000);
+            chai.assert.operator(text, '>=', 4000000);
+            chai.assert.operator(text, '<=', 4100000);
         });
     });
 }
@@ -102,12 +102,12 @@ function variantSearchByGene(driver){
     driver.findElement(By.id("vb-submit-button")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
-            assert(text).equalTo('13');
+            chai.assert.equal(text, '13');
         });
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[2]/div[text()]")).getText().then(function(text){
             text = parseInt(text);
-            assert(text).greaterThanEqualTo(32884653);
-            assert(text).lessThanEqualTo(32973805);
+            chai.assert.operator(text, '>=', 32884647);
+            chai.assert.operator(text, '<=', 32973805);
         });
     });
 }
@@ -122,11 +122,11 @@ function variantFilterByPolyphenSift(driver){
         for (i = 1; i < 11; i++) {
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[7]/div[text()]")).getText().then(function(text) {
                 var polyphen = parseFloat(text);
-                return assert(polyphen).greaterThanEqualTo(0.9);
+                return chai.assert.operator(text, '>=', 0.9);
             });
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[8]/div[text()]")).getText().then(function(text) {
                 var sift = parseFloat(text);
-                return assert(sift).lessThanEqualTo(0.02);
+                return chai.assert.operator(text, '<=', 0.02);
             });
         }
     });
@@ -147,9 +147,15 @@ function variantFilterByPolyphenSift(driver){
 }
 
 function variantFilterByMAF(driver){
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    driver.findElement(By.name("gene")).clear();
+    driver.findElement(By.name("gene")).sendKeys("BRCA2");
     driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'PopulationFrequencyFilterFormPanel')]//img[@class='x-tool-img x-tool-expand-bottom']")).click();
+    driver.findElement(By.id("mafOpFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='<=']")).click();
     driver.findElement(By.name("maf")).clear();
-    driver.findElement(By.name("maf")).sendKeys("<0.3");
+    driver.findElement(By.name("maf")).sendKeys("0.3");
     driver.findElement(By.id("vb-submit-button")).click();
     driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
