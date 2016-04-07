@@ -123,9 +123,9 @@ EvaStudyBrowserGrid.prototype = {
                 overflowX: false,
                 overflowY: false,
                 collapsible: false,
-                features: [
-                    {ftype: 'summary'}
-                ],
+                // features: [
+                //     {ftype: 'summary'}
+                // ],
                 plugins: [
                     {
                         ptype: 'rowexpander',

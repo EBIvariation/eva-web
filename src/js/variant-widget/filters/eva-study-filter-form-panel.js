@@ -118,9 +118,9 @@ EvaStudyFilterFormPanel.prototype = {
                 hideHeaders: false,
                 enableColumnHide: false,
                 plugins: 'bufferedrenderer',
-                features: [
-                    {ftype: 'summary'}
-                ],
+                // features: [
+                //     {ftype: 'summary'}
+                // ],
                 cls: 'studyList',
                 height: this.height,
                 viewConfig: {

@@ -171,9 +171,9 @@ EvaGeneView.prototype = {
         });
         this.margin = '-30 0 0 20';
         Ext.EventManager.onWindowResize(function () {
-            _this.panel.doLayout();
-            evaClinVarWidget.clinvarBrowserGrid.panel.doLayout();
-            evaClinVarWidget.toolTabPanel.doLayout();
+            _this.panel.updateLayout();
+            evaClinVarWidget.clinvarBrowserGrid.panel.updateLayout();
+            evaClinVarWidget.toolTabPanel.updateLayout();
         });
         this.class = Utils.genId("clinical-widget");
         this.panel = Ext.create('Ext.panel.Panel', {
@@ -291,7 +291,7 @@ EvaGeneView.prototype = {
 
         Ext.EventManager.onWindowResize(function () {
             if (gvPanel.isVisible()) {
-                gvPanel.doLayout();
+                gvPanel.updateLayout();
             }
         });
 

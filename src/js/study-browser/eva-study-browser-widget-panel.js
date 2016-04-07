@@ -82,17 +82,17 @@ EvaStudyBrowserWidgetPanel.prototype = {
         if (_this.panel.isVisible()) {
             value = value || 0;
             if (value) {
-                _this.panel.doLayout();
+                _this.panel.updateLayout();
             }
-            _this.formPanelStudyFilter.panel.doLayout();
-            _this.studyBrowserWidget.panel.doLayout()
+            _this.formPanelStudyFilter.panel.updateLayout();
+            _this.studyBrowserWidget.panel.updateLayout();
         }
     },
     _createPanel: function () {
         var _this = this;
-        Ext.EventManager.onWindowResize(function (e) {
-            _this.resize(true);
-        });
+        // Ext.EventManager.onWindowResize(function (e) {
+        //     _this.resize(true);
+        // });
 
         this.panel = Ext.create('Ext.panel.Panel', {
             layout: {

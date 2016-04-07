@@ -132,7 +132,7 @@ module.exports = function (grunt) {
                     {   expand: true, src: ['lib/jsorolla/vendor/**'], dest: 'build/<%= meta.version.eva %>',flatten: false},
                     {   expand: true, src: ['lib/jsorolla/styles/**'], dest: 'build/<%= meta.version.eva %>',flatten: false},
                     {   expand: true, src: ['vendor/bootstrap-*/**'], dest: 'build/<%= meta.version.eva %>'},
-                    {   expand: true, src: ['vendor/ext-*/**'], dest: 'build/<%= meta.version.eva %>'},
+                    {   expand: true, src: ['vendor/ext-6.0.1/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['vendor/highcharts-4.0.3/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['vendor/platform-0.4.1/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['vendor/vkbeautify/**'], dest: 'build/<%= meta.version.eva %>'},
@@ -193,7 +193,7 @@ module.exports = function (grunt) {
                         ],
                         'vendor': [
 //                            'build/<%= meta.version.eva %>/vendor/ext-5.0.1/js/ext-all.js',
-                            'build/<%= meta.version.eva %>/vendor/ext-5.1.0/js/ext-all.js',
+                            'build/<%= meta.version.eva %>/vendor/ext-6.0.1/js/ext-all.js',
                             'build/<%= meta.version.eva %>/lib/jsorolla/vendor/underscore-min.js',
                             'build/<%= meta.version.eva %>/lib/jsorolla/vendor/backbone-min.js',
                             'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.min.js',
@@ -228,7 +228,7 @@ module.exports = function (grunt) {
                             'build/<%= meta.version.eva %>/css/eva-<%= meta.version.eva %>-'+date+'.min.css'
                         ],
                         'vendor': [
-                            'build/<%= meta.version.eva %>/vendor/ext-5.1.0/theme/theme-ebi-embl-all.css',
+                            'build/<%= meta.version.eva %>/vendor/ext-6.0.1/theme/theme-ebi-embl-all.css',
 //                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/jquery.qtip.min.css',
                             'build/<%= meta.version.eva %>/vendor/bootstrap-3.2.0/css/bootstrap.min.css',
 //                            'build/<%= meta.version.eva %>/lib/jsorolla/vendor/font-awesome/css/font-awesome.min.css'

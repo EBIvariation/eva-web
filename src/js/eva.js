@@ -174,7 +174,7 @@ Eva.prototype = {
                     this.studyBrowserPanel.show();
                 } else {
                     this.studyBrowserPanel = this._createStudyBrowserPanel(this.contentDiv);
-                    this.select('Study Browser');
+                    // this.select('Study Browser');
                     this.pushURL(option, false);
                 }
                 break;
@@ -183,7 +183,8 @@ Eva.prototype = {
                     this.variantWidgetPanel.show();
                 } else {
                     this.variantWidgetPanel = this._createVariantWidgetPanel(this.contentDiv);
-                    this.select('Variant Browser');
+                    // this.select('Variant Browser');
+                    this.variantWidgetPanel.panel.updateLayout();
                     this.pushURL(option, true);
                 }
                 break;
@@ -208,7 +209,8 @@ Eva.prototype = {
                     this.clinicalWidgetPanel.show();
                 } else {
                     this.clinicalWidgetPanel = this._createClinicalWidgetPanel(this.contentDiv);
-                    this.select('Clinical Browser');
+                    // this.select('Clinical Browser');
+                    this.clinicalWidgetPanel.panel.updateLayout();
                     this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
                     this.pushURL(option, false);
                 }

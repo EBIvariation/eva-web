@@ -142,6 +142,13 @@ EvaVariantView.prototype = {
 
     draw: function (data, content) {
         var _this = this;
+        if(_.isEmpty(variant)){
+            var noDataEl = document.querySelector("#summary-grid");
+            var noDataElDiv = document.createElement("div");
+            noDataElDiv.innerHTML = '<span>No Data Available</span>';
+            noDataEl.appendChild(noDataElDiv);
+            return;
+        }
         var variantViewDiv = document.querySelector("#variantView");
         $(variantViewDiv).addClass('show-div');
         var summaryContent = _this._renderSummaryData(variant);
@@ -171,7 +178,7 @@ EvaVariantView.prototype = {
 
     },
     _renderSummaryData: function (data) {
-        var _summaryTable = '<div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
+        var _summaryTable = '<h4 class="variant-view-h4"> Summary</h4><div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
         var variantInfoTitle = document.querySelector("#variantInfo").textContent = data[0].chromosome + ':' + data[0].start + ':' + data[0].reference + ':' + data[0].alternate + ' Info';
         var speciesName;
         if (!_.isEmpty(speciesList)) {
@@ -213,7 +220,7 @@ EvaVariantView.prototype = {
             return '<div style="margin-left:15px;">No Data Available</div>';
         }
 
-        var _consequenceTypeTable = '<div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
+        var _consequenceTypeTable = '<h4 class="variant-view-h4"> Consequence Type</h4><div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
         _consequenceTypeTable += '<tr><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th><th>Accession</th><th>Name</th></tr>'
         _.each(_.keys(annotation), function (key) {
             var annotationDetails = this[key];
@@ -312,13 +319,13 @@ EvaVariantView.prototype = {
             '<div id="variant-view-scrollable-div" class="col-sm-10 col-md-10 col-lg-10">' +
             '<div id="summary" class="row">' +
             '<div class="col-md-10" style="margin-left:10px;">' +
-            '<h4 class="variant-view-h4"> Summary</h4>' +
+            // '<h4 class="variant-view-h4"> Summary</h4>' +
             '<div id="summary-grid"></div>' +
             '</div>' +
             '</div>' +
             '<div  id="consequenceTypes" class="row">' +
             '<div class="col-md-10" style="margin-left:10px;">' +
-            '<h4 class="variant-view-h4"> Consequence Type</h4>' +
+            // '<h4 class="variant-view-h4"> Consequence Type</h4>' +
             '<div id="consequence-types-grid"></div>' +
             '</div>' +
             '</div>' +

@@ -90,7 +90,7 @@ EvaGenomeViewerPanel.prototype = {
     resize: function () {
         var _this = this;
         if (_this.panel.isVisible()) {
-            _this.panel.doLayout();
+            _this.panel.updateLayout();
         }
     },
     _createFormPanelGenomeFilter: function (target) {

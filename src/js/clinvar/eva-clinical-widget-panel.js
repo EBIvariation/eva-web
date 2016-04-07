@@ -48,7 +48,7 @@ EvaClinicalWidgetPanel.prototype = {
         }
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
         if (!this.targetDiv) {
-            console.log('EVAVariantWidgetPanel target not found');
+            console.log('ClinvarWidgetPanel target not found');
             return;
         }
         this.targetDiv.appendChild(this.div);
@@ -86,11 +86,11 @@ EvaClinicalWidgetPanel.prototype = {
         if (_this.panel.isVisible()) {
             value = value || 0;
             if (value) {
-                _this.panel.doLayout();
+                _this.panel.updateLayout();
             }
-            _this.clinvarWidget.clinvarBrowserGrid.panel.doLayout()
-            _this.clinvarWidget.toolTabPanel.doLayout();
-            _this.formPanelClinvarFilter.panel.doLayout();
+            _this.clinvarWidget.clinvarBrowserGrid.panel.updateLayout()
+            _this.clinvarWidget.toolTabPanel.updateLayout();
+            _this.formPanelClinvarFilter.panel.updateLayout();
             if (_this.clinvarWidget.toolTabPanel.getActiveTab().title == 'Genomic Context') {
                 _this.clinvarWidget.resizeGV();
             }

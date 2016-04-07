@@ -126,14 +126,14 @@ EvaVariantBrowserGrid.prototype = {
                 loadMask: true,
                 columns: this.columns,
                 plugins: this.plugins,
-                animCollapse: false,
+                animCollapse: true,
                 height: this.height,
                 overflowX: true,
                 overflowY: true,
                 collapsible: true,
-                features: [
-                    {ftype: 'summary'}
-                ],
+                // features: [
+                //     {ftype: 'summary'}
+                // ],
                 viewConfig: {
                     emptyText: 'No records to display',
                     enableTextSelection: true,

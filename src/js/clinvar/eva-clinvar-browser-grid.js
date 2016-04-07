@@ -126,9 +126,9 @@ ClinvarBrowserGrid.prototype = {
                 animCollapse: false,
                 height: this.height,
                 overflowX: true,
-                features: [
-                    {ftype: 'summary'}
-                ],
+                // features: [
+                //     {ftype: 'summary'}
+                // ],
                 viewConfig: {
                     emptyText: 'No records to display',
                     enableTextSelection: true,
