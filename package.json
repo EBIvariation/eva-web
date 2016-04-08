@@ -1,10 +1,10 @@
 {
   "name": "commons",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "javascript commons",
   "repository": {
     "type": "git",
-    "url": "https://github.com/opencb/jsorolla.git"
+    "url": "https://github.com/EBIvariation/eva-web.git"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -21,11 +21,16 @@
     "grunt-hub": "0.7.0",
     "grunt-regex-replace": "0.2.6",
     "js-beautify": "~1.4.2",
-    "selenium-webdriver":"2.47.0",
+    "selenium-webdriver":"2.53.1",
     "mocha":"2.3.3",
     "grunt-mocha-test":"0.12.7",
     "chai-webdriver":"1.1.1",
     "grunt-shell-spawn" : "0.3.10",
-    "grunt-exec": "0.4.6"
+    "grunt-exec": "0.4.6",
+    "grunt-contrib-cssmin": "0.14.0",
+    "grunt-minify-html": "2.0.0",
+    "grunt-contrib-imagemin": "1.0.0",
+    "grunt-tinyimg": "1.0.0",
+    "grunt-image": "1.2.2"
   }
 }

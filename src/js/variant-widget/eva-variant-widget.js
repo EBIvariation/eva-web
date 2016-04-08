@@ -53,7 +53,7 @@ function EvaVariantWidget(args) {
         stats: true,
         rawData: true,
         populationStats: true,
-        annot:true
+        annot: true
     };
     this.tools = [];
     this.dataParser;
@@ -132,10 +132,9 @@ EvaVariantWidget.prototype = {
                         _this.trigger('variant:change', {variant: _this.lastVariant, sender: _this});
                     }
 
-                    if(_this.lastVariant && newTab.title == 'Genomic Context'){
-                       _this.resizeGV();
+                    if (_this.lastVariant && newTab.title == 'Genomic Context') {
+                        _this.resizeGV();
                     }
-
 
                 }
             }
@@ -186,7 +185,7 @@ EvaVariantWidget.prototype = {
                 title: 'Genomic Context',
                 border: 0,
                 contentEl: this.genomeViewerDiv,
-                overflowX:true
+                overflowX: true
             });
         }
 
@@ -230,7 +229,6 @@ EvaVariantWidget.prototype = {
 
         this.toolTabPanel.render(this.tabPanelDiv);
 
-
         for (var i = 0; i < this.toolTabPanel.items.items.length; i++) {
             this.toolTabPanel.setActiveTab(i);
         }
@@ -269,8 +267,8 @@ EvaVariantWidget.prototype = {
     _createVariantBrowserGrid: function (target) {
         var _this = this;
 
-        var columns ={
-            items:[
+        var columns = {
+            items: [
                 {
                     text: "Chr",
                     dataIndex: 'chromosome',
@@ -283,18 +281,54 @@ EvaVariantWidget.prototype = {
                 },
                 {
                     header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>Variant ID',
-                    dataIndex: 'id',
+                    dataIndex: 'ids',
                     flex: 0.68,
-                    iconCls : 'icon-info',
-                    xtype: "templatecolumn",
-                    tpl: '<tpl class="variantId"><span>{id}</span></tpl>',
-                    tooltip:'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)'
+                    iconCls: 'icon-info',
+//                    xtype: "templatecolumn",
+//                    tpl: '<tpl  class="variantId" if="id"><span>{id}</span><tpl else>-</tpl>',
+                    tooltip: 'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)',
+                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
+                        var id = value;
+                        if(value && value.split(",").length > 1){
+                            var _temp = value.split(",");
+                            var rsRegEx = /^rs\d+$/;
+                            var ssRegEx = /^ss\d+$/;
+                            var rsArray = [];
+                            var ssArray = [];
+                            var otherArray = [];
+                            _.each(_.keys(_temp), function (key) {
+                                if(this[key].match(rsRegEx)){
+                                    rsArray.push(this[key]);
+                                }else if(this[key].match(ssRegEx)){
+                                    ssArray.push(this[key]);
+                                }else{
+                                    otherArray.push(this[key]);
+                                }
+                            }, _temp);
+
+                            if(!_.isEmpty(rsArray)){
+                                rsArray.sort();
+                                id =  _.first(rsArray);
+                            }else if(!_.isEmpty(ssArray)){
+                                ssArray.sort();
+                                id = _.first(ssArray);
+                            }else{
+                                otherArray.sort();
+                                id = _.first(otherArray);
+                            }
+                        }else{
+                            if(_.isEmpty(value)){
+                                id = '-';
+                            }
+                        }
+                        return id;
+                    }
                 },
                 {
                     text: 'Alleles',
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="reference">{reference}<tpl else>-</tpl>/<tpl if="alternate">{alternate}<tpl else>-</tpl>',
-                    flex: 0.35
+                    tpl: '<tpl if="reference">{reference:htmlEncode}<tpl else>-</tpl>/<tpl if="alternate">{alternate:htmlEncode}<tpl else>-</tpl>',
+                    flex: 0.60
                 },
                 {
                     text: 'Class',
@@ -307,46 +341,46 @@ EvaVariantWidget.prototype = {
                 {
                     text: 'Most Severe <br /> Consequence Type',
                     dataIndex: 'consequenceTypes',
-                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
+                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         var tempArray = [];
                         var consequenceTypes = rec.data.consequenceTypes;
-                        if(!_.isUndefined(value)){
+                        if (!_.isUndefined(value)) {
                             var tempArray = [];
-                            _.each(_.keys(consequenceTypes), function(key){
+                            _.each(_.keys(consequenceTypes), function (key) {
                                 var so_terms = this[key].soTerms;
-                                _.each(_.keys(so_terms), function(key){
+                                _.each(_.keys(so_terms), function (key) {
                                     tempArray.push(this[key].soName)
-                                },so_terms);
-                            },consequenceTypes);
+                                }, so_terms);
+                            }, consequenceTypes);
                             var groupedArr = _.groupBy(tempArray);
                             var so_array = [];
-                            _.each(_.keys(groupedArr), function(key){
-                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+                            _.each(_.keys(groupedArr), function (key) {
+                                var index = _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
 //                                so_array[index] = key+' ('+this[key].length+')';
-                                if(index < 0){
+                                if (index < 0) {
                                     so_array.push(key)
-                                }else{
+                                } else {
                                     so_array[index] = key;
                                 }
-                            },groupedArr);
-                            so_array =  _.compact(so_array);
-                            meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
+                            }, groupedArr);
+                            so_array = _.compact(so_array);
+                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
                             var so_term_detail = _.findWhere(consequenceTypesColors, {id: _.first(so_array)});
                             var color = '';
                             var impact = '';
                             var svg = '';
-                            if(!_.isUndefined(so_term_detail)){
-                                 color = so_term_detail.color;
-                                 impact = so_term_detail.impact;
-                                 svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="'+color+'"><title>'+impact+'</title></rect></svg>'
+                            if (!_.isUndefined(so_term_detail)) {
+                                color = so_term_detail.color;
+                                impact = so_term_detail.impact;
+                                svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="' + color + '"><title>' + impact + '</title></rect></svg>'
                             }
                             return value ? Ext.String.format(
-                                '<tpl>'+_.first(so_array)+'&nbsp;'+svg+'</tpl>',
+                                '<tpl>' + _.first(so_array) + '&nbsp;' + svg + '</tpl>',
                                 value
                             ) : '';
-                        }else{
+                        } else {
                             return '';
                         }
                     },
@@ -360,52 +394,52 @@ EvaVariantWidget.prototype = {
                             header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>PolyPhen2',
                             dataIndex: "consequenceTypes",
 //                            flex: 1.5,
-                            width:110,
-                            menuDisabled:true,
-                            tooltip:'Polymophism Phenotyping v2 (PolyPhen2) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
-                            renderer: function(value, meta, rec, rowIndex, colIndex, store){
+                            width: 110,
+                            menuDisabled: true,
+                            tooltip: 'Polymophism Phenotyping v2 (PolyPhen2) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
+                            renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                                 var tempArray = [];
                                 var consequenceTypes = rec.data.consequenceTypes;
-                                if(!_.isUndefined(value)){
+                                if (!_.isUndefined(value)) {
                                     var tempArray = [];
-                                    _.each(_.keys(consequenceTypes), function(key){
+                                    _.each(_.keys(consequenceTypes), function (key) {
                                         var so_terms = this[key].soTerms;
-                                        _.each(_.keys(so_terms), function(key){
+                                        _.each(_.keys(so_terms), function (key) {
                                             tempArray.push(this[key].soName)
-                                        },so_terms);
-                                    },consequenceTypes);
+                                        }, so_terms);
+                                    }, consequenceTypes);
                                     var groupedArr = _.groupBy(tempArray);
                                     var so_array = [];
-                                    _.each(_.keys(groupedArr), function(key){
-                                        var index =  _.indexOf(consequenceTypesHierarchy, key);
+                                    _.each(_.keys(groupedArr), function (key) {
+                                        var index = _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
 //                                so_array[index] = key+' ('+this[key].length+')';
                                         so_array[index] = key;
-                                    },groupedArr);
-                                    so_array =  _.compact(so_array);
-                                    meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
+                                    }, groupedArr);
+                                    so_array = _.compact(so_array);
+                                    meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
                                     var score = '-';
                                     var polyphen_score_array = [];
                                     for (i = 0; i < consequenceTypes.length; i++) {
                                         for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
-                                            if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
-                                                _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
-                                                    if(this[key].source == 'Polyphen'){
+                                            if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
+                                                _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
+                                                    if (this[key].source == 'Polyphen') {
                                                         polyphen_score_array.push(this[key].score)
                                                         score = this[key].score;
 
                                                     }
-                                                },consequenceTypes[i].proteinSubstitutionScores);
+                                                }, consequenceTypes[i].proteinSubstitutionScores);
                                             }
                                         }
                                     }
 
-                                    if(!_.isEmpty(polyphen_score_array)){
-                                        score =  Math.max.apply(Math, polyphen_score_array)
+                                    if (!_.isEmpty(polyphen_score_array)) {
+                                        score = Math.max.apply(Math, polyphen_score_array)
                                     }
                                     return score;
-                                }else{
+                                } else {
                                     return '';
                                 }
                             }
@@ -414,50 +448,50 @@ EvaVariantWidget.prototype = {
 //                            text: "Sift",
                             header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>Sift',
                             dataIndex: "consequenceTypes",
-                            width:80,
-                            menuDisabled:true,
-                            tooltip:'Sorting Intolerant From Tolerant (SIFT) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
-                            renderer: function(value, meta, rec, rowIndex, colIndex, store){
+                            width: 80,
+                            menuDisabled: true,
+                            tooltip: 'Sorting Intolerant From Tolerant (SIFT) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
+                            renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                                 var tempArray = [];
                                 var consequenceTypes = rec.data.consequenceTypes;
-                                if(!_.isUndefined(value)){
+                                if (!_.isUndefined(value)) {
                                     var tempArray = [];
-                                    _.each(_.keys(consequenceTypes), function(key){
+                                    _.each(_.keys(consequenceTypes), function (key) {
                                         var so_terms = this[key].soTerms;
-                                        _.each(_.keys(so_terms), function(key){
+                                        _.each(_.keys(so_terms), function (key) {
                                             tempArray.push(this[key].soName)
-                                        },so_terms);
-                                    },consequenceTypes);
+                                        }, so_terms);
+                                    }, consequenceTypes);
                                     var groupedArr = _.groupBy(tempArray);
                                     var so_array = [];
-                                    _.each(_.keys(groupedArr), function(key){
-                                        var index =  _.indexOf(consequenceTypesHierarchy, key);
+                                    _.each(_.keys(groupedArr), function (key) {
+                                        var index = _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
 //                                so_array[index] = key+' ('+this[key].length+')';
                                         so_array[index] = key;
-                                    },groupedArr);
-                                    so_array =  _.compact(so_array);
-                                    meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
+                                    }, groupedArr);
+                                    so_array = _.compact(so_array);
+                                    meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
                                     var score = '-';
                                     var sift_score_array = [];
                                     for (i = 0; i < consequenceTypes.length; i++) {
                                         for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
-                                            if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
-                                                _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
-                                                    if(this[key].source == 'Sift'){
+                                            if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
+                                                _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
+                                                    if (this[key].source == 'Sift') {
                                                         sift_score_array.push(this[key].score)
                                                         score = this[key].score;
                                                     }
-                                                },consequenceTypes[i].proteinSubstitutionScores);
+                                                }, consequenceTypes[i].proteinSubstitutionScores);
                                             }
                                         }
                                     }
-                                    if(!_.isEmpty(sift_score_array)){
-                                        score =  Math.min.apply(Math, sift_score_array)
+                                    if (!_.isEmpty(sift_score_array)) {
+                                        score = Math.min.apply(Math, sift_score_array)
                                     }
                                     return score;
-                                }else{
+                                } else {
                                     return '';
                                 }
                             }
@@ -468,24 +502,24 @@ EvaVariantWidget.prototype = {
                 {
                     text: 'View',
                     dataIndex: 'id',
-                    id:'variant-grid-view-column',
+                    id: 'variant-grid-view-column',
                     xtype: 'templatecolumn',
-                    tpl: '<tpl if="id"><a href="?variant={chromosome}:{start}:{reference}:{alternate}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;' +
-                        '<a href="http://www.ensembl.org/Homo_sapiens/Variation/Explore?vdb=variation;v={id}" target="_blank"><img alt="" src="http://static.ensembl.org/i/search/ensembl.gif"></a>' +
-                        '&nbsp;<a href="http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs={id}" target="_blank"><span>dbSNP</span></a>' +
-                        '<tpl else><a href="?variant={chromosome}:{start}:{reference}:{alternate}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;<img alt="" class="eva-grid-img-inactive " src="http://static.ensembl.org/i/search/ensembl.gif">&nbsp;<span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>',
-                    flex: 0.75
+                    tpl: '<tpl if="id"><a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;' +
+//                        '<a href="http://www.ensembl.org/Homo_sapiens/Variation/Explore?vdb=variation;v={id}" target="_blank"><img alt="" src="http://static.ensembl.org/i/search/ensembl.gif"></a>' +
+                        '<a href="http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs={id}" target="_blank"><span>dbSNP</span></a>' +
+                        '<tpl else><a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;<span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>',
+                    flex: 0.4
                 }
             ],
             defaults: {
-                align:'left' ,
-                sortable : false,
-                menuDisabled:true
+                align: 'left',
+                sortable: false,
+                menuDisabled: true
             }
-        } ;
+        };
 
         var attributes = [
-            {name: 'id', type: 'string'},
+            {name: 'ids', type: 'string'},
             {name: "chromosome", type: "string"},
             {name: "start", type: "int"},
             {name: "end", type: "int"},
@@ -493,7 +527,7 @@ EvaVariantWidget.prototype = {
             {name: "ref", type: "string"},
             {name: "alt", type: "string"},
             {name: 'hgvs_name', type: 'string'},
-            {name: 'consequenceTypes', mapping: 'annotation.consequenceTypes', type:'auto' }
+            {name: 'consequenceTypes', mapping: 'annotation.consequenceTypes', type: 'auto' }
         ];
 
         var listeners = {
@@ -511,7 +545,7 @@ EvaVariantWidget.prototype = {
             title: this.browserGridConfig.title,
             target: target,
             data: this.data,
-            height: 480,
+            height: 440,
             margin: '0 0 0 0',
             border: this.browserGridConfig.border,
             dataParser: this.dataParser,
@@ -634,19 +668,19 @@ EvaVariantWidget.prototype = {
             },
             height: 820,
             statsTpl: new Ext.XTemplate(
-                '<table class="ocb-attributes-table">' +
+                '<table class="eva-attributes-table">' +
+                    '<tr>' +
+                    '<td class="header">Minor Allele Frequency</td>' +
+                    '<td class="header">Mendelian Errors</td>' +
+                    '<td class="header">Missing Alleles</td>' +
+                    '<td class="header">Missing Genotypes</td>' +
+                    '</tr>',
                 '<tr>' +
-                '<td class="header">Minor Allele Frequency</td>' +
-                '<td class="header">Mendelian Errors</td>' +
-                '<td class="header">Missing Alleles</td>' +
-                '<td class="header">Missing Genotypes</td>' +
-                '</tr>',
-                '<tr>' +
-                '<td><tpl if="maf == -1 || maf == 0">NA <tpl else>{maf:number( "0.000" )} </tpl><tpl if="mafAllele">({mafAllele}) <tpl else></tpl></td>' +
-                '<td><tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl></td>' +
-                '<td><tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl></td>' +
-                '<td><tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl></td>' +
-                '</tr>',
+                    '<td><tpl if="maf == -1 || maf == 0">NA <tpl else>{maf:number( "0.000" )} </tpl><tpl if="mafAllele">({mafAllele}) <tpl else></tpl></td>' +
+                    '<td><tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl></td>' +
+                    '<td><tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl></td>' +
+                    '<td><tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl></td>' +
+                    '</tr>',
                 '</table>'
             )
         });
@@ -667,18 +701,20 @@ EvaVariantWidget.prototype = {
                         category: 'segments',
                         resource: 'variants',
                         query: region,
-                        params: {species: proxy.extraParams.species,studies:proxy.extraParams.studies},
+                        params: {species: proxy.extraParams.species, studies: proxy.extraParams.studies},
                         async: false,
                         success: function (response) {
                             try {
-                                _.extend(variant, response.response[0].result[0])
+//                                _.extend(variant, response.response[0].result[0]);
+                                var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
+                                _.extend(variant,result);
                             } catch (e) {
                                 console.log(e);
                             }
                         }
                     });
                     if (variant.sourceEntries) {
-                        variantStatsPanel.load(variant.sourceEntries, {species: proxy.extraParams.species});
+                        variantStatsPanel.load(variant.sourceEntries, {species: proxy.extraParams.species},_this.studies);
                     }
                 }
             }
@@ -690,13 +726,14 @@ EvaVariantWidget.prototype = {
         var _this = this;
 
         var annontColumns = {
-            items:[
+            items: [
                 {
                     text: "Ensembl<br /> Gene ID",
                     dataIndex: "ensemblGeneId",
                     flex: 1.4,
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>'
+//                    tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblGeneId">{ensemblGeneId}<tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br /> Gene Symbol",
@@ -710,41 +747,42 @@ EvaVariantWidget.prototype = {
                     dataIndex: "ensemblTranscriptId",
                     flex: 1.3,
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>'
+//                    tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblTranscriptId">{ensemblTranscriptId}<tpl else>-</tpl>'
                 },
                 {
                     text: "SO Term(s)",
                     dataIndex: "soTerms",
                     flex: 1.7,
-                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
+                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
 
-                        if(!_.isUndefined(value)){
+                        if (!_.isUndefined(value)) {
 
                             var tempArray = [];
-                            _.each(_.keys(value), function(key){
+                            _.each(_.keys(value), function (key) {
                                 tempArray.push(this[key].soName);
-                            },value);
+                            }, value);
 
                             var groupedArr = _.groupBy(tempArray);
                             var so_array = [];
-                            _.each(_.keys(groupedArr), function(key){
-                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+                            _.each(_.keys(groupedArr), function (key) {
+                                var index = _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
-                                if(index < 0){
+                                if (index < 0) {
                                     so_array.push(key)
-                                }else{
+                                } else {
                                     so_array[index] = key;
                                 }
-                            },groupedArr);
-                            so_array =  _.compact(so_array);
+                            }, groupedArr);
+                            so_array = _.compact(so_array);
 //                              console.log(so_array)
-                            meta.tdAttr = 'data-qtip="'+ so_array.join(',')+'"';
+                            meta.tdAttr = 'data-qtip="' + so_array.join(',') + '"';
                             return value ? Ext.String.format(
-                                '<tpl>'+so_array.join(',')+'</tpl>',
+                                '<tpl>' + so_array.join(',') + '</tpl>',
                                 value
                             ) : '';
-                        }else{
+                        } else {
                             return '';
                         }
 
@@ -755,7 +793,7 @@ EvaVariantWidget.prototype = {
                     dataIndex: "biotype",
                     xtype: "templatecolumn",
                     tpl: '<tpl if="biotype">{biotype}<tpl else>-</tpl>',
-                    flex: 1.3
+                    flex: 1.1
                 },
                 {
                     text: "Codon",
@@ -776,54 +814,52 @@ EvaVariantWidget.prototype = {
                     text: "PolyPhen",
                     dataIndex: "soTerms",
                     flex: 0.71,
-                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
-                        if(!_.isUndefined(value)){
-                            var consequenceTypes= [];
+                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
+                        if (!_.isUndefined(value)) {
+                            var consequenceTypes = [];
                             var tempArray = [];
-                            _.each(_.keys(value), function(key){
+                            _.each(_.keys(value), function (key) {
                                 tempArray.push(this[key].soName);
-                            },value);
+                            }, value);
 
                             var groupedArr = _.groupBy(tempArray);
                             var so_array = [];
-                            _.each(_.keys(groupedArr), function(key){
-                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+                            _.each(_.keys(groupedArr), function (key) {
+                                var index = _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
-                                if(index < 0){
+                                if (index < 0) {
                                     so_array.push(key)
-                                }else{
+                                } else {
                                     so_array[index] = key;
                                 }
-                            },groupedArr);
-                            so_array =  _.compact(so_array);
+                            }, groupedArr);
+                            so_array = _.compact(so_array);
 
-
-
-                            meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
+                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
                             var score = '-';
                             var polyphen_score_array = [];
 //                            var _tempSoTerms = consequenceTypes.soTerms;
                             consequenceTypes.push(rec.data);
                             for (i = 0; i < consequenceTypes.length; i++) {
                                 for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
-                                    if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
-                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
-                                            if(this[key].source == 'Polyphen'){
+                                    if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
+                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
+                                            if (this[key].source == 'Polyphen') {
                                                 polyphen_score_array.push(this[key].score)
                                                 score = this[key].score;
                                             }
-                                        },consequenceTypes[i].proteinSubstitutionScores);
+                                        }, consequenceTypes[i].proteinSubstitutionScores);
                                     }
                                 }
                             }
-                            if(!_.isEmpty(polyphen_score_array)){
-                                score =  Math.max.apply(Math, polyphen_score_array)
+                            if (!_.isEmpty(polyphen_score_array)) {
+                                score = Math.max.apply(Math, polyphen_score_array)
                             }
 
                             return score;
 
-                        }else{
+                        } else {
                             return '';
                         }
                     }
@@ -832,52 +868,52 @@ EvaVariantWidget.prototype = {
                     text: "Sift",
                     dataIndex: "soTerms",
                     flex: 0.5,
-                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
-                        if(!_.isUndefined(value)){
-                            var consequenceTypes= [];
+                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
+                        if (!_.isUndefined(value)) {
+                            var consequenceTypes = [];
                             var tempArray = [];
-                            _.each(_.keys(value), function(key){
+                            _.each(_.keys(value), function (key) {
                                 tempArray.push(this[key].soName);
-                            },value);
+                            }, value);
 
                             var groupedArr = _.groupBy(tempArray);
                             var so_array = [];
-                            _.each(_.keys(groupedArr), function(key){
-                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+                            _.each(_.keys(groupedArr), function (key) {
+                                var index = _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
-                                if(index < 0){
+                                if (index < 0) {
                                     so_array.push(key)
-                                }else{
+                                } else {
                                     so_array[index] = key;
                                 }
-                            },groupedArr);
-                            so_array =  _.compact(so_array);
+                            }, groupedArr);
+                            so_array = _.compact(so_array);
 
-                            meta.tdAttr = 'data-qtip="'+so_array.join('\n')+'"';
+                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
                             var score = '-';
                             var sift_score_array = [];
 //                            var _tempSoTerms = consequenceTypes.soTerms;
                             consequenceTypes.push(rec.data);
                             for (i = 0; i < consequenceTypes.length; i++) {
                                 for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
-                                    if(consequenceTypes[i].soTerms[j].soName == _.first(so_array)){
-                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function(key){
-                                            if(this[key].source == 'Sift'){
+                                    if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
+                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
+                                            if (this[key].source == 'Sift') {
                                                 sift_score_array.push(this[key].score)
                                                 score = this[key].score;
                                             }
-                                        },consequenceTypes[i].proteinSubstitutionScores);
+                                        }, consequenceTypes[i].proteinSubstitutionScores);
                                     }
                                 }
                             }
-                            if(!_.isEmpty(sift_score_array)){
-                                score =  Math.min.apply(Math, sift_score_array)
+                            if (!_.isEmpty(sift_score_array)) {
+                                score = Math.min.apply(Math, sift_score_array)
                             }
 
                             return score;
 
-                        }else{
+                        } else {
                             return '';
                         }
                     }
@@ -885,14 +921,14 @@ EvaVariantWidget.prototype = {
 
             ],
             defaults: {
-                align:'left' ,
-                sortable : true
+                align: 'left',
+                sortable: true
             }
         };
         var annotPanel = new ClinvarAnnotationPanel({
             target: target,
-            height:800,
-            columns:annontColumns,
+            height: 800,
+            columns: annontColumns,
             headerConfig: this.defaultToolConfig.headerConfig,
             handlers: {
                 "load:finish": function (e) {
@@ -906,13 +942,13 @@ EvaVariantWidget.prototype = {
         });
 
         this.on("variant:change", function (e) {
-            if(_.isUndefined(e.variant)){
+            if (_.isUndefined(e.variant)) {
                 annotPanel.clear(true);
-            }else{
+            } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     _.extend(e.variant, {annot: e.variant.annotation});
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
-                    annotPanel.load(e.variant,proxy.extraParams);
+                    annotPanel.load(e.variant, proxy.extraParams);
                 }
             }
         });
@@ -932,19 +968,19 @@ EvaVariantWidget.prototype = {
             },
             height: 820,
             statsTpl: new Ext.XTemplate(
-                '<table class="ocb-attributes-table">' +
+                '<table class="eva-attributes-table">' +
+                    '<tr>' +
+                    '<td class="header">Minor Allele Frequency</td>' +
+                    '<td class="header">Mendelian Errors</td>' +
+                    '<td class="header">Missing Alleles</td>' +
+                    '<td class="header">Missing Genotypes</td>' +
+                    '</tr>',
                 '<tr>' +
-                '<td class="header">Minor Allele Frequency</td>' +
-                '<td class="header">Mendelian Errors</td>' +
-                '<td class="header">Missing Alleles</td>' +
-                '<td class="header">Missing Genotypes</td>' +
-                '</tr>',
-                '<tr>' +
-                '<td><tpl if="maf == -1 || maf == 0">NA <tpl else>{maf:number( "0.000" )} </tpl><tpl if="mafAllele">({mafAllele}) <tpl else></tpl></td>' +
-                '<td><tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl></td>' +
-                '<td><tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl></td>' +
-                '<td><tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl></td>' +
-                '</tr>',
+                    '<td><tpl if="maf == -1 || maf == 0">NA <tpl else>{maf:number( "0.000" )} </tpl><tpl if="mafAllele">({mafAllele}) <tpl else></tpl></td>' +
+                    '<td><tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl></td>' +
+                    '<td><tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl></td>' +
+                    '<td><tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl></td>' +
+                    '</tr>',
                 '</table>'
             )
         });
@@ -965,18 +1001,20 @@ EvaVariantWidget.prototype = {
                         category: 'segments',
                         resource: 'variants',
                         query: region,
-                        params: {species: proxy.extraParams.species,studies:proxy.extraParams.studies},
+                        params: {species: proxy.extraParams.species, studies: proxy.extraParams.studies},
                         async: false,
                         success: function (response) {
                             try {
-                                _.extend(variant, response.response[0].result[0])
+//                                _.extend(variant, response.response[0].result[0]);
+                                var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
+                                _.extend(variant,result);
                             } catch (e) {
                                 console.log(e);
                             }
                         }
                     });
                     if (variant.sourceEntries) {
-                        variantPopulationStatsPanel.load(variant.sourceEntries, proxy.extraParams);
+                        variantPopulationStatsPanel.load(variant.sourceEntries, proxy.extraParams,_this.studies);
                     }
                 }
             }
@@ -1038,7 +1076,9 @@ EvaVariantWidget.prototype = {
                         params: params,
                         success: function (response) {
                             try {
-                                var variantSourceEntries = response.response[0].result[0].sourceEntries;
+//                                var variantSourceEntries = response.response[0].result[0].sourceEntries;
+                                var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
+                                var variantSourceEntries = result.sourceEntries;
 
                             } catch (e) {
 
@@ -1046,7 +1086,7 @@ EvaVariantWidget.prototype = {
                             }
 
                             if (variantSourceEntries) {
-                                variantGenotypeGridPanel.load(variantSourceEntries, params);
+                                variantGenotypeGridPanel.load(variantSourceEntries, params, _this.studies);
                             }
                         }
                     });
@@ -1059,10 +1099,8 @@ EvaVariantWidget.prototype = {
         return variantGenotypeGridPanel;
     },
 
-
     _createGenomeViewer: function (target) {
         var _this = this;
-
 
         var region = new Region({
             chromosome: "13",
@@ -1071,7 +1109,7 @@ EvaVariantWidget.prototype = {
         });
 
         var genomeViewer = new GenomeViewer({
-            cellBaseHost:CELLBASE_HOST,
+            cellBaseHost: CELLBASE_HOST,
             sidePanel: false,
             target: target,
             border: false,
@@ -1139,7 +1177,6 @@ EvaVariantWidget.prototype = {
             })
         });
 
-
         var sequence = new SequenceTrack({
 //        title: 'Sequence',
             height: 30,
@@ -1152,7 +1189,6 @@ EvaVariantWidget.prototype = {
                 species: genomeViewer.species
             })
         });
-
 
         var gene = new GeneTrack({
             title: 'Gene',
@@ -1200,7 +1236,7 @@ EvaVariantWidget.prototype = {
         genomeViewer.addTrack([sequence, gene, snp]);
         this.on("species:change", function (e) {
             //disbaling for goat
-            if(e.values.species =='chircus_10' || e.values.species =='olatipes_hdrr'){
+            if (e.values.species == 'chircus_10' || e.values.species == 'olatipes_hdrr') {
                 return;
             }
             _this.taxonomy = e.values.species.split('_')[0];
@@ -1222,11 +1258,11 @@ EvaVariantWidget.prototype = {
 
         return genomeViewer;
     },
-    resizeGV: function(){
+    resizeGV: function () {
         var _this = this;
-        var gvTab =  _.findWhere(_this.toolTabPanel.items.items, {title:'Genomic Context'})
+        var gvTab = _.findWhere(_this.toolTabPanel.items.items, {title: 'Genomic Context'})
         var gvTabWidth = gvTab.getWidth();
-        _this.genomeViewer.setWidth(gvTabWidth-2);
+        _this.genomeViewer.setWidth(gvTabWidth - 2);
 
     },
     retrieveData: function (baseUrl, filterParams) {
@@ -1285,7 +1321,6 @@ EvaVariantWidget.prototype = {
                         }, so_terms);
                     }, value);
 
-
                     var groupedArr = _.groupBy(tempArray);
                     var so_array = [];
                     _.each(_.keys(groupedArr), function (key) {
@@ -1293,9 +1328,9 @@ EvaVariantWidget.prototype = {
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
 //                        so_array[index] = key + ' (' + this[key].length + ')';
-                        if(index < 0){
+                        if (index < 0) {
                             so_array.push(key)
-                        }else{
+                        } else {
                             so_array[index] = key;
                         }
                     }, groupedArr);
@@ -1342,7 +1377,6 @@ EvaVariantWidget.prototype = {
             csvContent += enewLine;
         }
 
-
         if ('download' in document.createElement('a')) {
             /*
              This is the code that produces the CSV file and downloads it
@@ -1372,7 +1406,6 @@ EvaVariantWidget.prototype = {
             alert('Please allow pop up in settings if its not exporting');
             window.open().document.write('<table>' + csvContent + '</table>');
             return true;
-
 
         }
 

@@ -110,20 +110,20 @@ VariantRawDataPanel.prototype = {
         var attributes = (data.attributes) ? data.attributes : {};
         // removing src from attributes
         var attributesData = {};
-        _.extend(attributesData,attributes);
+        _.extend(attributesData, attributes);
         delete attributesData['src'];
         delete attributesData['ACC'];
 
         //TO BE REMOVED
         var study_title;
-        if(projects){
+        if (projects) {
             for (var i = 0; i < projects.length; i++) {
                 if (projects[i].studyId === data.studyId) {
-                    study_title = '<a href="?eva-study='+projects[i].studyId+'" target="_blank">'+projects[i].studyName+'</a> ('+ projects[i].studyId +')';
+                    study_title = '<a href="?eva-study=' + projects[i].studyId + '" target="_blank">' + projects[i].studyName + '</a> (' + projects[i].studyId + ')';
                 }
             }
-        }else{
-            study_title = '<a href="?eva-study='+data.studyId+'" target="_blank">'+data.studyId+'</a>';
+        } else {
+            study_title = '<a href="?eva-study=' + data.studyId + '" target="_blank">' + data.studyId + '</a>';
         }
 
         var vcfHeader = attributes['src'];
@@ -143,7 +143,7 @@ VariantRawDataPanel.prototype = {
                     items: [
                         {
                             xtype: 'container',
-                            id:vcfHeaderId,
+                            id: vcfHeaderId,
                             data: vcfHeader,
                             tpl: new Ext.XTemplate('<div>{vcfHeader}</div>'),
                             margin: '5 5 5 10'

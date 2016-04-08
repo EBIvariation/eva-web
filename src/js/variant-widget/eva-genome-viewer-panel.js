@@ -33,7 +33,6 @@ function EvaGenomeViewerPanel(args) {
     }
 };
 
-
 EvaGenomeViewerPanel.prototype = {
     render: function () {
         var _this = this;
@@ -91,7 +90,7 @@ EvaGenomeViewerPanel.prototype = {
     resize: function () {
         var _this = this;
         if (_this.panel.isVisible()) {
-            _this.panel.doLayout();
+            _this.panel.updateLayout();
         }
     },
     _createFormPanelGenomeFilter: function (target) {
@@ -135,16 +134,16 @@ EvaGenomeViewerPanel.prototype = {
         var trackNameField = Ext.create('Ext.form.field.Text', {
             xtype: 'textfield',
             emptyText: 'Enter a track name',
-            width:'100%',
-            height:30,
-            margin:'5 0 0 0'
+            width: '100%',
+            height: 30,
+            margin: '5 0 0 0'
         });
 
         var addTrack = Ext.create('Ext.Button', {
             text: 'Add',
-            width:'100%',
-            margin:'20 0 0 0',
-            handler: function(e) {
+            width: '100%',
+            margin: '20 0 0 0',
+            handler: function (e) {
                 var title = trackNameField.getValue();
                 var studies = studyFilter.getValues();
                 var species = speciesFilter.getValues();
@@ -152,24 +151,24 @@ EvaGenomeViewerPanel.prototype = {
                 _.extend(values, studies)
                 _.extend(values, species)
 
-                if (_.isEmpty(studies)){
-                    Ext.Msg.alert('','Please select atleast one study');
+                if (_.isEmpty(studies)) {
+                    Ext.Msg.alert('', 'Please select atleast one study');
                 }
                 if (title !== '') {
                     _this._addGenomeBrowserTrack(title, values);
                     trackNameField.setValue('');
                     _this.formPanel.collapse();
-                }else{
-                    Ext.Msg.alert('','Please Enter a Track Name');
+                } else {
+                    Ext.Msg.alert('', 'Please Enter a Track Name');
                 }
             }
         });
 
         var reset = Ext.create('Ext.Button', {
             text: 'Reset',
-            width:'100%',
-            margin:'20 0 0 0',
-            handler: function() {
+            width: '100%',
+            margin: '20 0 0 0',
+            handler: function () {
                 _this.formPanel.getForm().reset();
                 Utils.msg('Reset', 'Successful');
                 _this.formPanel.getForm().findField('species').setValue('hsapiens_grch37');
@@ -178,58 +177,57 @@ EvaGenomeViewerPanel.prototype = {
         });
 
         var trackPanel = Ext.create('Ext.form.Panel', {
-            border:false,
-            title:'Track Name',
-            header:{
+            border: false,
+            title: 'Track Name',
+            header: {
                 baseCls: 'eva-header-2',
-                titlePosition:1
+                titlePosition: 1
             },
             layout: {
                 type: 'vbox',
                 align: 'fit'
             },
-            items:[trackNameField,addTrack,reset]
+            items: [trackNameField, addTrack, reset]
 
         });
 
+        _.extend(speciesFilter.panel, {flex: 1.5, title: 'Species', header: {baseCls: 'eva-header-2'}})
+        _.extend(studyFilter.panel, {flex: 4.5, title: 'Studies', header: {baseCls: 'eva-header-2'}})
 
-        _.extend(speciesFilter.panel, {flex:1.5,title:'Species',header:{baseCls: 'eva-header-2'}})
-        _.extend(studyFilter.panel, {flex:4.5,title:'Studies',header:{baseCls: 'eva-header-2'}})
-
-        this.panel =  Ext.create('Ext.form.Panel', {
-            title:'Add Tracks',
-            header:{
+        this.panel = Ext.create('Ext.form.Panel', {
+            title: 'Add Tracks',
+            header: {
                 baseCls: 'eva-header-1',
-                titlePosition:0
+                titlePosition: 0
             },
             collapsible: true,
-            border:true,
+            border: true,
             layout: {
                 type: 'hbox',
                 align: 'fit'
             },
-            items:[
+            items: [
                 {
-                    xtype:'container',
-                    flex:1.5,
-                    overflowY:true,
-                    border:false,
+                    xtype: 'container',
+                    flex: 1.5,
+                    overflowY: true,
+                    border: false,
                     layout: {
                         type: 'vbox',
                         align: 'stretch'
                     },
-                    items:[speciesFilter.panel,trackPanel]
+                    items: [speciesFilter.panel, trackPanel]
                 },
                 {
-                    xtype:'container',
-                    flex:4.5,
-                    height:330,
-                    border:false,
+                    xtype: 'container',
+                    flex: 4.5,
+                    height: 330,
+                    border: false,
                     layout: {
                         type: 'vbox',
                         align: 'stretch'
                     },
-                    items:[studyFilter.panel]
+                    items: [studyFilter.panel]
                 }
             ]
         });
@@ -244,7 +242,7 @@ EvaGenomeViewerPanel.prototype = {
         params.exclude = 'sourceEntries';
         var eva = new FeatureTrack({
             title: title,
-            closable:true,
+            closable: true,
             featureType: 'eva',
             minHistogramRegionSize: 10000,
             maxLabelRegionSize: 3000,
@@ -327,7 +325,7 @@ EvaGenomeViewerPanel.prototype = {
         }
 
         var genomeViewer = new GenomeViewer({
-            cellBaseHost:CELLBASE_HOST,
+            cellBaseHost: CELLBASE_HOST,
             sidePanel: false,
             target: target,
             border: false,

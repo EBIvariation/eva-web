@@ -33,7 +33,6 @@ function EvaStudyFilterFormPanel(args) {
     this.collapsed = false;
     this.studyFilterTpl = '<tpl><div class="ocb-study-filter">{studyName}</div></tpl>';
 
-
     /**
      * TO BE REMOVED!
      * @type {Ext.data.Store}
@@ -54,7 +53,6 @@ function EvaStudyFilterFormPanel(args) {
     _.extend(this, args);
 
     this.on(this.handlers);
-
 
     this.rendered = false;
     if (this.autoRender) {
@@ -106,7 +104,7 @@ EvaStudyFilterFormPanel.prototype = {
         var selModel = Ext.create('Ext.selection.CheckboxModel', {
             checkOnly: true,
             listeners: {
-                selectionchange: function(model, records) {
+                selectionchange: function (model, records) {
 
                 }
             }
@@ -114,16 +112,16 @@ EvaStudyFilterFormPanel.prototype = {
 
         this.grid = Ext.create('Ext.grid.Panel', {
                 store: this.studiesStore,
-                autoScroll:true,
+                autoScroll: true,
                 border: this.border,
                 loadMask: true,
                 hideHeaders: false,
-                enableColumnHide:false,
+                enableColumnHide: false,
                 plugins: 'bufferedrenderer',
-                features: [
-                    {ftype: 'summary'}
-                ],
-                cls:'studyList',
+                // features: [
+                //     {ftype: 'summary'}
+                // ],
+                cls: 'studyList',
                 height: this.height,
                 viewConfig: {
                     stripeRows: false,
@@ -146,8 +144,8 @@ EvaStudyFilterFormPanel.prototype = {
                         dataIndex: 'studyName',
                         flex: 10,
                         xtype: 'templatecolumn',
-                        tpl:this.studyFilterTpl,
-                        sortable : true
+                        tpl: this.studyFilterTpl,
+                        sortable: true
                     }
                 ]
             }
@@ -170,7 +168,6 @@ EvaStudyFilterFormPanel.prototype = {
                 this.grid
             ]
         });
-
 
         return form;
     },

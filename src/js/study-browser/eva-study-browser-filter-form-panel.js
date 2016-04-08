@@ -30,7 +30,6 @@ function StudyFilterFormPanel(args) {
     this.headerConfig;
     this.speciesList = speciesList;
     this.defaultValue = 'hsapiens_grch37';
-    
 
     //set instantiation args, must be last
     _.extend(this, args);
@@ -66,16 +65,16 @@ StudyFilterFormPanel.prototype = {
     _createPanel: function () {
         var _this = this;
 
-        Ext.define('Tree Model', {
+        Ext.define(this.id+'-tree-model', {
             extend: 'Ext.data.Model',
             fields: this.fields
         });
 
         this.store = Ext.create('Ext.data.TreeStore', {
-            model: 'Tree Model',
+            model: this.id+'-tree-model',
             proxy: {
                 type: 'memory',
-                data:[],
+                data: [],
                 reader: {
                     type: 'json'
                 }
@@ -87,9 +86,9 @@ StudyFilterFormPanel.prototype = {
             border: this.border,
             useArrows: true,
             rootVisible: true,
-            store:  this.store,
+            store: this.store,
             multiSelect: true,
-            singleExpand: true,
+            singleExpand: false,
             hideHeaders: true,
             collapsible: this.collapsible,
             titleCollapse: this.titleCollapse,
@@ -99,17 +98,23 @@ StudyFilterFormPanel.prototype = {
             listeners: {
                 'checkchange': function (node, checked) {
                     node.cascadeBy(function (n) {
-                        n.set('checked', checked);
+                        // n.set('checked', checked);
+                        _this.panel.getView().refreshNode(n);
                     });
+                },
+                itemclick: function(s,n) {
+                    var value = ( n.data.checked == true ? false : true);
+                    n.set('checked', value);
+                    _this.panel.getView().refreshNode(n);
                 }
             }
         });
 
-        if(!_.isEmpty(_this.defaultValues)){
-            var values = _this.defaultValues.split(",");
-            console.log(values)
-            _this.selectNodes(values);
-        }
+        // if (!_.isEmpty(_this.defaultValues)) {
+        //     var values = _this.defaultValues.split(",");
+        //     console.log(values)
+        //     _this.selectNodes(values);
+        // }
 
         return  this.panel;
 
@@ -121,11 +126,11 @@ StudyFilterFormPanel.prototype = {
         var _this = this;
         var nodes = this.panel.getRootNode().treeStore.data.items;
         var values = [];
-        _.each(_.keys(nodes), function(key){
+        _.each(_.keys(nodes), function (key) {
             if (this[key].get('checked') && this[key].isLeaf()) {
                 values.push(this[key].get('display'));
             }
-        },nodes);
+        }, nodes);
         obj = {};
         var title = this.title.toLowerCase();
 
@@ -139,7 +144,7 @@ StudyFilterFormPanel.prototype = {
     clear: function () {
 //        this.panel.reset();
     },
-    selectNodes:function(values){
+    selectNodes: function (values) {
 
     }
 }

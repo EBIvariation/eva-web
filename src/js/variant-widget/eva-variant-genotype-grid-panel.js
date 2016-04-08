@@ -49,6 +49,8 @@ function EvaVariantGenotypeGridPanel(args) {
         }
     ];
 
+    this.tooltipText = "Genotype data for the selected variant, split by study. N.B. “*” in the genotype denotes ‘not reference but exact ALT unknown’. This is a temporary solution whilst we work with the VCF specification team to better describe these complex cases";
+
     _.extend(this, args);
 
     this.on(this.handlers);
@@ -83,7 +85,7 @@ EvaVariantGenotypeGridPanel.prototype = {
     clear: function () {
         this.studiesContainer.removeAll(true);
     },
-    load: function (data,params) {
+    load: function (data, params, studies) {
         var _this = this;
         this.clear();
         var panels = [];
@@ -92,22 +94,23 @@ EvaVariantGenotypeGridPanel.prototype = {
         for (var key in data) {
             var study = data[key];
             if (Object.keys(study.samplesData).length > 0) {
-                Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
-                var genotypePanel = this._createGenotypePanel(study,params);
+                Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+                var genotypePanel = this._createGenotypePanel(study, params, studies);
                 genotypeChartData.push(genotypePanel.chartData)
                 panels.push(genotypePanel);
             }
         }
 
-        if(_.isEmpty(panels)){
-            Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">No Genotypes data available</p>')
+        if (_.isEmpty(panels)) {
+            Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">No Genotypes data available</p>')
         }
         this.clear();
+        panels = _.sortBy(panels, 'projectName');
         this.studiesContainer.add(panels);
 
-        _.each(_.keys(genotypeChartData), function(key){
+        _.each(_.keys(genotypeChartData), function (key) {
             _this._drawChart(this[key]);
-        },genotypeChartData);
+        }, genotypeChartData);
     },
     _createPanel: function () {
         this.studiesContainer = Ext.create('Ext.container.Container', {
@@ -128,9 +131,9 @@ EvaVariantGenotypeGridPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
-                    id:'genotypeTitle',
+                    id: 'genotypeTitle',
                     cls: 'ocb-header-4',
-                    html: '<h4>Genotypes <img class="title-header-icon" data-qtip="Genotype data for the selected variant split by study." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
+                    html: '<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
                     margin: '5 0 10 10'
                 },
                 this.studiesContainer
@@ -140,47 +143,39 @@ EvaVariantGenotypeGridPanel.prototype = {
         });
         return this.panel;
     },
-    _createGenotypePanel: function (data,params) {
+    _createGenotypePanel: function (data, params, studies) {
         var study_title;
-        var projectList = '';
-        EvaManager.get({
-            category: 'meta/studies',
-            resource: 'list',
-            params:{species:params.species},
-            async: false,
-            success: function (response) {
-                try {
-                    projectList = response.response[0].result;
-                } catch (e) {
-                    console.log(e);
+        var fileId = data.fileId;
+        var project_name = data.studyId;
+        if (studies) {
+            for (var i = 0; i < studies.length; i++) {
+                if (studies[i].studyId === data.studyId) {
+                    project_name = studies[i].studyName;
+                    link = studies[i].link;
                 }
             }
-        });
-
-        if(projectList){
-            for (var i = 0; i < projectList.length; i++) {
-                if (projectList[i].studyId === data.studyId) {
-                    study_title = '<a href="?eva-study='+projectList[i].studyId+'" target="_blank">'+projectList[i].studyName+'</a> ('+ projectList[i].studyId +')';
-                }
-            }
-        }else{
-            study_title = '<a href="?eva-study='+data.studyId+'" target="_blank">'+data.studyId+'</a>';
         }
+
+        study_title = project_name + ' (' + data.studyId +' - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
+        if(link){
+            study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId +'</a> - <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.studyId + '/'+fileId+'" class="ftp_link" target="_blank">' + fileId + '</a>)';
+        }
+
         var samples = data.samplesData;
         var finalData = [];
-        var chartData = []
+        var chartData = [];
+
         for (var key in samples) {
             var s = samples[key];
+            var allels = s.GT.formatAlleles();
 
-            if(s.GT.match(/-1\/-1/)){
-                s.GT = './.';
-            }
-            chartData.push({value:s.GT});
+            chartData.push({value: allels});
             finalData.push({
                 sample: key,
-                genotype: s.GT
+                genotype: allels
             });
         }
+
 
         var store = Ext.create('Ext.data.Store', {
             fields: [
@@ -188,65 +183,68 @@ EvaVariantGenotypeGridPanel.prototype = {
                 {name: 'genotype'}
             ],
             data: finalData,
-            sorters: [{
-                property: 'sample',
-                direction: 'ASC'
-            }]
+            sorters: [
+                {
+                    property: 'sample',
+                    direction: 'ASC'
+                }
+            ]
         });
 
         var genotypeColumns = {
-            items:[
+            items: [
                 {
-                    text     : 'Sample',
-                    flex     : 1.6,
+                    text: 'Sample',
+                    flex: 1.6,
                     dataIndex: 'sample'
                 },
                 {
-                    text     : 'Genotype',
-                    flex     : 1,
+                    text: 'Genotype',
+                    flex: 1,
                     dataIndex: 'genotype'
                 }
             ],
             defaults: {
-                align:'left' ,
-                sortable : true
+                align: 'left',
+                sortable: true
             }
         };
 
         var grid = Ext.create('Ext.grid.Panel', {
-            flex:1,
+            flex: 1,
             store: store,
             loadMask: true,
-            overflowY:true,
+            overflowY: true,
             height: 300,
-            cls:'genotype-grid',
+            cls: 'genotype-grid',
             margin: 20,
             columns: genotypeColumns
         });
 
-        var divID =  Utils.genId("genotype-grid-")+data.studyId;
-        var tpl = new Ext.XTemplate(['<div id="'+divID+'">Chart</div>']);
+        var divID = Utils.genId("genotype-grid-") + data.studyId;
+        var tpl = new Ext.XTemplate(['<div id="' + divID + '">Chart</div>']);
         var view = Ext.create('Ext.view.View', {
             tpl: tpl,
-            margin:'20 0 0 0'
+            margin: '20 0 0 0'
         });
 
-        var tempGenotypeCount = _.groupBy(chartData,'value');
+        var tempGenotypeCount = _.groupBy(chartData, 'value');
         var genotypeCountArray = [];
 
-        _.each(_.keys(tempGenotypeCount), function(key){
+        _.each(_.keys(tempGenotypeCount), function (key) {
             var obj = {};
             obj[key] = this[key].length;
-            genotypeCountArray.push([key,  this[key].length]);
-        },tempGenotypeCount);
+            genotypeCountArray.push([key, this[key].length]);
+        }, tempGenotypeCount);
 
-        var chartData = {id:divID,data:genotypeCountArray,title:'Genotype Count'}
+        var chartData = {id: divID, data: genotypeCountArray, title: 'Genotype Count'}
 
         var panel = Ext.create('Ext.panel.Panel', {
-            header:{
-                titlePosition:1
+            header: {
+                titlePosition: 1
             },
-            title: '<span class="genotype-grid-study-title">'+study_title+'</span>',
+            title: '<span class="genotype-grid-study-title">' + study_title + '</span>',
+            projectName:project_name,
             border: false,
             layout: {
                 type: 'hbox',
@@ -256,23 +254,22 @@ EvaVariantGenotypeGridPanel.prototype = {
                 {
                     xtype: 'panel',
                     flex: 1.5,
-                    border:false,
-                    items:[grid]
+                    border: false,
+                    items: [grid]
                 },
                 {
                     xtype: 'panel',
                     flex: 1,
-                    border:false,
-                    height:300,
-                    items:[view]
+                    border: false,
+                    height: 300,
+                    items: [view]
                 }
             ]
         });
 
-        _.extend(panel, {chartData:chartData});
+        _.extend(panel, {chartData: chartData});
 
-    return  panel;
-
+        return  panel;
 
     },
     _getGenotypeCount: function (gc) {
@@ -285,17 +282,17 @@ EvaVariantGenotypeGridPanel.prototype = {
         }
         return res;
     },
-    _drawChart:function(data){
+    _drawChart: function (data) {
         var _this = this;
         var height = 290;
         var width = 250;
-        var id = '#'+data.id;
+        var id = '#' + data.id;
         var render_id = document.querySelector(id)
-        var dataArray  = data.data;
+        var dataArray = data.data;
         var title = data.title;
         $(function () {
             Highcharts.setOptions({
-                colors: ['#207A7A', '#2BA32B','#2E4988','#54BDBD', '#5DD15D','#6380C4', '#70BDBD', '#7CD17C','#7D92C4','#295C5C', '#377A37','#344366','#0A4F4F', '#0E6A0E','#0F2559' ],
+                colors: ['#207A7A', '#2BA32B', '#2E4988', '#54BDBD', '#5DD15D', '#6380C4', '#70BDBD', '#7CD17C', '#7D92C4', '#295C5C', '#377A37', '#344366', '#0A4F4F', '#0E6A0E', '#0F2559' ],
                 chart: {
                     style: {
                         fontFamily: 'sans-serif;'
@@ -312,12 +309,12 @@ EvaVariantGenotypeGridPanel.prototype = {
                 legend: {
                     enabled: true,
                     margin: 0,
-                    labelFormatter: function() {
-                        return '<div>' + this.name + '('+ this.y + ')</div>';
+                    labelFormatter: function () {
+                        return '<div>' + this.name + '(' + this.y + ')</div>';
                     },
-                    layout:'horizontal',
-                    useHTML:true,
-                    align:'center'
+                    layout: 'horizontal',
+                    useHTML: true,
+                    align: 'center'
                 },
                 title: {
                     text: title,
@@ -337,11 +334,13 @@ EvaVariantGenotypeGridPanel.prototype = {
                         showInLegend: true
                     }
                 },
-                series: [{
-                    type: 'pie',
-                    name: 'Studies by '+title,
-                    data: dataArray
-                }],
+                series: [
+                    {
+                        type: 'pie',
+                        name: 'Studies by ' + title,
+                        data: dataArray
+                    }
+                ],
                 credits: {
                     enabled: false
                 }
@@ -350,4 +349,40 @@ EvaVariantGenotypeGridPanel.prototype = {
         });
 
     }
+};
+String.prototype.formatAlleles = function () {
+    var allels = this;
+    var temp;
+    var first;
+    var second;
+    var split;
+
+    if (allels.match(/-1\/-1/)) {
+        allels = './.';
+    }else if(allels.match(/-1\|-1/)){
+        allels = '.|.';
+    }
+
+    if (this.indexOf("|") > -1) {
+        temp = allels.split("|");
+        split = '|';
+    }else if(this.indexOf("/") > -1) {
+        temp = allels.split("/");
+        split = '/';
+    }
+    if(!_.isEmpty( temp[0]) && !_.isUndefined(temp[0]) && temp[0] > 1){
+        first = '*';
+    }else{
+        first = temp[0];
+    }
+
+    if(!_.isEmpty( temp[1]) && !_.isUndefined(temp[1]) && temp[1] > 1){
+        second = '*';
+    }else{
+        second = temp[1];
+    }
+
+    allels = first+split+second;
+
+    return allels;
 };

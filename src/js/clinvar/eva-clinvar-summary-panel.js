@@ -63,17 +63,17 @@ ClinvarSummaryPanel.prototype = {
     load: function (data) {
         this.clear();
         var panels = [];
-          var summaryData = data;
-          var panel = this._createSummaryPanel(summaryData);
-          this.summaryContainer.removeAll();
-          this.summaryContainer.add(panel);
+        var summaryData = data;
+        var panel = this._createSummaryPanel(summaryData);
+        this.summaryContainer.removeAll();
+        this.summaryContainer.add(panel);
     },
     _createPanel: function () {
         this.summaryContainer = Ext.create('Ext.container.Container', {
-            layout:'fit'
+            layout: 'fit'
         });
 
-      this.panel = Ext.create('Ext.container.Container', {
+        this.panel = Ext.create('Ext.container.Container', {
             layout: {
                 type: 'vbox',
                 align: 'stretch'
@@ -98,13 +98,13 @@ ClinvarSummaryPanel.prototype = {
         var reference = data.reference;
         var alternate = data.alternate;
         data = data.clinvarSet.referenceClinVarAssertion;
-        var lastEvaluated = new Date( data.clinVarAccession.dateUpdated ).toUTCString();
+        var lastEvaluated = new Date(data.clinVarAccession.dateUpdated).toUTCString();
         var origin = data.observedIn[0].sample.origin;
         var traitSet = data.traitSet.trait;
-        var citation= 'NA';
+        var citation = 'NA';
         var publications = '-';
         var pubArray = [];
-        _.each(_.keys(traitSet), function(key){
+        _.each(_.keys(traitSet), function (key) {
             var citation = this[key].citation;
           if(citation){
               _.each(_.keys(citation), function(key){
@@ -114,9 +114,9 @@ ClinvarSummaryPanel.prototype = {
               },citation);
           }
 
-        },traitSet);
+        }, traitSet);
 
-        if(!_.isEmpty(pubArray)){
+        if (!_.isEmpty(pubArray)) {
             publications = pubArray.join('<br/>');
         }
 
@@ -124,7 +124,6 @@ ClinvarSummaryPanel.prototype = {
         var variation_type = data.measureSet.measure[0].type;
         var hgvs = '-';
         var soTerms = '-';
-
         if(!_.isUndefined(annotData)){
           var hgvsArray = []
           if(!_.isUndefined(annotData.hgvs)){
@@ -155,28 +154,28 @@ ClinvarSummaryPanel.prototype = {
                _.each(_.keys(this[key]), function(key){
                    if(!_.isUndefined(this[key].transcript_id)){
                         transcript_array.push(this[key].transcript_id)
-                   }
-               },this[key]);
-               var transcripts = transcript_array.join('\n');
-               var so_term_detail = _.findWhere(consequenceTypesColors, {id:key});
-               var color = '';
-               var impact = '';
-               var svg = '';
-               if(!_.isUndefined(so_term_detail)){
-                   color = so_term_detail.color;
-                   impact = so_term_detail.impact;
-                   svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="'+color+'"><title>'+impact+'</title></rect></svg>'
-               }
-               if(index < 0){
-                   so_array.push(''+key+'&nbsp;'+svg+'(<span title="'+transcripts+'">'+this[key].length+'</span>)')
-               }else{
-                   so_array[index] = ''+key+'&nbsp;'+svg+'(<span title="'+transcripts+'">'+this[key].length+'</span>)';
-               }
-           },groupedArr);
+                    }
+                }, this[key]);
+                var transcripts = transcript_array.join('\n');
+                var so_term_detail = _.findWhere(consequenceTypesColors, {id: key});
+                var color = '';
+                var impact = '';
+                var svg = '';
+                if (!_.isUndefined(so_term_detail)) {
+                    color = so_term_detail.color;
+                    impact = so_term_detail.impact;
+                    svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="' + color + '"><title>' + impact + '</title></rect></svg>'
+                }
+                if (index < 0) {
+                    so_array.push('' + key + '&nbsp;' + svg + '(<span title="' + transcripts + '">' + this[key].length + '</span>)')
+                } else {
+                    so_array[index] = '' + key + '&nbsp;' + svg + '(<span title="' + transcripts + '">' + this[key].length + '</span>)';
+                }
+            }, groupedArr);
 
-           so_array =  _.compact(so_array);
-           soTerms = so_array.join("<br\/>");
-       }
+            so_array = _.compact(so_array);
+            soTerms = so_array.join("<br\/>");
+        }
 
         var summaryPanel = Ext.create('Ext.panel.Panel', {
             border: false,
@@ -184,42 +183,44 @@ ClinvarSummaryPanel.prototype = {
                 type: 'vbox',
                 align: 'fit'
             },
-            height:450,
-            overflowY:true,
-            items: [  {
-                xtype: 'container',
-                data: data,
-                width:970,
-                tpl: new Ext.XTemplate(
-                    '<div class="col-md-12"><table class="table table-bordered eva-stats-table">',
+            height: 450,
+            overflowY: true,
+            items: [
+                {
+                    xtype: 'container',
+                    data: data,
+                    width: 970,
+                    tpl: new Ext.XTemplate(
+                        '<div class="col-md-12"><table class="table table-bordered eva-stats-table">',
                         '<tr>',
-                            '<td class="header">Reference</td><td class="clinvar-reference">'+reference+'</td>',
+                        '<td class="header">Reference</td><td class="clinvar-reference">' + reference + '</td>',
                         '</tr>',
                         '<tr>',
-                             '<td class="header">Alternate</td><td class="clinvar-alternate">'+alternate+'</td>',
+                        '<td class="header">Alternate</td><td class="clinvar-alternate">' + alternate + '</td>',
                         '</tr>',
                         '<tr>',
-                             '<td class="header">Review status</td><td class="clinvar-reviewStatus">{clinicalSignificance.reviewStatus}</td>',
+                        '<td class="header">Review status</td><td class="clinvar-reviewStatus">{clinicalSignificance.reviewStatus}</td>',
                         '</tr>',
                         '<tr>',
-                            '<td class="header">Last Evaluated</td><td class="clinvar-lastEvaluated">'+lastEvaluated+'</td>',
+                        '<td class="header">Last Evaluated</td><td class="clinvar-lastEvaluated">' + lastEvaluated + '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td class="header">HGVS(s)</td><td class="clinvar-hgvs">'+hgvs+'</td>',
+                        '<td class="header">HGVS(s)</td><td class="clinvar-hgvs">' + hgvs + '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td class="header">SO Terms(s)</td><td class="clinvar-soTerms">'+soTerms+'</td>',
+                        '<td class="header">SO Terms(s)</td><td class="clinvar-soTerms">' + soTerms + '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td class="header">Variation Type</td><td class="clinvar-variationType">'+variation_type+'</td>',
+                        '<td class="header">Variation Type</td><td class="clinvar-variationType">' + variation_type + '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td class="header">Publications</td><td class="clinvar-publications">'+publications+'</td>',
+                        '<td class="header">Publications</td><td class="clinvar-publications">' + publications + '</td>',
                         '</tr>',
                         '</table></div>'
-                ),
-                margin: '10 5 5 10'
-            }]
+                    ),
+                    margin: '10 5 5 10'
+                }
+            ]
         });
 
         return summaryPanel;

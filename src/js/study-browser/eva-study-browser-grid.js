@@ -63,7 +63,6 @@ EvaStudyBrowserGrid.prototype = {
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
 
-
         this.panel = this._createPanel();
     },
     draw: function () {
@@ -107,13 +106,13 @@ EvaStudyBrowserGrid.prototype = {
             displayInfo: true,
             displayMsg: 'Studies {0} - {1} of {2}',
             emptyMsg: "No studies to display",
-            inputItemWidth:40
+            inputItemWidth: 40
         });
 
         var grid = Ext.create('Ext.grid.Panel', {
-                id:'study-browser-grid',
+                id: 'study-browser-grid',
                 title: this.title,
-                margin:this.margin,
+                margin: this.margin,
                 store: this.store,
                 border: this.border,
                 header: this.headerConfig,
@@ -121,24 +120,26 @@ EvaStudyBrowserGrid.prototype = {
                 columns: this.columnsGrid,
                 animCollapse: false,
                 height: this.height,
-                overflowX:false,
+                overflowX: false,
                 overflowY: false,
-                collapsible:false,
-                features: [
-                    {ftype: 'summary'}
+                collapsible: false,
+                // features: [
+                //     {ftype: 'summary'}
+                // ],
+                plugins: [
+                    {
+                        ptype: 'rowexpander',
+                        rowBodyTpl: new Ext.XTemplate(
+                            '<p style="padding: 2px 2px 2px 15px"><b>Platform:</b> {platform}</p>',
+                            '<p style="padding: 2px 2px 2px 15px"><b>Centre:</b> {center}</p>',
+                            '<p style="padding: 2px 2px 5px 15px"><b>Description:</b> {description}</p>'
+                        )
+                    }
                 ],
-                plugins: [{
-                    ptype: 'rowexpander',
-                    rowBodyTpl : new Ext.XTemplate(
-                        '<p style="padding: 2px 2px 2px 15px"><b>Platform:</b> {platform}</p>',
-                        '<p style="padding: 2px 2px 2px 15px"><b>Centre:</b> {center}</p>',
-                        '<p style="padding: 2px 2px 5px 15px"><b>Description:</b> {description}</p>'
-                    )
-                }],
                 viewConfig: {
                     emptyText: 'No records to display',
                     enableTextSelection: true,
-                    listeners:this.viewConfigListeners
+                    listeners: this.viewConfigListeners
                 },
                 tbar: this.paging
             }
@@ -152,7 +153,7 @@ EvaStudyBrowserGrid.prototype = {
             }
         });
 
-        grid.on('rowclick', function(grid, rowIndex, columnIndex, e) {
+        grid.on('rowclick', function (grid, rowIndex, columnIndex, e) {
             _this.trigger("variant:change", {sender: _this, args: rowIndex.data});
         }, this);
 
@@ -232,7 +233,7 @@ EvaStudyBrowserGrid.prototype = {
                 load: function (store, records, successful, operation, eOpts) {
                     if (typeof this.dataParser !== 'undefined') {
                         _this.dataParser(records);
-                    } else if(!_.isNull(records)){
+                    } else if (!_.isNull(records)) {
                         _this._parserFunction(records);
                         _this.grid.getSelectionModel().select(0, true);
                     }

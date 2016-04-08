@@ -135,11 +135,11 @@ EvaVariantTranscriptGrid.prototype = {
                 title: this.title,
                 store: this.store,
                 header: this.headerConfig,
-                margin:this.margin,
+                margin: this.margin,
                 loadMask: true,
                 columns: this.columns,
                 animCollapse: false,
-                collapsible:false,
+                collapsible: false,
                 features: [
                     {ftype: 'summary'}
                 ],

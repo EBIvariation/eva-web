@@ -47,10 +47,10 @@ function EvaClinVarWidget(args) {
         },
         genomeViewer: true,
         genotype: true,
-        assertion:true,
-        summary:true,
-        links:true,
-        annot:true
+        assertion: true,
+        summary: true,
+        links: true,
+        annot: true
     };
     this.tools = [];
     this.dataParser;
@@ -74,7 +74,6 @@ function EvaClinVarWidget(args) {
         }
     };
     this.geneID = false;
-
 
     _.extend(this.filters, args.filters);
     _.extend(this.browserGridConfig, args.browserGridConfig);
@@ -117,7 +116,7 @@ EvaClinVarWidget.prototype = {
             title: this.toolPanelConfig.title,
             border: this.toolPanelConfig.border,
             margin: '10 0 0 0',
-            height:this.toolPanelConfig.height,
+            height: this.toolPanelConfig.height,
             plain: true,
             animCollapse: false,
             header: this.toolPanelConfig.headerConfig,
@@ -134,7 +133,7 @@ EvaClinVarWidget.prototype = {
                     if (_this.lastVariant) {
                         _this.trigger('clinvar:change', {variant: _this.lastVariant, sender: _this});
                     }
-                    if(_this.lastVariant && newTab.title == 'Genomic Context'){
+                    if (_this.lastVariant && newTab.title == 'Genomic Context') {
                         _this.resizeGV();
                     }
                 }
@@ -192,7 +191,7 @@ EvaClinVarWidget.prototype = {
                 title: 'Genomic Context',
                 border: 0,
                 contentEl: this.genomeViewerDiv,
-                overflowX:true
+                overflowX: true
             });
         }
 
@@ -225,7 +224,6 @@ EvaClinVarWidget.prototype = {
 
         this.toolTabPanel.render(this.tabPanelDiv);
 
-
         for (var i = 0; i < this.toolTabPanel.items.items.length; i++) {
             this.toolTabPanel.setActiveTab(i);
         }
@@ -250,7 +248,6 @@ EvaClinVarWidget.prototype = {
             this.genomeViewer.draw();
         }
 
-
         for (var i = 0; i < this.tools.length; i++) {
             var tool = this.tools[i];
             tool.tool.draw();
@@ -260,7 +257,6 @@ EvaClinVarWidget.prototype = {
     },
     _createClinVarBrowserGrid: function (target) {
         var _this = this;
-
         var conseqTypeColumn = 'Most Severe <br />Consequence Type'
         if(_this.geneID){
             conseqTypeColumn = 'Consequence Type';
@@ -271,12 +267,12 @@ EvaClinVarWidget.prototype = {
                 {
                     text: 'Chr',
                     dataIndex: 'chromosome',
-                    flex:0.2
+                    flex: 0.2
                 },
                 {
                     text: "Position",
                     dataIndex: 'position',
-                    flex:0.4
+                    flex: 0.4
                 },
                 {
                     text: '<img class="header-icon" style="" src="img/icon-info.png"/>Affected Gene',
@@ -295,7 +291,6 @@ EvaClinVarWidget.prototype = {
                                      value = '';
                                  }
                              }
-
                         return value;
                     }
                 },
@@ -318,35 +313,34 @@ EvaClinVarWidget.prototype = {
                                     tempArray.push(this[key].name)
                                 },so_terms);
                             },value);
-
                             var groupedArr = _.groupBy(tempArray);
                             var so_array = [];
-                            _.each(_.keys(groupedArr), function(key){
-                                var index =  _.indexOf(consequenceTypesHierarchy, key);
+                            _.each(_.keys(groupedArr), function (key) {
+                                var index = _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
-                                if(index < 0){
+                                if (index < 0) {
                                     so_array.push(key)
-                                }else{
+                                } else {
                                     so_array[index] = key;
                                 }
-                            },groupedArr);
-                            so_array =  _.compact(so_array);
-                            meta.tdAttr = 'data-qtip="'+_.first(so_array)+'"';
+                            }, groupedArr);
+                            so_array = _.compact(so_array);
+                            meta.tdAttr = 'data-qtip="' + _.first(so_array) + '"';
                             var so_term_detail = _.findWhere(consequenceTypesColors, {id: _.first(so_array)});
                             var color = '';
                             var impact = '';
                             var svg = '';
-                            if(!_.isUndefined(so_term_detail)){
+                            if (!_.isUndefined(so_term_detail)) {
                                 color = so_term_detail.color;
                                 impact = so_term_detail.impact;
-                                svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="'+color+'"><title>'+impact+'</title></rect></svg>'
+                                svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="' + color + '"><title>' + impact + '</title></rect></svg>'
                             }
                             return value ? Ext.String.format(
-                                '<tpl>'+_.first(so_array)+'&nbsp;'+svg+'</tpl>',
+                                '<tpl>' + _.first(so_array) + '&nbsp;' + svg + '</tpl>',
                                 value
                             ) : '';
-                        }else{
+                        } else {
                             return '';
                         }
                     }
@@ -354,42 +348,42 @@ EvaClinVarWidget.prototype = {
                 {
                     text: "Trait",
                     dataIndex: 'trait',
-                    flex:0.7,
-                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
-                        _.each(_.keys(value), function(key){
-                            if(this[key].elementValue.type == 'Preferred'){
-                               meta.tdAttr = 'data-qtip="'+this[key].elementValue.value+'"';
-                               value = this[key].elementValue.value;
+                    flex: 0.7,
+                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
+                        _.each(_.keys(value), function (key) {
+                            if (this[key].elementValue.type == 'Preferred') {
+                                meta.tdAttr = 'data-qtip="' + this[key].elementValue.value + '"';
+                                value = this[key].elementValue.value;
                             }
-                        },value);
-                     return value ;
+                        }, value);
+                        return value;
                     }
                 },
                 {
                     text: "Clinical <br /> Significance",
                     dataIndex: 'clincalSignificance',
-                    flex:0.5,
-                    renderer: function(value, meta, rec, rowIndex, colIndex, store){
-                        meta.tdAttr = 'data-qtip="'+value+'"';
+                    flex: 0.5,
+                    renderer: function (value, meta, rec, rowIndex, colIndex, store) {
+                        meta.tdAttr = 'data-qtip="' + value + '"';
                         return value;
                     }
                 },
                 {
                     text: "ClinVar Accession",
                     dataIndex: "clincalVarAcc",
-                    flex:0.41,
+                    flex: 0.41,
                     xtype: "templatecolumn",
                     tpl: '<tpl><a href="https://www.ncbi.nlm.nih.gov/clinvar/{clincalVarAcc}" target="_blank">{clincalVarAcc}</a></tpl>'
                 }
             ],
             defaults: {
-                flex:1,
+                flex: 1,
                 textAlign: 'left',
-                align:'left' ,
-                sortable : false,
-                menuDisabled:true
+                align: 'left',
+                sortable: false,
+                menuDisabled: true
             }
-        } ;
+        };
 
         var attributes = [
             {name: 'chromosome', mapping: 'chromosome', type: 'string' },
@@ -402,7 +396,6 @@ EvaClinVarWidget.prototype = {
             {name: 'annot', mapping: 'annot', type: 'auto' }
         ];
 
-
         var clinvarBrowserGrid = new ClinvarBrowserGrid({
             title: this.browserGridConfig.title,
             target: target,
@@ -414,8 +407,8 @@ EvaClinVarWidget.prototype = {
             responseParser: this.responseParser,
             startParam: this.startParam,
             attributes: attributes,
-            columns:columns,
-            height:400,
+            columns: columns,
+            height: 400,
             samples: this.samples,
             headerConfig: this.headerConfig,
             handlers: {
@@ -430,52 +423,54 @@ EvaClinVarWidget.prototype = {
         });
 
         clinvarBrowserGrid.grid.addDocked({
-            xtype   : 'toolbar',
-            dock    : 'bottom',
-            border:false,
-            items: [{
-                xtype   :   'button',
-                text    :   'Export as CSV',
-                style: {
-                    borderStyle: 'solid'
-                },
-                listeners: {
-                    click: {
-                        element: 'el', //bind to the underlying el property on the panel
-                        fn: function(){
-                            var proxy = clinvarBrowserGrid.grid.store.proxy;
-                            var url = EvaManager.url({
-                                host:CELLBASE_HOST,
-                                version:CELLBASE_VERSION,
-                                category: 'hsapiens/feature',
-                                resource: 'all',
-                                query:'clinical',
-                                params:_this.formValues
-                            });
-                            var exportStore = Ext.create('Ext.data.Store', {
-                                pageSize:clinvarBrowserGrid.grid.store.getTotalCount(),
-                                autoLoad:true,
-                                model: attributes,
-                                remoteSort: true,
-                                proxy: proxy,
-                                extraParams:_this.formValues,
-                                listeners: {
-                                    load: function (store, records, successful, operation, eOpts) {
+            xtype: 'toolbar',
+            dock: 'bottom',
+            border: false,
+            items: [
+                {
+                    xtype: 'button',
+                    text: 'Export as CSV',
+                    style: {
+                        borderStyle: 'solid'
+                    },
+                    listeners: {
+                        click: {
+                            element: 'el', //bind to the underlying el property on the panel
+                            fn: function () {
+                                var proxy = clinvarBrowserGrid.grid.store.proxy;
+                                var url = EvaManager.url({
+                                    host: CELLBASE_HOST,
+                                    version: CELLBASE_VERSION,
+                                    category: 'hsapiens/feature',
+                                    resource: 'all',
+                                    query: 'clinical',
+                                    params: _this.formValues
+                                });
+                                var exportStore = Ext.create('Ext.data.Store', {
+                                    pageSize: clinvarBrowserGrid.grid.store.getTotalCount(),
+                                    autoLoad: true,
+                                    model: attributes,
+                                    remoteSort: true,
+                                    proxy: proxy,
+                                    extraParams: _this.formValues,
+                                    listeners: {
+                                        load: function (store, records, successful, operation, eOpts) {
 //                                        var exportData = _this._exportToExcel(records,store.proxy.extraParams);
-                                        if(_.isUndefined(_this.formValues)){
-                                            _this.formValues = {species:_this.species};
+                                            if (_.isUndefined(_this.formValues)) {
+                                                _this.formValues = {species: _this.species};
+                                            }
+                                            var exportData = _this._exportToExcel(records, _this.formValues);
+                                            clinvarBrowserGrid.grid.setLoading(false);
+
                                         }
-                                        var exportData = _this._exportToExcel(records,_this.formValues);
-                                        clinvarBrowserGrid.grid.setLoading(false);
-
                                     }
-                                }
 
-                            });
+                                });
+                            }
                         }
                     }
                 }
-            }]
+            ]
         });
 
         return clinvarBrowserGrid;
@@ -497,9 +492,9 @@ EvaClinVarWidget.prototype = {
         });
 
         this.on("clinvar:change", function (e) {
-            if(_.isUndefined(e.variant)){
+            if (_.isUndefined(e.variant)) {
                 assertionPanel.clear(true);
-            }else{
+            } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     assertionPanel.load(e.variant);
                 }
@@ -526,13 +521,13 @@ EvaClinVarWidget.prototype = {
 
         this.on("clinvar:change", function (e) {
 //            if (target === _this.selectedToolDiv) {
-                if(_.isUndefined(e.variant)){
-                    summaryPanel.clear(true);
-                }else{
-                    if (target.id === _this.selectedToolDiv.id) {
-                        summaryPanel.load(e.variant);
-                    }
+            if (_.isUndefined(e.variant)) {
+                summaryPanel.clear(true);
+            } else {
+                if (target.id === _this.selectedToolDiv.id) {
+                    summaryPanel.load(e.variant);
                 }
+            }
         });
 
         return summaryPanel;
@@ -555,9 +550,9 @@ EvaClinVarWidget.prototype = {
         });
 
         this.on("clinvar:change", function (e) {
-            if(_.isUndefined(e.variant)){
+            if (_.isUndefined(e.variant)) {
                 annotPanel.clear(true);
-            }else{
+            } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     annotPanel.load(e.variant);
                 }
@@ -584,9 +579,9 @@ EvaClinVarWidget.prototype = {
         });
 
         this.on("clinvar:change", function (e) {
-            if(_.isUndefined(e.variant)){
+            if (_.isUndefined(e.variant)) {
                 linksPanel.clear(true);
-            }else{
+            } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     linksPanel.load(e.variant);
                 }
@@ -606,7 +601,7 @@ EvaClinVarWidget.prototype = {
         });
 
         var genomeViewer = new GenomeViewer({
-            cellBaseHost:CELLBASE_HOST,
+            cellBaseHost: CELLBASE_HOST,
             sidePanel: false,
             target: target,
             border: false,
@@ -669,7 +664,6 @@ EvaClinVarWidget.prototype = {
             })
         });
 
-
         var sequence = new SequenceTrack({
 //        title: 'Sequence',
             height: 30,
@@ -684,7 +678,6 @@ EvaClinVarWidget.prototype = {
                 species: genomeViewer.species
             })
         });
-
 
         var gene = new GeneTrack({
             title: 'Gene',
@@ -752,11 +745,11 @@ EvaClinVarWidget.prototype = {
 
         return genomeViewer;
     },
-    resizeGV: function(){
+    resizeGV: function () {
         var _this = this;
-        var gvTab =  _.findWhere(_this.toolTabPanel.items.items, {title:'Genomic Context'})
+        var gvTab = _.findWhere(_this.toolTabPanel.items.items, {title: 'Genomic Context'})
         var gvTabWidth = gvTab.getWidth();
-        _this.genomeViewer.setWidth(gvTabWidth-2);
+        _this.genomeViewer.setWidth(gvTabWidth - 2);
     },
     retrieveData: function (baseUrl, filterParams) {
         this.clinvarBrowserGrid.loadUrl(baseUrl, filterParams);
@@ -764,8 +757,8 @@ EvaClinVarWidget.prototype = {
     setLoading: function (loading) {
         this.variantBrowserGrid.setLoading(loading);
     },
-    _exportToExcel: function(records,params){
-        var csvContent      = '',
+    _exportToExcel: function (records, params) {
+        var csvContent = '',
         /*
          Does this browser support the download attribute
          in HTML 5, if so create a comma seperated value
@@ -774,71 +767,70 @@ EvaClinVarWidget.prototype = {
          popup window allowing the users to copy and paste
          the rows.
          */
-            noCsvSupport     = ( 'download' in document.createElement('a') ) ? false : true,
-            sdelimiter      = noCsvSupport ? "<td>"   : "",
-            edelimiter      = noCsvSupport ? "</td>"  : ",",
-            snewLine        = noCsvSupport ? "<tr>"   : "",
-            enewLine        = noCsvSupport ? "</tr>"  : "\r\n",
-            printableValue  = '',
-            speciesValue  = '';
+            noCsvSupport = ( 'download' in document.createElement('a') ) ? false : true,
+            sdelimiter = noCsvSupport ? "<td>" : "",
+            edelimiter = noCsvSupport ? "</td>" : ",",
+            snewLine = noCsvSupport ? "<tr>" : "",
+            enewLine = noCsvSupport ? "</tr>" : "\r\n",
+            printableValue = '',
+            speciesValue = '';
 
         csvContent += snewLine;
 
         /* Get the column headers from the store dataIndex */
 
-        var removeKeys = ['start','end','reference','alternate','clinvarList','clinvarSet','iid','variantString','_id','annot'];
+        var removeKeys = ['start', 'end', 'reference', 'alternate', 'clinvarList', 'clinvarSet', 'iid', 'variantString', '_id', 'annot'];
 
-        Ext.Object.each(records[0].data, function(key) {
-            if(_.indexOf(removeKeys, key) == -1){
-                csvContent += sdelimiter +  key + edelimiter;
+        Ext.Object.each(records[0].data, function (key) {
+            if (_.indexOf(removeKeys, key) == -1) {
+                csvContent += sdelimiter + key + edelimiter;
             }
         });
-        csvContent += sdelimiter +  'Organism / Assembly' + edelimiter;
+        csvContent += sdelimiter + 'Organism / Assembly' + edelimiter;
 
         csvContent += enewLine;
 
         console.log(csvContent)
-
 
         /*
          Loop through the selected records array and change the JSON
          object to teh appropriate format.
          */
 
-        for (var i = 0; i < records.length; i++){
+        for (var i = 0; i < records.length; i++) {
             /* Put the record object in somma seperated format */
             csvContent += snewLine;
-            Ext.Object.each(records[i].data, function(key, value) {
+            Ext.Object.each(records[i].data, function (key, value) {
                 var clinvarList = records[i].data.clinvarList;
-                if(key == 'dbSNPAcc'){
-                    if(!_.isUndefined(value)){
-                        if(value.type == 'rs'){
-                            value =  'rs'+value.id;
-                        }else{
-                            value =  '';
+                if (key == 'dbSNPAcc') {
+                    if (!_.isUndefined(value)) {
+                        if (value.type == 'rs') {
+                            value = 'rs' + value.id;
+                        } else {
+                            value = '';
                         }
-                    }else{
-                        value =  '';
+                    } else {
+                        value = '';
                     }
-                }else if(key == 'trait'){
+                } else if (key == 'trait') {
                     var triatValue = value;
                     value = '';
-                    _.each(_.keys(triatValue), function(key){
-                        if(this[key].elementValue.type == 'Preferred'){
+                    _.each(_.keys(triatValue), function (key) {
+                        if (this[key].elementValue.type == 'Preferred') {
                             value = this[key].elementValue.value;
                         }
-                    },triatValue);
+                    }, triatValue);
 
-                }else if( key == "hgnc_gene"){
-                    if(value.measureSet.measure[0].measureRelationship){
+                } else if (key == "hgnc_gene") {
+                    if (value.measureSet.measure[0].measureRelationship) {
                         var gene = value.measureSet.measure[0].measureRelationship[0].symbol[0].elementValue.value;
                         value = gene
-                    }else{
+                    } else {
                         value = '';
                     }
 
-                }else if( key == "most_severe_so_term"){
-                    if(!_.isUndefined(value)){
+                } else if (key == "most_severe_so_term") {
+                    if (!_.isUndefined(value)) {
                         var tempArray = [];
                         _.each(_.keys(value), function(key){
                             var so_terms = this[key].sequenceOntologyTerms;
@@ -849,50 +841,46 @@ EvaClinVarWidget.prototype = {
 
                         var groupedArr = _.groupBy(tempArray);
                         var so_array = [];
-                        _.each(_.keys(groupedArr), function(key){
-                            var index =  _.indexOf(consequenceTypesHierarchy, key);
+                        _.each(_.keys(groupedArr), function (key) {
+                            var index = _.indexOf(consequenceTypesHierarchy, key);
 //                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
 //                                        so_array.push(key+' ('+this[key].length+')')
 //                            so_array[index] = key+' ('+this[key].length+')';
                             so_array[index] = key;
-                        },groupedArr);
-                        so_array =  _.compact(so_array);
+                        }, groupedArr);
+                        so_array = _.compact(so_array);
                         value = _.first(so_array);
 
                     }
                 }
-                if(_.indexOf(removeKeys, key) == -1){
-                    printableValue = ((noCsvSupport) && value == '') ? '&nbsp;'  : value;
-                    printableValue = String(printableValue).replace(/,/g , "");
-                    printableValue = String(printableValue).replace(/(\r\n|\n|\r)/gm,"");
-                    csvContent += sdelimiter +  printableValue + edelimiter;
+                if (_.indexOf(removeKeys, key) == -1) {
+                    printableValue = ((noCsvSupport) && value == '') ? '&nbsp;' : value;
+                    printableValue = String(printableValue).replace(/,/g, "");
+                    printableValue = String(printableValue).replace(/(\r\n|\n|\r)/gm, "");
+                    csvContent += sdelimiter + printableValue + edelimiter;
                 }
 
             });
 
-
-
             var speciesName;
             var species;
 
-            if(!_.isEmpty(clinVarSpeciesList)){
-                speciesName = _.findWhere(clinVarSpeciesList, {taxonomyCode:params.species.split("_")[0]}).taxonomyEvaName;
-                species = speciesName.substr(0,1).toUpperCase()+speciesName.substr(1)+'/'+_.findWhere(clinVarSpeciesList, {assemblyCode:params.species.split('_')[1]}).assemblyName;
+            if (!_.isEmpty(clinVarSpeciesList)) {
+                speciesName = _.findWhere(clinVarSpeciesList, {taxonomyCode: params.species.split("_")[0]}).taxonomyEvaName;
+                species = speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + '/' + _.findWhere(clinVarSpeciesList, {assemblyCode: params.species.split('_')[1]}).assemblyName;
 
             } else {
                 species = params.species;
             }
 
             speciesValue = ((noCsvSupport) && species == '') ? '&nbsp;' : species;
-            speciesValue = String(species).replace(/,/g , "");
-            speciesValue = String(speciesValue).replace(/(\r\n|\n|\r)/gm,"");
+            speciesValue = String(species).replace(/,/g, "");
+            speciesValue = String(speciesValue).replace(/(\r\n|\n|\r)/gm, "");
             csvContent += sdelimiter + speciesValue + edelimiter;
             csvContent += enewLine;
         }
 
-
-
-        if('download' in document.createElement('a')){
+        if ('download' in document.createElement('a')) {
             /*
              This is the code that produces the CSV file and downloads it
              to the users computer
@@ -903,11 +891,11 @@ EvaClinVarWidget.prototype = {
 //            link.setAttribute("target", "_blank");
 //            link.click();
 
-            var link=document.createElement('a');
-            var mimeType='application/xls';
-            var blob=new Blob([csvContent],{type:mimeType});
-            var url=URL.createObjectURL(blob);
-            link.href=url;
+            var link = document.createElement('a');
+            var mimeType = 'application/xls';
+            var blob = new Blob([csvContent], {type: mimeType});
+            var url = URL.createObjectURL(blob);
+            link.href = url;
             link.setAttribute('download', 'EVA_ClinVar_Variants.csv');
             link.innerHTML = "Export to CSV";
             document.body.appendChild(link);
@@ -921,7 +909,6 @@ EvaClinVarWidget.prototype = {
             alert('Please allow pop up in settings if its not exporting');
             window.open().document.write('<table>' + csvContent + '</table>');
             return true;
-
 
         }
 

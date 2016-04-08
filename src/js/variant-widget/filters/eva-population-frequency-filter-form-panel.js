@@ -23,7 +23,7 @@ function EvaPopulationFrequencyFilterFormPanel(args) {
     this.id = Utils.genId("PopulationFrequencyFilterFormPanel");
     this.target;
     this.autoRender = true;
-    this.title = "Population Frequency";
+    this.title = "Minor Allele Frequency";
     this.border = false;
     this.collapsible = true;
     this.titleCollapse = false;
@@ -65,76 +65,125 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
         this.panel.render(this.div);
     },
     _createPanel: function () {
-
+        var _this = this;
         var genomesitems = {
-            xtype:'fieldset',
+            xtype: 'fieldset',
             title: '1000Genomes',
             collapsible: false,
-            height:240,
-            width :280,
+            height: 240,
+            width: 280,
             defaultType: 'textfield',
-            items :[
+            items: [
                 {
                     fieldLabel: 'All MAF \< ',
                     name: 'ALL',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: 'African MAF \< ',
                     name: 'AFR',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: 'American MAF \< ',
                     name: 'AMR',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: 'Asian MAF \< ',
                     name: 'ASN',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: 'European MAF \<',
                     name: 'EUR',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 }
             ]
         }
         var ESP6500 = {
-            xtype:'fieldset',
+            xtype: 'fieldset',
             title: 'ESP6500',
             collapsible: false,
-            height:180,
-            width :280,
+            height: 180,
+            width: 280,
             defaultType: 'textfield',
-            items :[
+            items: [
                 {
                     fieldLabel: 'African-American MAF \<',
                     name: 'AA_AF',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 },
                 {
                     fieldLabel: ' European-American MAF \< ',
                     name: 'EA_AF',
-                    width  : 240,
-                    labelWidth:120
+                    width: 240,
+                    labelWidth: 120
                 }
             ]
         }
 
+        var defaultOP;
+        var defaultMAF;
+        if(_this.maf){
+           var regex = /[+-]?\d+(\.\d+)?/g;
+           var  float = _this.maf.match(regex).map(function(v) { return parseFloat(v); });
+           var defaultValue =  _this.maf.split(float);
+           defaultOP =  defaultValue[0];
+           defaultMAF = float;
+        }
+
+        var MAF = {
+            margin: '0 0 -5 10',
+            xtype: 'textfield',
+            name: 'maf',
+            value: defaultMAF,
+            emptyText: 'ex: 0.3',
+            width: '50%',
+        }
+
+        var mafOpValues = Ext.create('Ext.data.Store', {
+            fields: ['value'],
+            data : [
+                {"value":"="},
+                {"value":"<"},
+                {"value":">"},
+                {"value":"<="},
+                {"value":">="}
+            ]
+        });
+
+       var mafOp =  Ext.create('Ext.form.ComboBox', {
+            id: "mafOpFilter",
+            name: 'mafOp',
+            fieldLabel: '<img class="text-header-icon" data-qtip="Filter against any Minor Allele Frequency value in the Population Statistics tab" style="margin-bottom:0px;" src="img/icon-info.png"/>&nbsp;<span class="title-header-icon" data-qtip="Minor Allele Frequency" style="margin-bottom:0px;">MAF</span>',
+            store: mafOpValues,
+            queryMode: 'local',
+            displayField: 'value',
+            valueField: 'value',
+            width: '50%',
+            labelPad:-50,
+            emptyText: 'ex: >=',
+            listeners: {
+               afterrender: function (field) {
+                   field.setValue(defaultOP);
+               }
+            },
+        });
+
         return Ext.create('Ext.form.Panel', {
-            id:this.id,
+
+            id: this.id,
             bodyPadding: "5",
             margin: "0 0 5 0",
             buttonAlign: 'center',
-            layout: 'vbox',
+            layout: 'hbox',
             title: this.title,
             border: this.border,
             collapsible: this.collapsible,
@@ -142,7 +191,7 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
             header: this.headerConfig,
             collapsed: this.collapsed,
             allowBlank: false,
-            items: [genomesitems,ESP6500]
+            items: [mafOp,MAF]
         });
 
     },
@@ -151,14 +200,21 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
     },
     getValues: function () {
         var values = this.panel.getValues();
-        var valuesArray = {};
+        var tempArray = [];
+        var mafValues = {};
         for (key in values) {
             if (values[key] == '') {
                 delete values[key]
-            }else{
-                valuesArray[key] = values[key];
+            } else {
+                tempArray.push(values[key])
             }
         }
+
+        if(!_.isEmpty(tempArray) && !_.isUndefined(values.maf) && !_.isUndefined(values.mafOp) ){
+            mafValues = {maf:tempArray.join('')} ;
+        }
+
+        return mafValues;
     },
     clear: function () {
         this.panel.reset();

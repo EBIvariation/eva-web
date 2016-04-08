@@ -103,9 +103,9 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
         var consequence_types = [];
         node.cascadeBy(function (n) {
             if (n.get('checked') && n.isLeaf()) {
-                if(_this.filterType == 'eva'){
+                if (_this.filterType == 'eva') {
                     consequence_types.push(n.get('acc'));
-                }else{
+                } else {
                     consequence_types.push(n.get('name'));
                 }
             }
@@ -154,7 +154,6 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
 
                 tree.expandAll();
 
-
                 root.cascadeBy(function (node) {
                     if (node.get(property).match(re)) {
                         matches.push(node)
@@ -163,7 +162,9 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
 
                 if (me.allowParentFolders === false) {
                     Ext.each(matches, function (match) {
-                        if (!match.isLeaf()) { Ext.Array.remove(matches, match); }
+                        if (!match.isLeaf()) {
+                            Ext.Array.remove(matches, match);
+                        }
                     });
                 }
 
@@ -173,7 +174,7 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
                             visibleNodes.push(node)
                         }
                     });
-                    if (me.allowParentFolders === true &&  !item.isLeaf()) {
+                    if (me.allowParentFolders === true && !item.isLeaf()) {
                         item.cascadeBy(function (node) {
                             visibleNodes.push(node)
                         });
@@ -214,7 +215,7 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
             }
         });
 
-       this.panel = Ext.create('Ext.tree.Panel', {
+        this.panel = Ext.create('Ext.tree.Panel', {
             title: this.title,
             border: this.border,
             useArrows: true,
@@ -236,32 +237,39 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
                     });
                 }
             },
-            plugins: [{
-                ptype: 'treefilter',
-                allowParentFolders: true
-            }],
-            dockedItems: [{
-                xtype: 'toolbar',
-                dock: 'top',
-                border:false,
-                items: [{
-                    xtype: 'trigger',
-                    width:'100%',
-                    emptyText:'search',
-                    triggerCls: 'x-form-clear-trigger',
-                    listeners: {
-                        change: function (field, newVal){
-                            treePanel.filter(newVal);
-                        },
-                        buffer: 250
-                    }
-                }]
-            }]
+            plugins: [
+                {
+                    ptype: 'treefilter',
+                    allowParentFolders: true
+                }
+            ],
+            dockedItems: [
+                {
+                    xtype: 'toolbar',
+                    dock: 'top',
+                    border: false,
+                    items: [
+                        {
+                            xtype: 'trigger',
+                            width: '100%',
+                            emptyText: 'search',
+                            triggerCls: 'x-form-clear-trigger',
+                            listeners: {
+                                change: function (field, newVal) {
+//                                    treePanel.filter(newVal);
+                                    _this.panel.plugins[0].tree.filter(newVal);
+                                },
+                                buffer: 250
+                            }
+                        }
+                    ]
+                }
+            ]
         });
 
-        if(!_.isEmpty(_this.selectAnnotCT)){
+        if (!_.isEmpty(_this.selectAnnotCT)) {
             var annotCT = _this.selectAnnotCT.split(",");
-           _this.selectNodes(annotCT);
+            _this.selectNodes(annotCT);
         }
 
         return  this.panel;
@@ -269,17 +277,17 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
     getPanel: function () {
         return this.panel;
     },
-    selectNodes:function(values){
+    selectNodes: function (values) {
         var _this = this;
         var nodes = _this.panel.getRootNode()
         nodes.cascadeBy(function (n) {
-            if(n.isLeaf()){
-                if(_this.filterType == 'eva'){
-                    if(_.indexOf(values, n.data.acc) > -1){
+            if (n.isLeaf()) {
+                if (_this.filterType == 'eva') {
+                    if (_.indexOf(values, n.data.acc) > -1) {
                         n.set('checked', true);
                     }
-                }else{
-                    if(_.indexOf(values, n.data.name) > -1){
+                } else {
+                    if (_.indexOf(values, n.data.name) > -1) {
                         n.set('checked', true);
                     }
                 }

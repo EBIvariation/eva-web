@@ -50,7 +50,6 @@ Eva.prototype = {
         this.targetMenuUl = (this.targetMenu instanceof HTMLElement ) ? this.targetMenu : document.querySelector('#' + this.targetMenu);
         this.evaMenu = this._createEvaMenu(this.targetMenuUl);
 
-
         /* Home */
         $(this.homeDiv).addClass('eva-child');
         this.childDivMenuMap['Home'] = this.homeDiv;
@@ -107,6 +106,10 @@ Eva.prototype = {
         /* iobioView */
         $(this.iobioView).addClass('eva-child');
         this.childDivMenuMap['eva-iobio'] = this.iobioView;
+
+        /* FAQ */
+        $(this.iobioView).addClass('eva-child');
+        this.childDivMenuMap['FAQ'] = this.faqDiv;
     },
     draw: function () {
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
@@ -127,23 +130,23 @@ Eva.prototype = {
     },
     _selectHandler: function (option) {
         var _this = this;
-        if(this.studyBrowserPanel){
+        if (this.studyBrowserPanel) {
             this.studyBrowserPanel.hide();
         }
 
-        if(this.variantWidgetPanel){
+        if (this.variantWidgetPanel) {
             this.variantWidgetPanel.hide();
         }
 
-        if(this.genomeViewerPanel){
+        if (this.genomeViewerPanel) {
             this.genomeViewerPanel.hide();
         }
 
-        if(this.beaconPanel){
+        if (this.beaconPanel) {
             this.beaconPanel.hide();
         }
 
-        if(this.clinicalWidgetPanel){
+        if (this.clinicalWidgetPanel) {
             this.clinicalWidgetPanel.hide();
         }
 
@@ -159,7 +162,7 @@ Eva.prototype = {
         }
 
         //<!---- Updating URL on Tab change ---->
-         this.pushURL(option);
+        this.pushURL(option);
 
         switch (option) {
             case 'Home':
@@ -167,48 +170,55 @@ Eva.prototype = {
                 _this._twitterWidgetUpdate();
                 break;
             case 'Study Browser':
-                if(this.studyBrowserPanel){
+                if (this.studyBrowserPanel) {
                     this.studyBrowserPanel.show();
-                }else{
-                    this.studyBrowserPanel  = this._createStudyBrowserPanel(this.contentDiv);
-                    this.select('Study Browser');
-                    this.pushURL(option,false);
+                } else {
+                    this.studyBrowserPanel = this._createStudyBrowserPanel(this.contentDiv);
+                    // this.select('Study Browser');
+                    this.pushURL(option, false);
                 }
                 break;
             case 'Variant Browser':
-                if(this.variantWidgetPanel){
+                if (this.variantWidgetPanel) {
                     this.variantWidgetPanel.show();
-                }else{
+                } else {
                     this.variantWidgetPanel = this._createVariantWidgetPanel(this.contentDiv);
-                    this.select('Variant Browser');
-                    this.pushURL(option,true);
+                    // this.select('Variant Browser');
+                    this.variantWidgetPanel.panel.updateLayout();
+                    this.pushURL(option, true);
                 }
                 break;
             case 'Genome Browser':
-                if(this.genomeViewerPanel){
+                if (this.genomeViewerPanel) {
                     this.genomeViewerPanel.show();
-                }else{
+                } else {
                     this.contentDiv.className += ' eva variant-widget-panel ocb-variant-stats-panel';
-                    this.genomeViewerPanel  = this._createGenomeViewerPanel(this.contentDiv);
+                    this.genomeViewerPanel = this._createGenomeViewerPanel(this.contentDiv);
                 }
-                this.pushURL(option,true);
+                this.pushURL(option, true);
                 break;
             case 'GA4GH':
-                if(this.beaconPanel){
+                if (this.beaconPanel) {
                     this.beaconPanel.show();
-                }else{
-                    this.beaconPanel  = this._createBeaconPanel(this.contentDiv);
+                } else {
+                    this.beaconPanel = this._createBeaconPanel(this.contentDiv);
                 }
                 break;
             case 'Clinical Browser':
-                    if(this.clinicalWidgetPanel){
-                        this.clinicalWidgetPanel.show();
-                    }else{
-                        this.clinicalWidgetPanel = this._createClinicalWidgetPanel(this.contentDiv);
-                        this.select('Clinical Browser');
-                        this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
-                        this.pushURL(option,false);
-                    }
+                if (this.clinicalWidgetPanel) {
+                    this.clinicalWidgetPanel.show();
+                } else {
+                    this.clinicalWidgetPanel = this._createClinicalWidgetPanel(this.contentDiv);
+                    // this.select('Clinical Browser');
+                    this.clinicalWidgetPanel.panel.updateLayout();
+                    this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
+                    this.pushURL(option, false);
+                }
+            case 'dgva-study':
+                this._getPublications();
+                break;
+            case 'eva-study':
+                this._getPublications();
                 break;
         }
     },
@@ -224,41 +234,41 @@ Eva.prototype = {
         });
         return evaMenu;
     },
-    _createStudyBrowserPanel: function(target){
+    _createStudyBrowserPanel: function (target) {
 
         var browserType = 'sgv';
         var species = '';
         var type = '';
         var search = '';
 
-        if(!_.isEmpty($.urlParam('studySpecies'))){
+        if (!_.isEmpty($.urlParam('studySpecies'))) {
             species = decodeURIComponent($.urlParam('studySpecies'))
         }
 
-        if(!_.isEmpty($.urlParam('studyType'))){
+        if (!_.isEmpty($.urlParam('studyType'))) {
             type = decodeURIComponent($.urlParam('studyType'))
         }
 
-        if(!_.isEmpty($.urlParam('browserType'))){
+        if (!_.isEmpty($.urlParam('browserType'))) {
             browserType = decodeURIComponent($.urlParam('browserType'))
         }
 
-        if(!_.isEmpty($.urlParam('search'))){
+        if (!_.isEmpty($.urlParam('search'))) {
             search = decodeURIComponent($.urlParam('search'))
         }
 
         var studyBrowser = new EvaStudyBrowserWidgetPanel({
             target: target,
-            species:species,
-            type:type,
-            browserType:browserType,
-            search:search
+            species: species,
+            type: type,
+            browserType: browserType,
+            search: search
         });
         studyBrowser.draw();
         return studyBrowser;
 
     },
-    _createVariantWidgetPanel: function(target){
+    _createVariantWidgetPanel: function (target) {
         //      var position = '21:21989000-21989560';
         var region = '1:3000000-3100000';
         var species = 'hsapiens_grch37';
@@ -269,71 +279,79 @@ Eva.prototype = {
         var annotCT = '';
         var polyphen = '';
         var sift = '';
+        var maf = '';
 
-        if(!_.isEmpty($.urlParam('region'))){
+        if (!_.isEmpty($.urlParam('region'))) {
             region = decodeURIComponent($.urlParam('region'))
         }
 
-        if(!_.isEmpty($.urlParam('species'))){
-          species = decodeURIComponent($.urlParam('species'))
+        if (!_.isEmpty($.urlParam('species'))) {
+            species = decodeURIComponent($.urlParam('species'))
         }
 
-        if(!_.isEmpty($.urlParam('selectFilter'))){
-          filter = decodeURIComponent($.urlParam('selectFilter'))
+        if (!_.isEmpty($.urlParam('selectFilter'))) {
+            filter = decodeURIComponent($.urlParam('selectFilter'))
         }
 
-        if(!_.isEmpty($.urlParam('snp'))){
-          snp = decodeURIComponent($.urlParam('snp'))
+        if (!_.isEmpty($.urlParam('snp'))) {
+            snp = decodeURIComponent($.urlParam('snp'))
         }
 
-        if(!_.isEmpty($.urlParam('gene'))){
-          gene = decodeURIComponent($.urlParam('gene'))
+        if (!_.isEmpty($.urlParam('gene'))) {
+            gene = decodeURIComponent($.urlParam('gene'))
         }
 
-        if(!_.isEmpty($.urlParam('studies'))){
-          studies = decodeURIComponent($.urlParam('studies'))
+        if (!_.isEmpty($.urlParam('studies'))) {
+            studies = decodeURIComponent($.urlParam('studies'))
         }
 
-        if(!_.isEmpty($.urlParam('annot-ct'))){
+        if (!_.isEmpty($.urlParam('annot-ct'))) {
             annotCT = decodeURIComponent($.urlParam('annot-ct'))
         }
 
-        if(!_.isEmpty($.urlParam('polyphen'))){
+        if (!_.isEmpty($.urlParam('polyphen'))) {
             var _polyphen = decodeURIComponent($.urlParam('polyphen'))
             polyphen = _polyphen.replace(/\>/g, "");
-
         }
 
-        if(!_.isEmpty($.urlParam('sift'))){
+        if (!_.isEmpty($.urlParam('sift'))) {
             var _sift = decodeURIComponent($.urlParam('sift'))
             sift = _sift.replace(/\</g, "");
         }
-        var variantWidget= new EvaVariantWidgetPanel({
+
+        if (!_.isEmpty($.urlParam('maf'))) {
+            var _maf = decodeURIComponent($.urlParam('maf'))
+//            maf = _maf.replace(/\>/g, "");
+            maf = _maf;
+        }
+
+        var variantWidget = new EvaVariantWidgetPanel({
             target: target,
-            region:region,
-            species:species,
-            filter:filter,
-            snp:snp,
-            gene:gene,
-            selectStudies:studies,
-            selectAnnotCT:annotCT,
-            polyphen:polyphen,
-            sift:sift
+            region: region,
+            species: species,
+            filter: filter,
+            snp: snp,
+            gene: gene,
+            selectStudies: studies,
+            selectAnnotCT: annotCT,
+            polyphen: polyphen,
+            sift: sift,
+            maf: maf
         });
         variantWidget.draw();
         return variantWidget;
 
     },
-    _createGenomeViewerPanel: function(target){
+    _createGenomeViewerPanel: function (target) {
         var genomeViewer = new EvaGenomeViewerPanel({
             target: target,
-            position:$.urlParam('position')
+            position: $.urlParam('position')
         });
         genomeViewer.draw();
         return genomeViewer;
 
     },
-    _createBeaconPanel: function(target){
+    _createBeaconPanel: function (target) {
         var evaBeacon = new EvaBeaconPanel({
             target: target
         });
@@ -341,7 +359,7 @@ Eva.prototype = {
         return evaBeacon;
 
     },
-    _createClinicalWidgetPanel: function(target){
+    _createClinicalWidgetPanel: function (target) {
 
         var clinvarRegion = '2:48000000-49000000';
         var filter = 'region';
@@ -353,102 +371,155 @@ Eva.prototype = {
         var significance = '';
         var review = '';
 
-
-        if(!_.isEmpty($.urlParam('clinvarRegion'))){
+        if (!_.isEmpty($.urlParam('clinvarRegion'))) {
             clinvarRegion = decodeURIComponent($.urlParam('clinvarRegion'))
         }
 
-        if(!_.isEmpty($.urlParam('clinvarSelectFilter'))){
+        if (!_.isEmpty($.urlParam('clinvarSelectFilter'))) {
             filter = decodeURIComponent($.urlParam('clinvarSelectFilter'))
         }
 
-        if(!_.isEmpty($.urlParam('accessionId'))){
+        if (!_.isEmpty($.urlParam('accessionId'))) {
             accessionId = decodeURIComponent($.urlParam('accessionId'))
         }
 
-        if(!_.isEmpty($.urlParam('gene'))){
+        if (!_.isEmpty($.urlParam('gene'))) {
             gene = decodeURIComponent($.urlParam('gene'))
         }
 
-        if(!_.isEmpty($.urlParam('so'))){
+        if (!_.isEmpty($.urlParam('so'))) {
             so = decodeURIComponent($.urlParam('so'))
         }
 
-        if(!_.isEmpty($.urlParam('type'))){
+        if (!_.isEmpty($.urlParam('type'))) {
             type = decodeURIComponent($.urlParam('type'))
         }
 
-        if(!_.isEmpty($.urlParam('phenotype'))){
+        if (!_.isEmpty($.urlParam('phenotype'))) {
             phenotype = decodeURIComponent($.urlParam('phenotype'))
         }
 
-        if(!_.isEmpty($.urlParam('significance'))){
+        if (!_.isEmpty($.urlParam('significance'))) {
             significance = decodeURIComponent($.urlParam('significance'))
         }
 
-        if(!_.isEmpty($.urlParam('review'))){
+        if (!_.isEmpty($.urlParam('review'))) {
             review = decodeURIComponent($.urlParam('review'))
         }
 
-
         var evaClinicalWidgetPanel = new EvaClinicalWidgetPanel({
             target: target,
-            filter:filter,
-            clinvarRegion:clinvarRegion,
-            gene:gene,
-            accessionId:accessionId,
-            selectSO:so,
-            phenotype:phenotype,
-            type:type,
-            significance:significance,
-            review:review
+            filter: filter,
+            clinvarRegion: clinvarRegion,
+            gene: gene,
+            accessionId: accessionId,
+            selectSO: so,
+            phenotype: phenotype,
+            type: type,
+            significance: significance,
+            review: review
         });
         evaClinicalWidgetPanel.draw();
         return evaClinicalWidgetPanel;
 
     },
-    pushURL:function(option,replace){
+    pushURL: function (option, replace) {
         replace = replace || 0;
-        if(replace){
-            var replaceURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+option;
-            window.history.pushState({path:replaceURL},'',replaceURL);
-        }else{
-            var pageArray = ['eva-study','dgva-study', 'variant', 'gene','eva-iobio'];
-            if(_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)){
+        if (replace) {
+            var replaceURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + option;
+            window.history.pushState({path: replaceURL}, '', replaceURL);
+        } else {
+            var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'eva-iobio'];
+            if (_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)) {
                 var optionValue = option;
-                var tabArray = ['Genome Browser','Variant Browser','Clinical Browser','Study Browser'];
-                if(_.indexOf(tabArray, option) >= 0){
-                    var hash = document.URL.substring(document.URL.indexOf('?')+1);
-                    if  (!_.isUndefined(hash.split("&")[1])){
+                var tabArray = ['Genome Browser', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
+                if (_.indexOf(tabArray, option) >= 0) {
+                    var hash = document.URL.substring(document.URL.indexOf('?') + 1);
+                    if (!_.isUndefined(hash.split("&")[1])) {
                         optionValue = hash;
-                    }else{
+                    } else {
                         optionValue = option;
                     }
                 }
-                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?'+optionValue;
-                window.history.pushState({path:newurl},'',newurl);
-                $( "a:contains('"+option+"')").parent('li').addClass('active');
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;
+                window.history.pushState({path: newurl}, '', newurl);
+                $("a:contains('" + option + "')").parent('li').addClass('active');
             }
         }
 
-
-
     },
-    _twitterWidgetUpdate : function (){
+    _twitterWidgetUpdate: function () {
 
         var twitterWidgetEl = document.getElementById('twitter-widget');
         twitterWidgetEl.innerHTML = "";
         twitterWidgetEl.innerHTML = '<a  class="twitter-timeline" height=100 href="https://twitter.com/EBIvariation"  data-widget-id="437894469380100096">Tweets by @EBIvariation</a>';
-        $.getScript('//platform.twitter.com/widgets.js', function(){
+        $.getScript('//platform.twitter.com/widgets.js', function () {
 //            twttr.widgets.load();
         });
     },
-    _drawStatisticsChart : function(){
+    _drawStatisticsChart: function () {
         var evaStatistics = new EvaStatistics({
-            targetId:'eva-statistics'
+            targetId: 'eva-statistics'
         });
         var dgvaStatistics = new DgvaStatistics({
-            targetId:'dgva-statistics'
+            targetId: 'dgva-statistics'
         });
+    },
+    _getPublications: function() {
+        $('.pubmed-id').each(function(i, obj) {
+            obj = $(obj);
+            var pubmedId = obj.html();
+            obj.html('<p>Attempting to retrieve publication information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '...</p>');
+            if(pubmedId && pubmedId != '-') {
+                var id_type = 'PubMed';
+
+                var host = METADATA_HOST.replace("/eva/webservices/rest", "");
+                var url = host + '/ega/publications/get/paper/' + id_type + '/' + pubmedId;
+                if (window.location.protocol != 'https:') {
+                    url = url.replace("http", "https");
+                }
+                // Make the actual AJAX call...
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: "json",
+                    async: false,
+                    success: function (response) {
+                        if (response.data['title']) {
+                            var title = response.data['title'];
+                            var authors = response.data['authors'];
+                            var firstAuthor = response.data['first-author'];
+                            var journal = response.data['journal'];
+                            var volume = response.data['volume'];
+                            var year = response.data['year'];
+                            var pages = response.data['pages'];
+                            var pmid = response.data['pmid'];
+                            var doi = response.data['doi'];
+                            var isbn = response.data['isbn'];
+
+                            var paper_output = '<p class="publications"><a class="external publication" href="http://europepmc.org/abstract/MED/' + pmid + '">' + title + '</a><br />'
+
+                            if (authors.length > 180) {
+                                paper_output += firstAuthor + '<br />';
+                            } else {
+                                paper_output += authors + '<br />';
+                            }
+
+                            paper_output += '<em>' + journal + '</em> <strong>' + volume + '</strong>:' + year + ' ' + pages + '</p>';
+                            obj.html(paper_output);
+                        }
+
+                    },
+                    error: function (x, y, z) {
+                        obj.html('&nbsp;&nbsp;PubMed:<a class="external publication" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + pubmedId + '" target="_blank">' + pubmedId + '</a><br />');
+                        // x.responseText should have what's wrong
+                    }
+                });
+            }else{
+                obj.html(pubmedId);
+            }
+        });
+        return;
     }
+
 }

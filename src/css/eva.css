@@ -24,14 +24,14 @@
 body.eva {
     max-width: 1350px;
     margin: 0 auto;
-    background: #fff url(../img/pale_grey_slight_texture.jpg) top left repeat;
+    background: #fff url(../img/pale_grey_slight_texture_opt.jpg) top left repeat;
     /*font-family: 'HelveticaNeueLT Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
     font-family: Verdana, sans-serif;
 
 }
 
 div#local-masthead{
-    background: #156765 url("../img/EVA_homepage_banner.jpg") no-repeat right top;
+    background: #156765 url("../img/EVA_homepage_banner_opt.jpg") no-repeat right top;
     background-size: 100%;
 }
 
@@ -304,30 +304,33 @@ div#local-masthead{
 
 
 
-.ocb-attributes-table {
+.eva-attributes-table {
     cellspacing: 0;
     border-collapse: collapse;
     border: 1px solid #d3d3d3;
 }
 
-.ocb-attributes-table tr {
+.eva-attributes-table tr {
     border-collapse: collapse;
     border: 1px solid #d3d3d3;
 }
 
-.ocb-attributes-table td {
+.eva-attributes-table td {
     border-collapse: collapse;
     border: 1px solid #d3d3d3;
     padding: 5px;
-    max-width: 200px;
+    /*max-width: 200px;*/
     /*overflow: hidden;*/
-    text-align: center;
-    word-wrap:break-word;
-    white-space:nowrap;
+    /*text-align: center;*/
+    /*word-wrap:break-word;*/
+    /*white-space:nowrap;*/
 
 }
+.chrom-table td {
+    min-width: 80px;
+}
 
-.ocb-attributes-table td.header {
+.eva-attributes-table td.header {
     border-collapse: collapse;
     border: 1px solid #d3d3d3;
     padding: 5px;
@@ -657,6 +660,10 @@ h4{
     width:16px;
     height:16px;
 }
+.text-header-icon{
+    width:10px;
+    height:10px;
+}
 
 .eva-radio label {
     font-weight:normal;
@@ -684,6 +691,32 @@ h4{
         border-bottom: solid #C1C1C1;
         border-bottom-width: 0.15em;
     }
+}
+
+#help-section > .panel-group .panel{
+    border-radius: 0;
+    /*border: 0;*/
+}
+
+#help-section > .panel-group .panel-heading{
+    border-radius: 0;
+    padding: 8px 7px;
+    /*background-color:#E6EEEE;*/
+}
+
+#help-section > .panel-group .panel-title{
+    /*font-size:12px;*/
+}
+
+#help-section h3{
+   color:#996a44;
+}
+#help-section h5{
+    color:#426783;
+}
+
+#help-section i{
+    color:#999999;
 }
 
 

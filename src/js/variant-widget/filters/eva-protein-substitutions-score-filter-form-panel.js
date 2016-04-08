@@ -68,33 +68,33 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
         var _this = this;
 
         var items = {
-            xtype:'fieldset',
+            xtype: 'fieldset',
             title: '',
             collapsible: false,
-            margin:'5 0 0 0',
+            margin: '5 0 0 0',
             defaultType: 'textfield',
-            items :[
+            items: [
                 {
                     fieldLabel: 'PolyPhen2 \>',
                     name: 'polyphen',
                     width: '100%',
-                    margin:'5 0 0 0',
-                    value:_this.polyphen,
-                    emptyText:'ex:0.5'
+                    margin: '5 0 0 0',
+                    value: _this.polyphen,
+                    emptyText: 'ex:0.5'
                 },
                 {
-                    fieldLabel: 'Sift \< ',
+                    fieldLabel: 'Sift \<',
                     name: 'sift',
                     width: '100%',
-                    margin:'5 0 5 0',
-                    value:_this.sift,
-                    emptyText:'ex:0.1'
+                    margin: '5 0 5 0',
+                    value: _this.sift,
+                    emptyText: 'ex:0.1'
                 }
             ]
         }
 
         return Ext.create('Ext.form.Panel', {
-            id:this.id,
+            id: this.id,
             bodyPadding: "5",
             margin: "0 0 5 0",
             buttonAlign: 'center',
@@ -119,11 +119,11 @@ EvaProteinSubstitutionScoreFilterFormPanel.prototype = {
         for (key in values) {
             if (values[key] == '') {
                 delete values[key]
-            }else{
-                if(key == 'sift'){
-                   value = '<'+ values[key];
-                }else{
-                    value = '>'+ values[key];
+            } else {
+                if (key == 'sift') {
+                    value = '<' + values[key];
+                } else {
+                    value = '>' + values[key];
                 }
                 valuesArray[key] = value;
             }
