@@ -101,6 +101,11 @@ StudyFilterFormPanel.prototype = {
                         // n.set('checked', checked);
                         _this.panel.getView().refreshNode(n);
                     });
+                },
+                itemclick: function(s,n) {
+                    var value = ( n.data.checked == true ? false : true);
+                    n.set('checked', value);
+                    _this.panel.getView().refreshNode(n);
                 }
             }
         });

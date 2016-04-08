@@ -1,10 +1,10 @@
 {
   "name": "commons",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "javascript commons",
   "repository": {
     "type": "git",
-    "url": "https://github.com/opencb/jsorolla.git"
+    "url": "https://github.com/EBIvariation/eva-web.git"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

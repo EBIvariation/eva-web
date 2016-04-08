@@ -19,7 +19,7 @@ module.exports = function (grunt) {
 
         bannereva: '/*! EVA - v<%= meta.version.eva %> - ' +
             '<%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\n' +
-            '* http://https://github.com/EBIvariation/eva.git/\n' +
+            '* https://github.com/EBIvariation/eva-web.git\n' +
             '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
             ' ' +
             'Licensed GPLv2 */\n',
@@ -274,7 +274,7 @@ module.exports = function (grunt) {
                     clearRequireCache: false,
                     timeout:1500000
                 },
-                src: ['tests/mocha/*.js']
+                src: ['tests/mocha/variant_b*.js']
             }
         },
         exec: {
