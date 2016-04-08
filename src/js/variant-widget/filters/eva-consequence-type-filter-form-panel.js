@@ -235,6 +235,12 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
                     node.cascadeBy(function (n) {
                         n.set('checked', checked);
                     });
+                },
+                'itemclick': function(s,n) {
+                    var value = ( n.data.checked == true ? false : true);
+                    n.cascadeBy(function (node) {
+                        node.set('checked', value);
+                    });
                 }
             },
             plugins: [
