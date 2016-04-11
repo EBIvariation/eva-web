@@ -64,8 +64,8 @@ function checkClinvarGrid(driver){
                 });
                 driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table["+i+"]//td[2]/div[text()]")).getText().then(function(text){
                     text = parseInt(text);
-                    assert(text).greaterThanEqualTo(47922669);
-                    assert(text).lessThanEqualTo(48037240);
+                    chai.assert.operator(text, '>=', 47922669);
+                    chai.assert.operator(text, '<=', 48037240);
                 });
                 driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table["+i+"]//td[3]/div/a[text()]")).getText().then(function(text){
                     assert(text).equalTo('MSH6');
