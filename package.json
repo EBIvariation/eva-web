@@ -31,6 +31,8 @@
     "grunt-minify-html": "2.0.0",
     "grunt-contrib-imagemin": "1.0.0",
     "grunt-tinyimg": "1.0.0",
-    "grunt-image": "1.2.2"
+    "grunt-image": "1.2.2",
+    "bower": "1.7.9",
+    "grunt-bower-task": "~0.4.0"
   }
 }
