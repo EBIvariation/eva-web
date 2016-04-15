@@ -1,0 +1,37 @@
+{
+  "name": "eva-web",
+  "version": "1.0.0",
+  "homepage": "https://github.com/EBIvariation/eva-web",
+  "authors": [
+    "kandaj <kandaj@ebi.ac.uk>"
+  ],
+  "keywords": [
+    "Variation",
+    "EVA"
+  ],
+  "license": "Apache License, Version 2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "latest",
+    "jQuery": "latest",
+    "backbone": "latest",
+    "underscore": "latest",
+    "highcharts-release" : "latest",
+    "linqjs": "3.0.0-beta",
+    "vkbeautify": "latest"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "js": "**/*.js",
+      "css": "**/*.css"
+    }
+  }
+
+}
