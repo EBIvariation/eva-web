@@ -24,7 +24,7 @@
     "backbone": "latest",
     "underscore": "latest",
     "highcharts-release" : "latest",
-    "linqjs": "3.0.0-beta",
+    "linqjs": "latest",
     "vkbeautify": "latest"
   },
   "exportsOverride": {

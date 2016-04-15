@@ -236,14 +236,6 @@ module.exports = function (grunt) {
                 }]
             }
         },
-
-        watch: {
-            src: {
-                tasks: ['default'],
-                options: {spawn: false}
-            }
-
-        },
         mochaTest: {
             test: {
                 options: {
@@ -277,22 +269,16 @@ module.exports = function (grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-//    grunt.loadNpmTasks('grunt-contrib-qunit');
-//    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-rename');
     grunt.loadNpmTasks('grunt-html-build');
-    grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-hub');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-minify-html');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
-    grunt.loadNpmTasks('grunt-tinyimg');
-    grunt.loadNpmTasks('grunt-image');
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.registerTask('vendor', ['curl-dir']);
 
