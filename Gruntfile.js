@@ -288,8 +288,6 @@ module.exports = function (grunt) {
     grunt.registerTask('bower-install', ['bower:install']);
 
     // Default task.
-    // grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'minifyHtml', 'imagemin', 'exec']);
-    grunt.registerTask('default', ['bower-install', 'hub:genomeViewer', 'clean:eva', 'concat', 'uglify', 'copy:eva', 'cssmin', 'htmlbuild:eva',  'imagemin']);
-
+    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'minifyHtml', 'imagemin', 'exec']);
 
 };
