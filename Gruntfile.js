@@ -280,7 +280,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-minify-html');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-bower-task');
-    grunt.registerTask('vendor', ['curl-dir']);
 
     //selenium with mocha
     grunt.registerTask('test', ['mochaTest']);
@@ -290,7 +289,7 @@ module.exports = function (grunt) {
 
     // Default task.
     // grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'minifyHtml', 'imagemin', 'exec']);
-    grunt.registerTask('default', ['hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva',  'imagemin']);
+    grunt.registerTask('default', ['bower-install', 'hub:genomeViewer', 'clean:eva', 'concat', 'uglify', 'copy:eva', 'cssmin', 'htmlbuild:eva',  'imagemin']);
 
 
 };
