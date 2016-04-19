@@ -60,5 +60,5 @@ temp/*
 tests/casperjs/*
 report/*
 src/.DS_Store
-#bower_components
+bower_components
 
