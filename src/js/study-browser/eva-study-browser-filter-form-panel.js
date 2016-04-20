@@ -71,7 +71,7 @@ StudyFilterFormPanel.prototype = {
         });
 
         this.store = Ext.create('Ext.data.TreeStore', {
-            model: this.id+'-tree-model',
+            model: this.id + '-tree-model',
             proxy: {
                 type: 'memory',
                 data: [],
@@ -96,16 +96,11 @@ StudyFilterFormPanel.prototype = {
             header: this.headerConfig,
             columns: this.columns,
             listeners: {
-                'checkchange': function (node, checked) {
+                'checkchange': function (node) {
                     node.cascadeBy(function (n) {
                         // n.set('checked', checked);
                         _this.panel.getView().refreshNode(n);
                     });
-                },
-                'itemclick': function(s,n) {
-                    var value = ( n.data.checked == true ? false : true);
-                    n.set('checked', value);
-                    _this.panel.getView().refreshNode(n);
                 }
             }
         });
