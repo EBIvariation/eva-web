@@ -154,11 +154,6 @@ EvaClinVarFilterFormPanel.prototype = {
                     node.cascadeBy(function (n) {
                         n.set('checked', checked);
                     });
-                },
-                'itemclick': function(s,n) {
-                    var value = ( n.data.checked == true ? false : true);
-                    n.set('checked', value);
-                    _this.panel.getView().refreshNode(n);
                 }
             },
             plugins: [
