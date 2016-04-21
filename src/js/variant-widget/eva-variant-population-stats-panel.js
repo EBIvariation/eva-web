@@ -273,11 +273,11 @@ EvaVariantPopulationStatsPanel.prototype = {
 //                    genotypesCountArray.push([key.formatAlleles(), this[key]]);
                     tempArray.push({Name:key.formatAlleles(), Value:this[key]});
                 }, genotypesCount);
-                var linq = Enumerable.From(tempArray);
+                var linq = Enumerable.from(tempArray);
                 var result =
-                    linq.GroupBy(function(x){return x.Name;})
-                        .Select(function(x){return { Name:x.Key(), Value: x.Sum(function(y){return y.Value|0;}) };})
-                        .ToArray();
+                    linq.groupBy(function(x){return x.Name;})
+                        .select(function(x){return { Name:x.key(), Value: x.sum(function(y){return y.Value|0;}) };})
+                        .toArray();
                 var genotypesCountArray = [];
                 _.each(_.keys(result), function (key) {
                     console.log(this[key])

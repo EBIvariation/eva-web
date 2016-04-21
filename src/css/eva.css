@@ -96,6 +96,10 @@ div#local-masthead{
     border-bottom-style: none;
 }
 
+a, a:active, a:focus{
+    outline: none;
+}
+
 .study-browser-panel table, .variant-widget-panel table, .eva-beacon-panel table{
     border-collapse: collapse;
     width: 100%;

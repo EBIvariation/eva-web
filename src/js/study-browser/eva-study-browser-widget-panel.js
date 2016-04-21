@@ -90,9 +90,9 @@ EvaStudyBrowserWidgetPanel.prototype = {
     },
     _createPanel: function () {
         var _this = this;
-        // Ext.EventManager.onWindowResize(function (e) {
-        //     _this.resize(true);
-        // });
+        Ext.EventManager.onWindowResize(function (e) {
+            _this.resize(true);
+        });
 
         this.panel = Ext.create('Ext.panel.Panel', {
             layout: {

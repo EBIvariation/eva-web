@@ -70,9 +70,9 @@ test.describe('Study Browser ('+config.browser()+')', function() {
 
 function sgvStudySearchBySpeciesType(driver){
     config.reset(driver);
-    driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//div")).click();
-    driver.findElement(By.xpath("//span[contains(text(),'Human')]//..//div")).click();
-    driver.findElement(By.xpath("//span[contains(text(),'Exome Sequencing')]//..//div")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//..//div[@role='button']")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Human')]//..//..//div[@role='button']")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Exome Sequencing')]//..//..//div[@role='button']")).click();
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -94,7 +94,7 @@ function sgvStudySearchBySpeciesType(driver){
 
 function sgvStudySearchByType(driver){
     config.reset(driver);
-    driver.findElement(By.xpath("//span[contains(text(),'Curation')]//..//div")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Curation')]//..//..//div[@role='button']")).click();
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -111,7 +111,7 @@ function sgvStudySearchByType(driver){
 }
 
 function sgvStudySearchBySpecies(driver){
-    driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//div")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//..//div[@role='button']")).click();
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[1]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -131,9 +131,9 @@ function sgvStudySearchBySpecies(driver){
 function svStudySearchBySpeciesType(driver){
     config.reset(driver);
     driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
-    driver.findElement(By.xpath("//span[contains(text(),'Chimpanzee')]//..//div")).click();
-    driver.findElement(By.xpath("//span[contains(text(),'Dog')]//..//div")).click();
-    driver.findElement(By.xpath("//span[contains(text(),'Control Set')]//..//div")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Chimpanzee')]//..//..//div[@role='button']")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Dog')]//..//..//div[@role='button']")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Control Set')]//..//..//div[@role='button']")).click();
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -156,7 +156,7 @@ function svStudySearchBySpeciesType(driver){
 function svStudySearchByType(driver){
     config.reset(driver);
     driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
-    driver.findElement(By.xpath("//span[contains(text(),'Control Set')]//..//div")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Control Set')]//..//..//div[@role='button']")).click();
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -175,8 +175,8 @@ function svStudySearchByType(driver){
 function svStudySearchBySpecies(driver){
     config.reset(driver);
     driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
-    driver.findElement(By.xpath("//span[contains(text(),'Chimpanzee')]//..//div")).click();
-    driver.findElement(By.xpath("//span[contains(text(),'Dog')]//..//div")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Chimpanzee')]//..//..//div[@role='button']")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Dog')]//..//..//div[@role='button']")).click();
     config.submit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {

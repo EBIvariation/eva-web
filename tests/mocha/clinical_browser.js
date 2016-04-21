@@ -158,20 +158,20 @@ function clinVarSearchByTrait(driver){
 }
 
 function clinVarFilterByConseqType(driver){
-    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]//..//div")).click();
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[4]/div/tpl[text()]")), 10000).then(function(text) {
         value = driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[4]/div/tpl[text()]")).getText().then(function(text){
             assert(text).contains('inframe_deletion');
         });
     });
-    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]//..//div")).click();
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]//..//..//div[@role='button']")).click();
 
     return driver;
 }
 
 function clinVarFilterByVariationType(driver){
-    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Deletion')]//..//div")).click();
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Deletion')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-variationType']")), 10000).then(function(text) {
         chai.expect('.clinvar-variationType').dom.to.have.text('Deletion');
@@ -180,7 +180,7 @@ function clinVarFilterByVariationType(driver){
     return driver;
 }
 function clinVarFilterByClincalSignificance(driver){
-    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Uncertain significance')]//..//div")).click();
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Uncertain significance')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")).getText().then(function(text){
