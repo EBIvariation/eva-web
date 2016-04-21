@@ -5,6 +5,7 @@ var browser = process.env.BROWSER;
 
 module.exports = {
     initDriver: function (driverName) {
+        require('chromedriver').path;
         driver = new webdriver.Builder()
             .forBrowser(driverName)
             .build();
