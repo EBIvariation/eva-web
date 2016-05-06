@@ -87,6 +87,7 @@ EvaStudyBrowserGrid.prototype = {
         this.store = Ext.create('Ext.data.Store', {
                 model: this.model,
                 remoteSort: true,
+                remoteFilter: true,
                 proxy: {
                     type: 'memory',
                     enablePaging: false
