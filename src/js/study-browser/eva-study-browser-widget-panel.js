@@ -513,8 +513,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         store.clearFilter();
         if (value == "") {
             store.clearFilter();
-            store.reload({start:0, limit:25})
-            console.log(store)
+            store.reload({start:0, limit:25});
         } else {
             var regex = new RegExp(value, "i");
             store.reload({start:0, limit:store.totalCount})
