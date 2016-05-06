@@ -195,10 +195,10 @@ EvaVariantView.prototype = {
         var alternate = '-';
 
         if (data[0].reference) {
-            reference = data[0].reference;
+            reference = _.escape(data[0].reference);
         }
         if (data[0].alternate) {
-            alternate = data[0].alternate;
+            alternate = _.escape(data[0].alternate);
         }
 
         _summaryTable += '<tr><td class="header">Type</td><td id="variant-view-type">' + data[0].type + '</td></tr>' +
