@@ -92,6 +92,7 @@ StudyBrowserTypeFilterFormPanel.prototype = {
             xtype: 'radiogroup',
             name: 'browserTypeRadio',
             defaultType: 'radiofield',
+            width: '100%',
             defaults: {
                 flex: 1
             },

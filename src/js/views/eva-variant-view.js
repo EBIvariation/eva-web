@@ -195,10 +195,10 @@ EvaVariantView.prototype = {
         var alternate = '-';
 
         if (data[0].reference) {
-            reference = data[0].reference;
+            reference = _.escape(data[0].reference);
         }
         if (data[0].alternate) {
-            alternate = data[0].alternate;
+            alternate = _.escape(data[0].alternate);
         }
 
         _summaryTable += '<tr><td class="header">Type</td><td id="variant-view-type">' + data[0].type + '</td></tr>' +
@@ -214,15 +214,10 @@ EvaVariantView.prototype = {
 
     },
     _renderConsequenceTypeData: function (data) {
-
-        var annotation = data[0].annotation.consequenceTypes;
+        var annotation = data[0].annotation.consequenceTypes.sort(this._sortBy('ensemblGeneId', this._sortBy('ensemblTranscriptId')));
         if (!annotation) {
             return '<div style="margin-left:15px;">No Data Available</div>';
         }
-
-        annotation = _.sortBy(annotation, 'ensemblGeneId');
-        // annotation = _.sortBy(annotation, 'ensemblTranscriptId');
-
         var _consequenceTypeTable = '<h4 class="variant-view-h4"> Consequence Type</h4><div class="row"><div class="col-md-10"><table class="table ocb-stats-table">'
         _consequenceTypeTable += '<tr><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th><th>Accession</th><th>Name</th></tr>'
         _.each(_.keys(annotation), function (key) {
@@ -347,7 +342,26 @@ EvaVariantView.prototype = {
             '</div>' +
             '</div>'
         return layout;
+    },
+    _sortBy : function(name, minor){
+        return function (o, p) {
+            var a, b;
+            if (typeof o === 'object' && typeof p === 'object' && o && p) {
+                a = o[name];
+                b = p[name];
+                if (a === b) {
+                    return typeof minor === 'function' ? minor(o, p) : o;
+                }
+                if (typeof a === typeof b) {
+                    return a < b ? -1 : 1;
+                }
+                return typeof a < typeof b ? -1 : 1;
+            } else {
+                throw {
+                    name: 'Error',
+                    message: 'Expected an object when sorting by ' + name
+                };
+            }
+        }
     }
 }
-
-

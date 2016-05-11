@@ -505,7 +505,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         }, _tempValues);
 
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Study Browser&' + $.param(values);
-        ;
         window.history.pushState({path: newurl}, '', newurl);
     },
     _textSearch: function (value) {
@@ -514,8 +513,10 @@ EvaStudyBrowserWidgetPanel.prototype = {
         store.clearFilter();
         if (value == "") {
             store.clearFilter();
+            store.reload({start:0, limit:25});
         } else {
             var regex = new RegExp(value, "i");
+            store.reload({start:0, limit:store.totalCount})
             store.filterBy(function (e) {
                 return regex.test(e.get('id')) || regex.test(e.get('name')) || regex.test(e.get('description'));
             });
@@ -523,5 +524,3 @@ EvaStudyBrowserWidgetPanel.prototype = {
     }
 
 }
-
-
