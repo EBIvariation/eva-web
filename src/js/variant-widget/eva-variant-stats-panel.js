@@ -198,8 +198,8 @@ EvaVariantStatsPanel.prototype = {
                     '<tr><td>'+vcfData[0]+'</td>'+
                     '<td>'+vcfData[1]+'</td>'+
                     '<td>'+vcfData[2]+'</td>'+
-                    '<td>'+vcfData[3]+'</td>'+
-                    '<td>'+vcfData[4]+'</td></tr>'+
+                    '<td>'+_.escape(vcfData[3])+'</td>'+
+                    '<td>'+_.escape(vcfData[4])+'</td></tr>'+
                     '</table>'
             );
         }
