@@ -187,7 +187,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     text: "MAF Allele",
                     dataIndex: "mafAllele",
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="mafAllele">{mafAllele} <tpl else>-</tpl>',
+                    tpl: '<tpl if="mafAllele">{mafAllele:htmlEncode} <tpl else>-</tpl>',
                     flex: 0.5
                 },
                 {
