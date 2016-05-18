@@ -294,18 +294,19 @@ EvaManager.get({
 
 var annotation_text = [
     {species: 'hvulgare_030312v2', text: 'Variant Effect Predictor (VEP) v78 annotation against the Ensembl Plants v23 geneset.'},
-    {species: 'btaurus_umd31', text: 'Variant Effect Predictor (VEP) v78 annotation against the Ensembl v78 geneset.'},
+    {species: 'btaurus_umd31', text: 'Variant Effect Predictor (VEP) v82 annotation against the Ensembl v82 geneset.'},
     {species: 'chircus_10', text: ''},
     {species: 'hsapiens_grch37', text: 'Variant Effect Predictor (VEP) v78 annotation against the full GENCODE Ensembl v78 geneset.'},
     {species: 'zmays_agpv3', text: 'Variant Effect Predictor (VEP) v78 annotation against the Ensembl Plants v26 geneset.'},
     {species: 'olatipes_hdrr', text: ''},
     {species: 'agambiae_agamp4', text: 'Variant Effect Predictor (VEP) v78 annotation against the Ensembl Genomes v26 geneset.'},
-    {species: 'mmusculus_grcm38', text: 'Variant Effect Predictor (VEP) v78 annotation against the Ensembl v78 geneset.'},
-    {species: 'oaries_oarv31', text: 'Variant Effect Predictor (VEP) v78 annotation against the Ensembl v78 geneset.'},
+    {species: 'mmusculus_grcm38', text: 'Variant Effect Predictor (VEP) v82 annotation against the Ensembl v82 geneset.'},
+    {species: 'oaries_oarv31', text: 'Variant Effect Predictor (VEP) v82 annotation against the Ensembl v82 geneset.'},
     {species: 'sbicolor_sorbi1', text: 'Variant Effect Predictor (VEP) v78 annotation against the Ensembl Plants v26 geneset.'},
     {species: 'slycopersicum_sl240', text: 'Variant Effect Predictor (VEP) v78 annotation against the Ensembl Plants v26 geneset.'},
-    {species: 'csabaeus_chlsab11', text: 'Variant Effect Predictor (VEP) v78 annotation against the Ensembl v78 geneset.'}
-]
+    {species: 'csabaeus_chlsab11', text: 'Variant Effect Predictor (VEP) v82 annotation against the Ensembl v82 geneset.'},
+    {species: 'ggallus_galgal4', text: 'Variant Effect Predictor (VEP) v81 annotation against the Ensembl v82 geneset.'}
+];
 
 var AVAILABLE_SPECIES = {
     "text": "Species",
