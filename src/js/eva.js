@@ -296,6 +296,7 @@ Eva.prototype = {
         var maf = '';
         var pushURL = true;
 
+
         if (!_.isEmpty($.urlParam('region'))) {
             region = decodeURIComponent($.urlParam('region'))
         }
@@ -446,6 +447,7 @@ Eva.prototype = {
             significance: significance,
             review: review,
             pushURL:pushURL
+
         });
         evaClinicalWidgetPanel.draw();
         return evaClinicalWidgetPanel;
@@ -462,10 +464,10 @@ Eva.prototype = {
                 var optionValue = option;
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;
                 history.pushState('forward', '', newurl);
+
                 $("a:contains('" + option + "')").parent('li').addClass('active');
             }
         }
-
     },
     _twitterWidgetUpdate: function () {
 

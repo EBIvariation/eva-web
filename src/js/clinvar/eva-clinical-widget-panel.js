@@ -66,10 +66,10 @@ EvaClinicalWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
-        // var clinVarQuery = _this.queryParams;
-        // if (!_.isUndefined(clinVarQuery)) {
-        //     _this._updateURL(clinVarQuery);
-        // }
+        var clinVarQuery = _this.queryParams;
+        if (!_.isUndefined(clinVarQuery)) {
+            _this._updateURL(clinVarQuery);
+        }
     },
     hide: function () {
         this.panel.hide();
@@ -88,7 +88,7 @@ EvaClinicalWidgetPanel.prototype = {
             if (value) {
                 _this.panel.updateLayout();
             }
-            _this.clinvarWidget.clinvarBrowserGrid.panel.updateLayout()
+            _this.clinvarWidget.clinvarBrowserGrid.panel.updateLayout();
             _this.clinvarWidget.toolTabPanel.updateLayout();
             _this.formPanelClinvarFilter.panel.updateLayout();
             if (_this.clinvarWidget.toolTabPanel.getActiveTab().title == 'Genomic Context') {
@@ -509,14 +509,15 @@ EvaClinicalWidgetPanel.prototype = {
                         resource: 'all',
                         params: params
                     });
-
                     if (_this.formPanelClinvarFilter.validatePositionFilter(regions)) {
                         _this.clinvarWidget.retrieveData(url, e.values);
+                        _this.clinvarWidget.values = e.values;
                         _this['queryParams'] = e.values;
                         if(_this.pushURL) {
                             var values = _.omit(e.values, ['merge','source']);
                             _this._updateURL(values);
                         }
+                        _this.pushURL = true;
                     }else{
                         _this.clinvarWidget.retrieveData('','');
                     }
@@ -546,7 +547,6 @@ EvaClinicalWidgetPanel.prototype = {
         _.each(_.keys(gaValues), function (key) {
             ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
         }, gaValues);
-
     }
 
 };

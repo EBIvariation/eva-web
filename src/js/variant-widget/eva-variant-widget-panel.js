@@ -68,10 +68,10 @@ EvaVariantWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
-        // var variantQuery = _this.queryParams;
-        // if (!_.isUndefined(variantQuery)) {
-        //     _this._updateURL(variantQuery);
-        // }
+        var variantQuery = _this.queryParams;
+        if (!_.isUndefined(variantQuery)) {
+            _this._updateURL(variantQuery);
+        }
     },
     hide: function () {
         this.panel.hide();
@@ -180,10 +180,7 @@ EvaVariantWidgetPanel.prototype = {
                 headerConfig: {
                     baseCls: 'eva-header-2'
                 },
-                genomeViewer: false,
-                effect: false,
-                rawData: false,
-                populationStats: true
+                genomeViewer: false
             },
             responseParser: function (response) {
                 var res = [];
@@ -259,20 +256,16 @@ EvaVariantWidgetPanel.prototype = {
                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:2100000-2500000');
             }else if (e.species == 'aquadriannulatus_quad4av1') {
                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('KB665398:1-200000');
+
             } else {
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:3000000-3100000');
             }
 
             //hidding tabs for species
-            if (e.species == 'zmays_agpv3') {
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
-            } else if (e.species == 'chircus_10' || e.species == 'olatipes_hdrr') {
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
+            if (e.species == 'hsapiens_grch37') {
+                _this.variantWidget.toolTabPanel.getComponent(4).tab.show();
             } else {
-//                _this.variantWidget.toolTabPanel.getComponent(4).tab.show()
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
+                _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
             }
 
             _this.variantWidget.toolTabPanel.setActiveTab(0);
@@ -289,6 +282,13 @@ EvaVariantWidgetPanel.prototype = {
                     }
                 }
             });
+
+            if (e.species != 'hsapiens_grch37') {
+                Ext.getCmp('clinvar-button').hide()
+            } else {
+                Ext.getCmp('clinvar-button').show()
+            }
+
         });
 
         var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
@@ -403,7 +403,6 @@ EvaVariantWidgetPanel.prototype = {
                     delete values['snp'];
                     delete values['selectFilter'];
                     delete values['gene'];
-
                     if (_this.formPanelVariantFilter.validatePositionFilter(regions)) {
                         _this.variantWidget.retrieveData(url,values);
                         _this.variantWidget.values = e.values;
@@ -411,6 +410,7 @@ EvaVariantWidgetPanel.prototype = {
                         if(_this.pushURL){
                             _this._updateURL(e.values);
                         }
+                        _this.pushURL = true;
                     } else {
                         _this.variantWidget.retrieveData('', '');
                     }
@@ -430,6 +430,8 @@ EvaVariantWidgetPanel.prototype = {
             _this.variantWidget.trigger('species:change', {values: formValues, sender: _this});
             _this.formPanelVariantFilter.trigger('submit', {values: formValues, sender: _this});
         });
+
+
 
         return formPanel;
     },
@@ -497,7 +499,6 @@ EvaVariantWidgetPanel.prototype = {
         _.each(_.keys(gaValues), function (key) {
             ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
         }, gaValues);
-
     }
 
 

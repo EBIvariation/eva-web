@@ -1,4 +1,4 @@
-var config = require('./config.js');
+    var config = require('./config.js');
 config.loadModules();
 var ERZLinkRegEx = /ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJ[A-Z0-9]+\/ERZ[A-Z0-9]\d+$/;
 module.exports = {
