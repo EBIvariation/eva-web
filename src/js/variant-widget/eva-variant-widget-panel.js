@@ -68,10 +68,10 @@ EvaVariantWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
-        var variantQuery = _this.queryParams;
-        if (!_.isUndefined(variantQuery)) {
-            _this._updateURL(variantQuery);
-        }
+        // var variantQuery = _this.queryParams;
+        // if (!_.isUndefined(variantQuery)) {
+            // _this._updateURL(variantQuery);
+        // }
     },
     hide: function () {
         this.panel.hide();
@@ -180,10 +180,7 @@ EvaVariantWidgetPanel.prototype = {
                 headerConfig: {
                     baseCls: 'eva-header-2'
                 },
-                genomeViewer: false,
-                effect: false,
-                rawData: false,
-                populationStats: true
+                genomeViewer: false
             },
             responseParser: function (response) {
                 var res = [];
@@ -256,21 +253,16 @@ EvaVariantWidgetPanel.prototype = {
             } else if (e.species == 'aaegypti_aaegl3') {
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('supercont1.18:165624-165624');
             }else if (e.species == 'ggallus_galgal4') {
-               _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:2100000-2500000');
+                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:2100000-2500000');
             } else {
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:3000000-3100000');
             }
 
             //hidding tabs for species
-            if (e.species == 'zmays_agpv3') {
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
-            } else if (e.species == 'chircus_10' || e.species == 'olatipes_hdrr') {
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.hide()
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
+            if (e.species == 'hsapiens_grch37') {
+                _this.variantWidget.toolTabPanel.getComponent(4).tab.show();
             } else {
-//                _this.variantWidget.toolTabPanel.getComponent(4).tab.show()
-//                _this.variantWidget.toolTabPanel.getComponent(3).tab.show()
+                _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
             }
 
             _this.variantWidget.toolTabPanel.setActiveTab(0);
@@ -287,6 +279,13 @@ EvaVariantWidgetPanel.prototype = {
                     }
                 }
             });
+
+            if (e.species != 'hsapiens_grch37') {
+                Ext.getCmp('clinvar-button').hide()
+            } else {
+                Ext.getCmp('clinvar-button').show()
+            }
+
         });
 
         var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
@@ -422,6 +421,7 @@ EvaVariantWidgetPanel.prototype = {
                         _this.variantWidget.retrieveData('', '')
                     }
 
+                    _this.variantWidget.queryURL = url;
                     _this.variantWidget.values = e.values;
                     _this['queryParams'] = e.values;
                     _this._updateURL(e.values);
@@ -521,7 +521,13 @@ EvaVariantWidgetPanel.prototype = {
     _updateURL: function (values) {
         var _this = this;
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Variant Browser&' + $.param(values);
-        window.history.pushState({path: newurl}, '', newurl);
+
+        if (_this.replaceState) {
+            window.history.replaceState ({path: newurl}, '', newurl);
+        } else {
+            window.history.pushState ({path: newurl}, '', newurl);
+        }
+
     }
 
 

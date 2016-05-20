@@ -22,6 +22,7 @@ function ClinvarAssertionPanel(args) {
 
     this.target;
     this.title = "Stats";
+    this.headerId = "cb-clinical-assertion-header";
     this.height = 500;
     this.autoRender = true;
     _.extend(this, args);
@@ -87,6 +88,7 @@ ClinvarAssertionPanel.prototype = {
                 {
                     xtype: 'box',
                     cls: 'ocb-header-4',
+                    id: this.headerId,
                     html: '<h4>Clinical Assertions</h4>',
                     margin: '5 0 10 10'
                 },

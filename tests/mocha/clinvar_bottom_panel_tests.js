@@ -1,8 +1,6 @@
 module.exports = {
     clinVarSummaryTab:function(driver){
         driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarSummaryDataPanel')]//table")), 10000).then(function(text) {
-            chai.expect('.clinvar-reference').dom.to.have.match(/^-$|^[ACGT]+/);
-            chai.expect('.clinvar-alternate').dom.to.have.match(/^-$|^[ACGT]+/);
             chai.expect('.clinvar-reviewStatus').dom.to.have.match(/^\w+/);
             chai.expect('.clinvar-lastEvaluated').dom.to.have.match(/^\w+/);
             chai.expect('.clinvar-hgvs').dom.to.have.match(/^-$|^\w+/);
@@ -13,9 +11,9 @@ module.exports = {
 
         return driver;
     },
-    clinVarAssertionTab:function(driver){
-        driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//span[text()='Clinical Assertion']")).click();
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarAssertionDataPanel')]//table//td[@class='clinVarAccession']")), 10000).then(function(text) {
+    clinVarAssertionTab:function(driver, browser){
+        driver.findElement(By.xpath("//div[contains(@class,'"+ browser +"')]//span[text()='Clinical Assertion']")).click();
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'"+ browser +"')]//div[contains(@id,'ClinVarAssertionDataPanel')]//table//td[@class='clinVarAccession']")), 10000).then(function(text) {
             driver.findElements(By.xpath("//div[contains(@id,'ClinVarAssertionDataPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                 var regex = /^-$|^\w+/;
                 for (var i = 0; i < rows.length; i++){

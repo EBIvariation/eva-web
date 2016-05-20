@@ -30,7 +30,7 @@ test.describe('Gene View ('+config.browser()+')', function() {
             clinvar.clinVarSummaryTab(driver);
         });
         test.it('Clinical Assertion Tab should not be empty and no duplicate items', function() {
-            clinvar.clinVarAssertionTab(driver);
+            clinvar.clinVarAssertionTab(driver, 'clinical-widget');
         });
         test.it('Annotation Tab should not be empty', function() {
             clinvar.clinVarAnnotationTab(driver);

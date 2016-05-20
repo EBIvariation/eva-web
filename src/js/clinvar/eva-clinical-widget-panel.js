@@ -66,10 +66,10 @@ EvaClinicalWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
-        var clinVarQuery = _this.queryParams;
-        if (!_.isUndefined(clinVarQuery)) {
-            _this._updateURL(clinVarQuery);
-        }
+        // var clinVarQuery = _this.queryParams;
+        // if (!_.isUndefined(clinVarQuery)) {
+        //     _this._updateURL(clinVarQuery);
+        // }
     },
     hide: function () {
         this.panel.hide();
@@ -88,7 +88,7 @@ EvaClinicalWidgetPanel.prototype = {
             if (value) {
                 _this.panel.updateLayout();
             }
-            _this.clinvarWidget.clinvarBrowserGrid.panel.updateLayout()
+            _this.clinvarWidget.clinvarBrowserGrid.panel.updateLayout();
             _this.clinvarWidget.toolTabPanel.updateLayout();
             _this.formPanelClinvarFilter.panel.updateLayout();
             if (_this.clinvarWidget.toolTabPanel.getActiveTab().title == 'Genomic Context') {
@@ -510,6 +510,7 @@ EvaClinicalWidgetPanel.prototype = {
                         params: params
                     });
                     _this.clinvarWidget.retrieveData(url, e.values);
+                    _this.clinvarWidget.values = e.values;
                     _this['queryParams'] = e.values;
                     _this._updateURL(e.values);
                 }
@@ -530,8 +531,12 @@ EvaClinicalWidgetPanel.prototype = {
         }, _tempValues);
 
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Clinical Browser&' + $.param(values);
-        ;
-        window.history.pushState({path: newurl}, '', newurl);
+
+        if (_this.replaceState) {
+            window.history.replaceState ({path: newurl}, '', newurl);
+        } else {
+            window.history.pushState ({path: newurl}, '', newurl);
+        }
     }
 
 };

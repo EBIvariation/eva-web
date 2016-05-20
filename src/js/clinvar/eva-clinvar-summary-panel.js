@@ -95,8 +95,6 @@ ClinvarSummaryPanel.prototype = {
     },
     _createSummaryPanel: function (data) {
         var annotData = data.annot;
-        var reference = data.reference;
-        var alternate = data.alternate;
         data = data.clinvarSet.referenceClinVarAssertion;
         var lastEvaluated = new Date(data.clinVarAccession.dateUpdated).toUTCString();
         var origin = data.observedIn[0].sample.origin;
@@ -192,12 +190,6 @@ ClinvarSummaryPanel.prototype = {
                     width: 970,
                     tpl: new Ext.XTemplate(
                         '<div class="col-md-12"><table class="table table-bordered eva-stats-table">',
-                        '<tr>',
-                        '<td class="header">Reference</td><td class="clinvar-reference">' + reference + '</td>',
-                        '</tr>',
-                        '<tr>',
-                        '<td class="header">Alternate</td><td class="clinvar-alternate">' + alternate + '</td>',
-                        '</tr>',
                         '<tr>',
                         '<td class="header">Review status</td><td class="clinvar-reviewStatus">{clinicalSignificance.reviewStatus}</td>',
                         '</tr>',

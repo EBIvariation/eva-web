@@ -175,7 +175,7 @@ Eva.prototype = {
                 } else {
                     this.studyBrowserPanel = this._createStudyBrowserPanel(this.contentDiv);
                     // this.select('Study Browser');
-                    this.pushURL(option, false);
+                    // this.pushURL(option, false);
                 }
                 break;
             case 'Variant Browser':
@@ -185,7 +185,7 @@ Eva.prototype = {
                     this.variantWidgetPanel = this._createVariantWidgetPanel(this.contentDiv);
                     // this.select('Variant Browser');
                     this.variantWidgetPanel.panel.updateLayout();
-                    this.pushURL(option, true);
+                    // this.pushURL(option, true);
                 }
                 break;
             case 'Genome Browser':
@@ -195,7 +195,7 @@ Eva.prototype = {
                     this.contentDiv.className += ' eva variant-widget-panel ocb-variant-stats-panel';
                     this.genomeViewerPanel = this._createGenomeViewerPanel(this.contentDiv);
                 }
-                this.pushURL(option, true);
+                // this.pushURL(option, true);
                 break;
             case 'GA4GH':
                 if (this.beaconPanel) {
@@ -212,7 +212,7 @@ Eva.prototype = {
                     // this.select('Clinical Browser');
                     this.clinicalWidgetPanel.panel.updateLayout();
                     this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
-                    this.pushURL(option, false);
+                    // this.pushURL(option, false);
                 }
             case 'dgva-study':
                 this._getPublications();
@@ -280,6 +280,7 @@ Eva.prototype = {
         var polyphen = '';
         var sift = '';
         var maf = '';
+        var replaceState = false;
 
         if (!_.isEmpty($.urlParam('region'))) {
             region = decodeURIComponent($.urlParam('region'))
@@ -325,6 +326,10 @@ Eva.prototype = {
             maf = _maf;
         }
 
+        if (!_.isEmpty($.urlParam('replaceState'))) {
+            replaceState = true;
+        }
+
         var variantWidget = new EvaVariantWidgetPanel({
             target: target,
             region: region,
@@ -336,7 +341,8 @@ Eva.prototype = {
             selectAnnotCT: annotCT,
             polyphen: polyphen,
             sift: sift,
-            maf: maf
+            maf: maf,
+            replaceState:replaceState
         });
         variantWidget.draw();
         return variantWidget;
@@ -370,6 +376,7 @@ Eva.prototype = {
         var type = '';
         var significance = '';
         var review = '';
+        var replaceState = false;
 
         if (!_.isEmpty($.urlParam('clinvarRegion'))) {
             clinvarRegion = decodeURIComponent($.urlParam('clinvarRegion'))
@@ -407,6 +414,10 @@ Eva.prototype = {
             review = decodeURIComponent($.urlParam('review'))
         }
 
+        if (!_.isEmpty($.urlParam('replaceState'))) {
+            replaceState = true;
+        }
+
         var evaClinicalWidgetPanel = new EvaClinicalWidgetPanel({
             target: target,
             filter: filter,
@@ -417,7 +428,8 @@ Eva.prototype = {
             phenotype: phenotype,
             type: type,
             significance: significance,
-            review: review
+            review: review,
+            replaceState:replaceState
         });
         evaClinicalWidgetPanel.draw();
         return evaClinicalWidgetPanel;
@@ -440,13 +452,13 @@ Eva.prototype = {
                     } else {
                         optionValue = option;
                     }
+                }else{
+                    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;
+                    window.history.pushState({path: newurl}, '', newurl);
                 }
-                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;
-                window.history.pushState({path: newurl}, '', newurl);
                 $("a:contains('" + option + "')").parent('li').addClass('active');
             }
         }
-
     },
     _twitterWidgetUpdate: function () {
 

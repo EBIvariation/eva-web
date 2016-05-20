@@ -64,8 +64,8 @@ EvaStudyBrowserWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
-        var query = _this.formPanelStudyFilter.getValues();
-        _this._updateURL(query);
+        // var query = _this.formPanelStudyFilter.getValues();
+        // _this._updateURL(query);
     },
     hide: function () {
         this.panel.hide();
