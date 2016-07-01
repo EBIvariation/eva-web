@@ -157,8 +157,8 @@ consequenceTypes = [
                 expanded: true,
                 checked: false,
                 children: [
-                    {acc: 'SO:0001623', name: '5_prime_UTR_variant', qtip: 'A UTR variant of the 5\' UTR', leaf: true, checked: false, iconCls: 'no-icon', color: '#7AC5CD'},
                     {acc: 'SO:0001624', name: '3_prime_UTR_variant', qtip: 'A UTR variant of the 3\' UTR', leaf: true, checked: false, iconCls: 'no-icon', color: '#7AC5CD'},
+                    {acc: 'SO:0001623', name: '5_prime_UTR_variant', qtip: 'A UTR variant of the 5\' UTR', leaf: true, checked: false, iconCls: 'no-icon', color: '#7AC5CD'},
                     {acc: 'SO:0001627', name: 'intron_variant', qtip: 'A transcript variant occurring within an intron', leaf: true, checked: false, iconCls: 'no-icon', color: '#02599C' },
                     {acc: 'SO:0001792', name: 'non_coding_transcript_exon_variant', qtip: 'A sequence variant that changes non-coding exon sequence', leaf: true, checked: false, iconCls: 'no-icon', color: '#32CD32' },
 //                    {acc: 'SO:0001619', name: 'nc_transcript_variant', qtip: 'A transcript variant of a non coding RNA',leaf: true,checked: false,  iconCls :'no-icon' },
