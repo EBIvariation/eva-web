@@ -208,7 +208,7 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
             model: 'Tree Model',
             proxy: {
                 type: 'memory',
-                data: this.consequenceTypes,
+                data:_.sortBy(this.consequenceTypes, 'name'),
                 reader: {
                     type: 'json'
                 }
@@ -222,7 +222,7 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
             rootVisible: false,
             store: store,
             multiSelect: true,
-            singleExpand: true,
+            singleExpand: false,
             hideHeaders: true,
 //            height: this.height,
             collapsible: this.collapsible,
