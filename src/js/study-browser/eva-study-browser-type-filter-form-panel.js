@@ -100,17 +100,18 @@ StudyBrowserTypeFilterFormPanel.prototype = {
             layout: 'vbox',
             items: [
                 {
-                    boxLabel: 'Structural Variants (>50bp)',
-                    name: 'browserType',
-                    inputValue: 'sv',
-                    id: 'sv'
-                },
-                {
                     boxLabel: 'Short Genetic Variants (<50bp)',
                     name: 'browserType',
                     inputValue: 'sgv',
                     id: 'sgv'
+                },
+                {
+                    boxLabel: 'Structural Variants (>50bp)',
+                    name: 'browserType',
+                    inputValue: 'sv',
+                    id: 'sv'
                 }
+
             ],
             listeners: {
                 afterrender: function (field) {

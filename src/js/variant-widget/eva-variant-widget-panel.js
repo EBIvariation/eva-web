@@ -389,21 +389,7 @@ EvaVariantWidgetPanel.prototype = {
 
                     if (!_.isEmpty(e.values.studies)) {
                         e.values.studies = e.values.studies.join(',');
-                    }
-
-                    var limitExceeds = false;
-                    _.each(regions, function (region) {
-                        var start = region.split(':')[1].split('-')[0];
-                        var end = region.split(':')[1].split('-')[1]
-                        if (end - start > 1000000) {
-                            Ext.Msg.alert('Limit Exceeds', 'Please enter the region no more than 1000000 range');
-                            limitExceeds = true;
-                        } else if (end - start < 0) {
-                            Ext.Msg.alert('Incorrect Range', 'Please enter the correct range.The start of the region should be smaller than the end');
-                        } else if (isNaN(start) || isNaN(end)) {
-                            Ext.Msg.alert('Incorrect Value', 'Please enter a numeric value');
-                        }
-                    });
+                    }                   
 
                     if (!_.isEmpty(e.values["annot-ct"])) {
                         e.values["annot-ct"] = e.values["annot-ct"].join(',');
@@ -416,15 +402,14 @@ EvaVariantWidgetPanel.prototype = {
                     delete values['selectFilter'];
                     delete values['gene'];
 
-                    if (!limitExceeds) {
-                        _this.variantWidget.retrieveData(url,values)
+                    if (_this.formPanelVariantFilter.validatePositionFilter(regions)) {
+                        _this.variantWidget.retrieveData(url,values);
+                        _this.variantWidget.values = e.values;
+                        _this['queryParams'] = e.values;
+                        _this._updateURL(e.values);
                     } else {
-                        _this.variantWidget.retrieveData('', '')
+                        _this.variantWidget.retrieveData('', '');
                     }
-
-                    _this.variantWidget.values = e.values;
-                    _this['queryParams'] = e.values;
-                    _this._updateURL(e.values);
 
                     var speciesArray = ['hsapiens', 'hsapiens_grch37', 'mmusculus_grcm38'];
                     var updateTpl;

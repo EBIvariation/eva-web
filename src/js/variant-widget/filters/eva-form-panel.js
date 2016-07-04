@@ -193,5 +193,31 @@ EvaFormPanel.prototype = {
         });
         return form;
 
+    },
+    validatePositionFilter : function(values) {
+        var validate = true;
+        _.each(values, function (region) {
+            if(region.match(/^[\w\d]+\:\d+\-\d+/)){
+                var start = region.split(':')[1].split('-')[0];
+                var end = region.split(':')[1].split('-')[1]
+                if (end - start > 1000000) {
+                    Ext.Msg.alert('Limit Exceeds', 'Please enter the region no more than 1000000 range');
+                    validate = false;
+                } else if (end - start < 0) {
+                    Ext.Msg.alert('Incorrect Range', 'Please enter the correct range.The start of the region should be smaller than the end');
+                    validate = false;
+                } else if (isNaN(start) || isNaN(end)) {
+                    Ext.Msg.alert('Incorrect Value', 'Please enter a numeric value');
+                    validate = false;
+                }
+            }else{
+                Ext.Msg.alert('Invalid Region', 'Please enter a valid region');
+                validate = false;
+            }
+
+        });
+
+        return validate;
     }
+
 }
