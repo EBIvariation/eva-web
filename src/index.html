@@ -429,24 +429,55 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> How can I consume variant data from the  EVA? <i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Why submit data to the EVA?  <i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
-                                <p> All EVA files are hosted on our FTP site and are freely downloadable: <br /><a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/" target="_blank">ftp://ftp.ebi.ac.uk/pub/databases/eva/</a></p>
-                                <p> Each EVA project FTP site allows users to download the original files as they were submitted to the EVA and/or the EVA ‘normalised’ files. Please note that due to processing time required not all EVA projects shall have ‘normalised’ files just yet.</p>
-                                <p> Additionally users can download query results from the <a href="https://www.ebi.ac.uk/eva/?Variant%20Browser&species=hsapiens_grch37&selectFilter=region&studies=PRJEB4019%2CPRJEB6930%2CPRJEB5439%2CPRJEB5829%2CPRJEB8652%2CPRJEB8650%2CPRJEB8639%2CPRJEB6042%2CPRJX00001%2CPRJEB8705%2CPRJEB8661%2CPRJEB7895%2CPRJEB7217%2CPRJEB7218%2CPRJEB6041&region=1%3A3000000-3100000">EVA variant browser</a> directly and all of our data is available programmatically via our <a href="https://www.ebi.ac.uk/eva/?API">API</a></p>
+                                <p>The EVA provides to the community a completely free, secure and permanent solution to data sharing. Each project, VCF file and sample that is submitted to the EVA is assigned a unique identifier that is accessible in perpetuity and is therefore able to be referenced in publication, for example.
+                                    The <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">EVA helpdesk</a> provides support to submitters, and users, to ensure accurate represention and proper integration of the submitted data with other EMBL-EBI resources such as the <a href="https://www.ebi.ac.uk/ega/" target="_blank">EGA</a> and <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>. A final advantage of submitting to the EVA is that variants are brokered to the National Centre for Biotechnology Information (<a href="http://www.ncbi.nlm.nih.gov/" target="_blank">NCBI</a>) on the submitter’s behalf, negating the requirement for independent submissions.</p>
                             </div>
                         </div>
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">What are the EVA normalisation and variant processing steps?  <i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"> Is my data suitable for submission to the EVA?  <i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseThree" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter’s responsibility to ensure that the data archived at the EVA complies to this open access policy.</p>
+                                <p>
+                                    Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>.
+                                    The EVA has developed a custom <a href="https://github.com/ebivariation/vcf-validator" target="_blank">VCF file validator</a> and accepts submission of only VCF files that pass <a href="https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit" target="_blank">these validation steps</a>.
+                                    Furthermore, VCF files submitted to the EVA should provide either genotypes from the individual samples analysed, or aggregated sample summary information, such as allele frequencies.
+                                </p>
+                                <p>Finally, each submission to the EVA is accompanied by a completed metadata <a href="http://www.ebi.ac.uk/eva/?Templates" target="_blank">template </a>. This metadata template captures the study description, details of the sample(s) analysed and the experimental methodology. Submission of as much metadata as possible is strongly encouraged as this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title study-browser-panel">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">What happens to my data once submitted?  <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></a>
+                            </h3>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p> All  VCF files and novel samples that are submitted to EVA are permanently and securely archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive </a> and <a href="http://www.ebi.ac.uk/biosamples/" target="_blank">BioSamples </a>, respectively. The EVA provides access to all submitted data via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a>.</p>
+                                <p> Variants within VCF files submitted to EVA are normalised, annotated and used for statistical calculations (via methodologies described below) and these EVA processed data are available via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a>.
+                                <p> Finally, the EVA brokers all submitted data to the NCBI: <a href="http://www.ncbi.nlm.nih.gov/projects/SNP/" target="_blank">dbSNP</a>, for short variants (<50bp); <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a> for large variants (>50bp) or <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, for variants associated with both a phenotype and clinical significance.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title study-browser-panel">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">What are the EVA normalisation and variant processing steps?  <i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></a>
+                            </h3>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <div>
                                     <h5>Normalisation</h5>
@@ -499,45 +530,13 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"> Is my data suitable for submission to the EVA?  <i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></a>
-                            </h3>
-                        </div>
-                        <div id="collapseFour" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter’s responsibility to ensure that the data archived at the EVA complies to this open access policy.</p>
-                                <p>
-                                    Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>.
-                                    The EVA has developed a custom <a href="https://github.com/ebivariation/vcf-validator" target="_blank">VCF file validator</a> and accepts submission of only VCF files that pass <a href="https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit" target="_blank">these validation steps</a>.
-                                    Furthermore, VCF files submitted to the EVA should provide either genotypes from the individual samples analysed, or aggregated sample summary information, such as allele frequencies.
-                                </p>
-                                <p>Finally, each submission to the EVA is accompanied by a completed metadata <a href="http://www.ebi.ac.uk/eva/?Templates" target="_blank">template </a>. This metadata template captures the study description, details of the sample(s) analysed and the experimental methodology. Submission of as much metadata as possible is strongly encouraged as this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Why submit data to the EVA?  <i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></a>
-                            </h3>
-                        </div>
-                        <div id="collapseFive" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <p>The EVA provides to the community a completely free, secure and permanent solution to data sharing. Each project, VCF file and sample that is submitted to the EVA is assigned a unique identifier that is accessible in perpetuity and is therefore able to be referenced in publication, for example.
-                                    The <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">EVA helpdesk</a> provides support to submitters, and users, to ensure accurate represention and proper integration of the submitted data with other EMBL-EBI resources such as the <a href="https://www.ebi.ac.uk/ega/" target="_blank">EGA</a> and <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>. A final advantage of submitting to the EVA is that variants are brokered to the National Centre for Biotechnology Information (<a href="http://www.ncbi.nlm.nih.gov/" target="_blank">NCBI</a>) on the submitter’s behalf, negating the requirement for independent submissions.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">What happens to my data once submitted?  <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix"> How can I consume variant data from the  EVA? <i class="indicator glyphicon glyphicon-chevron-down pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseSix" class="panel-collapse collapse">
                             <div class="panel-body">
-                                <p> All  VCF files and novel samples that are submitted to EVA are permanently and securely archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive </a> and <a href="http://www.ebi.ac.uk/biosamples/" target="_blank">BioSamples </a>, respectively. The EVA provides access to all submitted data via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a>.</p>
-                                <p> Variants within VCF files submitted to EVA are normalised, annotated and used for statistical calculations (via methodologies described below) and these EVA processed data are available via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a>.
-                                <p> Finally, the EVA brokers all submitted data to the NCBI: <a href="http://www.ncbi.nlm.nih.gov/projects/SNP/" target="_blank">dbSNP</a>, for short variants (<50bp); <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a> for large variants (>50bp) or <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, for variants associated with both a phenotype and clinical significance.</p>
+                                <p> All EVA files are hosted on our <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/">FTP site</a> and are freely downloadable. Each EVA project FTP site allows users to download the original files as they were submitted to the EVA and/or the EVA ‘normalised’ files. Please note that due to processing time required not all EVA projects shall have ‘normalised’ files just yet.</p>
+                                <p> Additionally users can download query results from the <a href="https://www.ebi.ac.uk/eva/?Variant%20Browser&species=hsapiens_grch37&selectFilter=region&studies=PRJEB4019%2CPRJEB6930%2CPRJEB5439%2CPRJEB5829%2CPRJEB8652%2CPRJEB8650%2CPRJEB8639%2CPRJEB6042%2CPRJX00001%2CPRJEB8705%2CPRJEB8661%2CPRJEB7895%2CPRJEB7217%2CPRJEB7218%2CPRJEB6041&region=1%3A3000000-3100000">EVA variant browser</a> directly and all of our data is available programmatically via our <a href="https://www.ebi.ac.uk/eva/?API">API</a>.</p>
                             </div>
                         </div>
                     </div>
