@@ -23,7 +23,7 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
     });
 
     test.describe('search by Chromosomal Location', function() {
-        test.it('Search term "2:47000000-49000000" should match with column "Chr" and "Position"', function() {
+        test.it('Search term "2:48000000-49000000" should match with column "Chr" and "Position"', function() {
             clinVarSearchByLocation(driver);
         });
     });
@@ -100,7 +100,7 @@ function clinVarSearchByLocation(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
     driver.findElement(By.name("clinvarRegion")).clear();
-    driver.findElement(By.name("clinvarRegion")).sendKeys("2:47000000-49000000");
+    driver.findElement(By.name("clinvarRegion")).sendKeys("2:48000000-49000000");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")).getText().then(function(text){
@@ -108,7 +108,7 @@ function clinVarSearchByLocation(driver){
         });
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[2]/div[text()]")).getText().then(function(text){
             text = parseInt(text);
-            chai.assert.operator(text, '>=', 47000000);
+            chai.assert.operator(text, '>=', 48000000);
             chai.assert.operator(text, '<=', 49000000);
         });
 
