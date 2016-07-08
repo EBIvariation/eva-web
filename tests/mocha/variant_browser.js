@@ -25,8 +25,18 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
     });
 
     test.describe('Position Filter validate with special characters', function() {
-        test.it('Search by species  "Mosquito / AaegL3" and location "supercont1.18:165624-165624"  where column "Chr"  should match with "supercont1.18 and Invalid Location "12334" should open alert box"', function() {
+        test.it('Search by species  "Mosquito / AaegL3" and location "supercont1.18:165624-165624"  where column "Chr"  should match with "supercont1.18",\n' +
+                'Search by species  "Mosquito / AgamP3" and location "X:10000000-11000000"  where column "Chr"  should match with "X"', function() {
             positionFilterBoxValidation(driver);
+
+        });
+    });
+
+    test.describe('Position Filter Invalidate with Incorrect values', function() {
+        test.it('Invalid Location "12334" should open alert box with "Please enter a valid region" message,\n' +
+                'Invalid Location "1:3200000-3100000" should open alert box with "Please enter the correct range.The start of the region should be smaller than the end,\n' +
+                'Invalid Location "1:3000000-310000000" should open alert box with "Please enter a region no larger than 1 million bases', function() {
+            positionFilterBoxInValidation(driver);
         });
     });
 
@@ -113,15 +123,52 @@ function positionFilterBoxValidation(driver){
         });
     });
 
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('X:10000000-11000000');
+    driver.findElement(By.id("vb-submit-button")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
+            assert(text).equalTo('X');
+        });
+    });
+}
+
+function positionFilterBoxInValidation(driver){
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('12334');
     driver.findElement(By.id("vb-submit-button")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")), 15000).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
+            assert(text).equalTo('Please enter a valid region');
+            driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
+        });
     });
 
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('1:3200000-3100000');
+    driver.findElement(By.id("vb-submit-button")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
+            assert(text).equalTo('Please enter the correct range.The start of the region should be smaller than the end');
+            driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
+        });
+    });
 
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('1:3000000-310000000');
+    driver.findElement(By.id("vb-submit-button")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
+            assert(text).equalTo('Please enter a region no larger than 1 million bases');
+            driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
+        });
+    });
 }
+
 function variantSearchByGene(driver){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
