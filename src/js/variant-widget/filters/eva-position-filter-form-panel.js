@@ -88,6 +88,7 @@ EvaPositionFilterFormPanel.prototype = {
             width: '100%',
             labelAlign: 'top',
             margin: '0 0 0 5',
+            editable: false,
             listeners: {
                 afterrender: function (field) {
                     field.setValue(_this.defaultFilterValue);
