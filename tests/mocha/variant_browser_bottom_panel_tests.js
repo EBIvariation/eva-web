@@ -4,7 +4,7 @@ var ERZLinkRegEx = /ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJ[A-Z0-9]+
 module.exports = {
     filesTab:function(driver){
         driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")), 10000).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")), 15000).then(function(text) {
             driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
             var filesArray = new Array();
             var studyTitleArray = new Array();
@@ -51,7 +51,7 @@ module.exports = {
         return driver;
     },
     annotationTab:function(driver){
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[text()]")), 10000).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
             driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//div[contains(@id,'_annotatPagingToolbar-targetEl')]//div[contains(text(), 'Transcripts 1 -')]")).getText().then(function(text) {
                 var rows = parseInt(text.split(" ")[3]);
                 for (var i = 1; i <= rows; i++) {
@@ -104,7 +104,7 @@ module.exports = {
     },
     genotypesTab:function(driver){
         driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div")).then(function(text) {
-            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div//a[text()]")), 10000).then(function(text) {
+            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div//a[text()]")), 15000).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                     var genotypesArray = new Array();
                     var studyTitleArray = new Array();
@@ -152,7 +152,7 @@ module.exports = {
     },
     populationTab:function(driver){
         driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).then(function(webElement) {
-            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
+            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 15000).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                     var popStatsArray = new Array();
                     var studyTitleArray = new Array();

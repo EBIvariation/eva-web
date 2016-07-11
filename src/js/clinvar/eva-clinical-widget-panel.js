@@ -509,9 +509,14 @@ EvaClinicalWidgetPanel.prototype = {
                         resource: 'all',
                         params: params
                     });
-                    _this.clinvarWidget.retrieveData(url, e.values);
-                    _this['queryParams'] = e.values;
-                    _this._updateURL(e.values);
+
+                    if (_this.formPanelClinvarFilter.validatePositionFilter(regions)) {
+                        _this.clinvarWidget.retrieveData(url, e.values);
+                        _this['queryParams'] = e.values;
+                        _this._updateURL(e.values);
+                    }else{
+                        _this.clinvarWidget.retrieveData('','');
+                    }
                 }
             }
         });
