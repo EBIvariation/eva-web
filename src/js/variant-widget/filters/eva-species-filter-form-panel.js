@@ -114,6 +114,7 @@ SpeciesFilterFormPanel.prototype = {
             displayField: 'displayName',
             valueField: 'value',
             width: '100%',
+            editable: false,
             listeners: {
                 afterrender: function (field) {
                     field.setValue(_this.defaultValue);
