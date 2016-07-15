@@ -214,10 +214,11 @@ EvaVariantView.prototype = {
 
     },
     _renderConsequenceTypeData: function (data) {
-        var annotation = data[0].annotation.consequenceTypes.sort(this._sortBy('ensemblGeneId', this._sortBy('ensemblTranscriptId')));
+        var annotation = data[0].annotation.consequenceTypes;
         if (!annotation) {
-            return '<div style="margin-left:15px;">No Data Available</div>';
+            return '<h4 class="variant-view-h4"> Consequence Type</h4><div style="margin-left:15px;">No Data Available</div>';
         }
+        annotation = data[0].annotation.consequenceTypes.sort(this._sortBy('ensemblGeneId', this._sortBy('ensemblTranscriptId')));
         var _consequenceTypeTable = '<h4 class="variant-view-h4"> Consequence Type</h4><div class="row"><div class="col-md-10"><table class="table ocb-stats-table">'
         _consequenceTypeTable += '<tr><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th><th>Accession</th><th>Name</th></tr>'
         _.each(_.keys(annotation), function (key) {

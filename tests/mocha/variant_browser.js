@@ -1,6 +1,7 @@
 var config = require('./config.js');
 config.loadModules();
 var variantBrowser = require('./variant_browser_bottom_panel_tests.js');
+var t;
 test.describe('Variant Browser ('+config.browser()+')', function() {
     var driver;
     test.before(function() {
@@ -23,6 +24,7 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
             variantSearchBySpeciesandChrLocation(driver);
         });
     });
+
 
     test.describe('Position Filter validate with special characters', function() {
         test.it('Search by species  "Mosquito / AaegL3" and location "supercont1.18:165624-165624"  where column "Chr"  should match with "supercont1.18",\n' +
@@ -57,6 +59,14 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
     test.describe('Filter by  MAF', function() {
         test.it('should match with MAF column "Minor Allele Frequency greater than 0.3" in Poulation Statistics Tab', function() {
             variantFilterByMAF(driver);
+        });
+    });
+
+    test.describe('check dbSNP link href', function() {
+        test.it('should match with Variant ID,\n' +
+            'Variant ID ex: rs541552030 should have "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs="\n' +
+            'Variant ID ex: ss1225720736 should have "http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id="\n', function() {
+            checkdbSNPLink(driver);
         });
     });
 
@@ -111,6 +121,47 @@ function variantSearchBySpeciesandChrLocation(driver){
     });
 }
 
+function checkdbSNPLink(driver){
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    driver.findElement(By.name("snp")).clear();
+    driver.findElement(By.name("snp")).sendKeys("rs541552030");
+    driver.findElement(By.id("vb-submit-button")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
+                assert(text).equalTo('http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs='+variantID);
+            });
+        });
+    });
+
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
+    driver.findElement(By.id("vb-submit-button")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
+                assert(text).equalTo('http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs='+variantID);
+            });
+        });
+    });
+
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Goat / CHIR_1.0']")).click();
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
+    driver.findElement(By.id("vb-submit-button")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
+                assert(text).equalTo('http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id='+variantID.substring(2));
+            });
+        });
+    });
+}
+
 function positionFilterBoxValidation(driver){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
@@ -146,8 +197,6 @@ function positionFilterBoxValidation(driver){
             assert(text).equalTo('No records to display');
         });
     });
-
-
 }
 
 function positionFilterBoxInValidation(driver){
