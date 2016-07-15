@@ -411,25 +411,6 @@ EvaVariantWidgetPanel.prototype = {
                         _this.variantWidget.retrieveData('', '');
                     }
 
-                    var speciesArray = ['hsapiens', 'hsapiens_grch37', 'mmusculus_grcm38'];
-                    var updateTpl;
-                    if (e.values.species && speciesArray.indexOf(e.values.species) > -1) {
-//                        var ensemblSepciesName = _.findWhere(speciesList, {taxonomyCode: e.values.species.split('_')[0]}).taxonomyScientificName;
-//                        ensemblSepciesName = ensemblSepciesName.split(' ')[0] + '_' + ensemblSepciesName.split(' ')[1];
-//                        var ensemblURL = 'http://www.ensembl.org/' + ensemblSepciesName + '/Variation/Explore?vdb=variation;v={id}';
-//                        if (e.values.species == 'hsapiens_grch37') {
-//                            ensemblURL = 'http://grch37.ensembl.org/' + ensemblSepciesName + '/Variation/Explore?vdb=variation;v={id}';
-//                        }
-                        var ncbiURL = 'http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs={id}';
-                        updateTpl = Ext.create('Ext.XTemplate', '<tpl if="id"><a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species=' + e.values.species + '" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>' +
-//                            '<a href="' + ensemblURL + '" target="_blank"><img alt="" src="http://static.ensembl.org/i/search/ensembl.gif"></a>' +
-                            '&nbsp;<a href="' + ncbiURL + '" target="_blank"><span>dbSNP</span></a>' +
-                            '<tpl else><a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species=' + e.values.species + '" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;<span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>');
-                    } else {
-                        updateTpl = Ext.create('Ext.XTemplate', '<tpl><a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species=' + e.values.species + '" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;<span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>');
-                    }
-
-                    Ext.getCmp('variant-grid-view-column').tpl = updateTpl;
                 }
             }
         });

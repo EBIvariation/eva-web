@@ -288,40 +288,8 @@ EvaVariantWidget.prototype = {
 //                    tpl: '<tpl  class="variantId" if="id"><span>{id}</span><tpl else>-</tpl>',
                     tooltip: 'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
-                        var id = value;
-                        if(value && value.split(",").length > 1){
-                            var _temp = value.split(",");
-                            var rsRegEx = /^rs\d+$/;
-                            var ssRegEx = /^ss\d+$/;
-                            var rsArray = [];
-                            var ssArray = [];
-                            var otherArray = [];
-                            _.each(_.keys(_temp), function (key) {
-                                if(this[key].match(rsRegEx)){
-                                    rsArray.push(this[key]);
-                                }else if(this[key].match(ssRegEx)){
-                                    ssArray.push(this[key]);
-                                }else{
-                                    otherArray.push(this[key]);
-                                }
-                            }, _temp);
-
-                            if(!_.isEmpty(rsArray)){
-                                rsArray.sort();
-                                id =  _.first(rsArray);
-                            }else if(!_.isEmpty(ssArray)){
-                                ssArray.sort();
-                                id = _.first(ssArray);
-                            }else{
-                                otherArray.sort();
-                                id = _.first(otherArray);
-                            }
-                        }else{
-                            if(_.isEmpty(value)){
-                                id = '-';
-                            }
-                        }
-                        return id;
+                        var values = _this.getVariantId(value);
+                        return values.variantId;
                     }
                 },
                 {
@@ -504,10 +472,18 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'id',
                     id: 'variant-grid-view-column',
                     xtype: 'templatecolumn',
-                    tpl: '<tpl if="id"><a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;' +
-//                        '<a href="http://www.ensembl.org/Homo_sapiens/Variation/Explore?vdb=variation;v={id}" target="_blank"><img alt="" src="http://static.ensembl.org/i/search/ensembl.gif"></a>' +
-                        '<a href="http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs={id}" target="_blank"><span>dbSNP</span></a>' +
-                        '<tpl else><a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>&nbsp;<span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>',
+                    tpl: new Ext.XTemplate('<a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species={[this.getSpecies(values)]}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>' +
+                        '&nbsp;<tpl if="this.getURL(values)"><a href="{[this.getURL(values)]}" target="_blank"><span>dbSNP</span></a>' +
+                        '<tpl else><span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>',
+                        {
+                            getURL: function (value) {
+                                var values = _this.getVariantId(value.ids);
+                                return values.dbsnpURL;
+                            },
+                            getSpecies:function (value) {
+                                return _this.values.species;
+                            }
+                        }),
                     flex: 0.4
                 }
             ],
@@ -1410,5 +1386,53 @@ EvaVariantWidget.prototype = {
         }
 
         return true;
+    },
+    getVariantId: function (value) {
+        var id = value;
+        var dbsnpURL = '';
+        var rsRegEx = /^rs\d+$/;
+        var ssRegEx = /^ss\d+$/;
+        if (value && value.split (",").length > 1) {
+            var _temp = value.split (",");
+            var rsArray = [];
+            var ssArray = [];
+            var otherArray = [];
+            _.each (_.keys (_temp), function (key) {
+                if (this[key].match (rsRegEx)) {
+                    rsArray.push (this[key]);
+                } else if (this[key].match (ssRegEx)) {
+                    ssArray.push (this[key]);
+                } else {
+                    otherArray.push (this[key]);
+                }
+            }, _temp);
+
+            if (!_.isEmpty (rsArray)) {
+                rsArray.sort ();
+                id = _.first (rsArray);
+            } else if (!_.isEmpty (ssArray)) {
+                ssArray.sort ();
+                id = _.first (ssArray);
+            } else {
+                otherArray.sort ();
+                id = _.first (otherArray);
+            }
+        } else {
+            if (_.isEmpty (value)) {
+                id = '-';
+            }
+        }
+
+        if (id.match (rsRegEx)) {
+            dbsnpURL = 'http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs=' + id;
+        } else if (id.match (ssRegEx)) {
+            dbsnpURL = 'http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id=' + id.substring (2);
+        } else {
+            dbsnpURL = false;
+        }
+
+        var values = {variantId: id, dbsnpURL: dbsnpURL};
+
+        return values;
     }
 };
