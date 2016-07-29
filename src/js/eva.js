@@ -99,17 +99,14 @@ Eva.prototype = {
         $(this.clinicalDiv).addClass('eva-child');
         this.childDivMenuMap['Clinical Browser'] = this.clinicalDiv;
 
-        /* submision-start */
-        $(this.submissionForm).addClass('eva-child');
-        this.childDivMenuMap['submission-start'] = this.submissionForm;
-
-        /* iobioView */
-        $(this.iobioView).addClass('eva-child');
-        this.childDivMenuMap['eva-iobio'] = this.iobioView;
+        /* FAQ */
+        $(this.faqDiv).addClass('eva-child');
+        this.childDivMenuMap['FAQ'] = this.faqDiv;
 
         /* FAQ */
-        $(this.iobioView).addClass('eva-child');
-        this.childDivMenuMap['FAQ'] = this.faqDiv;
+        $(this.feedbackFormDiv).addClass('eva-child');
+        this.childDivMenuMap['Feedback'] = this.feedbackFormDiv;
+
     },
     draw: function () {
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
@@ -220,6 +217,9 @@ Eva.prototype = {
             case 'eva-study':
                 this._getPublications();
                 break;
+            case 'Feedback':
+                this._feedback();
+             break;
         }
     },
     _createEvaMenu: function (target) {
@@ -520,6 +520,16 @@ Eva.prototype = {
             }
         });
         return;
+    },
+    _feedback: function(){
+        console.log(this)
+        // $( "#fb-submit" ).on('click',function(e){
+        $( "#fb-form" ).on('submit',function(e){
+            alert('dsf')
+            e.preventDefault();
+            console.log( $( "#email" ).val())
+
+        });
     }
 
 }
