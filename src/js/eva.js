@@ -217,9 +217,7 @@ Eva.prototype = {
             case 'eva-study':
                 this._getPublications();
                 break;
-            case 'Feedback':
-                this._feedback();
-             break;
+
         }
     },
     _createEvaMenu: function (target) {
@@ -520,16 +518,6 @@ Eva.prototype = {
             }
         });
         return;
-    },
-    _feedback: function(){
-        console.log(this)
-        // $( "#fb-submit" ).on('click',function(e){
-        $( "#fb-form" ).on('submit',function(e){
-            alert('dsf')
-            e.preventDefault();
-            console.log( $( "#email" ).val())
-
-        });
     }
 
 }
