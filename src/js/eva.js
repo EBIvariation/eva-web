@@ -62,9 +62,9 @@ Eva.prototype = {
         $(this.aboutDiv).addClass('eva-child');
         this.childDivMenuMap['About'] = this.aboutDiv;
 
-        /* Contact */
-        $(this.contactDiv).addClass('eva-child');
-        this.childDivMenuMap['Contact'] = this.contactDiv;
+        /* Feedback */
+        $(this.feedbackDiv).addClass('eva-child');
+        this.childDivMenuMap['Feedback'] = this.feedbackDiv;
 
         /* api */
         $(this.apiDiv).addClass('eva-child');
@@ -101,7 +101,7 @@ Eva.prototype = {
 
         /* FAQ */
         $(this.faqDiv).addClass('eva-child');
-        this.childDivMenuMap['FAQ'] = this.faqDiv; 
+        this.childDivMenuMap['FAQ'] = this.faqDiv;
 
     },
     draw: function () {
