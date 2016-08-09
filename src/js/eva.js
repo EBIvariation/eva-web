@@ -62,9 +62,9 @@ Eva.prototype = {
         $(this.aboutDiv).addClass('eva-child');
         this.childDivMenuMap['About'] = this.aboutDiv;
 
-        /* Contact */
-        $(this.contactDiv).addClass('eva-child');
-        this.childDivMenuMap['Contact'] = this.contactDiv;
+        /* Feedback */
+        $(this.feedbackDiv).addClass('eva-child');
+        this.childDivMenuMap['Feedback'] = this.feedbackDiv;
 
         /* api */
         $(this.apiDiv).addClass('eva-child');
@@ -99,17 +99,10 @@ Eva.prototype = {
         $(this.clinicalDiv).addClass('eva-child');
         this.childDivMenuMap['Clinical Browser'] = this.clinicalDiv;
 
-        /* submision-start */
-        $(this.submissionForm).addClass('eva-child');
-        this.childDivMenuMap['submission-start'] = this.submissionForm;
-
-        /* iobioView */
-        $(this.iobioView).addClass('eva-child');
-        this.childDivMenuMap['eva-iobio'] = this.iobioView;
-
         /* FAQ */
-        $(this.iobioView).addClass('eva-child');
+        $(this.faqDiv).addClass('eva-child');
         this.childDivMenuMap['FAQ'] = this.faqDiv;
+
     },
     draw: function () {
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
@@ -220,6 +213,7 @@ Eva.prototype = {
             case 'eva-study':
                 this._getPublications();
                 break;
+
         }
     },
     _createEvaMenu: function (target) {

@@ -723,6 +723,20 @@ h4{
     color:#999999;
 }
 
+#feedback_link a {
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    position: fixed;
+    text-decoration: none !important;
+    z-index: 9999;
+}
+
+.feedback_link-right {
+    right: -2px;
+    margin-top:-10px;
+}
+
 
 
 
