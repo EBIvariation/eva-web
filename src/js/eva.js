@@ -101,11 +101,7 @@ Eva.prototype = {
 
         /* FAQ */
         $(this.faqDiv).addClass('eva-child');
-        this.childDivMenuMap['FAQ'] = this.faqDiv;
-
-        /* FAQ */
-        $(this.feedbackFormDiv).addClass('eva-child');
-        this.childDivMenuMap['Feedback'] = this.feedbackFormDiv;
+        this.childDivMenuMap['FAQ'] = this.faqDiv; 
 
     },
     draw: function () {
