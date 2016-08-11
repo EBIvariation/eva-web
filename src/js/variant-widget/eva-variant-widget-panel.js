@@ -257,6 +257,8 @@ EvaVariantWidgetPanel.prototype = {
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('supercont1.18:165624-165624');
             }else if (e.species == 'ggallus_galgal4') {
                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:2100000-2500000');
+            }else if (e.species == 'aquadriannulatus_quad4av1') {
+               _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('KB665398:1-200000');
             } else {
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:3000000-3100000');
             }
