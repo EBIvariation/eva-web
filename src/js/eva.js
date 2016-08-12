@@ -123,6 +123,8 @@ Eva.prototype = {
     },
     _selectHandler: function (option) {
         var _this = this;
+
+       
         if (this.studyBrowserPanel) {
             this.studyBrowserPanel.hide();
         }
@@ -215,6 +217,13 @@ Eva.prototype = {
                 break;
 
         }
+
+      if (option) {
+          ga('set', 'page', option);
+          ga('send', 'pageview');
+      }
+
+
     },
     _createEvaMenu: function (target) {
         var _this = this;

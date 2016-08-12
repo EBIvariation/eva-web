@@ -85,7 +85,6 @@ module.exports = function (grunt) {
             ebi_web_guidelines_js: {
                 src: [
                     'src/js/ebi-web-guidelines/modernizr.custom.49274.js',
-                    'src/js/ebi-web-guidelines/google-analytics.js',
                     'src/js/ebi-web-guidelines/cookiebanner.js',
                     'src/js/ebi-web-guidelines/foot.js'
                 ],
