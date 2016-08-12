@@ -215,6 +215,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     if (params.search) {
                         _this._textSearch(params.search);
                     }
+
                     if(_this.pushURL) {
                         _this._updateURL (params);
                     }
@@ -510,6 +511,8 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Study Browser&' + $.param(values);
         history.pushState('forward', '', newurl);
+        //sending tracking data to Google Analytics
+        ga('send', 'event', { eventCategory: 'Search', eventAction: 'Study Browser', eventLabel: $.param(values)});
     },
     _textSearch: function (value) {
         var _this = this;

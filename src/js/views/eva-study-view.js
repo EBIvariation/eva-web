@@ -31,7 +31,7 @@ EvaStudyView.prototype = {
     render: function () {
         var _this = this;
         var params = {};
-
+        
         if (this.type === 'dgva') {
             var params = {structural: 'true'};
         }
@@ -96,7 +96,8 @@ EvaStudyView.prototype = {
                 }
             });
         }
-
+        //sending tracking data to Google Analytics
+        ga('send', 'event', { eventCategory: 'Views', eventAction: 'Study', eventLabel: this.projectId});
     },
     _draw: function (data, content) {
         var _this = this;
