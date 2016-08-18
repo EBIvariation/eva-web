@@ -505,7 +505,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         }, _tempValues);
 
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Study Browser&' + $.param(values);
-        window.history.pushState({path: newurl}, '', newurl);
+        window.history.pushState({path: 'Study Browser'}, '', newurl);
     },
     _textSearch: function (value) {
         var _this = this;

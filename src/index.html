@@ -834,7 +834,14 @@
 
             window.onpopstate = function(event) {
                 if(event && event.state) {
-                    location.reload();
+                    var option = event.state.path;
+                    var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene'];
+                    if (_.indexOf(pageArray, option) >= 0 && _.isEmpty(option)) {
+                        location.reload();
+                    }else{
+                        eva.select(option);
+                        $("a:contains('" + option + "')").parent('li').addClass('active');
+                    }
                 }
             }
         };

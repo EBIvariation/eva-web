@@ -525,8 +525,10 @@ EvaClinicalWidgetPanel.prototype = {
     },
     _updateURL: function (values) {
         var _this = this;
-        values['clinvarRegion'] = values['region']
-        delete  values.region
+        if(!_.isUndefined(values['region'])){
+            values['clinvarRegion'] = values['region'];
+            delete  values.region
+        }
         var _tempValues = values
         _.each(_.keys(_tempValues), function (key) {
             if (_.isArray(this[key])) {
@@ -535,8 +537,7 @@ EvaClinicalWidgetPanel.prototype = {
         }, _tempValues);
 
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Clinical Browser&' + $.param(values);
-        ;
-        window.history.pushState({path: newurl}, '', newurl);
+        window.history.pushState ({path: 'Clinical Browser'}, '', newurl);
     }
 
 };

@@ -168,7 +168,7 @@ Eva.prototype = {
                 } else {
                     this.studyBrowserPanel = this._createStudyBrowserPanel(this.contentDiv);
                     // this.select('Study Browser');
-                    this.pushURL(option, false);
+                    // this.pushURL(option, false);
                 }
                 break;
             case 'Variant Browser':
@@ -178,7 +178,7 @@ Eva.prototype = {
                     this.variantWidgetPanel = this._createVariantWidgetPanel(this.contentDiv);
                     // this.select('Variant Browser');
                     this.variantWidgetPanel.panel.updateLayout();
-                    this.pushURL(option, true);
+                    // this.pushURL(option, true);
                 }
                 break;
             case 'Genome Browser':
@@ -188,7 +188,7 @@ Eva.prototype = {
                     this.contentDiv.className += ' eva variant-widget-panel ocb-variant-stats-panel';
                     this.genomeViewerPanel = this._createGenomeViewerPanel(this.contentDiv);
                 }
-                this.pushURL(option, true);
+                // this.pushURL(option, true);
                 break;
             case 'GA4GH':
                 if (this.beaconPanel) {
@@ -205,7 +205,7 @@ Eva.prototype = {
                     // this.select('Clinical Browser');
                     this.clinicalWidgetPanel.panel.updateLayout();
                     this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
-                    this.pushURL(option, false);
+                    // this.pushURL(option, false);
                 }
             case 'dgva-study':
                 this._getPublications();
@@ -421,22 +421,13 @@ Eva.prototype = {
         replace = replace || 0;
         if (replace) {
             var replaceURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + option;
-            window.history.pushState({path: replaceURL}, '', replaceURL);
+            window.history.pushState({path: option}, '', replaceURL);
         } else {
-            var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'eva-iobio'];
+            var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'eva-iobio','Genome Browser', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
             if (_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)) {
                 var optionValue = option;
-                var tabArray = ['Genome Browser', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
-                if (_.indexOf(tabArray, option) >= 0) {
-                    var hash = document.URL.substring(document.URL.indexOf('?') + 1);
-                    if (!_.isUndefined(hash.split("&")[1])) {
-                        optionValue = hash;
-                    } else {
-                        optionValue = option;
-                    }
-                }
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;
-                window.history.pushState({path: newurl}, '', newurl);
+                window.history.pushState({path: optionValue}, '', newurl);
                 $("a:contains('" + option + "')").parent('li').addClass('active');
             }
         }
