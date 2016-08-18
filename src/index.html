@@ -164,7 +164,7 @@
                 <div>
                     <p>
                         <!--<img src="img/Receive.png" alt="" width="48" height="48"> &nbsp;Receive your <a href="files/eva_submission_package.zip" target="_blank">submission pack</a>, which will include:-->
-                        Download your <a href="files/eva_submission_package.zip" target="_blank" ga-on="click" ga-event-category="Submission template" ga-event-action="download">submission pack</a>, which will include:
+                        Download your <a href="files/eva_submission_package.zip" target="_blank" onClick="ga('send', 'event', { eventCategory: 'Download', eventAction: 'Click', eventLabel: 'eva_submission_package.zip'});">submission pack</a>, which will include:
                     <div style="margin-left:10px;">
                         <ul>
                             <li>Details for your submission uploads </li>
@@ -190,7 +190,7 @@
                             Therefore, submitters should submit clinically relevant data once either to NCBI ClinVar or to EVA, but should not submit to both.
 
                         </p>
-                        <p>To submit data to EVA please download this  <a href="files/SubmissionTemplate.xlsx" target="_blank">template</a>, fill in and send by email to <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a>.
+                        <p>To submit data to EVA please download this  <a href="files/SubmissionTemplate.xlsx" target="_blank"  onClick="ga('send', 'event', { eventCategory: 'Download', eventAction: 'Click', eventLabel: 'SubmissionTemplate.xlsx'});">template</a>, fill in and send by email to <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a>.
                             <!--A completed template for a fictional study can be found <a href="files/EVA_Submission_template.EVA.V1.0.1_live_mockup_plus_Clinical_Variants.xlsx" target="_blank">here</a>.</p>-->
                         <!--<p>If you would like to discuss any aspect of EVA, or if anything is unclear, please contact us directly at <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a>. </p>-->
                     </div>
@@ -220,12 +220,12 @@
                 <div>
                     <h3>EVA Submissions</h3>
                     <p>Unless fully described in the header of the VCF file(s), EVA submissions are accompanied by an Excel spreadsheet and/or tab-delimited text files which describe the meta-data. We encourage our users to submit as much metadata as possible.</p>
-                    <p>Please download our submission template via this <a href="files/EVA_Submission_template.EVA_.V1.0.1_live.xlsx" target="_blank"  ga-on="click" ga-event-category="Submission template" ga-event-action="download">link</a>.</p>
-                    <p>A completed template for a fictional submission can be downloaded <a href="files/EVA_Submission_template.EVA_.V1.0.1_live_mockup.xlsx" target="_blank" ga-on="click" ga-event-category="Submission template" ga-event-action="download">here</a>.</p>
+                    <p>Please download our submission template via this <a href="files/EVA_Submission_template.EVA_.V1.0.1_live.xlsx" target="_blank"  onClick="ga('send', 'event', { eventCategory: 'Download', eventAction: 'Click', eventLabel: 'EVA_Submission_template.EVA_.V1.0.1_live.xlsx'})">link</a>.</p>
+                    <p>A completed template for a fictional submission can be downloaded <a href="files/EVA_Submission_template.EVA_.V1.0.1_live_mockup.xlsx" target="_blank" onClick="ga('send', 'event', { eventCategory: 'Download', eventAction: 'Click', eventLabel: 'EVA_Submission_template.EVA_.V1.0.1_live_mockup.xlsx'})">here</a>.</p>
                 </div>
                 <h3>EVA Clincal Submissions</h3>
                 <p>EVA Clinical submissions are described via an Excel spreadsheet and/or tab-delimited text files. Our submissions templates are fully compliant with the data required for ClinVar allowing us to broker the submission of all EVA Clincal data to our collaborating NCBI resource.</p>
-                <p>Please download our EVA Clinical submission template via this <a href="files/SubmissionTemplate.xlsx" target="_blank"  ga-on="click" ga-event-category="Clincal Submission" ga-event-action="download">link</a>.</p>
+                <p>Please download our EVA Clinical submission template via this <a href="files/SubmissionTemplate.xlsx" target="_blank"  onClick="ga('send', 'event', { eventCategory: 'Download', eventAction: 'Click', eventLabel: 'ClinicalSubmissionTemplate.xlsx'})">link</a>.</p>
                 <!--<p>A completed EVA Clinical template for a fictional submission can be downloaded <a href="files/EVA_Submission_template.EVA.V1.0.1_live_mockup_plus_Clinical_Variants.xlsx" target="_blank">here</a>.</p>-->
             </div>
 
@@ -738,6 +738,7 @@
 
     <script type="text/javascript">
         var eva;
+        loadGoogleAnalytics();
         var start = function () {
             // Bring in the import content.
 //            var link = document.querySelector('link[href="content.html"]');
@@ -827,12 +828,8 @@
             eva.draw();
 
             if(tab.id){
-                ga('set', 'page', tabId);
-                ga('send', 'pageview');
                 eva.select(tabId);
             }else{
-                ga('set', 'page', 'Home');
-                ga('send', 'pageview');
                 eva.select('Home');
             }
 
@@ -875,14 +872,13 @@
 
         }
 
-        function loadGoogleAnalytics(){
-
+        function loadGoogleAnalytics() {
             var trackingID;
             if (document.location.hostname == 'www.ebi.ac.uk') {
-                trackingID = 'UA-82375974-1';
-            } else if (document.location.hostname == 'wwwdev.ebi.ac.uk'){
+                trackingID = 'UA-82688737-1';
+            } else if (document.location.hostname == 'wwwdev.ebi.ac.uk') {
                 trackingID = 'UA-82375858-1';
-            } else if (document.location.hostname == 'wwwint.ebi.ac.uk'){
+            } else {
                 trackingID = 'UA-82386453-1';
             }
 
@@ -891,9 +887,7 @@
                     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
             ga('create', trackingID, 'auto');
-            ga('require', 'eventTracker');
             ga('require', 'socialWidgetTracker');
-            ga('require', 'outboundLinkTracker', options);
 
         }
 
@@ -911,7 +905,6 @@
             // all imports loaded
             Ext.QuickTips.init();
             Ext.onReady(start);
-            loadGoogleAnalytics();
         });
 
 

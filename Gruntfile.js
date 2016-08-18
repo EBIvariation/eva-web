@@ -98,7 +98,8 @@ module.exports = function (grunt) {
                     './bower_components/backbone/backbone.js',
                     './bower_components/highcharts-release/highcharts.js',
                     './bower_components/linqjs/linq.js',
-                    './bower_components/vkbeautify/vkbeautify.js'
+                    './bower_components/vkbeautify/vkbeautify.js',
+                    './bower_components/autotrack/autotrack.js'
                 ],
                 dest: 'build/<%= meta.version.eva %>/vendor/vendors.js'
             }

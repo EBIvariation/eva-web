@@ -469,7 +469,6 @@ EvaVariantWidgetPanel.prototype = {
                     //set all records checked default
                     _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().selectAll()
                 } else {
-                    console.log(_this.selectStudies)
                     var studyArray = _this.selectStudies.split(",");
                     var items = _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().store.data.items;
                     var selectStudies = [];
@@ -490,6 +489,8 @@ EvaVariantWidgetPanel.prototype = {
         var _this = this;
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Variant Browser&' + $.param(values);
         window.history.pushState({path: newurl}, '', newurl);
+        //sending tracking data to Google Analytics
+        ga('send', 'event', { eventCategory: 'Search', eventAction: 'Variant Browser', eventLabel: $.param(values)});
     }
 
 

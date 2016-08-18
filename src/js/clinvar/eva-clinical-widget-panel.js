@@ -535,8 +535,9 @@ EvaClinicalWidgetPanel.prototype = {
         }, _tempValues);
 
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Clinical Browser&' + $.param(values);
-        ;
         window.history.pushState({path: newurl}, '', newurl);
+        //sending tracking data to Google Analytics
+        ga('send', 'event', { eventCategory: 'Search', eventAction: 'Clinical Browser', eventLabel: $.param(values)});
     }
 
 };
