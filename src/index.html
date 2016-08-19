@@ -690,7 +690,7 @@
     <script type="text/javascript" src="js/study-browser/eva-study-browser-type-filter-form-panel.js"></script>
     <script type="text/javascript" src="js/study-browser/eva-study-browser-text-search-form-panel.js"></script>
     <script type="text/javascript" src="js/study-browser/eva-study-browser-grid.js"></script>
-    <script type="text/javascript" src="js/variant-widget/eva-genome-viewer-panel.js"></script>
+    <!--<script type="text/javascript" src="js/variant-widget/eva-genome-viewer-panel.js"></script>-->
     <script type="text/javascript" src="js/beacon-form/eva-beacon-panel.js"></script>
     <script type="text/javascript" src="js/variant-widget/eva-variant-widget.js"></script>
     <script type="text/javascript" src="js/variant-widget/eva-variant-browser-grid.js"></script>
@@ -702,7 +702,6 @@
     <script type="text/javascript" src="js/views/eva-study-view.js"></script>
     <script type="text/javascript" src="js/views/eva-variant-view.js"></script>
     <script type="text/javascript" src="js/views/eva-gene-view.js"></script>
-    <script type="text/javascript" src="js/views/eva-iobio-view.js"></script>
     <script type="text/javascript" src="js/statistics/eva-statistics.js"></script>
     <script type="text/javascript" src="js/statistics/dgva-statistics.js"></script>
     <script type="text/javascript" src="js/beacon-form/eva-beacon-form.js"></script>
@@ -791,18 +790,6 @@
                 });
             }
 
-            if(tabId == 'submission-start'){
-                var evaSubmission= new EvaSubmissionForm({
-                    target:'submissionForm'
-                });
-            }
-            if(tabId == 'eva-iobio'){
-                var evaIobioView = new EvaIobioView({
-                    target:'evaIobioView',
-                    url: $.urlParam('url')
-                });
-            }
-
             Ext.getBody().removeCls('x-body');
             var ulLocalNav = document.querySelector('.eva-primary-menu');
 
@@ -836,7 +823,7 @@
                 var option;
                 if(event && event.state) {
                     option = event.state.tab;
-                    var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'eva-iobio','Genome Browser', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
+                    var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
                     if (_.indexOf(pageArray, option) >= 0) {
                         location.reload();
                     }else{

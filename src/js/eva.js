@@ -427,7 +427,7 @@ Eva.prototype = {
             var replaceURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + option;
             window.history.pushState({path: option}, '', replaceURL);
         } else {
-            var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'eva-iobio','Genome Browser', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
+            var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
             if (_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)) {
                 var optionValue = option;
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;
