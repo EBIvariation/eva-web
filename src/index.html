@@ -87,7 +87,7 @@
                 <!-- local-nav -->
                 <nav>
                     <ul class="eva-primary-menu">
-                        <li class="active"><a>Home</a></li>
+                        <li><a>Home</a></li>
                         <li><a>Submit Data</a></li>
                         <li><a>Study Browser</a></li>
                         <li><a>Variant Browser</a></li>
@@ -690,7 +690,7 @@
     <script type="text/javascript" src="js/study-browser/eva-study-browser-type-filter-form-panel.js"></script>
     <script type="text/javascript" src="js/study-browser/eva-study-browser-text-search-form-panel.js"></script>
     <script type="text/javascript" src="js/study-browser/eva-study-browser-grid.js"></script>
-    <script type="text/javascript" src="js/variant-widget/eva-genome-viewer-panel.js"></script>
+    <!--<script type="text/javascript" src="js/variant-widget/eva-genome-viewer-panel.js"></script>-->
     <script type="text/javascript" src="js/beacon-form/eva-beacon-panel.js"></script>
     <script type="text/javascript" src="js/variant-widget/eva-variant-widget.js"></script>
     <script type="text/javascript" src="js/variant-widget/eva-variant-browser-grid.js"></script>
@@ -702,7 +702,6 @@
     <script type="text/javascript" src="js/views/eva-study-view.js"></script>
     <script type="text/javascript" src="js/views/eva-variant-view.js"></script>
     <script type="text/javascript" src="js/views/eva-gene-view.js"></script>
-    <script type="text/javascript" src="js/views/eva-iobio-view.js"></script>
     <script type="text/javascript" src="js/statistics/eva-statistics.js"></script>
     <script type="text/javascript" src="js/statistics/dgva-statistics.js"></script>
     <script type="text/javascript" src="js/beacon-form/eva-beacon-form.js"></script>
@@ -791,18 +790,6 @@
                 });
             }
 
-            if(tabId == 'submission-start'){
-                var evaSubmission= new EvaSubmissionForm({
-                    target:'submissionForm'
-                });
-            }
-            if(tabId == 'eva-iobio'){
-                var evaIobioView = new EvaIobioView({
-                    target:'evaIobioView',
-                    url: $.urlParam('url')
-                });
-            }
-
             Ext.getBody().removeCls('x-body');
             var ulLocalNav = document.querySelector('.eva-primary-menu');
 
@@ -824,18 +811,16 @@
                 apiDiv:apiDiv,
                 faqDiv:faqDiv
             });
-            eva.draw();
+
 
             if(tab.id){
-                eva.select(tabId);
+                eva.draw(tabId);
             }else{
-                eva.select('Home');
+                eva.draw('Home');
             }
 
             window.onpopstate = function(event) {
-                if(event && event.state) {
-                    location.reload();
-                }
+                location.reload();
             }
         };
 
