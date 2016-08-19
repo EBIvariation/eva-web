@@ -87,7 +87,7 @@
                 <!-- local-nav -->
                 <nav>
                     <ul class="eva-primary-menu">
-                        <li class="active"><a>Home</a></li>
+                        <li><a>Home</a></li>
                         <li><a>Submit Data</a></li>
                         <li><a>Study Browser</a></li>
                         <li><a>Variant Browser</a></li>
@@ -824,25 +824,29 @@
                 apiDiv:apiDiv,
                 faqDiv:faqDiv
             });
-            eva.draw();
+
 
             if(tab.id){
-                eva.select(tabId);
+                eva.draw(tabId);
             }else{
-                eva.select('Home');
+                eva.draw('Home');
             }
 
             window.onpopstate = function(event) {
+                var option;
                 if(event && event.state) {
-                    var option = event.state.path;
-                    var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene'];
-                    if (_.indexOf(pageArray, option) >= 0 && _.isEmpty(option)) {
+                    option = event.state.tab;
+                    var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'eva-iobio','Genome Browser', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
+                    if (_.indexOf(pageArray, option) >= 0) {
                         location.reload();
                     }else{
                         eva.select(option);
-                        $("a:contains('" + option + "')").parent('li').addClass('active');
                     }
+                }else{
+                    option = 'Home';
+                    eva.select(option);
                 }
+                $("a:contains('" + option + "')").parent('li').addClass('active');
             }
         };
 

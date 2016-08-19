@@ -97,7 +97,7 @@ EvaVariantWidgetPanel.prototype = {
             if (_this.variantWidget.toolTabPanel.getActiveTab().title == 'Genomic Context') {
                 _this.variantWidget.resizeGV();
             }
-            _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
+            // _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
         }
     },
 
@@ -488,7 +488,7 @@ EvaVariantWidgetPanel.prototype = {
     _updateURL: function (values) {
         var _this = this;
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Variant Browser&' + $.param(values);
-        window.history.pushState ({path: 'Variant Browser'}, '', newurl);
+        history.pushState ({path: newurl,tab:'Variant Browser'}, '', newurl);
     }
 
 

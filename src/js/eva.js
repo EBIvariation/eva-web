@@ -104,7 +104,7 @@ Eva.prototype = {
         this.childDivMenuMap['FAQ'] = this.faqDiv;
 
     },
-    draw: function () {
+    draw: function (option) {
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
         if (this.targetDiv === 'undefined') {
             console.log('target not found');
@@ -114,14 +114,16 @@ Eva.prototype = {
         this.evaMenu.draw();
         this.contentDiv = document.querySelector('#content');
 
-//        this.select('Home');
+        this._selectHandler(option, false);
+        $("a:contains('" + option + "')").parent('li').addClass('active');
 
     },
     select: function (option) {
-        this.evaMenu.select(option);
-        this._selectHandler(option);
+        // this.evaMenu.select(option);
+        this._selectHandler(option, true);
     },
-    _selectHandler: function (option) {
+    _selectHandler: function (option, update) {
+        update = update || 0;
         var _this = this;
         if (this.studyBrowserPanel) {
             this.studyBrowserPanel.hide();
@@ -155,7 +157,9 @@ Eva.prototype = {
         }
 
         //<!---- Updating URL on Tab change ---->
-        this.pushURL(option);
+        if(update){
+            this.pushURL(option);
+        }
 
         switch (option) {
             case 'Home':
@@ -222,7 +226,7 @@ Eva.prototype = {
             target: target,
             handlers: {
                 'menu:click': function (e) {
-                    _this._selectHandler(e.option);
+                    _this._selectHandler(e.option, true);
                 }
             }
         });
@@ -427,7 +431,7 @@ Eva.prototype = {
             if (_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)) {
                 var optionValue = option;
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;
-                window.history.pushState({path: optionValue}, '', newurl);
+                history.pushState({path: optionValue,tab:optionValue}, '', newurl);
                 $("a:contains('" + option + "')").parent('li').addClass('active');
             }
         }
