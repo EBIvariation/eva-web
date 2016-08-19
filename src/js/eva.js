@@ -238,6 +238,7 @@ Eva.prototype = {
         var species = '';
         var type = '';
         var search = '';
+        var pushURL = true;
 
         if (!_.isEmpty($.urlParam('studySpecies'))) {
             species = decodeURIComponent($.urlParam('studySpecies'))
@@ -255,12 +256,18 @@ Eva.prototype = {
             search = decodeURIComponent($.urlParam('search'))
         }
 
+        var tab = getUrlParameters('');
+        if(tab && decodeURI(tab.id) == 'Study Browser') {
+            pushURL = false;
+        }
+
         var studyBrowser = new EvaStudyBrowserWidgetPanel({
             target: target,
             species: species,
             type: type,
             browserType: browserType,
-            search: search
+            search: search,
+            pushURL:pushURL
         });
         studyBrowser.draw();
         return studyBrowser;
@@ -278,6 +285,7 @@ Eva.prototype = {
         var polyphen = '';
         var sift = '';
         var maf = '';
+        var pushURL = true;
 
         if (!_.isEmpty($.urlParam('region'))) {
             region = decodeURIComponent($.urlParam('region'))
@@ -323,6 +331,11 @@ Eva.prototype = {
             maf = _maf;
         }
 
+        var tab = getUrlParameters('');
+        if(tab && decodeURI(tab.id) == 'Variant Browser') {
+            pushURL = false;
+        }
+
         var variantWidget = new EvaVariantWidgetPanel({
             target: target,
             region: region,
@@ -334,7 +347,8 @@ Eva.prototype = {
             selectAnnotCT: annotCT,
             polyphen: polyphen,
             sift: sift,
-            maf: maf
+            maf: maf,
+            pushURL:pushURL
         });
         variantWidget.draw();
         return variantWidget;
@@ -368,9 +382,10 @@ Eva.prototype = {
         var type = '';
         var significance = '';
         var review = '';
+        var pushURL = true;
 
         if (!_.isEmpty($.urlParam('clinvarRegion'))) {
-            clinvarRegion = decodeURIComponent($.urlParam('clinvarRegion'))
+            clinvarRegion = decodeURIComponent($.urlParam('clinvarRegion'));
         }
 
         if (!_.isEmpty($.urlParam('clinvarSelectFilter'))) {
@@ -405,6 +420,11 @@ Eva.prototype = {
             review = decodeURIComponent($.urlParam('review'))
         }
 
+        var tab = getUrlParameters('');
+        if(tab && decodeURI(tab.id) == 'Clinical Browser') {
+            pushURL = false;
+        }
+
         var evaClinicalWidgetPanel = new EvaClinicalWidgetPanel({
             target: target,
             filter: filter,
@@ -415,7 +435,8 @@ Eva.prototype = {
             phenotype: phenotype,
             type: type,
             significance: significance,
-            review: review
+            review: review,
+            pushURL:pushURL
         });
         evaClinicalWidgetPanel.draw();
         return evaClinicalWidgetPanel;
@@ -431,7 +452,7 @@ Eva.prototype = {
             if (_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)) {
                 var optionValue = option;
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;
-                history.pushState({path: optionValue,tab:optionValue}, '', newurl);
+                history.pushState('forward', '', newurl);
                 $("a:contains('" + option + "')").parent('li').addClass('active');
             }
         }

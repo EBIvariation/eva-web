@@ -68,10 +68,10 @@ EvaVariantWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
-        var variantQuery = _this.queryParams;
-        if (!_.isUndefined(variantQuery)) {
-            _this._updateURL(variantQuery);
-        }
+        // var variantQuery = _this.queryParams;
+        // if (!_.isUndefined(variantQuery)) {
+        //     _this._updateURL(variantQuery);
+        // }
     },
     hide: function () {
         this.panel.hide();
@@ -408,7 +408,9 @@ EvaVariantWidgetPanel.prototype = {
                         _this.variantWidget.retrieveData(url,values);
                         _this.variantWidget.values = e.values;
                         _this['queryParams'] = e.values;
-                        _this._updateURL(e.values);
+                        if(_this.pushURL){
+                            _this._updateURL(e.values);
+                        }
                     } else {
                         _this.variantWidget.retrieveData('', '');
                     }
@@ -486,9 +488,10 @@ EvaVariantWidgetPanel.prototype = {
         });
     },
     _updateURL: function (values) {
+
         var _this = this;
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Variant Browser&' + $.param(values);
-        history.pushState ({path: newurl,tab:'Variant Browser'}, '', newurl);
+        history.pushState ('forward', '', newurl);
     }
 
 

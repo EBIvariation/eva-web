@@ -820,20 +820,7 @@
             }
 
             window.onpopstate = function(event) {
-                var option;
-                if(event && event.state) {
-                    option = event.state.tab;
-                    var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
-                    if (_.indexOf(pageArray, option) >= 0) {
-                        location.reload();
-                    }else{
-                        eva.select(option);
-                    }
-                }else{
-                    option = 'Home';
-                    eva.select(option);
-                }
-                $("a:contains('" + option + "')").parent('li').addClass('active');
+                location.reload();
             }
         };
 

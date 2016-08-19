@@ -66,10 +66,10 @@ EvaClinicalWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
-        var clinVarQuery = _this.queryParams;
-        if (!_.isUndefined(clinVarQuery)) {
-            _this._updateURL(clinVarQuery);
-        }
+        // var clinVarQuery = _this.queryParams;
+        // if (!_.isUndefined(clinVarQuery)) {
+        //     _this._updateURL(clinVarQuery);
+        // }
     },
     hide: function () {
         this.panel.hide();
@@ -513,7 +513,9 @@ EvaClinicalWidgetPanel.prototype = {
                     if (_this.formPanelClinvarFilter.validatePositionFilter(regions)) {
                         _this.clinvarWidget.retrieveData(url, e.values);
                         _this['queryParams'] = e.values;
-                        _this._updateURL(e.values);
+                        if(_this.pushURL) {
+                            _this._updateURL (e.values);
+                        }
                     }else{
                         _this.clinvarWidget.retrieveData('','');
                     }
@@ -537,7 +539,7 @@ EvaClinicalWidgetPanel.prototype = {
         }, _tempValues);
 
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Clinical Browser&' + $.param(values);
-        history.pushState ({path: newurl,tab:'Clinical Browser'}, '', newurl);
+        history.pushState ('forward', '', newurl);
     }
 
 };
