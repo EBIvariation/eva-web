@@ -484,9 +484,13 @@ EvaClinVarWidget.prototype = {
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     assertionPanel.load(e.variant);
+                    //sending tracking data to Google Analytics
+                    ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Tab Views', eventLabel:'Clinical Assertion'});
                 }
             }
         });
+
+
 
         return assertionPanel;
     },
@@ -513,9 +517,13 @@ EvaClinVarWidget.prototype = {
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     summaryPanel.load(e.variant);
+                    //sending tracking data to Google Analytics
+                    ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Tab Views', eventLabel:'Summary'});
                 }
             }
         });
+
+
 
         return summaryPanel;
     },
@@ -542,9 +550,13 @@ EvaClinVarWidget.prototype = {
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     annotPanel.load(e.variant);
+                    //sending tracking data to Google Analytics
+                    ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Tab Views', eventLabel:'Annotation'});
                 }
             }
         });
+
+
 
         return annotPanel;
     },
@@ -571,9 +583,13 @@ EvaClinVarWidget.prototype = {
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     linksPanel.load(e.variant);
+                    //sending tracking data to Google Analytics
+                    ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Tab Views', eventLabel:'External Links'});
                 }
             }
         });
+
+
 
         return linksPanel;
     },

@@ -30,7 +30,7 @@ function EvaGeneView(args) {
 }
 EvaGeneView.prototype = {
     render: function () {
-        var _this = this
+        var _this = this;
 
         this.targetDiv = (this.target instanceof HTMLElement) ? this.target : document.querySelector('#' + this.target);
         if (!this.targetDiv) {
@@ -41,7 +41,6 @@ EvaGeneView.prototype = {
         geneID = this.geneId;
         _this.geneData;
 
-        console.log(CELLBASE_HOST)
         CellBaseManager.get({
             host: CELLBASE_HOST,
             species: 'hsapiens',
@@ -74,6 +73,8 @@ EvaGeneView.prototype = {
         $(document).ready(function () {
             $('body').scrollspy({ 'target': '#geneViewScrollspy', 'offset': 250 });
         });
+        //sending tracking data to Google Analytics
+        ga('send', 'event', { eventCategory: 'Views', eventAction: 'Gene', eventLabel:this.geneId});
     },
     draw: function (data) {
 

@@ -692,10 +692,14 @@ EvaVariantWidget.prototype = {
                     if (variant.sourceEntries) {
                         variantStatsPanel.load(variant.sourceEntries, {species: proxy.extraParams.species},_this.studies);
                     }
+                    //sending tracking data to Google Analytics
+                    ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Files'});
                 }
             }
 
         });
+
+
         return variantStatsPanel;
     },
     _createAnnotPanel: function (target) {
@@ -925,9 +929,13 @@ EvaVariantWidget.prototype = {
                     _.extend(e.variant, {annot: e.variant.annotation});
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
                     annotPanel.load(e.variant, proxy.extraParams);
+                    //sending tracking data to Google Analytics
+                    ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Annotation'});
                 }
             }
         });
+
+
 
         return annotPanel;
     },
@@ -992,10 +1000,13 @@ EvaVariantWidget.prototype = {
                     if (variant.sourceEntries) {
                         variantPopulationStatsPanel.load(variant.sourceEntries, proxy.extraParams,_this.studies);
                     }
+                    //sending tracking data to Google Analytics
+                    ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Population Statistics'});
                 }
             }
 
         });
+
         return variantPopulationStatsPanel;
     },
     _createVariantGenotypeGridPanel: function (target) {
@@ -1066,6 +1077,8 @@ EvaVariantWidget.prototype = {
                             }
                         }
                     });
+                    //sending tracking data to Google Analytics
+                    ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Genotypes'});
 
                 }
             }

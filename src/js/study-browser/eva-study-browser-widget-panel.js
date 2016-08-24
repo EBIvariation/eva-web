@@ -215,6 +215,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     if (params.search) {
                         _this._textSearch(params.search);
                     }
+
                     if(_this.pushURL) {
                         _this._updateURL (params);
                     }
@@ -510,6 +511,11 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Study Browser&' + $.param(values);
         history.pushState('forward', '', newurl);
+        //sending tracking data to Google Analytics
+        var gaValues = $.param(values).split("&");
+        _.each(_.keys(gaValues), function (key) {
+            ga('send', 'event', { eventCategory: 'Study Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
+        }, gaValues);
     },
     _textSearch: function (value) {
         var _this = this;

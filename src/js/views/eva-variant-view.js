@@ -29,7 +29,7 @@ function EvaVariantView(args) {
 }
 EvaVariantView.prototype = {
     render: function () {
-        var _this = this
+        var _this = this;
 
         this.targetDiv = (this.target instanceof HTMLElement) ? this.target : document.querySelector('#' + this.target);
         if (!this.targetDiv) {
@@ -48,8 +48,6 @@ EvaVariantView.prototype = {
             async: false,
             success: function (response) {
                 try {
-
-                    console.log(response)
                     var _tempStudies = response.response[0].result;
                     _.each(_.keys(_tempStudies), function (key) {
 
@@ -93,6 +91,9 @@ EvaVariantView.prototype = {
         $(document).ready(function () {
             $('body').scrollspy({ 'target': '#variantViewScrollspy', 'offset': 250 });
         });
+
+        //sending tracking data to Google Analytics
+        ga('send', 'event', { eventCategory: 'Views', eventAction: 'Variant', eventLabel:'species='+this.species+'variant='+this.position});
     },
     createVariantStatsPanel: function (data) {
         var _this = this;

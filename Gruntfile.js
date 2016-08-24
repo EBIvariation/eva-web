@@ -83,7 +83,6 @@ module.exports = function (grunt) {
             ebi_web_guidelines_js: {
                 src: [
                     'src/js/ebi-web-guidelines/modernizr.custom.49274.js',
-                    'src/js/ebi-web-guidelines/google-analytics.js',
                     'src/js/ebi-web-guidelines/cookiebanner.js',
                     'src/js/ebi-web-guidelines/foot.js'
                 ],
@@ -97,7 +96,8 @@ module.exports = function (grunt) {
                     './bower_components/backbone/backbone.js',
                     './bower_components/highcharts-release/highcharts.js',
                     './bower_components/linqjs/linq.js',
-                    './bower_components/vkbeautify/vkbeautify.js'
+                    './bower_components/vkbeautify/vkbeautify.js',
+                    './bower_components/autotrack/autotrack.js'
                 ],
                 dest: 'build/<%= meta.version.eva %>/vendor/vendors.js'
             }
