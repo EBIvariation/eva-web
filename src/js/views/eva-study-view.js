@@ -158,7 +158,7 @@ EvaStudyView.prototype = {
            }
 
             var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
-                '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
+                '<div class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
                 '<tr><td><b>Organism</b></td><td><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
                 '<tr><td><b>Scientific Name</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
                 '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join() + '</span></td></tr>' +
@@ -285,7 +285,7 @@ EvaStudyView.prototype = {
             }
 
             var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
-                '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered">' +
+                '<div class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered">' +
                 '<tr><td><b>Organism</b></td><td class="eva-capitalize"><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
                 '<tr><td><b>Scientific Name</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
                 '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join() + '</span></td></tr>' +

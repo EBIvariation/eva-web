@@ -291,7 +291,7 @@ EvaVariantWidget.prototype = {
                     flex: 0.5
                 },
                 {
-                    header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>Variant ID',
+                    header: '<span class="icon icon-generic header-icon" data-icon="i"  style="margin-bottom:0px;"></span>Variant ID',
                     dataIndex: 'ids',
                     flex: 0.68,
                     iconCls: 'icon-info',
@@ -370,7 +370,7 @@ EvaVariantWidget.prototype = {
                     columns: [
                         {
 //                            text: "Polyphen2",
-                            header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>PolyPhen2',
+                            header: '<span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span> PolyPhen2',
                             dataIndex: "consequenceTypes",
 //                            flex: 1.5,
                             width: 110,
@@ -425,7 +425,7 @@ EvaVariantWidget.prototype = {
                         },
                         {
 //                            text: "Sift",
-                            header: '<img class="header-icon" style="margin-bottom:0px;" src="img/icon-info.png"/>Sift',
+                            header: '<span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span>Sift',
                             dataIndex: "consequenceTypes",
                             width: 80,
                             menuDisabled: true,

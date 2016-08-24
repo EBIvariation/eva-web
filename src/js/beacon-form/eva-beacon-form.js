@@ -105,7 +105,7 @@ EvaBeaconForm.prototype = {
                 '<h2>EBI GA4GH Beacon</h2>',
                 '<p>Learn more about the Global Alliance for Genomics and Health (GA4GH) at <a href="http://genomicsandhealth.org" target="_blank">http://genomicsandhealth.org</a> as well as the GA4GH Beacon project: <a href="http://ga4gh.org/#/beacon" target="_blank">http://ga4gh.org/#/beacon</a> </p>',
                 '<div class="row">',
-                '<div class="col-md-12"><p><b>Example queries:</b></p>',
+                '<div class="medium-12 columns"><p><b>Example queries:</b></p>',
                 '<div><p> <span><a href="#"  class="loadForm" chrom="11" coordinate="110993" allele="INDEL" project="PRJEB4019">Reference:11&nbsp;Coordinate:110993 &nbsp;Allele:INDEL&nbsp;Project:PRJEB4019</a></span></p></div>',
                 '<div><p><span><a href="#"  class="loadForm" chrom="15" coordinate="20025703" allele="<DEL>" project="PRJEB4019">Reference:15&nbsp;Coordinate:20025703 &nbsp;Allele:&lt;DEL&gt;&nbsp;Project:PRJEB4019 </a></span></p></div>',
                 '<div><p><span><a href="#"  class="loadForm" chrom="15" coordinate="20025703" allele="<DEL>" project="PRJEB5439">Reference:15&nbsp;Coordinate:20025703 &nbsp;Allele:&lt;DEL&gt;&nbsp;Project:PRJEB5439</a></span></p><hr/></div>',

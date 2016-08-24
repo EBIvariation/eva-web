@@ -162,7 +162,7 @@ EvaPopulationFrequencyFilterFormPanel.prototype = {
        var mafOp =  Ext.create('Ext.form.ComboBox', {
             id: "mafOpFilter",
             name: 'mafOp',
-            fieldLabel: '<img class="text-header-icon" data-qtip="Filter against any Minor Allele Frequency value in the Population Statistics tab" style="margin-bottom:0px;" src="img/icon-info.png"/>&nbsp;<span class="title-header-icon" data-qtip="Minor Allele Frequency" style="margin-bottom:0px;">MAF</span>',
+            fieldLabel: '<span class="icon icon-generic header-icon" data-icon="i" data-qtip="Filter against any Minor Allele Frequency value in the Population Statistics tab" style="margin-bottom:0px;"></span>&nbsp;<span class="title-header-icon" data-qtip="Minor Allele Frequency" style="margin-bottom:0px;">MAF</span>',
             store: mafOpValues,
             queryMode: 'local',
             displayField: 'value',

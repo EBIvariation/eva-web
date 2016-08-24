@@ -16,6 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+
 @font-face {
     font-family: 'HelveticaNeueLT Pro';
     src: url('../fonts/helveticaneueltprolt.otf');
@@ -23,16 +25,10 @@
 
 body.eva {
     max-width: 1350px;
-    margin: 0 auto;
-    background: #fff url(../img/pale_grey_slight_texture_opt.jpg) top left repeat;
-    /*font-family: 'HelveticaNeueLT Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+    margin: 50px auto;
+    /*background: #fff url(../img/pale_grey_slight_texture_opt.jpg) top left repeat;*/
+    font-family: 'HelveticaNeueLT Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-family: Verdana, sans-serif;
-
-}
-
-div#local-masthead{
-    background: #156765 url("../img/EVA_homepage_banner_opt.jpg") no-repeat right top;
-    background-size: 100%;
 }
 
 .eva a {
@@ -42,7 +38,6 @@ div#local-masthead{
 .eva-grid-img-active {
     width: 16px;
     height: 16px;
-
 }
 
 .eva-help-img {
@@ -64,7 +59,6 @@ div#local-masthead{
 }
 
 .eva #content {
-    padding: 10px;
     background-color: #ffffff;
     margin: 0px;
 }
@@ -93,7 +87,7 @@ div#local-masthead{
 
 .study-browser-panel a:link, .study-browser-panel a:visited,
 .variant-widget-panel a:link, .variant-widget-panel a:visited{
-    border-bottom-style: none;
+    /*border-bottom-style: none;*/
 }
 
 a, a:active, a:focus{
@@ -265,6 +259,14 @@ a, a:active, a:focus{
 .x-panel-header-default-collapsed-left .x-title-text{
     /*padding-left: 15px;*/
 }
+
+.x-tab-bar-default-top > .x-tab-bar-body-default {
+    padding: 5px 0 0 0px;
+}
+
+.x-grid-item-selected {
+     background-color: #ffffff;
+}
 .eva-header-1 {
 /*color: #BF8230;*/
     color: #996a44;
@@ -304,6 +306,10 @@ a, a:active, a:focus{
 }
 .eva-panel  .x-panel-header-default .x-tool-img {
     background-color: transparent;
+}
+
+.variant-widget-panel  .x-tool-img {
+    background-image: url("../img/tool-sprites-dark.png");
 }
 
 
@@ -406,58 +412,6 @@ a, a:active, a:focus{
     color: #FFFFFF;
 }
 
-/*.eva-button{*/
-    /*color: #FFFFFF;*/
-    /*border-radius: 0 0 0 0;*/
-    /*background-color: #70BDBD;*/
-/*}*/
-
-/*.studyBrowserTabs.nav-pills > li > a {*/
-    /*padding-top:3px !important;*/
-    /*padding-bottom:3px !important;*/
-    /*font-size:16px;*/
-    /*font-weight: bold;*/
-    /*color:#ffffff;*/
-    /*background-color: #6BB6B7;*/
-/*}*/
-/*.studyBrowserTabs.nav-pills {*/
-    /*min-height:20px !important;*/
-    /*background-color: #CFDFF4;*/
-    /*border-color: #ffffff;*/
-    /*color:#ffffff;*/
-/*}*/
-
-/*.studyBrowserTabs.nav-pills li a, .nav-tabs{*/
-    /*border-radius: 0px;*/
-    /*border: 1px solid #ddd;*/
-    /*border-color: #156765;*/
-/*}*/
-
-/*.studyBrowserTabs.nav-pills > li.active > a{*/
-     /*color:#ffffff !important;*/
-     /*background-color: #1F6D6D;*/
- /*}*/
-
-/*.studyBrowserTabs.nav-pills > li > a:hover{*/
-    /*color:#ffffff !important;*/
-    /*background-color: #1F6D6D;*/
-/*}*/
-
-/*a, a:link, a:visited{*/
-    /*border-bottom-style: none;*/
-/*}*/
-
-.ocb-header-4 h4{
-    margin-left: -15px;
-}
-
-h5 {
-    color: #996a44;
-}
-
-h4{
-    color:#426783;
-}
 
 .assembly{
     position:absolute;
@@ -467,11 +421,11 @@ h4{
 
 .highcharts-container{width:100% !important; height:100% !important;}
 
-.hide-div{
+.hide-div, .hide-content{
      display:none;
 }
 
-.show-div{
+.show-div,.show-content{
     display:inline;
 }
 
@@ -490,45 +444,6 @@ h4{
     color: #996a44;
 }
 
-.ocb-header-4 h4{
-    margin-left: -15px;
-}
-
-/*.variantViewTabs.nav-pills > li > a {*/
-    /*padding-top:3px !important;*/
-    /*padding-bottom:3px !important;*/
-    /*font-size:14px;*/
-    /*font-weight: bold;*/
-    /*color:#ffffff;*/
-    /*background-color: #6BB6B7;*/
-/*}*/
-/*.variantViewTabs.nav-pills {*/
-    /*min-height:20px !important;*/
-    /*border-color: #ffffff;*/
-    /*color:#ffffff;*/
-/*}*/
-
-/*.variantViewTabs.nav-pills li a{*/
-    /*border-radius: 1;*/
-    /*border: 1px solid #ddd;*/
-    /*border-color: #156765;*/
-/*}*/
-
-
-/*.variantViewTabs.nav-pills > li.active > a{*/
-    /*background-color: #156765;*/
-/*}*/
-
-/*.variantViewTabs.nav-pills > li > a:hover{*/
-    /*background-color: #1F6D6D;*/
-/*}*/
-/*.variantViewTabs.nav-pills>li.active>a, .variantViewTabs.nav-pills>li.active>a:hover, .variantViewTabs.nav-pills>li.active>a:focus {*/
-    /*color: #fff;*/
-    /*background-color: #156765;*/
-/*}*/
-/*#scroll-able{*/
-    /*margin-left:100px;*/
-/*}*/
 
 .resultShow{
     color: #426783;
@@ -657,37 +572,18 @@ h4{
 .header-icon{
   width:14px;
   height:14px;
-    float: right;
+  float: right;
 }
 
 .title-header-icon{
-    width:16px;
-    height:16px;
+    color:#666666;
 }
 .text-header-icon{
-    width:10px;
-    height:10px;
+    color:#666666;
 }
 
 .eva-radio label {
     font-weight:normal;
-}
-
-#variant-view-scrollable-div{
-    margin-left:175px;
-}
-#variantInfo{
-    margin-left:-50px;
-}
-#geneInfo{
-    margin-left:10px;
-}
-#gene-view > .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16, .grid_17, .grid_18, .grid_19, .grid_20, .grid_21, .grid_22, .grid_23, .grid_24 {
-    display: inline;
-    float: left;
-    position: relative;
-    margin-left: 1%;
-    margin-right: 0%;
 }
 
 @-moz-document url-prefix() {
@@ -723,20 +619,33 @@ h4{
     color:#999999;
 }
 
-#feedback_link a {
-    cursor: pointer;
-    display: block;
-    overflow: hidden;
-    position: fixed;
-    text-decoration: none !important;
-    z-index: 9999;
+
+
+.eva-info-banner{
+    background-color:#94DEDE;
+    color:#064D4D;
+}
+.eva-info-banner span{
+    color:#064D4D;
+}
+.eva-info-banner i{
+    color:#064D4D;
 }
 
-.feedback_link-right {
-    right: -2px;
-    margin-top:-10px;
+.eva-info-banner p{
+    margin-left: 0px;
+    font-weight: bold;
 }
 
+.eva-tiles{
+    background-color: #007C82;
+    /*min-height:210px;*/
+    border: 5px solid white;
+}
+.eva-tiles .row{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
 
 .acknowledgement-logo {
     display: inline;
@@ -746,20 +655,168 @@ h4{
 }
 
 
+.eva-info-banner{
+    background-color:#94DEDE;
+    color:#064D4D;
+}
+.eva-info-banner span{
+    color:#064D4D;
+}
+.eva-info-banner i{
+    color:#064D4D;
+}
+
+.eva-info-banner p{
+    margin-left: 0px;
+    font-weight: bold;
+}
+
+.eva-tiles{
+    background-color: #007C82;
+    /*min-height:210px;*/
+    border: 5px solid white;
+}
+.eva-tiles .row{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.eva-tiles span, .eva-tiles p {
+    color: #FFFFFF;
+}
+
+.eva-tiles span{
+    margin-top: 35px;
+}
+
+.eva-tiles button {
+    border: 2px solid;
+    border-radius:0px;
+    padding: 10px 15px 10px 15px;
+    color: #FFFFFF;
+    background-color:inherit;
+}
+
+.eva-tiles a {
+    border-bottom-style: none;
+}
+
+.eva-tiles .content {
+   margin-left:5%;
+   margin-top:2%;
+}
+
+.home-page-section{
+    padding-bottom: 20px
+
+}
+
+.eva-tiles button {
+    border: 2px solid;
+    border-radius:0px;
+    padding: 10px 15px 10px 15px;
+    color: #FFFFFF;
+    background-color:inherit;
+}
+
+.eva-tiles a {
+    border-bottom-style: none;
+}
+
+.eva-tiles .content {
+   margin-left:5%;
+   margin-top:2%;
+}
+
+.home-page-section{
+    padding-bottom: 20px;
+}
 
 
 
+.home-page-button{
+    border: 0px;
+    border-radius:15px;
+    padding: 10px 15px 10px 15px;
+    color:#fff;
+}
+
+.eva-tiles .home-page-icons-colored{
+   margin-top:100px;
+}
+
+html.fontface .icon-s2:before{
+    color:#444444;
+}
+
+html.fontface .icon-s2:before{
+    color:#444444;
+}
+
+.home-page-icons-colored-text{
+    font-size:28px;
+    color:#996a44;
+}
 
 
+.home-page-icons-colored-text{
+    font-size:28px;
+    color:#996a44;
+}
 
+.navbar  a:hover, a:focus, a:active {
+    border-bottom-style: none;
+}
 
+.eva-primary-menu{
+    z-index: 999;
+}
 
+.eva-primary-menu{
+    z-index: 999;
+}
 
+#release-notes p {
+    font-size:12px;
+}
 
+#release-notes .title  {
+    font-size: 115%
+}
 
+#release-notes .title  {
+    font-size: 115%
+}
 
+.is-dropdown-submenu {
+    z-index:5;
+}
 
+.blockquote{
+    margin-left:-5%;
+    border-left: none;
+}
 
+@media screen and (min-width: 70em) {
+    .eva-tiles {
+        min-height:190px;
+    }
+
+}
+
+.blockquote{
+    margin-left:-5%;
+    border-left: none;
+}
+
+@media screen and (min-width: 70em) {
+    .eva-tiles {
+        min-height:190px;
+    }
+}
+.twitter-timeline-rendered {
+    width: 100% !important;
+}
 
 
 

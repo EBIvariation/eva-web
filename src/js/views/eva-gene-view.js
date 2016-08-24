@@ -66,12 +66,12 @@ EvaGeneView.prototype = {
         this.targetDiv.innerHTML = _this._varinatViewlayout(_this.geneData);
         _this.draw(_this.geneData);
 
-        $('#geneViewTabs li').click(function (event) {
-            $(this).toggleClass("active");
-            $(this).siblings().removeClass("active");
-        });
+        // $('#geneViewTabs li').click(function (event) {
+        //     $(this).toggleClass("active");
+        //     $(this).siblings().removeClass("active");
+        // });
         $(document).ready(function () {
-            $('body').scrollspy({ 'target': '#geneViewScrollspy', 'offset': 250 });
+            // $('body').scrollspy({ 'target': '#geneViewScrollspy', 'offset': 250 });
         });
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'Gene', eventLabel:this.geneId});
@@ -107,7 +107,7 @@ EvaGeneView.prototype = {
     },
     _renderSummaryData: function (data) {
         var source = '<a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g=' + data.id + '" target="_blank">' + data.source + ':' + data.id + '</a>'
-        var _summaryTable = '<div class="row"><div class="col-md-8"><table id="gene-view-summary-table" class="table ocb-stats-table">'
+        var _summaryTable = '<div class="row"><div class="col-md-8"><table id="gene-view-summary-table" class="table">'
         var description = data.description;
         var start_pos = description.indexOf('[') + 1;
         var end_pos = description.indexOf(']', start_pos);
@@ -443,21 +443,21 @@ EvaGeneView.prototype = {
         if (!_.isUndefined(data)) {
             layout = '<div id="gene-view">' +
                 '<div class="row">' +
-                '<div  class="col-sm-1  col-md-1 col-lg-1"></div>' +
-                '<div  class="col-sm-10 col-md-10 col-lg-10"> <h2 id="geneInfo"></h2></div>' +
+                // '<div  class="col-sm-1  col-md-1 col-lg-1"></div>' +
+                '<div  class="columns medium-12 large-12"> <h2 id="geneInfo"></h2></div>' +
                 '</div>' +
-                '<div class="container_24">' +
-                '<div class="grid_2" id="geneViewScrollspy">' +
-                '<span>&nbsp;</span>' +
-                '<ul id="geneViewTabs" class="nav nav-stacked affix eva-tabs">' +
-                '<li class="active"><a href="#summary">Summary</a></li>' +
-                '<li><a href="#transcripts">Variants</a></li>' +
-                '</ul>' +
-                '</div>' +
-                '<div id="scroll-able" class="grid_20">' +
+                '<div class="">' +
+                // '<div class="grid_2" id="geneViewScrollspy">' +
+                // '<span>&nbsp;</span>' +
+                // '<ul id="geneViewTabs" class="nav nav-stacked affix eva-tabs">' +
+                // '<li class="active"><a href="#summary">Summary</a></li>' +
+                // '<li><a href="#transcripts">Variants</a></li>' +
+                // '</ul>' +
+                // '</div>' +
+                '<div id="scroll-able" class="">' +
                 '<div id="summary" class="row">' +
                 '<div  style="margin-left:20px;">' +
-                '<h4 class="variant-view-h4"> Summary &nbsp;<img class="title-header-icon" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;" src="img/icon-info.png"/></h4>' +
+                '<h4 class="variant-view-h4"> Summary &nbsp;<span class="icon icon-generic title-header-icon" data-icon="i" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;"></span></h4>' +
                 '<div id="summary-grid"></div>' +
                 '</div>' +
                 '</div>' +
@@ -468,7 +468,7 @@ EvaGeneView.prototype = {
                 '</div>' +
                 '</div>' +
                 '<br /><div  id="clinvarVariants" class="row">' +
-                '<div style="margin-left:10px;">' +
+                '<div>' +
                 '<div id="clinvar-variants-grid"></div>' +
                 '</div>' +
                 '</div>' +

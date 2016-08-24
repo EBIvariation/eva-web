@@ -29,7 +29,7 @@ EvaStatistics.prototype = {
         var _this = this;
         if (!this.rendered) {
             var el = document.querySelector("#" + this.targetId);
-            var evaStatDiv = '<div class="row"><div id="eva-statistics-chart-species" class="col-md-6"></div><div id="eva-statistics-chart-type" class="col-md-6"></div></div>'
+            var evaStatDiv = '<div class="row"><div id="eva-statistics-chart-species" class="small-6 medium-6 columns"></div><div id="eva-statistics-chart-type" class="small-6 medium-6 columns"></div></div>'
             el.innerHTML = evaStatDiv;
             EvaManager.get({
                 category: 'meta/studies',
@@ -96,10 +96,10 @@ EvaStatistics.prototype = {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    height: height,
-                    width: width,
-                    marginLeft: -50,
-                    marginTop: 50
+                    // height: height,
+                    // width: width,
+                    // marginLeft: -50,
+                    // marginTop: 50
                 },
                 legend: {
                     enabled: true,
@@ -115,7 +115,7 @@ EvaStatistics.prototype = {
                 title: {
                     text: 'Top 5 Studies <br> <span style="font-size:12px;">by ' + title + '</span>',
                     style: {},
-                    align: 'left'
+                    align: 'center'
                 },
                 tooltip: {
                     pointFormat: '<b>{point.y}</b>'

@@ -75,8 +75,14 @@ EvaBeaconPanel.prototype = {
         var evaVariantSearchForm = new EvaVariantSearchForm();
 
         this.toolTabPanel = Ext.create("Ext.tab.Panel", {
+            header: {
+                baseCls: 'eva-header-1',
+                titlePosition: 1
+            },
+            title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>GA4GH</li></ul></nav>',
             activeTab: 0,
             plain: true,
+            bodyStyle: 'z-index:0;',
             items: [
                 {
                     title: 'Beacon',

@@ -270,7 +270,7 @@ EvaClinVarWidget.prototype = {
                     flex: 0.3
                 },
                 {
-                    text: '<img class="header-icon" style="" src="img/icon-info.png"/>Affected Gene',
+                    text: '<span class="icon icon-generic header-icon" data-icon="i"></span>Affected Gene',
                     dataIndex: 'hgnc_gene',
                     flex: 0.42,
                     iconCls: 'icon-info',
@@ -278,7 +278,7 @@ EvaClinVarWidget.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         if (value.measureSet.measure[0].measureRelationship) {
                             var gene = value.measureSet.measure[0].measureRelationship[0].symbol[0].elementValue.value;
-                            value = '<a href="?gene=' + gene + '&species=hsapiens_grch37" target="_blank">' + gene + '</a>'
+                            value = '<a href="?gene=' + gene + '&species=hsapiens_grch37">' + gene + '</a>'
                         } else {
                             value = '';
                         }
