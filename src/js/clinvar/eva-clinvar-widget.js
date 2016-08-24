@@ -485,7 +485,7 @@ EvaClinVarWidget.prototype = {
                 if (target.id === _this.selectedToolDiv.id) {
                     assertionPanel.load(e.variant);
                     //sending tracking data to Google Analytics
-                    ga('send', 'event', { eventCategory: 'Tab Views', eventAction: 'Clinical Browser', eventLabel:'Clinical Assertion'});
+                    ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Tab Views', eventLabel:'Clinical Assertion'});
                 }
             }
         });
@@ -518,7 +518,7 @@ EvaClinVarWidget.prototype = {
                 if (target.id === _this.selectedToolDiv.id) {
                     summaryPanel.load(e.variant);
                     //sending tracking data to Google Analytics
-                    ga('send', 'event', { eventCategory: 'Tab Views', eventAction: 'Clinical Browser', eventLabel:'Summary'});
+                    ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Tab Views', eventLabel:'Summary'});
                 }
             }
         });
@@ -551,7 +551,7 @@ EvaClinVarWidget.prototype = {
                 if (target.id === _this.selectedToolDiv.id) {
                     annotPanel.load(e.variant);
                     //sending tracking data to Google Analytics
-                    ga('send', 'event', { eventCategory: 'Tab Views', eventAction: 'Clinical Browser', eventLabel:'Annotation'});
+                    ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Tab Views', eventLabel:'Annotation'});
                 }
             }
         });
@@ -584,7 +584,7 @@ EvaClinVarWidget.prototype = {
                 if (target.id === _this.selectedToolDiv.id) {
                     linksPanel.load(e.variant);
                     //sending tracking data to Google Analytics
-                    ga('send', 'event', { eventCategory: 'Tab Views', eventAction: 'Clinical Browser', eventLabel:'External Links'});
+                    ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Tab Views', eventLabel:'External Links'});
                 }
             }
         });

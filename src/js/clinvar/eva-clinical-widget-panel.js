@@ -514,7 +514,8 @@ EvaClinicalWidgetPanel.prototype = {
                         _this.clinvarWidget.retrieveData(url, e.values);
                         _this['queryParams'] = e.values;
                         if(_this.pushURL) {
-                            _this._updateURL (e.values);
+                            var values = _.omit(e.values, ['merge','source']);
+                            _this._updateURL(values);
                         }
                     }else{
                         _this.clinvarWidget.retrieveData('','');
@@ -541,7 +542,10 @@ EvaClinicalWidgetPanel.prototype = {
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Clinical Browser&' + $.param(values);
         history.pushState ('forward', '', newurl);
         //sending tracking data to Google Analytics
-        ga('send', 'event', { eventCategory: 'Search', eventAction: 'Clinical Browser', eventLabel: $.param(values)});
+        var gaValues = $.param(values).split("&");
+        _.each(_.keys(gaValues), function (key) {
+            ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
+        }, gaValues);
 
     }
 

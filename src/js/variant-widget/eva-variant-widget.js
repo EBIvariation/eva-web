@@ -693,7 +693,7 @@ EvaVariantWidget.prototype = {
                         variantStatsPanel.load(variant.sourceEntries, {species: proxy.extraParams.species},_this.studies);
                     }
                     //sending tracking data to Google Analytics
-                    ga('send', 'event', { eventCategory: 'Tab Views', eventAction: 'Variant Browser', eventLabel:'Files'});
+                    ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Files'});
                 }
             }
 
@@ -930,7 +930,7 @@ EvaVariantWidget.prototype = {
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
                     annotPanel.load(e.variant, proxy.extraParams);
                     //sending tracking data to Google Analytics
-                    ga('send', 'event', { eventCategory: 'Tab Views', eventAction: 'Variant Browser', eventLabel:'Annotation'});
+                    ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Annotation'});
                 }
             }
         });
@@ -1001,7 +1001,7 @@ EvaVariantWidget.prototype = {
                         variantPopulationStatsPanel.load(variant.sourceEntries, proxy.extraParams,_this.studies);
                     }
                     //sending tracking data to Google Analytics
-                    ga('send', 'event', { eventCategory: 'Tab Views', eventAction: 'Variant Browser', eventLabel:'Population Statistics'});
+                    ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Population Statistics'});
                 }
             }
 
@@ -1078,7 +1078,7 @@ EvaVariantWidget.prototype = {
                         }
                     });
                     //sending tracking data to Google Analytics
-                    ga('send', 'event', { eventCategory: 'Tab Views', eventAction: 'Variant Browser', eventLabel:'Genotypes'});
+                    ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Genotypes'});
 
                 }
             }
