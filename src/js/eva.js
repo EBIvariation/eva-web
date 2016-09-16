@@ -296,7 +296,6 @@ Eva.prototype = {
         var maf = '';
         var pushURL = true;
 
-
         if (!_.isEmpty($.urlParam('region'))) {
             region = decodeURIComponent($.urlParam('region'))
         }
@@ -340,7 +339,6 @@ Eva.prototype = {
 //            maf = _maf.replace(/\>/g, "");
             maf = _maf;
         }
-
         var tab = getUrlParameters('');
         if(tab && decodeURI(tab.id) == 'Variant Browser') {
             pushURL = false;
@@ -359,6 +357,7 @@ Eva.prototype = {
             sift: sift,
             maf: maf,
             pushURL:pushURL
+
         });
         variantWidget.draw();
         return variantWidget;
@@ -393,6 +392,7 @@ Eva.prototype = {
         var significance = '';
         var review = '';
         var pushURL = true;
+
 
         if (!_.isEmpty($.urlParam('clinvarRegion'))) {
             clinvarRegion = decodeURIComponent($.urlParam('clinvarRegion'));
@@ -447,7 +447,6 @@ Eva.prototype = {
             significance: significance,
             review: review,
             pushURL:pushURL
-
         });
         evaClinicalWidgetPanel.draw();
         return evaClinicalWidgetPanel;
@@ -464,7 +463,6 @@ Eva.prototype = {
                 var optionValue = option;
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;
                 history.pushState('forward', '', newurl);
-
                 $("a:contains('" + option + "')").parent('li').addClass('active');
             }
         }

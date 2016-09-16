@@ -256,7 +256,6 @@ EvaVariantWidgetPanel.prototype = {
                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:2100000-2500000');
             }else if (e.species == 'aquadriannulatus_quad4av1') {
                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('KB665398:1-200000');
-
             } else {
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:3000000-3100000');
             }
@@ -403,6 +402,7 @@ EvaVariantWidgetPanel.prototype = {
                     delete values['snp'];
                     delete values['selectFilter'];
                     delete values['gene'];
+
                     if (_this.formPanelVariantFilter.validatePositionFilter(regions)) {
                         _this.variantWidget.retrieveData(url,values);
                         _this.variantWidget.values = e.values;
@@ -411,6 +411,7 @@ EvaVariantWidgetPanel.prototype = {
                             _this._updateURL(e.values);
                         }
                         _this.pushURL = true;
+
                     } else {
                         _this.variantWidget.retrieveData('', '');
                     }

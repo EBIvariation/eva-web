@@ -481,8 +481,8 @@ EvaClinVarWidget.prototype = {
                         } else {
                             queryURL = 'selectFilter=region&region='+_this.lastSelected.chromosome+':'+_this.lastSelected.start+'-'+_this.lastSelected.end+'&species=hsapiens_grch37';
                         }
-
                         window.location = '?Variant Browser&'+queryURL;
+
                     }
                 }
             }

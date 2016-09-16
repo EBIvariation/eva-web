@@ -634,6 +634,7 @@ EvaVariantWidget.prototype = {
 
                         window.location = '?Clinical Browser&'+queryURL;
 
+
                     }
                 }
             }
