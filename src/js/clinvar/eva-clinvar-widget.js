@@ -477,7 +477,7 @@ EvaClinVarWidget.prototype = {
                         if (_this.values.clinvarSelectFilter == 'gene') {
                             queryURL = 'selectFilter=gene&gene='+_this.values.gene+'&species=hsapiens_grch37';
                         } else if (_this.values.clinvarSelectFilter == 'region') {
-                            queryURL = 'selectFilter=region&region='+_this.values.clinvarRegion+'&species=hsapiens_grch37';
+                            queryURL = 'selectFilter=region&region='+_this.values.region+'&species=hsapiens_grch37';
                         } else {
                             queryURL = 'selectFilter=region&region='+_this.lastSelected.chromosome+':'+_this.lastSelected.start+'-'+_this.lastSelected.end+'&species=hsapiens_grch37';
                         }
