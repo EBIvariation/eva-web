@@ -179,8 +179,7 @@ EvaVariantWidgetPanel.prototype = {
             defaultToolConfig: {
                 headerConfig: {
                     baseCls: 'eva-header-2'
-                },
-                genomeViewer: false
+                }
             },
             responseParser: function (response) {
                 var res = [];
@@ -263,8 +262,10 @@ EvaVariantWidgetPanel.prototype = {
             //hidding tabs for species
             if (e.species == 'hsapiens_grch37') {
                 _this.variantWidget.toolTabPanel.getComponent(4).tab.show();
+                Ext.getCmp('clinvar-button').show()
             } else {
                 _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
+                Ext.getCmp('clinvar-button').hide()
             }
 
             _this.variantWidget.toolTabPanel.setActiveTab(0);
@@ -281,12 +282,6 @@ EvaVariantWidgetPanel.prototype = {
                     }
                 }
             });
-
-            if (e.species != 'hsapiens_grch37') {
-                Ext.getCmp('clinvar-button').hide()
-            } else {
-                Ext.getCmp('clinvar-button').show()
-            }
 
         });
 

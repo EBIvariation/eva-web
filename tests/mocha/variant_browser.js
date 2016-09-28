@@ -91,7 +91,7 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
 
     test.describe('Show data in Clinical Browser', function() {
         test.it('Clicking "Show in Clinical Browser" button should go to "Clinical Browser" and click back should go back to "Variant Browser"', function() {
-            showDataInClincalBrowser(driver);
+            showDataInClinicalBrowser(driver);
         });
     });
 
@@ -380,7 +380,7 @@ function clinicalAssertionTab(driver){
     return driver;
 }
 
-function showDataInClincalBrowser(driver){
+function showDataInClinicalBrowser(driver){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
     driver.findElement(By.name("gene")).clear();

@@ -47,11 +47,11 @@ function EvaVariantWidget(args) {
         headerConfig: {
             baseCls: 'ocb-title-2'
         },
-        genomeViewer: true,
+        genomeViewer: false,
         genotype: true,
         stats: true,
         populationStats: true,
-        annot: true,
+        annotation: true,
         clinvarAssertion:true
     };
     this.tools = [];
@@ -141,14 +141,14 @@ EvaVariantWidget.prototype = {
 
         var tabPanelItems = [];
 
-        if (this.defaultToolConfig.annot) {
-            this.annotPanelDiv = document.createElement('div');
-            this.annotPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
-            this.annotPanel = this._createAnnotPanel(this.annotPanelDiv);
+        if (this.defaultToolConfig.annotation) {
+            this.annotationPanelDiv = document.createElement('div');
+            this.annotationPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
+            this.annotationPanel = this._createAnnotationPanel(this.annotationPanelDiv);
             tabPanelItems.push({
                 title: 'Annotation',
 //                border: 0,
-                contentEl: this.annotPanelDiv
+                contentEl: this.annotationPanelDiv
             });
         }
 
@@ -251,8 +251,8 @@ EvaVariantWidget.prototype = {
             this.genomeViewer.draw();
         }
 
-        if (this.defaultToolConfig.annot) {
-            this.annotPanel.draw();
+        if (this.defaultToolConfig.annotation) {
+            this.annotationPanel.draw();
         }
 
         if (this.defaultToolConfig.stats) {
@@ -720,10 +720,10 @@ EvaVariantWidget.prototype = {
 
         return variantStatsPanel;
     },
-    _createAnnotPanel: function (target) {
+    _createAnnotationPanel: function (target) {
         var _this = this;
 
-        var annontColumns = {
+        var annotationColumns = {
             items: [
                 {
                     text: "Ensembl<br /> Gene ID",
@@ -923,24 +923,25 @@ EvaVariantWidget.prototype = {
                 sortable: true
             }
         };
-        var annotPanel = new ClinvarAnnotationPanel({
+        var annotationPanel = new ClinvarAnnotationPanel({
             target: target,
             height: 800,
-            columns: annontColumns
+            columns: annotationColumns
         });
 
         this.variantBrowserGrid.on("variant:clear", function (e) {
-            annotPanel.clear(true);
+            annotationPanel.clear(true);
         });
 
         this.on("variant:change", function (e) {
             if (_.isUndefined(e.variant)) {
-                annotPanel.clear(true);
+                annotationPanel.clear(true);
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     _.extend(e.variant, {annot: e.variant.annotation});
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
-                    annotPanel.load(e.variant, proxy.extraParams);
+                    console.log(e.variant)
+                    annotationPanel.load(e.variant, proxy.extraParams);
                     //sending tracking data to Google Analytics
                     ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Annotation'});
                 }
@@ -949,7 +950,7 @@ EvaVariantWidget.prototype = {
 
 
 
-        return annotPanel;
+        return annotationPanel;
     },
 
     _createVariantPopulationStatsPanel: function (target) {
