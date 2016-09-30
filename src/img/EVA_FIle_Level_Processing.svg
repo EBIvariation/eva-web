@@ -16,7 +16,7 @@
    width="1282.2"
    height="424.79999"
    viewBox="0 0 1282.2 424.79999"
-   sodipodi:docname="EVA_FAQ_1_2_1.svg">
+   sodipodi:docname="EVA_FAQ_1_2.svg">
   <metadata
      id="metadata3479">
     <rdf:RDF>
@@ -25,7 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -33,15 +33,15 @@
      id="defs3477">
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath4138">
+       id="clipPath4135">
       <rect
-         style="fill:#00ff00;fill-opacity:0.47133759"
-         id="rect4140"
-         width="1266.3885"
-         height="364.12326"
-         x="2.924685"
-         y="51.902676"
-         ry="3.0084701" />
+         style="fill:#000fea;fill-opacity:0.05490196"
+         id="rect4137"
+         width="1263.4639"
+         height="368.51028"
+         x="1.4623424"
+         y="53.365017"
+         ry="0.73117101" />
     </clipPath>
   </defs>
   <sodipodi:namedview
@@ -72,6 +72,7 @@
      id="image3481"
      x="0"
      y="0"
-     clip-path="url(#clipPath4138)"
-     transform="translate(8.7740545,-26.322163)" />
+     style="fill:#000fea;fill-opacity:0.05490196"
+     clip-path="url(#clipPath4135)"
+     transform="translate(0,-10.236397)" />
 </svg>
