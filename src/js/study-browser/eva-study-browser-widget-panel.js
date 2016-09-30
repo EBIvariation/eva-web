@@ -64,7 +64,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
-        var query = _this.formPanelStudyFilter.getValues();
+        // var query = _this.formPanelStudyFilter.getValues();
         // _this._updateURL(query);
     },
     hide: function () {
@@ -219,6 +219,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     if(_this.pushURL) {
                         _this._updateURL (params);
                     }
+                    _this.pushURL = true;
 
                 }
             }
@@ -249,6 +250,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
             if(_this.pushURL) {
                 _this._updateURL(values);
             }
+            _this.pushURL = true;
 
         });
 

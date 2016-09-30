@@ -129,10 +129,10 @@ EvaClinVarWidget.prototype = {
             listeners: {
                 tabchange: function (tabPanel, newTab, oldTab, eOpts) {
                     _this.selectedToolDiv = newTab.contentEl;
-                    if (_this.lastVariant) {
-                        _this.trigger('clinvar:change', {variant: _this.lastVariant, sender: _this});
+                    if (_this.lastSelected) {
+                        _this.trigger('clinvar:change', {variant: _this.lastSelected, sender: _this});
                     }
-                    if (_this.lastVariant && newTab.title == 'Genomic Context') {
+                    if (_this.lastSelected && newTab.title == 'Genomic Context') {
                         _this.resizeGV();
                     }
                 }
@@ -262,17 +262,17 @@ EvaClinVarWidget.prototype = {
                 {
                     text: 'Chr',
                     dataIndex: 'chromosome',
-                    flex: 0.2
+                    flex: 0.16
                 },
                 {
                     text: "Position",
                     dataIndex: 'position',
-                    flex: 0.4
+                    flex: 0.3
                 },
                 {
                     text: '<img class="header-icon" style="" src="img/icon-info.png"/>Affected Gene',
                     dataIndex: 'hgnc_gene',
-                    flex: 0.45,
+                    flex: 0.42,
                     iconCls: 'icon-info',
                     tooltip: 'Gene affected by this variant as reported by submitter',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
@@ -284,6 +284,12 @@ EvaClinVarWidget.prototype = {
                         }
                         return value;
                     }
+                },
+                {
+                    text: 'Alleles',
+                    xtype: "templatecolumn",
+                    tpl: '<tpl if="reference">{reference:htmlEncode}<tpl else>-</tpl>/<tpl if="alternate">{alternate:htmlEncode}<tpl else>-</tpl>',
+                    flex: 0.22
                 },
                 {
                     text: "Most Severe <br />Consequence Type",
@@ -335,7 +341,7 @@ EvaClinVarWidget.prototype = {
                 {
                     text: "Trait",
                     dataIndex: 'trait',
-                    flex: 0.7,
+                    flex: 0.5,
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         _.each(_.keys(value), function (key) {
                             if (this[key].elementValue.type == 'Preferred') {
@@ -358,7 +364,7 @@ EvaClinVarWidget.prototype = {
                 {
                     text: "ClinVar Accession",
                     dataIndex: "clincalVarAcc",
-                    flex: 0.41,
+                    flex: 0.42,
                     xtype: "templatecolumn",
                     tpl: '<tpl><a href="https://www.ncbi.nlm.nih.gov/clinvar/{clincalVarAcc}" target="_blank">{clincalVarAcc}</a></tpl>'
                 }
@@ -374,6 +380,8 @@ EvaClinVarWidget.prototype = {
 
         var attributes = [
             {name: 'chromosome', mapping: 'chromosome', type: 'string' },
+            {name: 'reference', mapping: 'reference', type: 'string' },
+            {name: 'alternate', mapping: 'alternate', type: 'string' },
             {name: 'position', mapping: 'start', type: 'string' },
             {name: 'hgnc_gene', mapping: 'clinvarSet.referenceClinVarAssertion', type: 'auto' },
             {name: 'most_severe_so_term', mapping: 'annot.consequenceTypes', type: 'auto' },
@@ -400,8 +408,8 @@ EvaClinVarWidget.prototype = {
             headerConfig: this.headerConfig,
             handlers: {
                 "clinvar:change": function (e) {
-                    _this.lastVariant = e.args;
-                    _this.trigger('clinvar:change', {variant: _this.lastVariant, sender: _this});
+                    _this.lastSelected = e.args;
+                    _this.trigger('clinvar:change', {variant: _this.lastSelected, sender: _this});
                 },
                 "clinvar:clear": function (e) {
                     _this.trigger('variant:clear', {sender: _this});
@@ -409,55 +417,82 @@ EvaClinVarWidget.prototype = {
             }
         });
 
+        var exportCSVButton = {
+            xtype: 'button',
+            text: 'Export as CSV',
+            style: {
+                borderStyle: 'solid'
+            },
+            listeners: {
+                click: {
+                    element: 'el', //bind to the underlying el property on the panel
+                    fn: function () {
+                        var proxy = clinvarBrowserGrid.grid.store.proxy;
+                        var url = EvaManager.url({
+                            host: CELLBASE_HOST,
+                            version: CELLBASE_VERSION,
+                            category: 'hsapiens/feature',
+                            resource: 'all',
+                            query: 'clinical',
+                            params: _this.formValues
+                        });
+                        var exportStore = Ext.create('Ext.data.Store', {
+                            pageSize: clinvarBrowserGrid.grid.store.getTotalCount(),
+                            autoLoad: true,
+                            model: attributes,
+                            remoteSort: true,
+                            proxy: proxy,
+                            extraParams: _this.formValues,
+                            listeners: {
+                                load: function (store, records, successful, operation, eOpts) {
+//                                        var exportData = _this._exportToExcel(records,store.proxy.extraParams);
+                                    if (_.isUndefined(_this.formValues)) {
+                                        _this.formValues = {species: _this.species};
+                                    }
+                                    var exportData = _this._exportToExcel(records, _this.formValues);
+                                    clinvarBrowserGrid.grid.setLoading(false);
+
+                                }
+                            }
+
+                        });
+                    }
+                }
+            }
+        };
+
+        var variantButton = {
+            xtype: 'button',
+            text: 'Show in Variant Browser',
+            id:'variantBrw-button',
+            style: {
+                borderStyle: 'solid'
+            },
+            listeners: {
+                click: {
+                    element: 'el', //bind to the underlying el property on the panel
+                    fn: function () {
+                        var queryURL;
+
+                        if (_this.values.clinvarSelectFilter == 'gene') {
+                            queryURL = 'selectFilter=gene&gene='+_this.values.gene+'&species=hsapiens_grch37';
+                        } else if (_this.values.clinvarSelectFilter == 'region') {
+                            queryURL = 'selectFilter=region&region='+_this.values.region+'&species=hsapiens_grch37';
+                        } else {
+                            queryURL = 'selectFilter=region&region='+_this.lastSelected.chromosome+':'+_this.lastSelected.start+'-'+_this.lastSelected.end+'&species=hsapiens_grch37';
+                        }
+                        window.location = '?Variant Browser&'+queryURL;
+
+                    }
+                }
+            }
+        };
+
         clinvarBrowserGrid.grid.addDocked({
             xtype: 'toolbar',
             dock: 'bottom',
             border: false,
-            items: [
-                {
-                    xtype: 'button',
-                    text: 'Export as CSV',
-                    style: {
-                        borderStyle: 'solid'
-                    },
-                    listeners: {
-                        click: {
-                            element: 'el', //bind to the underlying el property on the panel
-                            fn: function () {
-                                var proxy = clinvarBrowserGrid.grid.store.proxy;
-                                var url = EvaManager.url({
-                                    host: CELLBASE_HOST,
-                                    version: CELLBASE_VERSION,
-                                    category: 'hsapiens/feature',
-                                    resource: 'all',
-                                    query: 'clinical',
-                                    params: _this.formValues
-                                });
-                                var exportStore = Ext.create('Ext.data.Store', {
-                                    pageSize: clinvarBrowserGrid.grid.store.getTotalCount(),
-                                    autoLoad: true,
-                                    model: attributes,
-                                    remoteSort: true,
-                                    proxy: proxy,
-                                    extraParams: _this.formValues,
-                                    listeners: {
-                                        load: function (store, records, successful, operation, eOpts) {
-//                                        var exportData = _this._exportToExcel(records,store.proxy.extraParams);
-                                            if (_.isUndefined(_this.formValues)) {
-                                                _this.formValues = {species: _this.species};
-                                            }
-                                            var exportData = _this._exportToExcel(records, _this.formValues);
-                                            clinvarBrowserGrid.grid.setLoading(false);
-
-                                        }
-                                    }
-
-                                });
-                            }
-                        }
-                    }
-                }
-            ]
+            items: [exportCSVButton, variantButton]
         });
 
         return clinvarBrowserGrid;
@@ -466,12 +501,7 @@ EvaClinVarWidget.prototype = {
         var _this = this;
         var assertionPanel = new ClinvarAssertionPanel({
             target: target,
-            headerConfig: this.defaultToolConfig.headerConfig,
-            handlers: {
-                "load:finish": function (e) {
-//                    _this.grid.setLoading(false);
-                }
-            }
+            headerConfig: this.defaultToolConfig.headerConfig
         });
 
         this.clinvarBrowserGrid.on("clinvar:clear", function (e) {
@@ -497,13 +527,7 @@ EvaClinVarWidget.prototype = {
     _createSummaryPanel: function (target) {
         var _this = this;
         var summaryPanel = new ClinvarSummaryPanel({
-            target: target,
-            headerConfig: this.defaultToolConfig.headerConfig,
-            handlers: {
-                "load:finish": function (e) {
-//                    _this.grid.setLoading(false);
-                }
-            }
+            target: target
         });
 
         this.clinvarBrowserGrid.on("clinvar:clear", function (e) {
@@ -530,14 +554,7 @@ EvaClinVarWidget.prototype = {
     _createAnnotPanel: function (target) {
         var _this = this;
         var annotPanel = new ClinvarAnnotationPanel({
-            target: target,
-            headerConfig: this.defaultToolConfig.headerConfig,
-            handlers: {
-                "load:finish": function (e) {
-//                    _this.grid.setLoading(false);
-                }
-            }
-
+            target: target
         });
 
         this.clinvarBrowserGrid.on("clinvar:clear", function (e) {
@@ -563,14 +580,7 @@ EvaClinVarWidget.prototype = {
     _createLinksPanel: function (target) {
         var _this = this;
         var linksPanel = new ClinvarLinksPanel({
-            target: target,
-            headerConfig: this.defaultToolConfig.headerConfig,
-            handlers: {
-                "load:finish": function (e) {
-//                    _this.grid.setLoading(false);
-                }
-            }
-
+            target: target
         });
 
         this.clinvarBrowserGrid.on("clinvar:clear", function (e) {

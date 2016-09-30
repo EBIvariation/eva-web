@@ -69,13 +69,19 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
             clinvar.clinVarSummaryTab(driver);
         });
         test.it('Clinical Assertion Tab should not be empty and no duplicate items', function() {
-            clinvar.clinVarAssertionTab(driver);
+            clinvar.clinVarAssertionTab(driver, 'clinical-widget');
         });
         test.it('Annotation Tab should not be empty', function() {
             clinvar.clinVarAnnotationTab(driver);
         });
         test.it('External Links Tab should not be empty', function() {
             clinvar.clinVarLinksTab(driver);
+        });
+    });
+
+    test.describe('Show data in Variant Browser', function() {
+        test.it('Clicking "Show in Variant Browser" button should go to "Variant Browser" and click back should go back to "Clinical Browser"', function() {
+            showDataInVariantBrowser(driver);
         });
     });
 
@@ -87,8 +93,8 @@ function clinVarSearchByAccession(driver){
     driver.findElement(By.name("accessionId")).clear();
     driver.findElement(By.name("accessionId")).sendKeys("RCV000074666");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[7]/div/a[text()]")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[7]/div/a[text()]")).getText().then(function(text){
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")), 10000).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")).getText().then(function(text){
             assert(text).equalTo('RCV000074666');
         });
     });
@@ -147,8 +153,8 @@ function clinVarSearchByTrait(driver){
     driver.findElement(By.name("phenotype")).clear();
     driver.findElement(By.name("phenotype")).sendKeys("Lung cancer");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div[text()]")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div[text()]")).getText().then(function(text){
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")), 10000).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")).getText().then(function(text){
             assert(text).contains('Lung cancer');
         });
     });
@@ -160,8 +166,8 @@ function clinVarSearchByTrait(driver){
 function clinVarFilterByConseqType(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[4]/div/tpl[text()]")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[4]/div/tpl[text()]")).getText().then(function(text){
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div/tpl[text()]")), 10000).then(function(text) {
+        value = driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div/tpl[text()]")).getText().then(function(text){
             assert(text).contains('inframe_deletion');
         });
     });
@@ -182,8 +188,8 @@ function clinVarFilterByVariationType(driver){
 function clinVarFilterByClincalSignificance(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Uncertain significance')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")), 10000).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")).getText().then(function(text){
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[7]/div[text()]")), 10000).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[7]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('Uncertain significance');
         });
     });
@@ -198,6 +204,29 @@ function clinVarFilterByReviewStatus(driver){
     });
 
     return driver;
+}
+
+function showDataInVariantBrowser(driver){
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
+    driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
+    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    driver.findElement(By.name("gene")).clear();
+    driver.findElement(By.name("gene")).sendKeys("BRCA1");
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.id("variantBrw-button")).click();
+    });
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
+            chai.assert.equal(text, '17');
+        });
+    });
+    driver.navigate().back();
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[3]/div/a[text()]")).getText().then(function(text){
+            assert(text).equalTo('BRCA1');
+        });
+    });
 }
 
 

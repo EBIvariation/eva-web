@@ -47,13 +47,12 @@ function EvaVariantWidget(args) {
         headerConfig: {
             baseCls: 'ocb-title-2'
         },
-        effect: true,
-        genomeViewer: true,
+        genomeViewer: false,
         genotype: true,
         stats: true,
-        rawData: true,
         populationStats: true,
-        annot: true
+        annotation: true,
+        clinvarAssertion:true
     };
     this.tools = [];
     this.dataParser;
@@ -142,14 +141,14 @@ EvaVariantWidget.prototype = {
 
         var tabPanelItems = [];
 
-        if (this.defaultToolConfig.annot) {
-            this.annotPanelDiv = document.createElement('div');
-            this.annotPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
-            this.annotPanel = this._createAnnotPanel(this.annotPanelDiv);
+        if (this.defaultToolConfig.annotation) {
+            this.annotationPanelDiv = document.createElement('div');
+            this.annotationPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
+            this.annotationPanel = this._createAnnotationPanel(this.annotationPanelDiv);
             tabPanelItems.push({
                 title: 'Annotation',
 //                border: 0,
-                contentEl: this.annotPanelDiv
+                contentEl: this.annotationPanelDiv
             });
         }
 
@@ -200,6 +199,17 @@ EvaVariantWidget.prototype = {
             });
         }
 
+        if (this.defaultToolConfig.clinvarAssertion) {
+            this.clinvarAssertionPanelDiv = document.createElement('div');
+            this.clinvarAssertionPanelDiv.setAttribute('class', 'ocb-variant-rawdata-panel');
+            this.clinvarAssertionPanel = this._createClinvarAssertionPanel(this.clinvarAssertionPanelDiv);
+            tabPanelItems.push({
+                title: 'Clinical Assertion',
+//                border: 0,
+                contentEl: this.clinvarAssertionPanelDiv
+            });
+        }
+
         for (var i = 0; i < this.tools.length; i++) {
             var tool = this.tools[i];
             var toolDiv = document.createElement('div');
@@ -233,10 +243,6 @@ EvaVariantWidget.prototype = {
             this.toolTabPanel.setActiveTab(i);
         }
 
-        if (this.defaultToolConfig.effect) {
-            this.variantEffectGrid.draw();
-        }
-
         if (this.defaultToolConfig.genotype) {
             this.variantGenotypeGridPanel.draw();
         }
@@ -245,8 +251,8 @@ EvaVariantWidget.prototype = {
             this.genomeViewer.draw();
         }
 
-        if (this.defaultToolConfig.annot) {
-            this.annotPanel.draw();
+        if (this.defaultToolConfig.annotation) {
+            this.annotationPanel.draw();
         }
 
         if (this.defaultToolConfig.stats) {
@@ -256,6 +262,11 @@ EvaVariantWidget.prototype = {
         if (this.defaultToolConfig.populationStats) {
             this.variantPopulationStatsPanel.draw();
         }
+
+        if (this.defaultToolConfig.clinvarAssertion) {
+            this.clinvarAssertionPanel.draw();
+        }
+
 
         for (var i = 0; i < this.tools.length; i++) {
             var tool = this.tools[i];
@@ -543,7 +554,7 @@ EvaVariantWidget.prototype = {
                     _this.trigger('variant:clear', {sender: _this});
                 },
                 "species:change": function (e) {
-                    alert('sef')
+
                 }
             },
             viewConfigListeners: listeners
@@ -572,60 +583,73 @@ EvaVariantWidget.prototype = {
             forceSelection: true
         });
 
+        var exportCSVButton = {
+            xtype: 'button',
+            text: 'Export as CSV',
+            style: {
+                borderStyle: 'solid'
+            },
+            listeners: {
+                click: {
+                    element: 'el', //bind to the underlying el property on the panel
+                    fn: function () {
+                        var exportStore = _this._getAllRecordStore(variantBrowserGrid);
+                        exportStore.on( 'load', function( store, records, options ) {
+                            _this._exportToExcel(records, exportStore.proxy.extraParams);
+                        });
+                    }
+                }
+            }
+        };
+
+        var clincalButton = {
+            xtype: 'button',
+            text: 'Show in Clinical Browser',
+            id:'clinvar-button',
+            style: {
+                borderStyle: 'solid'
+            },
+            listeners: {
+                click: {
+                    element: 'el', //bind to the underlying el property on the panel
+                    fn: function () {
+                        var queryURL;
+
+                        if (_this.values.selectFilter == 'gene') {
+                            queryURL = 'clinvarSelectFilter=gene&gene='+_this.values.gene;
+                        } else if (_this.values.selectFilter == 'region') {
+                            queryURL = 'clinvarSelectFilter=region&clinvarRegion='+_this.values.region;
+                        } else {
+                            if (variantBrowserGrid.store.getTotalCount() > 1) {
+                                var totalRecordsStore = _this._getAllRecordStore(variantBrowserGrid);
+                                totalRecordsStore.on( 'load', function( store, records, options ) {
+                                    queryURL = 'clinvarSelectFilter=region&clinvarRegion='+_.first(records).data.chromosome+':'+_.first(records).data.start+'-'+ _.last(records).data.end;
+                                    window.location = '?Clinical Browser&'+queryURL;
+                                });
+                                return;
+                            } else {
+                                queryURL = 'clinvarSelectFilter=region&clinvarRegion='+_this.lastVariant.chromosome+':'+_this.lastVariant.start+'-'+_this.lastVariant.end;
+                            }
+                        }
+
+                        window.location = '?Clinical Browser&'+queryURL;
+
+
+                    }
+                }
+            }
+        };
+
         variantBrowserGrid.grid.addDocked({
             xtype: 'toolbar',
             dock: 'bottom',
             border: false,
-            items: ['Results per Page: ', resultsPerPage, {
-                xtype: 'button',
-                text: 'Export as CSV',
-                style: {
-                    borderStyle: 'solid'
-                },
-                listeners: {
-                    click: {
-                        element: 'el', //bind to the underlying el property on the panel
-                        fn: function () {
-                            var proxy = variantBrowserGrid.grid.store.proxy;
-                            var category = 'segments';
-                            var query = proxy.extraParams.region;
-                            if (proxy.extraParams.gene) {
-                                category = 'genes';
-                                query = proxy.extraParams.gene;
-                            }
-                            var url = EvaManager.url({
-                                category: category,
-                                resource: 'variants',
-                                query: query,
-                                params: {merge: true, exclude: 'sourceEntries'}
-                            });
-                            proxy.url = url;
-                            var exportStore = Ext.create('Ext.data.Store', {
-                                pageSize: variantBrowserGrid.grid.store.getTotalCount(),
-                                autoLoad: true,
-                                fields: [
-                                    {name: 'id', type: 'string'}
-                                ],
-                                remoteSort: true,
-                                proxy: proxy,
-                                extraParams: {exclude: files},
-                                listeners: {
-                                    load: function (store, records, successful, operation, eOpts) {
-                                        var exportData = _this._exportToExcel(records, store.proxy.extraParams);
-                                        variantBrowserGrid.grid.setLoading(false);
-
-                                    }
-                                }
-                            });
-                        }
-                    }
-                }
-            }]
+            items: ['Results per Page: ', resultsPerPage,exportCSVButton,clincalButton]
         });
 
         resultsPerPage.on('select', function (combo, record) {
             var _this = this;
-            var url = variantBrowserGrid.store.proxy.url;
+            var url = _this.queryURL;
             var params = variantBrowserGrid.store.proxy.extraParams;
             variantBrowserGrid.pageSize = record.id;
             _this.retrieveData(url, params);
@@ -636,27 +660,21 @@ EvaVariantWidget.prototype = {
         var _this = this;
         var variantStatsPanel = new EvaVariantStatsPanel({
             target: target,
-            headerConfig: this.defaultToolConfig.headerConfig,
-            handlers: {
-                "load:finish": function (e) {
-//                    _this.grid.setLoading(false);
-                }
-            },
             height: 820,
             statsTpl: new Ext.XTemplate(
                 '<table class="eva-attributes-table">' +
-                    '<tr>' +
-                    '<td class="header">Minor Allele Frequency</td>' +
-                    '<td class="header">Mendelian Errors</td>' +
-                    '<td class="header">Missing Alleles</td>' +
-                    '<td class="header">Missing Genotypes</td>' +
-                    '</tr>',
                 '<tr>' +
-                    '<td><tpl if="maf == -1 || maf == 0">NA <tpl else>{maf:number( "0.000" )} </tpl><tpl if="mafAllele">({mafAllele}) <tpl else></tpl></td>' +
-                    '<td><tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl></td>' +
-                    '<td><tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl></td>' +
-                    '<td><tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl></td>' +
-                    '</tr>',
+                '<td class="header">Minor Allele Frequency</td>' +
+                '<td class="header">Mendelian Errors</td>' +
+                '<td class="header">Missing Alleles</td>' +
+                '<td class="header">Missing Genotypes</td>' +
+                '</tr>',
+                '<tr>' +
+                '<td><tpl if="maf == -1 || maf == 0">NA <tpl else>{maf:number( "0.000" )} </tpl><tpl if="mafAllele">({mafAllele}) <tpl else></tpl></td>' +
+                '<td><tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl></td>' +
+                '<td><tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl></td>' +
+                '<td><tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl></td>' +
+                '</tr>',
                 '</table>'
             )
         });
@@ -702,10 +720,10 @@ EvaVariantWidget.prototype = {
 
         return variantStatsPanel;
     },
-    _createAnnotPanel: function (target) {
+    _createAnnotationPanel: function (target) {
         var _this = this;
 
-        var annontColumns = {
+        var annotationColumns = {
             items: [
                 {
                     text: "Ensembl<br /> Gene ID",
@@ -905,30 +923,25 @@ EvaVariantWidget.prototype = {
                 sortable: true
             }
         };
-        var annotPanel = new ClinvarAnnotationPanel({
+        var annotationPanel = new ClinvarAnnotationPanel({
             target: target,
             height: 800,
-            columns: annontColumns,
-            headerConfig: this.defaultToolConfig.headerConfig,
-            handlers: {
-                "load:finish": function (e) {
-//                    _this.grid.setLoading(false);
-                }
-            }
+            columns: annotationColumns
         });
 
         this.variantBrowserGrid.on("variant:clear", function (e) {
-            annotPanel.clear(true);
+            annotationPanel.clear(true);
         });
 
         this.on("variant:change", function (e) {
             if (_.isUndefined(e.variant)) {
-                annotPanel.clear(true);
+                annotationPanel.clear(true);
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     _.extend(e.variant, {annot: e.variant.annotation});
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
-                    annotPanel.load(e.variant, proxy.extraParams);
+                    console.log(e.variant)
+                    annotationPanel.load(e.variant, proxy.extraParams);
                     //sending tracking data to Google Analytics
                     ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Annotation'});
                 }
@@ -937,34 +950,28 @@ EvaVariantWidget.prototype = {
 
 
 
-        return annotPanel;
+        return annotationPanel;
     },
 
     _createVariantPopulationStatsPanel: function (target) {
         var _this = this;
         var variantPopulationStatsPanel = new EvaVariantPopulationStatsPanel({
             target: target,
-            headerConfig: this.defaultToolConfig.headerConfig,
-            handlers: {
-                "load:finish": function (e) {
-//                    _this.grid.setLoading(false);
-                }
-            },
             height: 820,
             statsTpl: new Ext.XTemplate(
                 '<table class="eva-attributes-table">' +
-                    '<tr>' +
-                    '<td class="header">Minor Allele Frequency</td>' +
-                    '<td class="header">Mendelian Errors</td>' +
-                    '<td class="header">Missing Alleles</td>' +
-                    '<td class="header">Missing Genotypes</td>' +
-                    '</tr>',
                 '<tr>' +
-                    '<td><tpl if="maf == -1 || maf == 0">NA <tpl else>{maf:number( "0.000" )} </tpl><tpl if="mafAllele">({mafAllele}) <tpl else></tpl></td>' +
-                    '<td><tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl></td>' +
-                    '<td><tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl></td>' +
-                    '<td><tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl></td>' +
-                    '</tr>',
+                '<td class="header">Minor Allele Frequency</td>' +
+                '<td class="header">Mendelian Errors</td>' +
+                '<td class="header">Missing Alleles</td>' +
+                '<td class="header">Missing Genotypes</td>' +
+                '</tr>',
+                '<tr>' +
+                '<td><tpl if="maf == -1 || maf == 0">NA <tpl else>{maf:number( "0.000" )} </tpl><tpl if="mafAllele">({mafAllele}) <tpl else></tpl></td>' +
+                '<td><tpl if="mendelianErrors == -1">NA <tpl else>{mendelianErrors}</tpl></td>' +
+                '<td><tpl if="missingAlleles == -1">NA <tpl else>{missingAlleles}</tpl></td>' +
+                '<td><tpl if="missingGenotypes == -1">NA <tpl else>{missingGenotypes}</tpl></td>' +
+                '</tr>',
                 '</table>'
             )
         });
@@ -1028,19 +1035,13 @@ EvaVariantWidget.prototype = {
 
         var variantGenotypeGridPanel = new EvaVariantGenotypeGridPanel({
             target: target,
-            headerConfig: this.defaultToolConfig.headerConfig,
             gridConfig: {
                 flex: 1,
                 layout: {
                     align: 'stretch'
                 }
             },
-            height: 820,
-            handlers: {
-                "load:finish": function (e) {
-
-                }
-            }
+            height: 820
         });
 
         this.variantBrowserGrid.on("variant:clear", function (e) {
@@ -1087,7 +1088,52 @@ EvaVariantWidget.prototype = {
 
         return variantGenotypeGridPanel;
     },
+    _createClinvarAssertionPanel: function (target) {
+        var _this = this;
+        var assertionPanel = new ClinvarAssertionPanel ({
+            target: target,
+            headerId:'vb-clinical-assertion-header',
+        });
 
+        this.variantBrowserGrid.on ("variant:clear", function (e) {
+            assertionPanel.clear (true);
+        });
+
+        this.on ("variant:change", function (e) {
+            if (_.isUndefined (e.variant)) {
+                assertionPanel.clear (true);
+            } else {
+                if (target.id === _this.selectedToolDiv.id) {
+                    var region = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
+                    var params = {source: 'clinvar', species: 'hsapiens_grch37', 'region': region};
+                    EvaManager.get ({
+                        host: CELLBASE_HOST,
+                        version: CELLBASE_VERSION,
+                        category: 'hsapiens/feature/clinical',
+                        resource: 'all',
+                        params: params,
+                        async: false,
+                        success: function (response) {
+                            var clinvarRecord;
+                            try {
+                                clinvarRecord = response.response[0].result[0];
+                            } catch (e) {
+                                console.log (e);
+                            }
+                            if (_.isUndefined(clinvarRecord)) {
+                                Ext.getCmp(assertionPanel.headerId).update('<h4>Clinical Assertions</h4><p style="margin-left:-15px;">&nbsp;No clinical data available</p>')
+                            } else {
+                                Ext.getCmp(assertionPanel.headerId).update('<h4>Clinical Assertions</h4>')
+                            }
+                            assertionPanel.load(clinvarRecord);
+                        }
+                    });
+                }
+            }
+        });
+
+        return assertionPanel;
+    },
     _createGenomeViewer: function (target) {
         var _this = this;
 
@@ -1259,6 +1305,29 @@ EvaVariantWidget.prototype = {
     },
     setLoading: function (loading) {
         this.variantBrowserGrid.setLoading(loading);
+    },
+    _getAllRecordStore: function (params) {
+        var _this = this;
+        var proxy = params.grid.store.proxy;
+        proxy.url = _this.queryURL;
+        var records;
+        var exportStore = Ext.create('Ext.data.Store', {
+            pageSize: params.grid.store.getTotalCount(),
+            autoLoad: true,
+            fields: [
+                {name: 'id', type: 'string'}
+            ],
+            remoteSort: true,
+            proxy: proxy,
+            extraParams: {exclude: files},
+            listeners: {
+                load: function (store, records, successful, operation, eOpts) {
+
+                }
+            }
+        });
+
+        return exportStore;
     },
     _exportToExcel: function (records, params) {
         var csvContent = '',

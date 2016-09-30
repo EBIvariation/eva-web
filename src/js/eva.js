@@ -339,7 +339,6 @@ Eva.prototype = {
 //            maf = _maf.replace(/\>/g, "");
             maf = _maf;
         }
-
         var tab = getUrlParameters('');
         if(tab && decodeURI(tab.id) == 'Variant Browser') {
             pushURL = false;
@@ -358,6 +357,7 @@ Eva.prototype = {
             sift: sift,
             maf: maf,
             pushURL:pushURL
+
         });
         variantWidget.draw();
         return variantWidget;
@@ -392,6 +392,7 @@ Eva.prototype = {
         var significance = '';
         var review = '';
         var pushURL = true;
+
 
         if (!_.isEmpty($.urlParam('clinvarRegion'))) {
             clinvarRegion = decodeURIComponent($.urlParam('clinvarRegion'));
@@ -465,7 +466,6 @@ Eva.prototype = {
                 $("a:contains('" + option + "')").parent('li').addClass('active');
             }
         }
-
     },
     _twitterWidgetUpdate: function () {
 
