@@ -255,6 +255,8 @@ EvaVariantWidgetPanel.prototype = {
                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:2100000-2500000');
             }else if (e.species == 'aquadriannulatus_quad4av1') {
                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('KB665398:1-200000');
+            }else if (e.species == 'sratti_ed321v504') {
+                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('SRAE_chr2:10000-20000');
             } else {
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:3000000-3100000');
             }
