@@ -526,10 +526,8 @@ EvaClinicalWidgetPanel.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
-            _this.formPanelClinvarFilter.filters[0].panel.getForm().findField('clinvarSelectFilter').setValue(_this.filter);
-            _this.formPanelClinvarFilter.filters[0].panel.getForm().findField('clinvarRegion').setValue(_this.clinvarRegion);
-            _this.formPanelClinvarFilter.filters[0].panel.getForm().findField('gene').setValue(_this.gene);
-            _this.formPanelClinvarFilter.filters[0].panel.getForm().findField('accessionId').setValue(_this.accessionId);
+            _this.formPanelClinvarFilter.filters[0].panel.getForm().findField('clinvarSelectFilter').setValue('region');
+            _this.formPanelClinvarFilter.filters[0].panel.getForm().findField('clinvarRegion').setValue('2:48000000-49000000');
             var formValues = _this.formPanelClinvarFilter.getValues();
             _this.formPanelClinvarFilter.trigger('submit', {values: formValues, sender: _this});
         });

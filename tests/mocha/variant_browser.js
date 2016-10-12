@@ -411,11 +411,13 @@ function showDataInClinicalBrowser(driver){
 }
 
 function variantReset(driver) {
-    variantSearchBySpeciesandChrLocation (driver);
     driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+    driver.findElement(By.name("region")).getText().then(function(text){
+        chai.assert.equal(text, '2:48000000-49000000');
+    });
     driver.wait (until.elementLocated (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then (function (text) {
         driver.findElement (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText ().then (function (text) {
-            chai.assert.equal (text, '13');
+            chai.assert.equal (text, '2');
         });
     });
 }

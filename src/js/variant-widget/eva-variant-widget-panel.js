@@ -257,7 +257,9 @@ EvaVariantWidgetPanel.prototype = {
                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('KB665398:1-200000');
             }else if (e.species == 'sratti_ed321v504') {
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('SRAE_chr2:10000-20000');
-            } else {
+            }else if (e.species == 'hsapiens_grch37') {
+                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('2:48000000-49000000');
+            }else {
                 _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:3000000-3100000');
             }
 
@@ -418,11 +420,10 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
-            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.species)
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue(_this.filter)
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('snp').setValue(_this.snp)
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue(_this.region)
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('gene').setValue(_this.gene)
+            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue('hsapiens_grch37');
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region');
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue('2:48000000-49000000');
+           ;
         });
 
         _this.on('studies:change', function (e) {
