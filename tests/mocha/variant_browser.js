@@ -95,6 +95,11 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('Reset button', function() {
+        test.it('Clicking "Reset" button should add default values', function() {
+            variantReset(driver);
+        });
+    });
 
 });
 
@@ -401,6 +406,16 @@ function showDataInClinicalBrowser(driver){
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
             chai.assert.equal(text, '13');
+        });
+    });
+}
+
+function variantReset(driver) {
+    variantSearchBySpeciesandChrLocation (driver);
+    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+    driver.wait (until.elementLocated (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then (function (text) {
+        driver.findElement (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText ().then (function (text) {
+            chai.assert.equal (text, '13');
         });
     });
 }

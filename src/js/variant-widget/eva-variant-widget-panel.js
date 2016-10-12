@@ -420,6 +420,9 @@ EvaVariantWidgetPanel.prototype = {
         formPanel.on('form:clear', function (e) {
             _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue(_this.species)
             _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue(_this.filter)
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('snp').setValue(_this.snp)
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue(_this.region)
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('gene').setValue(_this.gene)
         });
 
         _this.on('studies:change', function (e) {
