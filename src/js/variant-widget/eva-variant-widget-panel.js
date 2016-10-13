@@ -244,12 +244,8 @@ EvaVariantWidgetPanel.prototype = {
 
         speciesFilter.on('species:change', function (e) {
             _this._loadListStudies(studyFilter, e.species);
-
-            _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
-            Ext.getCmp('clinvar-button').hide();
-
             //setting default positional value
-            var defaultRegion = '1:3000000-3100000';
+            var defaultRegion;
             switch (e.species) {
                 case 'agambiae_agamp4':
                     defaultRegion = 'X:10000000-11000000';
@@ -268,13 +264,21 @@ EvaVariantWidgetPanel.prototype = {
                     break;
                 case 'hsapiens_grch37':
                     defaultRegion = '2:48000000-49000000';
-                    _this.variantWidget.toolTabPanel.getComponent(4).tab.show();
-                    Ext.getCmp('clinvar-button').show();
                     break;
+                default:
+                    defaultRegion = '1:3000000-3100000';
             }
 
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
+
+            if (e.species == 'hsapiens_grch37') {
+                _this.variantWidget.toolTabPanel.getComponent(4).tab.show();
+                Ext.getCmp('clinvar-button').show();
+            } else {
+                _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
+                Ext.getCmp('clinvar-button').hide();
+            }
 
             EvaManager.get({
                 category: 'meta/studies',
