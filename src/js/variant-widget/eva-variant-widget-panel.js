@@ -244,34 +244,36 @@ EvaVariantWidgetPanel.prototype = {
 
         speciesFilter.on('species:change', function (e) {
             _this._loadListStudies(studyFilter, e.species);
-            var plantSpecies = ['slycopersicum_sl240', 'zmays_b73refgenv3', 'zmays_agpv3'];
+
+            _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
+            Ext.getCmp('clinvar-button').hide();
 
             //setting default positional value
-            if (e.species == 'agambiae_agamp4') {
-                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('X:10000000-11000000');
-            } else if (e.species == 'aaegypti_aaegl3') {
-                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('supercont1.18:165624-165624');
-            }else if (e.species == 'ggallus_galgal4') {
-               _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:2100000-2500000');
-            }else if (e.species == 'aquadriannulatus_quad4av1') {
-               _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('KB665398:1-200000');
-            }else if (e.species == 'sratti_ed321v504') {
-                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('SRAE_chr2:10000-20000');
-            }else if (e.species == 'hsapiens_grch37') {
-                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('2:48000000-49000000');
-            }else {
-                _this.formPanelVariantFilter.panel.getForm().findField('region').setValue('1:3000000-3100000');
+            var defaultRegion = '1:3000000-3100000';
+            switch (e.species) {
+                case 'agambiae_agamp4':
+                    defaultRegion = 'X:10000000-11000000';
+                    break;
+                case 'aaegypti_aaegl3':
+                    defaultRegion = 'supercont1.18:165624-165624';
+                    break;
+                case 'ggallus_galgal4':
+                    defaultRegion = '1:2100000-2500000';
+                    break;
+                case 'aquadriannulatus_quad4av1':
+                    defaultRegion = 'KB665398:1-200000';
+                    break;
+                case 'sratti_ed321v504':
+                    defaultRegion = 'SRAE_chr2:10000-20000';
+                    break;
+                case 'hsapiens_grch37':
+                    defaultRegion = '2:48000000-49000000';
+                    _this.variantWidget.toolTabPanel.getComponent(4).tab.show();
+                    Ext.getCmp('clinvar-button').show();
+                    break;
             }
 
-            //hidding tabs for species
-            if (e.species == 'hsapiens_grch37') {
-                _this.variantWidget.toolTabPanel.getComponent(4).tab.show();
-                Ext.getCmp('clinvar-button').show()
-            } else {
-                _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
-                Ext.getCmp('clinvar-button').hide()
-            }
-
+            _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
 
             EvaManager.get({
