@@ -59,7 +59,7 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
     });
 
     test.describe('Filter by Review Status', function() {
-        test.it('filter term "Single submitter"  should match with  column "Review Status" in Summary tab', function() {
+        test.it('filter term "Expert panel"  should match with  column "Review Status" in Summary tab', function() {
             clinVarFilterByReviewStatus(driver);
         });
     });
@@ -82,6 +82,12 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
     test.describe('Show data in Variant Browser', function() {
         test.it('Clicking "Show in Variant Browser" button should go to "Variant Browser" and click back should go back to "Clinical Browser"', function() {
             showDataInVariantBrowser(driver);
+        });
+    });
+
+    test.describe('Reset button', function() {
+        test.it('Clicking "Reset" button should add default values', function() {
+            clinVarReset(driver);
         });
     });
 
@@ -149,7 +155,7 @@ function clinVarSearchByTrait(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
     driver.findElement(By.name("clinvarRegion")).clear();
-    driver.findElement(By.name("clinvarRegion")).sendKeys("2:47000000-49000000");
+    driver.findElement(By.name("clinvarRegion")).sendKeys("2:47000000-48000000");
     driver.findElement(By.name("phenotype")).clear();
     driver.findElement(By.name("phenotype")).sendKeys("Lung cancer");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
@@ -197,10 +203,10 @@ function clinVarFilterByClincalSignificance(driver){
     return driver;
 }
 function clinVarFilterByReviewStatus(driver){
-    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Single submitter')]//..//..//div[@role='button']")).click();
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Expert panel')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-reviewStatus']")), 10000).then(function(text) {
-        chai.expect('.clinvar-reviewStatus').dom.to.have.text('CLASSIFIED_BY_SINGLE_SUBMITTER');
+        chai.expect('.clinvar-reviewStatus').dom.to.have.text('REVIEWED_BY_EXPERT_PANEL');
     });
 
     return driver;
@@ -225,6 +231,18 @@ function showDataInVariantBrowser(driver){
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[3]/div/a[text()]")).getText().then(function(text){
             assert(text).equalTo('BRCA1');
+        });
+    });
+}
+
+function clinVarReset(driver){  
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
+    driver.findElement(By.name("clinvarRegion")).getText().then(function(text){
+        chai.assert.equal(text, '2:48000000-49000000');
+    });
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")).getText().then(function(text){
+            chai.assert.equal(text, '2');
         });
     });
 }

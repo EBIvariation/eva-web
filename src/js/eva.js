@@ -284,7 +284,7 @@ Eva.prototype = {
     },
     _createVariantWidgetPanel: function (target) {
         //      var position = '21:21989000-21989560';
-        var region = '1:3000000-3100000';
+        var region = '2:48000000-49000000';
         var species = 'hsapiens_grch37';
         var filter = 'region';
         var snp = '';
