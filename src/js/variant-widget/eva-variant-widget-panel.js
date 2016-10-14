@@ -435,7 +435,6 @@ EvaVariantWidgetPanel.prototype = {
             _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue('hsapiens_grch37');
             _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region');
             _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue('2:48000000-49000000');
-           ;
         });
 
         _this.on('studies:change', function (e) {
@@ -508,7 +507,24 @@ EvaVariantWidgetPanel.prototype = {
         var _this = this;
         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Variant Browser&' + $.param(values);
         history.pushState ('forward', '', newurl);
+
         //sending tracking data to Google Analytics
+        var searchParams = values['species']+'&'+values['selectFilter'];
+        var filterValue;
+        switch (values['selectFilter']) {
+            case 'gene':
+                filterValue = values['gene'];
+                break;
+            case 'snp':
+                filterValue = values['snp'];
+                break;
+            default:
+                filterValue = values['region'];
+        }
+        searchParams += '='+filterValue;
+        ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Search', eventLabel:searchParams});
+        ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Search', eventLabel:'species='+values['species']});
+        values = _.omit(values, 'selectFilter', 'species', 'gene', 'snp', 'region');
         var gaValues = $.param(values).split("&");
         _.each(_.keys(gaValues), function (key) {
             ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
