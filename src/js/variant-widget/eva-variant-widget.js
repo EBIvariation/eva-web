@@ -505,11 +505,7 @@ EvaVariantWidget.prototype = {
             }
         };
 
-        Ext.select('a.dbsnp_link').on('click', function (e) {
-            alert('Hi...');
-        });
-
-
+      
         var attributes = [
             {name: 'ids', type: 'string'},
             {name: "chromosome", type: "string"},
