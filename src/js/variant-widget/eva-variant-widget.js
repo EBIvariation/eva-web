@@ -505,7 +505,6 @@ EvaVariantWidget.prototype = {
             }
         };
 
-      
         var attributes = [
             {name: 'ids', type: 'string'},
             {name: "chromosome", type: "string"},
