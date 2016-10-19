@@ -265,6 +265,12 @@ EvaVariantWidgetPanel.prototype = {
                 case 'hsapiens_grch37':
                     defaultRegion = '2:48000000-49000000';
                     break;
+                case 'asinensis_v1':
+                    defaultRegion = 'AXCK02015324:1-500000';
+                    break;
+                case 'astephensi_sda500v1':
+                    defaultRegion = 'KB664288:1-500000';
+                    break;
                 default:
                     defaultRegion = '1:3000000-3100000';
             }
