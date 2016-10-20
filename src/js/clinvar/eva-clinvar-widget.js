@@ -473,7 +473,8 @@ EvaClinVarWidget.prototype = {
                     element: 'el', //bind to the underlying el property on the panel
                     fn: function () {
                         var queryURL;
-
+                        //sending tracking data to Google Analytics
+                        ga('send', 'event', { eventCategory: 'Clinical Browser', eventAction: 'Show in Variant Browser', eventLabel:'Clicked'});
                         if (_this.values.clinvarSelectFilter == 'gene') {
                             queryURL = 'selectFilter=gene&gene='+_this.values.gene+'&species=hsapiens_grch37';
                         } else if (_this.values.clinvarSelectFilter == 'region') {

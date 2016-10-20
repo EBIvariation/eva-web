@@ -484,7 +484,7 @@ EvaVariantWidget.prototype = {
                     id: 'variant-grid-view-column',
                     xtype: 'templatecolumn',
                     tpl: new Ext.XTemplate('<a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species={[this.getSpecies(values)]}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>' +
-                        '&nbsp;<tpl if="this.getURL(values)"><a href="{[this.getURL(values)]}" class="dbsnp_link" target="_blank"><span>dbSNP</span></a>' +
+                        '&nbsp;<tpl if="this.getURL(values)"><a href="{[this.getURL(values)]}" class="dbsnp_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'dbSNP Link\', eventLabel:this})"><span>dbSNP</span></a>' +
                         '<tpl else><span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>',
                         {
                             getURL: function (value) {
@@ -614,7 +614,8 @@ EvaVariantWidget.prototype = {
                     element: 'el', //bind to the underlying el property on the panel
                     fn: function () {
                         var queryURL;
-
+                        //sending tracking data to Google Analytics
+                        ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Show in Clinical Browser', eventLabel:'Clicked'});
                         if (_this.values.selectFilter == 'gene') {
                             queryURL = 'clinvarSelectFilter=gene&gene='+_this.values.gene;
                         } else if (_this.values.selectFilter == 'region') {
