@@ -1,6 +1,6 @@
 {
   "name": "commons",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "javascript commons",
   "repository": {
     "type": "git",
@@ -25,6 +25,6 @@
     "grunt-contrib-imagemin": "1.0.0",
     "bower": "1.7.9",
     "grunt-bower-task": "~0.4.0",
-    "chromedriver": "2.21.2"
+    "chromedriver": "2.24.1"
   }
 }
