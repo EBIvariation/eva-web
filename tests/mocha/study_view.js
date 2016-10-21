@@ -78,6 +78,7 @@ function evaCheckSummaryTable(driver){
         chai.expect('#material-span').dom.to.have.text(regExp);
         chai.expect('#scope-span').dom.to.have.text(regExp);
         chai.expect('#type-span').dom.to.have.text(regExp);
+        chai.expect('#assembly-span').dom.to.have.text(regExp);
         chai.expect('#source-type-span').dom.to.have.text(regExp);
         chai.expect('#platform-span').dom.to.have.text(regExp);
         chai.expect('#samples-span').dom.to.have.text(numExp);
