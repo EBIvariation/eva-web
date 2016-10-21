@@ -145,7 +145,7 @@ EvaStudyView.prototype = {
             var taxonomyId = new Array();
             if (data.summaryData[0].taxonomyId) {
                 for (i = 0; i < data.summaryData[0].taxonomyId.length; i++) {
-                    var taxLink = 'http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' + data.summaryData[0].taxonomyId[i];
+                    var taxLink = 'http://www.ebi.ac.uk/ena/data/view/Taxon:' + data.summaryData[0].taxonomyId[i];
                     taxonomyId.push(['<a href="' + taxLink + '" target="_blank">' + data.summaryData[0].taxonomyId[i] + '</a>']);
                 }
             }

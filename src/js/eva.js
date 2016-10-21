@@ -490,10 +490,8 @@ Eva.prototype = {
             var pubmedId = obj.html();
             obj.html('<p>Attempting to retrieve publication information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '...</p>');
             if(pubmedId && pubmedId != '-') {
-                var id_type = 'PubMed';
-
                 var host = METADATA_HOST.replace("/eva/webservices/rest", "");
-                var url = host + '/ega/publications/get/paper/' + id_type + '/' + pubmedId;
+                var url = host + '/europepmc/webservices/rest/search?query=ext_id:' + pubmedId + ' src:med&format=json';
                 if (window.location.protocol != 'https:') {
                     url = url.replace("http", "https");
                 }
@@ -504,36 +502,28 @@ Eva.prototype = {
                     dataType: "json",
                     async: false,
                     success: function (response) {
-                        if (response.data['title']) {
-                            var title = response.data['title'];
-                            var authors = response.data['authors'];
-                            var firstAuthor = response.data['first-author'];
-                            var journal = response.data['journal'];
-                            var volume = response.data['volume'];
-                            var year = response.data['year'];
-                            var pages = response.data['pages'];
-                            var pmid = response.data['pmid'];
-                            var doi = response.data['doi'];
-                            var isbn = response.data['isbn'];
+                        var data = response.resultList.result[0];
+                        if (data) {
+                            var title = data.title;
+                            var authors = data.authorString;
+                            var journal = data.journalTitle;
+                            var volume = data.journalVolume;
+                            var year = data.pubYear;
+                            var pages = data.pageInfo;
+                            var pmid = data.pmid;
 
-                            var paper_output = '<p class="publications"><a class="external publication" href="http://europepmc.org/abstract/MED/' + pmid + '">' + title + '</a><br />'
-
-                            if (authors.length > 180) {
-                                paper_output += firstAuthor + '<br />';
-                            } else {
-                                paper_output += authors + '<br />';
-                            }
-
+                            var paper_output = '<p class="publications"><a class="external publication" href="http://europepmc.org/abstract/MED/' + pmid + '">' + title + '</a><br />';
+                            paper_output += authors + '<br />';
                             paper_output += '<em>' + journal + '</em> <strong>' + volume + '</strong>:' + year + ' ' + pages + '</p>';
                             obj.html(paper_output);
                         }
-
                     },
                     error: function (x, y, z) {
                         obj.html('&nbsp;&nbsp;PubMed:<a class="external publication" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + pubmedId + '" target="_blank">' + pubmedId + '</a><br />');
                         // x.responseText should have what's wrong
                     }
                 });
+
             }else{
                 obj.html(pubmedId);
             }
