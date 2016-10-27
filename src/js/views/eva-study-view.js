@@ -48,7 +48,6 @@ EvaStudyView.prototype = {
                 } catch (e) {
                     console.log(e);
                 }
-                // _this._parseData();
             }
         });
 
@@ -91,7 +90,6 @@ EvaStudyView.prototype = {
                         } catch (e) {
                             console.log(e);
                         }
-                        // _this._parseData();
                     }
                 });
             }
@@ -123,11 +121,6 @@ EvaStudyView.prototype = {
             divContent = _this._createContent(data)
         }
         _this._draw(data, divContent);
-
-//        var publications = this.getPublications(data.summaryData[0].publications);
-//        console.log(publications)
-//        var publicationsDiv = document.querySelector("#publication-section");
-//        publicationsDiv.innerHTML = publications;
 
     },
     _createContent: function (data) {
@@ -274,7 +267,6 @@ EvaStudyView.prototype = {
                         '<td><span class="pass_count">' + passCount + '</span></td>' +
                         '<td><span class="transition_count">' + transitionsCount + '</span></td>' +
                         '<td><span class="mean_count">' + meanQuality + '</span></td>' +
-//                        '<td><span class="iobio_link">' + iobioLink + '</span></td>' +
                         '</tr>'
                 }
                 _filesTable += '</tbody></table>'
