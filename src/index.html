@@ -458,18 +458,37 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title study-browser-panel">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTen"> Want to know more about tools and technologies we use? <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTen"> How can I follow the development of the EVA? <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></a>
                             </h3>
                         </div>
                         <div id="collapseTen" class="panel-collapse collapse">
                             <div class="panel-body">
 
-                                <h5>The following are our github repositories:</h5>
+                                <h5>The following are our GitHub repositories:</h5>
                                 <div>
-                                    <p><a href="https://github.com/EBIvariation/vcf-validator">https://github.com/EBIvariation/vcf-validator</a></p>
-                                    <p><a href="https://github.com/EBIvariation/eva-pipeline">https://github.com/EBIvariation/eva-pipeline</a></p>
-                                    <p><a href="https://github.com/EBIvariation/eva-ws">https://github.com/EBIvariation/eva-ws</a></p>
-                                    <p><a href="https://github.com/EBIvariation/eva-web">https://github.com/EBIvariation/eva-web</a></p>
+                                    <ul style="list-style-type:disc">
+                                        <li>
+                                            <p>
+                                                The <a href="https://github.com/EBIvariation/vcf-validator">EVA VCF validator</a> checks that a file is compliant with the VCF specification.
+                                                It includes and expands the validations supported by the vcftools suite. It supports versions 4.1, 4.2 and 4.3 of the specification.
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                The <a href="https://github.com/EBIvariation/eva-pipeline">EVA pipeline</a> processes VCF files, stores the variation data in a database and post-processes it, in a way that can be later consumed via web services.
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                The <a href="https://github.com/EBIvariation/eva-ws"> EVA web services</a> serve the data generated and stored by the EVA pipeline. They follow the REST paradigm and can be consumed by any external application.
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                The <a href="https://github.com/EBIvariation/eva-web">EVA website</a> displays the data served by the EVA REST web services API in a user-friendly way.
+                                            </p>
+                                        </li>
+                                    </ul>
                                 </div>
                                 <h5>Acknowledgement</h5>
                                 <p>We would like to acknowledge the following software support.</p>
@@ -480,14 +499,8 @@
                                     <a href="http://www.ej-technologies.com/products/jprofiler/overview.html" target="_blank" style="border-bottom-style: none;">
                                         <img src="img/jprofiler_large.png" alt="JProfiler" class="acknowledgement-logo">
                                     </a>
-                                    <a href="https://www.mongodb.com" target="_blank" style="border-bottom-style: none;">
-                                        <img src="img/mongo.png" alt="MongoDB" class="acknowledgement-logo">
-                                    </a>
                                     <a href="http://www.jetbrains.com/idea/" target="_blank" style="border-bottom-style: none;">
                                         <img src="img/intelliJ.png" alt="IntelliJ" class="acknowledgement-logo">
-                                    </a>
-                                    <a href="https://www.sencha.com/" target="_blank" style="border-bottom-style: none;">
-                                        <img src="img/sencha-logo.png" alt="Sencha" class="acknowledgement-logo">
                                     </a>
                                 </div>
                             </div>
