@@ -31,7 +31,7 @@ EvaStudyView.prototype = {
     render: function () {
         var _this = this;
         var params = {};
-        
+
         if (this.type === 'dgva') {
             var params = {structural: 'true'};
         }
@@ -48,7 +48,6 @@ EvaStudyView.prototype = {
                 } catch (e) {
                     console.log(e);
                 }
-                _this._parseData();
             }
         });
 
@@ -72,30 +71,32 @@ EvaStudyView.prototype = {
 
             if (!_.isUndefined(_.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}))) {
                 speciesCode = _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).taxonomyCode + '_' + _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyCode;
-                filesParams = {species: speciesCode};
-            } else if (!_.isUndefined(_.findWhere(studySpeciesList, {taxonomyEvaName: summary[0].speciesCommonName.toLowerCase()}))) {
-                speciesCode = _.findWhere(studySpeciesList, {taxonomyEvaName: summary[0].speciesCommonName.toLowerCase()}).taxonomyCode + '_' + _.findWhere(studySpeciesList, {taxonomyEvaName: summary[0].speciesCommonName.toLowerCase()}).assemblyCode;
+                _.extend(summary[0], {assemblyAccession: _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyAccession});
                 filesParams = {species: speciesCode};
             } else {
-                return;
+                filesParams = {species: ''};
             }
 
-            EvaManager.get({
-                category: 'studies',
-                resource: 'files',
-                query: this.projectId,
-                params: filesParams,
-                async: false,
-                success: function (response) {
-                    try {
-                        files = response.response[0].result;
-                    } catch (e) {
-                        console.log(e);
+            if(!_.isEmpty(filesParams.species)){
+                EvaManager.get({
+                    category: 'studies',
+                    resource: 'files',
+                    query: this.projectId,
+                    params: filesParams,
+                    async: false,
+                    success: function (response) {
+                        try {
+                            files = response.response[0].result;
+                        } catch (e) {
+                            console.log(e);
+                        }
                     }
-                    _this._parseData();
-                }
-            });
+                });
+            }
+
         }
+        _this._parseData();
+
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'Study', eventLabel: this.projectId});
     },
@@ -121,15 +122,9 @@ EvaStudyView.prototype = {
         }
         _this._draw(data, divContent);
 
-//        var publications = this.getPublications(data.summaryData[0].publications);
-//        console.log(publications)
-//        var publicationsDiv = document.querySelector("#publication-section");
-//        publicationsDiv.innerHTML = publications;
-
     },
     _createContent: function (data) {
         var _this = this;
-
         var publications = data.summaryData[0].publications;
         var pubLinks = '';
         if(!_.isEmpty(publications)){
@@ -157,6 +152,11 @@ EvaStudyView.prototype = {
                 projectURL = '<a href="' + _this._getProjectUrl(data.summaryData[0].id) + '" target="_blank">' + _this._getProjectUrl(data.summaryData[0].id) + '</a><br /><br />' + ena_link;
             }
 
+           var assembly_link= '-';
+           if(!_.isUndefined(data.summaryData[0].assemblyAccession)){
+               assembly_link = '<a href="http://www.ebi.ac.uk/ena/data/view/'+data.summaryData[0].assemblyAccession+'" target="_blank">'+data.summaryData[0].assemblyAccession+'<a>';
+           }
+
             var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
                 '<div class="row study-view-data"><div class="col-md-12"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
                 '<tr><td><b>Organism</b></td><td><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
@@ -166,6 +166,7 @@ EvaStudyView.prototype = {
                 '<tr><td><b>Material</b></td><td><span id="material-span">' + data.summaryData[0].material + '</span></td></tr>' +
                 '<tr><td><b>Scope</b></td><td><span id="scope-span">' + data.summaryData[0].scope + '</span></td></tr>' +
                 '<tr><td><b>Type</b></td><td><span id="type-span">' + data.summaryData[0].experimentType + '</span></td></tr>' +
+                '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + assembly_link + '</span></td></tr>' +
                 '<tr><td><b>Source Type</b></td><td><span id="source-type-span">' + data.summaryData[0].sourceType + '</span></td></tr>' +
                 '<tr><td><b>Platform</b></td><td><span id="platform-span">' + data.summaryData[0].platform + '</span></td></tr>' +
                 '<tr><td><b>Samples</b></td><td><span id="samples-span">' + data.summaryData[0].numSamples + '</span></td></tr>' +
@@ -266,7 +267,6 @@ EvaStudyView.prototype = {
                         '<td><span class="pass_count">' + passCount + '</span></td>' +
                         '<td><span class="transition_count">' + transitionsCount + '</span></td>' +
                         '<td><span class="mean_count">' + meanQuality + '</span></td>' +
-//                        '<td><span class="iobio_link">' + iobioLink + '</span></td>' +
                         '</tr>'
                 }
                 _filesTable += '</tbody></table>'
