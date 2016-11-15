@@ -159,7 +159,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         });
 
         this.speciesFilter = new StudyFilterFormPanel({
-            title: 'Species',
+            title: 'Genome',
             collapsed: false,
             defaultValues: _this.species,
             fields: [
@@ -279,7 +279,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 flex: 7
             },
             {
-                text: "Organism",
+                text: "Genome",
                 dataIndex: 'speciesCommonName',
                 flex: 2
             },
@@ -451,7 +451,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     flex: 3
                 },
                 {
-                    text: "Organism",
+                    text: "Genome",
                     dataIndex: 'speciesCommonName',
                     flex: 3,
                     renderer: function (value, p, record) {
