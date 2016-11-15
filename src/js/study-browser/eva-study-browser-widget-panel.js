@@ -207,6 +207,8 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 'submit': function (e) {
                     console.log(e)
                     var params = e.values;
+                    params['species'] = params['genome'];
+                    params = _.omit(params, ['genome']);
                     if (params.browserType == 'sv') {
                         _.extend(params, {structural: true})
                     }
@@ -453,24 +455,12 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 {
                     text: "Genome",
                     dataIndex: 'speciesCommonName',
-                    flex: 3,
-                    renderer: function (value, p, record) {
-                        return value ? Ext.String.format(
-                            '<div data-toggle="popover" title="Organism" data-content="And her...">{0}</div>',
-                            value
-                        ) : '';
-                    }
+                    flex: 3
                 },
                 {
                     text: "Species",
                     dataIndex: 'speciesScientificName',
-                    flex: 3,
-                    renderer: function (value, p, record) {
-                        return value ? Ext.String.format(
-                            '<div data-toggle="popover" title="Organism" data-content="And her...">{0}</div>',
-                            value
-                        ) : '';
-                    }
+                    flex: 3
                 },
                 {
                     text: "Type",
