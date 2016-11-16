@@ -159,7 +159,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         });
 
         this.speciesFilter = new StudyFilterFormPanel({
-            title: 'Species',
+            title: 'Genome',
             collapsed: false,
             defaultValues: _this.species,
             fields: [
@@ -207,6 +207,8 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 'submit': function (e) {
                     console.log(e)
                     var params = e.values;
+                    params.species = params.genome;
+                    params = _.omit(params, ['genome']);
                     if (params.browserType == 'sv') {
                         _.extend(params, {structural: true})
                     }
@@ -279,7 +281,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 flex: 7
             },
             {
-                text: "Organism",
+                text: "Genome",
                 dataIndex: 'speciesCommonName',
                 flex: 2
             },
@@ -289,7 +291,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 flex: 2.7,
                 renderer: function (value, p, record) {
                     return value ? Ext.String.format(
-                        '<div data-toggle="popover" title="" data-content="And her...">{0}</div>',
+                        '<div data-toggle="popover" title="'+value+'">{0}</div>',
                         value
                     ) : '';
                 }
@@ -451,12 +453,12 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     flex: 3
                 },
                 {
-                    text: "Organism",
+                    text: "Genome",
                     dataIndex: 'speciesCommonName',
                     flex: 3,
                     renderer: function (value, p, record) {
                         return value ? Ext.String.format(
-                            '<div data-toggle="popover" title="Organism" data-content="And her...">{0}</div>',
+                            '<div data-toggle="popover" title="'+value+'">{0}</div>',
                             value
                         ) : '';
                     }
@@ -467,7 +469,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     flex: 3,
                     renderer: function (value, p, record) {
                         return value ? Ext.String.format(
-                            '<div data-toggle="popover" title="Organism" data-content="And her...">{0}</div>',
+                            '<div data-toggle="popover" title="'+value+'">{0}</div>',
                             value
                         ) : '';
                     }
