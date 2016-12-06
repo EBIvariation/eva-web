@@ -1,16 +1,18 @@
-// var baseURL = 'http://wwwdev.ebi.ac.uk/eva';
-var baseURL = 'http://localhost/eva-web/build/2.1.2/index.html';
+var baseURL = 'http://wwwdev.ebi.ac.uk/eva';
+// var baseURL = 'http://localhost/eva-web/build/2.1.2/index.html';
 // var baseURL = 'http://localhost/eva-web/src/index.html';
 var browser = process.env.BROWSER;
 
 module.exports = {
-    initDriver: function (driverName) {
+    initDriver: function (driverName, url) {
+        url = url || baseURL;
+        driverName = driverName || 'chrome';
         require('chromedriver').path;
         driver = new webdriver.Builder()
             .forBrowser(driverName)
             .build();
         driver.manage().window().maximize();
-        driver.get(baseURL);
+        driver.get(url);
         chai.use(chaiWebdriver(driver));
         driver.wait(until.elementLocated(By.id("cookie-dismiss")), 10000).then(function(text) {
             driver.findElement(By.id("cookie-dismiss")).click();

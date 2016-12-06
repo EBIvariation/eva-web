@@ -1,4 +1,5 @@
 /*global module:false*/
+var path = require("path");
 module.exports = function (grunt) {
     var date = '<%= grunt.template.today("yyyymmddHH") %>';
     // Project configuration.
@@ -136,7 +137,7 @@ module.exports = function (grunt) {
                     {   expand: true, src: ['lib/jsorolla/styles/**'], dest: 'build/<%= meta.version.eva %>',flatten: false},
                     {   expand: true, src: ['vendor/ext-6.0.1/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['src/js/browser-detect.js'], dest: 'build/<%= meta.version.eva %>/js',flatten: true},
-                    {   expand: true, cwd:'bower_components/bootstrap/dist', src: ['**'], dest: 'build/<%= meta.version.eva %>/vendor/bootstrap'}
+                    {   expand: true, cwd: 'bower_components/bootstrap/dist', src: ['**'], dest: 'build/<%= meta.version.eva %>/vendor/bootstrap'}
                 ]
             }
 
@@ -235,21 +236,29 @@ module.exports = function (grunt) {
             }
         },
         mochaTest: {
-            test: {
+            acceptanceTest: {
                 options: {
                     quiet: false,
                     clearRequireCache: false,
                     timeout:1500000
                 },
-                src: ['tests/mocha/*.js']
+                src: ['tests/mocha/acceptance/*.js']
+            },
+            integrationTest: {
+                options: {
+                    quiet: false,
+                    clearRequireCache: false,
+                    timeout:1500000
+                },
+                src: ['tests/mocha/integration/variant*.js']
             }
         },
         exec: {
             firefox: {
-                 cmd: 'env BROWSER=firefox  grunt test  --force --colors'
+                 cmd: 'env BROWSER=firefox  grunt acceptanceTest  --force --colors'
             },
             chrome: {
-                cmd: 'env BROWSER=chrome  grunt test  --force --colors'
+                cmd: 'env BROWSER=chrome  grunt acceptanceTest  --force --colors'
             }
         },
         bower: {
@@ -260,7 +269,6 @@ module.exports = function (grunt) {
                 }
             }
         }
-
     });
 
 
@@ -278,9 +286,24 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-minify-html');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-bower-task');
+    grunt.loadNpmTasks('grunt-express');
+    grunt.loadNpmTasks('grunt-bg-shell');
+
 
     //selenium with mocha
-    grunt.registerTask('test', ['mochaTest']);
+    grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
+
+    //run test
+    grunt.registerTask('exec', ['exec:firefox','exec:chrome']);
+    
+    //selenium regression test with mocha
+    grunt.registerTask('integrationTest', ['mochaTest:integrationTest']);
+
+    //express server
+    grunt.registerTask('server', [ 'express']);
+
+    //selenium regression test with mocha
+    grunt.registerTask('regressionTest', ['server', 'mochaTest:regressionTest']);
 
     //bower install
     grunt.registerTask('bower-install', ['bower:install']);
