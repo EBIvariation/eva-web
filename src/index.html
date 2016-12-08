@@ -178,7 +178,8 @@
                 <h4><span class="icon icon-functional" data-icon="_"></span>Submit</h4>
                 <div>
                     <!--<p><img src="img/Upload.png" alt="" width="48" height="48"> Upload your data files to your private submission upload account or directly to the <a href="mailto:eva-helpdesk@ebi.ac.uk?subject=Sequence submissionto EVA&amp;body=**We will provide you with a submission package metadata templates guides for completing templates**" target="_top">eva-helpdesk@ebi.ac.uk</a>.</p>-->
-                    <p>Upload your data files to your private submission upload account or directly to the <a href="mailto:eva-helpdesk@ebi.ac.uk?subject=Sequence submissionto EVA&amp;body=**We will provide you with a submission package metadata templates guides for completing templates**" target="_top">eva-helpdesk@ebi.ac.uk</a>.</p>
+                    <p>Upload your data files to your private submission upload account or directly to the <a href="mailto:eva-helpdesk@ebi.ac.uk?subject=Sequence submissionto EVA&amp;body=**We will provide you with a submission package metadata templates guides for completing templates**" target="_top">eva-helpdesk@ebi.ac.uk</a>.<br/>
+                    To improve submission processing time, users are encouraged to prevalidate submitted files using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF Validator tool</a>; more  information can be found at our <a href="?FAQ">FAQs</a>.</p>
                 </div>
                 <h2>Clinically Relevant Genetic Variants</h2>
                 <div class="row">
@@ -327,6 +328,17 @@
                                 <p> All  VCF files and novel samples that are submitted to EVA are permanently and securely archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive </a> and <a href="http://www.ebi.ac.uk/biosamples/" target="_blank">BioSamples </a>, respectively. The EVA provides access to all submitted data via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a>.</p>
                                 <p> Variants within VCF files submitted to EVA are normalised, annotated and used for statistical calculations (via methodologies described below) and these EVA processed data are available via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a>.
                                 <p> Finally, the EVA brokers all submitted data to the NCBI: <a href="http://www.ncbi.nlm.nih.gov/projects/SNP/" target="_blank">dbSNP</a>, for short variants (<50bp); <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a> for large variants (>50bp) or <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, for variants associated with both a phenotype and clinical significance.</p>
+
+                                <h5>Submission validation processes</h5>
+                                <p><span style="font-size:14px;font-weight:bold;">VCF Specification:</p>
+                                <p>
+                                    All VCF files submitted to EVA are validated for adherence to the <a href="https://samtools.github.io/hts-specs/" target="_blank">format specification</a> using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation</a> suite which includes all the checks from the vcftools suite, and some more that involve lexical, syntactic and semantic analysis of the VCF input.
+                                    The EVA VCF validation suite also includes a debugging tool to automatically correct many of the common errors found in files. In order to improve processing time, submitters are encouraged to prevalidate VCF files prior to submission.
+                                </p>
+                                <p><span style="font-size:14px;font-weight:bold;">Genome Assembly:</p>
+                                <p>
+                                    To improve interoperability of variant data submitted to EVA with other resources at EMBL-EBI, and the wider open-access community, all VCF files submitted are subject to validation against the INSDC accessioned genome assembly that is referenced in the associated EVA metadata template. EVA is able to only accept files that match a known assembly at 100%. VCF files that fail this validation step shall be archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive</a> only
+                                </p>
                             </div>
                         </div>
                     </div>
