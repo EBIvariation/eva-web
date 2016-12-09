@@ -216,10 +216,7 @@ Eva.prototype = {
             case 'FAQ':
                 var hash = document.location.hash;
                 if(hash){
-                    $('.panel-collapse.in').collapse('hide');
-                    $(hash).collapse('show');
-                }else{
-                    $('#collapseOne').collapse('show');
+                    $("a[href='"+hash+"']").click()
                 }
                 break;
             default:
