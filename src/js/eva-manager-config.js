@@ -41,10 +41,10 @@
  * along with EVA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-METADATA_HOST = window.location.protocol + "//www.ebi.ac.uk/eva/webservices/rest";
-CELLBASE_HOST = window.location.protocol + "//www.ebi.ac.uk/cellbase/webservices/rest";
-METADATA_VERSION = 'v1';
-CELLBASE_VERSION = 'v3';
+METADATA_HOST = window.location.protocol + "//@@METADATA_HOST";
+CELLBASE_HOST = window.location.protocol + "//@@CELLBASE_HOST";
+METADATA_VERSION = '@@METADATA_VERSION';
+CELLBASE_VERSION = '@@CELLBASE_VERSION';
 
 var EvaManager = {
     host: METADATA_HOST,

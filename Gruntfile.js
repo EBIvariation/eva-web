@@ -1,7 +1,8 @@
 /*global module:false*/
-var path = require("path");
 module.exports = function (grunt) {
     var date = '<%= grunt.template.today("yyyymmddHH") %>';
+    var envTarget = grunt.option('env') || 'prod';
+
     // Project configuration.
     grunt.initConfig({
 
@@ -25,6 +26,88 @@ module.exports = function (grunt) {
             ' ' +
             'Licensed GPLv2 */\n',
         // Task configuration.
+
+        config: {
+            local: {
+                options: {
+                    variables: {
+                        'METADATA_HOST': 'localhost:3000',
+                        'METADATA_VERSION': 'v1',
+                        'CELLBASE_HOST': 'wwwint.ebi.ac.uk/cellbase/webservices/rest',
+                        'CELLBASE_VERSION': 'v3'
+                    }
+                }
+            },
+            dev: {
+                options: {
+                    variables: {
+                        'METADATA_HOST': 'wwwint.ebi.ac.uk/eva/webservices/rest',
+                        'METADATA_VERSION': 'v1',
+                        'CELLBASE_HOST': 'wwwint.ebi.ac.uk/cellbase/webservices/rest',
+                        'CELLBASE_VERSION': 'v3'
+                    }
+                }
+            },
+            stage: {
+                options: {
+                    variables: {
+                        'METADATA_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/rest',
+                        'METADATA_VERSION': 'v1',
+                        'CELLBASE_HOST': 'wwwdev.ebi.ac.uk/cellbase/webservices/rest',
+                        'CELLBASE_VERSION': 'v3'
+                    }
+                }
+            },
+            prod: {
+                options: {
+                    variables: {
+                        'METADATA_HOST': 'www.ebi.ac.uk/eva/webservices/rest',
+                        'METADATA_VERSION': 'v1',
+                        'CELLBASE_HOST': 'www.ebi.ac.uk/cellbase/webservices/rest',
+                        'CELLBASE_VERSION': 'v3'
+                    }
+                }
+            }
+        },
+        replace: {
+            eva_manager: {
+                options: {
+                    patterns: [
+                        {
+                            match: 'METADATA_HOST',
+                            replacement: '<%= grunt.config.get("METADATA_HOST") %>'
+                        },
+                        {
+                            match: 'METADATA_VERSION',
+                            replacement: '<%= grunt.config.get("METADATA_VERSION") %>'
+                        },
+                        {
+                            match: 'CELLBASE_HOST',
+                            replacement: '<%= grunt.config.get("CELLBASE_HOST") %>'
+                        },
+                        {
+                            match: 'CELLBASE_VERSION',
+                            replacement: '<%= grunt.config.get("CELLBASE_VERSION") %>'
+                        }
+                    ]
+                },
+                src: 'src/js/eva-manager-config.js',
+                dest: 'src/js/eva-manager.js'
+            },
+            acceptance_test: {
+                options: {
+                    patterns: [
+                        {
+                            match: 'BASE_URL',
+                            replacement: 'http://localhost/eva-web/build/<%= meta.version.eva %>/index.html'
+                        }
+                    ]
+                },
+                src: 'tests/mocha/acceptance/config-manager.js',
+                dest: 'tests/mocha/acceptance/config.js'
+            }
+
+        },
 
         concat: {
             options: {
@@ -137,7 +220,7 @@ module.exports = function (grunt) {
                     {   expand: true, src: ['lib/jsorolla/styles/**'], dest: 'build/<%= meta.version.eva %>',flatten: false},
                     {   expand: true, src: ['vendor/ext-6.0.1/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['src/js/browser-detect.js'], dest: 'build/<%= meta.version.eva %>/js',flatten: true},
-                    {   expand: true, cwd: 'bower_components/bootstrap/dist', src: ['**'], dest: 'build/<%= meta.version.eva %>/vendor/bootstrap'}
+                    {   expand: true, cwd:'bower_components/bootstrap/dist', src: ['**'], dest: 'build/<%= meta.version.eva %>/vendor/bootstrap'}
                 ]
             }
 
@@ -286,29 +369,36 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-minify-html');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-bower-task');
-    grunt.loadNpmTasks('grunt-express');
-    grunt.loadNpmTasks('grunt-bg-shell');
-
+    grunt.loadNpmTasks('grunt-config');
+    grunt.loadNpmTasks('grunt-replace');
 
     //selenium with mocha
     grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
 
     //run test
-    grunt.registerTask('exec', ['exec:firefox','exec:chrome']);
+    grunt.registerTask('runAcceptanceTest', ['exec:firefox','exec:chrome']);
     
     //selenium regression test with mocha
     grunt.registerTask('integrationTest', ['mochaTest:integrationTest']);
-
-    //express server
-    grunt.registerTask('server', [ 'express']);
-
-    //selenium regression test with mocha
-    grunt.registerTask('regressionTest', ['server', 'mochaTest:regressionTest']);
 
     //bower install
     grunt.registerTask('bower-install', ['bower:install']);
 
     // Default task.
-    grunt.registerTask('default', ['bower-install','hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva', 'minifyHtml', 'imagemin', 'exec']);
+    grunt.registerTask('build', [
+        'config:' + envTarget,
+        'replace',
+        'bower-install',
+        'hub:genomeViewer',
+        'clean:eva',
+        'concat',
+        'uglify',
+        'copy:eva',
+        'cssmin',
+        'htmlbuild:eva',
+        'minifyHtml',
+        'imagemin',
+        'runAcceptanceTest'
+    ]);
 
 };

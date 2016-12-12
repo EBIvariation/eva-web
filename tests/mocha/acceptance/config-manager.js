@@ -19,7 +19,7 @@
  *
  */
 
-var baseURL = 'http://localhost/eva-web/build/2.1.2/index.html';
+var baseURL = '@@BASE_URL';
 var browser = process.env.BROWSER;
 
 module.exports = {

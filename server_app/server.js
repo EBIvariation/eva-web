@@ -16,42 +16,6 @@ app.get ('/', function (req, res) {
     res.send('Webservice Mock app listening on port 3000!')
 });
 
-// app.get ('/users', function (req, res) {
-//     var data;
-//     mysql_connection.acquire (function (err, con) {
-//         con.query ('SELECT * FROM users where name="jag.kandasamy@gmail.com"', function (err, result) {
-//             con.release ();
-//             if (result.length != 0) {
-//                 data = result;
-//             } else {
-//                 data = 'No data Found..';
-//             }
-//             res.json (data);
-//         });
-//     });
-// });
-//
-// app.get ('/users/:id/:name/data', function (req, res) {
-//     var data;
-//     mongo_connection.connect (function (err, db) {
-//         var collection = db.collection ('users');
-//         collection.find ({name:req.params.name}).toArray (function (err, result) {
-//             if (err) {
-//                 console.log (err);
-//             } else if (result.length) {
-//                 console.log ('Found:', result);
-//                 data = result;
-//             } else {
-//                 console.log ('No document(s) found with defined "find" criteria!');
-//             }
-//
-//             res.json (data);
-//             //Close connection
-//             db.close ();
-//         });
-//     });
-// });
-
 app.get ('/v1/meta/species/list', function (req, res) {
     res.json( JSON.parse(fs.readFileSync( __dirname + '/json/species/eva/list.json')));
 });
