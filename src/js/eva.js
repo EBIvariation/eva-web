@@ -213,12 +213,14 @@ Eva.prototype = {
                     this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
                     // this.pushURL(option, false);
                 }
-            case 'dgva-study':
-                this._getPublications();
+            case 'FAQ':
+                var hash = document.location.hash;
+                if(hash){
+                    $("a[href='"+hash+"']").click()
+                }
                 break;
-            case 'eva-study':
+            default:
                 this._getPublications();
-                break;
 
         }
 
