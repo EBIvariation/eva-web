@@ -48,7 +48,7 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            stage: {
+            staging: {
                 options: {
                     variables: {
                         'METADATA_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/rest',
