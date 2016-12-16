@@ -165,7 +165,7 @@ Eva.prototype = {
         }
         switch (option) {
             case 'Home':
-                // _this._drawStatisticsChart();
+                _this._drawStatisticsChart();
                 _this._twitterWidgetUpdate();
                 // _this._getReleaseNotes();
                 break;
