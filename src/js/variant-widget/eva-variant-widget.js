@@ -288,12 +288,12 @@ EvaVariantWidget.prototype = {
                 {
                     text: 'Position',
                     dataIndex: 'start',
-                    flex: 0.5
+                    flex: 0.4
                 },
                 {
                     header: '<span class="icon icon-generic header-icon" data-icon="i"  style="margin-bottom:0px;"></span>Variant ID',
                     dataIndex: 'ids',
-                    flex: 0.68,
+                    flex: 0.5,
                     iconCls: 'icon-info',
 //                    xtype: "templatecolumn",
 //                    tpl: '<tpl  class="variantId" if="id"><span>{id}</span><tpl else>-</tpl>',
@@ -373,7 +373,7 @@ EvaVariantWidget.prototype = {
                             header: '<span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span> PolyPhen2',
                             dataIndex: "consequenceTypes",
 //                            flex: 1.5,
-                            width: 110,
+                            width: 150,
                             menuDisabled: true,
                             tooltip: 'Polymophism Phenotyping v2 (PolyPhen2) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
                             renderer: function (value, meta, rec, rowIndex, colIndex, store) {

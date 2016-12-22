@@ -96,10 +96,10 @@ EvaStatistics.prototype = {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    // height: height,
-                    // width: width,
-                    // marginLeft: -50,
-                    // marginTop: 50
+                    height: height,
+                    width: width,
+                    marginLeft: -70,
+                    marginTop: 50
                 },
                 legend: {
                     enabled: true,
@@ -113,9 +113,9 @@ EvaStatistics.prototype = {
 
                 },
                 title: {
-                    text: 'Top 5 Studies <br> <span style="font-size:12px;">by ' + title + '</span>',
+                    text: 'Top 5 Studies <br>\u00A0<span style="font-size:12px;">by ' + title + '</span>',
                     style: {},
-                    align: 'center'
+                    align: 'left'
                 },
                 tooltip: {
                     pointFormat: '<b>{point.y}</b>'
