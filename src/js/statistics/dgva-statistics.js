@@ -94,15 +94,16 @@ DgvaStatistics.prototype = {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    height: height,
-                    width: width,
-                    marginLeft: -50,
-                    marginTop: 50
+                    // height: height,
+                    // width: width,
+                    // marginLeft: -50,
+                    // marginTop: 50
+                    marginBottom:115
                 },
                 legend: {
                     enabled: true,
-                    width: 200,
-                    margin: 0,
+                    width: 100,
+                    // margin: 0,
                     labelFormatter: function () {
                         return '<div>' + this.name + '(' + this.y + ')</div>';
                     },
@@ -113,7 +114,7 @@ DgvaStatistics.prototype = {
                 title: {
                     text: 'Top 5 Studies <br>\u00A0<span style="font-size:12px;">by ' + title + '</span>',
                     style: {},
-                    align: 'left'
+                    align: 'center'
                 },
                 tooltip: {
                     pointFormat: '<b>{point.y}</b>'
