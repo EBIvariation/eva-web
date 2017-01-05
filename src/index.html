@@ -160,13 +160,14 @@
                        </ul>
                      </nav>
                     <div class="row">
-                        <div class="small-12 medium-6 columns">
+                        <div class="small-12 medium-8 columns">
                             <h3><span class="icon icon-generic" data-icon="&"> </span>Overview</h3>
                             <div><p> The European Variation Archive is an open-access database of all types of genetic variation data from all species.</p></div>
                             <div><p> ​All users can <a href="?Study Browser "> download ​data </a> from any​ ​study, or <a href="?Submit Data"> submit their own data</a> to the archive. You can also query all variants in the EVA by study, gene, chromosomal location or dbSNP identifier using our <a href="?Variant Browser"> Variant Browser</a>. </p></div>
                             <div><p> We will be adding new features to the EVA on a regular basis, and welcome <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">your comments and feedback</a>. </p></div>
                         </div>
-                        <div class="small-12 medium-6 columns">
+                        <!--<div class="medium-1 columns"></div>-->
+                        <div class="small-12 medium-4 columns end">
                             <h3><span class="icon icon-generic" data-icon="N"> </span>News</h3>
                             <div id="twitter-widget"></div>
                         </div>
@@ -175,10 +176,20 @@
                     <div class="row">
                         <div class="columns"><h3><span class="icon icon-generic" data-icon="g"> </span>Statistics</h3></div>
                         <div class="small-12 medium-6 columns">
-                            <div><h4>Short Genetic Variants (&lt;50bp)</h4><div id="eva-statistics"></div></div>
+                            <div class="row">
+                                <div class="small-12 medium-12 medium-offset-2">
+                                    <h4>Short Genetic Variants (&lt;50bp)</h4>
+                                </div>
+                            </div>
+                            <div id="eva-statistics"></div>
                         </div>
                         <div class="small-12 medium-6 columns">
-                            <div><h4>Structural Variants (&gt;50bp)</h4><div id="dgva-statistics"></div></div>
+                            <div class="row">
+                                <div class="small-12 medium-12 medium-offset-2">
+                                    <h4>Structural Variants (&gt;50bp)</h4>
+                                </div>
+                             </div>
+                            <div id="dgva-statistics"></div>
                         </div>
                     </div>
 

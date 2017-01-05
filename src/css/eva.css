@@ -24,11 +24,15 @@
 }
 
 body.eva {
-    max-width: 1350px;
-    margin: 50px auto;
+    /*max-width: 1350px;*/
+    /*margin: 50px auto;*/
     /*background: #fff url(../img/pale_grey_slight_texture_opt.jpg) top left repeat;*/
     font-family: 'HelveticaNeueLT Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-family: Verdana, sans-serif;
+}
+
+body {
+    font-size:110%;
 }
 
 .eva a {
@@ -817,7 +821,6 @@ html.fontface .icon-s2:before{
 .twitter-timeline-rendered {
     width: 100% !important;
 }
-
 
 
 
