@@ -127,7 +127,7 @@ EvaVariantWidgetPanel.prototype = {
                     },
                     frame: false,
                     title: '<span style="margin-left:5px;">Filter</span>',
-                    flex: 1.5,
+                    flex: 1.3,
                     collapsible: true,
                     collapseMode: 'header',
                     html: '<div class="variant-browser-option-div form-panel-variant-filter"></div>',

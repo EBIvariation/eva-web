@@ -283,7 +283,7 @@ EvaVariantWidget.prototype = {
                 {
                     text: "Chr",
                     dataIndex: 'chromosome',
-                    flex: 0.2
+                    flex: 0.3
                 },
                 {
                     text: 'Position',
@@ -293,7 +293,7 @@ EvaVariantWidget.prototype = {
                 {
                     header: '<span class="icon icon-generic header-icon" data-icon="i"  style="margin-bottom:0px;"></span>Variant ID',
                     dataIndex: 'ids',
-                    flex: 0.5,
+                    flex: 0.6,
                     iconCls: 'icon-info',
 //                    xtype: "templatecolumn",
 //                    tpl: '<tpl  class="variantId" if="id"><span>{id}</span><tpl else>-</tpl>',
@@ -307,7 +307,7 @@ EvaVariantWidget.prototype = {
                     text: 'Alleles',
                     xtype: "templatecolumn",
                     tpl: '<tpl if="reference">{reference:htmlEncode}<tpl else>-</tpl>/<tpl if="alternate">{alternate:htmlEncode}<tpl else>-</tpl>',
-                    flex: 0.60
+                    flex: 0.40
                 },
                 {
                     text: 'Class',
@@ -372,8 +372,8 @@ EvaVariantWidget.prototype = {
 //                            text: "Polyphen2",
                             header: '<span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span> PolyPhen2',
                             dataIndex: "consequenceTypes",
-//                            flex: 1.5,
-                            width: 150,
+                           // flex: 1.5,
+                            width: 130,
                             menuDisabled: true,
                             tooltip: 'Polymophism Phenotyping v2 (PolyPhen2) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
                             renderer: function (value, meta, rec, rowIndex, colIndex, store) {
@@ -495,7 +495,7 @@ EvaVariantWidget.prototype = {
                                 return _this.values.species;
                             }
                         }),
-                    flex: 0.4
+                    flex: 0.5
                 }
             ],
             defaults: {
