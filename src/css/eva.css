@@ -17,22 +17,18 @@
  * limitations under the License.
  */
 
-
 @font-face {
     font-family: 'HelveticaNeueLT Pro';
     src: url('../fonts/helveticaneueltprolt.otf');
 }
 
 body.eva {
-    /*max-width: 1350px;*/
-    /*margin: 50px auto;*/
-    /*background: #fff url(../img/pale_grey_slight_texture_opt.jpg) top left repeat;*/
     font-family: 'HelveticaNeueLT Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-family: Verdana, sans-serif;
 }
 
 body {
-    font-size:110%;
+    font-size: 110%;
 }
 
 .eva a {
@@ -51,7 +47,7 @@ body {
 }
 
 .eva-grid-img-inactive {
-    opacity:0.2;
+    opacity: 0.2;
 }
 
 .eva-child {
@@ -71,42 +67,34 @@ body {
     position: relative;
 }
 
-.eva .variant-widget-panel{
+.eva .variant-widget-panel {
     overflow-x: true !important;
 }
-.eva .study-browser-panel{
-    overflow-x:auto;
+
+.eva .study-browser-panel {
+    overflow-x: auto;
 }
 
-.study-browser-panel .x-tree-node-text{
+.study-browser-panel .x-tree-node-text {
     white-space: pre-wrap;
     word-wrap: break-word;
     padding-left: 0;
 }
 
-/*.study-browser-panel a, .study-browser-panel a:link, .study-browser-panel a:visited,*/
-/*.variant-widget-panel a, .variant-widget-panel a:link, .variant-widget-panel a:visited{*/
-    /*border-bottom-style: none;*/
-/*}*/
-
-.study-browser-panel a:link, .study-browser-panel a:visited,
-.variant-widget-panel a:link, .variant-widget-panel a:visited{
-    /*border-bottom-style: none;*/
-}
-
-a, a:active, a:focus{
+a, a:active, a:focus {
     outline: none;
 }
 
-.study-browser-panel table, .variant-widget-panel table, .eva-beacon-panel table{
+.study-browser-panel table, .variant-widget-panel table, .eva-beacon-panel table {
     border-collapse: collapse;
     width: 100%;
     /*background-color: white;*/
-    margin: 0   auto;
+    margin: 0 auto;
     border: 0;
 }
+
 .study-browser-panel th, .study-browser-panel td, .variant-widget-panel th, .variant-widget-panel td,
-.eva-beacon-panel th, .eva-beacon-panel td{
+.eva-beacon-panel th, .eva-beacon-panel td {
     padding: 0 0 0 0;
     border: 0;
     border-collapse: collapse;
@@ -114,17 +102,18 @@ a, a:active, a:focus{
 }
 
 .genotype-grid .x-column-header-inner {
-    background-color:#DFE7E7;
-}
-.population-stats-grid .x-column-header-inner {
-    background-color:#DFE7E7;
+    background-color: #DFE7E7;
 }
 
-.eva-beacon-panel .x-toolbar-footer{
+.population-stats-grid .x-column-header-inner {
+    background-color: #DFE7E7;
+}
+
+.eva-beacon-panel .x-toolbar-footer {
     background-color: #ffffff;
 }
 
-.study-browser-panel th,.variant-widget-panel th ,.eva-beacon-panel th{
+.study-browser-panel th, .variant-widget-panel th, .eva-beacon-panel th {
     font-weight: bold;
     background-color: #F2F2EC;
     border-bottom: 3px solid #f7f7f7;
@@ -136,50 +125,51 @@ a, a:active, a:focus{
     /*overflow: hidden;*/
 }
 
-
-.eva .form-panel-variant-filter-div, .eva .form-panel-clinical-filter-div{
-    width:300px;
+.eva .form-panel-variant-filter-div, .eva .form-panel-clinical-filter-div {
+    width: 300px;
     float: left;
     overflow: hidden;
 }
 
-.eva .variant-widget-div, .eva .clinical-widget-div{
+.eva .variant-widget-div, .eva .clinical-widget-div {
     margin-left: 10px;
     min-width: 700px;
     max-width: 1000px;
     float: left;
 }
-.eva .clinical-widget-div .x-column-header-inner,.eva .variant-widget-div .x-column-header-inner {
+
+.eva .clinical-widget-div .x-column-header-inner, .eva .variant-widget-div .x-column-header-inner {
     text-align: center;
 }
-
 
 .eva .genome-browser-option-div {
     position: relative;
     width: 1320px;
     /*overflow: hidden;*/
 }
+
 .eva .form-panel-genome-filter-div {
     width: 300px;
-    float:left;
+    float: left;
     z-index: 10;
-    margin-left:-5px;
+    margin-left: -5px;
     position: absolute;
     /*border: 1px solid #d3d3d3;*/
     /*margin-bottom: 10px;*/
 }
+
 .eva .genome-viewer-div {
     font-size: 12px;
     width: 1325px;
     float: right;
     border: 1px solid #d3d3d3;
-    margin-top:50px;
+    margin-top: 50px;
     /*position: absolute;*/
 }
 
 .eva .genome-viewer-title-div {
     /*margin: 15px 0 10px 0;*/
-    float:right;
+    float: right;
 }
 
 .eva .tracks-title-div {
@@ -197,25 +187,24 @@ a, a:active, a:focus{
 .studybrowser .x-panel-header {
     background-image: none;
     background-color: #FFFFFF;
-    border:0px;
+    border: 0px;
 
 }
-.studybrowser .x-panel-header-title >.x-title-text{
- /*color: #BF8230;*/
- color: #996a44;
- text-transform: capitalize;
+
+.studybrowser .x-panel-header-title > .x-title-text {
+    /*color: #BF8230;*/
+    color: #996a44;
+    text-transform: capitalize;
 }
 
-
-.eva .x-tab-bar-top>.x-tab-bar-strip-default {
+.eva .x-tab-bar-top > .x-tab-bar-strip-default {
     border-width: 0;
     height: 0px;
 }
 
-.eva .x-tab-bar-horizontal>.x-tab-bar-body-default {
-    margin-left:-3px;
+.eva .x-tab-bar-horizontal > .x-tab-bar-body-default {
+    margin-left: -3px;
 }
-
 
 .eva .form-panel-variant-filter-title-div {
     margin: 0 0 10px 0;
@@ -233,16 +222,16 @@ a, a:active, a:focus{
     cursor: pointer;
 }
 
-.eva .x-tool-img{
+.eva .x-tool-img {
     background-image: url("../img/tool-sprites-dark.png");
 }
 
-.eva .api-span{
-    color:#426783;
+.eva .api-span {
+    color: #426783;
     font-style: italic;
 }
 
-.x-panel-header-default-collapsed-left{
+.x-panel-header-default-collapsed-left {
     /*color: #BF8230;*/
     font-size: 160%;
     padding: 4px 6px;
@@ -250,18 +239,16 @@ a, a:active, a:focus{
     border: none;
     background-color: white;
 }
-.x-panel-header-default-collapsed-left .x-tool-img{
-     background-color: #ffffff;
+
+.x-panel-header-default-collapsed-left .x-tool-img {
+    background-color: #ffffff;
 }
-.x-panel-header-default-collapsed-left .x-panel-header-title-default{
+
+.x-panel-header-default-collapsed-left .x-panel-header-title-default {
     color: #996a44;
     font-size: 100%;
     border: none;
     background-color: white;
-}
-
-.x-panel-header-default-collapsed-left .x-title-text{
-    /*padding-left: 15px;*/
 }
 
 .x-tab-bar-default-top > .x-tab-bar-body-default {
@@ -269,24 +256,25 @@ a, a:active, a:focus{
 }
 
 .x-grid-item-selected {
-     background-color: #ffffff;
+    background-color: #ffffff;
 }
+
 .eva-header-1 {
-/*color: #BF8230;*/
     color: #996a44;
     font-size: 160%;
     padding: 4px 6px;
     margin-bottom: 5px;
     border: none;
 }
+
 .dgva-header-1 {
-    /*color: #426783;*/
     color: #996a44;
     font-size: 160%;
     padding: 4px 6px;
     margin-bottom: 5px;
     border: none;
 }
+
 .eva-header-2 {
     color: #426783;
     font-size: 140%;
@@ -297,26 +285,26 @@ a, a:active, a:focus{
 
 .eva-panel .x-panel-header {
     color: #156765;
-    border-color:#99bbe8;
+    border-color: #99bbe8;
     background-color: #adc9c9;
 }
-.eva-panel .x-title-text{
-    font-size:120%;
+
+.eva-panel .x-title-text {
+    font-size: 120%;
     color: #156765;
 }
 
-.eva-panel  .x-tool-img {
+.eva-panel .x-tool-img {
     background-image: url("../img/tool-sprites.png");
 }
-.eva-panel  .x-panel-header-default .x-tool-img {
+
+.eva-panel .x-panel-header-default .x-tool-img {
     background-color: transparent;
 }
 
-.variant-widget-panel  .x-tool-img {
+.variant-widget-panel .x-tool-img {
     background-image: url("../img/tool-sprites-dark.png");
 }
-
-
 
 .eva-attributes-table {
     cellspacing: 0;
@@ -333,13 +321,8 @@ a, a:active, a:focus{
     border-collapse: collapse;
     border: 1px solid #d3d3d3;
     padding: 5px;
-    /*max-width: 200px;*/
-    /*overflow: hidden;*/
-    /*text-align: center;*/
-    /*word-wrap:break-word;*/
-    /*white-space:nowrap;*/
-
 }
+
 .chrom-table td {
     min-width: 80px;
 }
@@ -374,11 +357,10 @@ a, a:active, a:focus{
     /*font-weight:bold;*/
 }
 
-.ocb-header-4 h4{
+.ocb-header-4 h4 {
     /*color:#BF8230;*/
     color: #996a44;
 }
-
 
 /* top Message*/
 .ocb-msg-hidden {
@@ -398,7 +380,7 @@ a, a:active, a:focus{
     word-wrap: break-word;
 }
 
-.x-tab-default{
+.x-tab-default {
     border-color: #adc9c9;
     background-color: #adc9c9;
     color: #156765;
@@ -407,7 +389,8 @@ a, a:active, a:focus{
 .x-tab.x-tab-default .x-tab-inner-default {
     color: #156765;
 }
-.x-tab.x-tab-active.x-tab-default{
+
+.x-tab.x-tab-active.x-tab-default {
     background-color: #156765;
     border-color: #adc9c9;
 }
@@ -416,53 +399,58 @@ a, a:active, a:focus{
     color: #FFFFFF;
 }
 
-
-.assembly{
-    position:absolute;
-    right:0;
-    top:0;
+.assembly {
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
-.highcharts-container{width:100% !important; height:100% !important;}
-
-.hide-div, .hide-content{
-     display:none;
+.highcharts-container {
+    width: 100% !important;
+    height: 100% !important;
 }
 
-.show-div,.show-content{
-    display:inline;
+.hide-div, .hide-content {
+    display: none;
+}
+
+.show-div, .show-content {
+    display: inline;
 }
 
 .table {
-    margin-left:5px;
+    margin-left: 5px;
 }
 
-.study-view-data{
-    margin-left:5px;
+.study-view-data {
+    margin-left: 5px;
 }
+
 .study-view-table {
-    margin-left:5px;
+    margin-left: 5px;
 }
 
-.variant-view-h4{
+.variant-view-h4 {
     color: #996a44;
 }
 
-
-.resultShow{
+.resultShow {
     color: #426783;
 }
-.valid{
-    color:#25AC0F;
-}
-.invalid{
-    color:#CB4437;
+
+.valid {
+    color: #25AC0F;
 }
 
-.eva-tabs{
-    border-bottom:none;
+.invalid {
+    color: #CB4437;
 }
-.eva-tabs>li>a  {
+
+.eva-tabs {
+    border-bottom: none;
+}
+
+.eva-tabs > li > a {
     margin-right: 2px;
     line-height: 0.12857143;
     border: 1px solid transparent;
@@ -470,47 +458,50 @@ a, a:active, a:focus{
     background-color: #adc9c9;
     color: #156765
 }
-.eva-tabs>li>a:hover {
-    border-color:#5f9796;
-    background-color:#5f9796;
+
+.eva-tabs > li > a:hover {
+    border-color: #5f9796;
+    background-color: #5f9796;
 }
-.eva-tabs>li.active>a, .eva-tabs>li.active>a:hover, .eva-tabs>li.active>a:focus{
+
+.eva-tabs > li.active > a, .eva-tabs > li.active > a:hover, .eva-tabs > li.active > a:focus {
     background-color: #156765;
     color: #ffffff;
 }
 
-.eva-button{
+.eva-button {
     background-color: #156765;
     border-radius: 0 0 0 0;
-    border-color:#5f9796;
+    border-color: #5f9796;
     line-height: 0.52857143;
     color: #ffffff;
 }
-.eva-button:hover,.eva-button:active,.eva-button:focus{
-    background-color:#5f9796;
-    border-color:#5f9796;
-}
 
+.eva-button:hover, .eva-button:active, .eva-button:focus {
+    background-color: #5f9796;
+    border-color: #5f9796;
+}
 
 .vcf-header {
     height: auto;
-    width:960px;
+    width: 960px;
     max-height: 270px !important;
     overflow: hidden;
     background-color: #F2F2EC;
-    word-break:normal !important;
+    word-break: normal !important;
     word-wrap: normal !important;
     white-space: pre !important;
     border: 1px dotted #888;
-    padding:0;
+    padding: 0;
     margin: 0;
 
-}​
+}
 
+​
 .eva-attributes-table {
-     cellspacing: 0;
-     border-collapse: collapse;
-     border: 1px solid #d3d3d3;
+    cellspacing: 0;
+    border-collapse: collapse;
+    border: 1px solid #d3d3d3;
 }
 
 .eva-attributes-table tr {
@@ -534,7 +525,6 @@ a, a:active, a:focus{
     font-weight: bold;
     text-align: center;
 }
-
 
 .eva-stats-table {
     cellspacing: 0;
@@ -566,63 +556,64 @@ a, a:active, a:focus{
 
 .studyList .x-grid-item-selected .x-grid-cell {
     background-color: #FFFFFF !important;
-    color :#000000 !important;
+    color: #000000 !important;
 }
 
 .x-form-text {
     display: inherit;
 }
 
-.header-icon{
-  width:14px;
-  height:14px;
-  float: right;
+.header-icon {
+    width: 14px;
+    height: 14px;
+    float: right;
 }
 
-.title-header-icon{
-    color:#666666;
+.title-header-icon {
+    color: #666666;
 }
-.text-header-icon{
-    color:#666666;
+
+.text-header-icon {
+    color: #666666;
 }
 
 .eva-radio label {
-    font-weight:normal;
+    font-weight: normal;
 }
 
 @-moz-document url-prefix() {
-    .x-panel-body-default{
+    .x-panel-body-default {
         border-bottom: solid #C1C1C1;
         border-bottom-width: 0.15em;
     }
 }
 
-#help-section > .panel-group .panel{
+#help-section > .panel-group .panel {
     border-radius: 0;
     /*border: 0;*/
 }
 
-#help-section > .panel-group .panel-heading{
+#help-section > .panel-group .panel-heading {
     border-radius: 0;
     padding: 8px 7px;
     /*background-color:#E6EEEE;*/
 }
 
-#help-section > .panel-group .panel-title{
+#help-section > .panel-group .panel-title {
     /*font-size:12px;*/
 }
 
-#help-section h3{
-   color:#996a44;
-}
-#help-section h5{
-    color:#426783;
+#help-section h3 {
+    color: #996a44;
 }
 
-#help-section i{
-    color:#999999;
+#help-section h5 {
+    color: #426783;
 }
 
+#help-section i {
+    color: #999999;
+}
 
 .acknowledgement-logo {
     display: inline;
@@ -631,27 +622,24 @@ a, a:active, a:focus{
     margin: 5px;
 }
 
-
-
-html.fontface .icon-s2:before{
-    color:#444444;
+html.fontface .icon-s2:before {
+    color: #444444;
 }
 
-
-.navbar  a:hover, a:focus, a:active {
+.navbar a:hover, a:focus, a:active {
     border-bottom-style: none;
 }
 
-.eva-primary-menu{
+.eva-primary-menu {
     z-index: 999;
 }
 
 .is-dropdown-submenu {
-    z-index:5;
+    z-index: 5;
 }
 
-.blockquote{
-    margin-left:-5%;
+.blockquote {
+    margin-left: -5%;
     border-left: none;
 }
 

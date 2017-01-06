@@ -82,15 +82,7 @@ EvaVariantView.prototype = {
                 }
                 _this.draw();
             }
-        });
-
-        // $('#variantViewTabs li').click(function (event) {
-        //     $(this).toggleClass("active");
-        //     $(this).siblings().removeClass("active");
-        // });
-        $(document).ready(function () {
-            // $('body').scrollspy({ 'target': '#variantViewScrollspy', 'offset': 250 });
-        });
+        });       
 
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'Variant', eventLabel:'species='+this.species+'variant='+this.position});
@@ -204,7 +196,6 @@ EvaVariantView.prototype = {
 
         _summaryTable += '<tr><td class="header">Type</td><td id="variant-view-type">' + data[0].type + '</td></tr>' +
             '<tr><td class="header">Chromosome:Start-End</td><td id="variant-view-chr">' + data[0].chromosome + ':' + data[0].start + '-' + data[0].end + '</td></tr>' +
-//                '<tr><td>Assembly</td><td>GRCh37</td></tr>' +
             '<tr><td class="header">Ref</td><td id="variant-view-ref">' + reference + '</td></tr>' +
             '<tr><td class="header">Alt</td><td id="variant-view-ale">' + alternate + '</td></tr>' +
             '</table>'
@@ -303,29 +294,18 @@ EvaVariantView.prototype = {
     _variantViewlayout: function () {
 
         var layout = '<div id="variant-view">' +
-            '<div class="row">' +
-            // '<div class="columns medium-2 large-2"></div>' +
+            '<div class="row">' +     
             '<div class="columns medium-12 large-12"> <h2 id="variantInfo"></h2></div>' +
             '</div>' +
             '<div class="row">' +
-            // '<div class="col-sm-1 col-md-1 col-lg-1" id="variantViewScrollspy">' +
-            // '<ul id="variantViewTabs" class="nav nav-stacked affix eva-tabs">' +
-            // '<li class="active"><a href="#summary">Summary</a></li>' +
-            // '<li><a href="#consequenceTypes">Consequence Types</a></li>' +
-            // '<li><a href="#studies">Studies</a></li>' +
-            // '<li><a href="#populationStats">Population Stats</a></li>' +
-            // '</ul>' +
-            // '</div>' +
             '<div id="variant-view-scrollable-div" class="columns medium-12 large-12">' +
             '<div id="summary" class="row">' +
             '<div class="columns medium-10 large-10" style="margin-left:10px;">' +
-            // '<h4 class="variant-view-h4"> Summary</h4>' +
-            '<div id="summary-grid"></div>' +
+            '   <div id="summary-grid"></div>' +
             '</div>' +
             '</div>' +
             '<div  id="consequenceTypes" class="row">' +
             '<div class="columns medium-10 large-10" style="margin-left:10px;">' +
-            // '<h4 class="variant-view-h4"> Consequence Type</h4>' +
             '<div id="consequence-types-grid"></div>' +
             '</div>' +
             '</div>' +
@@ -339,7 +319,6 @@ EvaVariantView.prototype = {
             '<div id="population-stats-grid-view"></div>' +
             '</div>' +
             '</div>' +
-
             '</div>' +
             '</div>' +
             '</div>'
