@@ -29,7 +29,7 @@ EvaStatistics.prototype = {
         var _this = this;
         if (!this.rendered) {
             var el = document.querySelector("#" + this.targetId);
-            var evaStatDiv = '<div class="row"><div id="eva-statistics-chart-species" class="col-md-6"></div><div id="eva-statistics-chart-type" class="col-md-6"></div></div>'
+            var evaStatDiv = '<div class="row"><div id="eva-statistics-chart-species" class="small-6 medium-6 columns"></div><div id="eva-statistics-chart-type" class="small-6 medium-6 columns"></div></div>'
             el.innerHTML = evaStatDiv;
             EvaManager.get({
                 category: 'meta/studies',
@@ -66,17 +66,9 @@ EvaStatistics.prototype = {
         _this._drawChart(typeChartData)
 
     },
-    _drawChart: function (data) {
-        var _this = this;
-        var height = 250;
-        var width = 200;
-        if (data.id == 'eva-statistics-chart-type') {
-            height = 275;
-            width = 220;
-        } else if (data.id == 'eva-statistics-chart-species') {
-            data.chartData = data.chartData.slice(0, 5);
-            height = 285;
-            width = 230;
+    _drawChart: function (data) {     
+        if (data.id == 'eva-statistics-chart-species') {
+            data.chartData = data.chartData.slice(0, 5);           
         }
         var id = '#' + data.id;
         var render_id = document.querySelector(id);
@@ -95,27 +87,25 @@ EvaStatistics.prototype = {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
-                    plotShadow: false,
-                    height: height,
-                    width: width,
-                    marginLeft: -50,
-                    marginTop: 50
+                    plotShadow: false,                   
+                    marginBottom:115
                 },
                 legend: {
                     enabled: true,
-                    width: 200,
-                    margin: 0,
+                    width: 100,
+                    // margin: 0,
                     labelFormatter: function () {
                         return '<div>' + this.name + '(' + this.y + ')</div>';
                     },
                     layout: 'vertical',
-                    useHTML: true
+                    useHTML: true,
+                    align: "center"
 
                 },
                 title: {
-                    text: 'Top 5 Studies <br> <span style="font-size:12px;">by ' + title + '</span>',
+                    text: 'Top 5 Studies <br>\u00A0<span style="font-size:12px;">by ' + title + '</span>',
                     style: {},
-                    align: 'left'
+                    align: 'center'
                 },
                 tooltip: {
                     pointFormat: '<b>{point.y}</b>'

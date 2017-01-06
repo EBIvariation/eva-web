@@ -47,7 +47,7 @@ EvaMenu.prototype = {
 //            '';
 
         $(this.target).click(function (e) {
-            if ($(e.target).prop("tagName") == 'A') {
+            if ($(e.target).prop("tagName") == 'A' && $(e.target).prop("className")!= 'dropdown') {
                 _this._optionClickHandler(e.target);
             }
         });

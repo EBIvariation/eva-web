@@ -94,7 +94,7 @@ EvaVariantGenotypeGridPanel.prototype = {
         for (var key in data) {
             var study = data[key];
             if (Object.keys(study.samplesData).length > 0) {
-                Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>')
+                Ext.getCmp('genotypeTitle').update('<h4>Genotypes <span class="icon icon-generic title-header-icon" data-icon="i" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;"></span></h4>')
                 var genotypePanel = this._createGenotypePanel(study, params, studies);
                 genotypeChartData.push(genotypePanel.chartData)
                 panels.push(genotypePanel);
@@ -102,7 +102,7 @@ EvaVariantGenotypeGridPanel.prototype = {
         }
 
         if (_.isEmpty(panels)) {
-            Ext.getCmp('genotypeTitle').update('<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4><p style="margin-left:-15px;" class="genotype-grid-no-data">No Genotypes data available</p>')
+            Ext.getCmp('genotypeTitle').update('<h4>Genotypes <span class="icon icon-generic title-header-icon" data-icon="i" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;"></span></h4><p class="genotype-grid-no-data">No Genotypes data available</p>')
         }
         this.clear();
         panels = _.sortBy(panels, 'projectName');
@@ -133,7 +133,7 @@ EvaVariantGenotypeGridPanel.prototype = {
                     xtype: 'box',
                     id: 'genotypeTitle',
                     cls: 'ocb-header-4',
-                    html: '<h4>Genotypes <img class="title-header-icon" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;" src="img/icon-info.png"/></h4>',
+                    html: '<h4>Genotypes <span class="icon icon-generic title-header-icon" data-icon="i" data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;"></span></h4>',
                     margin: '5 0 10 10'
                 },
                 this.studiesContainer

@@ -82,15 +82,7 @@ EvaVariantView.prototype = {
                 }
                 _this.draw();
             }
-        });
-
-        $('#variantViewTabs li').click(function (event) {
-            $(this).toggleClass("active");
-            $(this).siblings().removeClass("active");
-        });
-        $(document).ready(function () {
-            $('body').scrollspy({ 'target': '#variantViewScrollspy', 'offset': 250 });
-        });
+        });       
 
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'Variant', eventLabel:'species='+this.species+'variant='+this.position});
@@ -179,7 +171,7 @@ EvaVariantView.prototype = {
 
     },
     _renderSummaryData: function (data) {
-        var _summaryTable = '<h4 class="variant-view-h4"> Summary</h4><div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
+        var _summaryTable = '<h4 class="variant-view-h4"> Summary</h4><div class="row"><div class="col-md-8"><table class="table hover">'
         var variantInfoTitle = document.querySelector("#variantInfo").textContent = data[0].chromosome + ':' + data[0].start + ':' + data[0].reference + ':' + data[0].alternate + ' Info';
         var speciesName;
         if (!_.isEmpty(speciesList)) {
@@ -204,7 +196,6 @@ EvaVariantView.prototype = {
 
         _summaryTable += '<tr><td class="header">Type</td><td id="variant-view-type">' + data[0].type + '</td></tr>' +
             '<tr><td class="header">Chromosome:Start-End</td><td id="variant-view-chr">' + data[0].chromosome + ':' + data[0].start + '-' + data[0].end + '</td></tr>' +
-//                '<tr><td>Assembly</td><td>GRCh37</td></tr>' +
             '<tr><td class="header">Ref</td><td id="variant-view-ref">' + reference + '</td></tr>' +
             '<tr><td class="header">Alt</td><td id="variant-view-ale">' + alternate + '</td></tr>' +
             '</table>'
@@ -220,8 +211,8 @@ EvaVariantView.prototype = {
             return '<h4 class="variant-view-h4"> Consequence Type</h4><div style="margin-left:15px;">No Data Available</div>';
         }
         annotation = data[0].annotation.consequenceTypes.sort(this._sortBy('ensemblGeneId', this._sortBy('ensemblTranscriptId')));
-        var _consequenceTypeTable = '<h4 class="variant-view-h4"> Consequence Type</h4><div class="row"><div class="col-md-10"><table class="table ocb-stats-table">'
-        _consequenceTypeTable += '<tr><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th><th>Accession</th><th>Name</th></tr>'
+        var _consequenceTypeTable = '<h4 class="variant-view-h4"> Consequence Type</h4><div class="row"><div><table class="table hover">'
+        _consequenceTypeTable += '<thead><tr><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th><th>Accession</th><th>Name</th></tr></thead><tbody>'
         _.each(_.keys(annotation), function (key) {
             var annotationDetails = this[key];
             var soTerms = this[key].soTerms;
@@ -251,7 +242,7 @@ EvaVariantView.prototype = {
             }, soTerms);
 
         }, annotation);
-        _consequenceTypeTable += '</table></div></div>'
+        _consequenceTypeTable += '</tbody></table></div></div>'
 
         return _consequenceTypeTable;
 
@@ -261,7 +252,7 @@ EvaVariantView.prototype = {
         if (!conservedRegionScores) {
             return '';
         }
-        var _conservedRegionTable = '<div class="row"><div class="col-md-8"><table class="table ocb-stats-table">'
+        var _conservedRegionTable = '<div class="row"><div class="col-md-8"><table class="table hover">'
         _conservedRegionTable += '<tr><th>Source</th><th>Score</th></tr>'
         _.each(_.keys(conservedRegionScores), function (key) {
             console.log(this[key])
@@ -303,43 +294,31 @@ EvaVariantView.prototype = {
     _variantViewlayout: function () {
 
         var layout = '<div id="variant-view">' +
-            '<div class="row">' +
-            '<div class="col-sm-2  col-md-2 col-lg-2"></div>' +
-            '<div class="col-sm-10 col-md-10 col-lg-10"> <h2 id="variantInfo"></h2></div>' +
+            '<div class="row">' +     
+            '<div class="columns medium-12 large-12"> <h2 id="variantInfo"></h2></div>' +
             '</div>' +
             '<div class="row">' +
-            '<div class="col-sm-1 col-md-1 col-lg-1" id="variantViewScrollspy">' +
-            '<ul id="variantViewTabs" class="nav nav-stacked affix eva-tabs">' +
-            '<li class="active"><a href="#summary">Summary</a></li>' +
-            '<li><a href="#consequenceTypes">Consequence Types</a></li>' +
-            '<li><a href="#studies">Studies</a></li>' +
-            '<li><a href="#populationStats">Population Stats</a></li>' +
-            '</ul>' +
-            '</div>' +
-            '<div id="variant-view-scrollable-div" class="col-sm-10 col-md-10 col-lg-10">' +
+            '<div id="variant-view-scrollable-div" class="columns medium-12 large-12">' +
             '<div id="summary" class="row">' +
-            '<div class="col-md-10" style="margin-left:10px;">' +
-            // '<h4 class="variant-view-h4"> Summary</h4>' +
-            '<div id="summary-grid"></div>' +
+            '<div class="columns medium-10 large-10" style="margin-left:10px;">' +
+            '   <div id="summary-grid"></div>' +
             '</div>' +
             '</div>' +
             '<div  id="consequenceTypes" class="row">' +
-            '<div class="col-md-10" style="margin-left:10px;">' +
-            // '<h4 class="variant-view-h4"> Consequence Type</h4>' +
+            '<div class="columns medium-10 large-10" style="margin-left:10px;">' +
             '<div id="consequence-types-grid"></div>' +
             '</div>' +
             '</div>' +
             '<div  id="studies" class="row">' +
-            '<div class="col-md-12">' +
+            '<div class="columns medium-10 large-10">' +
             '   <div id="studies-grid"></div>' +
             '</div>' +
             '</div>' +
             '<div  id="populationStatsView" class="row">' +
-            '<div class="col-md-12">' +
+            '<div class="columns medium-10 large-10">' +
             '<div id="population-stats-grid-view"></div>' +
             '</div>' +
             '</div>' +
-
             '</div>' +
             '</div>' +
             '</div>'

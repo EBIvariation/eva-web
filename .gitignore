@@ -56,10 +56,7 @@ local.properties
 build/*
 node_modules/*
 lib 
-temp/*	
-tests/casperjs/*
-report/*
-src/.DS_Store
+temp/*
 bower_components
 
 # OS generated files #

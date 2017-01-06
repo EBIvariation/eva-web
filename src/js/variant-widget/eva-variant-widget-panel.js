@@ -108,11 +108,16 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.panel.Panel', {
+            header: {
+                baseCls: 'eva-header-1',
+                titlePosition: 1
+            },
+            title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>Variant Browser</li></ul></nav>',
             layout: {
                 type: 'hbox',
                 align: 'fit'
             },
-            bodyStyle: 'border-width:0px;border-style:none;',
+            bodyStyle: 'z-index:0;border-width:0px;border-style:none;',
             items: [
                 {
                     xtype: 'panel',
@@ -122,7 +127,7 @@ EvaVariantWidgetPanel.prototype = {
                     },
                     frame: false,
                     title: '<span style="margin-left:5px;">Filter</span>',
-                    flex: 1.5,
+                    flex: 1.3,
                     collapsible: true,
                     collapseMode: 'header',
                     html: '<div class="variant-browser-option-div form-panel-variant-filter"></div>',
@@ -144,7 +149,7 @@ EvaVariantWidgetPanel.prototype = {
                     header: {
                         baseCls: 'eva-header-1'
                     },
-                    title: 'Variant Browser <img class="title-header-icon" data-qtip="Search the EVA variant warehouse using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth Variant Data tabs found below the main results table." style="margin-bottom:0px;" src="img/icon-info.png"/>',
+                    title: 'Variant Browser <span class="icon icon-generic title-header-icon" data-icon="i"  data-qtip="Search the EVA variant warehouse using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth Variant Data tabs found below the main results table." style="margin-bottom:0px;"></span>',
                     flex: 4.8,
                     collapsible: false,
                     collapseMode: 'header',
@@ -166,7 +171,7 @@ EvaVariantWidgetPanel.prototype = {
             headerConfig: false,
             border: true,
             browserGridConfig: {
-                title: 'Variant Browser <img class="title-header-icon" data-qtip="Search the EVA variant warehouse using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth Variant Data tabs found below the main results table." style="margin-bottom:0px;" src="img/icon-info.png"/>',
+                title: 'Variant Browser <span class="icon icon-generic title-header-icon"  data-icon="i"  data-qtip="Search the EVA variant warehouse using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth Variant Data tabs found below the main results table." style="margin-bottom:0px;"></span>',
                 border: true
             },
             toolPanelConfig: {
@@ -237,7 +242,7 @@ EvaVariantWidgetPanel.prototype = {
         var studyFilter = new EvaStudyFilterFormPanel({
             border: false,
             collapsed: false,
-            height: 790,
+            height: 890,
             studiesStore: this.studiesStore,
             studyFilterTpl: '<tpl if="studyId"><div class="ocb-study-filter"><tpl if="link"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="?eva-study={studyId}" target="_blank">{studyId}</a>)<tpl else>{studyName} ({studyId}) </tpl></div><tpl else><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a></div></tpl>'
         });

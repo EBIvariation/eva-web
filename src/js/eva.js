@@ -123,6 +123,7 @@ Eva.prototype = {
         this._selectHandler(option, true);
     },
     _selectHandler: function (option, update) {
+
         update = update || 0;
         var _this = this;
 
@@ -162,7 +163,6 @@ Eva.prototype = {
         if(update){
             this.pushURL(option);
         }
-
         switch (option) {
             case 'Home':
                 _this._drawStatisticsChart();
@@ -173,16 +173,17 @@ Eva.prototype = {
                     this.studyBrowserPanel.show();
                 } else {
                     this.studyBrowserPanel = this._createStudyBrowserPanel(this.contentDiv);
-                    // this.select('Study Browser');
+                    this.select('Study Browser');
                     // this.pushURL(option, false);
                 }
                 break;
             case 'Variant Browser':
                 if (this.variantWidgetPanel) {
                     this.variantWidgetPanel.show();
+
                 } else {
                     this.variantWidgetPanel = this._createVariantWidgetPanel(this.contentDiv);
-                    // this.select('Variant Browser');
+                    this.select('Variant Browser');
                     this.variantWidgetPanel.panel.updateLayout();
                     // this.pushURL(option, true);
                 }
@@ -208,7 +209,7 @@ Eva.prototype = {
                     this.clinicalWidgetPanel.show();
                 } else {
                     this.clinicalWidgetPanel = this._createClinicalWidgetPanel(this.contentDiv);
-                    // this.select('Clinical Browser');
+                    this.select('Clinical Browser');
                     this.clinicalWidgetPanel.panel.updateLayout();
                     this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
                     // this.pushURL(option, false);
@@ -473,9 +474,9 @@ Eva.prototype = {
 
         var twitterWidgetEl = document.getElementById('twitter-widget');
         twitterWidgetEl.innerHTML = "";
-        twitterWidgetEl.innerHTML = '<a  class="twitter-timeline" height=100 href="https://twitter.com/EBIvariation"  data-widget-id="437894469380100096">Tweets by @EBIvariation</a>';
+        twitterWidgetEl.innerHTML = '<a  class="twitter-timeline"  href="https://twitter.com/EBIvariation"  height="100" data-widget-id="437894469380100096" data-chrome="noheader nofooter noborders transparent">Tweets by @EBIvariation</a>';
         $.getScript('//platform.twitter.com/widgets.js', function () {
-//            twttr.widgets.load();
+           // twttr.widgets.load();
         });
     },
     _drawStatisticsChart: function () {
@@ -532,5 +533,4 @@ Eva.prototype = {
         });
         return;
     }
-
 }

@@ -30,7 +30,7 @@ DgvaStatistics.prototype = {
         var _this = this;
         if (!this.rendered) {
             var el = document.querySelector("#" + this.targetId);
-            var dgvaStatDiv = '<div class="row"><div id="dgva-statistics-chart-species" class="col-md-6"></div><div id="dgva-statistics-chart-type" class="col-md-6"></div></div>'
+            var dgvaStatDiv = '<div class="row"><div id="dgva-statistics-chart-species" class="small-6 medium-6 columns"></div><div id="dgva-statistics-chart-type" class="small-6 medium-6 columns"></div></div>'
             el.innerHTML = dgvaStatDiv;
             EvaManager.get({
                 category: 'meta/studies',
@@ -68,12 +68,7 @@ DgvaStatistics.prototype = {
         _this.drawChart(typeChartData);
     },
     drawChart: function (data) {
-        var _this = this;
-        var height = 290;
-        var width = 200;
-        if (data.id == 'dgva-statistics-chart-type') {
-
-        } else if (data.id == 'dgva-statistics-chart-species') {
+        if (data.id == 'dgva-statistics-chart-species') {
             data.chartData = data.chartData.slice(0, 5);
         }
         var id = '#' + data.id;
@@ -94,25 +89,23 @@ DgvaStatistics.prototype = {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    height: height,
-                    width: width,
-                    marginLeft: -50,
-                    marginTop: 50
+                    marginBottom:115
                 },
                 legend: {
                     enabled: true,
-                    width: 200,
-                    margin: 0,
+                    width: 100,
+                    // margin: 0,
                     labelFormatter: function () {
                         return '<div>' + this.name + '(' + this.y + ')</div>';
                     },
                     layout: 'vertical',
-                    useHTML: true
+                    useHTML: true,
+                    align: "center"
                 },
                 title: {
-                    text: 'Top 5 Studies <br> <span style="font-size:12px;">by ' + title + '</span>',
+                    text: 'Top 5 Studies <br>\u00A0<span style="font-size:12px;">by ' + title + '</span>',
                     style: {},
-                    align: 'left'
+                    align: 'center'
                 },
                 tooltip: {
                     pointFormat: '<b>{point.y}</b>'
