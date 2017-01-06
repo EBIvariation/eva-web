@@ -66,17 +66,9 @@ EvaStatistics.prototype = {
         _this._drawChart(typeChartData)
 
     },
-    _drawChart: function (data) {
-        var _this = this;
-        var height = 250;
-        var width = 200;
-        if (data.id == 'eva-statistics-chart-type') {
-            height = 275;
-            width = 220;
-        } else if (data.id == 'eva-statistics-chart-species') {
-            data.chartData = data.chartData.slice(0, 5);
-            height = 285;
-            width = 230;
+    _drawChart: function (data) {     
+        if (data.id == 'eva-statistics-chart-species') {
+            data.chartData = data.chartData.slice(0, 5);           
         }
         var id = '#' + data.id;
         var render_id = document.querySelector(id);
@@ -95,11 +87,7 @@ EvaStatistics.prototype = {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
-                    plotShadow: false,
-                    // height: height,
-                    // width: width,
-                    // marginLeft: -70,
-                    // marginTop: 50
+                    plotShadow: false,                   
                     marginBottom:115
                 },
                 legend: {

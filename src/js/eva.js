@@ -167,7 +167,6 @@ Eva.prototype = {
             case 'Home':
                 _this._drawStatisticsChart();
                 _this._twitterWidgetUpdate();
-                // _this._getReleaseNotes();
                 break;
             case 'Study Browser':
                 if (this.studyBrowserPanel) {
@@ -533,38 +532,5 @@ Eva.prototype = {
             }
         });
         return;
-    },
-    _getReleaseNotes: function() {
-
-        var releaseNotesEl = document.getElementById('release-notes');
-        releaseNotesEl.innerHTML = "";
-        var content = '';
-        if(releaseNotesEl){
-            $.ajax({
-                type: 'GET',
-                url: 'https://api.github.com/repos/EBIvariation/vcf-validator/releases',
-                dataType: "json",
-                async: false,
-                success: function (response) {
-                    var data = response;
-                    content += '<br/><div>';
-                    for(var i=0; i <= 2;i++) {
-                        console.log(data[i])
-                        content += '<div><a href="'+data[i].html_url+'" target="_blank"><p class="title">'+data[i].name+'</p>' +
-                                    '<p style="margin-top:-15px;">'+data[i].body.substring(0,150)+'...</p>'+
-                                    '<p><i>'+new Date(data[i].published_at).toUTCString()+'</i></p></a>'+
-                                    '</div>';
-                    }
-                    content += '</div>';
-                },
-                error: function (x, y, z) {
-                    // x.responseText should have what's wrong
-                }
-            });
-            document.getElementById('release-notes').innerHTML += content;
-
-        }
-
     }
-
 }

@@ -624,33 +624,6 @@ a, a:active, a:focus{
 }
 
 
-
-.eva-info-banner{
-    background-color:#94DEDE;
-    color:#064D4D;
-}
-.eva-info-banner span{
-    color:#064D4D;
-}
-.eva-info-banner i{
-    color:#064D4D;
-}
-
-.eva-info-banner p{
-    margin-left: 0px;
-    font-weight: bold;
-}
-
-.eva-tiles{
-    background-color: #007C82;
-    /*min-height:210px;*/
-    border: 5px solid white;
-}
-.eva-tiles .row{
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
 .acknowledgement-logo {
     display: inline;
     box-shadow: #555 2px 2px 8px;
@@ -659,114 +632,11 @@ a, a:active, a:focus{
 }
 
 
-.eva-info-banner{
-    background-color:#94DEDE;
-    color:#064D4D;
-}
-.eva-info-banner span{
-    color:#064D4D;
-}
-.eva-info-banner i{
-    color:#064D4D;
-}
-
-.eva-info-banner p{
-    margin-left: 0px;
-    font-weight: bold;
-}
-
-.eva-tiles{
-    background-color: #007C82;
-    /*min-height:210px;*/
-    border: 5px solid white;
-}
-.eva-tiles .row{
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-.eva-tiles span, .eva-tiles p {
-    color: #FFFFFF;
-}
-
-.eva-tiles span{
-    margin-top: 35px;
-}
-
-.eva-tiles button {
-    border: 2px solid;
-    border-radius:0px;
-    padding: 10px 15px 10px 15px;
-    color: #FFFFFF;
-    background-color:inherit;
-}
-
-.eva-tiles a {
-    border-bottom-style: none;
-}
-
-.eva-tiles .content {
-   margin-left:5%;
-   margin-top:2%;
-}
-
-.home-page-section{
-    padding-bottom: 20px
-
-}
-
-.eva-tiles button {
-    border: 2px solid;
-    border-radius:0px;
-    padding: 10px 15px 10px 15px;
-    color: #FFFFFF;
-    background-color:inherit;
-}
-
-.eva-tiles a {
-    border-bottom-style: none;
-}
-
-.eva-tiles .content {
-   margin-left:5%;
-   margin-top:2%;
-}
-
-.home-page-section{
-    padding-bottom: 20px;
-}
-
-
-
-.home-page-button{
-    border: 0px;
-    border-radius:15px;
-    padding: 10px 15px 10px 15px;
-    color:#fff;
-}
-
-.eva-tiles .home-page-icons-colored{
-   margin-top:100px;
-}
 
 html.fontface .icon-s2:before{
     color:#444444;
 }
 
-html.fontface .icon-s2:before{
-    color:#444444;
-}
-
-.home-page-icons-colored-text{
-    font-size:28px;
-    color:#996a44;
-}
-
-
-.home-page-icons-colored-text{
-    font-size:28px;
-    color:#996a44;
-}
 
 .navbar  a:hover, a:focus, a:active {
     border-bottom-style: none;
@@ -774,22 +644,6 @@ html.fontface .icon-s2:before{
 
 .eva-primary-menu{
     z-index: 999;
-}
-
-.eva-primary-menu{
-    z-index: 999;
-}
-
-#release-notes p {
-    font-size:12px;
-}
-
-#release-notes .title  {
-    font-size: 115%
-}
-
-#release-notes .title  {
-    font-size: 115%
 }
 
 .is-dropdown-submenu {
@@ -801,23 +655,6 @@ html.fontface .icon-s2:before{
     border-left: none;
 }
 
-@media screen and (min-width: 70em) {
-    .eva-tiles {
-        min-height:190px;
-    }
-
-}
-
-.blockquote{
-    margin-left:-5%;
-    border-left: none;
-}
-
-@media screen and (min-width: 70em) {
-    .eva-tiles {
-        min-height:190px;
-    }
-}
 .twitter-timeline-rendered {
     width: 100% !important;
 }

@@ -68,12 +68,7 @@ DgvaStatistics.prototype = {
         _this.drawChart(typeChartData);
     },
     drawChart: function (data) {
-        var _this = this;
-        var height = 290;
-        var width = 200;
-        if (data.id == 'dgva-statistics-chart-type') {
-
-        } else if (data.id == 'dgva-statistics-chart-species') {
+        if (data.id == 'dgva-statistics-chart-species') {
             data.chartData = data.chartData.slice(0, 5);
         }
         var id = '#' + data.id;
@@ -94,10 +89,6 @@ DgvaStatistics.prototype = {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    // height: height,
-                    // width: width,
-                    // marginLeft: -50,
-                    // marginTop: 50
                     marginBottom:115
                 },
                 legend: {
