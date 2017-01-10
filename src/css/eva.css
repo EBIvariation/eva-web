@@ -652,6 +652,20 @@ html.fontface .icon-s2:before {
     margin: 0 auto;
 }
 
+.eva-panel-header {
+    padding: 5px 0px 0px 7px;
+}
+
+.eva-panel-header-para {
+    margin-top:-10px;
+    margin-left: 5px;
+}
+
+.eva-panel-header-para p {
+    font-size:12px;
+    margin-bottom: 5px;
+}
+
 
 
 

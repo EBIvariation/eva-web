@@ -96,13 +96,12 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         this.panel = Ext.create('Ext.panel.Panel', {
             header: {
-                baseCls: '',
-                titlePosition: 1,
-                style: 'padding: 5px 0px 0px 7px;'
+                baseCls: 'eva-panel-header',
+                titlePosition: 1
             },
             title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>Study Browser</li></ul></nav><h2>Study Browser</h2>' +
-            '<p>Search the Study browser warehouse using any combination of the filtering options on the left hand-side</p>' +
-            '<p>Individual studies can be further investigated using the in-depth study view page found by clicking the study ID in search results.</p>',
+            '<div class="eva-panel-header-para"><p>Search for studies archived at EVA using any combination of the filtering options on the left hand-side.</p>' +
+            '<p>Individual studies can be further investigated using the in-depth study view page found by clicking the study ID in search results.</p></div>',
             layout: {
                 type: 'hbox',
                 align: 'fit'
@@ -140,7 +139,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                         baseCls: 'eva-header-1'
                     },
                     id: 'study-browser-grid-panel',
-                    title: 'Study Browser',
+                    title: 'Studies found',
                     flex: 4.8,
                     collapsible: false,
                     collapseMode: 'header',
@@ -247,10 +246,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
             var btValue = _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').getValue();
             var params;
             if (btValue.browserType == 'sv') {
-                params = {structural: true}
-                Ext.getCmp('study-browser-grid-panel').setTitle('Structural Variants (>50bp) Browser');
-            } else {
-                Ext.getCmp('study-browser-grid-panel').setTitle('Short Genetic Variants (<50bp) Browser');
+                params = {structural: true};
             }
 
             _this._loadFilterPanelvalues(params)

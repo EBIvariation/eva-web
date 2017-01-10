@@ -104,13 +104,12 @@ EvaClinicalWidgetPanel.prototype = {
 
         this.panel = Ext.create('Ext.panel.Panel', {
             header: {
-                baseCls: '',
-                titlePosition: 1,
-                style: 'padding: 5px 0px 0px 7px;'
+                baseCls: 'eva-panel-header',
+                titlePosition: 1
             },
             title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>Clinical Browser</li></ul></nav><h2>Clinical Browser</h2>' +
-            '<p>Search ClinVar (release 03-2015) using any combination of the filtering options on the left hand-side</p>' +
-            '<p>Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table.</p>',
+            '<div class="eva-panel-header-para"><p>Search ClinVar (release 03-2015) using any combination of the filtering options on the left hand-side.</p>' +
+            '<p>Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table.</p></div>',
             layout: {
                 type: 'hbox',
                 align: 'fit'
@@ -149,7 +148,7 @@ EvaClinicalWidgetPanel.prototype = {
                     header: {
                         baseCls: 'eva-header-1'
                     },
-                    title: 'Variants found <span class="icon icon-generic title-header-icon" data-icon="i" data-qtip="Search ClinVar (release 03-2015) using any combination of the filtering options on the left hand-side. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:0px;"></span>',
+                    title: 'Variants found',
                     flex: 4.3,
                     collapsible: false,
                     collapseMode: 'header',
