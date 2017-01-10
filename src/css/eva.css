@@ -647,6 +647,10 @@ html.fontface .icon-s2:before {
     width: 100% !important;
 }
 
+.faq-images {
+    display: block;
+    margin: 0 auto;
+}
 
 
 
