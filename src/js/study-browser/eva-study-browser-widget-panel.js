@@ -96,10 +96,13 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         this.panel = Ext.create('Ext.panel.Panel', {
             header: {
-                baseCls: 'eva-header-1',
-                titlePosition: 1
+                baseCls: '',
+                titlePosition: 1,
+                style: 'padding: 5px 0px 0px 7px;'
             },
-            title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>Study Browser</li></ul></nav>',
+            title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>Study Browser</li></ul></nav><h2>Study Browser</h2>' +
+            '<p>Search the Study browser warehouse using any combination of the filtering options on the left hand-side</p>' +
+            '<p>Individual studies can be further investigated using the in-depth study view page found by clicking the study ID in search results.</p>',
             layout: {
                 type: 'hbox',
                 align: 'fit'
@@ -291,7 +294,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 flex: 2
             },
             {
-                text: "Species",
+                text: "Sample(s)",
                 dataIndex: 'speciesScientificName',
                 flex: 2.7,
                 renderer: function (value, p, record) {
