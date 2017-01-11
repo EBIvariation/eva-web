@@ -276,6 +276,9 @@ EvaVariantWidgetPanel.prototype = {
                 case 'astephensi_sda500v1':
                     defaultRegion = 'KB664288:1-500000';
                     break;
+                case 'aminimus_1v1':
+                    defaultRegion = 'KB663610:1-500000';
+                    break;
                 default:
                     defaultRegion = '1:3000000-3100000';
             }
