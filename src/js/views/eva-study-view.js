@@ -169,7 +169,7 @@ EvaStudyView.prototype = {
                 '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + assembly_link + '</span></td></tr>' +
                 '<tr><td><b>Source Type</b></td><td><span id="source-type-span">' + data.summaryData[0].sourceType + '</span></td></tr>' +
                 '<tr><td><b>Platform</b></td><td><span id="platform-span">' + data.summaryData[0].platform + '</span></td></tr>' +
-                '<tr><td><b>No of samples</b></td><td><span id="samples-span">' + data.summaryData[0].numSamples + '</span></td></tr>' +
+                '<tr><td><b>Number of samples</b></td><td><span id="samples-span">' + data.summaryData[0].numSamples + '</span></td></tr>' +
                 '<tr><td><b>Description</b></td><td><span id="description-span">' + data.summaryData[0].description + '</span></td></tr>' +
                 '<tr><td><b>Resource</b></td><td><span id="resource-span">' + projectURL + '</div></td></tr>' +
                 '<tr><td><b>Download</b></td><td><span id="download-span"><a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.summaryData[0].id + '" target="_blank">FTP</a></div></td></tr>' +
