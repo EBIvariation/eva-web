@@ -131,10 +131,7 @@ EvaClinVarWidget.prototype = {
                     _this.selectedToolDiv = newTab.contentEl;
                     if (_this.lastSelected) {
                         _this.trigger('clinvar:change', {variant: _this.lastSelected, sender: _this});
-                    }
-                    if (_this.lastSelected && newTab.title == 'Genomic Context') {
-                        _this.resizeGV();
-                    }
+                    }                    
                 }
             }
         });
@@ -179,20 +176,7 @@ EvaClinVarWidget.prototype = {
                 title: 'External Links',
                 contentEl: this.clinvarLinksPanelDiv
             });
-        }
-
-        if (this.defaultToolConfig.genomeViewer) {
-            this.genomeViewerDiv = document.createElement('div');
-            this.genomeViewerDiv.setAttribute('class', 'ocb-gv');
-            $(this.genomeViewerDiv).css({border: '1px solid lightgray'});
-            this.genomeViewer = this._createGenomeViewer(this.genomeViewerDiv);
-            tabPanelItems.push({
-                title: 'Genomic Context',
-                border: 0,
-                contentEl: this.genomeViewerDiv,
-                overflowX: true
-            });
-        }
+        }    
 
         for (var i = 0; i < this.tools.length; i++) {
             var tool = this.tools[i];
@@ -241,11 +225,7 @@ EvaClinVarWidget.prototype = {
 
         if (this.defaultToolConfig.links) {
             this.clinvarLinksPanel.draw();
-        }
-
-        if (this.defaultToolConfig.genomeViewer) {
-            this.genomeViewer.draw();
-        }
+        }       
 
         for (var i = 0; i < this.tools.length; i++) {
             var tool = this.tools[i];
@@ -310,8 +290,6 @@ EvaClinVarWidget.prototype = {
                             var so_array = [];
                             _.each(_.keys(groupedArr), function (key) {
                                 var index = _.indexOf(consequenceTypesHierarchy, key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
                                 if (index < 0) {
                                     so_array.push(key)
                                 } else {
@@ -603,168 +581,7 @@ EvaClinVarWidget.prototype = {
 
 
         return linksPanel;
-    },
-
-    _createGenomeViewer: function (target) {
-        var _this = this;
-
-        var region = new Region({
-            chromosome: "13",
-            start: 32889611,
-            end: 32889611
-        });
-
-        var genomeViewer = new GenomeViewer({
-            cellBaseHost: CELLBASE_HOST,
-            sidePanel: false,
-            target: target,
-            border: false,
-            resizable: false,
-            width: this.width,
-            region: region,
-            trackListTitle: '',
-            drawNavigationBar: true,
-            drawKaryotypePanel: true,
-            drawChromosomePanel: true,
-            drawRegionOverviewPanel: true,
-            overviewZoomMultiplier: 50,
-            navigationBarConfig: {
-                componentsConfig: {
-                    restoreDefaultRegionButton: false,
-                    regionHistoryButton: false,
-                    speciesButton: false,
-                    chromosomesButton: false,
-                    karyotypeButtonLabel: false,
-                    chromosomeButtonLabel: false,
-                    //regionButton: false,
-//                    zoomControl: false,
-                    windowSizeControl: false,
-//                    positionControl: false,
-//                    moveControl: false,
-//                    autoheightButton: false,
-//                    compactButton: false,
-//                    searchControl: false
-                }
-            }
-        });
-        genomeViewer.setZoom(80);
-
-        var renderer = new FeatureRenderer(FEATURE_TYPES.gene);
-        renderer.on({
-            'feature:click': function (event) {
-                // feature click event example
-                console.log(event)
-            }
-        });
-        var geneOverview = new FeatureTrack({
-//        title: 'Gene overview',
-            minHistogramRegionSize: 20000000,
-            maxLabelRegionSize: 10000000,
-            height: 100,
-
-            renderer: renderer,
-
-            dataAdapter: new CellBaseAdapter({
-                category: "genomic",
-                subCategory: "region",
-                resource: "gene",
-                params: {
-                    exclude: 'transcripts,chunkIds'
-                },
-                species: genomeViewer.species,
-                cacheConfig: {
-                    chunkSize: 100000
-                }
-            })
-        });
-
-        var sequence = new SequenceTrack({
-//        title: 'Sequence',
-            height: 30,
-            visibleRegionSize: 200,
-
-            renderer: new SequenceRenderer(),
-
-            dataAdapter: new SequenceAdapter({
-                category: "genomic",
-                subCategory: "region",
-                resource: "sequence",
-                species: genomeViewer.species
-            })
-        });
-
-        var gene = new GeneTrack({
-            title: 'Gene',
-            minHistogramRegionSize: 20000000,
-            maxLabelRegionSize: 10000000,
-            minTranscriptRegionSize: 200000,
-            height: 60,
-
-            renderer: new GeneRenderer(),
-
-            dataAdapter: new CellBaseAdapter({
-                category: "genomic",
-                subCategory: "region",
-                resource: "gene",
-                species: genomeViewer.species,
-                params: {
-                    exclude: 'transcripts.tfbs,transcripts.xrefs,transcripts.exons.sequence'
-                },
-                cacheConfig: {
-                    chunkSize: 100000
-                }
-            })
-        });
-
-        var snp = new FeatureTrack({
-            title: 'SNP',
-            featureType: 'SNP',
-            minHistogramRegionSize: 10000,
-            maxLabelRegionSize: 3000,
-            height: 100,
-
-            renderer: new FeatureRenderer(FEATURE_TYPES.snp),
-
-            dataAdapter: new CellBaseAdapter({
-                category: "genomic",
-                subCategory: "region",
-                resource: "snp",
-                params: {
-                    exclude: 'transcriptVariations,xrefs,samples'
-                },
-                species: genomeViewer.species,
-                cacheConfig: {
-                    chunkSize: 10000
-                }
-            })
-        });
-
-        genomeViewer.addOverviewTrack(geneOverview);
-        genomeViewer.addTrack([sequence, gene, snp]);
-        this.on("species:change", function (e) {
-            if (target === _this.selectedToolDiv) {
-                _.extend(e, {species: e.values.species.split('_')[0]});
-                genomeViewer._speciesChangeHandler(e);
-            }
-        });
-        this.on("clinvar:change", function (e) {
-            if (target.id === _this.selectedToolDiv.id) {
-                var variant = e.variant;
-                var region = new Region(variant);
-                if (!_.isUndefined(genomeViewer)) {
-                    genomeViewer.setRegion(region);
-                }
-            }
-        });
-
-        return genomeViewer;
-    },
-    resizeGV: function () {
-        var _this = this;
-        var gvTab = _.findWhere(_this.toolTabPanel.items.items, {title: 'Genomic Context'})
-        var gvTabWidth = gvTab.getWidth();
-        _this.genomeViewer.setWidth(gvTabWidth - 2);
-    },
+    }, 
     retrieveData: function (baseUrl, filterParams) {
         this.clinvarBrowserGrid.loadUrl(baseUrl, filterParams);
     },
@@ -857,9 +674,6 @@ EvaClinVarWidget.prototype = {
                         var so_array = [];
                         _.each(_.keys(groupedArr), function (key) {
                             var index = _.indexOf(consequenceTypesHierarchy, key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-//                            so_array[index] = key+' ('+this[key].length+')';
                             so_array[index] = key;
                         }, groupedArr);
                         so_array = _.compact(so_array);
@@ -899,12 +713,6 @@ EvaClinVarWidget.prototype = {
              This is the code that produces the CSV file and downloads it
              to the users computer
              */
-//            var link = document.createElement("a");
-//            link.setAttribute("href", 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvContent));
-//            link.setAttribute("download", "variants.csv");
-//            link.setAttribute("target", "_blank");
-//            link.click();
-
             var link = document.createElement('a');
             var mimeType = 'application/xls';
             var blob = new Blob([csvContent], {type: mimeType});

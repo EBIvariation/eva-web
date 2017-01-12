@@ -130,11 +130,6 @@ EvaVariantWidget.prototype = {
                     if (_this.lastVariant) {
                         _this.trigger('variant:change', {variant: _this.lastVariant, sender: _this});
                     }
-
-                    if (_this.lastVariant && newTab.title == 'Genomic Context') {
-                        _this.resizeGV();
-                    }
-
                 }
             }
         });
@@ -147,7 +142,6 @@ EvaVariantWidget.prototype = {
             this.annotationPanel = this._createAnnotationPanel(this.annotationPanelDiv);
             tabPanelItems.push({
                 title: 'Annotation',
-//                border: 0,
                 contentEl: this.annotationPanelDiv
             });
         }
@@ -158,7 +152,6 @@ EvaVariantWidget.prototype = {
             this.variantStatsPanel = this._createVariantStatsPanel(this.variantStatsPanelDiv);
             tabPanelItems.push({
                 title: 'Files',
-//                border: 0,
                 contentEl: this.variantStatsPanelDiv
             });
         }
@@ -169,22 +162,7 @@ EvaVariantWidget.prototype = {
             this.variantGenotypeGridPanel = this._createVariantGenotypeGridPanel(this.variantGenotypeGridPanelDiv);
             tabPanelItems.push({
                 title: 'Genotypes',
-//                border: 0,
                 contentEl: this.variantGenotypeGridPanelDiv
-            });
-        }
-
-        if (this.defaultToolConfig.genomeViewer) {
-            this.genomeViewerDiv = document.createElement('div');
-            this.genomeViewerDiv.innerHTML = '<h4></h4>';
-            this.genomeViewerDiv.setAttribute('class', 'ocb-gv');
-            $(this.genomeViewerDiv).css({border: '1px solid lightgray'});
-            this.genomeViewer = this._createGenomeViewer(this.genomeViewerDiv);
-            tabPanelItems.push({
-                title: 'Genomic Context',
-                border: 0,
-                contentEl: this.genomeViewerDiv,
-                overflowX: true
             });
         }
 
@@ -194,7 +172,6 @@ EvaVariantWidget.prototype = {
             this.variantPopulationStatsPanel = this._createVariantPopulationStatsPanel(this.variantPopulationStatsPanelDiv);
             tabPanelItems.push({
                 title: 'Population Statistics',
-//                border: 0,
                 contentEl: this.variantPopulationStatsPanelDiv
             });
         }
@@ -205,7 +182,6 @@ EvaVariantWidget.prototype = {
             this.clinvarAssertionPanel = this._createClinvarAssertionPanel(this.clinvarAssertionPanelDiv);
             tabPanelItems.push({
                 title: 'Clinical Assertion',
-//                border: 0,
                 contentEl: this.clinvarAssertionPanelDiv
             });
         }
@@ -245,10 +221,6 @@ EvaVariantWidget.prototype = {
 
         if (this.defaultToolConfig.genotype) {
             this.variantGenotypeGridPanel.draw();
-        }
-
-        if (this.defaultToolConfig.genomeViewer) {
-            this.genomeViewer.draw();
         }
 
         if (this.defaultToolConfig.annotation) {
@@ -295,8 +267,6 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'ids',
                     flex: 0.6,
                     iconCls: 'icon-info',
-//                    xtype: "templatecolumn",
-//                    tpl: '<tpl  class="variantId" if="id"><span>{id}</span><tpl else>-</tpl>',
                     tooltip: 'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         var values = _this.getVariantId(value);
@@ -335,9 +305,6 @@ EvaVariantWidget.prototype = {
                             var so_array = [];
                             _.each(_.keys(groupedArr), function (key) {
                                 var index = _.indexOf(consequenceTypesHierarchy, key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-//                                so_array[index] = key+' ('+this[key].length+')';
                                 if (index < 0) {
                                     so_array.push(key)
                                 } else {
@@ -391,9 +358,6 @@ EvaVariantWidget.prototype = {
                                     var so_array = [];
                                     _.each(_.keys(groupedArr), function (key) {
                                         var index = _.indexOf(consequenceTypesHierarchy, key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-//                                so_array[index] = key+' ('+this[key].length+')';
                                         so_array[index] = key;
                                     }, groupedArr);
                                     so_array = _.compact(so_array);
@@ -445,9 +409,6 @@ EvaVariantWidget.prototype = {
                                     var so_array = [];
                                     _.each(_.keys(groupedArr), function (key) {
                                         var index = _.indexOf(consequenceTypesHierarchy, key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-//                                so_array[index] = key+' ('+this[key].length+')';
                                         so_array[index] = key;
                                     }, groupedArr);
                                     so_array = _.compact(so_array);
@@ -650,7 +611,7 @@ EvaVariantWidget.prototype = {
 
         resultsPerPage.on('select', function (combo, record) {
             var _this = this;
-            var url = _this.queryURL;
+            var url = variantBrowserGrid.store.proxy.url;
             var params = variantBrowserGrid.store.proxy.extraParams;
             variantBrowserGrid.pageSize = record.id;
             _this.retrieveData(url, params);
@@ -1135,172 +1096,6 @@ EvaVariantWidget.prototype = {
 
         return assertionPanel;
     },
-    _createGenomeViewer: function (target) {
-        var _this = this;
-
-        var region = new Region({
-            chromosome: "13",
-            start: 32889611,
-            end: 32889611
-        });
-
-        var genomeViewer = new GenomeViewer({
-            cellBaseHost: CELLBASE_HOST,
-            sidePanel: false,
-            target: target,
-            border: false,
-            resizable: false,
-            width: this.width,
-            region: region,
-            availableSpecies: AVAILABLE_SPECIES,
-            trackListTitle: '',
-            drawNavigationBar: true,
-            drawKaryotypePanel: true,
-            drawChromosomePanel: true,
-            drawRegionOverviewPanel: true,
-            overviewZoomMultiplier: 50,
-            karyotypePanelConfig: {
-                collapsed: false,
-                collapsible: true
-            },
-            navigationBarConfig: {
-                componentsConfig: {
-                    restoreDefaultRegionButton: false,
-                    regionHistoryButton: false,
-                    speciesButton: false,
-                    chromosomesButton: false,
-                    karyotypeButtonLabel: false,
-                    chromosomeButtonLabel: false,
-                    //regionButton: false,
-//                    zoomControl: false,
-                    windowSizeControl: false
-//                    positionControl: false,
-//                    moveControl: false,
-//                    autoheightButton: false,
-//                    compactButton: false,
-//                    searchControl: false
-                }
-            }
-        });
-        genomeViewer.setZoom(80);
-
-        var renderer = new FeatureRenderer(FEATURE_TYPES.gene);
-        renderer.on({
-            'feature:click': function (event) {
-                // feature click event example
-                console.log(event)
-            }
-        });
-        var geneOverview = new FeatureTrack({
-//        title: 'Gene overview',
-            minHistogramRegionSize: 20000000,
-            maxLabelRegionSize: 10000000,
-            height: 100,
-
-            renderer: renderer,
-
-            dataAdapter: new CellBaseAdapter({
-                category: "genomic",
-                subCategory: "region",
-                resource: "gene",
-                params: {
-                    exclude: 'transcripts,chunkIds'
-                },
-                species: genomeViewer.species,
-                cacheConfig: {
-                    chunkSize: 100000
-                }
-            })
-        });
-
-        var sequence = new SequenceTrack({
-//        title: 'Sequence',
-            height: 30,
-            visibleRegionSize: 200,
-            renderer: new SequenceRenderer(),
-            dataAdapter: new SequenceAdapter({
-                category: "genomic",
-                subCategory: "region",
-                resource: "sequence",
-                species: genomeViewer.species
-            })
-        });
-
-        var gene = new GeneTrack({
-            title: 'Gene',
-            minHistogramRegionSize: 20000000,
-            maxLabelRegionSize: 10000000,
-            minTranscriptRegionSize: 200000,
-            height: 60,
-            renderer: new GeneRenderer(),
-            dataAdapter: new CellBaseAdapter({
-                category: "genomic",
-                subCategory: "region",
-                resource: "gene",
-                species: genomeViewer.species,
-                params: {
-                    exclude: 'transcripts.tfbs,transcripts.xrefs,transcripts.exons.sequence'
-                },
-                cacheConfig: {
-                    chunkSize: 100000
-                }
-            })
-        });
-
-        var snp = new FeatureTrack({
-            title: 'SNP',
-            featureType: 'SNP',
-            minHistogramRegionSize: 10000,
-            maxLabelRegionSize: 3000,
-            height: 100,
-            renderer: new FeatureRenderer(FEATURE_TYPES.snp),
-            dataAdapter: new CellBaseAdapter({
-                category: "genomic",
-                subCategory: "region",
-                resource: "snp",
-                params: {
-                    exclude: 'transcriptVariations,xrefs,samples'
-                },
-                species: genomeViewer.species,
-                cacheConfig: {
-                    chunkSize: 10000
-                }
-            })
-        });
-
-        genomeViewer.addOverviewTrack(geneOverview);
-        genomeViewer.addTrack([sequence, gene, snp]);
-        this.on("species:change", function (e) {
-            //disbaling for goat
-            if (e.values.species == 'chircus_10' || e.values.species == 'olatipes_hdrr') {
-                return;
-            }
-            _this.taxonomy = e.values.species.split('_')[0];
-        });
-        this.on("variant:change", function (e) {
-            if (e.variant) {
-                if (target === _this.selectedToolDiv) {
-                    var variant = e.variant;
-
-                    var region = new Region(variant);
-                    if (!_.isUndefined(genomeViewer)) {
-                        genomeViewer.setRegion(region, _this.taxonomy);
-                    }
-                }
-            } else {
-                genomeViewer.setSpeciesByTaxonomy(_this.taxonomy);
-            }
-        });
-
-        return genomeViewer;
-    },
-    resizeGV: function () {
-        var _this = this;
-        var gvTab = _.findWhere(_this.toolTabPanel.items.items, {title: 'Genomic Context'})
-        var gvTabWidth = gvTab.getWidth();
-        _this.genomeViewer.setWidth(gvTabWidth - 2);
-
-    },
     retrieveData: function (baseUrl, filterParams) {
         this.variantBrowserGrid.loadUrl(baseUrl, filterParams);
     },
@@ -1310,8 +1105,7 @@ EvaVariantWidget.prototype = {
     _getAllRecordStore: function (params) {
         var _this = this;
         var proxy = params.grid.store.proxy;
-        proxy.url = _this.queryURL;
-        var records;
+        proxy.url = _this.retrieveDataURL;
         var exportStore = Ext.create('Ext.data.Store', {
             pageSize: params.grid.store.getTotalCount(),
             autoLoad: true,
@@ -1331,6 +1125,12 @@ EvaVariantWidget.prototype = {
         return exportStore;
     },
     _exportToExcel: function (records, params) {
+
+        if(!records){
+            alert('An error has occurred!\nExporting option not available at the moment.\nPlease try again sometime later.')
+            return;
+        }
+        var _this = this;
         var csvContent = '',
         /*
          Does this browser support the download attribute
@@ -1352,16 +1152,17 @@ EvaVariantWidget.prototype = {
 
         /* Get the column headers from the store dataIndex */
 
-        var removeKeys = ['hgvs', 'sourceEntries', 'ref', 'alt', 'hgvs_name', 'iid', 'annotation', 'ids', 'conservedRegionScores', 'length'];
+        var removeKeys = ['hgvs', 'sourceEntries', 'ref', 'alt', 'hgvs_name', 'iid', 'annotation', 'id', 'conservedRegionScores', 'length'];
 
         Ext.Object.each(records[0].data, function (key) {
-            if (_.indexOf(removeKeys, key) == -1) {
+            if (_.indexOf(removeKeys, key) <  0) {
                 csvContent += sdelimiter + key + edelimiter;
             }
         });
         csvContent += sdelimiter + 'Organism / Assembly' + edelimiter;
 
         csvContent += enewLine;
+
         /*
          Loop through the selected records array and change the JSON
          object to teh appropriate format.
@@ -1384,9 +1185,6 @@ EvaVariantWidget.prototype = {
                     var so_array = [];
                     _.each(_.keys(groupedArr), function (key) {
                         var index = _.indexOf(consequenceTypesHierarchy, key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-//                        so_array[index] = key + ' (' + this[key].length + ')';
                         if (index < 0) {
                             so_array.push(key)
                         } else {
@@ -1410,8 +1208,10 @@ EvaVariantWidget.prototype = {
                     } else {
                         value = '';
                     }
+                } else if (key == 'ids') {
+                    value = _this.getVariantId(value).variantId;
                 }
-                if (_.indexOf(removeKeys, key) == -1) {
+                if (_.indexOf(removeKeys, key) < 0 ){
                     printableValue = ((noCsvSupport) && value == '') ? '&nbsp;' : value;
                     printableValue = String(printableValue).replace(/,/g, "");
                     printableValue = String(printableValue).replace(/(\r\n|\n|\r)/gm, "");
@@ -1436,23 +1236,19 @@ EvaVariantWidget.prototype = {
             csvContent += enewLine;
         }
 
+        console.log(speciesValue)
+
         if ('download' in document.createElement('a')) {
             /*
              This is the code that produces the CSV file and downloads it
              to the users computer
              */
-//            var link = document.createElement("a");
-//            link.setAttribute("href", 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvContent));
-//            link.setAttribute("download", "variants.csv");
-//            link.setAttribute("target", "_blank");
-//            link.click();
-
             var link = document.createElement('a');
             var mimeType = 'application/xls';
             var blob = new Blob([csvContent], {type: mimeType});
             var url = URL.createObjectURL(blob);
             link.href = url;
-            link.setAttribute('download', 'variants.csv');
+            link.setAttribute('download', speciesValue+'_Variants.csv');
             link.innerHTML = "Export to CSV";
             document.body.appendChild(link);
             link.click();
@@ -1467,6 +1263,8 @@ EvaVariantWidget.prototype = {
             return true;
 
         }
+
+
 
         return true;
     },
