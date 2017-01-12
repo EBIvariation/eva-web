@@ -255,8 +255,8 @@ a, a:active, a:focus {
     padding: 5px 0 0 0px;
 }
 
-.x-grid-item-selected {
-    background-color: #ffffff;
+.x-grid-item-selected .x-grid-row {
+    background-color: #E6E6E6;
 }
 
 .eva-header-1 {
@@ -484,9 +484,8 @@ a, a:active, a:focus {
 
 .vcf-header {
     height: auto;
-    width: 960px;
     max-height: 270px !important;
-    overflow: hidden;
+    overflow: scroll;
     background-color: #F2F2EC;
     word-break: normal !important;
     word-wrap: normal !important;
