@@ -93,11 +93,6 @@ EvaVariantWidgetPanel.prototype = {
             _this.variantWidget.variantBrowserGrid.panel.updateLayout();
             _this.variantWidget.toolTabPanel.updateLayout();
             _this.formPanelVariantFilter.panel.updateLayout();
-            var row = _this.variantWidget.variantBrowserGrid.grid.getSelectionModel().getSelection();
-            if (_this.variantWidget.toolTabPanel.getActiveTab().title == 'Genomic Context') {
-                _this.variantWidget.resizeGV();
-            }
-            // _this.variantWidget.variantBrowserGrid.trigger("variant:change", {sender: _this, args: row[0].data});
         }
     },
 
@@ -425,6 +420,7 @@ EvaVariantWidgetPanel.prototype = {
 
                     if (_this.formPanelVariantFilter.validatePositionFilter(regions)) {
                         _this.variantWidget.retrieveData(url,values);
+                        _this.variantWidget.retrieveDataURL = url;
                         _this.variantWidget.values = e.values;
                         _this['queryParams'] = e.values;
                         if(_this.pushURL){

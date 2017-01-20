@@ -234,6 +234,12 @@ EvaVariantBrowserGrid.prototype = {
                         _this._parserFunction(records);
                         _this.grid.getSelectionModel().select(0, true);
                     }
+                    if(!successful) {
+                        _this.grid.getView().emptyText = '<div class="x-grid-empty">Variants could not be retrieved due to an error</div>';
+                    }else{
+                        _this.grid.getView().emptyText = '<div class="x-grid-empty">No records to display</div>';
+                    }
+                    _this.grid.getView().refresh();
                     _this.setLoading(false);
                 },
                 beforeload: function (store, operation, eOpts) {
