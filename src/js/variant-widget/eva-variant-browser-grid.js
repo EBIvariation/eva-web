@@ -235,7 +235,7 @@ EvaVariantBrowserGrid.prototype = {
                         _this.grid.getSelectionModel().select(0, true);
                     }
                     if(!successful) {
-                        _this.grid.getView().emptyText = '<div class="x-grid-empty">'+operation.error.statusText+'</div>';
+                        _this.grid.getView().emptyText = '<div class="x-grid-empty">Variants could not be retrieved due to an error</div>';
                     }else{
                         _this.grid.getView().emptyText = '<div class="x-grid-empty">No records to display</div>';
                     }
