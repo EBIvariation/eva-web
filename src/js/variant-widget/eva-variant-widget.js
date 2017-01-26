@@ -340,7 +340,7 @@ EvaVariantWidget.prototype = {
                             header: '<span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span> PolyPhen2',
                             dataIndex: "consequenceTypes",
                            // flex: 1.5,
-                            width: 130,
+                            width: 135,
                             menuDisabled: true,
                             tooltip: 'Polymophism Phenotyping v2 (PolyPhen2) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
                             renderer: function (value, meta, rec, rowIndex, colIndex, store) {
