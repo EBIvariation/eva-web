@@ -665,7 +665,16 @@ html.fontface .icon-s2:before {
     margin-bottom: 5px;
 }
 
+.study-view-table thead th {
+    padding: 0 0 0;
+}
 
+.study-view-table th.col-name {
+    width: 25%;
+}
+.study-view-table th.col-value {
+    width: 75%;
+}
 
 
 

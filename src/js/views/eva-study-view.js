@@ -159,6 +159,7 @@ EvaStudyView.prototype = {
 
             var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
                 '<div class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
+                '<thead><tr><th class="col-name"></th><th class="col-value"></th></tr></thead><tbody>' +
                 '<tr><td><b>Genome</b></td><td><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
                 '<tr><td><b>Sample(s)</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
                 '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join() + '</span></td></tr>' +
@@ -174,7 +175,7 @@ EvaStudyView.prototype = {
                 '<tr><td><b>Resource</b></td><td><span id="resource-span">' + projectURL + '</div></td></tr>' +
                 '<tr><td><b>Download</b></td><td><span id="download-span"><a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.summaryData[0].id + '" target="_blank">FTP</a></div></td></tr>' +
                 '<tr><td><span><b>Publications</b></span></td><td>'+pubLinks+'</tr>' +
-                '</table>'
+                '</tbody></table>'
 
             if (data.filesData.length > 0) {
                 var fileNameArr = [];
@@ -285,19 +286,20 @@ EvaStudyView.prototype = {
             }
 
             var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
-                '<div class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered">' +
-                '<tr><td><b>Organism</b></td><td class="eva-capitalize"><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
-                '<tr><td><b>Scientific Name</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
+                '<div class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered  study-view-table">' +
+                '<thead><tr><th class="col-name"></th><th class="col-value"></th></tr></thead><tbody>' +
+                '<tr><td><b>Genome</b></td><td class="eva-capitalize"><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
+                '<tr><td><b>Sample(s)</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
                 '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join() + '</span></td></tr>' +
                 '<tr><td><b>Study Type</b></td><td><span id="study-type-span">' + data.summaryData[0].typeName + '</span></td></tr>' +
                 '<tr><td><b>Experiment Type</b></td><td><span id="exp-type-span">' + data.summaryData[0].experimentType + '</span></td></tr>' +
                 '<tr><td><b>Platform</b></td><td><span id="platform-span">' + data.summaryData[0].platform + '</span></td></tr>' +
-                '<tr><td><b>Assembly</b></td><td><span id="assembly-span">' + data.summaryData[0].assembly + '</span></td></tr>' +
-                '<tr><td><b>Variants</b></td><td><span id="variants-span">' + data.summaryData[0].numVariants + '</span></td></tr>' +
+                '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + data.summaryData[0].assembly + '</span></td></tr>' +
+                '<tr><td><b>Number of Variants</b></td><td><span id="variants-span">' + data.summaryData[0].numVariants + '</span></td></tr>' +
                 '<tr><td><b>Description</b></td><td><span id="description-span">' + data.summaryData[0].description + '</span></td></tr>' +
                 '<tr><td><b>Download</b></td><td><span id="download-span"><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/' + data.summaryData[0].id + '_' + data.summaryData[0].name + '" target="_blank">FTP</a></span></td></tr>' +
                 '<tr><td><span><b>Publications</b></span></td><td>'+pubLinks+'</tr>' +
-            '</table></div></div>'
+                '</tbody></table></div></div>'
 
         }
 
