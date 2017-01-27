@@ -76,7 +76,7 @@ EvaBeaconPanel.prototype = {
 
         this.toolTabPanel = Ext.create("Ext.tab.Panel", {
             header: {
-                baseCls: 'eva-header-1',
+                baseCls: 'eva-panel-header',
                 titlePosition: 1
             },
             title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>GA4GH</li></ul></nav>',

@@ -652,7 +652,7 @@ html.fontface .icon-s2:before {
 }
 
 .eva-panel-header {
-    padding: 5px 0px 0px 7px;
+   margin: -4px 0px 0px -1px;
 }
 
 .eva-panel-header-para {

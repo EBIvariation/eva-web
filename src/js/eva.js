@@ -112,7 +112,7 @@ Eva.prototype = {
         }
         this.targetDiv.appendChild(this.div);
         this.evaMenu.draw();
-        this.contentDiv = document.querySelector('#content');
+        this.contentDiv = document.querySelector('#main-content-area');
 
         this._selectHandler(option, false);
         $("a:contains('" + option + "')").parent('li').addClass('active');
