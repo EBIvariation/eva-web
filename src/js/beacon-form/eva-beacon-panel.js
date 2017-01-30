@@ -75,14 +75,8 @@ EvaBeaconPanel.prototype = {
         var evaVariantSearchForm = new EvaVariantSearchForm();
 
         this.toolTabPanel = Ext.create("Ext.tab.Panel", {
-            header: {
-                baseCls: 'eva-panel-header',
-                titlePosition: 1
-            },
-            title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>GA4GH</li></ul></nav>',
             activeTab: 0,
             plain: true,
-            bodyStyle: 'z-index:0;',
             items: [
                 {
                     title: 'Beacon',
@@ -99,16 +93,18 @@ EvaBeaconPanel.prototype = {
 
         this.toolTabPanel.setActiveTab(0);
 
-        this.panel = Ext.create('Ext.container.Container', {
+        this.panel = Ext.create('Ext.panel.Panel', {
             flex: 1,
+            title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>GA4GH</li></ul></nav>',
             layout: {
                 type: 'vbox',
                 align: 'stretch'
             },
-            defaults: {
-                margin: 5
+            header: {
+                baseCls: '',
+                titlePosition: 1
             },
-            cls: 'eva-beacon-panel',
+            bodyStyle: 'z-index:0;border-width:0px;border-style:none;',
             items: [this.toolTabPanel]
         });
 
