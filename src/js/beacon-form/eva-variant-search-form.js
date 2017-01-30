@@ -106,7 +106,7 @@ EvaVariantSearchForm.prototype = {
                 '<div>',
                 '<h2> GA4GH Variant Search</h2>',
                 '<div class="row">',
-                '<div class="col-md-12"><p><b>Example queries:</b></p>',
+                '<div class="medium-12 columns"><p><b>Example queries:</b></p>',
                 '<div><p> <span><a href="#"  class="loadForm"  project="PRJEB4019">DatasetID:PRJEB4019</a></span></p></div>',
                 '<div><p><span><a href="#"  class="loadForm" variantsetid="EVAF00000019">VariantSetId:EVAF00000019 </a></span></p></div>',
                 '<div><p><span><a href="#"  class="loadForm" chrom="22" start="25662282" end="25662332">Reference:22&nbsp;Start:25662282 &nbsp;End:25662332&nbsp;</a></span></p><hr/></div>',

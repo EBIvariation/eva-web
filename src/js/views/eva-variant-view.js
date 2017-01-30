@@ -294,34 +294,22 @@ EvaVariantView.prototype = {
     _variantViewlayout: function () {
 
         var layout = '<div id="variant-view">' +
-            '<div class="row">' +     
-            '<div class="columns medium-12 large-12"> <h2 id="variantInfo"></h2></div>' +
-            '</div>' +
-            '<div class="row">' +
-            '<div id="variant-view-scrollable-div" class="columns medium-12 large-12">' +
-            '<div id="summary" class="row">' +
-            '<div class="columns medium-10 large-10" style="margin-left:10px;">' +
-            '   <div id="summary-grid"></div>' +
-            '</div>' +
-            '</div>' +
-            '<div  id="consequenceTypes" class="row">' +
-            '<div class="columns medium-10 large-10" style="margin-left:10px;">' +
-            '<div id="consequence-types-grid"></div>' +
-            '</div>' +
-            '</div>' +
-            '<div  id="studies" class="row">' +
-            '<div class="columns medium-10 large-10">' +
-            '   <div id="studies-grid"></div>' +
-            '</div>' +
-            '</div>' +
-            '<div  id="populationStatsView" class="row">' +
-            '<div class="columns medium-10 large-10">' +
-            '<div id="population-stats-grid-view"></div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>'
+                        '<div class="columns medium-12 large-12">' +
+                            '<h2 id="variantInfo"></h2>' +
+                        '</div>' +
+                        '<div class="columns medium-12 large-12">' +
+                            '<div id="summary-grid"></div>' +
+                        '</div>' +
+                         '<div class="columns medium-12 large-12">' +
+                            '<div id="consequence-types-grid"></div>' +
+                         '</div>' +
+                        '<div class="columns medium-12 large-12">' +
+                            '<div id="studies-grid" style="margin-left:-20px;"></div>' +
+                        '</div>' +
+                        '<div class="columns medium-12 large-12">' +
+                            '<div id="population-stats-grid-view" style="margin-left:-20px;"></div>' +
+                        '</div>' +
+                    '</div>'
         return layout;
     },
     _sortBy : function(name, minor){

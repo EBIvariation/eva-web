@@ -64,8 +64,8 @@ EvaStudyBrowserWidgetPanel.prototype = {
         var _this = this;
         this.panel.show();
         _this.resize();
-        // var query = _this.formPanelStudyFilter.getValues();
-        // _this._updateURL(query);
+        var query = _this.formPanelStudyFilter.getValues();
+        _this._updateURL(query);
     },
     hide: function () {
         this.panel.hide();
@@ -96,7 +96,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         this.panel = Ext.create('Ext.panel.Panel', {
             header: {
-                baseCls: 'eva-panel-header',
+                baseCls: '',
                 titlePosition: 1
             },
             title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>Study Browser</li></ul></nav><h2>Study Browser</h2>' +
