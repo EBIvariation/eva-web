@@ -1083,7 +1083,7 @@ EvaVariantWidget.prototype = {
                                 console.log (e);
                             }
                             if (_.isUndefined(clinvarRecord)) {
-                                Ext.getCmp(assertionPanel.headerId).update('<h4>Clinical Assertions</h4><p style="margin-left:-15px;">&nbsp;No clinical data available</p>')
+                                Ext.getCmp(assertionPanel.headerId).update('<h4>Clinical Assertions</h4><p>&nbsp;No clinical data available</p>')
                             } else {
                                 Ext.getCmp(assertionPanel.headerId).update('<h4>Clinical Assertions</h4>')
                             }
