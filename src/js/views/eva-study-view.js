@@ -68,10 +68,16 @@ EvaStudyView.prototype = {
 
             var speciesCode;
             var filesParams;
-
+            var GRCh38_studies = ['PRJEB15197', 'PRJEB15198', 'PRJEB15384'];
             if (!_.isUndefined(_.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}))) {
-                speciesCode = _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).taxonomyCode + '_' + _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyCode;
-                _.extend(summary[0], {assemblyAccession: _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyAccession});
+                //TO BE REMOVED temp fix
+                if(summary[0].speciesCommonName  == 'Human' && _.indexOf(GRCh38_studies, summary[0].id) < 0){
+                    speciesCode = 'hsapiens_grch37';
+                    _.extend(summary[0],{assemblyAccession:'GCA_000001405.1'});
+                }else {
+                    speciesCode = _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).taxonomyCode + '_' + _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyCode;
+                    _.extend(summary[0], {assemblyAccession: _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyAccession});
+                }
                 filesParams = {species: speciesCode};
             } else {
                 filesParams = {species: ''};
