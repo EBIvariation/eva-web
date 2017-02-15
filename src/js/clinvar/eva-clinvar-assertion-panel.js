@@ -59,8 +59,8 @@ ClinvarAssertionPanel.prototype = {
         this.clear();
         var panels = [];
         var clinVarAssertion = data.clinvarSet.clinVarAssertion;
-        for (var key in clinVarAssertion) {
-            var assertData = clinVarAssertion[key];
+        for (var i = 0; i < clinVarAssertion.length; i++) {
+            var assertData = clinVarAssertion[i];
             var asstPanel = this._createAssertPanel(assertData);
             panels.push(asstPanel);
         }
