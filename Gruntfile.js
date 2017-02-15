@@ -93,6 +93,24 @@ module.exports = function (grunt) {
                     './bower_components/autotrack/autotrack.js'
                 ],
                 dest: 'build/<%= meta.version.eva %>/vendor/vendors.js'
+            },
+            ebi_framework_css: {
+                src: [
+                    'lib/EBI-Framework/css/ebi-global.css',
+                    'lib/EBI-Framework/libraries/foundation-6/css/foundation.css',
+                    'lib/EBI-Framework/css/theme-embl-petrol.css'
+                ],
+                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/css/ebi-framework.css',
+            },
+            ebi_framework_js: {
+                src: [
+                    'lib/EBI-Framework/js/cookiebanner.js',
+                    'lib/EBI-Framework/js/foot.js',
+                    'lib/EBI-Framework/js/script.js',
+                    'lib/EBI-Framework/libraries/foundation-6/js/foundation.js',
+                    'lib/EBI-Framework/js/foundationExtendEBI.js'
+                ],
+                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework.js'
             }
         },
         uglify: {
@@ -108,6 +126,10 @@ module.exports = function (grunt) {
             vendors: {
                 src: '<%= concat.vendors.dest %>',
                 dest: 'build/<%= meta.version.eva %>/vendor/vendors-'+date+'.min.js'
+            },
+            ebi_framework_js : {
+                src: '<%= concat.ebi_framework_js.dest %>',
+                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework-'+date+'.min.js'
             }
         },
 
@@ -120,7 +142,9 @@ module.exports = function (grunt) {
                     {   expand: true, src: ['src/*.html'], dest: 'build/<%= meta.version.eva %>/', flatten: true, filter: 'isFile'},
                     {   expand: true, src: ['lib/jsorolla/build/1.1.9/genome-viewer/*.js'], dest: 'build/<%= meta.version.eva %>',flatten: false},
                     {   expand: true, src: ['lib/jsorolla/vendor/**'], dest: 'build/<%= meta.version.eva %>',flatten: false},
-                    {   expand: true, src: ['vendor/ext-6.0.1/**'], dest: 'build/<%= meta.version.eva %>'}
+                    {   expand: true, src: ['vendor/ext-6.0.1/**'], dest: 'build/<%= meta.version.eva %>'},
+                    {   expand: true, src: ['lib/EBI-Framework/libraries/modernizr/*'], dest: 'build/<%= meta.version.eva %>', flatten: false},
+                    {   expand: true, src: ['lib/EBI-Framework/images/**'], dest: 'build/<%= meta.version.eva %>', flatten: false}
                 ]
             }
         },
@@ -132,6 +156,15 @@ module.exports = function (grunt) {
                     cwd: 'build/<%= meta.version.eva %>/css',
                     src: ['*.css'],
                     dest: 'build/<%= meta.version.eva %>/css',
+                    ext: '-<%= meta.version.eva %>-'+date+'.min.css'
+                }]
+            },
+            ebi_framework: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/<%= meta.version.eva %>/lib/EBI-Framework/css',
+                    src: ['*.css'],
+                    dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/css',
                     ext: '-<%= meta.version.eva %>-'+date+'.min.css'
                 }]
             }
@@ -146,7 +179,7 @@ module.exports = function (grunt) {
                 src: 'src/index.html',
                 dest: 'build/<%= meta.version.eva %>/',
                 options: {
-                    beautify: false,
+                    beautify: true,
                     scripts: {
                         'eva-js': '<%= uglify.eva.dest %>',
                         'lib': [
@@ -156,11 +189,16 @@ module.exports = function (grunt) {
                         'vendor': [
                             'build/<%= meta.version.eva %>/vendor/ext-6.0.1/js/ext-all.js',
                             '<%= uglify.vendors.dest %>'
-                        ]
+                        ],
+                        'modernizr': 'build/<%= meta.version.eva %>/lib/EBI-Framework/libraries/modernizr/*.js',
+                        'ebi_framework': 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/*.min.js'
                     },
                     styles: {
+                        'ebi_framework': [
+                            'build/<%= meta.version.eva %>/lib/EBI-Framework/css/*.min.css'
+                        ],
                         'css': [
-                            'build/<%= meta.version.eva %>/css/eva-<%= meta.version.eva %>-'+date+'.min.css'
+                            'build/<%= meta.version.eva %>/css/*.min.css'
                         ],
                         'vendor': [
                             'build/<%= meta.version.eva %>/vendor/ext-6.0.1/theme/theme-ebi-embl-all.css'
@@ -201,8 +239,8 @@ module.exports = function (grunt) {
             }
         },
         exec: {
-            cleanBower:{
-                cmd: 'rm -r bower_components'
+            cleanBower: {
+                cmd: 'rm -rf bower_components'
             },
             firefox: {
                  cmd: 'env BROWSER=firefox  grunt test  --force --colors'
@@ -217,6 +255,23 @@ module.exports = function (grunt) {
                     targetDir: './tmp',
                     install: true
                 }
+            }
+        },
+        replace: {
+            dist: {
+                options: {
+                    patterns: [
+                        {
+                            match: /\.\.\//g,
+                            replacement: function () {
+                                return ''; // replaces "foo" to "bar"
+                            }
+                        }
+                    ]
+                },
+                files: [
+                    {expand: true, flatten: true, src: ['build/<%= meta.version.eva %>/index.html'], dest: 'build/<%= meta.version.eva %>'}
+                ]
             }
         }
 
@@ -238,6 +293,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-replace');
+
 
     //selenium with mocha
     grunt.registerTask('test', ['mochaTest']);
@@ -252,6 +309,6 @@ module.exports = function (grunt) {
     grunt.registerTask('run-test', ['exec:firefox', 'exec:chrome']);
 
     // Default task.
-    grunt.registerTask('default', ['bower-clean', 'bower-install', 'hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin', 'htmlbuild:eva',  'imagemin', 'run-test']);
+    grunt.registerTask('default', ['bower-clean', 'bower-install', 'hub:genomeViewer','clean:eva','concat','uglify', 'copy:eva','cssmin',  'htmlbuild:eva',  'imagemin', 'replace', 'minifyHtml', 'run-test']);
 
 };
