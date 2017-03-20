@@ -5,7 +5,7 @@ var browser = process.env.BROWSER;
 
 module.exports = {
     initDriver: function (driverName) {
-        require('chromedriver').path;
+        require('chromedriver');
         require('geckodriver');
         driver = new webdriver.Builder()
             .forBrowser(driverName)
