@@ -7,7 +7,7 @@
     "url": "https://github.com/EBIvariation/eva-web.git"
   },
   "devDependencies": {
-    "grunt": "~0.4.0",
+    "grunt": "~1.0.1",
     "grunt-contrib-clean": "~1.0.0",
     "grunt-contrib-concat": "~1.0.0",
     "grunt-contrib-copy": "~1.0.0",
@@ -15,7 +15,7 @@
     "grunt-contrib-uglify": "~1.0.1",
     "grunt-html-build": "~0.5.3",
     "grunt-hub": "0.7.0",
-    "selenium-webdriver":"2.53.1",
+    "selenium-webdriver":"3.3.0",
     "grunt-mocha-test":"0.12.7",
     "mocha": "2.4.5",
     "chai-webdriver":"1.2.0",
@@ -27,6 +27,9 @@
     "grunt-bower-task": "~0.4.0",
     "chromedriver": "2.27.2",
     "time-grunt": "1.4.0",
-    "grunt-contrib-less": "1.4.0"
+    "grunt-contrib-less": "1.4.0",
+    "grunt-replace": "1.0.1",
+    "chai": "3.5.0",
+    "geckodriver": "1.4.0"
   }
 }
