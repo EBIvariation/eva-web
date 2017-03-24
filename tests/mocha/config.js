@@ -61,6 +61,13 @@ module.exports = {
             hash = hash & hash; // Convert to 32bit integer
         }
         return hash;
+    },
+    waitForVisibleElement: function (locator, timeout) {
+        var timeout = timeout || DEFAULT_TIMEOUT;
+        var element = driver.wait(until.elementLocated(locator), timeout);
+        return driver.wait(until.WebElementCondition('for element to be visible ' + locator, function() {
+            return element.isDisplayed().then(v => v ? element : null);
+        }), timeout);
     }
 };
 

@@ -3,7 +3,6 @@ config.loadModules();
 var ERZLinkRegEx = /ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJ[A-Z0-9]+\/ERZ[A-Z0-9]\d+$/;
 module.exports = {
     filesTab:function(driver){
-        driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
         driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")), 15000).then(function(text) {
             driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
             var filesArray = new Array();
@@ -125,8 +124,8 @@ module.exports = {
                             assert(text).matches(ERZLinkRegEx);
                         });
                         // check for pie chart study
-                        rows[i].findElement(By.className("highcharts-container")).getAttribute('id').then(function(id){
-                            chai.expect('#'+id).dom.to.have.count(1);
+                        rows[i].findElements(By.className("highcharts-container")).then(function(elems){
+                            chai.assert.equal(elems.length, 1);
                         });
                         rows[i].findElement(By.xpath("//div[contains(@class,'genotype-grid')]//table[1]//td[1]/div[text()]")).getText();
                         //check for duplicate content
@@ -141,7 +140,7 @@ module.exports = {
             },function(err) {});
         },function(err) {
             driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//p[@class='genotype-grid-no-data']")).then(function(text){
-                driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//p[@class='genotype-grid-no-data']")).getText.then(function(text) {
+                driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid')]//p[@class='genotype-grid-no-data']")).getText().then(function(text) {
                     assert(text).equalTo('No Genotypes data available');
                 });
             },function(err) {
@@ -199,7 +198,10 @@ module.exports = {
                             //check pie chart is present for every ALL population.
                             driver.findElement(By.xpath("//div[@id='" + id + "']//table//td/div[contains(text(),'ALL')]/../..//div[contains(@class,'x-grid-row-expander')]")).click().then(function(){
                                 driver.findElement(By.xpath("//div[@id='" + id + "']//table//div[@class='highcharts-container']")).getAttribute('id').then(function(chartID){
-                                    chai.expect('#'+chartID).dom.to.have.count(1);
+                                    driver.findElements(By.id(chartID)).then(function(elems){
+                                         chai.assert.equal(elems.length, 1);
+                                    });
+
                                 },function(err) {
                                     driver.findElement(By.xpath("//div[@id='" + id + "']//div[@class='popstats-no-genotype-data']")).getText().then(function(text){
                                         assert(text).equalTo('No Genotypes Count available');

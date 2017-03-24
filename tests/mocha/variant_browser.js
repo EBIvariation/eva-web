@@ -149,18 +149,16 @@ function checkdbSNPLink(driver){
             });
         });
     });
-
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
     driver.findElement(By.id("vb-submit-button")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
-            driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[3]/div[text()]")).getText().then(function(variantID){
                 assert(text).equalTo('http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs='+variantID);
             });
         });
     });
-
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
@@ -168,6 +166,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
     driver.findElement(By.id("vb-submit-button")).click();
+    driver.navigate().refresh();
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
@@ -203,7 +202,8 @@ function positionFilterBoxValidation(driver){
             assert(text).equalTo('X');
         });
     });
-
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1!~13:12233-12234');
     driver.findElement(By.id("vb-submit-button")).click();
@@ -254,6 +254,10 @@ function positionFilterBoxInValidation(driver){
             driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
         });
     });
+
+    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+
+
 }
 
 function variantSearchByGene(driver){
@@ -295,15 +299,6 @@ function variantFilterByPolyphenSift(driver){
         }
     });
 
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
-    driver.findElement(By.id("vb-submit-button")).click();
-
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")), 30000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")).getText().then(function(text) {
-            assert(text).equalTo('No records to display');
-        });
-    });
     driver.findElement(By.name("polyphen")).clear();
     driver.findElement(By.name("sift")).clear();
 
@@ -352,7 +347,9 @@ function variantFilterByMAF(driver){
 
 function variantAnnotationTab(driver){
     driver.findElement(By.xpath("//span[text()='Reset']")).click();
-    variantBrowser.annotationTab(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+        variantBrowser.annotationTab(driver);
+    });
     return driver;
 }
 function variantFilesTab(driver){
@@ -362,9 +359,12 @@ function variantFilesTab(driver){
     return driver;
 }
 function variantGenotypesTab(driver){
-    driver.findElement(By.xpath("//span[text()='Genotypes']")).click();
-    driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]")).click();
-    variantBrowser.genotypesTab(driver);
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//span[text()='Genotypes']")).click();
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]")).click();
+        variantBrowser.genotypesTab(driver);
+    });
     return driver;
 }
 
@@ -393,10 +393,11 @@ function showDataInClinicalBrowser(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.id("vb-submit-button")).click();
+    driver.navigate().refresh();
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
         driver.findElement(By.id("clinvar-button")).click();
     });
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[3]/div/a[text()]")).getText().then(function(text){
             assert(text).equalTo('BRCA2');
         });

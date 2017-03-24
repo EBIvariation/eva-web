@@ -27,7 +27,7 @@ function visitStudyBrowser(driver) {
     driver.findElement(By.xpath("//li//a[text()='Study Browser']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
         var value = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")).getText();
-        assert(value).equalTo('Human');
+        assert(value).matches(/^\w+/);
     });
 
     return driver;
@@ -36,7 +36,7 @@ function visitVariantBrowser(driver) {
     driver.findElement(By.xpath("//li//a[text()='Variant Browser']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//tr[1]//td[1]/div[text()]")), 10000).then(function(text) {
         var value = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//tr[1]//td[1]/div[text()]")).getText();
-        assert(value).equalTo('1');
+        assert(value).matches(/^\d+/);
     });
 
     return driver;

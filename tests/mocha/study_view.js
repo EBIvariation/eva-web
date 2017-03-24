@@ -40,7 +40,7 @@ test.describe('Study View ('+config.browser()+')', function() {
 
     test.describe('DGVA Study', function() {
         test.it('Check Summary Table Values are not empty', function() {
-            driver.wait(until.elementLocated(By.xpath("//label[@id='sv-boxLabelEl']")), 10000).then(function(text) {
+            driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), 10000).then(function(text) {
                 driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
                 config.submit(driver);
                 driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), 10000).then(function(text) {
@@ -71,20 +71,48 @@ function evaCheckSummaryTable(driver){
         var regExp = /^-$|^\w+/
         var numExp = /^\d+$/;
         var resourceExp = /^\w+|\d+$/;
-        chai.expect('#organism-span').dom.to.have.text(regExp);
-        chai.expect('#scientific-name-span').dom.to.have.text(regExp);
-        chai.expect('#taxonomy-id-span').dom.to.have.text(numExp);
-        chai.expect('#center-span').dom.to.have.text(regExp);
-        chai.expect('#material-span').dom.to.have.text(regExp);
-        chai.expect('#scope-span').dom.to.have.text(regExp);
-        chai.expect('#type-span').dom.to.have.text(regExp);
-        chai.expect('#assembly-span').dom.to.have.text(regExp);
-        chai.expect('#source-type-span').dom.to.have.text(regExp);
-        chai.expect('#platform-span').dom.to.have.text(regExp);
-        chai.expect('#samples-span').dom.to.have.text(numExp);
-        chai.expect('#description-span').dom.to.have.text(regExp);
-        chai.expect('#resource-span').dom.to.match(resourceExp);
-        chai.expect('#download-span').dom.to.have.text(regExp);
+        driver.findElement(By.id("organism-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("scientific-name-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("taxonomy-id-span")).getText().then(function(text){
+            assert(text).matches(numExp);
+        });
+        driver.findElement(By.id("center-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("material-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("scope-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("type-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("assembly-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("source-type-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("platform-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("samples-span")).getText().then(function(text){
+            assert(text).matches(numExp);
+        });
+        driver.findElement(By.id("description-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("resource-span")).getText().then(function(text){
+            assert(text).matches(resourceExp);
+        });
+        driver.findElement(By.id("download-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
     });
 
     return driver;
@@ -95,16 +123,40 @@ function dgvaCheckSummaryTable(driver){
         var value = driver.findElement(By.xpath("//table[@id='summaryTable']")).getText();
         var regExp = /^\w+/;
         var numExp = /^\d+$/;
-        chai.expect('#organism-span').dom.to.have.text(regExp);
-        chai.expect('#scientific-name-span').dom.to.have.text(regExp);
-        chai.expect('#taxonomy-id-span').dom.to.have.text(numExp);
-        chai.expect('#study-type-span').dom.to.have.text(regExp);
-        chai.expect('#exp-type-span').dom.to.have.text(regExp);
-        chai.expect('#platform-span').dom.to.have.text(regExp);
-        chai.expect('#assembly-span').dom.to.have.text(regExp);
-        chai.expect('#variants-span').dom.to.have.text(numExp);
-        chai.expect('#description-span').dom.to.have.text(regExp);
-        chai.expect('#download-span').dom.to.have.text(regExp);
+
+        driver.findElement(By.id("organism-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("scientific-name-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("taxonomy-id-span")).getText().then(function(text){
+            var values = text.split(",");
+            for (var i = 0; i < values.length; i++) {
+                assert(values[i]).matches(numExp);
+            }
+        });
+        driver.findElement(By.id("study-type-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("exp-type-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("platform-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("assembly-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("variants-span")).getText().then(function(text){
+            assert(text).matches(numExp);
+        });
+        driver.findElement(By.id("description-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
+        driver.findElement(By.id("download-span")).getText().then(function(text){
+            assert(text).matches(regExp);
+        });
 
     });
 
@@ -141,13 +193,28 @@ function checkFilesTable(driver){
         //expression to match NA or 0.00 (123/123)
         var transitionCountRegExp =  /NA|^[+-]?\d+(?:\.\d{1,2})\s\(\d+\/\d+\)?$/;
 
-        chai.expect('.samples_count').dom.to.have.text(countRegExp);
-        chai.expect('.variants_ount').dom.to.have.text(countRegExp);
-        chai.expect('.snps_count').dom.to.have.text(countRegExp);
-        chai.expect('.indels_count').dom.to.have.text(countRegExp);
-        chai.expect('.pass_count').dom.to.have.text(countRegExp);
-        chai.expect('.transition_count').dom.to.have.text(transitionCountRegExp);
-        chai.expect('.mean_count').dom.to.have.text(meanCountRegExp);
+        driver.findElement(By.className("samples_count")).getText().then(function(text){
+            assert(text).matches(countRegExp);
+        });
+        driver.findElement(By.className("variants_ount")).getText().then(function(text){
+            assert(text).matches(countRegExp);
+        });
+        driver.findElement(By.className("snps_count")).getText().then(function(text){
+            assert(text).matches(countRegExp);
+        });
+        driver.findElement(By.className("indels_count")).getText().then(function(text){
+            assert(text).matches(countRegExp);
+        });
+        driver.findElement(By.className("pass_count")).getText().then(function(text){
+            assert(text).matches(countRegExp);
+        });
+        driver.findElement(By.className("transition_count")).getText().then(function(text){
+            assert(text).matches(transitionCountRegExp);
+        });
+        driver.findElement(By.className("mean_count")).getText().then(function(text){
+            assert(text).matches(meanCountRegExp);
+        });
+
     });
 
     return driver;

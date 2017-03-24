@@ -1,12 +1,27 @@
+var config = require('./config.js');
+config.loadModules();
 module.exports = {
     clinVarSummaryTab:function(driver){
         driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarSummaryDataPanel')]//table")), 10000).then(function(text) {
-            chai.expect('.clinvar-reviewStatus').dom.to.have.match(/^\w+/);
-            chai.expect('.clinvar-lastEvaluated').dom.to.have.match(/^\w+/);
-            chai.expect('.clinvar-hgvs').dom.to.have.match(/^-$|^\w+/);
-            chai.expect('.clinvar-soTerms').dom.to.have.match(/^\w+/);
-            chai.expect('.clinvar-variationType').dom.to.have.match(/^\w+/);
-            chai.expect('.clinvar-publications').dom.to.have.match(/^-$|^\w+/);
+
+            driver.findElement(By.className("clinvar-reviewStatus")).getText().then(function(text){
+                assert(text).matches(/^\w+/);
+            });
+            driver.findElement(By.className("clinvar-lastEvaluated")).getText().then(function(text){
+                assert(text).matches(/^\w+/);
+            });
+            driver.findElement(By.className("clinvar-hgvs")).getText().then(function(text){
+                assert(text).matches(/^-$|^\w+/);
+            });
+            driver.findElement(By.className("clinvar-soTerms")).getText().then(function(text){
+                assert(text).matches(/^\w+/);
+            });
+            driver.findElement(By.className("clinvar-variationType")).getText().then(function(text){
+                assert(text).matches(/^\w+/);
+            });
+            driver.findElement(By.className("clinvar-publications")).getText().then(function(text){
+                assert(text).matches(/^-$|^\w+/);
+            });
         });
 
         return driver;
@@ -16,10 +31,13 @@ module.exports = {
         driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'"+ browser +"')]//div[contains(@id,'ClinVarAssertionDataPanel')]//table//td[@class='clinVarAccession']")), 10000).then(function(text) {
             driver.findElements(By.xpath("//div[contains(@id,'ClinVarAssertionDataPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                 var regex = /^-$|^\w+/;
+                var assertTitleArray = new Array();
                 for (var i = 0; i < rows.length; i++){
-                    // check for duplication study
+                    // check for duplication Clinical Assertions
                     rows[i].findElement(By.xpath("//div[contains(@id,'ClinVarAssertionDataPanel')]//div[contains(@class,'x-accordion-item')]//span[@class='clinvarAssertionTitle']")).getText().then(function(text){
-                        chai.expect('span:contains('+text+')').dom.to.have.count(1);
+                        // chai.expect('span:contains('+text+')').dom.to.have.count(1);
+                        chai.assert.notInclude(assertTitleArray, config.hashCode(text))
+                        assertTitleArray.push(config.hashCode(text));
                     });
                     rows[i].findElement(By.className("clinVarAccession")).getText().then(function(text){
                         assert(text).matches(/^SCV+\d+$/);

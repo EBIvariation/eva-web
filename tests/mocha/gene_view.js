@@ -46,12 +46,24 @@ test.describe('Gene View ('+config.browser()+')', function() {
 function checkSummaryTable(driver){
     driver.wait(until.elementLocated(By.id("gene-view-summary-table")), 15000).then(function(text) {
         var regex = /\w+/;
-        chai.expect('#gene-view-hgnc > a').dom.to.have.text(regex);
-        chai.expect('#gene-view-biotype').dom.to.have.text(regex);
-        chai.expect('#gene-view-location').dom.to.have.text(/^\d\:\d+\-\d+$/);
-        chai.expect('#gene-view-assembly').dom.to.have.text(regex);
-        chai.expect('#gene-view-description').dom.to.have.text(regex);
-        chai.expect('#gene-view-source > a').dom.to.have.text(regex);
+        driver.findElement(By.xpath("//td[contains(@id,'gene-view-hgnc')]//a")).getText().then(function(text){
+            assert(text).matches(regex);
+        });
+        driver.findElement(By.id("gene-view-biotype")).getText().then(function(text){
+            assert(text).matches(regex);
+        });
+        driver.findElement(By.id("gene-view-location")).getText().then(function(text){
+            assert(text).matches(/^\d\:\d+\-\d+$/);
+        });
+        driver.findElement(By.id("gene-view-assembly")).getText().then(function(text){
+            assert(text).matches(regex);
+        });
+        driver.findElement(By.id("gene-view-description")).getText().then(function(text){
+            assert(text).matches(regex);
+        });
+        driver.findElement(By.xpath("//td[contains(@id,'gene-view-source')]//a")).getText().then(function(text){
+            assert(text).matches(regex);
+        });
     });
     return driver;
 }
