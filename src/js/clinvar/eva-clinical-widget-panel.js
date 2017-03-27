@@ -496,7 +496,6 @@ EvaClinicalWidgetPanel.prototype = {
 
                     if (typeof e.values.accessionId !== 'undefined') {
                         e.values['rcv'] = e.values.accessionId;
-                        delete  e.values['accessionId'];
                     }
 
                     if (regions.length > 0) {
@@ -517,7 +516,7 @@ EvaClinicalWidgetPanel.prototype = {
                         _this.clinvarWidget.values = e.values;
                         _this['queryParams'] = e.values;
                         if(_this.pushURL) {
-                            var values = _.omit(e.values, ['merge','source']);
+                            var values = _.omit(e.values, ['merge','source', 'rcv']);
                             _this._updateURL(values);
                         }
                         _this.pushURL = true;
