@@ -22,24 +22,40 @@ test.describe('Home Page ('+config.browser()+')', function() {
 });
 
 function twitterWidgetRendered(driver){
+    var twitterArray = new Array();
     driver.wait(until.elementLocated(By.className("twitter-timeline-rendered")), 10000).then(function(text) {
-        chai.expect('.twitter-timeline-rendered').dom.to.have.count(1);
+        driver.findElements(By.tagName("iframe")).then(function(rows){
+            for (var i = 0; i < rows.length; i++){
+                rows[i].getAttribute('class').then(function(text){
+                    chai.assert.notInclude(twitterArray, config.hashCode(text))
+                    twitterArray.push(config.hashCode(text));
+                });
+            }
+        });
     });
     return driver;
 }
 
 function statisticsChartsRendered(driver){
     driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
-        chai.expect('div[id="eva-statistics-chart-species"] > div[class="highcharts-container"]').dom.to.have.count(1);
+        driver.findElements(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")).then(function(rows){
+            chai.assert.equal(rows.length, 1);
+        });
     });
     driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
-        chai.expect('div[id="eva-statistics-chart-type"] > div[class="highcharts-container"]').dom.to.have.count(1);
+        driver.findElements(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")).then(function(rows){
+            chai.assert.equal(rows.length, 1);
+        });
     });
     driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
-        chai.expect('div[id="dgva-statistics-chart-species"] > div[class="highcharts-container"]').dom.to.have.count(1);
+        driver.findElements(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")).then(function(rows){
+            chai.assert.equal(rows.length, 1);
+        });
     });
     driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
-        chai.expect('div[id="dgva-statistics-chart-type"] > div[class="highcharts-container"]').dom.to.have.count(1);
+        driver.findElements(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")).then(function(rows){
+            chai.assert.equal(rows.length, 1);
+        });
     });
 
     return driver;

@@ -39,26 +39,46 @@ test.describe('Variant View ('+config.browser()+')', function() {
 
 
 function checkSummaryGrid(driver) {
-    driver.wait(until.elementLocated(By.id("summary-grid")), 15000).then(function(text) {
-        chai.expect('#variant-view-organism').dom.to.have.text(/\w+\s\/\s\w+/);
+    driver.wait(until.elementLocated(By.id("variant-view-organism")), 15000).then(function(text) {
+        driver.findElement(By.id("variant-view-organism")).getText().then(function(text){
+            assert(text).matches(/\w+\s\/\s\w+/);
+        });
         driver.findElement(By.id('variant-view-id')).then(function(webElement) {
-            chai.expect('#variant-view-id').dom.to.have.text(/\w+\d+$/);
+            driver.findElement(By.id("variant-view-id")).getText().then(function(text){
+                assert(text).matches(/\w+\d+$/);
+            });
         },function(err) {
         });
-        chai.expect('#variant-view-type').dom.to.have.text(/\w+$/);
-        chai.expect('#variant-view-chr').dom.to.have.text(/^\d\:\d+\-\d+$/);
-        chai.expect('#variant-view-ref').dom.to.have.text(/^[ACGT]+/);
-        chai.expect('#variant-view-ale').dom.to.have.text(/^[ACGT]+/);
+        driver.findElement(By.id("variant-view-type")).getText().then(function(text){
+            assert(text).matches(/\w+$/);
+        });
+        driver.findElement(By.id("variant-view-chr")).getText().then(function(text){
+            assert(text).matches(/^\d\:\d+\-\d+$/);
+        });
+        driver.findElement(By.id("variant-view-ref")).getText().then(function(text){
+            assert(text).matches(/^[ACGT]+/);
+        });
+        driver.findElement(By.id("variant-view-ale")).getText().then(function(text){
+            assert(text).matches(/^[ACGT]+/);
+        });
+
     });
     return driver;
 }
 function checkSOTermGrid(driver) {
     driver.wait(until.elementLocated(By.id("consequence-types-grid")), 15000).then(function(text) {
-        var value = driver.findElement(By.xpath("//div[@id='consequence-types-grid']")).getText();
-        chai.expect('.variant-view-ensemblGeneId').dom.to.have.text(/^[A-Z]+/);
-        chai.expect('.variant-view-ensemblTranscriptId').dom.to.have.text(/^[A-Z]+/);
-        chai.expect('.variant-view-link').dom.to.have.text(/^SO\:\d+$/);
-        chai.expect('.variant-view-soname').dom.to.contain.text(/^[a-z0-9]+/);
+        driver.findElement(By.className("variant-view-ensemblGeneId")).getText().then(function(text){
+            assert(text).matches(/^[A-Z]+/);
+        });
+        driver.findElement(By.className("variant-view-ensemblTranscriptId")).getText().then(function(text){
+            assert(text).matches(/^[A-Z]+/);
+        });
+        driver.findElement(By.className("variant-view-link")).getText().then(function(text){
+            assert(text).matches(/^SO\:\d+$/);
+        });
+        driver.findElement(By.className("variant-view-soname")).getText().then(function(text){
+            assert(text).matches(/^[a-z0-9]+/);
+        });
     });
     return driver;
 }

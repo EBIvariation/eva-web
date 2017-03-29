@@ -105,6 +105,14 @@ function clinVarSearchByAccession(driver){
         });
     });
 
+    driver.navigate().back();
+    driver.navigate().forward();
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")), 10000).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")).getText().then(function(text){
+            assert(text).equalTo('RCV000074666');
+        });
+    });
+
     return driver;
 }
 
@@ -185,8 +193,12 @@ function clinVarFilterByConseqType(driver){
 function clinVarFilterByVariationType(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Deletion')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-variationType']")), 10000).then(function(text) {
-        chai.expect('.clinvar-variationType').dom.to.have.text('Deletion');
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.wait(until.elementLocated(By.className("clinvar-variationType"))).then(function(text) {
+            driver.findElement(By.className("clinvar-variationType")).getText().then(function (text) {
+                chai.assert.equal(text, 'Deletion');
+            });
+        });
     });
 
     return driver;
@@ -205,8 +217,12 @@ function clinVarFilterByClincalSignificance(driver){
 function clinVarFilterByReviewStatus(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Expert panel')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-reviewStatus']")), 10000).then(function(text) {
-        chai.expect('.clinvar-reviewStatus').dom.to.have.text('REVIEWED_BY_EXPERT_PANEL');
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-reviewStatus']")), 10000).then(function(text) {
+            driver.findElement(By.className("clinvar-reviewStatus")).getText().then(function(text){
+                chai.assert.equal(text, 'REVIEWED_BY_EXPERT_PANEL');
+            });
+        });
     });
 
     return driver;

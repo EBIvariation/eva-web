@@ -25,7 +25,7 @@ if (document.location.host.indexOf('ebi.ac.uk') > -1) {
     CELLBASE_HOST = window.location.protocol + "//" + document.location.host + "/cellbase/webservices/rest";
 } else {
     METADATA_HOST = window.location.protocol + "//wwwdev.ebi.ac.uk/eva/webservices/rest";
-    CELLBASE_HOST = window.location.protocol + "//wwwdev.ebi.ac.uk/cellbase/webservices/rest";
+    CELLBASE_HOST = window.location.protocol + "//www.ebi.ac.uk/cellbase/webservices/rest";
 }
 
 METADATA_VERSION = 'v1';
