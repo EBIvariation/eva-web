@@ -69,3 +69,7 @@ bower_components
 ehthumbs.db
 Thumbs.db
 
+#project files
+src/js/eva-manager.js
+tests/mocha/acceptance/config.js
+

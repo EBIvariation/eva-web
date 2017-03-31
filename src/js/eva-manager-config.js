@@ -1,4 +1,25 @@
 /*
+ *
+ * European Variation Archive (EVA) - Open-access database of all types of genetic
+ * variation data from all species
+ *
+ * Copyright 2014, 2015 EMBL - European Bioinformatics Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+/*
  * Copyright (c) 2014 Francisco Salavert (SGL-CIPF)
  * Copyright (c) 2014 Alejandro Alemán (SGL-CIPF)
  * Copyright (c) 2014 Ignacio Medina (EBI-EMBL)
@@ -20,16 +41,11 @@
  * along with EVA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (document.location.host.indexOf('ebi.ac.uk') > -1) {
-    METADATA_HOST = window.location.protocol + "//" + document.location.host + "/eva/webservices/rest";
-    CELLBASE_HOST = window.location.protocol + "//" + document.location.host + "/cellbase/webservices/rest";
-} else {
-    METADATA_HOST = window.location.protocol + "//wwwdev.ebi.ac.uk/eva/webservices/rest";
-    CELLBASE_HOST = window.location.protocol + "//www.ebi.ac.uk/cellbase/webservices/rest";
-}
+METADATA_HOST = window.location.protocol + "//@@METADATA_HOST";
+CELLBASE_HOST = window.location.protocol + "//@@CELLBASE_HOST";
+METADATA_VERSION = '@@METADATA_VERSION';
+CELLBASE_VERSION = '@@CELLBASE_VERSION';
 
-METADATA_VERSION = 'v1';
-CELLBASE_VERSION = 'v3';
 var EvaManager = {
     host: METADATA_HOST,
     version: METADATA_VERSION,
