@@ -1,6 +1,22 @@
+**European Variation Archive (EVA) Web Front-end**
+
 Web front-end for the European Variation Archive (EVA), developed using technologies such as JavaScript and HTML5.
 
-To install EVA -Web app do the following steps.
+**Dependencies**
+
+The EVA Web App has the following dependencies
+    Jsorolla
+    EBI-Framework
+    
+Jsorolla and EBI-Framework modules are attached with EVA as submodules
+
+
+**Build**
+
+We use npm modules and Grunt to copy files for production version.
+
+eva-web/package.json lists the modules to be installed.
+
 
 go to your web root directory run following commands
 
@@ -8,7 +24,7 @@ go to your web root directory run following commands
 
 2. **_git checkout develop_**
 
-3. **_git submodule init_**  (jsorolla  module is attached with EVA as submodule  this step has to be done only the the first time whenever you clone a EVA repository)
+3. **_git submodule init_**  ()
 
 4. **_git submodule update_** 
 
@@ -27,7 +43,7 @@ Gruntfile.js  has the configuration to build EVA Web App.
 
 to build EVA web app run the following command in eva-web
 
-**_grunt_** or grunt --env=(dev/stage/prod)
+**_grunt_** or grunt --env=(dev/staging/prod)
 
 ex: for dev instance
 
@@ -40,10 +56,10 @@ the main index file is in eva-web/src/index.html
 
 if successful the production files are then copied in ex: eva-web/build/x.x.x/
 
-these files are then copied to  dev or stage VMs.
+these files are then copied to VMs.
 
 
-Summary of steps  to build EVA Web app:
+Summary of steps to build EVA Web app:
 
 1. **_git clone https://github.com/EBIvariation/eva-web.git_**
 

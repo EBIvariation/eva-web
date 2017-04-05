@@ -71,5 +71,5 @@ Thumbs.db
 
 #project files
 src/js/eva-manager.js
-tests/mocha/acceptance/config.js
+tests/acceptance/config.js
 

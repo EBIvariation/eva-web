@@ -19,20 +19,34 @@ module.exports = function (grunt) {
             }
         },
 
-        bannereva: '/*! EVA - v<%= meta.version.eva %> - ' +
-            '<%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\n' +
-            '* https://github.com/EBIvariation/eva-web.git\n' +
-            '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
-            ' ' +
-            'Licensed GPLv2 */\n',
+        bannereva: '/*\n'+
+        ' *\n'+
+        ' * European Variation Archive (EVA) - Open-access database of all types of genetic\n'+
+        ' * variation data from all species\n'+
+        ' *\n'+
+        ' * Copyright 2014-'+new Date().getFullYear()+' EMBL - European Bioinformatics Institute\n'+
+        ' *\n'+
+        ' * Licensed under the Apache License, Version 2.0 (the "License");\n'+
+        ' * you may not use this file except in compliance with the License.\n'+
+        ' * You may obtain a copy of the License at\n'+
+        ' *\n'+
+        ' *    http://www.apache.org/licenses/LICENSE-2.0\n'+
+        ' *\n'+
+        ' * Unless required by applicable law or agreed to in writing, software\n'+
+        ' * distributed under the License is distributed on an "AS IS" BASIS,\n'+
+        ' * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n'+
+        ' * See the License for the specific language governing permissions and\n'+
+        ' * limitations under the License.\n'+
+        ' *\n'+
+        ' */\n\n',
         // Task configuration.
 
         config: {
             local: {
                 options: {
                     variables: {
-                        'METADATA_HOST': 'localhost:3000',
-                        'METADATA_VERSION': 'v1',
+                        'EVA_HOST': 'localhost:3000',
+                        'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'wwwint.ebi.ac.uk/cellbase/webservices/rest',
                         'CELLBASE_VERSION': 'v3'
                     }
@@ -41,18 +55,18 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     variables: {
-                        'METADATA_HOST': 'wwwint.ebi.ac.uk/eva/webservices/rest',
-                        'METADATA_VERSION': 'v1',
+                        'EVA_HOST': 'wwwint.ebi.ac.uk/eva/webservices/rest',
+                        'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'wwwint.ebi.ac.uk/cellbase/webservices/rest',
                         'CELLBASE_VERSION': 'v3'
                     }
                 }
             },
-            stage: {
+            staging: {
                 options: {
                     variables: {
-                        'METADATA_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/rest',
-                        'METADATA_VERSION': 'v1',
+                        'EVA_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/rest',
+                        'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'wwwdev.ebi.ac.uk/cellbase/webservices/rest',
                         'CELLBASE_VERSION': 'v3'
                     }
@@ -61,8 +75,8 @@ module.exports = function (grunt) {
             prod: {
                 options: {
                     variables: {
-                        'METADATA_HOST': 'www.ebi.ac.uk/eva/webservices/rest',
-                        'METADATA_VERSION': 'v1',
+                        'EVA_HOST': 'www.ebi.ac.uk/eva/webservices/rest',
+                        'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'www.ebi.ac.uk/cellbase/webservices/rest',
                         'CELLBASE_VERSION': 'v3'
                     }
@@ -74,12 +88,12 @@ module.exports = function (grunt) {
                 options: {
                     patterns: [
                         {
-                            match: 'METADATA_HOST',
-                            replacement: '<%= grunt.config.get("METADATA_HOST") %>'
+                            match: 'EVA_HOST',
+                            replacement: '<%= grunt.config.get("EVA_HOST") %>'
                         },
                         {
-                            match: 'METADATA_VERSION',
-                            replacement: '<%= grunt.config.get("METADATA_VERSION") %>'
+                            match: 'EVA_VERSION',
+                            replacement: '<%= grunt.config.get("EVA_VERSION") %>'
                         },
                         {
                             match: 'CELLBASE_HOST',
@@ -103,8 +117,8 @@ module.exports = function (grunt) {
                         }
                     ]
                 },
-                src: 'tests/mocha/acceptance/config-manager.js',
-                dest: 'tests/mocha/acceptance/config.js'
+                src: 'tests/acceptance/config-manager.js',
+                dest: 'tests/acceptance/config.js'
             },
             html: {
                 options: {
@@ -125,12 +139,11 @@ module.exports = function (grunt) {
         },
 
         concat: {
-            options: {
-                banner: '<%= bannereva %>',
-                stripBanners: true
-            },
-
             eva: {
+                options: {
+                    banner: '<%= bannereva %>',
+                    stripBanners: true
+                },
                 src: [
                     /** eva app js **/
                     'src/js/eva-manager.js',
@@ -212,7 +225,6 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
-
             eva: {
                 src: '<%= concat.eva.dest %>',
                 dest: 'build/<%= meta.version.eva %>/js/eva-<%= meta.version.eva %>-'+date+'.min.js'
@@ -333,7 +345,7 @@ module.exports = function (grunt) {
                     clearRequireCache: false,
                     timeout:1500000
                 },
-                src: ['tests/mocha/acceptance/*.js']
+                src: ['tests/acceptance/*.js']
             }
         },
         exec: {

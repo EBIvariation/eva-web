@@ -12,7 +12,7 @@
     "grunt-contrib-concat": "~1.0.0",
     "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-rename": "0.0.3",
-    "grunt-contrib-uglify": "~1.0.1",
+    "grunt-contrib-uglify": "~2.3.0",
     "grunt-html-build": "~0.5.3",
     "grunt-hub": "0.7.0",
     "selenium-webdriver":"3.3.0",
