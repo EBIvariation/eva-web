@@ -651,11 +651,11 @@ EvaVariantWidget.prototype = {
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     var variant = e.variant;
-                    var region = variant.chromosome + ':' + variant.start + '-' + variant.end;
+                    var region = variant.chromosome + ':' + variant.start + ':' + variant.reference + ':' + variant.alternate;
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
                     EvaManager.get({
-                        category: 'segments',
-                        resource: 'variants',
+                        category: 'variants',
+                        resource: 'info',
                         query: region,
                         params: {species: proxy.extraParams.species, studies: proxy.extraParams.studies},
                         async: false,
@@ -902,7 +902,6 @@ EvaVariantWidget.prototype = {
                 if (target.id === _this.selectedToolDiv.id) {
                     _.extend(e.variant, {annot: e.variant.annotation});
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
-                    console.log(e.variant)
                     annotationPanel.load(e.variant, proxy.extraParams);
                     //sending tracking data to Google Analytics
                     ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Annotation'});
@@ -948,11 +947,11 @@ EvaVariantWidget.prototype = {
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     var variant = e.variant;
-                    var region = variant.chromosome + ':' + variant.start + '-' + variant.end;
+                    var region = variant.chromosome + ':' + variant.start + ':' + variant.reference + ':' + variant.alternate;
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
                     EvaManager.get({
-                        category: 'segments',
-                        resource: 'variants',
+                        category: 'variants',
+                        resource: 'info',
                         query: region,
                         params: {species: proxy.extraParams.species, studies: proxy.extraParams.studies},
                         async: false,
@@ -1016,13 +1015,13 @@ EvaVariantWidget.prototype = {
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
                     var variant = e.variant;
-                    var query = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
+                    var region = variant.chromosome + ':' + variant.start + ':' + variant.reference + ':' + variant.alternate;
                     var params = _.omit(_this.variantBrowserGrid.store.proxy.extraParams, 'region');
 
                     EvaManager.get({
-                        category: 'segments',
-                        resource: 'variants',
-                        query: query,
+                        category: 'variants',
+                        resource: 'info',
+                        query: region,
                         params: params,
                         success: function (response) {
                             try {
