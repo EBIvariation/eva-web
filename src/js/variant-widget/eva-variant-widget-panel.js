@@ -503,6 +503,7 @@ EvaVariantWidgetPanel.prototype = {
                     _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().select(selectStudies)
                 }
 
+                _this.selectStudies = '';
                 _this.trigger('studies:change', {studies: studies, sender: _this});
             }
         });

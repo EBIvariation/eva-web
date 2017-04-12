@@ -1,5 +1,5 @@
 // var baseURL = 'http://wwwdev.ebi.ac.uk/eva';
-var baseURL = 'http://localhost/eva-web/build/3.1.0/index.html';
+var baseURL = 'http://localhost/eva-web/build/3.2.0/index.html';
 // var baseURL = 'http://localhost/eva-web/src/index.html';
 var browser = process.env.BROWSER;
 

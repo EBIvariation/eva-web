@@ -147,12 +147,12 @@ EvaVariantWidget.prototype = {
         }
 
         if (this.defaultToolConfig.stats) {
-            this.variantStatsPanelDiv = document.createElement('div');
-            this.variantStatsPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
-            this.variantStatsPanel = this._createVariantStatsPanel(this.variantStatsPanelDiv);
+            this.variantFilesPanelDiv = document.createElement('div');
+            this.variantFilesPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
+            this.variantFilesPanel = this._createVariantFilesPanel(this.variantFilesPanelDiv);
             tabPanelItems.push({
                 title: 'Files',
-                contentEl: this.variantStatsPanelDiv
+                contentEl: this.variantFilesPanelDiv
             });
         }
 
@@ -228,7 +228,7 @@ EvaVariantWidget.prototype = {
         }
 
         if (this.defaultToolConfig.stats) {
-            this.variantStatsPanel.draw();
+            this.variantFilesPanel.draw();
         }
 
         if (this.defaultToolConfig.populationStats) {
@@ -618,9 +618,9 @@ EvaVariantWidget.prototype = {
         }, this);
         return variantBrowserGrid;
     },
-    _createVariantStatsPanel: function (target) {
+    _createVariantFilesPanel: function (target) {
         var _this = this;
-        var variantStatsPanel = new EvaVariantStatsPanel({
+        var variantFilesPanel = new EvaVariantFilesPanel({
             target: target,
             height: 820,
             statsTpl: new Ext.XTemplate(
@@ -642,36 +642,17 @@ EvaVariantWidget.prototype = {
         });
 
         this.variantBrowserGrid.on("variant:clear", function (e) {
-            variantStatsPanel.clear(true);
+            variantFilesPanel.clear(true);
         });
+
+
 
         this.on("variant:change", function (e) {
             if (_.isUndefined(e.variant)) {
-                variantStatsPanel.clear(true);
+                variantFilesPanel.clear(true);
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
-                    var variant = e.variant;
-                    var region = variant.chromosome + ':' + variant.start + '-' + variant.end;
-                    var proxy = _.clone(this.variantBrowserGrid.store.proxy);
-                    EvaManager.get({
-                        category: 'segments',
-                        resource: 'variants',
-                        query: region,
-                        params: {species: proxy.extraParams.species, studies: proxy.extraParams.studies},
-                        async: false,
-                        success: function (response) {
-                            try {
-//                                _.extend(variant, response.response[0].result[0]);
-                                var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
-                                _.extend(variant,result);
-                            } catch (e) {
-                                console.log(e);
-                            }
-                        }
-                    });
-                    if (variant.sourceEntries) {
-                        variantStatsPanel.load(variant.sourceEntries, {species: proxy.extraParams.species},_this.studies);
-                    }
+                    _this.loadBottomPanel(variantFilesPanel, e.variant);
                     //sending tracking data to Google Analytics
                     ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Files'});
                 }
@@ -680,7 +661,7 @@ EvaVariantWidget.prototype = {
         });
 
 
-        return variantStatsPanel;
+        return variantFilesPanel;
     },
     _createAnnotationPanel: function (target) {
         var _this = this;
@@ -902,7 +883,6 @@ EvaVariantWidget.prototype = {
                 if (target.id === _this.selectedToolDiv.id) {
                     _.extend(e.variant, {annot: e.variant.annotation});
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
-                    console.log(e.variant)
                     annotationPanel.load(e.variant, proxy.extraParams);
                     //sending tracking data to Google Analytics
                     ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Annotation'});
@@ -947,28 +927,7 @@ EvaVariantWidget.prototype = {
                 variantPopulationStatsPanel.clear(true);
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
-                    var variant = e.variant;
-                    var region = variant.chromosome + ':' + variant.start + '-' + variant.end;
-                    var proxy = _.clone(this.variantBrowserGrid.store.proxy);
-                    EvaManager.get({
-                        category: 'segments',
-                        resource: 'variants',
-                        query: region,
-                        params: {species: proxy.extraParams.species, studies: proxy.extraParams.studies},
-                        async: false,
-                        success: function (response) {
-                            try {
-//                                _.extend(variant, response.response[0].result[0]);
-                                var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
-                                _.extend(variant,result);
-                            } catch (e) {
-                                console.log(e);
-                            }
-                        }
-                    });
-                    if (variant.sourceEntries) {
-                        variantPopulationStatsPanel.load(variant.sourceEntries, proxy.extraParams,_this.studies);
-                    }
+                    _this.loadBottomPanel(variantPopulationStatsPanel, e.variant);
                     //sending tracking data to Google Analytics
                     ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Population Statistics'});
                 }
@@ -1015,34 +974,9 @@ EvaVariantWidget.prototype = {
                 variantGenotypeGridPanel.clear(true);
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
-                    var variant = e.variant;
-                    var query = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
-                    var params = _.omit(_this.variantBrowserGrid.store.proxy.extraParams, 'region');
-
-                    EvaManager.get({
-                        category: 'segments',
-                        resource: 'variants',
-                        query: query,
-                        params: params,
-                        success: function (response) {
-                            try {
-//                                var variantSourceEntries = response.response[0].result[0].sourceEntries;
-                                var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
-                                var variantSourceEntries = result.sourceEntries;
-
-                            } catch (e) {
-
-                                console.log(e);
-                            }
-
-                            if (variantSourceEntries) {
-                                variantGenotypeGridPanel.load(variantSourceEntries, params, _this.studies);
-                            }
-                        }
-                    });
+                    _this.loadBottomPanel(variantGenotypeGridPanel, e.variant);
                     //sending tracking data to Google Analytics
                     ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Genotypes'});
-
                 }
             }
 
@@ -1261,7 +1195,6 @@ EvaVariantWidget.prototype = {
             alert('Please allow pop up in settings if its not exporting');
             window.open().document.write('<table>' + csvContent + '</table>');
             return true;
-
         }
 
 
@@ -1315,5 +1248,28 @@ EvaVariantWidget.prototype = {
         var values = {variantId: id, dbsnpURL: dbsnpURL};
 
         return values;
+    },
+    loadBottomPanel : function (panel, variant){
+        var _this = this;
+        var region = variant.chromosome + ':' + variant.start + ':' + variant.reference + ':' + variant.alternate;
+        var proxy = _.clone(_this.variantBrowserGrid.store.proxy);
+        EvaManager.get({
+            category: 'variants',
+            resource: 'info',
+            query: region,
+            params: {species: proxy.extraParams.species, studies: proxy.extraParams.studies},
+            async: false,
+            success: function (response) {
+                try {
+                    var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
+                    _.extend(variant,result);
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
+        if (variant.sourceEntries) {
+            panel.load(variant.sourceEntries, {species: proxy.extraParams.species},_this.studies);
+        }
     }
 };
