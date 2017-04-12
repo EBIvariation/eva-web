@@ -87,9 +87,9 @@ EvaVariantView.prototype = {
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'Variant', eventLabel:'species='+this.species+'variant='+this.position});
     },
-    createVariantStatsPanel: function (data) {
+    createVariantFilesPanel: function (data) {
         var _this = this;
-        var variantStatsPanel = new EvaVariantStatsPanel({
+        var variantFilesPanel = new EvaVariantFilesPanel({
             target: data,
             height: '',
             handlers: {
@@ -126,11 +126,11 @@ EvaVariantView.prototype = {
 
 
         if (variant[0].sourceEntries) {
-            variantStatsPanel.load(variant[0].sourceEntries, {species: this.species},  _this.studiesList);
+            variantFilesPanel.load(variant[0].sourceEntries, {species: this.species},  _this.studiesList);
         }
-        variantStatsPanel.draw();
+        variantFilesPanel.draw();
 
-        return variantStatsPanel;
+        return variantFilesPanel;
     },
 
     draw: function (data, content) {
@@ -160,7 +160,7 @@ EvaVariantView.prototype = {
         var studyElDiv = document.createElement("div");
         studyElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
         studyEl.appendChild(studyElDiv);
-        _this.createVariantStatsPanel(studyElDiv);
+        _this.createVariantFilesPanel(studyElDiv);
 
         var popStatsEl = document.querySelector("#population-stats-grid-view");
         var popStatsElDiv = document.createElement("div");

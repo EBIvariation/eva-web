@@ -18,11 +18,11 @@
  * You should have received a copy of the GNU General Public License
  * along with JSorolla. If not, see <http://www.gnu.org/licenses/>.
  */
-function EvaVariantStatsPanel(args) {
+function EvaVariantFilesPanel(args) {
     _.extend(this, Backbone.Events);
-    this.id = Utils.genId("VariantStatsPanel");
+    this.id = Utils.genId("VariantFilesPanel");
     this.target;
-    this.title = "Stats";
+    this.title = "Files";
     this.height = 500;
     this.autoRender = true;
     this.statsTpl = new Ext.XTemplate(
@@ -61,7 +61,7 @@ function EvaVariantStatsPanel(args) {
     }
 }
 
-EvaVariantStatsPanel.prototype = {
+EvaVariantFilesPanel.prototype = {
     render: function () {
         var _this = this;
 
@@ -121,7 +121,7 @@ EvaVariantStatsPanel.prototype = {
                     xtype: 'box',
                     id: 'fileStats',
                     cls: 'ocb-header-4',
-                    html: '<h4>Files and Statistics <span class="icon icon-generic title-header-icon" data-icon="i"  data-qtip="Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF files are displayed." style="margin-bottom:2px;"></span></h4>',
+                    html: '<h4>Files <span class="icon icon-generic title-header-icon" data-icon="i"  data-qtip="Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF files are displayed." style="margin-bottom:2px;"></span></h4>',
                     margin: '5 0 10 15'
                 },
                 this.studiesContainer

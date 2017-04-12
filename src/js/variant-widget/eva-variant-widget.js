@@ -147,12 +147,12 @@ EvaVariantWidget.prototype = {
         }
 
         if (this.defaultToolConfig.stats) {
-            this.variantStatsPanelDiv = document.createElement('div');
-            this.variantStatsPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
-            this.variantStatsPanel = this._createVariantStatsPanel(this.variantStatsPanelDiv);
+            this.variantFilesPanelDiv = document.createElement('div');
+            this.variantFilesPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
+            this.variantFilesPanel = this._createVariantFilesPanel(this.variantFilesPanelDiv);
             tabPanelItems.push({
                 title: 'Files',
-                contentEl: this.variantStatsPanelDiv
+                contentEl: this.variantFilesPanelDiv
             });
         }
 
@@ -228,7 +228,7 @@ EvaVariantWidget.prototype = {
         }
 
         if (this.defaultToolConfig.stats) {
-            this.variantStatsPanel.draw();
+            this.variantFilesPanel.draw();
         }
 
         if (this.defaultToolConfig.populationStats) {
@@ -618,9 +618,9 @@ EvaVariantWidget.prototype = {
         }, this);
         return variantBrowserGrid;
     },
-    _createVariantStatsPanel: function (target) {
+    _createVariantFilesPanel: function (target) {
         var _this = this;
-        var variantStatsPanel = new EvaVariantStatsPanel({
+        var variantFilesPanel = new EvaVariantFilesPanel({
             target: target,
             height: 820,
             statsTpl: new Ext.XTemplate(
@@ -642,17 +642,17 @@ EvaVariantWidget.prototype = {
         });
 
         this.variantBrowserGrid.on("variant:clear", function (e) {
-            variantStatsPanel.clear(true);
+            variantFilesPanel.clear(true);
         });
 
 
 
         this.on("variant:change", function (e) {
             if (_.isUndefined(e.variant)) {
-                variantStatsPanel.clear(true);
+                variantFilesPanel.clear(true);
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
-                    _this.loadBottomPanel(variantStatsPanel, e.variant);
+                    _this.loadBottomPanel(variantFilesPanel, e.variant);
                     //sending tracking data to Google Analytics
                     ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Tab Views', eventLabel:'Files'});
                 }
@@ -661,7 +661,7 @@ EvaVariantWidget.prototype = {
         });
 
 
-        return variantStatsPanel;
+        return variantFilesPanel;
     },
     _createAnnotationPanel: function (target) {
         var _this = this;
@@ -1252,7 +1252,7 @@ EvaVariantWidget.prototype = {
     loadBottomPanel : function (panel, variant){
         var _this = this;
         var region = variant.chromosome + ':' + variant.start + ':' + variant.reference + ':' + variant.alternate;
-        var proxy = _.clone(this.variantBrowserGrid.store.proxy);
+        var proxy = _.clone(_this.variantBrowserGrid.store.proxy);
         EvaManager.get({
             category: 'variants',
             resource: 'info',
