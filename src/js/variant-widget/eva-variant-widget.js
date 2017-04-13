@@ -49,7 +49,7 @@ function EvaVariantWidget(args) {
         },
         genomeViewer: false,
         genotype: true,
-        stats: true,
+        files: true,
         populationStats: true,
         annotation: true,
         clinvarAssertion:true
@@ -146,7 +146,7 @@ EvaVariantWidget.prototype = {
             });
         }
 
-        if (this.defaultToolConfig.stats) {
+        if (this.defaultToolConfig.files) {
             this.variantFilesPanelDiv = document.createElement('div');
             this.variantFilesPanelDiv.setAttribute('class', 'ocb-variant-stats-panel');
             this.variantFilesPanel = this._createVariantFilesPanel(this.variantFilesPanelDiv);
@@ -227,7 +227,7 @@ EvaVariantWidget.prototype = {
             this.annotationPanel.draw();
         }
 
-        if (this.defaultToolConfig.stats) {
+        if (this.defaultToolConfig.files) {
             this.variantFilesPanel.draw();
         }
 
@@ -1261,15 +1261,14 @@ EvaVariantWidget.prototype = {
             async: false,
             success: function (response) {
                 try {
-                    var result = _.findWhere(response.response[0].result, {start: variant.start,end:variant.end});
-                    _.extend(variant,result);
+                    var result = response.response[0].result[0];
+                    if (result.sourceEntries) {
+                        panel.load(result.sourceEntries, {species: proxy.extraParams.species},_this.studies);
+                    }
                 } catch (e) {
                     console.log(e);
                 }
             }
         });
-        if (variant.sourceEntries) {
-            panel.load(variant.sourceEntries, {species: proxy.extraParams.species},_this.studies);
-        }
     }
 };
