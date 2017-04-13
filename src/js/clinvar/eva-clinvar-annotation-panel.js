@@ -51,6 +51,13 @@ function ClinvarAnnotationPanel(args) {
                 tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>',
             },
             {
+                text: "Ensembl <br />Transcript Biotype",
+                dataIndex: "biotype",
+                xtype: "templatecolumn",
+                tpl: '<tpl if="biotype">{biotype}<tpl else>-</tpl>',
+                flex: 1.3
+            },
+            {
                 text: "SO Term(s)",
                 dataIndex: "soTerms",
                 flex: 1.7,
@@ -86,13 +93,6 @@ function ClinvarAnnotationPanel(args) {
                     }
 
                 }
-            },
-            {
-                text: "Biotype",
-                dataIndex: "biotype",
-                xtype: "templatecolumn",
-                tpl: '<tpl if="biotype">{biotype}<tpl else>-</tpl>',
-                flex: 1.3
             },
             {
                 text: "Codon",

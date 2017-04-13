@@ -692,6 +692,13 @@ EvaVariantWidget.prototype = {
                     tpl: '<tpl if="ensemblTranscriptId">{ensemblTranscriptId}<tpl else>-</tpl>'
                 },
                 {
+                    text: "Ensembl <br />Transcript Biotype",
+                    dataIndex: "biotype",
+                    xtype: "templatecolumn",
+                    tpl: '<tpl if="biotype">{biotype}<tpl else>-</tpl>',
+                    flex: 1.1
+                },
+                {
                     text: "SO Term(s)",
                     dataIndex: "soTerms",
                     flex: 1.7,
@@ -728,13 +735,6 @@ EvaVariantWidget.prototype = {
                         }
 
                     }
-                },
-                {
-                    text: "Biotype",
-                    dataIndex: "biotype",
-                    xtype: "templatecolumn",
-                    tpl: '<tpl if="biotype">{biotype}<tpl else>-</tpl>',
-                    flex: 1.1
                 },
                 {
                     text: "Codon",
