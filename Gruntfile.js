@@ -18,7 +18,11 @@ module.exports = function (grunt) {
                 eva: '3.4.0'
             }
         },
-
+        serve: {
+            options: {
+                port: 9000
+            }
+        },
         bannereva: '/*\n'+
         ' *\n'+
         ' * European Variation Archive (EVA) - Open-access database of all types of genetic\n'+
@@ -113,7 +117,7 @@ module.exports = function (grunt) {
                     patterns: [
                         {
                             match: 'BASE_URL',
-                            replacement: 'http://localhost/eva-web/build/<%= meta.version.eva %>/index.html'
+                            replacement: 'http://localhost:<%= serve.options.port %>/build/<%= meta.version.eva %>/index.html'
                         }
                     ]
                 },
@@ -358,14 +362,17 @@ module.exports = function (grunt) {
             }
         },
         exec: {
+            startServer: {
+                cmd: 'nohup grunt serve &'
+            },
             cleanBower: {
                 cmd: 'rm -rf bower_components'
             },
             firefox: {
-                 cmd: 'env BROWSER=firefox  grunt acceptanceTest  --force --colors'
+                 cmd: 'env BROWSER=firefox  grunt acceptanceTest --colors'
             },
             chrome: {
-                cmd: 'env BROWSER=chrome  grunt acceptanceTest  --force --colors'
+                cmd: 'env BROWSER=chrome  grunt acceptanceTest --colors'
             }
         },
         bower: {
@@ -397,6 +404,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
+    grunt.loadNpmTasks('grunt-serve');
+
     //replace config
     grunt.registerTask('replace-config', ['replace:eva_manager', 'replace:acceptance_test']);
 
@@ -410,10 +419,7 @@ module.exports = function (grunt) {
     grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
 
     //run test
-    grunt.registerTask('runAcceptanceTest', ['exec:firefox','exec:chrome']);
-    
-    //selenium regression test with mocha
-    grunt.registerTask('integrationTest', ['mochaTest:integrationTest']);
+    grunt.registerTask('runAcceptanceTest', ['exec:firefox']);
 
     //bower install
     grunt.registerTask('bower-install', ['bower:install']);
@@ -421,11 +427,12 @@ module.exports = function (grunt) {
     //bower clean
     grunt.registerTask('bower-clean', ['exec:cleanBower']);
 
-    //run test
-    grunt.registerTask('run-test', ['exec:firefox', 'exec:chrome']);
+    //start http server
+    grunt.registerTask('start-server', ['exec:startServer']);
 
     //default build website.
     grunt.registerTask('default', [
+        'start-server',
         'config:' + envTarget,
         'replace-config',
         'bower-install',

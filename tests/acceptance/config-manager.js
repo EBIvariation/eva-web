@@ -21,6 +21,7 @@
 
 var baseURL = '@@BASE_URL';
 var browser = process.env.BROWSER;
+var sleep_time = 5000;
 
 module.exports = {
     initDriver: function (driverName) {
@@ -33,7 +34,7 @@ module.exports = {
         driver.get(baseURL);
         chai.use(chaiWebdriver(driver));
         driver.wait(until.elementLocated(By.id("cookie-dismiss")), 10000).then(function(text) {
-            driver.findElement(By.id("cookie-dismiss")).click();
+            driver.findElement(By.xpath("//div[@id='cookie-dismiss']//button[@class='close-button']")).click();
         });
         return driver;
     },
@@ -56,8 +57,9 @@ module.exports = {
             chai = require('chai'),
             chaiWebdriver = require('chai-webdriver');
     },
-    sleep:function(value){
-        flow.execute(function () { return webdriver.promise.delayed(value * 1000);});
+    sleep:function(driver){
+        driver.sleep(sleep_time);
+        return driver;
     },
     reset:function (driver){
         driver.findElement(By.xpath("//span[text()='Reset']")).click();

@@ -91,6 +91,7 @@ function sgvStudySearchBySpeciesType(driver){
     driver.findElement(By.xpath("//span[contains(text(),'Human')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Exome Sequencing')]//..//..//div[@role='button']")).click();
     config.submit(driver);
+    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
             var rows = parseInt(text.split(" ")[3]);
@@ -113,6 +114,7 @@ function sgvStudySearchByType(driver){
     config.reset(driver);
     driver.findElement(By.xpath("//span[contains(text(),'Curation')]//..//..//div[@role='button']")).click();
     config.submit(driver);
+    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
             var rows = parseInt(text.split(" ")[3]);
@@ -130,6 +132,7 @@ function sgvStudySearchByType(driver){
 function sgvStudySearchBySpecies(driver){
     driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//..//div[@role='button']")).click();
     config.submit(driver);
+    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[1]//td[4]/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
             var rows = parseInt(text.split(" ")[3]);
@@ -152,6 +155,7 @@ function svStudySearchBySpeciesType(driver){
     driver.findElement(By.xpath("//span[contains(text(),'Dog')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Control Set')]//..//..//div[@role='button']")).click();
     config.submit(driver);
+    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
             var rows = parseInt(text.split(" ")[3]);
@@ -175,6 +179,7 @@ function svStudySearchByType(driver){
     driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Control Set')]//..//..//div[@role='button']")).click();
     config.submit(driver);
+    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
             var rows = parseInt(text.split(" ")[3]);
@@ -195,6 +200,7 @@ function svStudySearchBySpecies(driver){
     driver.findElement(By.xpath("//span[contains(text(),'Chimpanzee')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Dog')]//..//..//div[@role='button']")).click();
     config.submit(driver);
+    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
             var rows = parseInt(text.split(" ")[3]);
@@ -216,10 +222,13 @@ function sgvStudySearchByText(driver){
     driver.findElement(By.name("search")).clear();
     driver.findElement(By.name("search")).sendKeys("1000");
     config.submit(driver);
+    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")).getText();
         var regex =   new RegExp('1000', 'g');
-        assert(value).matches(regex);
+        var value = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")).getText();
+        driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//td[1]//div[@class='x-grid-row-expander']")).click();
+        var rowBodyText = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//div[contains(@class,'x-grid-rowbody')]")).getText();
+        assert(rowBodyText || value).matches(regex);
     });
     config.reset(driver);
 
@@ -232,10 +241,13 @@ function svStudySearchByText(driver){
     driver.findElement(By.name("search")).clear();
     driver.findElement(By.name("search")).sendKeys("1000");
     config.submit(driver);
+    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")), 10000).then(function(text) {
-        value = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")).getText();
         var regex =   new RegExp('1000', 'g');
-        assert(value).matches(regex);
+        var value = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")).getText();
+        driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//td[1]//div[@class='x-grid-row-expander']")).click();
+        var rowBodyText = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table[1]//div[contains(@class,'x-grid-rowbody')]")).getText();
+        assert(rowBodyText || value) .matches(regex);
     });
     config.reset(driver);
 
