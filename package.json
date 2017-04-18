@@ -31,6 +31,7 @@
     "grunt-replace": "1.0.1",
     "chai": "3.5.0",
     "geckodriver": "1.4.0",
-    "grunt-config": "1.0.0"
+    "grunt-config": "1.0.0",
+    "grunt-serve": "0.1.6"
   }
 }

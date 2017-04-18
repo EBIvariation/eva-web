@@ -106,12 +106,12 @@ module.exports = {
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div/a[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[A-Z]+/);
                     });
-                    //check SO terms
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div/tpl[text()]")).getText().then(function(text){
+                    //check Biotype
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                     });
-                    //check Biotype
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div[text()]")).getText().then(function(text){
+                    //check SO terms
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div/tpl[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                     });
                     //check codon

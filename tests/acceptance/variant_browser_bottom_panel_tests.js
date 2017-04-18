@@ -22,11 +22,11 @@ config.loadModules();
 var ERZLinkRegEx = /ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJ[A-Z0-9]+\/ERZ[A-Z0-9]\d+$/;
 module.exports = {
     filesTab:function(driver){
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")), 15000).then(function(text) {
-            driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//a[text()]")), 15000).then(function(text) {
+            driver.findElement(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//a[text()]")).getText();
             var filesArray = new Array();
             var studyTitleArray = new Array();
-            driver.findElements(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
+            driver.findElements(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                 for (var i = 0; i < rows.length; i++){
                     //check for duplication study title
                     rows[i].findElement(By.className("stats-panel-study-title")).getText().then(function(text){
@@ -52,7 +52,7 @@ module.exports = {
                         chai.assert.isNotNull(text);
                     });
                     //check for Header Data
-                    rows[i].findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//span[contains(text(), 'Show Full Header')]")).click();
+                    rows[i].findElement(By.xpath("//div[contains(@id,'VariantFilesPanel')]//span[contains(text(), 'Show Full Header')]")).click();
                     rows[i].findElement(By.tagName("pre")).getText().then(function(vcftext){
                         assert(vcftext).startsWith('##fileformat=');
                     });
@@ -85,12 +85,12 @@ module.exports = {
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[A-Z]+/);
                     });
-                    //check SO terms
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div/tpl[text()]")).getText().then(function(text){
+                    //check Biotype
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                     });
-                    //check Biotype
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div[text()]")).getText().then(function(text){
+                    //check SO terms
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div/tpl[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                     });
                     //check codon

@@ -33,7 +33,7 @@ module.exports = {
         driver.get(baseURL);
         chai.use(chaiWebdriver(driver));
         driver.wait(until.elementLocated(By.id("cookie-dismiss")), 10000).then(function(text) {
-            driver.findElement(By.id("cookie-dismiss")).click();
+            driver.findElement(By.xpath("//div[@id='cookie-dismiss']//button[@class='close-button']")).click();
         });
         return driver;
     },

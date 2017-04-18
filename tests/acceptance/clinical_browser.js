@@ -125,6 +125,7 @@ function clinVarSearchByAccession(driver){
     });
 
     driver.navigate().back();
+    driver.sleep(5000);
     driver.navigate().forward();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")), 10000).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")).getText().then(function(text){
