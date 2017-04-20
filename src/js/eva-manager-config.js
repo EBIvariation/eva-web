@@ -1,38 +1,32 @@
 /*
- * Copyright (c) 2014 Francisco Salavert (SGL-CIPF)
- * Copyright (c) 2014 Alejandro Alemán (SGL-CIPF)
- * Copyright (c) 2014 Ignacio Medina (EBI-EMBL)
- * Copyright (c) 2014 Jag Kandasamy (EBI-EMBL)
  *
- * This file is part of EVA.
+ * European Variation Archive (EVA) - Open-access database of all types of genetic
+ * variation data from all species
  *
- * EVA is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
+ * Copyright 2014 - 2017 EMBL - European Bioinformatics Institute
  *
- * EVA is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with EVA. If not, see <http://www.gnu.org/licenses/>.
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
  */
 
-if (document.location.host.indexOf('ebi.ac.uk') > -1) {
-    METADATA_HOST = window.location.protocol + "//" + document.location.host + "/eva/webservices/rest";
-    CELLBASE_HOST = window.location.protocol + "//" + document.location.host + "/cellbase/webservices/rest";
-} else {
-    METADATA_HOST = window.location.protocol + "//wwwdev.ebi.ac.uk/eva/webservices/rest";
-    CELLBASE_HOST = window.location.protocol + "//www.ebi.ac.uk/cellbase/webservices/rest";
-}
+EVA_HOST = window.location.protocol + "//@@EVA_HOST";
+CELLBASE_HOST = window.location.protocol + "//@@CELLBASE_HOST";
+EVA_VERSION = '@@EVA_VERSION';
+CELLBASE_VERSION = '@@CELLBASE_VERSION';
 
-METADATA_VERSION = 'v1';
-CELLBASE_VERSION = 'v3';
 var EvaManager = {
-    host: METADATA_HOST,
-    version: METADATA_VERSION,
+    host: EVA_HOST,
+    version: EVA_VERSION,
     get: function (args) {
         var success = args.success;
         var error = args.error;
