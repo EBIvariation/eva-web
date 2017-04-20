@@ -19,14 +19,14 @@
  *
  */
 
-METADATA_HOST = window.location.protocol + "//@@EVA_HOST";
+EVA_HOST = window.location.protocol + "//@@EVA_HOST";
 CELLBASE_HOST = window.location.protocol + "//@@CELLBASE_HOST";
-METADATA_VERSION = '@@EVA_VERSION';
+EVA_VERSION = '@@EVA_VERSION';
 CELLBASE_VERSION = '@@CELLBASE_VERSION';
 
 var EvaManager = {
-    host: METADATA_HOST,
-    version: METADATA_VERSION,
+    host: EVA_HOST,
+    version: EVA_VERSION,
     get: function (args) {
         var success = args.success;
         var error = args.error;

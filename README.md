@@ -1,76 +1,73 @@
-**European Variation Archive (EVA) Web Front-end**
+# European Variation Archive (EVA) Web Front-end
 
 Web front-end for the European Variation Archive (EVA), developed using technologies such as JavaScript and HTML5.
 
-**Dependencies**
+## Dependencies
 
 The EVA Web App has the following dependencies
-    Jsorolla
-    EBI-Framework
+   * Jsorolla
+   * EBI-Framework
     
-Jsorolla and EBI-Framework modules are attached with EVA as submodules
+[Jsorolla](https://github.com/opencb/jsorolla) and [EBI-Framework](https://github.com/ebiwd/EBI-Framework) libraries are attached with EVA as submodules.
 
+## Build 
 
-**Build**
+Go to your web root directory and run the following commands:
 
-We use npm modules and Grunt to copy files for production version.
+ ```
+ git clone https://github.com/EBIvariation/eva-web.git```
 
-eva-web/package.json lists the modules to be installed.
+ git checkout master
 
+ git submodule init
 
-go to your web root directory run following commands
+ git submodule update
+ 
+ ```
 
-1. **_git clone https://github.com/EBIvariation/eva-web.git_**
+We use [npm](https://www.npmjs.com/) modules and [Grunt](https://gruntjs.com/) to build EVA web app.
 
-2. **_git checkout develop_**
+_eva-web/package.json_ lists the dependency npm modules to be installed.
 
-3. **_git submodule init_**  ()
+**Note:** npm modules should be installed in both eva-web and in Jsorolla. 
 
-4. **_git submodule update_** 
+Run following command inside _eva-web_ and _lib/jsorolla_ folders:
 
-We use npm modules and Grunt to copy files for production version.
-https://www.npmjs.com/
+```npm install```
 
-eva-web/package.json lists the modules to be installed.
+_eva-web/Gruntfile.js_ has the configuration to build EVA Web App.
 
-note: npm should be installed in eva-web and in jsorolla
+To build EVA web app run the following command in eva-web folder:
 
-run following command in both eva-web and lib/jsorolla
+```grunt``` or grunt --env=(dev/staging/prod)
 
-**_npm install_** 
+Example: for _dev_ instance run the following command:
 
-Gruntfile.js  has the configuration to build EVA Web App.
+```grunt --env=dev```
 
-to build EVA web app run the following command in eva-web
+Default ```grunt``` points to production environment.
 
-**_grunt_** or grunt --env=(dev/staging/prod)
+After successful build the files are then copied to a folder of the form _eva-web/build/x.x.x/_.
 
-ex: for dev instance
+### Summary of steps to build EVA Web app:
 
-**_grunt --env=dev_**
+ ```
+ git clone https://github.com/EBIvariation/eva-web.git
 
-Default grunt points to production environment
+ git checkout master
 
-and if everything okay you can access the web app in your browser
-the main index file is in eva-web/src/index.html
+ git submodule init
 
-if successful the production files are then copied in ex: eva-web/build/x.x.x/
+ git submodule update
 
-these files are then copied to VMs.
+ cd eva-web/lib/jsorolla
 
+ npm install
 
-Summary of steps to build EVA Web app:
+ cd ../..
 
-1. **_git clone https://github.com/EBIvariation/eva-web.git_**
-
-2. **_git checkout develop_**
-
-3. run **_git submodule init_** in eva-web
-
-4. run **_git submodule update_** in eva-web
-
-5. run **_npm install_** in eva-web/lib/jsorolla
-
-6. run **_npm install_** in eva-web/
-
-7. **_grunt_**
+ npm install
+ 
+ grunt 
+ 
+ ```
