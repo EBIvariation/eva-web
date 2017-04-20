@@ -15,14 +15,13 @@ The EVA Web App has the following dependencies
 Go to your web root directory and run the following commands:
 
  ```
- git clone https://github.com/EBIvariation/eva-web.git```
-
+ git clone https://github.com/EBIvariation/eva-web.git
+ 
  git checkout master
 
  git submodule init
 
  git submodule update
- 
  ```
 
 We use [npm](https://www.npmjs.com/) modules and [Grunt](https://gruntjs.com/) to build EVA web app.
@@ -49,7 +48,7 @@ Default ```grunt``` points to production environment.
 
 After successful build the files are then copied to a folder of the form _eva-web/build/x.x.x/_.
 
-### Summary of steps to build EVA Web app:
+### Summary of steps to build EVA Web app
 
  ```
  git clone https://github.com/EBIvariation/eva-web.git
