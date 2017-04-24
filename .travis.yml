@@ -1,4 +1,6 @@
-dist: trusty
+os: osx
+osx_image: xcode8
+#dist: trusty
 sudo: false
 language: node_js
 node_js:
@@ -13,9 +15,9 @@ before_script:
   - npm install
   - cd ../..
   - npm install
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start &
-  - sleep 3
+#  - export DISPLAY=:99.0
+#  - sh -e /etc/init.d/xvfb start &
+#  - sleep 3
 script:
   - grunt
 notifications:
