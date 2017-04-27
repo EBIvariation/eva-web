@@ -405,7 +405,7 @@ module.exports = function (grunt) {
     grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
 
     //run test
-    grunt.registerTask('runAcceptanceTest', ['exec:firefox', 'exec:chrome']);
+    grunt.registerTask('runAcceptanceTest', ['exec:firefox']);
 
     //bower install
     grunt.registerTask('bower-install', ['bower:install']);
