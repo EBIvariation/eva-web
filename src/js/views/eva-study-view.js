@@ -225,16 +225,12 @@ EvaStudyView.prototype = {
                     '</tr></thead><tbody>'
                 for (i = 0; i < data.filesData.length; i++) {
                     var ftpLocation = '';
+                    var downloadLink = data.filesData[i].fileName;
                     if (!_.isUndefined(_.findWhere(ftpLink, {id: data.filesData[i].fileName}))) {
                         ftpLocation = _.findWhere(ftpLink, {id: data.filesData[i].fileName}).result[0];
                     }
-                    var iobioLink = 'NA';
                     if (ftpLink.length > 0 && ftpLocation != 'ftp:/null' && !_.isEmpty(ftpLocation)) {
-                        var downloadLink = '<a href="' + ftpLocation + '" target="_blank">' + data.filesData[i].fileName + '</a>';
-                        iobio_url = 'http://ega-beacon.windows.ebi.ac.uk:8080/?vcf=' + ftpLocation;
-                        iobioLink = '<a href="?eva-iobio&url=' + iobio_url + '" target="_blank">Iobio</a>'
-                    } else {
-                        var downloadLink = data.filesData[i].fileName;
+                        downloadLink = '<a href="' + ftpLocation + '" target="_blank">' + data.filesData[i].fileName + '</a>';
                     }
                     var samples_count;
                     var variantsCount;
@@ -254,7 +250,11 @@ EvaStudyView.prototype = {
                         indelsCount = data.filesData[i].stats.indelsCount;
                         passCount = data.filesData[i].stats.passCount;
                         transitionsCount = (data.filesData[i].stats.transitionsCount / data.filesData[i].stats.transversionsCount).toFixed(2) + '&nbsp;(' + data.filesData[i].stats.transitionsCount + '/' + data.filesData[i].stats.transversionsCount + ')';
-                        meanQuality = data.filesData[i].stats.meanQuality.toFixed(2);
+                        if(!isNaN(data.filesData[i].stats.meanQuality)){
+                            meanQuality = data.filesData[i].stats.meanQuality.toFixed(2);
+                        }else{
+                            meanQuality = 'NA';
+                        }
                     } else {
                         samples_count = 'NA';
                         variantsCount = 'NA';
