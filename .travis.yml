@@ -1,7 +1,5 @@
 os: osx
 osx_image: xcode8.2
-
-sudo: false
 language: node_js
 node_js:
     - "7.7.3"
