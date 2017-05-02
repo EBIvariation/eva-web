@@ -6,7 +6,7 @@ language: node_js
 node_js:
     - "7.7.3"
 addons:
-  firefox: "45.0"
+  firefox: "52.0"
 before_script:
   - cd lib/jsorolla
   - npm install
@@ -20,6 +20,3 @@ notifications:
       - jagi.work@gmail.com
     on_success: always
     on_failure: always
-
-
-

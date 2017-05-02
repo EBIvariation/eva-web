@@ -394,6 +394,7 @@ function variantFilesTab(driver){
 }
 function variantGenotypesTab(driver){
     driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.sleep(5000);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
         driver.findElement(By.xpath("//span[text()='Genotypes']")).click();
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]")).click();
@@ -428,7 +429,7 @@ function showDataInClinicalBrowser(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.id("vb-submit-button")).click();
-    driver.navigate().refresh();
+    driver.sleep(5000);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
         driver.findElement(By.id("clinvar-button")).click();
     });
