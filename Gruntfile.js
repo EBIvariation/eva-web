@@ -349,7 +349,7 @@ module.exports = function (grunt) {
                     clearRequireCache: false,
                     timeout:1500000
                 },
-                src: ['tests/acceptance/variant_b*.js']
+                src: ['tests/acceptance/*.js']
             }
         },
         exec: {
@@ -360,10 +360,10 @@ module.exports = function (grunt) {
                 cmd: 'rm -rf bower_components'
             },
             firefox: {
-                 cmd: 'env BROWSER=firefox  grunt acceptanceTest  --force --colors'
+                 cmd: 'env BROWSER=firefox  grunt acceptanceTest --colors'
             },
             chrome: {
-                cmd: 'env BROWSER=chrome  grunt acceptanceTest  --force --colors'
+                cmd: 'env BROWSER=chrome  grunt acceptanceTest --colors'
             }
         },
         bower: {

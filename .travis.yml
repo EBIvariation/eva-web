@@ -3,10 +3,15 @@ osx_image: xcode8.2
 language: node_js
 node_js:
     - "7.7.3"
-addons:
-  firefox: "45.0"
 before_install:
- - export FIREFOX_SOURCE_URL='https://download.mozilla.org/?product=firefox-45.0&lang=en-US&os=osx'
+ - wget -O /tmp/firefox-45.0.tar.dmg https://ftp.mozilla.org/pub/firefox/releases/45.0/mac/en-GB/Firefox%2045.0.dmg
+ - hdiutil attach /tmp/firefox-45.0.tar.dmg
+ - cd /Volumes/Firefox
+ - cp -r Firefox.app /Applications/
+ - cd $TRAVIS_BUILD_DIR
+ - hdiutil detach /Volumes/Firefox
+ - export PATH=/Applications/Firefox.app/Contents/MacOS:$PATH
+ - firefox --version
 before_script:
   - cd lib/jsorolla
   - npm install
