@@ -676,13 +676,13 @@ html.fontface .icon-s2:before {
     width: 75%;
 }
 
-
-
-
-
-
-
-
+.sticky a.active{
+    color:#ffffff;
+    background-color: #156765;
+    padding: .3em .3em;
+    border-radius:5px;
+    border-bottom-style: none;
+}
 
 
 

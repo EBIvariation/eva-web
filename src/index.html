@@ -574,6 +574,25 @@
                             </li>
                         </ul>
                     </nav>
+                    <div data-sticky-container>
+                        <div class="sticky" data-sticky stickTo="top" data-margin-top="0">
+                            <nav class="top-bar" data-magellan  activeClass="active" data-events="scroll">
+                                <ul class="horizontal menu expanded" data-events="scroll">
+                                    <li><b><a href="#summary-grid">Summary</a></b></li>
+                                    <li><b><a href="#consequence-types-grid">Consequence Type</a></b></li>
+                                    <li><b><a href="#studies-grid">Files</a></b></li>
+                                    <li><b><a href="#population-stats-grid-view">Population Statistics</a></b></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="columns medium-12 large-12">
+                        <h2 id="variantInfo"  data-magellan-target="variantInfo"></h2>
+                        <div id="summary-grid"  data-magellan-target="summary-grid"></div>
+                        <div id="consequence-types-grid"  data-magellan-target="consequence-types-grid"></div>
+                        <div id="studies-grid"   data-magellan-target="studies-grid" style="margin-left:-20px;"></div>
+                        <div id="population-stats-grid-view"  data-magellan-target="population-stats-grid-view" style="margin-left:-20px;"></div>
+                    </div>
                     <div id="variantViewContent"></div>
                 </div>
                 <div id="geneView" class="hide-div">
@@ -680,6 +699,7 @@
 <script src="../lib/EBI-Framework/js/script.js"></script>
 <!-- The Foundation theme JavaScript -->
 <script src="../lib/EBI-Framework/libraries/foundation-6/js/foundation.js"></script>
+<script src="../lib/EBI-Framework/libraries/foundation-6/js/foundation.magellan.js"></script>
 <script src="../lib/EBI-Framework/js/foundationExtendEBI.js"></script>
 <!-- /build -->
 <script type="text/JavaScript">$(document).foundation();</script>
@@ -727,6 +747,8 @@
                 position:tab.value,
                 species:varianttSpecies
             });
+            $('.sticky').foundation('_calc', true);
+            $(window).trigger('resize');
         }
 
         if(tabId == 'gene'){
@@ -770,6 +792,7 @@
                 location.reload();
             }
         }
+
     };
 
     function getUrlParameters(staticURL) {
