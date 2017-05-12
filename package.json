@@ -15,7 +15,7 @@
     "grunt-contrib-uglify": "~2.3.0",
     "grunt-html-build": "~0.5.3",
     "grunt-hub": "0.7.0",
-    "selenium-webdriver":"3.3.0",
+    "selenium-webdriver":"3.4.0",
     "grunt-mocha-test":"0.12.7",
     "mocha": "2.4.5",
     "chai-webdriver":"1.2.0",
@@ -30,7 +30,7 @@
     "grunt-contrib-less": "1.4.0",
     "grunt-replace": "1.0.1",
     "chai": "3.5.0",
-    "geckodriver": "1.4.0",
+    "geckodriver": "1.6.1",
     "grunt-config": "1.0.0",
     "grunt-serve": "0.1.6"
   }
