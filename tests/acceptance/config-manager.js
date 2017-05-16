@@ -21,6 +21,7 @@
 
 var baseURL = '@@BASE_URL';
 var browser = process.env.BROWSER;
+var sleep_time = 5000;
 
 module.exports = {
     initDriver: function (driverName) {
@@ -56,8 +57,9 @@ module.exports = {
             chai = require('chai'),
             chaiWebdriver = require('chai-webdriver');
     },
-    sleep:function(value){
-        flow.execute(function () { return webdriver.promise.delayed(value * 1000);});
+    sleep:function(driver){
+        driver.sleep(sleep_time);
+        return driver;
     },
     reset:function (driver){
         driver.findElement(By.xpath("//span[text()='Reset']")).click();

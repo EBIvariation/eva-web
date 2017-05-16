@@ -21,7 +21,7 @@ var config = require('./config.js');
 config.loadModules();
 module.exports = {
     clinVarSummaryTab:function(driver){
-        driver.sleep(5000);
+        config.sleep(driver);
         driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarSummaryDataPanel')]//table")), 10000).then(function(text) {
 
             driver.findElement(By.className("clinvar-reviewStatus")).getText().then(function(text){
@@ -47,7 +47,7 @@ module.exports = {
         return driver;
     },
     clinVarAssertionTab:function(driver, browser){
-        driver.sleep(5000);
+        config.sleep(driver);
         driver.findElement(By.xpath("//div[contains(@class,'"+ browser +"')]//span[text()='Clinical Assertion']")).click();
         driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'"+ browser +"')]//div[contains(@id,'ClinVarAssertionDataPanel')]//table//td[@class='clinVarAccession']")), 10000).then(function(text) {
             driver.findElements(By.xpath("//div[contains(@id,'ClinVarAssertionDataPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
@@ -91,7 +91,7 @@ module.exports = {
         return driver;
     },
     clinVarAnnotationTab:function(driver){
-        driver.sleep(5000);
+        config.sleep(driver);
         driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//span[text()='Annotation']")).click();
         driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")), 10000).then(function(text) {
             driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//div[contains(@id,'_annotatPagingToolbar-targetEl')]//div[contains(text(), 'Transcripts 1 -')]")).getText().then(function(text) {
@@ -136,7 +136,7 @@ module.exports = {
         return driver;
     },
     clinVarLinksTab:function(driver){
-        driver.sleep(5000);
+        config.sleep(driver);
         driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//span[text()='External Links']")).click();
         driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'clinical-widget')]//div[contains(@id,'ClinVarLinksDataPanel')]//table")), 10000).then(function(text) {
             var regex = /^-$|^\w+/;
