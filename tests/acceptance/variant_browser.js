@@ -47,7 +47,7 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
 
 
     test.describe('Position Filter validate with special characters', function() {
-        test.it('Search by species  "Mosquito / AaegL3" and location "supercont1.18:165624-165624"  where column "Chr"  should match with "supercont1.18",\n' +
+        test.it('Search by species  "Mosquito / AaegL3" and location "supercont1.18:165624-305624"  where column "Chr"  should match with "supercont1.18",\n' +
                 'Search by species  "Mosquito / AgamP3" and location "X:10000000-11000000"  where column "Chr"  should match with "X"\n' +
                 'Search by species  "Mosquito / AgamP3" and location "1!~13:12233-12234"  where table  should match with "No records to display"', function() {
             positionFilterBoxValidation(driver);
@@ -205,11 +205,11 @@ function positionFilterBoxValidation(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Mosquito / AaegL3']")).click();
     driver.findElement(By.name("region")).clear();
-    driver.findElement(By.name("region")).sendKeys('supercont1.18:165624-165624');
+    driver.findElement(By.name("region")).sendKeys('supercont1.18:165624-305624');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('supercont1.18');
         });
     });
