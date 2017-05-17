@@ -679,9 +679,37 @@ html.fontface .icon-s2:before {
 .sticky a.active{
     color:#ffffff;
     background-color: #156765;
-    padding: .3em .3em;
-    border-radius:5px;
+    padding: .5em .5em;
+    border-radius:3px;
     border-bottom-style: none;
+}
+
+.sticky a:hover {
+    color: #ffffff;
+    background-color: #156765;
+}
+
+.top-bar a{
+    color:#ffffff;
+    background-color: #3fa8a8;
+    padding: .6em .6em;
+    border-radius:3px;
+    border-bottom-style: none;
+}
+
+.top-bar, .top-bar ul {
+    background-color: #f7f7f7;
+}
+
+
+@-moz-document url-prefix() {
+    .top-bar{
+        margin-top:1px;
+    }
+}
+
+.top-bar ul li {
+    text-align:center;
 }
 
 

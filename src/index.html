@@ -576,22 +576,26 @@
                     </nav>
                     <h2 id="variantInfo"  data-magellan-target="variantInfo" class="padding-bottom-large"></h2>
                     <div data-sticky-container>
-                        <div class="sticky padding-bottom-large" data-sticky data-options="marginTop:2.65;" style="width:100%" data-top-anchor="summary-grid:top">
-                            <nav class="top-bar" data-magellan data-topbar data-options="scrolltop:false;">
+                        <div class="sticky" data-sticky data-options="marginTop:2.65;" style="width:100%" data-top-anchor="summary-grid-div:top">
+                            <nav class="top-bar" data-magellan data-topbar data-options="data-bar-offset:100">
                                 <ul class="horizontal menu expanded">
-                                    <li><b><a href="#summary-grid">Summary</a></b></li>
-                                    <li><b><a href="#consequence-types-grid">Consequence Type</a></b></li>
-                                    <li><b><a href="#studies-grid">Files</a></b></li>
-                                    <li><b><a href="#population-stats-grid-view">Population Statistics</a></b></li>
+                                    <li><b><a href="#summary-grid-div">Summary</a></b></li>
+                                    <li><b><a href="#consequence-types-grid-div">Consequence Type</a></b></li>
+                                    <li><b><a href="#studies-grid-div">Files</a></b></li>
+                                    <li><b><a href="#population-stats-grid-div">Population Statistics</a></b></li>
                                 </ul>
                             </nav>
                         </div>
                     </div>
                     <div class="columns medium-12 large-12">
-                        <div id="summary-grid"  data-magellan-target="summary-grid" class="padding-bottom-large"></div>
-                        <div id="consequence-types-grid"  data-magellan-target="consequence-types-grid" class="padding-bottom-large"></div>
-                        <div id="studies-grid"   data-magellan-target="studies-grid" style="margin-left:-20px;" class="padding-bottom-large"></div>
-                        <div id="population-stats-grid-view"  data-magellan-target="population-stats-grid-view" style="margin-left:-20px;" class="padding-bottom-large"></div>
+                        <div id="summary-grid-div" class="padding-bottom-large" data-magellan-target="summary-grid-div"></div><br/>
+                        <div id="summary-grid"></div>
+                        <div id="consequence-types-grid-div"  data-magellan-target="consequence-types-grid-div"></div><br/><br/>
+                        <div id="consequence-types-grid"></div>
+                        <div id="studies-grid-div"  data-magellan-target="studies-grid-div"></div><br/>
+                        <div id="studies-grid" style="margin-left:-20px;"></div>
+                        <div id="population-stats-grid-div"  data-magellan-target="population-stats-grid-div"></div><br/>
+                        <div id="population-stats-grid-view" style="margin-left:-20px;"></div>
                     </div>
                     <div id="variantViewContent"></div>
                 </div>
