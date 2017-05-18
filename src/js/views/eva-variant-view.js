@@ -37,7 +37,6 @@ EvaVariantView.prototype = {
             return;
         }
 
-        this.targetDiv.innerHTML = _this._variantViewlayout();
         variantID = this.position;
         _this.studiesList = [];
 
@@ -82,7 +81,8 @@ EvaVariantView.prototype = {
                 }
                 _this.draw();
             }
-        });       
+        });
+
 
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'Variant', eventLabel:'species='+this.species+'variant='+this.position});
@@ -289,28 +289,6 @@ EvaVariantView.prototype = {
         }
 
         return variantPopulationStatsPanel;
-    },
-
-    _variantViewlayout: function () {
-
-        var layout = '<div id="variant-view">' +
-                        '<div class="columns medium-12 large-12">' +
-                            '<h2 id="variantInfo"></h2>' +
-                        '</div>' +
-                        '<div class="columns medium-12 large-12">' +
-                            '<div id="summary-grid"></div>' +
-                        '</div>' +
-                         '<div class="columns medium-12 large-12">' +
-                            '<div id="consequence-types-grid"></div>' +
-                         '</div>' +
-                        '<div class="columns medium-12 large-12">' +
-                            '<div id="studies-grid" style="margin-left:-20px;"></div>' +
-                        '</div>' +
-                        '<div class="columns medium-12 large-12">' +
-                            '<div id="population-stats-grid-view" style="margin-left:-20px;"></div>' +
-                        '</div>' +
-                    '</div>'
-        return layout;
     },
     _sortBy : function(name, minor){
         return function (o, p) {

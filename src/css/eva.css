@@ -676,14 +676,26 @@ html.fontface .icon-s2:before {
     width: 75%;
 }
 
+.megallan-div a{
+    color:#ffffff;
+    background-color: #3fa8a8;
+}
 
+.megallan-div a:hover{
+    color: #ffffff;
+    background-color: #156765;
+}
 
+.megallan-div a.active{
+    color:#ffffff;
+    background-color: #156765;
+}
 
-
-
-
-
-
+@-moz-document url-prefix() {
+    .megallan-div{
+        margin-top:1px;
+    }
+}
 
 
 
