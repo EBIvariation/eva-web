@@ -208,7 +208,7 @@ function positionFilterBoxValidation(driver){
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('supercont1.18:165624-305624');
     driver.findElement(By.id("vb-submit-button")).click();
-    driver.sleep(20000);
+    driver.sleep(60000);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('supercont1.18');
