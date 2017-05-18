@@ -155,6 +155,7 @@ function variantSearchBySpeciesandChrLocation(driver){
             chai.assert.operator(text, '<=', 4100000);
         });
     });
+    return driver;
 }
 
 function checkdbSNPLink(driver){
