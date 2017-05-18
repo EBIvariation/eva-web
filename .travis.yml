@@ -1,24 +1,29 @@
-os: osx
-osx_image: xcode8.2
+os: linux
+
+dist: trusty
+
+sudo: false
+
 language: node_js
+
 node_js:
     - "7.8.0"
+
+addons:
+  firefox: "46.0"
+
 before_install:
- - wget -O /tmp/firefox-46.0.tar.dmg https://ftp.mozilla.org/pub/firefox/releases/46.0/mac/en-GB/Firefox%2046.0.dmg
- - hdiutil attach /tmp/firefox-46.0.tar.dmg
- - cd /Volumes/Firefox
- - cp -r Firefox.app /Applications/
- - cd $TRAVIS_BUILD_DIR
- - hdiutil detach /Volumes/Firefox
- - export PATH=/Applications/Firefox.app/Contents/MacOS:$PATH
  - firefox --version
+
 before_script:
   - cd lib/jsorolla
   - npm install
   - cd ../..
   - npm install
+
 script:
   - grunt
+
 notifications:
   email:
     recipients:
