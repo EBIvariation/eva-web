@@ -55,70 +55,70 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
-    test.describe('Position Filter Invalidate with Incorrect values', function() {
-        test.it('Invalid Location "12334" should open alert box with "Please enter a valid region" message,\n' +
-                'Invalid Location "1:3200000-3100000" should open alert box with "Please enter the correct range.The start of the region should be smaller than the end,\n' +
-                'Invalid Location "1:3000000-310000000" should open alert box with "Please enter a region no larger than 1 million bases\n' +
-                'Invalid Location "1,13:12233-12234" should open alert box with "Please enter a valid region"', function() {
-            positionFilterBoxInValidation(driver);
-        });
-    });
-
-    test.describe('search by Gene', function() {
-        test.it('Search by "BRCA2" should match column "Chr" with "13"', function() {
-            variantSearchByGene(driver);
-        });
-    });
-
-    test.describe('Filter by  Polyphen and Sift Filters', function() {
-        test.it('should match with columns "PolyPhen2 greater than 0.9" and "Sift Lesser than 0.02"', function() {
-            variantFilterByPolyphenSift(driver);
-        });
-    });
-
-    test.describe('Filter by  MAF', function() {
-        test.it('should match with MAF column "Minor Allele Frequency greater than 0.3" in Poulation Statistics Tab', function() {
-            variantFilterByMAF(driver);
-        });
-    });
-
-    test.describe('check dbSNP link href', function() {
-        test.it('should match with Variant ID,\n' +
-            'Variant ID ex: rs541552030 should have "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs="\n' +
-            'Variant ID ex: ss1225720736 should have "http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id="\n', function() {
-            checkdbSNPLink(driver);
-        });
-    });
-
-    test.describe('Bottom Panel', function() {
-        test.it('Annotation Tab should not be empty', function() {
-            variantAnnotationTab(driver);
-        });
-        test.it('Files Tab should not be empty and no duplicate Items', function() {
-            variantFilesTab(driver);
-        });
-        test.it('Genotypes Tab should not be empty and no duplicate Items', function() {
-            variantGenotypesTab(driver);
-        });
-        test.it('Population Statistics should not be empty and no duplicate Items ', function() {
-            variantPopulationTab(driver);
-        });
-        test.it('Clinical Assertion Tab should not be empty and no duplicate items ', function() {
-            clinicalAssertionTab(driver);
-        });
-    });
-
-    test.describe('Show data in Clinical Browser', function() {
-        test.it('Clicking "Show in Clinical Browser" button should go to "Clinical Browser" and click back should go back to "Variant Browser"', function() {
-            showDataInClinicalBrowser(driver);
-        });
-    });
-
-    test.describe('Reset button', function() {
-        test.it('Clicking "Reset" button should add default values', function() {
-            variantReset(driver);
-        });
-    });
+    // test.describe('Position Filter Invalidate with Incorrect values', function() {
+    //     test.it('Invalid Location "12334" should open alert box with "Please enter a valid region" message,\n' +
+    //             'Invalid Location "1:3200000-3100000" should open alert box with "Please enter the correct range.The start of the region should be smaller than the end,\n' +
+    //             'Invalid Location "1:3000000-310000000" should open alert box with "Please enter a region no larger than 1 million bases\n' +
+    //             'Invalid Location "1,13:12233-12234" should open alert box with "Please enter a valid region"', function() {
+    //         positionFilterBoxInValidation(driver);
+    //     });
+    // });
+    //
+    // test.describe('search by Gene', function() {
+    //     test.it('Search by "BRCA2" should match column "Chr" with "13"', function() {
+    //         variantSearchByGene(driver);
+    //     });
+    // });
+    //
+    // test.describe('Filter by  Polyphen and Sift Filters', function() {
+    //     test.it('should match with columns "PolyPhen2 greater than 0.9" and "Sift Lesser than 0.02"', function() {
+    //         variantFilterByPolyphenSift(driver);
+    //     });
+    // });
+    //
+    // test.describe('Filter by  MAF', function() {
+    //     test.it('should match with MAF column "Minor Allele Frequency greater than 0.3" in Poulation Statistics Tab', function() {
+    //         variantFilterByMAF(driver);
+    //     });
+    // });
+    //
+    // test.describe('check dbSNP link href', function() {
+    //     test.it('should match with Variant ID,\n' +
+    //         'Variant ID ex: rs541552030 should have "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs="\n' +
+    //         'Variant ID ex: ss1225720736 should have "http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id="\n', function() {
+    //         checkdbSNPLink(driver);
+    //     });
+    // });
+    //
+    // test.describe('Bottom Panel', function() {
+    //     test.it('Annotation Tab should not be empty', function() {
+    //         variantAnnotationTab(driver);
+    //     });
+    //     test.it('Files Tab should not be empty and no duplicate Items', function() {
+    //         variantFilesTab(driver);
+    //     });
+    //     test.it('Genotypes Tab should not be empty and no duplicate Items', function() {
+    //         variantGenotypesTab(driver);
+    //     });
+    //     test.it('Population Statistics should not be empty and no duplicate Items ', function() {
+    //         variantPopulationTab(driver);
+    //     });
+    //     test.it('Clinical Assertion Tab should not be empty and no duplicate items ', function() {
+    //         clinicalAssertionTab(driver);
+    //     });
+    // });
+    //
+    // test.describe('Show data in Clinical Browser', function() {
+    //     test.it('Clicking "Show in Clinical Browser" button should go to "Clinical Browser" and click back should go back to "Variant Browser"', function() {
+    //         showDataInClinicalBrowser(driver);
+    //     });
+    // });
+    //
+    // test.describe('Reset button', function() {
+    //     test.it('Clicking "Reset" button should add default values', function() {
+    //         variantReset(driver);
+    //     });
+    // });
 
 });
 
@@ -208,7 +208,7 @@ function positionFilterBoxValidation(driver){
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('supercont1.18:165624-305624');
     driver.findElement(By.id("vb-submit-button")).click();
-    config.sleep(20000);
+    driver.sleep(20000);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('supercont1.18');
