@@ -2,7 +2,7 @@ os: osx
 osx_image: xcode8.2
 language: node_js
 node_js:
-    - "7.7.3"
+    - "7.8.0"
 before_install:
  - wget -O /tmp/firefox-46.0.tar.dmg https://ftp.mozilla.org/pub/firefox/releases/46.0/mac/en-GB/Firefox%2046.0.dmg
  - hdiutil attach /tmp/firefox-46.0.tar.dmg
