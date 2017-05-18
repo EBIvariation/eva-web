@@ -4,8 +4,8 @@ language: node_js
 node_js:
     - "7.7.3"
 before_install:
- - wget -O /tmp/firefox-45.0.tar.dmg https://ftp.mozilla.org/pub/firefox/releases/45.0/mac/en-GB/Firefox%2045.0.dmg
- - hdiutil attach /tmp/firefox-45.0.tar.dmg
+ - wget -O /tmp/firefox-46.0.tar.dmg https://ftp.mozilla.org/pub/firefox/releases/46.0/mac/en-GB/Firefox%2046.0.dmg
+ - hdiutil attach /tmp/firefox-46.0.tar.dmg
  - cd /Volumes/Firefox
  - cp -r Firefox.app /Applications/
  - cd $TRAVIS_BUILD_DIR
