@@ -208,9 +208,9 @@ function positionFilterBoxValidation(driver){
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('supercont1.18:165624-305624');
     driver.findElement(By.id("vb-submit-button")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 300000).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")).getText().then(function(text){
-            assert(text).equalTo('supercont1.18');
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")), 30000).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")).getText().then(function(text){
+            assert(text).equalTo('No records to display');
         });
     });
 
