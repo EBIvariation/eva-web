@@ -114,7 +114,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     xtype: 'box',
                     id: 'populationStats',
                     cls: 'ocb-header-4',
-                    html: '<h4>Population Statistics <span class="icon icon-generic title-header-icon" data-icon="i"  data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;"></span></h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>',
+                    html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>',
                     margin: '5 0 10 15'
                 },
                 this.studiesContainer
@@ -212,10 +212,10 @@ EvaVariantPopulationStatsPanel.prototype = {
         };
 
         if (_.isEmpty(populationData)) {
-            Ext.getCmp('populationStats').update('<h4>Population Statistics <span class="icon icon-generic title-header-icon" data-icon="i"  data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;"></span></h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>')
+            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>')
             return;
         } else {
-            Ext.getCmp('populationStats').update('<h4>Population Statistics <span class="icon icon-generic title-header-icon" data-icon="i"  data-qtip="'+this.tooltipText+'" style="margin-bottom:2px;"></span></h4>')
+            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h6><small>'+this.tooltipText+'</small></h6>')
         }
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",

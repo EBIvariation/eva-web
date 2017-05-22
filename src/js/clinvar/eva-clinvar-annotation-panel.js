@@ -164,14 +164,14 @@ ClinvarAnnotationPanel.prototype = {
                 var annText = _.findWhere(annotation_text, {species: params.species})
                 if (!_.isEmpty(annText.text)) {
                     var tooltip = annText.text;
-                    Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations <span class="icon icon-generic title-header-icon" data-icon="i" data-qtip="' + tooltip + '" style="margin-bottom:2px;"></span></h4>')
+                    Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4><h6><small>'+tooltip+'</small></h6>')
                 } else {
                     Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4>')
                 }
             }
 
         } else {
-            Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations <span class="icon icon-generic title-header-icon" data-icon="i" data-qtip="Variant Effect Predictor (VEP) v78 annotation against the GENCODE Basic Ensembl v78 geneset." style="margin-bottom:2px;"></span></h4>')
+            Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4><h6><small>Variant Effect Predictor (VEP) v78 annotation against the GENCODE Basic Ensembl v78 geneset.</small></h6>')
         }
         var panel = this._createAnnotPanel(annotData);
         this.annotContainer.removeAll();
