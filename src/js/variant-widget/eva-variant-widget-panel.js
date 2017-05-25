@@ -2,7 +2,7 @@
  * European Variation Archive (EVA) - Open-access database of all types of genetic
  * variation data from all species
  *
- * Copyright 2014, 2015 EMBL - European Bioinformatics Institute
+ * Copyright 2014 - 2017 EMBL - European Bioinformatics Institute
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -279,6 +279,36 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = '1:3000000-3100000';
             }
 
+            var vep_version = 'default';
+            var  consequenceTypesData = consequenceTypes[vep_version];
+            if( !_.isUndefined(_.findWhere(annotation_text, {species: e.species}))){
+               vep_version = _.findWhere(annotation_text, {species: e.species}).vep_version;
+               if (vep_version) {
+                   consequenceTypesData = consequenceTypes[vep_version];
+               }
+            }
+
+            var conseqTypeTreeStore = Ext.create('Ext.data.TreeStore', {
+                model: 'Tree Model',
+                proxy: {
+                    type: 'memory',
+                    data:_.sortBy(consequenceTypesData, 'name'),
+                    reader: {
+                        type: 'json'
+                    }
+                },
+                root: {
+                    expanded: false
+                }
+            });
+
+            conseqTypeFilter.panel.reconfigure(conseqTypeTreeStore);
+
+            if (!_.isEmpty(_this.selectAnnotCT)) {
+                var annotCT = _this.selectAnnotCT.split(",");
+                conseqTypeFilter.selectNodes(annotCT);
+            }
+
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
 
@@ -306,7 +336,7 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
-            consequenceTypes: consequenceTypes,
+            consequenceTypes: consequenceTypes[87],
             selectAnnotCT: _this.selectAnnotCT,
             collapsed: true,
             fields: [

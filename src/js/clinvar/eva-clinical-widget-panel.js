@@ -2,7 +2,7 @@
  * European Variation Archive (EVA) - Open-access database of all types of genetic
  * variation data from all species
  *
- * Copyright 2014, 2015 EMBL - European Bioinformatics Institute
+ * Copyright 2014 - 2017 EMBL - European Bioinformatics Institute
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -224,7 +224,7 @@ EvaClinicalWidgetPanel.prototype = {
         });
 
         var clinvarConseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
-            consequenceTypes: consequenceTypes,
+            consequenceTypes: consequenceTypes[78],
             selectAnnotCT: _this.selectSO,
             filterType: 'clinVar',
             collapsed: false,
