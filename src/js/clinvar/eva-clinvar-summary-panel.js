@@ -155,7 +155,7 @@ ClinvarSummaryPanel.prototype = {
                     }
                 }, this[key]);
                 var transcripts = transcript_array.join('\n');
-                var so_term_detail = _.findWhere(consequenceTypesColors, {id: key});
+                var so_term_detail = _.findWhere(consequenceTypesInfo, {id: key});
                 var color = '';
                 var impact = '';
                 var svg = '';

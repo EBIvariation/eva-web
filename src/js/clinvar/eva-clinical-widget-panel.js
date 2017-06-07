@@ -241,6 +241,13 @@ EvaClinicalWidgetPanel.prototype = {
             ]
         });
 
+        var nodes = clinvarConseqTypeFilter.panel.getRootNode()
+        nodes.cascadeBy(function (n) {
+            if (n.isLeaf()) {
+                n.data.qtip =  _.findWhere(consequenceTypesInfo, {id: n.data.name}).description;
+            }
+        });
+
         var variationType = [
             {
                 name: 'Deletion',

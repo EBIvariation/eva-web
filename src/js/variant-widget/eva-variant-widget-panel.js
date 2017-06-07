@@ -279,35 +279,7 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = '1:3000000-3100000';
             }
 
-            var vep_version = 'default';
-            var  consequenceTypesData = consequenceTypes[vep_version];
-            if( !_.isUndefined(_.findWhere(annotation_text, {species: e.species}))){
-               vep_version = _.findWhere(annotation_text, {species: e.species}).vep_version;
-               if (vep_version) {
-                   consequenceTypesData = consequenceTypes[vep_version];
-               }
-            }
-
-            var conseqTypeTreeStore = Ext.create('Ext.data.TreeStore', {
-                model: 'Tree Model',
-                proxy: {
-                    type: 'memory',
-                    data:_.sortBy(consequenceTypesData, 'name'),
-                    reader: {
-                        type: 'json'
-                    }
-                },
-                root: {
-                    expanded: false
-                }
-            });
-
-            conseqTypeFilter.panel.reconfigure(conseqTypeTreeStore);
-
-            if (!_.isEmpty(_this.selectAnnotCT)) {
-                var annotCT = _this.selectAnnotCT.split(",");
-                conseqTypeFilter.selectNodes(annotCT);
-            }
+            _this._loadConsequenceTypes(conseqTypeFilter, e.species);
 
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
@@ -538,6 +510,45 @@ EvaVariantWidgetPanel.prototype = {
             }
         });
     },
+    _loadConsequenceTypes: function (filter, species) {
+        var _this = this;
+        var vep_version = 'default';
+        var  consequenceTypesData = consequenceTypes[vep_version];
+        if( !_.isUndefined(_.findWhere(annotation_text, {species: species}))){
+            vep_version = _.findWhere(annotation_text, {species: species}).vep_version;
+            if (vep_version) {
+                consequenceTypesData = consequenceTypes[vep_version];
+            }
+        }
+
+        var conseqTypeTreeStore = Ext.create('Ext.data.TreeStore', {
+            model: 'Tree Model',
+            proxy: {
+                type: 'memory',
+                data:_.sortBy(consequenceTypesData, 'name'),
+                reader: {
+                    type: 'json'
+                }
+            },
+            root: {
+                expanded: false
+            }
+        });
+
+        filter.panel.reconfigure(conseqTypeTreeStore);
+
+        var nodes = filter.panel.getRootNode()
+        nodes.cascadeBy(function (n) {
+            if (n.isLeaf()) {
+                n.data.qtip =  _.findWhere(consequenceTypesInfo, {id: n.data.name}).description;
+            }
+        });
+
+        if (!_.isEmpty(_this.selectAnnotCT)) {
+            var annotCT = _this.selectAnnotCT.split(",");
+            filter.selectNodes(annotCT);
+        }
+    },
     _updateURL: function (values) {
 
         var _this = this;
@@ -566,7 +577,5 @@ EvaVariantWidgetPanel.prototype = {
             ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
         }, gaValues);
     }
-
-
 };
 

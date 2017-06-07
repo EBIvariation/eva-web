@@ -298,7 +298,7 @@ EvaClinVarWidget.prototype = {
                             }, groupedArr);
                             so_array = _.compact(so_array);
                             meta.tdAttr = 'data-qtip="' + _.first(so_array) + '"';
-                            var so_term_detail = _.findWhere(consequenceTypesColors, {id: _.first(so_array)});
+                            var so_term_detail = _.findWhere(consequenceTypesInfo, {id: _.first(so_array)});
                             var color = '';
                             var impact = '';
                             var svg = '';
