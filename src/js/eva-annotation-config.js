@@ -92,10 +92,272 @@ consequenceTypesInfo = [
     {id: 'feature_truncation', color: '#7F7F7F', impact: 'MODIFIER', description:'A sequence variant that causes the reduction of a genomic feature, with regard to the reference sequence'},
     {id: 'intergenic_variant', color: '#636363', impact: 'MODIFIER', description:'A sequence variant located in the intergenic region, between genes'}
 ];
+var consequenceTypeDetails = {
+    'transcript_ablation': {
+        name: 'transcript_ablation',
+        acc:'SO:0001893',
+        color: '#FF0000',
+        impact: 'HIGH',
+        description:'A feature ablation whereby the deleted region includes a transcript feature'
+    },
+    'splice_acceptor_variant': {
+        name: 'splice_acceptor_variant',
+        acc:'SO:0001574',
+        color: '#FF581A',
+        impact: 'HIGH',
+        description:'A splice variant that changes the 2 base region at the 3\' end of an intron'
+    },
+    'splice_donor_variant': {
+        name: 'splice_donor_variant',
+        acc:'SO:0001575',
+        color: '#FF581A',
+        impact: 'HIGH',
+        description:'A splice variant that changes the 2 base region at the 5\' end of an intron'
+    },
+    'stop_gained': {
+        name: 'stop_gained',
+        acc:'SO:0001587',
+        color: '#FF0000',
+        impact: 'HIGH',
+        description:'A sequence variant whereby at least one base of a codon is changed, resulting in a premature stop codon, leading to a shortened transcript'
+    },
+    'frameshift_variant': {
+        name: 'frameshift_variant',
+        acc: 'SO:0001589',
+        color: '#9400D3',
+        impact: 'HIGH',
+        description:'A sequence variant which causes a disruption of the translational reading frame, because the number of nucleotides inserted or deleted is not a multiple of three'
+    },
+    'stop_lost': {
+        name: 'stop_lost',
+        acc:'SO:0001578',
+        color: '#FF0000',
+        impact: 'HIGH',
+        description:'A sequence variant where at least one base of the terminator codon (stop) is changed, resulting in an elongated transcript'
+    },
+    'start_lost':{
+        name: 'start_lost',
+        acc:'SO:0002012',
+        color: '#FFD700',
+        impact: 'HIGH',
+        description:'A codon variant that changes at least one base of the canonical start codon'
+    },
+    'initiator_codon_variant': {
+        name: 'initiator_codon_variant',
+        acc:'SO:0001582',
+        color:'#FF0000',
+        impact: 'LOW',
+        description:'A codon variant that changes at least one base of the first codon of a transcript'
+    },
+    'transcript_amplification': {
+        name: 'transcript_amplification',
+        acc:'SO:0001889',
+        color: '#FF69B4',
+        impact: 'HIGH',
+        description:'A feature amplification of a region containing a transcript'
+    },
+    'inframe_insertion': {
+        name: 'inframe_insertion',
+        acc:'SO:0001821',
+        color: '#FF69B4',
+        impact: 'MODERATE',
+        description:'An inframe non synonymous variant that inserts bases into in the coding sequence'
+    },
+    'inframe_deletion': {
+        name: 'inframe_deletion',
+        acc:'SO:0001822',
+        color: '#FF69B4',
+        impact: 'MODERATE',
+        description:'An inframe non synonymous variant that deletes bases from the coding sequence'
+    },
+    'missense_variant': {
+        name: 'missense_variant',
+        acc:'SO:0001583',
+        color: '#FFD700',
+        impact: 'MODERATE',
+        description:'A sequence variant, that changes one or more bases, resulting in a different amino acid sequence but where the length is preserved'
+    },
+    'protein_altering_variant': {
+        name: 'protein_altering_variant',
+        acc:'SO:0001818',
+        color: '#FF0080',
+        impact: 'MODERATE',
+        description:'A sequence_variant which is predicted to change the protein encoded in the coding sequence'
+    },
+    'splice_region_variant' : {
+        name: 'splice_region_variant',
+        acc:'SO:0001630',
+        color: '#FF7F50',
+        impact: 'LOW',
+        description:'A sequence variant in which a change has occurred within the region of the splice site, either within 1-3 bases of the exon or 3-8 bases of the intron'
+    },
+    'incomplete_terminal_codon_variant' : {
+        name: 'incomplete_terminal_codon_variant',
+        acc:'SO:0001626',
+        color: '#FF00FF',
+        impact: 'LOW',
+        description:'A sequence variant where at least one base of the final codon of an incompletely annotated transcript is changed'
+    },
+    'stop_retained_variant': {
+        name: 'stop_retained_variant',
+        acc:'SO:0001567',
+        color: '#76EE00',
+        impact: 'LOW',
+        description:'A sequence variant where at least one base in the terminator codon is changed, but the terminator remains'
+    },
+    'synonymous_variant': {
+        name: 'synonymous_variant',
+        acc:'SO:0001819',
+        color: '#76EE00',
+        impact: 'LOW',
+        description:'A sequence variant where there is no resulting change to the encoded amino acid'
+    },
+    'coding_sequence_variant': {
+        name: 'coding_sequence_variant',
+        acc:'SO:0001580',
+        color: '#458B00',
+        impact: 'MODIFIER',
+        description:'A sequence variant that changes the coding sequence'
+    },
+    'mature_miRNA_variant': {
+        name: 'mature_miRNA_variant',
+        acc:'SO:0001620',
+        color: '#458B00',
+        impact: 'MODIFIER',
+        description:'A transcript variant located with the sequence of the mature miRNA'
+    },
+    '5_prime_UTR_variant': {
+        name: '5_prime_UTR_variant',
+        acc:'SO:0001623',
+        color: '#7AC5CD',
+        impact: 'MODIFIER',
+        description:'A UTR variant of the 5\' UTR'
+    },
+    '3_prime_UTR_variant':  {
+        name: '3_prime_UTR_variant',
+        acc:'SO:0001624',
+        color: '#7AC5CD',
+        impact: 'MODIFIER',
+        description:'A UTR variant of the 3\' UTR'
+    },
+    'non_coding_transcript_exon_variant': {
+        name: 'non_coding_transcript_exon_variant',
+        acc:'SO:0001792',
+        color: '#32CD32',
+        impact: 'MODIFIER',
+        description:'A sequence variant that changes non-coding exon sequence in a non-coding transcript'
+    },
+    'intron_variant': {
+        name: 'intron_variant',
+        acc:'SO:0001627',
+        color: '#02599C',
+        impact: 'MODIFIER',
+        description:'A transcript variant occurring within an intron'
+    },
+    'NMD_transcript_variant': {
+        name: 'NMD_transcript_variant',
+        acc:'SO:0001621',
+        color: '#FF4500',
+        impact: 'MODIFIER',
+        description:'A variant in a transcript that is the target of NMD'
+    },
+    'non_coding_transcript_variant': {
+        name: 'non_coding_transcript_variant',
+        acc:'SO:0001619',
+        color: '#32CD32',
+        impact: 'MODIFIER',
+        description:'A transcript variant of a non coding RNA gene'
+    },
+    'upstream_gene_variant': {
+        name: 'upstream_gene_variant',
+        acc:'SO:0001631',
+        color: '#A2B5CD',
+        impact: 'MODIFIER',
+        description:'A sequence variant located 5\' of a gene'
+    },
+    'downstream_gene_variant': {
+        name: 'downstream_gene_variant',
+        acc:'SO:0001632',
+        color: '#A2B5CD',
+        impact: 'MODIFIER',
+        description:'A sequence variant located 3\' of a gene'
+    },
+    'TFBS_ablation': {
+        name: 'TFBS_ablation',
+        acc:'SO:0001895',
+        color: '#A52A2A',
+        impact: 'MODERATE',
+        description:'A feature ablation whereby the deleted region includes a transcription factor binding site'
+    },
+    'TFBS_amplification': {
+        name: 'TFBS_amplification',
+        acc:'SO:0001892',
+        color: '#A52A2A',
+        impact: 'MODIFIER',
+        description:'A feature amplification of a region containing a transcription factor binding site'
+    },
+    'TF_binding_site_variant': {
+        name: 'TF_binding_site_variant',
+        acc:'SO:0001782',
+        color: '#A52A2A',
+        impact: 'MODIFIER',
+        description:'A sequence variant located within a transcription factor binding site'
+    },
+    'regulatory_region_ablation': {
+        name: 'regulatory_region_ablation',
+        acc:'SO:0001894',
+        color: '#A52A2A',
+        impact: 'MODERATE',
+        description:'A feature ablation whereby the deleted region includes a regulatory region'
+    },
+    'regulatory_region_amplification': {
+        name: 'regulatory_region_amplification',
+        acc:'SO:0001891',
+        color: '#A52A2A',
+        impact: 'MODIFIER',
+        description:'A feature amplification of a region containing a regulatory region'
+    },
+    'regulatory_region_variant': {
+        name: 'regulatory_region_variant',
+        acc:'SO:0001566',
+        color: '#A52A2A',
+        impact: 'MODIFIER',
+        description:'A sequence variant located within a regulatory region'
+    },
+    'feature_elongation': {
+        name: 'feature_elongation',
+        acc:'SO:0001907',
+        color: '#7F7F7F',
+        impact: 'MODIFIER',
+        description:'A sequence variant that causes the extension of a genomic feature, with regard to the reference sequence'
+    },
+    'feature_truncation': {
+        name: 'feature_truncation',
+        acc:'SO:0001906',
+        color: '#7F7F7F',
+        impact: 'MODIFIER',
+        description:'A sequence variant that causes the reduction of a genomic feature, with regard to the reference sequence'
+    },
+    'intergenic_variant': {
+        name: 'intergenic_variant',
+        acc:'SO:0001628',
+        color: '#636363',
+        impact: 'MODIFIER',
+        description:'A sequence variant located in the intergenic region, between genes'
+    }
+};
 
-consequenceTypes = {
+consequenceTypeDetails = consequenceTypeTreeFormat(consequenceTypeDetails);
+function consequenceTypeTreeFormat(data){
+    _.each(_.keys(data), function (key) {
+        _.extend(data[key], {leaf: true, checked: false, iconCls: 'no-icon'})
+    }, data);
+    return data;
+};
+
+var consequenceTypes = {
     default:[
-        {acc: 'SO:0001628', name: 'intergenic_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+        consequenceTypeDetails['intergenic_variant']
     ],
     78 : [
         {
@@ -114,20 +376,20 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001580', name: 'coding_sequence_variant', leaf: true, checked: false, iconCls: 'no-icon' },
-                        {acc: 'SO:0001907', name: 'feature_elongation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001906', name: 'feature_truncation',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001589', name: 'frameshift_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001626', name: 'incomplete_terminal_codon_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001822', name: 'inframe_deletion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001821', name: 'inframe_insertion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001583', name: 'missense_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001621', name: 'NMD_transcript_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001819', name: 'synonymous_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001587', name: 'stop_gained', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001578', name: 'stop_lost', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001582', name: 'initiator_codon_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001567', name: 'stop_retained_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['coding_sequence_variant'],
+                        consequenceTypeDetails['feature_elongation'],
+                        consequenceTypeDetails['feature_truncation'],
+                        consequenceTypeDetails['frameshift_variant'],
+                        consequenceTypeDetails['incomplete_terminal_codon_variant'],
+                        consequenceTypeDetails['inframe_deletion'],
+                        consequenceTypeDetails['inframe_insertion'],
+                        consequenceTypeDetails['missense_variant'],
+                        consequenceTypeDetails['NMD_transcript_variant'],
+                        consequenceTypeDetails['synonymous_variant'],
+                        consequenceTypeDetails['stop_gained'],
+                        consequenceTypeDetails['stop_lost'],
+                        consequenceTypeDetails['initiator_codon_variant'],
+                        consequenceTypeDetails['stop_retained_variant'],
                     ]
                 },
                 {
@@ -139,10 +401,11 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001624', name: '3_prime_UTR_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001623', name: '5_prime_UTR_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001627', name: 'intron_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001792', name: 'non_coding_transcript_exon_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['3_prime_UTR_variant'],
+                        consequenceTypeDetails['5_prime_UTR_variant'],
+                        consequenceTypeDetails['intron_variant'],
+                        consequenceTypeDetails['non_coding_transcript_exon_variant'],
+                        consequenceTypeDetails['non_coding_transcript_variant']
                     ]
 
                 },
@@ -155,17 +418,14 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001574', name: 'splice_acceptor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001575', name: 'splice_donor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001630', name: 'splice_region_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                        consequenceTypeDetails['splice_acceptor_variant'],
+                        consequenceTypeDetails['splice_donor_variant'],
+                        consequenceTypeDetails['splice_region_variant']
                     ]
 
                 },
-
-                {acc: 'SO:0001893', name: 'transcript_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001889', name: 'transcript_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                consequenceTypeDetails['transcript_ablation'],
+                consequenceTypeDetails['transcript_amplification']
             ]
 
         },
@@ -177,13 +437,13 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001620', name: 'mature_miRNA_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001894', name: 'regulatory_region_ablation',  leaf: true, checked: false, iconCls: 'no-icon' },
-                {acc: 'SO:0001891', name: 'regulatory_region_amplification',  leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001566', name: 'regulatory_region_variant',  leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001782', name: 'TF_binding_site_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001895', name: 'TFBS_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001892', name: 'TFBS_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['mature_miRNA_variant'],
+                consequenceTypeDetails['regulatory_region_ablation'],
+                consequenceTypeDetails['regulatory_region_amplification'],
+                consequenceTypeDetails['regulatory_region_variant'],
+                consequenceTypeDetails['TF_binding_site_variant'],
+                consequenceTypeDetails['TFBS_ablation'],
+                consequenceTypeDetails['TFBS_amplification']
             ]
         },
         {
@@ -194,10 +454,9 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001632', name: 'downstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001628', name: 'intergenic_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001631', name: 'upstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-
+                consequenceTypeDetails['downstream_gene_variant'],
+                consequenceTypeDetails['intergenic_variant'],
+                consequenceTypeDetails['upstream_gene_variant']
             ]
         }
     ],
@@ -218,21 +477,21 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001580', name: 'coding_sequence_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001907', name: 'feature_elongation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001906', name: 'feature_truncation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001589', name: 'frameshift_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001626', name: 'incomplete_terminal_codon_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001822', name: 'inframe_deletion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001821', name: 'inframe_insertion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001583', name: 'missense_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001621', name: 'NMD_transcript_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001818', name: 'protein_altering_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001819', name: 'synonymous_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0002012', name: 'start_lost',  leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001587', name: 'stop_gained', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001578', name: 'stop_lost', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001567', name: 'stop_retained_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['coding_sequence_variant'],
+                        consequenceTypeDetails['feature_elongation'],
+                        consequenceTypeDetails['feature_truncation'],
+                        consequenceTypeDetails['frameshift_variant'],
+                        consequenceTypeDetails['incomplete_terminal_codon_variant'],
+                        consequenceTypeDetails['inframe_deletion'],
+                        consequenceTypeDetails['inframe_insertion'],
+                        consequenceTypeDetails['missense_variant'],
+                        consequenceTypeDetails['NMD_transcript_variant'],
+                        consequenceTypeDetails['protein_altering_variant'],
+                        consequenceTypeDetails['synonymous_variant'],
+                        consequenceTypeDetails['start_lost'],
+                        consequenceTypeDetails['stop_gained'],
+                        consequenceTypeDetails['stop_lost'],
+                        consequenceTypeDetails['stop_retained_variant']
                     ]
                 },
                 {
@@ -244,10 +503,11 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001624', name: '3_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001623', name: '5_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001627', name: 'intron_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001792', name: 'non_coding_transcript_exon_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['3_prime_UTR_variant'],
+                        consequenceTypeDetails['5_prime_UTR_variant'],
+                        consequenceTypeDetails['intron_variant'],
+                        consequenceTypeDetails['non_coding_transcript_exon_variant'],
+                        consequenceTypeDetails['non_coding_transcript_variant']
                     ]
 
                 },
@@ -260,16 +520,14 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001574', name: 'splice_acceptor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001575', name: 'splice_donor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001630', name: 'splice_region_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                        consequenceTypeDetails['splice_acceptor_variant'],
+                        consequenceTypeDetails['splice_donor_variant'],
+                        consequenceTypeDetails['splice_region_variant']
                     ]
 
                 },
-
-                {acc: 'SO:0001893', name: 'transcript_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001889', name: 'transcript_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['transcript_ablation'],
+                consequenceTypeDetails['transcript_amplification']
 
             ]
 
@@ -282,13 +540,13 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001620', name: 'mature_miRNA_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001894', name: 'regulatory_region_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001891', name: 'regulatory_region_amplification', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001566', name: 'regulatory_region_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001782', name: 'TF_binding_site_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001895', name: 'TFBS_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001892', name: 'TFBS_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['mature_miRNA_variant'],
+                consequenceTypeDetails['regulatory_region_ablation'],
+                consequenceTypeDetails['regulatory_region_amplification'],
+                consequenceTypeDetails['regulatory_region_variant'],
+                consequenceTypeDetails['TF_binding_site_variant'],
+                consequenceTypeDetails['TFBS_ablation'],
+                consequenceTypeDetails['TFBS_amplification']
             ]
         },
         {
@@ -299,10 +557,9 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001632', name: 'downstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001628', name: 'intergenic_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001631', name: 'upstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                consequenceTypeDetails['downstream_gene_variant'],
+                consequenceTypeDetails['intergenic_variant'],
+                consequenceTypeDetails['upstream_gene_variant']
             ]
         }
     ],
@@ -323,21 +580,21 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001580', name: 'coding_sequence_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001907', name: 'feature_elongation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001906', name: 'feature_truncation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001589', name: 'frameshift_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001626', name: 'incomplete_terminal_codon_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001822', name: 'inframe_deletion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001821', name: 'inframe_insertion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001583', name: 'missense_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001621', name: 'NMD_transcript_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001818', name: 'protein_altering_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001819', name: 'synonymous_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0002012', name: 'start_lost',  leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001587', name: 'stop_gained', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001578', name: 'stop_lost', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001567', name: 'stop_retained_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['coding_sequence_variant'],
+                        consequenceTypeDetails['feature_elongation'],
+                        consequenceTypeDetails['feature_truncation'],
+                        consequenceTypeDetails['frameshift_variant'],
+                        consequenceTypeDetails['incomplete_terminal_codon_variant'],
+                        consequenceTypeDetails['inframe_deletion'],
+                        consequenceTypeDetails['inframe_insertion'],
+                        consequenceTypeDetails['missense_variant'],
+                        consequenceTypeDetails['NMD_transcript_variant'],
+                        consequenceTypeDetails['protein_altering_variant'],
+                        consequenceTypeDetails['synonymous_variant'],
+                        consequenceTypeDetails['start_lost'],
+                        consequenceTypeDetails['stop_gained'],
+                        consequenceTypeDetails['stop_lost'],
+                        consequenceTypeDetails['stop_retained_variant']
                     ]
                 },
                 {
@@ -349,10 +606,11 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001624', name: '3_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001623', name: '5_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001627', name: 'intron_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001792', name: 'non_coding_transcript_exon_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['3_prime_UTR_variant'],
+                        consequenceTypeDetails['5_prime_UTR_variant'],
+                        consequenceTypeDetails['intron_variant'],
+                        consequenceTypeDetails['non_coding_transcript_exon_variant'],
+                        consequenceTypeDetails['non_coding_transcript_variant']
                     ]
 
                 },
@@ -365,16 +623,14 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001574', name: 'splice_acceptor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001575', name: 'splice_donor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001630', name: 'splice_region_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                        consequenceTypeDetails['splice_acceptor_variant'],
+                        consequenceTypeDetails['splice_donor_variant'],
+                        consequenceTypeDetails['splice_region_variant']
                     ]
 
                 },
-
-                {acc: 'SO:0001893', name: 'transcript_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001889', name: 'transcript_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['transcript_ablation'],
+                consequenceTypeDetails['transcript_amplification']
 
             ]
 
@@ -387,13 +643,13 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001620', name: 'mature_miRNA_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001894', name: 'regulatory_region_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001891', name: 'regulatory_region_amplification', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001566', name: 'regulatory_region_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001782', name: 'TF_binding_site_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001895', name: 'TFBS_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001892', name: 'TFBS_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['mature_miRNA_variant'],
+                consequenceTypeDetails['regulatory_region_ablation'],
+                consequenceTypeDetails['regulatory_region_amplification'],
+                consequenceTypeDetails['regulatory_region_variant'],
+                consequenceTypeDetails['TF_binding_site_variant'],
+                consequenceTypeDetails['TFBS_ablation'],
+                consequenceTypeDetails['TFBS_amplification']
             ]
         },
         {
@@ -404,10 +660,9 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001632', name: 'downstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001628', name: 'intergenic_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001631', name: 'upstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                consequenceTypeDetails['downstream_gene_variant'],
+                consequenceTypeDetails['intergenic_variant'],
+                consequenceTypeDetails['upstream_gene_variant']
             ]
         }
     ],
@@ -428,21 +683,21 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001580', name: 'coding_sequence_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001907', name: 'feature_elongation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001906', name: 'feature_truncation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001589', name: 'frameshift_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001626', name: 'incomplete_terminal_codon_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001822', name: 'inframe_deletion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001821', name: 'inframe_insertion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001583', name: 'missense_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001621', name: 'NMD_transcript_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001818', name: 'protein_altering_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001819', name: 'synonymous_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0002012', name: 'start_lost',  leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001587', name: 'stop_gained', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001578', name: 'stop_lost', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001567', name: 'stop_retained_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['coding_sequence_variant'],
+                        consequenceTypeDetails['feature_elongation'],
+                        consequenceTypeDetails['feature_truncation'],
+                        consequenceTypeDetails['frameshift_variant'],
+                        consequenceTypeDetails['incomplete_terminal_codon_variant'],
+                        consequenceTypeDetails['inframe_deletion'],
+                        consequenceTypeDetails['inframe_insertion'],
+                        consequenceTypeDetails['missense_variant'],
+                        consequenceTypeDetails['NMD_transcript_variant'],
+                        consequenceTypeDetails['protein_altering_variant'],
+                        consequenceTypeDetails['synonymous_variant'],
+                        consequenceTypeDetails['start_lost'],
+                        consequenceTypeDetails['stop_gained'],
+                        consequenceTypeDetails['stop_lost'],
+                        consequenceTypeDetails['stop_retained_variant']
                     ]
                 },
                 {
@@ -454,10 +709,11 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001624', name: '3_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001623', name: '5_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001627', name: 'intron_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001792', name: 'non_coding_transcript_exon_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['3_prime_UTR_variant'],
+                        consequenceTypeDetails['5_prime_UTR_variant'],
+                        consequenceTypeDetails['intron_variant'],
+                        consequenceTypeDetails['non_coding_transcript_exon_variant'],
+                        consequenceTypeDetails['non_coding_transcript_variant']
                     ]
 
                 },
@@ -470,16 +726,14 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001574', name: 'splice_acceptor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001575', name: 'splice_donor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001630', name: 'splice_region_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                        consequenceTypeDetails['splice_acceptor_variant'],
+                        consequenceTypeDetails['splice_donor_variant'],
+                        consequenceTypeDetails['splice_region_variant']
                     ]
 
                 },
-
-                {acc: 'SO:0001893', name: 'transcript_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001889', name: 'transcript_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['transcript_ablation'],
+                consequenceTypeDetails['transcript_amplification']
 
             ]
 
@@ -492,13 +746,13 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001620', name: 'mature_miRNA_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001894', name: 'regulatory_region_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001891', name: 'regulatory_region_amplification', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001566', name: 'regulatory_region_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001782', name: 'TF_binding_site_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001895', name: 'TFBS_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001892', name: 'TFBS_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['mature_miRNA_variant'],
+                consequenceTypeDetails['regulatory_region_ablation'],
+                consequenceTypeDetails['regulatory_region_amplification'],
+                consequenceTypeDetails['regulatory_region_variant'],
+                consequenceTypeDetails['TF_binding_site_variant'],
+                consequenceTypeDetails['TFBS_ablation'],
+                consequenceTypeDetails['TFBS_amplification']
             ]
         },
         {
@@ -509,10 +763,9 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001632', name: 'downstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001628', name: 'intergenic_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001631', name: 'upstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                consequenceTypeDetails['downstream_gene_variant'],
+                consequenceTypeDetails['intergenic_variant'],
+                consequenceTypeDetails['upstream_gene_variant']
             ]
         }
     ],
@@ -533,21 +786,21 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001580', name: 'coding_sequence_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001907', name: 'feature_elongation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001906', name: 'feature_truncation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001589', name: 'frameshift_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001626', name: 'incomplete_terminal_codon_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001822', name: 'inframe_deletion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001821', name: 'inframe_insertion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001583', name: 'missense_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001621', name: 'NMD_transcript_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001818', name: 'protein_altering_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001819', name: 'synonymous_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0002012', name: 'start_lost',  leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001587', name: 'stop_gained', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001578', name: 'stop_lost', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001567', name: 'stop_retained_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['coding_sequence_variant'],
+                        consequenceTypeDetails['feature_elongation'],
+                        consequenceTypeDetails['feature_truncation'],
+                        consequenceTypeDetails['frameshift_variant'],
+                        consequenceTypeDetails['incomplete_terminal_codon_variant'],
+                        consequenceTypeDetails['inframe_deletion'],
+                        consequenceTypeDetails['inframe_insertion'],
+                        consequenceTypeDetails['missense_variant'],
+                        consequenceTypeDetails['NMD_transcript_variant'],
+                        consequenceTypeDetails['protein_altering_variant'],
+                        consequenceTypeDetails['synonymous_variant'],
+                        consequenceTypeDetails['start_lost'],
+                        consequenceTypeDetails['stop_gained'],
+                        consequenceTypeDetails['stop_lost'],
+                        consequenceTypeDetails['stop_retained_variant']
                     ]
                 },
                 {
@@ -559,10 +812,11 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001624', name: '3_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001623', name: '5_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001627', name: 'intron_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001792', name: 'non_coding_transcript_exon_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['3_prime_UTR_variant'],
+                        consequenceTypeDetails['5_prime_UTR_variant'],
+                        consequenceTypeDetails['intron_variant'],
+                        consequenceTypeDetails['non_coding_transcript_exon_variant'],
+                        consequenceTypeDetails['non_coding_transcript_variant']
                     ]
 
                 },
@@ -575,16 +829,14 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001574', name: 'splice_acceptor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001575', name: 'splice_donor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001630', name: 'splice_region_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                        consequenceTypeDetails['splice_acceptor_variant'],
+                        consequenceTypeDetails['splice_donor_variant'],
+                        consequenceTypeDetails['splice_region_variant']
                     ]
 
                 },
-
-                {acc: 'SO:0001893', name: 'transcript_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001889', name: 'transcript_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['transcript_ablation'],
+                consequenceTypeDetails['transcript_amplification']
 
             ]
 
@@ -597,13 +849,13 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001620', name: 'mature_miRNA_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001894', name: 'regulatory_region_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001891', name: 'regulatory_region_amplification', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001566', name: 'regulatory_region_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001782', name: 'TF_binding_site_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001895', name: 'TFBS_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001892', name: 'TFBS_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['mature_miRNA_variant'],
+                consequenceTypeDetails['regulatory_region_ablation'],
+                consequenceTypeDetails['regulatory_region_amplification'],
+                consequenceTypeDetails['regulatory_region_variant'],
+                consequenceTypeDetails['TF_binding_site_variant'],
+                consequenceTypeDetails['TFBS_ablation'],
+                consequenceTypeDetails['TFBS_amplification']
             ]
         },
         {
@@ -614,10 +866,9 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001632', name: 'downstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001628', name: 'intergenic_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001631', name: 'upstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                consequenceTypeDetails['downstream_gene_variant'],
+                consequenceTypeDetails['intergenic_variant'],
+                consequenceTypeDetails['upstream_gene_variant']
             ]
         }
     ],
@@ -639,21 +890,21 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001580', name: 'coding_sequence_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001907', name: 'feature_elongation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001906', name: 'feature_truncation', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001589', name: 'frameshift_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001626', name: 'incomplete_terminal_codon_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001822', name: 'inframe_deletion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001821', name: 'inframe_insertion', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001583', name: 'missense_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001621', name: 'NMD_transcript_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001818', name: 'protein_altering_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001819', name: 'synonymous_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0002012', name: 'start_lost',  leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001587', name: 'stop_gained', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001578', name: 'stop_lost', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001567', name: 'stop_retained_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['coding_sequence_variant'],
+                        consequenceTypeDetails['feature_elongation'],
+                        consequenceTypeDetails['feature_truncation'],
+                        consequenceTypeDetails['frameshift_variant'],
+                        consequenceTypeDetails['incomplete_terminal_codon_variant'],
+                        consequenceTypeDetails['inframe_deletion'],
+                        consequenceTypeDetails['inframe_insertion'],
+                        consequenceTypeDetails['missense_variant'],
+                        consequenceTypeDetails['NMD_transcript_variant'],
+                        consequenceTypeDetails['protein_altering_variant'],
+                        consequenceTypeDetails['synonymous_variant'],
+                        consequenceTypeDetails['start_lost'],
+                        consequenceTypeDetails['stop_gained'],
+                        consequenceTypeDetails['stop_lost'],
+                        consequenceTypeDetails['stop_retained_variant']
                     ]
                 },
                 {
@@ -665,10 +916,11 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001624', name: '3_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001623', name: '5_prime_UTR_variant',leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001627', name: 'intron_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001792', name: 'non_coding_transcript_exon_variant', leaf: true, checked: false, iconCls: 'no-icon'}
+                        consequenceTypeDetails['3_prime_UTR_variant'],
+                        consequenceTypeDetails['5_prime_UTR_variant'],
+                        consequenceTypeDetails['intron_variant'],
+                        consequenceTypeDetails['non_coding_transcript_exon_variant'],
+                        consequenceTypeDetails['non_coding_transcript_variant']
                     ]
 
                 },
@@ -681,16 +933,14 @@ consequenceTypes = {
                     expanded: true,
                     checked: false,
                     children: [
-                        {acc: 'SO:0001574', name: 'splice_acceptor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001575', name: 'splice_donor_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                        {acc: 'SO:0001630', name: 'splice_region_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                        consequenceTypeDetails['splice_acceptor_variant'],
+                        consequenceTypeDetails['splice_donor_variant'],
+                        consequenceTypeDetails['splice_region_variant']
                     ]
 
                 },
-
-                {acc: 'SO:0001893', name: 'transcript_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001889', name: 'transcript_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['transcript_ablation'],
+                consequenceTypeDetails['transcript_amplification']
 
             ]
 
@@ -703,13 +953,13 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001620', name: 'mature_miRNA_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001894', name: 'regulatory_region_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001891', name: 'regulatory_region_amplification', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001566', name: 'regulatory_region_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001782', name: 'TF_binding_site_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001895', name: 'TFBS_ablation', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001892', name: 'TFBS_amplification', leaf: true, checked: false, iconCls: 'no-icon'}
+                consequenceTypeDetails['mature_miRNA_variant'],
+                consequenceTypeDetails['regulatory_region_ablation'],
+                consequenceTypeDetails['regulatory_region_amplification'],
+                consequenceTypeDetails['regulatory_region_variant'],
+                consequenceTypeDetails['TF_binding_site_variant'],
+                consequenceTypeDetails['TFBS_ablation'],
+                consequenceTypeDetails['TFBS_amplification']
             ]
         },
         {
@@ -720,14 +970,12 @@ consequenceTypes = {
             checked: false,
             iconCls: 'no-icon',
             children: [
-                {acc: 'SO:0001632', name: 'downstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001628', name: 'intergenic_variant', leaf: true, checked: false, iconCls: 'no-icon'},
-                {acc: 'SO:0001631', name: 'upstream_gene_variant', leaf: true, checked: false, iconCls: 'no-icon'}
-
+                consequenceTypeDetails['downstream_gene_variant'],
+                consequenceTypeDetails['intergenic_variant'],
+                consequenceTypeDetails['upstream_gene_variant']
             ]
         }
     ]
-
 };
 
 var annotation_text = [

@@ -540,7 +540,7 @@ EvaVariantWidgetPanel.prototype = {
         var nodes = filter.panel.getRootNode()
         nodes.cascadeBy(function (n) {
             if (n.isLeaf()) {
-                n.data.qtip =  _.findWhere(consequenceTypesInfo, {id: n.data.name}).description;
+                n.data.qtip =  n.data.description;
             }
         });
 

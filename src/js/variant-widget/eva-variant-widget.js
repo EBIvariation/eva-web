@@ -313,7 +313,7 @@ EvaVariantWidget.prototype = {
                             }, groupedArr);
                             so_array = _.compact(so_array);
                             meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
-                            var so_term_detail = _.findWhere(consequenceTypesInfo, {id: _.first(so_array)});
+                            var so_term_detail = consequenceTypeDetails[_.first(so_array)];
                             var color = '';
                             var impact = '';
                             var svg = '';
