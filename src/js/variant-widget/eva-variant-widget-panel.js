@@ -238,7 +238,7 @@ EvaVariantWidgetPanel.prototype = {
         var studyFilter = new EvaStudyFilterFormPanel({
             border: false,
             collapsed: false,
-            height: 890,
+            height: 'auto',
             studiesStore: this.studiesStore,
             studyFilterTpl: '<tpl if="studyId"><div class="ocb-study-filter"><tpl if="link"><a href="?eva-study={studyId}" target="_blank">{studyName}</a> (<a href="?eva-study={studyId}" target="_blank">{studyId}</a>)<tpl else>{studyName} ({studyId}) </tpl></div><tpl else><div class="ocb-study-filter"><a href="?eva-study={studyId}" target="_blank">{studyName}</a></div></tpl>'
         });
