@@ -166,7 +166,7 @@
                         <div class="small-12 medium-8 columns">
                             <h3><span class="icon icon-generic" data-icon="&"> </span>Overview</h3>
                             <div><p> The European Variation Archive is an open-access database of all types of genetic variation data from all species.</p></div>
-                            <div><p> ​All users can <a href="?Study Browser "> download ​data </a> from any​ ​study, or <a href="?Submit Data"> submit their own data</a> to the archive. You can also query all variants in the EVA by study, gene, chromosomal location or dbSNP identifier using our <a href="?Variant Browser"> Variant Browser</a>. </p></div>
+                            <div><p> All users can <a href="?Study Browser "> download data </a> from any study, or <a href="?Submit Data"> submit their own data</a> to the archive. You can also query all variants in the EVA by study, gene, chromosomal location or dbSNP identifier using our <a href="?Variant Browser"> Variant Browser</a>. </p></div>
                             <div><p> We will be adding new features to the EVA on a regular basis, and welcome <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">your comments and feedback</a>. </p></div>
                         </div>
                         <div class="small-12 medium-4 columns">
@@ -212,54 +212,65 @@
                         </ul>
                     </nav>
                     <h2>Submit</h2>
-                    <h3>European Variation Archive submissions</h3>
-                    <div>
-                        <p>EVA follows the infrastructure of fellow EMBL-EBI resources European Nucleotide Archive (<a href="http://www.ebi.ac.uk/ena/" target="_blank">ENA</a>) and European Genome-phenome Archive (<a href="http://www.ebi.ac.uk/ega/" target="_blank">EGA</a>)  to accept, archive, and accession VCF files. Submissions consist of VCF file(s) and metadata that describe sample(s), experiment(s), and analysis that produced the variant and/or genotype call(s).</p>
-                        <p>EVA works in collaboration with the Database of Genomics Variants Archive (<a href="http://www.ebi.ac.uk/dgva" target="_blank">DGVa</a>) to accession and archive structural variants. DGVa relies on a template based submission process that is explained in detail <a href="http://www.ebi.ac.uk/dgva/data-submission" target="_blank">here</a></p>                    <p>​Data submitted to EVA is brokered to our collaborating databases at <a href="http://www.ncbi.nlm.nih.gov/" target="_blank">NCBI</a>, <a href="http://www.ncbi.nlm.nih.gov/SNP/" target="_blank">dbSNP</a> and <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a>. It is therefore  unnecessary to submit data to multiple resources. Please contact <a href="mailto:eva-helpdesk@ebi.ac.uk?subject=Sequence submissionto EVA&amp; target="_top">eva-helpdesk@ebi.ac.uk</a> if you would like any further information on this brokering process or collaboration.</p>
-                        <p>If you have data in a format other than VCF, which cannot be converted to VCF, please contact <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a>.  Additional submission formats may be supported over time as required by the scientific community.</p>
+                    <div class="padding-bottom-large">
+                        <p>The EVA is focused on the accession and archival of SNP and INDELs. The EVA works in collaboration with the Database of Genomics Variants Archive (<a href="http://www.ebi.ac.uk/dgva" target="_blank">DGVa</a>) to accession and archive structural variants. DGVa relies on a template based submission process that is explained in detail <a href="http://www.ebi.ac.uk/dgva/data-submission" target="_blank">here</a></p>
+                        <p>Data submitted to the EVA is brokered to our collaborating databases at <a href="http://www.ncbi.nlm.nih.gov/" target="_blank">NCBI</a>, <a href="http://www.ncbi.nlm.nih.gov/SNP/" target="_blank">dbSNP</a> and <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a>. It is therefore unnecessary to submit data to multiple resources.</p>
+                        <p>All data valid for EVA submission shall be made available via the <a href="?Study Browser">Study Browser</a> and will be browsable using both the <a href="?Variant Browser">Variant Browser</a> and the <a href="?API">EVA API</a>. <a href="http://www.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Variant Effect Predictor</a> annotations shall be available for variants mapped to genome assemblies that are known to <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>.</p>
+                        <p>Please contact <a href="mailto:eva-helpdesk@ebi.ac.uk?subject=Sequence submissionto EVA" target="_top">eva-helpdesk@ebi.ac.uk</a> if you would like any further information on this brokering process or collaboration.</p>
                     </div>
 
-                    <h3>Key stages of EVA submissions</h3>
+                    <h3 class="padding-bottom-large">Data requirements</h3>
+                    <div class="padding-bottom-large">
+                        <p>EVA accepts submission of genetic variation data based on three criteria:</p>
+                        <ol>
+                            <li>The genome assembly used is International Nucleotide Sequence Database Collaboration (<a href="http://www.insdc.org/" target="_blank">INSDC</a>) registered, or will be at point of submission</li>
+                            <li>The variation data is described in valid VCF file(s) this can be tested prior to submission using the EVA VCF Validation Suite found <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">here</a></li>
+                            <li>Submitted variants are associated with allele frequency values and/or genotypes and/or the raw materials to calculate allele frequency values internally (i.e. Allele Count AND Allele Number values)</li>
+                        </ol>
+
+                        <h4>Converting genetic variation data to VCF</h4>
+                        <div>
+                            <p>Submitters that need to convert their data to VCF should first contact <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> to discuss their situation, as we may be able to offer advice and/or tools to aid the conversion process.</p>
+                            <p>We advise submitters to consult the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf">VCF specification guidelines</a> (specifically sections 1.1 and 5) when converting data to VCF in order to ensure that file(s) generated are valid, as this is a requirement of EVA submission.</p>
+                            <p>Should manual conversion to VCF be necessary, we have provided a  minimal VCF file template <a href="files/template.vcf">here</a>; this may be useful for non-technical submitters, or submitters with only a very low number of variants to report.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="padding-bottom-large">Key stages of EVA submissions</h3>
 
                     <h4><span class="icon icon-generic" data-icon="C" aria-hidden="true"></span> Contact</h4>
                     <div>
-                        <p>Contact  <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> in order to provide details of your submission.</p>
+                        <p>Contact  <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> in order to provide details of your submission. You shall receive a custom private FTP location for you to deposit files.</p>
                     </div>
 
-                    <h4><span class="icon icon-generic" data-icon="n" aria-hidden="true"></span> Receive</h4>
+                    <h4><span class="icon icon-generic" data-icon="'" aria-hidden="true"></span> Prepare</h4>
                     <div>
                         <p>
-                            Download your <a href="files/EVA_Submission_Package_v1.0.3.zip" target="_blank" onClick="ga('send', 'event', { eventCategory: 'Download', eventAction: 'Click', eventLabel: 'EVA_Submission_Package_v1.0.3.zip'});">submission pack</a>, which will include:
-                            <div style="margin-left:10px;">
-                                <ul>
-                                    <li>Details for your submission uploads </li>
-                                    <li> <a href="?Templates" target="_blank">Templates</a> to capture your associated metadata </li>
-                                    <li>Key stages for your submission</li>
-                                </ul>
-                            </div>
+                            Submissions to the EVA consist of VCF file(s), any associated data file(s), and metadata that describe sample(s), experiment(s), and analysis that produced the variant and/or genotype call(s).
+                            This metadata is described in an Excel template that can be found <a href="files/EVA_Submission_template.V1.0.4.xlsx">here</a>. Please also see <a href="files/EVA_Submission_template.V1.0.4_mockup.xlsx">here</a> for a mocked up version of this template that has been completed for a fictional study.
                         </p>
-                        <p>To submit data to EVA please download this  <a href="files/SubmissionTemplate.xlsx" target="_blank"  onClick="ga('send', 'event', { eventCategory: 'Download', eventAction: 'Click', eventLabel: 'SubmissionTemplate.xlsx'});">template</a>, fill in and send by email to <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a>.</p>
+                        <p>
+                            VCF file(s) submitted to the EVA must be truly valid a 4.X version of the file format <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">specification</a>.
+                            Files can be validated prior to submission using our validation suite that is available via our <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a>.
+                        </p>
                     </div>
 
                     <h4><span class="icon icon-functional" data-icon="_"></span> Submit</h4>
                     <div>
-                        <p>Upload your data files to your private submission upload account or directly to the <a href="mailto:eva-helpdesk@ebi.ac.uk?subject=Sequence submissionto EVA&amp;body=**We will provide you with a submission package metadata templates guides for completing templates**" target="_top">eva-helpdesk@ebi.ac.uk</a>.<br/>
-                            To improve submission processing time, users are encouraged to prevalidate submitted files using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a>; more  information can be found at our <a href="?FAQ#collapseThree">FAQs</a>.</p>
+                        <p>Upload your VCF file(s), associated data file(s) and EVA metadata template to your private EVA FTP location.</p>
                     </div>
 
-                    <h3>Converting genetic variation data to VCF</h3>
-                    <div>
-                        <p>
-                            We advise submitters to consult the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf">VCF specification guidelines</a> when converting data to VCF in order to ensure that file(s) generated are valid, as this is a requirement of EVA submission.
-                        </p>
-                        <p>
-                            Should manual conversion to VCF be necessary, we have provided a  minimal VCF file template <a href="files/template.vcf">here</a>; this may be useful for non-technical submitters, or submitters with only a very low number of variants to report.
-                        </p>
-                        <p>
-                            Submitters that need to convert their data to VCF should first contact <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> to discuss their situation, as we may be able to offer advice and/or tools to aid the conversion process.
-                        </p>
+                    <h4><span class="icon icon-functional" data-icon="k" aria-hidden="true"></span> Receive</h4>
+                    <div class="padding-bottom-large">
+                      <p>The EVA aims to process submissions within two business days. Accession numbers shall be sent via email to the submitter upon successful archival of the deposited data.</p>
                     </div>
-                 </div>
+
+                    <h3 class="padding-bottom-large">Clinically relevant genetic variation data</h3>
+                    <div>
+                        <p>The EVA strongly recommends submission of clinically relevant genetic variant data, i.e. data that relates genetic variation(s) with clinical significance values (e.g. pathogenic, benign, etc.), to the ClinVar resource at <a href="https://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">NCBI</a>.</p>
+                        <p>Submitters unsure of the most relevant resource to archive their genetic variation data are encouraged to first contact <a href="mailto:eva-helpdesk@ebi.ac.uk?subject=Clinical submission to EVA" target="_top">eva-helpdesk@ebi.ac.uk</a> to discuss their situation.</p>
+                    </div>
+                </div>
 
                 <div id="feedback" class="hide-div">
                     <nav aria-label="You are here:" role="navigation">
@@ -283,25 +294,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="submissionTemplates" class="hide-div">
-                    <nav aria-label="You are here:" role="navigation">
-                        <ul class="breadcrumbs">
-                            <li><a href="?Home">EVA</a></li>
-                            <li><a href="?Submit">Submit</a></li>
-                            <li>
-                                <span class="show-for-sr">Current: </span> Templates
-                            </li>
-                        </ul>
-                    </nav>
-                    <h2>Templates</h2>
-                    <div>
-                        <h3>EVA Submissions</h3>
-                        <p>Unless fully described in the header of the VCF file(s), EVA submissions are accompanied by an Excel spreadsheet and/or tab-delimited text files which describe the meta-data. We encourage our users to submit as much metadata as possible.</p>
-                        <p>Please download our submission template via this <a href="files/EVA_Submission_template.V1.0.3_final.xlsx" target="_blank">link</a>.</p>
-                        <p>A completed template for a fictional submission can be downloaded <a href="files/EVA_Submission_template.V1.0.3_final_mockup.xlsx" target="_blank">here</a>.</p>
-                    </div>
-                </div>
-
                 <div id="api" class="hide-div">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
@@ -714,12 +706,9 @@
         var homeDiv = document.querySelector('#home-page');
         var submitDiv = document.querySelector('#submit');
         var feedbackDiv = document.querySelector('#feedback');
-        var templatesDiv = document.querySelector('#submissionTemplates');
-        var vcfDiv = document.querySelector('#vcf-format');
         var studyViewDiv = document.querySelector('#studyView');
         var variantViewDiv = document.querySelector('#variantView');
         var geneViewDiv = document.querySelector('#geneView');
-        var beaconDiv =  document.querySelector('#beacon');
         var apiDiv =  document.querySelector('#api');
         var faqDiv = document.querySelector('#help-section');
 
@@ -772,12 +761,9 @@
             homeDiv:homeDiv,
             submitDiv:submitDiv,
             feedbackDiv:feedbackDiv,
-            templatesDiv:templatesDiv,
-            vcfDiv:vcfDiv,
             studyView:studyViewDiv,
             variantView:variantViewDiv,
             geneView:geneViewDiv,
-            beacon:beaconDiv,
             apiDiv:apiDiv,
             faqDiv:faqDiv
         });

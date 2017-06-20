@@ -58,10 +58,6 @@ Eva.prototype = {
         $(this.submitDiv).addClass('eva-child');
         this.childDivMenuMap['Submit Data'] = this.submitDiv;
 
-        /* About */
-        $(this.aboutDiv).addClass('eva-child');
-        this.childDivMenuMap['About'] = this.aboutDiv;
-
         /* Feedback */
         $(this.feedbackDiv).addClass('eva-child');
         this.childDivMenuMap['Feedback'] = this.feedbackDiv;
@@ -69,14 +65,6 @@ Eva.prototype = {
         /* api */
         $(this.apiDiv).addClass('eva-child');
         this.childDivMenuMap['API'] = this.apiDiv;
-
-        /* Templates */
-        $(this.templatesDiv).addClass('eva-child');
-        this.childDivMenuMap['Templates'] = this.templatesDiv;
-
-        /* VCF */
-        $(this.vcfDiv).addClass('eva-child');
-        this.childDivMenuMap['VCF'] = this.vcfDiv;
 
         /* studyView */
         $(this.studyView).addClass('eva-child');
@@ -90,14 +78,6 @@ Eva.prototype = {
         /* geneView */
         $(this.geneView).addClass('eva-child');
         this.childDivMenuMap['gene'] = this.geneView;
-
-        /* beacon */
-        $(this.beacon).addClass('eva-child');
-        this.childDivMenuMap['GA4GH'] = this.beacon;
-
-        /* clinical */
-        $(this.clinicalDiv).addClass('eva-child');
-        this.childDivMenuMap['Clinical Browser'] = this.clinicalDiv;
 
         /* FAQ */
         $(this.faqDiv).addClass('eva-child');
