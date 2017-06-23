@@ -289,7 +289,7 @@ EvaClinVarWidget.prototype = {
                             var groupedArr = _.groupBy(tempArray);
                             var so_array = [];
                             _.each(_.keys(groupedArr), function (key) {
-                                var index = _.indexOf(consequenceTypesHierarchy, key);
+                                var index = _.indexOf(_.keys(consequenceTypeDetails), key);
                                 if (index < 0) {
                                     so_array.push(key)
                                 } else {
@@ -673,7 +673,7 @@ EvaClinVarWidget.prototype = {
                         var groupedArr = _.groupBy(tempArray);
                         var so_array = [];
                         _.each(_.keys(groupedArr), function (key) {
-                            var index = _.indexOf(consequenceTypesHierarchy, key);
+                            var index = _.indexOf(_.keys(consequenceTypeDetails), key);
                             so_array[index] = key;
                         }, groupedArr);
                         so_array = _.compact(so_array);

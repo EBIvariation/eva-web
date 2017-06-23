@@ -147,7 +147,7 @@ ClinvarSummaryPanel.prototype = {
             var groupedArr = _.groupBy(tempArray, 'name');
             var so_array = [];
             _.each(_.keys(groupedArr), function (key) {
-                var index = _.indexOf(consequenceTypesHierarchy, key);
+                var index = _.indexOf(_.keys(consequenceTypeDetails), key);
                 var transcript_array = [];
                 _.each(_.keys(this[key]), function (key) {
                     if (!_.isUndefined(this[key].transcript_id)) {
