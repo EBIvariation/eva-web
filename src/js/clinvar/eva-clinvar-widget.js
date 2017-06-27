@@ -278,25 +278,7 @@ EvaClinVarWidget.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
 
                         if (!_.isUndefined(value)) {
-                            var tempArray = [];
-                            _.each(_.keys(value), function (key) {
-                                var so_terms = this[key].soTerms;
-                                _.each(_.keys(so_terms), function (key) {
-                                    tempArray.push(this[key].soName)
-                                }, so_terms);
-                            }, value);
-
-                            var groupedArr = _.groupBy(tempArray);
-                            var so_array = [];
-                            _.each(_.keys(groupedArr), function (key) {
-                                var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-                                if (index < 0) {
-                                    so_array.push(key)
-                                } else {
-                                    so_array[index] = key;
-                                }
-                            }, groupedArr);
-                            so_array = _.compact(so_array);
+                            var  so_array = getMostSevereConsequenceType(value);
                             meta.tdAttr = 'data-qtip="' + _.first(so_array) + '"';
                             var so_term_detail = consequenceTypeDetails[_.first(so_array)];
                             var color = '';
@@ -662,21 +644,7 @@ EvaClinVarWidget.prototype = {
 
                 } else if (key == "most_severe_so_term") {
                     if (!_.isUndefined(value)) {
-                        var tempArray = [];
-                        _.each(_.keys(value), function (key) {
-                            var so_terms = this[key].soTerms;
-                            _.each(_.keys(so_terms), function (key) {
-                                tempArray.push(this[key].soName)
-                            }, so_terms);
-                        }, value);
-
-                        var groupedArr = _.groupBy(tempArray);
-                        var so_array = [];
-                        _.each(_.keys(groupedArr), function (key) {
-                            var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-                            so_array[index] = key;
-                        }, groupedArr);
-                        so_array = _.compact(so_array);
+                        var  so_array = getMostSevereConsequenceType(value);
                         value = _.first(so_array);
 
                     }

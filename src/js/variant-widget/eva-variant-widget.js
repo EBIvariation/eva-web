@@ -291,27 +291,8 @@ EvaVariantWidget.prototype = {
                     text: 'Most Severe <br /> Consequence Type',
                     dataIndex: 'consequenceTypes',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
-                        var tempArray = [];
-                        var consequenceTypes = rec.data.consequenceTypes;
                         if (!_.isUndefined(value)) {
-                            var tempArray = [];
-                            _.each(_.keys(consequenceTypes), function (key) {
-                                var so_terms = this[key].soTerms;
-                                _.each(_.keys(so_terms), function (key) {
-                                    tempArray.push(this[key].soName)
-                                }, so_terms);
-                            }, consequenceTypes);
-                            var groupedArr = _.groupBy(tempArray);
-                            var so_array = [];
-                            _.each(_.keys(groupedArr), function (key) {
-                                var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-                                if (index < 0) {
-                                    so_array.push(key)
-                                } else {
-                                    so_array[index] = key;
-                                }
-                            }, groupedArr);
-                            so_array = _.compact(so_array);
+                            var  so_array = getMostSevereConsequenceType(rec.data.consequenceTypes);
                             meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
                             var so_term_detail = consequenceTypeDetails[_.first(so_array)];
                             var color = '';
@@ -344,44 +325,11 @@ EvaVariantWidget.prototype = {
                             menuDisabled: true,
                             tooltip: 'Polymophism Phenotyping v2 (PolyPhen2) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
                             renderer: function (value, meta, rec, rowIndex, colIndex, store) {
-                                var tempArray = [];
-                                var consequenceTypes = rec.data.consequenceTypes;
                                 if (!_.isUndefined(value)) {
-                                    var tempArray = [];
-                                    _.each(_.keys(consequenceTypes), function (key) {
-                                        var so_terms = this[key].soTerms;
-                                        _.each(_.keys(so_terms), function (key) {
-                                            tempArray.push(this[key].soName)
-                                        }, so_terms);
-                                    }, consequenceTypes);
-                                    var groupedArr = _.groupBy(tempArray);
-                                    var so_array = [];
-                                    _.each(_.keys(groupedArr), function (key) {
-                                        var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-                                        so_array[index] = key;
-                                    }, groupedArr);
-                                    so_array = _.compact(so_array);
+                                    var consequenceTypes = rec.data.consequenceTypes;
+                                    var  so_array = getMostSevereConsequenceType(consequenceTypes);
                                     meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
-                                    var score = '-';
-                                    var polyphen_score_array = [];
-                                    for (i = 0; i < consequenceTypes.length; i++) {
-                                        for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
-                                            if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
-                                                _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
-                                                    if (this[key].source == 'Polyphen') {
-                                                        polyphen_score_array.push(this[key].score)
-                                                        score = this[key].score;
-
-                                                    }
-                                                }, consequenceTypes[i].proteinSubstitutionScores);
-                                            }
-                                        }
-                                    }
-
-                                    if (!_.isEmpty(polyphen_score_array)) {
-                                        score = Math.max.apply(Math, polyphen_score_array)
-                                    }
-                                    return score;
+                                    return getProteinSubstitutionScore(consequenceTypes,so_array,'Polyphen');
                                 } else {
                                     return '';
                                 }
@@ -395,42 +343,11 @@ EvaVariantWidget.prototype = {
                             menuDisabled: true,
                             tooltip: 'Sorting Intolerant From Tolerant (SIFT) scores are provided from Ensembl VEP annotation and are not available for all variants from all species.',
                             renderer: function (value, meta, rec, rowIndex, colIndex, store) {
-                                var tempArray = [];
-                                var consequenceTypes = rec.data.consequenceTypes;
                                 if (!_.isUndefined(value)) {
-                                    var tempArray = [];
-                                    _.each(_.keys(consequenceTypes), function (key) {
-                                        var so_terms = this[key].soTerms;
-                                        _.each(_.keys(so_terms), function (key) {
-                                            tempArray.push(this[key].soName)
-                                        }, so_terms);
-                                    }, consequenceTypes);
-                                    var groupedArr = _.groupBy(tempArray);
-                                    var so_array = [];
-                                    _.each(_.keys(groupedArr), function (key) {
-                                        var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-                                        so_array[index] = key;
-                                    }, groupedArr);
-                                    so_array = _.compact(so_array);
+                                    var consequenceTypes = rec.data.consequenceTypes;
+                                    var  so_array = getMostSevereConsequenceType(consequenceTypes);
                                     meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
-                                    var score = '-';
-                                    var sift_score_array = [];
-                                    for (i = 0; i < consequenceTypes.length; i++) {
-                                        for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
-                                            if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
-                                                _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
-                                                    if (this[key].source == 'Sift') {
-                                                        sift_score_array.push(this[key].score)
-                                                        score = this[key].score;
-                                                    }
-                                                }, consequenceTypes[i].proteinSubstitutionScores);
-                                            }
-                                        }
-                                    }
-                                    if (!_.isEmpty(sift_score_array)) {
-                                        score = Math.min.apply(Math, sift_score_array)
-                                    }
-                                    return score;
+                                    return getProteinSubstitutionScore(consequenceTypes,so_array,'Sift');
                                 } else {
                                     return '';
                                 }
@@ -705,26 +622,7 @@ EvaVariantWidget.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
 
                         if (!_.isUndefined(value)) {
-
-                            var tempArray = [];
-                            _.each(_.keys(value), function (key) {
-                                tempArray.push(this[key].soName);
-                            }, value);
-
-                            var groupedArr = _.groupBy(tempArray);
-                            var so_array = [];
-                            _.each(_.keys(groupedArr), function (key) {
-                                var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-                                if (index < 0) {
-                                    so_array.push(key)
-                                } else {
-                                    so_array[index] = key;
-                                }
-                            }, groupedArr);
-                            so_array = _.compact(so_array);
-//                              console.log(so_array)
+                            var  so_array = getMostSevereConsequenceType(value);
                             meta.tdAttr = 'data-qtip="' + so_array.join(',') + '"';
                             return value ? Ext.String.format(
                                 '<tpl>' + so_array.join(',') + '</tpl>',
@@ -733,7 +631,6 @@ EvaVariantWidget.prototype = {
                         } else {
                             return '';
                         }
-
                     }
                 },
                 {
@@ -758,48 +655,10 @@ EvaVariantWidget.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         if (!_.isUndefined(value)) {
                             var consequenceTypes = [];
-                            var tempArray = [];
-                            _.each(_.keys(value), function (key) {
-                                tempArray.push(this[key].soName);
-                            }, value);
-
-                            var groupedArr = _.groupBy(tempArray);
-                            var so_array = [];
-                            _.each(_.keys(groupedArr), function (key) {
-                                var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-                                if (index < 0) {
-                                    so_array.push(key)
-                                } else {
-                                    so_array[index] = key;
-                                }
-                            }, groupedArr);
-                            so_array = _.compact(so_array);
-
-                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
-                            var score = '-';
-                            var polyphen_score_array = [];
-//                            var _tempSoTerms = consequenceTypes.soTerms;
                             consequenceTypes.push(rec.data);
-                            for (i = 0; i < consequenceTypes.length; i++) {
-                                for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
-                                    if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
-                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
-                                            if (this[key].source == 'Polyphen') {
-                                                polyphen_score_array.push(this[key].score)
-                                                score = this[key].score;
-                                            }
-                                        }, consequenceTypes[i].proteinSubstitutionScores);
-                                    }
-                                }
-                            }
-                            if (!_.isEmpty(polyphen_score_array)) {
-                                score = Math.max.apply(Math, polyphen_score_array)
-                            }
-
-                            return score;
-
+                            var  so_array = getMostSevereConsequenceType(value);
+                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
+                            return getProteinSubstitutionScore(consequenceTypes,so_array,'Polyphen');
                         } else {
                             return '';
                         }
@@ -812,48 +671,10 @@ EvaVariantWidget.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         if (!_.isUndefined(value)) {
                             var consequenceTypes = [];
-                            var tempArray = [];
-                            _.each(_.keys(value), function (key) {
-                                tempArray.push(this[key].soName);
-                            }, value);
-
-                            var groupedArr = _.groupBy(tempArray);
-                            var so_array = [];
-                            _.each(_.keys(groupedArr), function (key) {
-                                var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-                                if (index < 0) {
-                                    so_array.push(key)
-                                } else {
-                                    so_array[index] = key;
-                                }
-                            }, groupedArr);
-                            so_array = _.compact(so_array);
-
-                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
-                            var score = '-';
-                            var sift_score_array = [];
-//                            var _tempSoTerms = consequenceTypes.soTerms;
                             consequenceTypes.push(rec.data);
-                            for (i = 0; i < consequenceTypes.length; i++) {
-                                for (j = 0; j < consequenceTypes[i].soTerms.length; j++) {
-                                    if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
-                                        _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
-                                            if (this[key].source == 'Sift') {
-                                                sift_score_array.push(this[key].score)
-                                                score = this[key].score;
-                                            }
-                                        }, consequenceTypes[i].proteinSubstitutionScores);
-                                    }
-                                }
-                            }
-                            if (!_.isEmpty(sift_score_array)) {
-                                score = Math.min.apply(Math, sift_score_array)
-                            }
-
-                            return score;
-
+                            var  so_array = getMostSevereConsequenceType(value);
+                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
+                            return getProteinSubstitutionScore(consequenceTypes,so_array,'Sift');
                         } else {
                             return '';
                         }
@@ -1107,26 +928,7 @@ EvaVariantWidget.prototype = {
             csvContent += snewLine;
             Ext.Object.each(records[i].data, function (key, value) {
                 if (key == 'consequenceTypes') {
-                    var tempArray = [];
-                    _.each(_.keys(value), function (key) {
-                        var so_terms = this[key].soTerms;
-                        _.each(_.keys(so_terms), function (key) {
-                            tempArray.push(this[key].soName)
-                        }, so_terms);
-                    }, value);
-
-                    var groupedArr = _.groupBy(tempArray);
-                    var so_array = [];
-                    _.each(_.keys(groupedArr), function (key) {
-                        var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-                        if (index < 0) {
-                            so_array.push(key)
-                        } else {
-                            so_array[index] = key;
-                        }
-                    }, groupedArr);
-                    so_array = _.compact(so_array);
-                    value = so_array.join(" ");
+                    var  so_array = getMostSevereConsequenceType(value);
                     value = _.first(so_array);
                 } else if (key == 'phylop') {
                     var phylop = _.findWhere(records[i].data[key], {source: key});
