@@ -148,6 +148,7 @@ module.exports = function (grunt) {
                     /** eva app js **/
                     'src/js/eva-manager.js',
                     'src/js/eva-annotation-config.js',
+                    'src/js/eva-annotation-model.js',
                     'src/js/eva-config.js',
                     'src/js/eva-menu.js',
                     'src/js/eva-adapter.js',
