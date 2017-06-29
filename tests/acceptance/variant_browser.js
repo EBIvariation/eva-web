@@ -70,6 +70,12 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('check consequenceType tree', function() {
+        test.it('check consequenceType tree rendered', function() {
+            checkConsequeceTypeTree(driver);
+        });
+    });
+
     test.describe('Filter by  Polyphen and Sift Filters', function() {
         test.it('should match with columns "PolyPhen2 greater than 0.9" and "Sift Lesser than 0.02"', function() {
             variantFilterByPolyphenSift(driver);
@@ -298,6 +304,57 @@ function variantSearchByGene(driver){
         });
     });
 }
+
+function checkConsequeceTypeTree(driver){
+    driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'treepanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Transcript Variant')]")).getText().then(function(text){
+        assert(text).equalTo("Transcript Variant");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Coding Variant')]")).getText().then(function(text){
+        assert(text).equalTo("Coding Variant");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]")).getText().then(function(text){
+        assert(text).equalTo("inframe_deletion");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Non-coding Variant')]")).getText().then(function(text){
+        assert(text).equalTo("Non-coding Variant");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'intron_variant')]")).getText().then(function(text){
+        assert(text).equalTo("intron_variant");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Splice Variant')]")).getText().then(function(text){
+        assert(text).equalTo("Splice Variant");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'splice_donor_variant')]")).getText().then(function(text){
+        assert(text).equalTo("splice_donor_variant");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Regulatory Variant')]")).getText().then(function(text){
+        assert(text).equalTo("Regulatory Variant");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'TFBS_ablation')]")).getText().then(function(text){
+        assert(text).equalTo("TFBS_ablation");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Intergenic Variant')]")).getText().then(function(text){
+        assert(text).equalTo("Intergenic Variant");
+    });
+
+    driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'upstream_gene_variant')]")).getText().then(function(text){
+        assert(text).equalTo("upstream_gene_variant");
+    });
+
+    return driver;
+}
+
 function variantFilterByPolyphenSift(driver){
     driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'ProteinSubstitutionScoreFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
     driver.findElement(By.name("polyphen")).clear();
