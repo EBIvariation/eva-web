@@ -224,7 +224,6 @@ EvaClinicalWidgetPanel.prototype = {
         });
 
         var clinvarConseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
-            consequenceTypes: consequenceTypes[78],
             selectAnnotCT: _this.selectSO,
             filterType: 'clinVar',
             collapsed: false,
@@ -241,12 +240,33 @@ EvaClinicalWidgetPanel.prototype = {
             ]
         });
 
+        var conseqTypeTreeStore = Ext.create('Ext.data.TreeStore', {
+            model: 'Tree Model',
+            proxy: {
+                type: 'memory',
+                data:clinvarConseqTypeFilter.getConsequenceTypeTree('78'),
+                reader: {
+                    type: 'json'
+                }
+            },
+            root: {
+                expanded: false
+            }
+        });
+
+        clinvarConseqTypeFilter.panel.reconfigure(conseqTypeTreeStore);
+
         var nodes = clinvarConseqTypeFilter.panel.getRootNode()
         nodes.cascadeBy(function (n) {
             if (n.isLeaf()) {
                 n.data.qtip =  n.data.description;
             }
         });
+
+        if (!_.isEmpty(_this.selectSO)) {
+            var annotCT = _this.selectSO.split(",");
+            clinvarConseqTypeFilter.selectNodes(annotCT);
+        }
 
         var variationType = [
             {

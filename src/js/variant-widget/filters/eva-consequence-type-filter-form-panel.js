@@ -293,5 +293,174 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
                 }
             }
         });
+    },
+    getConsequenceTypeTree: function (version){
+        this.consequenceTypes = {
+            default:[
+                consequenceTypeDetails['intergenic_variant']
+            ],
+            78 : [{
+                    name: 'Transcript Variant',
+                    children: [
+                        {
+                            name: 'Coding Variant',
+                            children: [
+                                consequenceTypeDetails['coding_sequence_variant'],
+                                consequenceTypeDetails['feature_elongation'],
+                                consequenceTypeDetails['feature_truncation'],
+                                consequenceTypeDetails['frameshift_variant'],
+                                consequenceTypeDetails['incomplete_terminal_codon_variant'],
+                                consequenceTypeDetails['inframe_deletion'],
+                                consequenceTypeDetails['inframe_insertion'],
+                                consequenceTypeDetails['missense_variant'],
+                                consequenceTypeDetails['NMD_transcript_variant'],
+                                consequenceTypeDetails[ 'synonymous_variant'],
+                                consequenceTypeDetails['stop_gained'],
+                                consequenceTypeDetails['stop_lost'],
+                                consequenceTypeDetails['initiator_codon_variant'],
+                                consequenceTypeDetails['stop_retained_variant']
+                            ]
+                        },
+                        {
+                            name: 'Non-coding Variant',
+                            children: [
+                                consequenceTypeDetails['3_prime_UTR_variant'],
+                                consequenceTypeDetails['5_prime_UTR_variant'],
+                                consequenceTypeDetails['intron_variant'],
+                                consequenceTypeDetails['non_coding_transcript_exon_variant'],
+                                consequenceTypeDetails['non_coding_transcript_variant']
+                            ]
+                        },
+                        {
+                            name: 'Splice Variant',
+                            children: [
+                                consequenceTypeDetails['splice_acceptor_variant'],
+                                consequenceTypeDetails['splice_donor_variant'],
+                                consequenceTypeDetails['splice_region_variant']
+                            ]
+
+                        },
+                        consequenceTypeDetails['transcript_ablation'],
+                        consequenceTypeDetails['transcript_amplification']
+                    ]
+
+                },
+                {
+                    name: 'Regulatory Variant ',
+                    children: [
+                        consequenceTypeDetails['mature_miRNA_variant'],
+                        consequenceTypeDetails['regulatory_region_ablation'],
+                        consequenceTypeDetails['regulatory_region_amplification'],
+                        consequenceTypeDetails['regulatory_region_variant'],
+                        consequenceTypeDetails['TF_binding_site_variant'],
+                        consequenceTypeDetails['TFBS_ablation'],
+                        consequenceTypeDetails['TFBS_amplification']
+                    ]
+                },
+                {
+                    name: 'Intergenic Variant',
+                    children: [
+                        consequenceTypeDetails['downstream_gene_variant'],
+                        consequenceTypeDetails['intergenic_variant'],
+                        consequenceTypeDetails['upstream_gene_variant']
+                    ]
+                }
+            ],
+            81 : [
+                {
+                    name: 'Transcript Variant',
+                    children: [
+                        {
+                            name: 'Coding Variant',
+                            children: [
+                                consequenceTypeDetails['coding_sequence_variant'],
+                                consequenceTypeDetails['feature_elongation'],
+                                consequenceTypeDetails['feature_truncation'],
+                                consequenceTypeDetails['frameshift_variant'],
+                                consequenceTypeDetails['incomplete_terminal_codon_variant'],
+                                consequenceTypeDetails['inframe_deletion'],
+                                consequenceTypeDetails['inframe_insertion'],
+                                consequenceTypeDetails['missense_variant'],
+                                consequenceTypeDetails['NMD_transcript_variant'],
+                                consequenceTypeDetails['protein_altering_variant'],
+                                consequenceTypeDetails['synonymous_variant'],
+                                consequenceTypeDetails['start_lost'],
+                                consequenceTypeDetails['stop_gained'],
+                                consequenceTypeDetails['stop_lost'],
+                                consequenceTypeDetails['stop_retained_variant']
+                            ]
+                        },
+                        {
+                            name: 'Non-coding Variant',
+                            children: [
+                                consequenceTypeDetails['3_prime_UTR_variant'],
+                                consequenceTypeDetails['5_prime_UTR_variant'],
+                                consequenceTypeDetails['intron_variant'],
+                                consequenceTypeDetails['non_coding_transcript_exon_variant'],
+                                consequenceTypeDetails['non_coding_transcript_variant']
+                            ]
+                        },
+                        {
+                            name: 'Splice Variant',
+                            children: [
+                                consequenceTypeDetails['splice_acceptor_variant'],
+                                consequenceTypeDetails['splice_donor_variant'],
+                                consequenceTypeDetails['splice_region_variant']
+                            ]
+                        },
+                        consequenceTypeDetails['transcript_ablation'],
+                        consequenceTypeDetails['transcript_amplification']
+
+                    ]
+
+                },
+                {
+                    name: 'Regulatory Variant ',
+                    children: [
+                        consequenceTypeDetails['mature_miRNA_variant'],
+                        consequenceTypeDetails['regulatory_region_ablation'],
+                        consequenceTypeDetails['regulatory_region_amplification'],
+                        consequenceTypeDetails['regulatory_region_variant'],
+                        consequenceTypeDetails['TF_binding_site_variant'],
+                        consequenceTypeDetails['TFBS_ablation'],
+                        consequenceTypeDetails['TFBS_amplification']
+                    ]
+                },
+                {
+                    name: 'Intergenic Variant',
+                    children: [
+                        consequenceTypeDetails['downstream_gene_variant'],
+                        consequenceTypeDetails['intergenic_variant'],
+                        consequenceTypeDetails['upstream_gene_variant']
+                    ]
+                }
+            ]
+        };
+
+        this.consequenceTypes =  _.extend(this.consequenceTypes,{82:this.consequenceTypes[81]},{86:this.consequenceTypes[81]},{87:this.consequenceTypes[81]},{88:this.consequenceTypes[81]},{89:this.consequenceTypes[81]});
+
+        return this._getConsequenceTypeTreeFormat(this.consequenceTypes[version]);
+    },
+    _getConsequenceTypeTreeFormat : function(data){
+        _.each(_.keys(data), function (key) {
+            if(data[key].children){
+                _.extend(data[key], { cls: "parent",expanded: true,leaf: false,checked: false,iconCls: 'no-icon'});
+                var _temparray = data[key].children;
+                _.each(_.keys(_temparray), function (key) {
+                    if(_temparray[key].children){
+                        _.extend(_temparray[key], {cls: "parent",expanded: true,leaf: false,checked: false,iconCls: 'no-icon'});
+                        var _tempChildarray = _temparray[key].children;
+                        _.each(_.keys(_tempChildarray), function (key) {
+                            _.extend(_tempChildarray[key], {leaf: true, checked: false, iconCls: 'no-icon'})
+                        },_tempChildarray);
+                    }else{
+                        _.extend(_temparray[key], {leaf: true, checked: false, iconCls: 'no-icon'})
+                    }
+                },_temparray);
+            }else{
+                _.extend(data[key], {leaf: true, checked: false, iconCls: 'no-icon'})
+            }
+        },data);
+        return data;
     }
 }

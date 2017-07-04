@@ -1074,3 +1074,53 @@ EvaVariantWidget.prototype = {
         });
     }
 };
+
+function getMostSevereConsequenceType(values) {
+    var tempArray = [];
+    var consequenceTypes = values;
+
+    _.each(_.keys(consequenceTypes), function (key) {
+        if(_.isUndefined(this[key].soTerms)) {
+            tempArray.push(this[key].soName)
+        } else {
+            var so_terms = this[key].soTerms;
+            _.each(_.keys(so_terms), function (key) {
+                tempArray.push(this[key].soName)
+            }, so_terms);
+        }
+    }, consequenceTypes);
+
+    var groupedArr = _.groupBy(tempArray);
+    var so_array = [];
+
+    _.each(_.keys(groupedArr), function (key) {
+        var index = _.indexOf(_.keys(consequenceTypeDetails), key);
+        if (index < 0) {
+            so_array.push(key)
+        } else {
+            so_array[index] = key;
+        }
+    }, groupedArr);
+    so_array = _.compact(so_array);
+
+    return so_array;
+}
+
+function getProteinSubstitutionScore(consequenceTypes,so_array,source) {
+    var score = '-';
+    var score_array = [];
+    for (var i = 0; i < consequenceTypes.length; i++) {
+        for (var j = 0; j < consequenceTypes[i].soTerms.length; j++) {
+            if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
+                _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
+                    score = _.findWhere(this, {source: source}).score
+                }, consequenceTypes[i].proteinSubstitutionScores);
+            }
+        }
+    }
+    if (!_.isEmpty(score_array)) {
+        score = Math.min.apply(Math, score_array)
+    }
+
+    return score;
+}

@@ -308,7 +308,7 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
-            consequenceTypes: consequenceTypes[87],
+            // consequenceTypes: consequenceTypes[87],
             selectAnnotCT: _this.selectAnnotCT,
             collapsed: true,
             fields: [
@@ -513,11 +513,12 @@ EvaVariantWidgetPanel.prototype = {
     _loadConsequenceTypes: function (filter, species) {
         var _this = this;
         var vep_version = 'default';
-        var  consequenceTypesData = consequenceTypes[vep_version];
+        var consequenceTypesData = filter.getConsequenceTypeTree(vep_version);
+
         if( !_.isUndefined(_.findWhere(annotation_text, {species: species}))){
             vep_version = _.findWhere(annotation_text, {species: species}).vep_version;
             if (vep_version) {
-                consequenceTypesData = consequenceTypes[vep_version];
+                consequenceTypesData = filter.getConsequenceTypeTree(vep_version);
             }
         }
 
@@ -525,7 +526,7 @@ EvaVariantWidgetPanel.prototype = {
             model: 'Tree Model',
             proxy: {
                 type: 'memory',
-                data:_.sortBy(consequenceTypesData, 'name'),
+                data:consequenceTypesData,
                 reader: {
                     type: 'json'
                 }
@@ -578,4 +579,5 @@ EvaVariantWidgetPanel.prototype = {
         }, gaValues);
     }
 };
+
 
