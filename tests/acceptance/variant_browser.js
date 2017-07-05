@@ -310,10 +310,16 @@ function checkConsequeceTypeTree(driver){
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Transcript Variant')]")).getText().then(function(text){
         assert(text).equalTo("Transcript Variant");
+        driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Transcript Variant')]//..//..//..//..//td")).getAttribute('class').then(function(text){
+            assert(text).contains('parent');
+        });
     });
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Coding Variant')]")).getText().then(function(text){
         assert(text).equalTo("Coding Variant");
+        driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Coding Variant')]//..//..//..//..//td")).getAttribute('class').then(function(text){
+            assert(text).contains('parent');
+        });
     });
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]")).getText().then(function(text){
@@ -322,6 +328,9 @@ function checkConsequeceTypeTree(driver){
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Non-coding Variant')]")).getText().then(function(text){
         assert(text).equalTo("Non-coding Variant");
+        driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Non-coding Variant')]//..//..//..//..//td")).getAttribute('class').then(function(text){
+            assert(text).contains('parent');
+        });
     });
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'intron_variant')]")).getText().then(function(text){
@@ -330,6 +339,9 @@ function checkConsequeceTypeTree(driver){
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Splice Variant')]")).getText().then(function(text){
         assert(text).equalTo("Splice Variant");
+        driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Splice Variant')]//..//..//..//..//td")).getAttribute('class').then(function(text){
+            assert(text).contains('parent');
+        });
     });
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'splice_donor_variant')]")).getText().then(function(text){
@@ -338,6 +350,9 @@ function checkConsequeceTypeTree(driver){
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Regulatory Variant')]")).getText().then(function(text){
         assert(text).equalTo("Regulatory Variant");
+        driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Regulatory Variant')]//..//..//..//..//td")).getAttribute('class').then(function(text){
+            assert(text).contains('parent');
+        });
     });
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'TFBS_ablation')]")).getText().then(function(text){
@@ -346,6 +361,9 @@ function checkConsequeceTypeTree(driver){
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Intergenic Variant')]")).getText().then(function(text){
         assert(text).equalTo("Intergenic Variant");
+        driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Intergenic Variant')]//..//..//..//..//td")).getAttribute('class').then(function(text){
+            assert(text).contains('parent');
+        });
     });
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'upstream_gene_variant')]")).getText().then(function(text){
