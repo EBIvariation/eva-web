@@ -272,9 +272,10 @@ EvaClinVarWidget.prototype = {
                     flex: 0.22
                 },
                 {
-                    text: "Most Severe <br />Consequence Type",
+                    text: '<a href="http://www.ensembl.org/info/genome/variation/predicted_data.html#consequences" target="_blank"><span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span></a>Most Severe <br /> Consequence Type',
                     dataIndex: 'most_severe_so_term',
                     flex: 0.6,
+                    tooltip:'Only the most severe of all observed consequence types is reported for each variant. No transcript-specific or gene-specific output will be given.For the order of severity please click the info link.',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
 
                         if (!_.isUndefined(value)) {
