@@ -312,7 +312,7 @@ EvaVariantWidget.prototype = {
                         }
                     },
                     flex: 1,
-                    tooltip:'Only the most severe of all observed consequence types is reported for each variant. No transcript-specific or gene-specific output will be given.For the order of severity please click the info link.'
+                    tooltip:'Only the most severe of all observed consequence types is reported for each variant. No transcript-specific or gene-specific output will be given.For the order of severity please click on the (i) icon in this column.'
                 },
                 {
                     text: "Most Severe <br />Protein Substitution Score",
