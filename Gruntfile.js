@@ -349,6 +349,14 @@ module.exports = function (grunt) {
                 src: ['tests/acceptance/*.js']
             }
         },
+        mocha_phantomjs: {
+            unitTest: {
+                src: ['./tests/**/*.html'],
+            },
+            options: {
+                run: true
+            }
+        },
         exec: {
             cleanBower: {
                 cmd: 'rm -rf bower_components'
@@ -387,6 +395,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-config');
     grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
     //replace config
     grunt.registerTask('replace-config', ['replace:eva_manager', 'replace:acceptance_test']);
@@ -396,6 +405,9 @@ module.exports = function (grunt) {
 
     //selenium with mocha
     grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
+
+    //selenium with mocha
+    grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
 
     //run test
     grunt.registerTask('runAcceptanceTest', ['exec:firefox','exec:chrome']);
@@ -427,6 +439,7 @@ module.exports = function (grunt) {
         'replace-html',
         'minifyHtml',
         'imagemin',
+        'unitTest',
         'runAcceptanceTest'
     ]);
 };
