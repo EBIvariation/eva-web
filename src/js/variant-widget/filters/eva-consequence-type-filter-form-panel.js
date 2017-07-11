@@ -267,6 +267,8 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
             ]
         });
 
+        _this.getConsequenceTypeTree();
+
         if (!_.isEmpty(_this.selectAnnotCT)) {
             var annotCT = _this.selectAnnotCT.split(",");
             _this.selectNodes(annotCT);
@@ -294,8 +296,9 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
             }
         });
     },
-    getConsequenceTypeTree: function (version){
-        this.consequenceTypes = {
+    getConsequenceTypeTree: function (){
+        var _this = this
+        _this.consequenceTypes = {
             default:[
                 consequenceTypeDetails['intergenic_variant']
             ],
@@ -437,9 +440,14 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
             ]
         };
 
+
+        _.each(_.keys(_this.consequenceTypes), function (key) {
+            _this.consequenceTypes[key] = _this._getConsequenceTypeTreeFormat(_this.consequenceTypes[key]);
+        },_this.consequenceTypes);
+
         _.extend(this.consequenceTypes,{82:this.consequenceTypes[81]},{86:this.consequenceTypes[81]},{87:this.consequenceTypes[81]},{88:this.consequenceTypes[81]},{89:this.consequenceTypes[81]});
 
-        return this._getConsequenceTypeTreeFormat(this.consequenceTypes[version]);
+        return  _this.consequenceTypes;
     },
     _getConsequenceTypeTreeFormat : function(data){
         _.each(_.keys(data), function (key) {

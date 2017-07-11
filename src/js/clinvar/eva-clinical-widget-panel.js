@@ -244,7 +244,7 @@ EvaClinicalWidgetPanel.prototype = {
             model: 'Tree Model',
             proxy: {
                 type: 'memory',
-                data:clinvarConseqTypeFilter.getConsequenceTypeTree('78'),
+                data:clinvarConseqTypeFilter.consequenceTypes['78'],
                 reader: {
                     type: 'json'
                 }

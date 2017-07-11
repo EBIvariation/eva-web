@@ -1096,9 +1096,7 @@ function getMostSevereConsequenceType(values) {
 
     _.each(_.keys(groupedArr), function (key) {
         var index = _.indexOf(_.keys(consequenceTypeDetails), key);
-        if (index < 0) {
-            so_array.push(key)
-        } else {
+        if (index > -1) {
             so_array[index] = key;
         }
     }, groupedArr);

@@ -513,12 +513,12 @@ EvaVariantWidgetPanel.prototype = {
     _loadConsequenceTypes: function (filter, species) {
         var _this = this;
         var vep_version = 'default';
-        var consequenceTypesData = filter.getConsequenceTypeTree(vep_version);
+        var consequenceTypesData = filter.consequenceTypes[vep_version];
 
         if( !_.isUndefined(_.findWhere(annotation_text, {species: species}))){
             vep_version = _.findWhere(annotation_text, {species: species}).vep_version;
             if (vep_version) {
-                consequenceTypesData = filter.getConsequenceTypeTree(vep_version);
+                consequenceTypesData = filter.consequenceTypes[vep_version];
             }
         }
 

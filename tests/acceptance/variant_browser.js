@@ -306,6 +306,9 @@ function variantSearchByGene(driver){
 }
 
 function checkConsequeceTypeTree(driver){
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
+
     driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'treepanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
 
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Transcript Variant')]")).getText().then(function(text){
@@ -374,6 +377,11 @@ function checkConsequeceTypeTree(driver){
 }
 
 function variantFilterByPolyphenSift(driver){
+    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click();
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    driver.findElement(By.name("gene")).clear();
+    driver.findElement(By.name("gene")).sendKeys("BRCA2");
     driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'ProteinSubstitutionScoreFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
     driver.findElement(By.name("polyphen")).clear();
     driver.findElement(By.name("polyphen")).sendKeys("0.9");
@@ -400,10 +408,13 @@ function variantFilterByPolyphenSift(driver){
 }
 
 function variantFilterByMAF(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
     driver.findElement(By.name("gene")).clear();
     driver.findElement(By.name("gene")).sendKeys("BRCA2");
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'PopulationFrequencyFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
     driver.findElement(By.id("mafOpFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='<=']")).click();
