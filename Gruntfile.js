@@ -406,7 +406,7 @@ module.exports = function (grunt) {
     //selenium with mocha
     grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
 
-    //selenium with mocha
+    // unit tests wirh mocha_phantomjs to run from command line
     grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
 
     //run test

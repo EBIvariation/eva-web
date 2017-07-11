@@ -180,9 +180,9 @@ function clinVarSearchByGene(driver){
 }
 function clinVarSearchByTrait(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
-    // driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
-    // driver.findElement(By.name("clinvarRegion")).clear();
-    // driver.findElement(By.name("clinvarRegion")).sendKeys("2:47000000-48000000");
+    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    driver.findElement(By.name("gene")).clear();
+    driver.findElement(By.name("gene")).sendKeys("BRCA1");
     driver.findElement(By.name("phenotype")).clear();
     driver.findElement(By.name("phenotype")).sendKeys("Pancreatic cancer");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
