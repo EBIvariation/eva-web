@@ -2,7 +2,7 @@
  * European Variation Archive (EVA) - Open-access database of all types of genetic
  * variation data from all species
  *
- * Copyright 2014, 2015 EMBL - European Bioinformatics Institute
+ * Copyright 2014 - 2017 EMBL - European Bioinformatics Institute
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -279,6 +279,8 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = '1:3000000-3100000';
             }
 
+            _this._loadConsequenceTypes(conseqTypeFilter, e.species);
+
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
 
@@ -306,7 +308,7 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
-            consequenceTypes: consequenceTypes,
+            // consequenceTypes: consequenceTypes[87],
             selectAnnotCT: _this.selectAnnotCT,
             collapsed: true,
             fields: [
@@ -508,6 +510,46 @@ EvaVariantWidgetPanel.prototype = {
             }
         });
     },
+    _loadConsequenceTypes: function (filter, species) {
+        var _this = this;
+        var vep_version = 'default';
+        var consequenceTypesData = filter.consequenceTypes[vep_version];
+
+        if( !_.isUndefined(_.findWhere(annotation_text, {species: species}))){
+            vep_version = _.findWhere(annotation_text, {species: species}).vep_version;
+            if (vep_version) {
+                consequenceTypesData = filter.consequenceTypes[vep_version];
+            }
+        }
+
+        var conseqTypeTreeStore = Ext.create('Ext.data.TreeStore', {
+            model: 'Tree Model',
+            proxy: {
+                type: 'memory',
+                data:consequenceTypesData,
+                reader: {
+                    type: 'json'
+                }
+            },
+            root: {
+                expanded: false
+            }
+        });
+
+        filter.panel.reconfigure(conseqTypeTreeStore);
+
+        var nodes = filter.panel.getRootNode()
+        nodes.cascadeBy(function (n) {
+            if (n.isLeaf()) {
+                n.data.qtip =  n.data.description;
+            }
+        });
+
+        if (!_.isEmpty(_this.selectAnnotCT)) {
+            var annotCT = _this.selectAnnotCT.split(",");
+            filter.selectNodes(annotCT);
+        }
+    },
     _updateURL: function (values) {
 
         var _this = this;
@@ -536,7 +578,6 @@ EvaVariantWidgetPanel.prototype = {
             ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
         }, gaValues);
     }
-
-
 };
+
 

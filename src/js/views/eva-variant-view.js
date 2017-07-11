@@ -218,7 +218,7 @@ EvaVariantView.prototype = {
             var soTerms = this[key].soTerms;
             _.each(_.keys(soTerms), function (key) {
                 var link = '<a href="http://www.sequenceontology.org/miso/current_svn/term/' + this[key].soAccession + '" target="_blank">' + this[key].soAccession + '</a>';
-                var so_term_detail = _.findWhere(consequenceTypesColors, {id: this[key].soName});
+                var so_term_detail = consequenceTypeDetails[_.first(so_array)];
                 var color = '';
                 var impact = '';
                 var svg = '';

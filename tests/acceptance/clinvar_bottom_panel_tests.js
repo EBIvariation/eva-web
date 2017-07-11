@@ -53,7 +53,7 @@ module.exports = {
                 var assertTitleArray = new Array();
                 for (var i = 0; i < rows.length; i++){
                     // check for duplication Clinical Assertions
-                    rows[i].findElement(By.xpath("//div[contains(@id,'ClinVarAssertionDataPanel')]//div[contains(@class,'x-accordion-item')]//span[@class='clinvarAssertionTitle']")).getText().then(function(text){
+                    rows[i].findElement(By.className("clinVarAccession")).getText().then(function(text){
                         // chai.expect('span:contains('+text+')').dom.to.have.count(1);
                         chai.assert.notInclude(assertTitleArray, config.hashCode(text))
                         assertTitleArray.push(config.hashCode(text));
@@ -89,6 +89,7 @@ module.exports = {
         return driver;
     },
     clinVarAnnotationTab:function(driver){
+        driver.sleep(10000)
         driver.findElement(By.xpath("//div[contains(@class,'clinical-widget')]//span[text()='Annotation']")).click();
         driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div/a[text()]")), 10000).then(function(text) {
             driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//div[contains(@id,'_annotatPagingToolbar-targetEl')]//div[contains(text(), 'Transcripts 1 -')]")).getText().then(function(text) {
@@ -106,12 +107,12 @@ module.exports = {
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div/a[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[A-Z]+/);
                     });
-                    //check SO terms
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div/tpl[text()]")).getText().then(function(text){
+                    //check Biotype
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                     });
-                    //check Biotype
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div[text()]")).getText().then(function(text){
+                    //check SO terms
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div/tpl[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                     });
                     //check codon
@@ -129,7 +130,7 @@ module.exports = {
                 }
             });
         });
-
+        driver.sleep(10000)
         return driver;
     },
     clinVarLinksTab:function(driver){

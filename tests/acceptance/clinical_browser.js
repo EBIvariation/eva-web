@@ -54,7 +54,7 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
     });
 
     test.describe('search by Trait', function() {
-        test.it('Search term "Lung cancer" should match with column "Trait"', function() {
+        test.it('Search term "Pancreatic cancer" should match with column "Trait"', function() {
             clinVarSearchByTrait(driver);
         });
     });
@@ -180,15 +180,15 @@ function clinVarSearchByGene(driver){
 }
 function clinVarSearchByTrait(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
-    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
-    driver.findElement(By.name("clinvarRegion")).clear();
-    driver.findElement(By.name("clinvarRegion")).sendKeys("2:47000000-48000000");
+    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    driver.findElement(By.name("gene")).clear();
+    driver.findElement(By.name("gene")).sendKeys("BRCA1");
     driver.findElement(By.name("phenotype")).clear();
-    driver.findElement(By.name("phenotype")).sendKeys("Lung cancer");
+    driver.findElement(By.name("phenotype")).sendKeys("Pancreatic cancer");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")), 15000).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")).getText().then(function(text){
-            assert(text).contains('Lung cancer');
+            assert(text).contains('Pancreatic cancer');
         });
     });
     driver.findElement(By.name("phenotype")).clear();
@@ -199,7 +199,7 @@ function clinVarSearchByTrait(driver){
 function clinVarFilterByConseqType(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div/tpl[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div/tpl[text()]")), 15000).then(function(text) {
         value = driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div/tpl[text()]")).getText().then(function(text){
             assert(text).contains('inframe_deletion');
         });
@@ -210,6 +210,7 @@ function clinVarFilterByConseqType(driver){
 }
 
 function clinVarFilterByVariationType(driver){
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Deletion')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 15000).then(function(text) {

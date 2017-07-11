@@ -272,33 +272,16 @@ EvaClinVarWidget.prototype = {
                     flex: 0.22
                 },
                 {
-                    text: "Most Severe <br />Consequence Type",
+                    text: '<a href="http://www.ensembl.org/info/genome/variation/predicted_data.html#consequences" target="_blank"><span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span></a>Most Severe <br /> Consequence Type',
                     dataIndex: 'most_severe_so_term',
                     flex: 0.6,
+                    tooltip:'Only the most severe of all observed consequence types is reported for each variant. No transcript-specific or gene-specific output will be given. For the order of severity please click on the (i) icon in this column.',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
 
                         if (!_.isUndefined(value)) {
-                            var tempArray = [];
-                            _.each(_.keys(value), function (key) {
-                                var so_terms = this[key].soTerms;
-                                _.each(_.keys(so_terms), function (key) {
-                                    tempArray.push(this[key].soName)
-                                }, so_terms);
-                            }, value);
-
-                            var groupedArr = _.groupBy(tempArray);
-                            var so_array = [];
-                            _.each(_.keys(groupedArr), function (key) {
-                                var index = _.indexOf(consequenceTypesHierarchy, key);
-                                if (index < 0) {
-                                    so_array.push(key)
-                                } else {
-                                    so_array[index] = key;
-                                }
-                            }, groupedArr);
-                            so_array = _.compact(so_array);
+                            var  so_array = getMostSevereConsequenceType(value);
                             meta.tdAttr = 'data-qtip="' + _.first(so_array) + '"';
-                            var so_term_detail = _.findWhere(consequenceTypesColors, {id: _.first(so_array)});
+                            var so_term_detail = consequenceTypeDetails[_.first(so_array)];
                             var color = '';
                             var impact = '';
                             var svg = '';
@@ -662,21 +645,7 @@ EvaClinVarWidget.prototype = {
 
                 } else if (key == "most_severe_so_term") {
                     if (!_.isUndefined(value)) {
-                        var tempArray = [];
-                        _.each(_.keys(value), function (key) {
-                            var so_terms = this[key].soTerms;
-                            _.each(_.keys(so_terms), function (key) {
-                                tempArray.push(this[key].soName)
-                            }, so_terms);
-                        }, value);
-
-                        var groupedArr = _.groupBy(tempArray);
-                        var so_array = [];
-                        _.each(_.keys(groupedArr), function (key) {
-                            var index = _.indexOf(consequenceTypesHierarchy, key);
-                            so_array[index] = key;
-                        }, groupedArr);
-                        so_array = _.compact(so_array);
+                        var  so_array = getMostSevereConsequenceType(value);
                         value = _.first(so_array);
 
                     }

@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         // Metadata.
         meta: {
             version: {
-                eva: '3.3.1'
+                eva: '3.4.0'
             }
         },
 
@@ -147,6 +147,7 @@ module.exports = function (grunt) {
                 src: [
                     /** eva app js **/
                     'src/js/eva-manager.js',
+                    'src/js/eva-annotation-model.js',
                     'src/js/eva-config.js',
                     'src/js/eva-menu.js',
                     'src/js/eva-adapter.js',
@@ -348,6 +349,14 @@ module.exports = function (grunt) {
                 src: ['tests/acceptance/*.js']
             }
         },
+        mocha_phantomjs: {
+            unitTest: {
+                src: ['./tests/**/*.html'],
+            },
+            options: {
+                run: true
+            }
+        },
         exec: {
             cleanBower: {
                 cmd: 'rm -rf bower_components'
@@ -386,6 +395,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-config');
     grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
     //replace config
     grunt.registerTask('replace-config', ['replace:eva_manager', 'replace:acceptance_test']);
@@ -395,6 +405,9 @@ module.exports = function (grunt) {
 
     //selenium with mocha
     grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
+
+    // unit tests wirh mocha_phantomjs to run from command line
+    grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
 
     //run test
     grunt.registerTask('runAcceptanceTest', ['exec:firefox','exec:chrome']);
@@ -426,6 +439,7 @@ module.exports = function (grunt) {
         'replace-html',
         'minifyHtml',
         'imagemin',
+        'unitTest',
         'runAcceptanceTest'
     ]);
 };

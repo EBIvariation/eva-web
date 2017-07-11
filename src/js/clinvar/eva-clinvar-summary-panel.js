@@ -147,7 +147,7 @@ ClinvarSummaryPanel.prototype = {
             var groupedArr = _.groupBy(tempArray, 'name');
             var so_array = [];
             _.each(_.keys(groupedArr), function (key) {
-                var index = _.indexOf(consequenceTypesHierarchy, key);
+                var index = _.indexOf(_.keys(consequenceTypeDetails), key);
                 var transcript_array = [];
                 _.each(_.keys(this[key]), function (key) {
                     if (!_.isUndefined(this[key].transcript_id)) {
@@ -155,7 +155,7 @@ ClinvarSummaryPanel.prototype = {
                     }
                 }, this[key]);
                 var transcripts = transcript_array.join('\n');
-                var so_term_detail = _.findWhere(consequenceTypesColors, {id: key});
+                var so_term_detail = consequenceTypeDetails[_.first(so_array)];
                 var color = '';
                 var impact = '';
                 var svg = '';

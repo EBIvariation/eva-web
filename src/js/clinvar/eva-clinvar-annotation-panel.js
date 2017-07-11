@@ -64,25 +64,7 @@ function ClinvarAnnotationPanel(args) {
                 renderer: function (value, meta, rec, rowIndex, colIndex, store) {
 
                     if (!_.isUndefined(value)) {
-
-                        var tempArray = [];
-                        _.each(_.keys(value), function (key) {
-                            tempArray.push(this[key].soName);
-                        }, value);
-
-                        var groupedArr = _.groupBy(tempArray);
-                        var so_array = [];
-                        _.each(_.keys(groupedArr), function (key) {
-                            var index = _.indexOf(consequenceTypesHierarchy, key);
-//                                        so_array.splice(index, 0, key+' ('+this[key].length+')');
-//                                        so_array.push(key+' ('+this[key].length+')')
-                            if (index < 0) {
-                                so_array.push(key)
-                            } else {
-                                so_array[index] = key;
-                            }
-                        }, groupedArr);
-                        so_array = _.compact(so_array);
+                        var  so_array = getMostSevereConsequenceType(value);
                         meta.tdAttr = 'data-qtip="' + so_array.join(',') + '"';
                         return value ? Ext.String.format(
                             '<tpl>' + so_array.join(',') + '</tpl>',
