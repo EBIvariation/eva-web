@@ -1115,12 +1115,15 @@ function getProteinSubstitutionScore(consequenceTypes,so_array,source) {
             if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
                 _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
                     score = _.findWhere(this, {source: source}).score
+                    score_array.push(_.findWhere(this, {source: source}).score)
                 }, consequenceTypes[i].proteinSubstitutionScores);
             }
         }
     }
-    if (!_.isEmpty(score_array)) {
+    if (!_.isEmpty(score_array) && source == 'Sift') {
         score = Math.min.apply(Math, score_array)
+    } else if (!_.isEmpty(score_array) && source == 'Polyphen') {
+        score = Math.max.apply(Math, score_array)
     }
 
     return score;

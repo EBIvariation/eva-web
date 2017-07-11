@@ -437,7 +437,7 @@ EvaConsequenceTypeFilterFormPanel.prototype = {
             ]
         };
 
-        this.consequenceTypes =  _.extend(this.consequenceTypes,{82:this.consequenceTypes[81]},{86:this.consequenceTypes[81]},{87:this.consequenceTypes[81]},{88:this.consequenceTypes[81]},{89:this.consequenceTypes[81]});
+        _.extend(this.consequenceTypes,{82:this.consequenceTypes[81]},{86:this.consequenceTypes[81]},{87:this.consequenceTypes[81]},{88:this.consequenceTypes[81]},{89:this.consequenceTypes[81]});
 
         return this._getConsequenceTypeTreeFormat(this.consequenceTypes[version]);
     },

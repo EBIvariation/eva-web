@@ -25,75 +25,190 @@ describe('Most Severe ConsquenceType Tests', function(){
         });
     });
     describe('getMostSevereConsequenceType(values)', function(){
-        it('should not return emoty array', function(){
-            expect(getMostSevereConsequenceType(conseqData)).to.be.an('array').to.have.lengthOf(3);
+        var testObjectBefore = [{
+            soTerms: [
+                {
+                    soName: "missense_variant",
+                    soAccession: "SO:0001583"
+                }
+            ]
+        },
+        {
+            soTerms: [
+                {
+                    soName: "5_prime_UTR_variant",
+                    soAccession: "SO:0001623"
+                }
+            ]
+        },
+        {
+            soTerms: [
+                {
+                    soName: "stop_lost",
+                    soAccession: "SO:0001578"
+                }
+            ]
+        }];
+
+        it('should not return empty array', function(){
+            expect(getMostSevereConsequenceType(testObjectBefore)).to.be.an('array').to.have.lengthOf(3);
         });
-        it('should have missense_variant as first element in the array ', function(){
-            var consequenceType = getMostSevereConsequenceType(conseqData);
-            consequenceType[0].should.equal('missense_variant');
+        it('should have consequecne Type array in most severe order ', function(){
+            var expectedObjectAfter = ['stop_lost','missense_variant','5_prime_UTR_variant'];
+            expect(getMostSevereConsequenceType(testObjectBefore)).to.deep.equal(expectedObjectAfter);
         });
     });
 
 });
 
 describe('Protein Substitution Score Tests', function(){
+    var testObjectBefore = [{
+        soTerms: [
+            {
+                soName: "stop_lost",
+                soAccession: "SO:0001623"
+            }
+        ],
+        proteinSubstitutionScores: [
+            {
+                score: 0.961,
+                source: "Polyphen",
+                description: "probably_damaging"
+            },
+            {
+                score: 0.3,
+                source: "Sift",
+                description: "deleterious"
+            }
+        ]
+    },
+        {
+            soTerms: [
+                {
+                    soName: "stop_lost",
+                    soAccession: "SO:0001623"
+                }
+            ],
+            proteinSubstitutionScores: [
+                {
+                    score: 0.981,
+                    source: "Polyphen",
+                    description: "probably_damaging"
+                },
+                {
+                    score: 0.2,
+                    source: "Sift",
+                    description: "deleterious"
+                }
+            ]
+
+        }];
     it('check Polyphen Score should be equal to 0.961', function(){
-        var so_array = getMostSevereConsequenceType(conseqData);
-        var polyphenScore = getProteinSubstitutionScore(conseqData,so_array,'Polyphen');
-        expect(polyphenScore).to.deep.equal(0.961);
+        var so_array = getMostSevereConsequenceType(testObjectBefore);
+        expect(getProteinSubstitutionScore(testObjectBefore,so_array,'Polyphen')).to.deep.equal(0.981);
     });
-    it('check Sift Score  should be equal to 0', function(){
-        var so_array = getMostSevereConsequenceType(conseqData);
-        var siftScore = getProteinSubstitutionScore(conseqData,so_array,'Sift');
-        expect(siftScore).to.deep.equal(0);
+    it('check Sift Score  should be equal to 0.2', function(){
+        var so_array = getMostSevereConsequenceType(testObjectBefore);
+        expect(getProteinSubstitutionScore(testObjectBefore,so_array,'Sift')).to.deep.equal(0.2);
     });
 });
 
 describe('Consequence Type Tree', function(){
-    var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
-        collapsed: true,
-        fields: [
-            {name: 'name', type: 'string'}
-        ],
-        columns: [
-            {
-                xtype: 'treecolumn',
-                flex: 1,
-                sortable: false,
-                dataIndex: 'name'
-            }
-        ]
-    });
-    describe('check default tree', function(){
-        it('should be equal to defaultConsqTree', function () {
-            expect(conseqTypeFilter.getConsequenceTypeTree('default')[0]).to.deep.equal(defaultConsqTree[0]);
-        });
+    var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel();
+
+    it('consequence Type tree with no parent should be rendered correctly', function () {
+        var testObjectBefore = [ {
+            name: 'coding_sequence_variant',
+            acc:'SO:0001580',
+            color: '#458B00',
+            impact: 'MODIFIER',
+            description:'A sequence variant that changes the coding sequence'
+        }];
+
+        var expectedObjectAfter = [ {
+            name: 'coding_sequence_variant',
+            acc:'SO:0001580',
+            color: '#458B00',
+            impact: 'MODIFIER',
+            description:'A sequence variant that changes the coding sequence',
+            leaf: true,
+            checked: false,
+            iconCls: "no-icon"
+        }];
+
+        expect(conseqTypeFilter._getConsequenceTypeTreeFormat(testObjectBefore)).to.deep.equal(expectedObjectAfter);
     });
 
-    describe('check verison 78 tree ', function() {
-        it('should be equal to version78ConsqTree', function () {
-            expect(conseqTypeFilter.getConsequenceTypeTree('78')[0]).to.deep.equal(version78ConsqTree[0]);
-            expect(conseqTypeFilter.getConsequenceTypeTree('78')[1]).to.deep.equal(version78ConsqTree[1]);
-            expect(conseqTypeFilter.getConsequenceTypeTree('78')[2]).to.deep.equal(version78ConsqTree[2]);
-        });
-        it('should not be equal to version82ConsqTree', function () {
-            expect(conseqTypeFilter.getConsequenceTypeTree('78')[0]).to.not.equal(version82ConsqTree[0]);
-            expect(conseqTypeFilter.getConsequenceTypeTree('78')[1]).to.not.equal(version82ConsqTree[1]);
-            expect(conseqTypeFilter.getConsequenceTypeTree('78')[2]).to.not.equal(version82ConsqTree[2]);
-        });
+    it('consequence Type tree with parents and children should be rendered correctly', function () {
+        var testObjectBefore = [{
+            name: 'Transcript Variant',
+            children: [
+                {
+                    name: 'Coding Variant',
+                    children: [
+                        {   name: 'coding_sequence_variant',
+                            acc:'SO:0001580',
+                            color: '#458B00',
+                            impact: 'MODIFIER',
+                            description:'A sequence variant that changes the coding sequence'
+                        }
+                    ]
+                },
+                {
+                    name: 'transcript_amplification',
+                    acc:'SO:0001889',
+                    color: '#FF69B4',
+                    impact: 'HIGH',
+                    description:'A feature amplification of a region containing a transcript'
+                }
+            ]
+
+        }];
+
+        var expectedObjectAfter = [{
+            name: 'Transcript Variant',
+            cls: "parent",
+            expanded: true,
+            leaf: false,
+            checked: false,
+            iconCls: "no-icon",
+            children: [
+                {
+                    name: 'Coding Variant',
+                    cls: "parent",
+                    expanded: true,
+                    leaf: false,
+                    checked: false,
+                    iconCls: "no-icon",
+                    children: [
+                        {   name: 'coding_sequence_variant',
+                            acc:'SO:0001580',
+                            color: '#458B00',
+                            impact: 'MODIFIER',
+                            description:'A sequence variant that changes the coding sequence',
+                            leaf: true,
+                            checked: false,
+                            iconCls: "no-icon"
+                        }
+                    ]
+                },
+                {
+                    name: 'transcript_amplification',
+                    acc:'SO:0001889',
+                    color: '#FF69B4',
+                    impact: 'HIGH',
+                    description:'A feature amplification of a region containing a transcript',
+                    leaf: true,
+                    checked: false,
+                    iconCls: "no-icon"
+                },
+
+
+            ]
+        }];
+
+        expect(conseqTypeFilter._getConsequenceTypeTreeFormat(testObjectBefore)).to.deep.equal(expectedObjectAfter);
     });
 
-    describe('check version 82 ', function() {
-        it('should be equal to version82ConsqTree', function(){
-            expect(conseqTypeFilter.getConsequenceTypeTree('82')[0]).to.deep.equal(version82ConsqTree[0]);
-            expect(conseqTypeFilter.getConsequenceTypeTree('82')[1]).to.deep.equal(version82ConsqTree[1]);
-            expect(conseqTypeFilter.getConsequenceTypeTree('82')[2]).to.deep.equal(version82ConsqTree[2]);
-        });
 
-        it('should not be equal to version78ConsqTree', function(){
-            expect(conseqTypeFilter.getConsequenceTypeTree('82')[0]).to.not.equal(version78ConsqTree[0]);
-            expect(conseqTypeFilter.getConsequenceTypeTree('82')[1]).to.not.equal(version78ConsqTree[1]);
-            expect(conseqTypeFilter.getConsequenceTypeTree('82')[2]).to.not.equal(version78ConsqTree[2]);
-        });
-    });
 });
