@@ -79,7 +79,7 @@ EvaGeneView.prototype = {
             var geneViewDiv = document.querySelector("#geneView");
             $(geneViewDiv).addClass('show-div');
             var summaryContent = _this._renderSummaryData(data);
-            var summaryEl = document.querySelector("#summary-grid");
+            var summaryEl = document.querySelector("#gene-summary-grid");
             var summaryElDiv = document.createElement("div");
             summaryElDiv.innerHTML = summaryContent;
             summaryEl.appendChild(summaryElDiv);
@@ -256,7 +256,7 @@ EvaGeneView.prototype = {
                 '<div id="summary" class="row">' +
                 '<div  style="margin-left:20px;">' +
                 '<h4 class="variant-view-h4"> Summary &nbsp;<span class="icon icon-generic title-header-icon" data-icon="i" data-qtip="Summary of ClinVar (release 03-2015) variants mapped to this gene. Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table." style="margin-bottom:2px;"></span></h4>' +
-                '<div id="summary-grid"></div>' +
+                '<div id="gene-summary-grid"></div>' +
                 '</div>' +
                 '</div>' +
                 '<div id="transcripts" class="row">' +
