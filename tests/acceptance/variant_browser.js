@@ -96,6 +96,12 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('check Annotation Tab VEP Notification', function() {
+        test.it('should be populated correctly', function() {
+            checkAnnotationNotiifcation(driver);
+        });
+    });
+
     test.describe('Bottom Panel', function() {
         test.it('Annotation Tab should not be empty', function() {
             variantAnnotationTab(driver);
@@ -457,6 +463,19 @@ function variantFilterByMAF(driver){
     });
     driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'PopulationFrequencyFilterFormPanel')]//div[@class='x-tool-img x-tool-collapse-top']")).click();
 
+    return driver;
+}
+
+function checkAnnotationNotiifcation(driver){
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.className("vep_text")), 10000).then(function(text) {
+        driver.findElement(By.className("vep_text")).getText().then(function(text){
+            assert(text).contains(/[v]\d\d$/);
+        });
+    },function(err) {
+    });
     return driver;
 }
 

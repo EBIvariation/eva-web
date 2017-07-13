@@ -142,18 +142,12 @@ ClinvarAnnotationPanel.prototype = {
         var annotData = data.annot;
         if (!_.isUndefined(params)) {
             _.extend(annotData, params);
-            if( !_.isUndefined(_.findWhere(annotation_text, {species: params.species}))){
-                var annText = _.findWhere(annotation_text, {species: params.species})
-                if (!_.isEmpty(annText.text)) {
-                    var tooltip = annText.text;
-                    Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4><h6><small>'+tooltip+'</small></h6>')
-                } else {
-                    Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4>')
-                }
+            var vepText = _this.getVepNotificationText(params.species, data.annotationVersions);
+            if (!_.isEmpty(vepText)) {
+                Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4><h6 class="vep_text"><small>'+vepText+'</small></h6>')
+            } else {
+                Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4>')
             }
-
-        } else {
-            Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4><h6><small>Variant Effect Predictor (VEP) v78 annotation against the GENCODE Basic Ensembl v78 geneset.</small></h6>')
         }
         var panel = this._createAnnotPanel(annotData);
         this.annotContainer.removeAll();
@@ -259,5 +253,24 @@ ClinvarAnnotationPanel.prototype = {
         }
 
         return annotPanel;
+    },
+    getVepNotificationText: function(species, annotationVerisons){
+        var vepText = '';
+        if( !_.isUndefined(_.findWhere(annotation_text, {species: species})) && !_.isUndefined(annotationVerisons)){
+            vepText = _.findWhere(annotation_text, {species: species}).text;
+            var vepData;
+            if(_.size(annotationVerisons) > 1) {
+                vepData = _.findWhere(annotationVerisons, {defaultVersion: true});
+                if(_.isUndefined(vepData)){
+                    vepData = _.last(_.sortBy(annotationVerisons, 'vepVersion'));
+                }
+            } else {
+                vepData = annotationVerisons[0];
+            }
+            _.each(_.keys(vepData), function (key) {
+                vepText = vepText.replace("{"+key+"}",vepData[key]);
+            });
+        }
+        return vepText;
     }
 };

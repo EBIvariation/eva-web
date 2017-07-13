@@ -280,7 +280,7 @@ EvaVariantWidgetPanel.prototype = {
             }
 
             _this._loadConsequenceTypes(conseqTypeFilter, e.species);
-
+            _this.variantWidget['annotationVersions'] = _this.getSpeciesVepVersion(e.species);
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
 
@@ -577,7 +577,27 @@ EvaVariantWidgetPanel.prototype = {
         _.each(_.keys(gaValues), function (key) {
             ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
         }, gaValues);
+    },
+    getSpeciesVepVersion : function(species){
+        var data;
+        EvaManager.get({
+            category: 'annotation',
+            resource: '',
+            params: {species: species},
+            async:false,
+            success: function (response) {
+                try {
+                    data =  response.response[0].result;
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
+
+        return data;
     }
 };
+
+
 
 
