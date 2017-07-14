@@ -54,8 +54,7 @@ module.exports = {
                         driver.findElement(By.xpath("//div[@id='"+id+"']//span[contains(text(), 'Show Full Header')]")).click();
                         driver.findElement(By.xpath("//div[@id='"+id+"']//pre")).getText().then(function(vcftext){
                             assert(vcftext).startsWith('##fileformat=');
-                        },function(err) {
-                        });
+                        },function(err) {});
                     });
 
                     //check for duplicate content
