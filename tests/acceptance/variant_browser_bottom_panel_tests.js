@@ -19,14 +19,15 @@
 
 var config = require('./config.js');
 config.loadModules();
-var ERZLinkRegEx = /ftp\:\/\/ftp\.ebi\.ac\.uk\/pub\/databases\/eva\/PRJ[A-Z0-9]+\/ERZ[A-Z0-9]\d+$/;
+
 module.exports = {
     filesTab:function(driver){
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")), 15000).then(function(text) {
-            driver.findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div//a[text()]")).getText();
+        config.sleep(driver);
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//a[text()]")), 15000).then(function(text) {
+            driver.findElement(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//a[text()]")).getText();
             var filesArray = new Array();
             var studyTitleArray = new Array();
-            driver.findElements(By.xpath("//div[contains(@id,'VariantStatsPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
+            driver.findElements(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                 for (var i = 0; i < rows.length; i++){
                     //check for duplication study title
                     rows[i].findElement(By.className("stats-panel-study-title")).getText().then(function(text){
@@ -40,9 +41,6 @@ module.exports = {
                     rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
                         assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
                     },function(err) {});
-                    rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
-                        assert(text).matches(ERZLinkRegEx);
-                    });
                     // check for chrom table
                     rows[i].findElement(By.className("chrom-table")).getText().then(function(text){
                         chai.assert.isNotNull(text);
@@ -52,10 +50,13 @@ module.exports = {
                         chai.assert.isNotNull(text);
                     });
                     //check for Header Data
-                    rows[i].findElement(By.xpath("//div[contains(@id,'VariantStatsPanel')]//span[contains(text(), 'Show Full Header')]")).click();
-                    rows[i].findElement(By.tagName("pre")).getText().then(function(vcftext){
-                        assert(vcftext).startsWith('##fileformat=');
+                    rows[i].findElement(By.className("x-accordion-body")).getAttribute('id').then(function(id){
+                        driver.findElement(By.xpath("//div[@id='"+id+"']//span[contains(text(), 'Show Full Header')]")).click();
+                        driver.findElement(By.xpath("//div[@id='"+id+"']//pre")).getText().then(function(vcftext){
+                            assert(vcftext).startsWith('##fileformat=');
+                        },function(err) {});
                     });
+
                     //check for duplicate content
                     rows[i].findElement(By.className("x-accordion-body")).getAttribute('id').then(function(id){
                         driver.findElement(By.xpath("//div[@id='"+id+"']")).getText().then(function(text){
@@ -69,6 +70,7 @@ module.exports = {
         return driver;
     },
     annotationTab:function(driver){
+        config.sleep(driver);
         driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
             driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//div[contains(@id,'_annotatPagingToolbar-targetEl')]//div[contains(text(), 'Transcripts 1 -')]")).getText().then(function(text) {
                 var rows = parseInt(text.split(" ")[3]);
@@ -85,12 +87,12 @@ module.exports = {
                     driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[A-Z]+/);
                     });
-                    //check SO terms
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div/tpl[text()]")).getText().then(function(text){
+                    //check Biotype
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[4]/div[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                     });
-                    //check Biotype
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div[text()]")).getText().then(function(text){
+                    //check SO terms
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[5]/div/tpl[text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[a-zA-Z0-9_]+/);
                     });
                     //check codon
@@ -121,6 +123,7 @@ module.exports = {
         return driver;
     },
     genotypesTab:function(driver){
+        config.sleep(driver);
         driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div")).then(function(text) {
             driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div//a[text()]")), 15000).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
@@ -139,9 +142,6 @@ module.exports = {
                         rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
                         },function(err) {});
-                        rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
-                            assert(text).matches(ERZLinkRegEx);
-                        });
                         // check for pie chart study
                         rows[i].findElements(By.className("highcharts-container")).then(function(elems){
                             chai.assert.equal(elems.length, 1);
@@ -169,6 +169,7 @@ module.exports = {
         return driver;
     },
     populationTab:function(driver){
+        config.sleep(driver);
         driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).then(function(webElement) {
             driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 15000).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
@@ -187,9 +188,6 @@ module.exports = {
                         rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
                         },function(err) {});
-                        rows[i].findElement(By.className("ftp_link")).getAttribute('href').then(function(text){
-                            assert(text).matches(ERZLinkRegEx);
-                        });
                         rows[i].findElement(By.className("population-stats-grid")).getAttribute('id').then(function(id){
                             //check Population column
                             for (var i = 1; i <=6; i++){

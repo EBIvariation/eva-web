@@ -1,6 +1,6 @@
 [submodule "jsorolla"]
 	path = lib/jsorolla
-	url = git@github.com:opencb/jsorolla.git
+	url = https://github.com/opencb/jsorolla.git
 [submodule "lib/EBI-Framework"]
 	path = lib/EBI-Framework
 	url = https://github.com/ebiwd/EBI-Framework.git
