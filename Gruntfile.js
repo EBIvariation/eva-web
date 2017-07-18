@@ -224,9 +224,10 @@ module.exports = function (grunt) {
                     'lib/EBI-Framework/js/foot.js',
                     'lib/EBI-Framework/js/script.js',
                     'lib/EBI-Framework/libraries/foundation-6/js/foundation.js',
+                    'lib/EBI-Framework/libraries/foundation-6/js/foundation.tabs.js',
                     'lib/EBI-Framework/js/foundationExtendEBI.js'
                 ],
-                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework.js'
+                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework-'+date+'.js'
             }
         },
         uglify: {
@@ -242,10 +243,10 @@ module.exports = function (grunt) {
                 src: '<%= concat.vendors.dest %>',
                 dest: 'build/<%= meta.version.eva %>/vendor/vendors-'+date+'.min.js'
             },
-            ebi_framework_js : {
-                src: '<%= concat.ebi_framework_js.dest %>',
-                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework-'+date+'.min.js'
-            }
+            // ebi_framework_js : {
+            //     src: '<%= concat.ebi_framework_js.dest %>',
+            //     dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework-'+date+'.min.js'
+            // }
         },
 
         copy: {
@@ -306,7 +307,7 @@ module.exports = function (grunt) {
                             '<%= uglify.vendors.dest %>'
                         ],
                         'modernizr': 'build/<%= meta.version.eva %>/lib/EBI-Framework/libraries/modernizr/*.js',
-                        'ebi_framework': 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/*.min.js'
+                        'ebi_framework': 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/*.js'
                     },
                     styles: {
                         'ebi_framework': [

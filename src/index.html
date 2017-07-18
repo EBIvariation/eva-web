@@ -139,7 +139,7 @@
                         <li><a>Clinical Browser</a></li>
                         <li><a>GA4GH</a></li>
                         <li><a>API</a></li>
-                        <li><a>FAQ</a></li>
+                        <li><a>Help</a></li>
                         <li><a>Feedback</a></li>
                     </ul>
                 </nav>
@@ -162,6 +162,10 @@
                          </li>
                        </ul>
                      </nav>
+                    <div class="callout alert">
+                        <p>Support for non-human variant data archival and accessioning is transitioning from dbSNP to EVA from September 2017. <a href="?FAQ#dbsnp-Panel">[Read more]</a></p>
+
+                    </div>
                     <div class="row">
                         <div class="small-12 medium-8 columns">
                             <h3><span class="icon icon-generic" data-icon="&"> </span>Overview</h3>
@@ -343,206 +347,370 @@
                         <ul class="breadcrumbs">
                             <li><a href="?Home">EVA</a></li>
                             <li>
-                                <span class="show-for-sr">Current: </span> FAQ
+                                <span class="show-for-sr">Current: </span> Help
                             </li>
                         </ul>
                     </nav>
                     <h2>FAQ</h2>
-                    <ul class="accordion" data-accordion>
-                        <li class="accordion-item is-active" data-accordion-item>
-                            <a href="#collapseOne" class="accordion-title"><h5>What is the European Variation Archive (EVA)?</h5></a>
-                            <div class="accordion-content" data-tab-content>
-                                <p>The European Variation Archive (EVA) is EMBL-EBI’s open-access genetic variation archive. The EVA accepts submission of all types of genetic variants, ranging from single nucleotide polymorphisms to large structural variants, observed in germline or somatic sources, from any eukaryotic organism. The EVA permits access to these data at two distinct levels:</p>
-                                <p> i) The raw variant data as was submitted to the EVA, via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a></p>
-                                <p> ii) The normalised and processed variant data, via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a></p>
-                            </div>
-                        </li>
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#collapseTwo" class="accordion-title"><h5>Why submit data to the EVA?</h5></a>
-
-                            <div class="accordion-content" data-tab-content>
-                                <p>The EVA provides to the community a completely free, secure and permanent solution to data sharing. Each project, VCF file and sample that is submitted to the EVA is assigned a unique identifier that is accessible in perpetuity and is therefore able to be referenced in publication, for example.
-                                    The <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">EVA helpdesk</a> provides support to submitters, and users, to ensure accurate represention and proper integration of the submitted data with other EMBL-EBI resources such as the <a href="https://www.ebi.ac.uk/ega/" target="_blank">EGA</a> and <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>. A final advantage of submitting to the EVA is that variants are brokered to the National Centre for Biotechnology Information (<a href="http://www.ncbi.nlm.nih.gov/" target="_blank">NCBI</a>) on the submitter’s behalf, negating the requirement for independent submissions.</p>
-                            </div>
-                        </li>
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#collapseThree" class="accordion-title"><h5>Is my data suitable for submission to the EVA?</h5></a>
-
-                            <div class="accordion-content" data-tab-content>
-                                <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter’s responsibility to ensure that the data archived at the EVA complies to this open access policy.</p>
-                                <p>
-                                    Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>.
-                                    The EVA has developed a custom <a href="https://github.com/ebivariation/vcf-validator" target="_blank">VCF file validator</a> and accepts submission of only VCF files that pass <a href="https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit" target="_blank">these validation steps</a>.
-                                    Furthermore, VCF files submitted to the EVA should provide either genotypes from the individual samples analysed, or aggregated sample summary information, such as allele frequencies.
-                                </p>
-                                <p>Finally, each submission to the EVA is accompanied by a completed metadata <a href="http://www.ebi.ac.uk/eva/?Templates" target="_blank">template </a>. This metadata template captures the study description, details of the sample(s) analysed and the experimental methodology. Submission of as much metadata as possible is strongly encouraged as this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused.</p>
-                            </div>
-                        </li>
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#collapseFour" class="accordion-title"><h5>What happens to my data once submitted?</h5></a>
-                            <div class="accordion-content" data-tab-content>
-                                <img class="faq-images" src="img/EVA_FIle_Level_Processing.svg" alt="EVA File Level Processing: Submitter brings VCF File(s) and metadata template to EVA -> Submitted data are validated against VCF specification and reference genome sequence ->
-                                 Accessions are sent to submitter,for referencing in publication for example -> EVA provide links to download the submitted data via the Study Browser"><br /><br />
-                                <h5>Submission validation processes</h5>
-                                <p><span style="font-size:14px;font-weight:bold;">VCF Specification:</p>
-                                <p>
-                                    All VCF files submitted to EVA are validated for adherence to the <a href="https://samtools.github.io/hts-specs/" target="_blank">format specification</a> using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a> which includes all the checks from the vcftools suite, and some more that involve lexical, syntactic and semantic analysis of the VCF input.
-                                    The EVA VCF validation suite also includes a debugging tool to automatically correct many of the common errors found in files. In order to improve processing time, submitters are encouraged to prevalidate VCF files prior to submission.
-                                </p>
-                                <p><span style="font-size:14px;font-weight:bold;">Genome Assembly:</p>
-                                <p>
-                                    To improve interoperability of variant data submitted to EVA with other resources at EMBL-EBI, and the wider open-access community, all VCF files submitted are subject to validation against the INSDC accessioned genome assembly that is referenced in the associated EVA metadata template. EVA is able to only accept files that match a known assembly at 100%. VCF files that fail this validation step shall be archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive</a> only.
-                                </p>
-                                <h5>Submission summary</h5>
-                                <p> All  VCF files and novel samples that are submitted to EVA are permanently and securely archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive </a> and <a href="http://www.ebi.ac.uk/biosamples/" target="_blank">BioSamples </a>, respectively. The EVA provides access to all submitted data via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a>.</p>
-                                <p> Variants within VCF files submitted to EVA are normalised, annotated and used for statistical calculations (via methodologies described below) and these EVA processed data are available via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a>.
-                                <p> Finally, the EVA brokers all submitted data to the NCBI: <a href="http://www.ncbi.nlm.nih.gov/projects/SNP/" target="_blank">dbSNP</a>, for short variants (<50bp); <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a> for large variants (>50bp) or <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, for variants associated with both a phenotype and clinical significance.</p>
-                            </div>
-                        </li>
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#collapseFive" class="accordion-title"><h5>What are the EVA normalisation and variant processing steps? </h5></a>
-                            <div class="accordion-content" data-tab-content>
-                                <div>
-                                    <img class="faq-images" src="img/EVA_Variant_Level_Normalisation.svg" alt="EVA Variant Level Processing: Submitted data from the EVA Study Browser -> Variants are merged, normalized and annotated for functional consequences and statistical values
-                                    -> Processed variants are brokered to dbSNP at NCBI and resulting 'ss' and 'rs' accessions are ingested by EVA -> Data are exposed as JSON objects either via the EVA website GUI or API"><br /><br />
-                                    <h5>Normalisation</h5>
-                                    <p>
-                                        Variants submitted to the EVA have been determined by a number of different algorithms and software packages. As a result, the VCF files generated by these differing methodologies describe variants in a number of different ways. The primary processing step of the EVA is to normalise variant representation following two basic rules:
-                                        <ol>
-                                            <li>Each variant is shifted to be left-aligned</li>
-                                            <li>The Start and End positions represent exactly the range where the variation occurs (which could, in the case of insertions, result in the reference allele being recorded as ‘empty’)</li>
-                                        </ol>
-                                    </p>
-                                    <p>Examples of our variant normalisation process can be seen <a href="https://docs.google.com/presentation/d/1WqSiT5AEEQF9jdIewdYIp-I0G5ozkFP3IikfCJZO1dc/edit#slide=id.ge1548f905_0_592" target="_blank">here</a></p>
-
-                                </div>
-                                <div>
-                                    <h5>Annotation</h5>
-                                    <p>
-                                        Once variants have been normalised, the EVA uses the <a href="http://www.ensembl.org/info/docs/tools/vep/" target="_blank">Variant Effect Predictor (VEP) </a>  of Ensembl to annotate variant consequences.
-                                        The variant consequences are described using Sequence Ontology terms and both the VEP version and Ensembl gene build used are described via the “i” help bubbles on the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a>.
-                                        <br /><br /> N.B. Variants that have been mapped to a reference genome sequence that is not supported by Ensembl are not annotated.
-                                    </p>
-                                </div>
-                                <div>
-                                    <h5>Statistical calculations</h5>
-                                    <p>The EVA adopts the classical definition of allele frequency (AF): ‘a measure of the relative frequency of an allele at a genetic locus in a given population’.
-                                        The AF value(s) stored by the EVA for each variant is (are) study specific - i.e. the same variant reported in two distinct studies shall be given two allele frequencies, one for each study. There are two methodologies by which the EVA is able to determine allele frequency values, dependent on the datatype of the study in question:</p>
-                                    <p><span style="font-size:14px;font-weight:bold;">Variants associated with genotypes:</span></p>
-                                    <p>
-                                        For variants associated with genotypes, the EVA determines the AF values via the calculation:
-                                        <br /><br />AF = (number of alternate allele observations (AC)) / (number of observations (AN))
-                                        <br /><br />The result of this calculation allows the EVA to also store the minor allele frequency (MAF) for each variant (defined as the minimum of the reference or alternative allele frequency) and the MAF allele (the allele associated with the MAF).
-                                    </p>
-                                    <p><span style="font-size:14px;font-weight:bold;">Variants not associated with genotypes:</span></p>
-                                    <p>
-                                        For variants that are not associated with genotypes, the EVA is dependent on the AF value(s) estimated from the primary data and provided in the submitted VCF files(s).
-                                        AF values that are specifically provided in the submitted aggregated VCF file(s) are directly stored. In cases where no AF is provided then the EVA uses the AC and AN values in the submitted aggregated VCF file(s) to calculate AF value(s) via the calculation:
-                                        <br /><br />AF = AC / AN
-                                    </p>
-                                    <p><span style="font-size:14px;font-weight:bold;">Population / sample cohort allele frequency values:</span></p>
-                                    <p>
-                                        The EVA accepts submission of <a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml#ped" target="_blank">pedigree </a> files, or structured samples (using “derived_from” and/or “subject” layers), to define populations and cohorts within studies.
-                                        In cases where such information is associated with variants that have genotypes then the EVA calculates intra-study population/cohort specific AF values via the method described above, with the caveat that the (total number of populations/cohorts):(total number of samples) ratio must be less than 1:10.
-                                        For studies that do not contain genotypes but instead provide intra-study population/cohort AF values in the submitted aggregated VCF file(s), or AC and AN values, then these are directly stored, or calculated by the EVA using the method described above, again with the caveat that a ratio of 1:10 (total number of populations/cohorts):(total number of samples) must not be exceeded.
-
-                                        <br /><br />*NB: there are a low number of variants for which the EVA is unable to determine any allele frequency value(s) as the submitted VCF file(s) contain neither genotypes nor AF or AC and AN values. The EVA discourages submission of variants that cannot be associated with an AF.
-                                    </p>
-                                </div>
-
-                            </div>
-                        </li>
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#collapseSix" class="accordion-title"><h5>How can I consume variant data from the  EVA?</h5></a>
-
-                            <div class="accordion-content" data-tab-content>
-                                <p> All EVA files are hosted on our <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/">FTP site</a> and are freely downloadable. Each EVA project FTP site allows users to download the original files as they were submitted to the EVA and/or the EVA ‘normalised’ files. Please note that due to processing time required not all EVA projects shall have ‘normalised’ files just yet.</p>
-                                <p> Additionally users can download query results from the <a href="https://www.ebi.ac.uk/eva/?Variant%20Browser&species=hsapiens_grch37&selectFilter=region&studies=PRJEB4019%2CPRJEB6930%2CPRJEB5439%2CPRJEB5829%2CPRJEB8652%2CPRJEB8650%2CPRJEB8639%2CPRJEB6042%2CPRJX00001%2CPRJEB8705%2CPRJEB8661%2CPRJEB7895%2CPRJEB7217%2CPRJEB7218%2CPRJEB6041&region=1%3A3000000-3100000">EVA variant browser</a> directly and all of our data is available programmatically via our <a href="https://www.ebi.ac.uk/eva/?API">API</a>.</p>
-                            </div>
-                        </li>
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#collapseSeven" class="accordion-title"><h5>What data is shown in the EVA Clinical Browser?</h5></a>
-
-                            <div class="accordion-content" data-tab-content>
-                                <p>
-                                    The EVA Clinical Browser displays variant data imported from the NCBI resource <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, where each variant is associated with both a phenotype and a clinical significance assigned using the guidlines from the <a href="http://www.ncbi.nlm.nih.gov/pubmed/18414213" target="_blank">American College of Medical Genetics and Genomics</a>.
-                                    Importantly, the variants shown via the EVA Clinical Browser have been annotated against the human GRCh37 genome using both the VEP and GENCODE Basic gene build of Ensembl version 78.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#collapseEight" class="accordion-title"><h5>With whom does the EVA collaborate?</h5></a>
-                            <div class="accordion-content" data-tab-content>
-                                <div><img class="faq-images" src="img/EVA_Related_Projects.png" alt="Collaborators:GEUVADIS European Exome Variant Server and Príncipe Felipe Research Cent​er​. Past Collaborators: The Genomics and Bioinformatics Platform of Andalusia​"><br/><br/><br/></div>
-                                <h5> The EVA & GEUVADIS European Exome Variant Server </h5>
-                                <div>
-                                    <p>
-                                        The ​​EVA & GE​UVADIS European Exome Variant Server ​(<a href="http://www.ncbi.nlm.nih.gov/pubmed/24037378" target="_blank">GEEVS;</a>) work in collaboration to ​coordinate​​ common ​data formats ​for ​data​ exchange​​.
-                                        As part of this collaboration, we fully endorse the variant calling protocol detailed on the <a href="http://geevs.crg.eu/home" target="_blank">GEEVS</a> website as adherence to this protocol for variant calling permits direct comparison and/or aggregation of results from different datasets.
-                                    </p>
-                                </div>
-                                <h5>The EVA & Príncipe Felipe Research Cent​er​</h5>
-                                <p>Some of the technical and analytical features of the EVA were developed in collaboration with the department of Computational Genomics led by Joaquin Dopazo at the Principe Felipe Research Centre <a href="http://bioinfo.cipf.es/" target="_blank">Computational Genomics Department (CIPF)</a>.</p>
-                                <h4 style="color:#996a44;">Past Collaborations</h4>
-                                <h5>EVA & The Genomics and Bioinformatics Platform of Andalusia​</h5>
-                                <div><p>Early development of the EVA was carried out in collaboration with the Bioinformatics Department at the <a href="http://www.gbpa.es" target="_blank">Genomics and Bioinformatics Platform of Andalusia</a>.</p></div>
-                             </div>
-                        </li>
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#collapseNine" class="accordion-title"><h5>Which browsers does the EVA website support?</h5></a>
-
-                            <div class="accordion-content" data-tab-content>
-                                <p>
-                                    The EVA website employs HTML5 technologies and standards. Chrome (version 18 or higher), Firefox (version 12 or higher), Safari (version 6 or higher) , Opera (version 12 or higher) and Internet Explorer (version 10 or higher) are fully supported, however older versions of these browsers may give rise to errors.<br />
-                                    The EVA website also supports mobile versions of web browsers, with limited functionality. Please report all errors to the <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">EVA helpdesk</a>.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#collapseTen" class="accordion-title"><h5>How can I follow the development of the EVA?</h5></a>
-                            <div class="accordion-content" data-tab-content>
-                                <h5>The following are our GitHub repositories:</h5>
-                                <div>
-                                    <ul style="list-style-type:disc">
-                                        <li>
-                                            <p>
-                                                The <a href="https://github.com/EBIvariation/vcf-validator">EVA VCF validator</a> checks that a file is compliant with the VCF specification.
-                                                It includes and expands the validations supported by the vcftools suite. It supports versions 4.1, 4.2 and 4.3 of the specification.
-                                            </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                The <a href="https://github.com/EBIvariation/eva-pipeline">EVA pipeline</a> processes VCF files, stores the variation data in a database and post-processes it, in a way that can be later consumed via web services.
-                                            </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                The <a href="https://github.com/EBIvariation/eva-ws"> EVA web services</a> serve the data generated and stored by the EVA pipeline. They follow the REST paradigm and can be consumed by any external application.
-                                            </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                The <a href="https://github.com/EBIvariation/eva-web">EVA website</a> displays the data served by the EVA REST web services API in a user-friendly way.
-                                            </p>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <h5>Acknowledgement</h5>
-                                <p>We would like to acknowledge the following software support.</p>
-                                <div>
-                                    <a href="https://github.com/" target="_blank" style="border-bottom-style: none;">
-                                        <img src="img/github.png" alt="​GitHub" class="acknowledgement-logo">
-                                    </a>
-                                    <a href="http://www.ej-technologies.com/products/jprofiler/overview.html" target="_blank" style="border-bottom-style: none;">
-                                        <img src="img/jprofiler_large.png" alt="JProfiler" class="acknowledgement-logo">
-                                    </a>
-                                    <a href="http://www.jetbrains.com/idea/" target="_blank" style="border-bottom-style: none;">
-                                        <img src="img/intelliJ.png" alt="IntelliJ" class="acknowledgement-logo">
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
+                    <ul class="tabs" data-tabs id="faq-tabs">
+                        <li class="tabs-title is-active"><a href="#generalPanel" aria-selected="true">General</a></li>
+                        <li class="tabs-title"><a href="#dataAccessPanel">Data Access</a></li>
+                        <li class="tabs-title"><a href="#submissionPanel">Submission</a></li>
+                        <li class="tabs-title"><a href="#dbsnpPanel">Non-human variant accessioning dbSNP-EVA Transition</a></li>
                     </ul>
+                    <div class="tabs-content" data-tabs-content="faq-tabs">
+                        <div class="tabs-panel is-active" id="generalPanel">
+                            <ul class="accordion" data-accordion>
+                                <li class="accordion-item is-active" data-accordion-item>
+                                    <a href="#collapseOne" class="accordion-title"><h5>What is the European Variation Archive (EVA)?</h5></a>
+                                    <div class="accordion-content" data-tab-content>
+                                        <p>The European Variation Archive (EVA) is EMBL-EBI’s open-access genetic variation archive. The EVA accepts submission of all types of genetic variants, ranging from single nucleotide polymorphisms to large structural variants, observed in germline or somatic sources, from any eukaryotic organism. The EVA permits access to these data at two distinct levels:</p>
+                                        <p> i) The raw variant data as was submitted to the EVA, via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a></p>
+                                        <p> ii) The normalised and processed variant data, via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a></p>
+                                    </div>
+                                </li>
+                                <li class="accordion-item" data-accordion-item>
+                                    <a href="#collapseFive" class="accordion-title"><h5>What are the EVA normalisation and variant processing steps? </h5></a>
+                                    <div class="accordion-content" data-tab-content>
+                                        <div>
+                                            <img class="faq-images" src="img/EVA_Variant_Level_Normalisation.svg" alt="EVA Variant Level Processing: Submitted data from the EVA Study Browser -> Variants are merged, normalized and annotated for functional consequences and statistical values
+                                    -> Processed variants are brokered to dbSNP at NCBI and resulting 'ss' and 'rs' accessions are ingested by EVA -> Data are exposed as JSON objects either via the EVA website GUI or API"><br /><br />
+                                            <h5>Normalisation</h5>
+                                            <p>
+                                                Variants submitted to the EVA have been determined by a number of different algorithms and software packages. As a result, the VCF files generated by these differing methodologies describe variants in a number of different ways. The primary processing step of the EVA is to normalise variant representation following two basic rules:
+                                            <ol>
+                                                <li>Each variant is shifted to be left-aligned</li>
+                                                <li>The Start and End positions represent exactly the range where the variation occurs (which could, in the case of insertions, result in the reference allele being recorded as ‘empty’)</li>
+                                            </ol>
+                                            </p>
+                                            <p>Examples of our variant normalisation process can be seen <a href="https://docs.google.com/presentation/d/1WqSiT5AEEQF9jdIewdYIp-I0G5ozkFP3IikfCJZO1dc/edit#slide=id.ge1548f905_0_592" target="_blank">here</a></p>
+
+                                        </div>
+                                        <div>
+                                            <h5>Annotation</h5>
+                                            <p>
+                                                Once variants have been normalised, the EVA uses the <a href="http://www.ensembl.org/info/docs/tools/vep/" target="_blank">Variant Effect Predictor (VEP) </a>  of Ensembl to annotate variant consequences.
+                                                The variant consequences are described using Sequence Ontology terms and both the VEP version and Ensembl gene build used are described via the “i” help bubbles on the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a>.
+                                                <br /><br /> N.B. Variants that have been mapped to a reference genome sequence that is not supported by Ensembl are not annotated.
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <h5>Statistical calculations</h5>
+                                            <p>The EVA adopts the classical definition of allele frequency (AF): ‘a measure of the relative frequency of an allele at a genetic locus in a given population’.
+                                                The AF value(s) stored by the EVA for each variant is (are) study specific - i.e. the same variant reported in two distinct studies shall be given two allele frequencies, one for each study. There are two methodologies by which the EVA is able to determine allele frequency values, dependent on the datatype of the study in question:</p>
+                                            <p><span style="font-size:14px;font-weight:bold;">Variants associated with genotypes:</span></p>
+                                            <p>
+                                                For variants associated with genotypes, the EVA determines the AF values via the calculation:
+                                                <br /><br />AF = (number of alternate allele observations (AC)) / (number of observations (AN))
+                                                <br /><br />The result of this calculation allows the EVA to also store the minor allele frequency (MAF) for each variant (defined as the minimum of the reference or alternative allele frequency) and the MAF allele (the allele associated with the MAF).
+                                            </p>
+                                            <p><span style="font-size:14px;font-weight:bold;">Variants not associated with genotypes:</span></p>
+                                            <p>
+                                                For variants that are not associated with genotypes, the EVA is dependent on the AF value(s) estimated from the primary data and provided in the submitted VCF files(s).
+                                                AF values that are specifically provided in the submitted aggregated VCF file(s) are directly stored. In cases where no AF is provided then the EVA uses the AC and AN values in the submitted aggregated VCF file(s) to calculate AF value(s) via the calculation:
+                                                <br /><br />AF = AC / AN
+                                            </p>
+                                            <p><span style="font-size:14px;font-weight:bold;">Population / sample cohort allele frequency values:</span></p>
+                                            <p>
+                                                The EVA accepts submission of <a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml#ped" target="_blank">pedigree </a> files, or structured samples (using “derived_from” and/or “subject” layers), to define populations and cohorts within studies.
+                                                In cases where such information is associated with variants that have genotypes then the EVA calculates intra-study population/cohort specific AF values via the method described above, with the caveat that the (total number of populations/cohorts):(total number of samples) ratio must be less than 1:10.
+                                                For studies that do not contain genotypes but instead provide intra-study population/cohort AF values in the submitted aggregated VCF file(s), or AC and AN values, then these are directly stored, or calculated by the EVA using the method described above, again with the caveat that a ratio of 1:10 (total number of populations/cohorts):(total number of samples) must not be exceeded.
+
+                                                <br /><br />*NB: there are a low number of variants for which the EVA is unable to determine any allele frequency value(s) as the submitted VCF file(s) contain neither genotypes nor AF or AC and AN values. The EVA discourages submission of variants that cannot be associated with an AF.
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                <li class="accordion-item" data-accordion-item>
+                                    <a href="#collapseEight" class="accordion-title"><h5>With whom does the EVA collaborate?</h5></a>
+                                    <div class="accordion-content" data-tab-content>
+                                        <div><img class="faq-images" src="img/EVA_Related_Projects.png" alt="Collaborators:GEUVADIS European Exome Variant Server and Príncipe Felipe Research Cent​er​. Past Collaborators: The Genomics and Bioinformatics Platform of Andalusia​"><br/><br/><br/></div>
+                                        <h5> The EVA & GEUVADIS European Exome Variant Server </h5>
+                                        <div>
+                                            <p>
+                                                The ​​EVA & GE​UVADIS European Exome Variant Server ​(<a href="http://www.ncbi.nlm.nih.gov/pubmed/24037378" target="_blank">GEEVS;</a>) work in collaboration to ​coordinate​​ common ​data formats ​for ​data​ exchange​​.
+                                                As part of this collaboration, we fully endorse the variant calling protocol detailed on the <a href="http://geevs.crg.eu/home" target="_blank">GEEVS</a> website as adherence to this protocol for variant calling permits direct comparison and/or aggregation of results from different datasets.
+                                            </p>
+                                        </div>
+                                        <h5>The EVA & Príncipe Felipe Research Cent​er​</h5>
+                                        <p>Some of the technical and analytical features of the EVA were developed in collaboration with the department of Computational Genomics led by Joaquin Dopazo at the Principe Felipe Research Centre <a href="http://bioinfo.cipf.es/" target="_blank">Computational Genomics Department (CIPF)</a>.</p>
+                                        <h4 style="color:#996a44;">Past Collaborations</h4>
+                                        <h5>EVA & The Genomics and Bioinformatics Platform of Andalusia​</h5>
+                                        <div><p>Early development of the EVA was carried out in collaboration with the Bioinformatics Department at the <a href="http://www.gbpa.es" target="_blank">Genomics and Bioinformatics Platform of Andalusia</a>.</p></div>
+                                    </div>
+                                </li>
+                                <li class="accordion-item" data-accordion-item>
+                                    <a href="#collapseTen" class="accordion-title"><h5>How can I follow the development of the EVA?</h5></a>
+                                    <div class="accordion-content" data-tab-content>
+                                        <h5>The following are our GitHub repositories:</h5>
+                                        <div>
+                                            <ul style="list-style-type:disc">
+                                                <li>
+                                                    <p>
+                                                        The <a href="https://github.com/EBIvariation/vcf-validator">EVA VCF validator</a> checks that a file is compliant with the VCF specification.
+                                                        It includes and expands the validations supported by the vcftools suite. It supports versions 4.1, 4.2 and 4.3 of the specification.
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p>
+                                                        The <a href="https://github.com/EBIvariation/eva-pipeline">EVA pipeline</a> processes VCF files, stores the variation data in a database and post-processes it, in a way that can be later consumed via web services.
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p>
+                                                        The <a href="https://github.com/EBIvariation/eva-ws"> EVA web services</a> serve the data generated and stored by the EVA pipeline. They follow the REST paradigm and can be consumed by any external application.
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p>
+                                                        The <a href="https://github.com/EBIvariation/eva-web">EVA website</a> displays the data served by the EVA REST web services API in a user-friendly way.
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <h5>Acknowledgement</h5>
+                                        <p>We would like to acknowledge the following software support.</p>
+                                        <div>
+                                            <a href="https://github.com/" target="_blank" style="border-bottom-style: none;">
+                                                <img src="img/github.png" alt="​GitHub" class="acknowledgement-logo">
+                                            </a>
+                                            <a href="http://www.ej-technologies.com/products/jprofiler/overview.html" target="_blank" style="border-bottom-style: none;">
+                                                <img src="img/jprofiler_large.png" alt="JProfiler" class="acknowledgement-logo">
+                                            </a>
+                                            <a href="http://www.jetbrains.com/idea/" target="_blank" style="border-bottom-style: none;">
+                                                <img src="img/intelliJ.png" alt="IntelliJ" class="acknowledgement-logo">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tabs-panel is-active" id="dataAccessPanel">
+                            <ul class="accordion" data-accordion>
+                                <li class="accordion-item is-active" data-accordion-item>
+                                    <a href="#collapseSix" class="accordion-title"><h5>How can I consume variant data from the  EVA?</h5></a>
+
+                                    <div class="accordion-content" data-tab-content>
+                                        <p> All EVA files are hosted on our <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/">FTP site</a> and are freely downloadable. Each EVA project FTP site allows users to download the original files as they were submitted to the EVA and/or the EVA ‘normalised’ files. Please note that due to processing time required not all EVA projects shall have ‘normalised’ files just yet.</p>
+                                        <p> Additionally users can download query results from the <a href="https://www.ebi.ac.uk/eva/?Variant%20Browser&species=hsapiens_grch37&selectFilter=region&studies=PRJEB4019%2CPRJEB6930%2CPRJEB5439%2CPRJEB5829%2CPRJEB8652%2CPRJEB8650%2CPRJEB8639%2CPRJEB6042%2CPRJX00001%2CPRJEB8705%2CPRJEB8661%2CPRJEB7895%2CPRJEB7217%2CPRJEB7218%2CPRJEB6041&region=1%3A3000000-3100000">EVA variant browser</a> directly and all of our data is available programmatically via our <a href="https://www.ebi.ac.uk/eva/?API">API</a>.</p>
+                                    </div>
+                                </li>
+                                <li class="accordion-item" data-accordion-item>
+                                    <a href="#collapseNine" class="accordion-title"><h5>Which browsers does the EVA website support?</h5></a>
+
+                                    <div class="accordion-content" data-tab-content>
+                                        <p>
+                                            The EVA website employs HTML5 technologies and standards. Chrome (version 18 or higher), Firefox (version 12 or higher), Safari (version 6 or higher) , Opera (version 12 or higher) and Internet Explorer (version 10 or higher) are fully supported, however older versions of these browsers may give rise to errors.<br />
+                                            The EVA website also supports mobile versions of web browsers, with limited functionality. Please report all errors to the <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">EVA helpdesk</a>.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="accordion-item" data-accordion-item>
+                                    <a href="#collapseSeven" class="accordion-title"><h5>What data is shown in the EVA Clinical Browser?</h5></a>
+
+                                    <div class="accordion-content" data-tab-content>
+                                        <p>
+                                            The EVA Clinical Browser displays variant data imported from the NCBI resource <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, where each variant is associated with both a phenotype and a clinical significance assigned using the guidlines from the <a href="http://www.ncbi.nlm.nih.gov/pubmed/18414213" target="_blank">American College of Medical Genetics and Genomics</a>.
+                                            Importantly, the variants shown via the EVA Clinical Browser have been annotated against the human GRCh37 genome using both the VEP and GENCODE Basic gene build of Ensembl version 78.
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tabs-panel is-active" id="submissionPanel">
+                            <ul class="accordion" data-accordion>
+                                <li class="accordion-item is-active" data-accordion-item>
+                                    <a href="#collapseTwo" class="accordion-title"><h5>Why submit data to the EVA?</h5></a>
+
+                                    <div class="accordion-content" data-tab-content>
+                                        <p>The EVA provides to the community a completely free, secure and permanent solution to data sharing. Each project, VCF file and sample that is submitted to the EVA is assigned a unique identifier that is accessible in perpetuity and is therefore able to be referenced in publication, for example.
+                                            The <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">EVA helpdesk</a> provides support to submitters, and users, to ensure accurate represention and proper integration of the submitted data with other EMBL-EBI resources such as the <a href="https://www.ebi.ac.uk/ega/" target="_blank">EGA</a> and <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>. A final advantage of submitting to the EVA is that variants are brokered to the National Centre for Biotechnology Information (<a href="http://www.ncbi.nlm.nih.gov/" target="_blank">NCBI</a>) on the submitter’s behalf, negating the requirement for independent submissions.</p>
+                                    </div>
+                                </li>
+                                <li class="accordion-item" data-accordion-item>
+                                    <a href="#collapseThree" class="accordion-title"><h5>Is my data suitable for submission to the EVA?</h5></a>
+
+                                    <div class="accordion-content" data-tab-content>
+                                        <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter’s responsibility to ensure that the data archived at the EVA complies to this open access policy.</p>
+                                        <p>
+                                            Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>.
+                                            The EVA has developed a custom <a href="https://github.com/ebivariation/vcf-validator" target="_blank">VCF file validator</a> and accepts submission of only VCF files that pass <a href="https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit" target="_blank">these validation steps</a>.
+                                            Furthermore, VCF files submitted to the EVA should provide either genotypes from the individual samples analysed, or aggregated sample summary information, such as allele frequencies.
+                                        </p>
+                                        <p>Finally, each submission to the EVA is accompanied by a completed metadata <a href="http://www.ebi.ac.uk/eva/?Templates" target="_blank">template </a>. This metadata template captures the study description, details of the sample(s) analysed and the experimental methodology. Submission of as much metadata as possible is strongly encouraged as this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused.</p>
+                                    </div>
+                                </li>
+                                <li class="accordion-item" data-accordion-item>
+                                    <a href="#collapseFour" class="accordion-title"><h5>What happens to my data once submitted?</h5></a>
+                                    <div class="accordion-content" data-tab-content>
+                                        <img class="faq-images" src="img/EVA_FIle_Level_Processing.svg" alt="EVA File Level Processing: Submitter brings VCF File(s) and metadata template to EVA -> Submitted data are validated against VCF specification and reference genome sequence ->
+                                 Accessions are sent to submitter,for referencing in publication for example -> EVA provide links to download the submitted data via the Study Browser"><br /><br />
+                                        <h5>Submission validation processes</h5>
+                                        <p><span style="font-size:14px;font-weight:bold;">VCF Specification:</p>
+                                        <p>
+                                            All VCF files submitted to EVA are validated for adherence to the <a href="https://samtools.github.io/hts-specs/" target="_blank">format specification</a> using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a> which includes all the checks from the vcftools suite, and some more that involve lexical, syntactic and semantic analysis of the VCF input.
+                                            The EVA VCF validation suite also includes a debugging tool to automatically correct many of the common errors found in files. In order to improve processing time, submitters are encouraged to prevalidate VCF files prior to submission.
+                                        </p>
+                                        <p><span style="font-size:14px;font-weight:bold;">Genome Assembly:</p>
+                                        <p>
+                                            To improve interoperability of variant data submitted to EVA with other resources at EMBL-EBI, and the wider open-access community, all VCF files submitted are subject to validation against the INSDC accessioned genome assembly that is referenced in the associated EVA metadata template. EVA is able to only accept files that match a known assembly at 100%. VCF files that fail this validation step shall be archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive</a> only.
+                                        </p>
+                                        <h5>Submission summary</h5>
+                                        <p> All  VCF files and novel samples that are submitted to EVA are permanently and securely archived at the <a href="http://www.ebi.ac.uk/ena" target="_blank">European Nucleotide Archive </a> and <a href="http://www.ebi.ac.uk/biosamples/" target="_blank">BioSamples </a>, respectively. The EVA provides access to all submitted data via the <a href="http://www.ebi.ac.uk/eva/?Study%20Browser&browserType=sgv" target="_blank">EVA Study Browser</a>.</p>
+                                        <p> Variants within VCF files submitted to EVA are normalised, annotated and used for statistical calculations (via methodologies described below) and these EVA processed data are available via the <a href="http://www.ebi.ac.uk/eva/?Variant%20Browser" target="_blank">EVA Variant Browser</a> and <a href="http://www.ebi.ac.uk/eva/?API" target="_blank">EVA API</a>.
+                                        <p> Finally, the EVA brokers all submitted data to the NCBI: <a href="http://www.ncbi.nlm.nih.gov/projects/SNP/" target="_blank">dbSNP</a>, for short variants (<50bp); <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a> for large variants (>50bp) or <a href="http://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">ClinVar</a>, for variants associated with both a phenotype and clinical significance.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tabs-panel is-active" id="dbsnpPanel">
+                            <ul class="accordion" data-accordion>
+                                <h3>EVA & dbSNP Transition</h3>
+                                <div>
+                                    <p>
+                                        As of September 2017, EMBL-EBI will maintain reliable accessions for non-human genetic variation data through the European Variation Archive (EVA).
+                                        NCBI’s dbSNP database will continue to maintain stable identifiers for human genetic variation data only. This change will enable a more rapid turnaround for data sharing in this burgeoning field.
+                                    </p>
+                                    <p>
+                                        For more information please see the following press releases, presentation and FAQs. We shall continue to rollout more information about this transition in the run up to September.
+                                        Please subscribe to <a href="mailto:eva-announce@ebi.ac.uk" target="_top">eva-announce@ebi.ac.uk</a> and follow us at <a href="https://twitter.com/evarchive" target="_blank">@evarchive</a>, where we shall continue to post updates. If anything remains unclear please contact us at <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a>.
+                                    </p>
+                                </div>
+                                <h3>Press releases</h3>
+                                <div class="row padding-bottom-large">
+                                    <div class="small-6 medium-6 columns">
+                                        <h4>EMBL-EBI Press Release</h4>
+                                        <div>
+                                            <a href="https://goo.gl/gvDGbm" target="_blank"><img src="img/dbSNP/EMBL_EBI.png" alt="EMBL-EBI-press-release"></a>
+                                        </div>
+                                    </div>
+                                    <div class="small-6 medium-6 columns">
+                                        <h4>NCBI Press Release</h4>
+                                        <div>
+                                            <a href="https://goo.gl/buoWFD" target="_blank"><img src="img/dbSNP/NCBI.png" alt="EMBL-EBI-press-release"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="padding-bottom-large">
+                                    <h4>We have outlined the transitional process in this online presentation:</h4>
+                                    <br/>
+                                    <a href="https://goo.gl/hDazyv" target="_blank"><img src="img/dbSNP/dbSNP_ppt.png" alt="Non-human locus accessioning at the European Variation Archive (EVA)"></a>
+                                </div>
+                                <div>
+                                    <h3>FAQs</h3>
+                                    <ul class="tabs" data-tabs id="dbsnp-tabs" data-deep-link="false" data-update-history="false" data-deep-link-smudge="false">
+                                        <li class="tabs-title is-active"><a href="#dbsnpGeneralPanel" aria-selected="true">General</a></li>
+                                        <li class="tabs-title"><a  href="#dbsnpDataAccessPanel">Data Access</a></li>
+                                        <li class="tabs-title"><a href="#dbsnpSubmissionPanel">Submission</a></li>
+                                    </ul>
+                                    <div class="tabs-content" data-tabs-content="dbsnp-tabs">
+                                        <div class="tabs-panel" id="dbsnpGeneralPanel">
+                                            <ul class="accordion" data-accordion>
+                                                <li class="accordion-item is-active" data-accordion-item>
+                                                    <a href="#dbsnpOne" class="accordion-title"><h5>Why is this change happening?</h5></a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                        <p>
+                                                            In order to aid timely archival and accessioning of the growing amount of genetic variation data that is being generated across the globe, EMBL-EBI and NCBI will split resources rather than provide overlapping ones.
+                                                            Therefore the EVA shall focus on the stable accessioning of non-human genetic variants, whereas dbSNP shall focus solely on human data.
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li class="accordion-item" data-accordion-item>
+                                                    <a href="#dbsnpTwo" class="accordion-title"><h5>Will it be possible to retrieve existing dbSNP accessions from EVA?</h5></a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                       <p>
+                                                        Yes. The EVA is committed to the continuation of existing dbSNP ‘submitted SNP’ (ss) and ‘reference SNP’ (rs) accessions. These accessions shall be retrievable via the
+                                                        <a href="??Variant%20Browser&species=btaurus_umd31&selectFilter=region&studies=PRJEB6119%2CPRJEB7061%2CPRJEB14878&region=1%3A3000000-3100000">EVA variant browse</a> and
+                                                        <a href="?API">web services API</a>
+                                                       </p>
+                                                    </div>
+                                                </li>
+                                                <li class="accordion-item" data-accordion-item>
+                                                    <a href="#dbsnpThree" class="accordion-title"><h5>What new accessions will be administered by the EVA?</h5></a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                        <p>
+                                                            EVA shall follow the same accessioning format and rules that are employed by dbSNP: non-human variants that are submitted to the EVA shall be administered ‘ss’ accessions and these shall periodically be clustered to form ‘rs’ accessions.
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="tabs-panel" id="dbsnpDataAccessPanel">
+                                            <ul class="accordion" data-accordion>
+                                                <li class="accordion-item is-active" data-accordion-item>
+                                                    <a href="#dbsnpFour" class="accordion-title"><h5>How I search the EVA with existing dbSNP accessions?</h5></a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                        <p>
+                                                            The EVA will offer users the ability to search both the <a href="?Variant%20Browser&species=btaurus_umd31&selectFilter=region&studies=PRJEB6119%2CPRJEB7061%2CPRJEB14878&region=1%3A3000000-3100000">EVA Variant Browser</a> and
+                                                            <a href="?API">API</a> using existing dbSNP ‘ss’ and ‘rs’ accessions, as well as those that are newly generated by the EVA.
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li class="accordion-item" data-accordion-item>
+                                                    <a href="#dbsnpFive" class="accordion-title"><h5>Can I download accessioned variants from the EVA?</h5></a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                        <p>
+                                                            Yes. After an rs build the EVA will provide a VCF dump for each species/assembly combination.
+                                                            These files shall be in the same style as the current VCFs that dbSNP generates (i.e. contain the rs ID positional information, but not the genotypic nor annotation data).
+                                                            Furthermore we are developing a ‘VCF Dumper’ tool which shall allow users to generate a custom VCF file based on filtering options available at the
+                                                            <a href="?Variant%20Browser&species=btaurus_umd31&selectFilter=region&studies=PRJEB6119%2CPRJEB7061%2CPRJEB14878&region=1%3A3000000-3100000">EVA Variant Browser</a>.
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li class="accordion-item" data-accordion-item>
+                                                    <a href="#dbsnpSix" class="accordion-title"><h5>How can I track variants that have been generated, merged and/or deprecated over time?</h5></a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                        <p>
+                                                            In addition to outputting a VCF file for each rs build the EVA shall also generate a file that will allow users to track changes to variant numbers over time.
+                                                            These files shall include details of all newly generated accessions for each rs build, a list of those variants that have been deprecated as well as information on any variants that have been merged together.
+                                                            The EVA shall follow the same rules as dbSNP for generating, deprecating and merging variant accessions.
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="tabs-panel" id="dbsnpSubmissionPanel">
+                                            <ul class="accordion" data-accordion>
+                                                <li class="accordion-item is-active" data-accordion-item>
+                                                    <a href="#dbsnpSeven" class="accordion-title"><h5>Do EVA and dbSNP accept submission of the same genetic variation file format?</h5></a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                        <p>
+                                                            Yes. EVA, like dbSNP, accepts submission of genetic variation data that is described in Variant Call Format (VCF) files.
+                                                            However, unlike dbSNP, EVA does not have a custom VCF specification. Instead EVA only accepts submission of VCF files that conform to the <a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">specification guidelines</a>.
+                                                            Conformity to these guidelines is checked at time of submission, but can also be checked beforehand using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA Validation Suite</a>. Further guidelines for submission to EVA can be found <a href="?Submit%20Data">here</a>.
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li class="accordion-item" data-accordion-item>
+                                                    <a href="#dbsnpEight" class="accordion-title"><h5>Do EVA and dbSNP collect metadata in the same way?</h5></a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                        <p>
+                                                            No. Although there are many similarities, the EVA and dbSNP metadata templates, which are submitted along with VCF files, are different.
+                                                            The EVA metadata template asks the submitter to provide information about the project and samples so that these can be archived simultaneously along with the VCF file(s), whereas this is a stepwise process during dbSNP submission.
+                                                            The EVA metadata template can be found <a href="files/EVA_Submission_template.V1.0.5.xlsx">here</a> and a mocked up version for a fictional study is <a href="files/EVA_Submission_template.V1.0.5_mockup.xlsx">here</a>.
+                                                            Detailed information on how to submit to the EVA can be found <a href="?Submit%20Data">here</a>.
+
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li class="accordion-item" data-accordion-item>
+                                                    <a href="#dbsnpNine" class="accordion-title"><h5>Can my submitted data be held privately at the EVA?</h5></a>
+                                                    <div class="accordion-content" data-tab-content>
+                                                        <p>
+                                                            Yes. Data submitted to the EVA can be held privately for up to one year.
+                                                            The date of publication is set by the submitter using the “Hold Date” field of the <a href="files/EVA_Submission_template.V1.0.5.xlsx">EVA metadata template</a>.
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div id="studyView" class="hide-div">
                     <nav aria-label="You are here:" role="navigation">
@@ -694,7 +862,7 @@
 <script src="../lib/EBI-Framework/js/script.js"></script>
 <!-- The Foundation theme JavaScript -->
 <script src="../lib/EBI-Framework/libraries/foundation-6/js/foundation.js"></script>
-<script src="../lib/EBI-Framework/libraries/foundation-6/js/foundation.magellan.js"></script>
+<script src="../lib/EBI-Framework/libraries/foundation-6/js/foundation.tabs.js"></script>
 <script src="../lib/EBI-Framework/js/foundationExtendEBI.js"></script>
 <!-- /build -->
 <script type="text/JavaScript">$(document).foundation();</script>
@@ -711,7 +879,7 @@
         var variantViewDiv = document.querySelector('#variantView');
         var geneViewDiv = document.querySelector('#geneView');
         var apiDiv =  document.querySelector('#api');
-        var faqDiv = document.querySelector('#help-section');
+        var helpDiv = document.querySelector('#help-section');
 
 
 
@@ -766,7 +934,7 @@
             variantView:variantViewDiv,
             geneView:geneViewDiv,
             apiDiv:apiDiv,
-            faqDiv:faqDiv
+            helpDiv:helpDiv
         });
 
 

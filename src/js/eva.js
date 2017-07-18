@@ -81,7 +81,7 @@ Eva.prototype = {
 
         /* FAQ */
         $(this.faqDiv).addClass('eva-child');
-        this.childDivMenuMap['FAQ'] = this.faqDiv;
+        this.childDivMenuMap['Help'] = this.helpDiv;
 
     },
     draw: function (option) {
@@ -194,9 +194,13 @@ Eva.prototype = {
                     this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
                     // this.pushURL(option, false);
                 }
-            case 'FAQ':
+            case 'Help':
                 var hash = document.location.hash;
                 if(hash){
+                    var hashValue = hash.split('-');
+                    if(!_.isUndefined(hashValue[1])){
+                        hash = hashValue[0]+hashValue[1];
+                    }
                     $("a[href='"+hash+"']").click()
                 }
                 break;
