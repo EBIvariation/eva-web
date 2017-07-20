@@ -142,7 +142,7 @@ ClinvarAnnotationPanel.prototype = {
         var annotData = data.annot;
         if (!_.isUndefined(params)) {
             _.extend(annotData, params);
-            var vepText = _this.getVepNotificationText(params.species, data.annotationVersions);
+            var vepText = _this.getVepNotificationText(params.species, data.annotationVersion);
             if (!_.isEmpty(vepText)) {
                 Ext.getCmp(_this.id + '-annotationStats').update('<h4>Annotations</h4><h6 class="vep_text"><small>'+vepText+'</small></h6>')
             } else {
@@ -254,21 +254,12 @@ ClinvarAnnotationPanel.prototype = {
 
         return annotPanel;
     },
-    getVepNotificationText: function(species, annotationVerisons){
+    getVepNotificationText: function(species, annotationVersion){
         var vepText = '';
-        if( !_.isUndefined(_.findWhere(annotation_text, {species: species})) && !_.isUndefined(annotationVerisons)){
+        if( !_.isUndefined(_.findWhere(annotation_text, {species: species})) && !_.isUndefined(annotationVersion)){
             vepText = _.findWhere(annotation_text, {species: species}).text;
-            var vepData;
-            if(_.size(annotationVerisons) > 1) {
-                vepData = _.findWhere(annotationVerisons, {defaultVersion: true});
-                if(_.isUndefined(vepData)){
-                    vepData = _.last(_.sortBy(annotationVerisons, 'vepVersion'));
-                }
-            } else {
-                vepData = annotationVerisons[0];
-            }
-            _.each(_.keys(vepData), function (key) {
-                vepText = vepText.replace("{"+key+"}",vepData[key]);
+            _.each(_.keys(annotationVersion), function (key) {
+                vepText = vepText.replace("{"+key+"}",annotationVersion[key]);
             });
         }
         return vepText;

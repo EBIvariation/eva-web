@@ -279,8 +279,18 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = '1:3000000-3100000';
             }
 
-            _this._loadConsequenceTypes(conseqTypeFilter, e.species);
-            _this.variantWidget['annotationVersions'] = _this.getSpeciesVepVersion(e.species);
+            _this.annotationVersions = _this.getSpeciesVepVersion(e.species);
+            var defaultVepVersion = 'default';
+            if( !_.isUndefined(_this.annotationVersions)){
+                defaultVepVersion = _.findWhere(_this.annotationVersions, {defaultVersion: true});
+                if(_.isUndefined(defaultVepVersion)){
+                    defaultVepVersion = _.last(_.sortBy(_this.annotationVersions, 'vepVersion'));
+                    _this.variantWidget['annotationVersion'] = defaultVepVersion;
+                }
+                defaultVepVersion = defaultVepVersion.vepVersion;
+            }
+            _this._loadConsequenceTypes(conseqTypeFilter, defaultVepVersion);
+
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
 
@@ -510,23 +520,14 @@ EvaVariantWidgetPanel.prototype = {
             }
         });
     },
-    _loadConsequenceTypes: function (filter, species) {
+    _loadConsequenceTypes: function (filter, vepVersion) {
         var _this = this;
-        var vep_version = 'default';
-        var consequenceTypesData = filter.consequenceTypes[vep_version];
-
-        if( !_.isUndefined(_.findWhere(annotation_text, {species: species}))){
-            vep_version = _.findWhere(annotation_text, {species: species}).vep_version;
-            if (vep_version) {
-                consequenceTypesData = filter.consequenceTypes[vep_version];
-            }
-        }
 
         var conseqTypeTreeStore = Ext.create('Ext.data.TreeStore', {
             model: 'Tree Model',
             proxy: {
                 type: 'memory',
-                data:consequenceTypesData,
+                data: filter.consequenceTypes[vepVersion],
                 reader: {
                     type: 'json'
                 }
