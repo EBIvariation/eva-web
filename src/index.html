@@ -826,6 +826,7 @@
 <script type="text/javascript" src="js/variant-widget/filters/eva-species-filter-form-panel.js"></script>
 <script type="text/javascript" src="js/variant-widget/filters/eva-study-filter-form-panel.js"></script>
 <script type="text/javascript" src="js/variant-widget/filters/eva-position-filter-form-panel.js"></script>
+<script type="text/javascript" src="js/variant-widget/filters/eva-annotation-version-filter-form-panel.js"></script>
 <script type="text/javascript" src="js/variant-widget/filters/eva-population-frequency-filter-form-panel.js"></script>
 <script type="text/javascript" src="js/variant-widget/filters/eva-protein-substitutions-score-filter-form-panel.js"></script>
 <script type="text/javascript" src="js/variant-widget/filters/eva-consequence-type-filter-form-panel.js"></script>
@@ -888,22 +889,24 @@
             });
         }
         if(tabId == 'variant'){
-            var varianttSpecies = $.urlParam('species');
+            var variantSpecies = $.urlParam('species');
+            var annotationVersion = $.urlParam('annotationVersion');
             var evaVarinatView = new EvaVariantView({
                 target:'variantViewContent',
                 position:tab.value,
-                species:varianttSpecies
+                species:variantSpecies,
+                annotationVersion:annotationVersion
             });
             $('.sticky').foundation('_calc', true);
             $(window).trigger('resize');
         }
 
         if(tabId == 'gene'){
-            var varianttSpecies = $.urlParam('species');
+            var variantSpecies = $.urlParam('species');
             var evaGeneView = new EvaGeneView({
                 target:'geneViewContent',
                 geneId:tab.value,
-                species:varianttSpecies
+                species:variantSpecies
             });
         }
 

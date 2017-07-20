@@ -37,7 +37,7 @@ EvaVariantView.prototype = {
             return;
         }
 
-        variantID = this.position;
+            variantID = this.position;
         _this.studiesList = [];
 
         EvaManager.get({
@@ -65,12 +65,17 @@ EvaVariantView.prototype = {
             }
         });
 
+        var params = {species: this.species};
+        if(this.annotationVersion){
+            var _annotVersion = this.annotationVersion.split("_");
+            _.extend(params, {'annot-vep-version':_annotVersion[0]},{'annot-vep-cache-version':_annotVersion[1]});
+        }
 
         EvaManager.get({
             category: 'variants',
             resource: 'info',
             query: variantID,
-            params: {species: this.species},
+            params: params,
             async: false,
             success: function (response) {
                 try {
@@ -150,11 +155,13 @@ EvaVariantView.prototype = {
         summaryElDiv.innerHTML = summaryContent;
         summaryEl.appendChild(summaryElDiv);
 
-        var consqTypeContent = _this._renderConsequenceTypeData(_this.variant);
-        var consqTypeEl = document.querySelector("#consequence-types-grid");
-        var consqTypeElDiv = document.createElement("div");
-        consqTypeElDiv.innerHTML = consqTypeContent;
-        consqTypeEl.appendChild(consqTypeElDiv);
+        if(!_.isUndefined(_this._renderConsequenceTypeData(_this.variant))){
+            var consqTypeContent = _this._renderConsequenceTypeData(_this.variant);
+            var consqTypeEl = document.querySelector("#consequence-types-grid");
+            var consqTypeElDiv = document.createElement("div");
+            consqTypeElDiv.innerHTML = consqTypeContent;
+            consqTypeEl.appendChild(consqTypeElDiv);
+        }
 
         var studyEl = document.querySelector("#studies-grid");
         var studyElDiv = document.createElement("div");
@@ -206,11 +213,14 @@ EvaVariantView.prototype = {
 
     },
     _renderConsequenceTypeData: function (data) {
+        if(_.isUndefined(data[0].annotation)){
+          return;
+        }
         var annotation = data[0].annotation.consequenceTypes;
         if (!annotation) {
             return '<h4 class="variant-view-h4"> Consequence Type</h4><div style="margin-left:15px;">No Data Available</div>';
         }
-        annotation = data[0].annotation.consequenceTypes.sort(this._sortBy('ensemblGeneId', this._sortBy('ensemblTranscriptId')));
+        annotation = annotation.sort(this._sortBy('ensemblGeneId', this._sortBy('ensemblTranscriptId')));
         var _consequenceTypeTable = '<h4 class="variant-view-h4"> Consequence Type</h4><div class="row"><div><table class="table hover">'
         _consequenceTypeTable += '<thead><tr><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th><th>Accession</th><th>Name</th></tr></thead><tbody>'
         _.each(_.keys(annotation), function (key) {
@@ -283,10 +293,6 @@ EvaVariantView.prototype = {
 
         variantPopulationStatsPanel.load(data.sourceEntries, {species: data.species},  _this.studiesList);
         variantPopulationStatsPanel.draw();
-
-        if (data.species != 'hsapiens_grch37') {
-            Ext.getCmp('popStats').getHeader().hide();
-        }
 
         return variantPopulationStatsPanel;
     },

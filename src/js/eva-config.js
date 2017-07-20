@@ -57,7 +57,6 @@ EvaManager.get({
     }
 });
 
-
 var AVAILABLE_SPECIES = {
     "text": "Species",
     "items": [

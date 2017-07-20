@@ -256,7 +256,7 @@ ClinvarAnnotationPanel.prototype = {
     },
     getVepNotificationText: function(species, annotationVersion){
         var vepText = '';
-        if( !_.isUndefined(_.findWhere(annotation_text, {species: species})) && !_.isUndefined(annotationVersion)){
+        if( !_.isUndefined(_.findWhere(annotation_text, {species: species})) && !_.isUndefined(annotationVersion) && annotationVersion){
             vepText = _.findWhere(annotation_text, {species: species}).text;
             _.each(_.keys(annotationVersion), function (key) {
                 vepText = vepText.replace("{"+key+"}",annotationVersion[key]);

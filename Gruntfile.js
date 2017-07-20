@@ -169,6 +169,7 @@ module.exports = function (grunt) {
                     'src/js/variant-widget/filters/eva-protein-substitutions-score-filter-form-panel.js',
                     'src/js/variant-widget/filters/eva-consequence-type-filter-form-panel.js',
                     'src/js/variant-widget/filters/eva-conservation-score-filter-form-panel.js',
+                    'src/js/variant-widget/filters/eva-annotation-version-filter-form-panel.js',
                     'src/js/study-browser/eva-study-browser-widget-panel.js',
                     'src/js/study-browser/eva-study-browser-filter-form-panel.js',
                     'src/js/study-browser/eva-study-browser-type-filter-form-panel.js',

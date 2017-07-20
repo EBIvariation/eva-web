@@ -281,6 +281,8 @@ Eva.prototype = {
         var polyphen = '';
         var sift = '';
         var maf = '';
+        var vepVersion = '';
+        var cacheVersion = '';
         var pushURL = true;
 
         if (!_.isEmpty($.urlParam('region'))) {
@@ -326,6 +328,17 @@ Eva.prototype = {
 //            maf = _maf.replace(/\>/g, "");
             maf = _maf;
         }
+
+        if (!_.isEmpty($.urlParam('annot-vep-version'))) {
+            var _vepVersion = decodeURIComponent($.urlParam('annot-vep-version'))
+            vepVersion = _vepVersion.replace(/\</g, "");
+        }
+
+        if (!_.isEmpty($.urlParam('annot-vep-cache-version'))) {
+            var _cacheVersion = decodeURIComponent($.urlParam('annot-vep-cache-version'))
+            cacheVersion = _cacheVersion.replace(/\</g, "");
+        }
+
         var tab = getUrlParameters('');
         if(tab && decodeURI(tab.id) == 'Variant Browser') {
             pushURL = false;
@@ -343,6 +356,8 @@ Eva.prototype = {
             polyphen: polyphen,
             sift: sift,
             maf: maf,
+            vepVersion: vepVersion,
+            cacheVersion: cacheVersion,
             pushURL:pushURL
 
         });
