@@ -587,31 +587,8 @@ a, a:active, a:focus {
     }
 }
 
-#help-section > .panel-group .panel {
-    border-radius: 0;
-    /*border: 0;*/
-}
-
-#help-section > .panel-group .panel-heading {
-    border-radius: 0;
-    padding: 8px 7px;
-    /*background-color:#E6EEEE;*/
-}
-
-#help-section > .panel-group .panel-title {
-    /*font-size:12px;*/
-}
-
-#help-section h3 {
-    color: #996a44;
-}
-
 #help-section h5 {
     color: #426783;
-}
-
-#help-section i {
-    color: #999999;
 }
 
 .acknowledgement-logo {
@@ -697,6 +674,30 @@ html.fontface .icon-s2:before {
     }
 }
 
+.faq-tabs,.faq-tabs .tabs-title > a{
+    color: #fff;
+    background: #3fa8a8;
+}
 
+.faq-tabs .tabs-title > a:focus,.faq-tabs .tabs-title > a[aria-selected='true'] {
+    color:#ffffff;
+    background-color: #156765;
+}
 
+.faq-tabs .tabs-title > a:hover {
+    color:#ffffff;
+    background-color: #156765;
+}
 
+.faq-tabs .tabs-title a{
+    font-size: 14px;
+    padding: .85rem 2rem;
+}
+
+.faq-tabs-content {
+    border: 0px;
+}
+
+.faq-tabs-content .tabs-panel {
+    margin-left:-10px;
+}

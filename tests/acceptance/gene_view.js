@@ -63,7 +63,7 @@ test.describe('Gene View ('+config.browser()+')', function() {
 
 
 function checkSummaryTable(driver){
-    driver.wait(until.elementLocated(By.id("gene-view-summary-table")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.id("gene-view-summary-table")), config.wait()).then(function(text) {
         var regex = /\w+/;
         driver.findElement(By.xpath("//td[contains(@id,'gene-view-hgnc')]//a")).getText().then(function(text){
             assert(text).matches(regex);
@@ -88,7 +88,7 @@ function checkSummaryTable(driver){
 }
 
 function checkClinvarGrid(driver){
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 10000).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
             for (var i = 1; i <= 10; i++){
                 driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table["+i+"]//td[1]/div[text()]")).getText().then(function(text){
                     assert(text).equalTo('2');

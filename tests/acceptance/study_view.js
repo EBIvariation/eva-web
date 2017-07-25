@@ -34,12 +34,12 @@ test.describe('Study View ('+config.browser()+')', function() {
 
     test.describe('EVA Study', function() {
         test.it('Check Summary and File Table Values are not empty', function() {
-            driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), 10000).then(function(text) {
+            driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), config.wait()).then(function(text) {
                 driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
                     var rows = parseInt(text.split(" ")[3]);
                     for (var i = 1; i <= 5; i++) {
                          config.sleep(driver);
-                        driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), 10000);
+                        driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), config.wait());
                         driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
 //                            driver.findElement(By.linkText(text)).click();
                             driver.get(config.baseURL()+'?eva-study='+text);
@@ -61,14 +61,14 @@ test.describe('Study View ('+config.browser()+')', function() {
 
     test.describe('DGVA Study', function() {
         test.it('Check Summary Table Values are not empty', function() {
-            driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), 10000).then(function(text) {
+            driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), config.wait()).then(function(text) {
                 driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
                 config.submit(driver);
-                driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), 10000).then(function(text) {
+                driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), config.wait()).then(function(text) {
                     driver.findElement(By.xpath("//div[@id='study-browser-grid-panel-body']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
                         var rows = parseInt(text.split(" ")[3]);
                         for (var i = 1; i <= 5; i++) {
-                            driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), 10000);
+                            driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), config.wait());
                             driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
 //                            driver.findElement(By.linkText(text)).click();
                                 driver.get(config.baseURL()+'?dgva-study='+text);
@@ -88,7 +88,7 @@ test.describe('Study View ('+config.browser()+')', function() {
 
 
 function evaCheckSummaryTable(driver){
-    driver.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.id("summaryTable")), config.wait()).then(function(text) {
         var value = driver.findElement(By.xpath("//table[@id='summaryTable']")).getText();
         var regExp = /^-$|^\w+/
         var numExp = /^\d+$/;
@@ -141,7 +141,7 @@ function evaCheckSummaryTable(driver){
 }
 
 function dgvaCheckSummaryTable(driver){
-    driver.wait(until.elementLocated(By.id("summaryTable")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.id("summaryTable")), config.wait()).then(function(text) {
         var value = driver.findElement(By.xpath("//table[@id='summaryTable']")).getText();
         var regExp = /^\w+/;
         var numExp = /^\d+$/;
@@ -186,7 +186,7 @@ function dgvaCheckSummaryTable(driver){
 }
 
 function checkPublications(driver){
-    driver.wait(until.elementLocated(By.className("pubmed-id")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.className("pubmed-id")), config.wait()).then(function(text) {
        driver.findElement(By.className('pubmed-id')).getText().then(function(text){
            var regExp = /^-$|^\w+/;
            if(text != '-'){
@@ -202,7 +202,7 @@ function checkPublications(driver){
 }
 
 function checkFilesTable(driver){
-    driver.wait(until.elementLocated(By.xpath("//table[@id='filesTable']")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//table[@id='filesTable']")), config.wait()).then(function(text) {
         var value = driver.findElement(By.xpath("//table[@id='filesTable']")).getText();
         assert(value).contains('File Name');
 

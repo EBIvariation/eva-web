@@ -58,7 +58,7 @@ test.describe('Variant View ('+config.browser()+')', function() {
 
 
 function checkSummaryGrid(driver) {
-    driver.wait(until.elementLocated(By.id("variant-view-organism")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.id("variant-view-organism")), config.wait()).then(function(text) {
         driver.findElement(By.id("variant-view-organism")).getText().then(function(text){
             assert(text).matches(/\w+\s\/\s\w+/);
         });
@@ -85,7 +85,7 @@ function checkSummaryGrid(driver) {
     return driver;
 }
 function checkSOTermGrid(driver) {
-    driver.wait(until.elementLocated(By.id("consequence-types-grid")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.id("consequence-types-grid")), config.wait()).then(function(text) {
         driver.findElement(By.className("variant-view-ensemblGeneId")).getText().then(function(text){
             assert(text).matches(/^[A-Z]+/);
         });
@@ -102,7 +102,7 @@ function checkSOTermGrid(driver) {
     return driver;
 }
 function checkStudyGrid(driver) {
-    driver.wait(until.elementLocated(By.id("studies-grid")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.id("studies-grid")), config.wait()).then(function(text) {
         variantBrowser.filesTab(driver);
     });
     return driver;

@@ -136,7 +136,7 @@ function variantSearchById(driver){
     driver.findElement(By.name("snp")).sendKeys("rs666");
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(text){
             chai.assert.equal(text, 'rs666');
         });
@@ -152,7 +152,7 @@ function variantSearchBySpeciesandChrLocation(driver){
     driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('2');
         });
@@ -172,7 +172,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.name("snp")).sendKeys("rs541552030");
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
                 assert(text).equalTo('http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs='+variantID);
@@ -183,7 +183,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[3]/div[text()]")).getText().then(function(variantID){
                 assert(text).equalTo('http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs='+variantID);
@@ -198,7 +198,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
                 assert(text).equalTo('http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id='+variantID.substring(2));
@@ -230,7 +230,7 @@ function positionFilterBoxValidation(driver){
     driver.findElement(By.name("region")).sendKeys('X:10000000-11000000');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('X');
         });
@@ -241,7 +241,7 @@ function positionFilterBoxValidation(driver){
     driver.findElement(By.name("region")).sendKeys('1!~13:12233-12234');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")).getText().then(function(text){
             assert(text).equalTo('No records to display');
         });
@@ -253,7 +253,7 @@ function positionFilterBoxInValidation(driver){
     driver.findElement(By.name("region")).sendKeys('12334');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
             assert(text).equalTo('Please enter a valid region');
             driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
@@ -264,7 +264,7 @@ function positionFilterBoxInValidation(driver){
     driver.findElement(By.name("region")).sendKeys('1:3200000-3100000');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
             assert(text).equalTo('Please enter the correct range.The start of the region should be smaller than the end');
             driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
@@ -275,7 +275,7 @@ function positionFilterBoxInValidation(driver){
     driver.findElement(By.name("region")).sendKeys('1:3000000-310000000');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
             assert(text).equalTo('Please enter a region no larger than 1 million bases');
             driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
@@ -286,7 +286,7 @@ function positionFilterBoxInValidation(driver){
     driver.findElement(By.name("region")).sendKeys('1,13:12233-12234');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
             assert(text).equalTo('Please enter a valid region');
             driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
@@ -307,7 +307,7 @@ function variantSearchByGene(driver){
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 30000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
             chai.assert.equal(text, '13');
         });
@@ -394,7 +394,7 @@ function variantFilterByPolyphenSift(driver){
     driver.findElement(By.name("sift")).sendKeys("0.02");
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), 30000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
         for (i = 1; i < 11; i++) {
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[7]/div[text()]")).getText().then(function(text) {
                 var polyphen = parseFloat(text);
@@ -431,7 +431,7 @@ function variantFilterByMAF(driver){
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
     driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), config.wait()).then(function(text) {
         driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
             for (var i = 0; i < rows.length; i++){
                 rows[i].findElement(By.className("population-stats-grid")).getAttribute('id').then(function(id){
@@ -471,7 +471,7 @@ function variantAnnotationTab(driver){
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         variantBrowser.annotationTab(driver);
     });
     return driver;
@@ -485,7 +485,7 @@ function variantFilesTab(driver){
 function variantGenotypesTab(driver){
     driver.findElement(By.xpath("//span[text()='Reset']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//span[text()='Genotypes']")).click();
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]")).click();
         variantBrowser.genotypesTab(driver);
@@ -522,17 +522,17 @@ function showDataInClinicalBrowser(driver){
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.id("clinvar-button")).click();
     });
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[3]/div/a[text()]")).getText().then(function(text){
             assert(text).equalTo('BRCA2');
         });
     });
     driver.navigate().back();
 
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
             chai.assert.equal(text, '13');
         });
@@ -545,7 +545,7 @@ function variantReset(driver) {
     driver.findElement(By.name("region")).getText().then(function(text){
         chai.assert.equal(text, '2:48000000-49000000');
     });
-    driver.wait (until.elementLocated (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then (function (text) {
+    driver.wait (until.elementLocated (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then (function (text) {
         driver.findElement (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText ().then (function (text) {
             chai.assert.equal (text, '2');
         });
