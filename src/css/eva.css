@@ -694,7 +694,7 @@ html.fontface .icon-s2:before {
     padding: .85rem 2rem;
 }
 .faq-tabs .tabs-title {
-    margin: 0 10px 10 10px;
+    border-right: 1px solid #FFFFFF;
 }
 
 .faq-tabs-content {
