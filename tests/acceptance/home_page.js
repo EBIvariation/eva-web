@@ -43,7 +43,7 @@ test.describe('Home Page ('+config.browser()+')', function() {
 function twitterWidgetRendered(driver){
     var twitterArray = new Array();
     driver.wait(until.elementLocated(By.className("twitter-timeline-rendered")), config.wait()).then(function(text) {
-        driver.findElements(By.tagName("iframe")).then(function(rows){
+        driver.findElements(By.className("twitter-timeline-rendered")).then(function(rows){
             for (var i = 0; i < rows.length; i++){
                 rows[i].getAttribute('class').then(function(text){
                     chai.assert.notInclude(twitterArray, config.hashCode(text))
