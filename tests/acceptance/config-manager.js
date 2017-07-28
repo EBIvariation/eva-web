@@ -22,6 +22,7 @@
 var baseURL = '@@BASE_URL';
 var browser = process.env.BROWSER;
 var sleep_time = 5000;
+var waitTime = 30000;
 
 module.exports = {
     initDriver: function (driverName) {
@@ -82,6 +83,9 @@ module.exports = {
             hash = hash & hash; // Convert to 32bit integer
         }
         return hash;
+    },
+    wait:function(){
+        return waitTime;
     }
 };
 

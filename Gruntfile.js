@@ -226,7 +226,7 @@ module.exports = function (grunt) {
                     'lib/EBI-Framework/libraries/foundation-6/js/foundation.js',
                     'lib/EBI-Framework/js/foundationExtendEBI.js'
                 ],
-                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework.js'
+                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework-'+date+'.js'
             }
         },
         uglify: {
@@ -306,7 +306,7 @@ module.exports = function (grunt) {
                             '<%= uglify.vendors.dest %>'
                         ],
                         'modernizr': 'build/<%= meta.version.eva %>/lib/EBI-Framework/libraries/modernizr/*.js',
-                        'ebi_framework': 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/*.min.js'
+                        'ebi_framework': '<%= uglify.ebi_framework_js.dest %>'
                     },
                     styles: {
                         'ebi_framework': [

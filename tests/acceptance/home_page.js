@@ -42,8 +42,8 @@ test.describe('Home Page ('+config.browser()+')', function() {
 
 function twitterWidgetRendered(driver){
     var twitterArray = new Array();
-    driver.wait(until.elementLocated(By.className("twitter-timeline-rendered")), 10000).then(function(text) {
-        driver.findElements(By.tagName("iframe")).then(function(rows){
+    driver.wait(until.elementLocated(By.className("twitter-timeline-rendered")), config.wait()).then(function(text) {
+        driver.findElements(By.className("twitter-timeline-rendered")).then(function(rows){
             for (var i = 0; i < rows.length; i++){
                 rows[i].getAttribute('class').then(function(text){
                     chai.assert.notInclude(twitterArray, config.hashCode(text))
@@ -56,22 +56,22 @@ function twitterWidgetRendered(driver){
 }
 
 function statisticsChartsRendered(driver){
-    driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")), config.wait()).then(function(text) {
         driver.findElements(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")).then(function(rows){
             chai.assert.equal(rows.length, 1);
         });
     });
-    driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")), config.wait()).then(function(text) {
         driver.findElements(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")).then(function(rows){
             chai.assert.equal(rows.length, 1);
         });
     });
-    driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")), config.wait()).then(function(text) {
         driver.findElements(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")).then(function(rows){
             chai.assert.equal(rows.length, 1);
         });
     });
-    driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")), config.wait()).then(function(text) {
         driver.findElements(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")).then(function(rows){
             chai.assert.equal(rows.length, 1);
         });

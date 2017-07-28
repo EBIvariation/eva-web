@@ -23,7 +23,7 @@ config.loadModules();
 module.exports = {
     filesTab:function(driver){
         config.sleep(driver);
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//a[text()]")), 15000).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//a[text()]")), config.wait()).then(function(text) {
             driver.findElement(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//a[text()]")).getText();
             var filesArray = new Array();
             var studyTitleArray = new Array();
@@ -71,7 +71,7 @@ module.exports = {
     },
     annotationTab:function(driver){
         config.sleep(driver);
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
             driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//div[contains(@id,'_annotatPagingToolbar-targetEl')]//div[contains(text(), 'Transcripts 1 -')]")).getText().then(function(text) {
                 var rows = parseInt(text.split(" ")[3]);
                 for (var i = 1; i <= rows; i++) {
@@ -125,7 +125,7 @@ module.exports = {
     genotypesTab:function(driver){
         config.sleep(driver);
         driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div")).then(function(text) {
-            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div//a[text()]")), 15000).then(function(text) {
+            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div//a[text()]")), config.wait()).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                     var genotypesArray = new Array();
                     var studyTitleArray = new Array();
@@ -171,7 +171,7 @@ module.exports = {
     populationTab:function(driver){
         config.sleep(driver);
         driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).then(function(webElement) {
-            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), 15000).then(function(text) {
+            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), config.wait()).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                     var popStatsArray = new Array();
                     var studyTitleArray = new Array();

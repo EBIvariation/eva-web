@@ -119,7 +119,7 @@ function clinVarSearchByAccession(driver){
     driver.findElement(By.name("accessionId")).sendKeys("RCV000074666");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")).getText().then(function(text){
             assert(text).equalTo('RCV000074666');
         });
@@ -128,7 +128,7 @@ function clinVarSearchByAccession(driver){
     driver.navigate().back();
     config.sleep(driver);
     driver.navigate().forward();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[8]/div/a[text()]")).getText().then(function(text){
             assert(text).equalTo('RCV000074666');
         });
@@ -144,7 +144,7 @@ function clinVarSearchByLocation(driver){
     driver.findElement(By.name("clinvarRegion")).sendKeys("2:48000000-49000000");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('2');
         });
@@ -166,7 +166,7 @@ function clinVarSearchByGene(driver){
     driver.findElement(By.name("gene")).sendKeys("BRCA1");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('17');
         });
@@ -191,7 +191,7 @@ function clinVarSearchByTrait(driver){
     driver.findElement(By.name("phenotype")).sendKeys("Pancreatic cancer");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[6]/div[text()]")).getText().then(function(text){
             assert(text).contains('Pancreatic cancer');
         });
@@ -205,7 +205,7 @@ function clinVarFilterByConseqType(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'inframe_deletion')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div/tpl[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div/tpl[text()]")), config.wait()).then(function(text) {
         value = driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[5]/div/tpl[text()]")).getText().then(function(text){
             assert(text).contains('inframe_deletion');
         });
@@ -220,7 +220,7 @@ function clinVarFilterByVariationType(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Deletion')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.wait(until.elementLocated(By.className("clinvar-variationType"))).then(function(text) {
             driver.findElement(By.className("clinvar-variationType")).getText().then(function (text) {
                 chai.assert.equal(text, 'Deletion');
@@ -234,7 +234,7 @@ function clinVarFilterByClincalSignificance(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Uncertain significance')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[7]/div[text()]")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[7]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[7]/div[text()]")).getText().then(function(text){
             assert(text).equalTo('Uncertain significance');
         });
@@ -246,8 +246,8 @@ function clinVarFilterByReviewStatus(driver){
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Expert panel')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), 15000).then(function(text) {
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-reviewStatus']")), 10000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarSummaryDataPanel')]//table//td[@class='clinvar-reviewStatus']")), config.wait()).then(function(text) {
             driver.findElement(By.className("clinvar-reviewStatus")).getText().then(function(text){
                 chai.assert.equal(text, 'REVIEWED_BY_EXPERT_PANEL');
             });
@@ -258,6 +258,8 @@ function clinVarFilterByReviewStatus(driver){
 }
 
 function showDataInVariantBrowser(driver){
+
+    console.log()
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
@@ -265,16 +267,16 @@ function showDataInVariantBrowser(driver){
     driver.findElement(By.name("gene")).sendKeys("BRCA1");
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.id("variantBrw-button")).click();
     });
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
             chai.assert.equal(text, '17');
         });
     });
     driver.navigate().back();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 15000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[3]/div/a[text()]")).getText().then(function(text){
             assert(text).equalTo('BRCA1');
         });
@@ -287,7 +289,7 @@ function clinVarReset(driver){
     driver.findElement(By.name("clinvarRegion")).getText().then(function(text){
         chai.assert.equal(text, '2:48000000-49000000');
     });
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), 30000).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")).getText().then(function(text){
             chai.assert.equal(text, '2');
         });
