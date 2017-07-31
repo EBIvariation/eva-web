@@ -244,6 +244,14 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         speciesFilter.on('species:change', function (e) {
+            _this.annotationVersions = _this.getSpeciesVepVersion(e.species);
+            var defaultVepVersion = 'default';
+            if( !_.isUndefined(_this.annotationVersions)){
+                defaultVepVersion = _.findWhere(_this.annotationVersions, {defaultVersion: true});
+                _this.variantWidget['annotationVersion'] = defaultVepVersion;
+                defaultVepVersion = defaultVepVersion.vepVersion;
+            }
+            _this._loadConsequenceTypes(conseqTypeFilter, defaultVepVersion);
             _this._loadListStudies(studyFilter, e.species);
             //setting default positional value
             var defaultRegion;
@@ -278,18 +286,6 @@ EvaVariantWidgetPanel.prototype = {
                 default:
                     defaultRegion = '1:3000000-3100000';
             }
-
-            _this.annotationVersions = _this.getSpeciesVepVersion(e.species);
-            var defaultVepVersion = 'default';
-            if( !_.isUndefined(_this.annotationVersions)){
-                defaultVepVersion = _.findWhere(_this.annotationVersions, {defaultVersion: true});
-                if(_.isUndefined(defaultVepVersion)){
-                    defaultVepVersion = _.last(_.sortBy(_this.annotationVersions, 'vepVersion'));
-                    _this.variantWidget['annotationVersion'] = defaultVepVersion;
-                }
-                defaultVepVersion = defaultVepVersion.vepVersion;
-            }
-            _this._loadConsequenceTypes(conseqTypeFilter, defaultVepVersion);
 
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);

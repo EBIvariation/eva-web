@@ -218,11 +218,11 @@ describe('VEP version Notification Text', function(){
         "cacheVersion": "35",
         "defaultVersion": true
     };
-    
+
     it('should return empty for chircus_10', function(){
         expect(annotationPanel.getVepNotificationText('chircus_10',testObjectBefore)).to.deep.equal('');
     });
-
+    
     it('should return  "Variant Effect Predictor (VEP) v89 annotation against the Ensembl Genomes v35 geneset" for aaegypti_aaegl3', function(){
         var expectedObjectAfter = "Variant Effect Predictor (VEP) v89 annotation against the Ensembl Genomes v35 geneset.";
         expect(annotationPanel.getVepNotificationText('aaegypti_aaegl3',testObjectBefore)).to.deep.equal(expectedObjectAfter);

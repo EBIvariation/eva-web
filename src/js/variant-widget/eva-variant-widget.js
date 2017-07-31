@@ -703,8 +703,7 @@ EvaVariantWidget.prototype = {
                 annotationPanel.clear(true);
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
-                    var annotation = _.findWhere( e.variant.annotations, {vepVersion: _this.annotationVersion.vepVersion});
-                    _.extend(e.variant, {annot: annotation},{annotationVersion:_this.annotationVersion});
+                    _.extend(e.variant, {annot: e.variant.annotation},{annotationVersion:_this.annotationVersion});
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
                     annotationPanel.load(e.variant, proxy.extraParams);
                     //sending tracking data to Google Analytics
