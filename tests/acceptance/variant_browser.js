@@ -98,7 +98,7 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
 
     test.describe('check Annotation Tab VEP Notification', function() {
         test.it('should be populated correctly', function() {
-            checkAnnotationNotiifcation(driver);
+            checkAnnotationNotifcation(driver);
         });
     });
 
@@ -466,7 +466,7 @@ function variantFilterByMAF(driver){
     return driver;
 }
 
-function checkAnnotationNotiifcation(driver){
+function checkAnnotationNotifcation(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
     config.sleep(driver);
