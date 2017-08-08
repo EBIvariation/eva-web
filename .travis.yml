@@ -25,7 +25,7 @@ before_script:
   - npm install
 
 script:
-  - grunt
+  - grunt --env=staging
 
 notifications:
   email:
