@@ -91,9 +91,11 @@ EvaVariantGenotypeGridPanel.prototype = {
         var panels = [];
         var genotypeData = [];
         var genotypeChartData = [];
+
+
         for (var key in data) {
             var study = data[key];
-            if (Object.keys(study.samplesData).length > 0) {
+            if (!_.isUndefined(study.samplesData) && Object.keys(study.samplesData).length > 0) {
                 Ext.getCmp('genotypeTitle').update('<h4>Genotypes</h4><h6><small>'+this.tooltipText+'</small></h6>')
                 var genotypePanel = this._createGenotypePanel(study, params, studies);
                 genotypeChartData.push(genotypePanel.chartData)

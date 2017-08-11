@@ -444,7 +444,12 @@ function variantFilterByMAF(driver){
                     for (var i = 1; i <=6; i++){
                         //check MAF
                         driver.findElement(By.xpath("//div[@id='" + id + "']//table["+i+"]//td[3]/div")).getText().then(function(text){
-                            chai.assert.operator(text, '<', 0.3);
+                            if(isNaN(text)){
+                                assert(text).equalTo('NA');
+                            } else{
+                                chai.assert.operator(text, '<', 0.3);
+                            }
+
                         },function(err) {});
                     }
                 });
@@ -472,7 +477,7 @@ function checkAnnotationNotifcation(driver){
     config.sleep(driver);
     driver.wait(until.elementLocated(By.className("vep_text")), 10000).then(function(text) {
         driver.findElement(By.className("vep_text")).getText().then(function(text){
-            assert(text).contains(/[v]\d\d$/);
+            chai.assert.match(text,/[v]\d\d/,'regexp matches');
         });
     },function(err) {
     });

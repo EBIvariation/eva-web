@@ -642,6 +642,8 @@ EvaVariantWidget.prototype = {
                 {
                     text: "cDna <br />Position",
                     dataIndex: "cDnaPosition",
+                    xtype: "templatecolumn",
+                    tpl: '<tpl if="cDnaPosition">{cDnaPosition}<tpl elseif="cDnaPosition == 0">{cDnaPosition}<tpl else>-</tpl>',
                     flex: 0.6
                 },
                 {
@@ -1118,6 +1120,7 @@ function getProteinSubstitutionScore(consequenceTypes,so_array,source) {
             }
         }
     }
+
     if (!_.isEmpty(score_array) && source == 'Sift') {
         score = Math.min.apply(Math, score_array)
     } else if (!_.isEmpty(score_array) && source == 'Polyphen') {

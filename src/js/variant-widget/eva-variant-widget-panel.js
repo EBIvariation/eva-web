@@ -192,6 +192,9 @@ EvaVariantWidgetPanel.prototype = {
                 return  res;
             },
             dataParser: function (data) {
+                if(_.isUndefined(data)){
+                    return;
+                }
                 for (var i = 0; i < data.length; i++) {
                     var variant = data[i];
                     if (variant.hgvs && variant.hgvs.genomic > 0) {
@@ -297,19 +300,6 @@ EvaVariantWidgetPanel.prototype = {
                 _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
                 Ext.getCmp('clinvar-button').hide();
             }
-
-            EvaManager.get({
-                category: 'meta/studies',
-                resource: 'list',
-                params: {species: e.species},
-                success: function (response) {
-                    try {
-                        projects = response.response[0].result;
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            });
 
         });
 

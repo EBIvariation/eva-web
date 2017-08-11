@@ -22,7 +22,7 @@
 var baseURL = '@@BASE_URL';
 var browser = process.env.BROWSER;
 var sleep_time = 5000;
-var waitTime = 30000;
+var waitTime = 60000;
 
 module.exports = {
     initDriver: function (driverName) {
