@@ -17,17 +17,6 @@
  * limitations under the License.
  */
 
-clinVarSpeciesList = [
-    {
-        assemblyCode: "grch37",
-        taxonomyCode: "hsapiens",
-        taxonomyEvaName: "Human",
-        assemblyName: "GRCh37"
-
-    }
-];
-
-
 function getSpeciesList(){
     var speciesList = '';
     EvaManager.get({

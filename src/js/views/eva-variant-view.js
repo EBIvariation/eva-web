@@ -182,9 +182,9 @@ EvaVariantView.prototype = {
         var _summaryTable = '<h4 class="variant-view-h4"> Summary</h4><div class="row"><div class="col-md-8"><table class="table hover">'
         var variantInfoTitle = document.querySelector("#variantInfo").textContent = data[0].chromosome + ':' + data[0].start + ':' + data[0].reference + ':' + data[0].alternate + ' Info';
         var speciesName;
-        if (!_.isEmpty( this.speciesList )) {
-            speciesName = _.findWhere( this.speciesList , {taxonomyCode: this.species.split("_")[0]}).taxonomyEvaName;
-            _summaryTable += '<tr><td class="header">Organism / Assembly</td><td id="variant-view-organism">' + speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + ' / ' + _.findWhere( this.speciesList , {taxonomyCode: this.species.split("_")[0]}).assemblyName + '</td></tr>'
+        if (!_.isEmpty(this.speciesList)) {
+            speciesName = _.findWhere(this.speciesList, {taxonomyCode: this.species.split("_")[0]}).taxonomyEvaName;
+            _summaryTable += '<tr><td class="header">Organism / Assembly</td><td id="variant-view-organism">' + speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + ' / ' + _.findWhere(this.speciesList, {taxonomyCode: this.species.split("_")[0]}).assemblyName + '</td></tr>'
         } else {
             _summaryTable += '<tr><td class="header">Organism / Assembly</td><td id="variant-view-organism">' + this.species + '</td></tr>'
         }

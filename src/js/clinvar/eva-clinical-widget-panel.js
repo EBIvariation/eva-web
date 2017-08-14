@@ -201,6 +201,15 @@ EvaClinicalWidgetPanel.prototype = {
     },
     _createFormPanelVariantFilter: function (target) {
         var _this = this;
+        var clinVarSpeciesList = [
+            {
+                assemblyCode: "grch37",
+                taxonomyCode: "hsapiens",
+                taxonomyEvaName: "Human",
+                assemblyName: "GRCh37"
+
+            }
+        ];
         var clinvarPositionFilter = new ClinVarPositionFilterFormPanel({
             emptyText: '',
             defaultFilterValue: _this.filter,
@@ -500,7 +509,7 @@ EvaClinicalWidgetPanel.prototype = {
             border: false,
             handlers: {
                 'submit': function (e) {
-                    console.log(e.values)
+                    _this.clinvarWidget['clinVarSpeciesList'] = clinVarSpeciesList;
                     _this.clinvarWidget.clinvarBrowserGrid.setLoading(true);
                     //POSITION CHECK
                     var regions = [];
