@@ -14,7 +14,8 @@ addons:
 
 before_install:
  - firefox --version
- - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1800x1024x16"
+# to set the screen resolution
+ - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1800x1024x16
 
 before_script:
   - export DISPLAY=:99.0

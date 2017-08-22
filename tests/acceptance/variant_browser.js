@@ -477,7 +477,7 @@ function checkAnnotationNotification(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Mosquito / AaegL3']")).click();
     driver.findElement(By.id("annotVersion-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Vep Version 89 - Cache Version 35']")).click();
+    driver.findElement(By.xpath("//li[text()='VEP version 89 - Cache version 35']")).click();
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
     driver.wait(until.elementLocated(By.className("vep_text")), 10000).then(function(text) {

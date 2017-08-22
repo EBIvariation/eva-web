@@ -75,7 +75,7 @@ EvaAnnotationVersionFilterFormPanel.prototype = {
                     name    : 'displayValue',
                     convert : function (v, rec) {
                         if(rec.get('vepVersion') && rec.get('cacheVersion')){
-                            return 'Vep Version '+rec.get('vepVersion') + ' - Cache Version ' + rec.get('cacheVersion');
+                            return 'VEP version '+rec.get('vepVersion') + ' - Cache version ' + rec.get('cacheVersion');
                         } else {
                             return '-';
                         }

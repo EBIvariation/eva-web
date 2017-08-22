@@ -37,7 +37,7 @@ EvaVariantView.prototype = {
             return;
         }
 
-            variantID = this.position;
+        variantID = this.position;
         _this.studiesList = [];
 
         EvaManager.get({
