@@ -114,10 +114,8 @@ EvaFormPanel.prototype = {
                 text: this.clearButtonText,
                 tooltip: this.clearButtonText,
                 handler: function () {
-                    _this.lastSelectedValues = _this.getValues();
                     _this.clear();
                     Utils.msg(_this.clearButtonText, 'Successful');
-                    _this.trigger('submit', {values: _this.getValues(), sender: _this});
                     _this.trigger('form:clear', {values: _this.getValues(), sender: _this});
                 }
             },

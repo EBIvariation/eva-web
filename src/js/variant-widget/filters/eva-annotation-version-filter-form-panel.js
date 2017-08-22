@@ -2,7 +2,7 @@
  * European Variation Archive (EVA) - Open-access database of all types of genetic
  * variation data from all species
  *
- * Copyright 2014, 2015 EMBL - European Bioinformatics Institute
+ * Copyright 2017 EMBL - European Bioinformatics Institute
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function SpeciesFilterFormPanel(args) {
+
+function EvaAnnotationVersionFilterFormPanel(args) {
     _.extend(this, Backbone.Events);
 
     //set default args
-    this.id = Utils.genId("SpeciesFilterFormPanel");
-    this.target;
+    this.id = Utils.genId("AnnotationVersionFilterFormPanel");
     this.autoRender = true;
-    this.title = "Genome Assembly";
+    this.title = "Annotation";
     this.border = false;
     this.collapsible = true;
     this.titleCollapse = false;
+    this.collapsed = false;
     this.headerConfig;
-    this.speciesList = speciesList;
-    this.defaultValue = 'hsapiens_grch37';
 
     //set instantiation args, must be last
     _.extend(this, args);
@@ -42,10 +41,11 @@ function SpeciesFilterFormPanel(args) {
     }
 }
 
-SpeciesFilterFormPanel.prototype = {
+EvaAnnotationVersionFilterFormPanel.prototype = {
     render: function () {
         var _this = this;
         console.log("Initializing " + this.id);
+
         //HTML skel
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
@@ -65,64 +65,56 @@ SpeciesFilterFormPanel.prototype = {
     _createPanel: function () {
         var _this = this;
 
-        Ext.define('SpeciesListModel', {
+        Ext.define('annotationVersionListModel', {
             extend: 'Ext.data.Model',
             fields: [
-                {name: 'taxonomyCommonName', type: 'string'},
-                {name: 'taxonomyCode', type: 'string'},
-                {name: 'assemblyName', type: 'string'},
-                {name: 'assemblyCode', type: 'string'},
+                {name: 'id', type: 'string'},
+                {name: 'vepVersion', type: 'string'},
+                {name: 'cacheVersion', type: 'string'},
                 {
-                    name: 'displayName',
-                    type: 'string',
-                    convert: function (v, record) {
-                        if (record.get('taxonomyEvaName')) {
-                            return record.get('taxonomyEvaName').substr(0, 1).toUpperCase() + record.get('taxonomyEvaName').substr(1) + ' / ' + record.get('assemblyName')
+                    name    : 'displayValue',
+                    convert : function (v, rec) {
+                        if(rec.get('vepVersion') && rec.get('cacheVersion')){
+                            return 'VEP version '+rec.get('vepVersion') + ' - Cache version ' + rec.get('cacheVersion');
+                        } else {
+                            return '-';
                         }
                     }
                 },
                 {
-                    name: 'value',
-                    type: 'string',
-                    convert: function (v, record) {
-                        if (record.get('taxonomyCode')) {
-                            return record.get('taxonomyCode') + '_' + record.get('assemblyCode')
-                        }
+                    name    : 'value',
+                    convert : function (v, rec) {
+                        return rec.get('vepVersion') + '_' + rec.get('cacheVersion');
                     }
                 }
             ]
         });
 
-        var speciesStore = Ext.create('Ext.data.Store', {
-            model: 'SpeciesListModel',
-            data: _this.speciesList,
+        var annotationVersionStore = Ext.create('Ext.data.Store', {
+            model: 'annotationVersionListModel',
+            data: [],
             sorters: [
                 {
-                    property: 'taxonomyEvaName',
+                    property: 'vepVersion',
                     direction: 'ASC'
                 }
             ]
         });
 
-        var speciesFormField = Ext.create('Ext.form.ComboBox', {
-            fieldLabel: 'Organism / Assembly',
-            id: "speciesFilter",
-            name: 'species',
+        var annotationVersionFormField = Ext.create('Ext.form.ComboBox', {
+            fieldLabel: 'Select Version',
+            id: 'annotVersion',
+            name: 'annotVersion',
             labelAlign: 'top',
-            store: speciesStore,
+            store: annotationVersionStore,
             queryMode: 'local',
-            displayField: 'displayName',
+            displayField: 'displayValue',
             valueField: 'value',
             width: '100%',
             editable: false,
             listeners: {
-                afterrender: function (field) {
-                    field.setValue(_this.defaultValue);
-                },
                 change: function (field, newValue, oldValue) {
-                   if (newValue) {
-                       _this.trigger('species:change', {species: newValue, sender: _this});
-                   }
+                    _this.trigger('annotationVersion:change', {annotationVersion: newValue, sender: _this});
                 }
             }
         });
@@ -138,9 +130,8 @@ SpeciesFilterFormPanel.prototype = {
             titleCollapse: this.titleCollapse,
             header: this.headerConfig,
             allowBlank: false,
-            items: [speciesFormField]
+            items: [annotationVersionFormField]
         });
-
     },
     getPanel: function () {
         return this.panel;

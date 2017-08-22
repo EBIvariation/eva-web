@@ -88,17 +88,17 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('Filter by  VEP version', function() {
+        test.it('should match with VEP version in Annotation Tab', function() {
+            checkAnnotationNotification(driver);
+        });
+    });
+
     test.describe('check dbSNP link href', function() {
         test.it('should match with Variant ID,\n' +
             'Variant ID ex: rs541552030 should have "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs="\n' +
             'Variant ID ex: ss1225720736 should have "http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id="\n', function() {
             checkdbSNPLink(driver);
-        });
-    });
-
-    test.describe('check Annotation Tab VEP Notification', function() {
-        test.it('should be populated correctly', function() {
-            checkAnnotationNotifcation(driver);
         });
     });
 
@@ -172,6 +172,7 @@ function variantSearchBySpeciesandChrLocation(driver){
 }
 
 function checkdbSNPLink(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
@@ -471,13 +472,17 @@ function variantFilterByMAF(driver){
     return driver;
 }
 
-function checkAnnotationNotifcation(driver){
+function checkAnnotationNotification(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
+    driver.findElement(By.xpath("//li[text()='Mosquito / AaegL3']")).click();
+    driver.findElement(By.id("annotVersion-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='VEP version 89 - Cache version 35']")).click();
+    driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
     driver.wait(until.elementLocated(By.className("vep_text")), 10000).then(function(text) {
         driver.findElement(By.className("vep_text")).getText().then(function(text){
-            chai.assert.match(text,/[v]\d\d/,'regexp matches');
+            assert(text).matches(/[v][8][9]/);
         });
     },function(err) {
     });

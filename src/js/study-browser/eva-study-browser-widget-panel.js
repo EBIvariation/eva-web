@@ -201,7 +201,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
         var formPanel = new EvaFormPanel({
             header: false,
             title: 'Filter',
-            type: 'variantBrowser',
             headerConfig: false,
             mode: 'accordion',
             target: target,

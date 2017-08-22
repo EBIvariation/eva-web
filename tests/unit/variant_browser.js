@@ -213,6 +213,7 @@ describe('Consequence Type Tree', function(){
 
 describe('VEP version Notification Text', function(){
     var annotationPanel = new ClinvarAnnotationPanel();
+
     var testObjectBefore =  {
         "vepVersion": "89",
         "cacheVersion": "35",
@@ -227,4 +228,5 @@ describe('VEP version Notification Text', function(){
         var expectedObjectAfter = "Variant Effect Predictor (VEP) v89 annotation against the Ensembl Genomes v35 geneset.";
         expect(annotationPanel.getVepNotificationText('aaegypti_aaegl3',testObjectBefore)).to.deep.equal(expectedObjectAfter);
     });
+
 });

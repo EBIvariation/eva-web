@@ -192,13 +192,12 @@ EvaVariantWidgetPanel.prototype = {
                 return  res;
             },
             dataParser: function (data) {
-                if(_.isUndefined(data)){
-                    return;
-                }
-                for (var i = 0; i < data.length; i++) {
-                    var variant = data[i];
-                    if (variant.hgvs && variant.hgvs.genomic > 0) {
-                        variant.hgvs_name = variant.hgvs.genomic[0];
+                if(!_.isUndefined(data)){
+                    for (var i = 0; i < data.length; i++) {
+                        var variant = data[i];
+                        if (variant.hgvs && variant.hgvs.genomic > 0) {
+                            variant.hgvs_name = variant.hgvs.genomic[0];
+                        }
                     }
                 }
             }
@@ -247,14 +246,7 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         speciesFilter.on('species:change', function (e) {
-            _this.annotationVersions = _this.getSpeciesVepVersion(e.species);
-            var defaultVepVersion = 'default';
-            if( !_.isUndefined(_this.annotationVersions)){
-                defaultVepVersion = _.findWhere(_this.annotationVersions, {defaultVersion: true});
-                _this.variantWidget['annotationVersion'] = defaultVepVersion;
-                defaultVepVersion = defaultVepVersion.vepVersion;
-            }
-            _this._loadConsequenceTypes(conseqTypeFilter, defaultVepVersion);
+            _this._loadAnnotationVersion(annotationFilter, e.species);
             _this._loadListStudies(studyFilter, e.species);
             //setting default positional value
             var defaultRegion;
@@ -289,7 +281,6 @@ EvaVariantWidgetPanel.prototype = {
                 default:
                     defaultRegion = '1:3000000-3100000';
             }
-
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
 
@@ -332,6 +323,19 @@ EvaVariantWidgetPanel.prototype = {
             collapsed: true
         });
 
+        var annotationFilter = new EvaAnnotationVersionFilterFormPanel();
+
+        annotationFilter.on('annotationVersion:change', function (e) {
+            if(e.annotationVersion && !_.isUndefined(e.annotationVersion) && e.annotationVersion != '_' ) {
+                var _annotVersion = e.annotationVersion.split("_");
+                _this.variantWidget['selectedAnnotationVersion'] = _.findWhere(_this.annotationVersions, {vepVersion:_annotVersion[0]},{cacheVersion:_annotVersion[0]});
+                _this._loadConsequenceTypes(conseqTypeFilter, _this.variantWidget['selectedAnnotationVersion'].vepVersion);
+            } else {
+                _this.variantWidget['selectedAnnotationVersion'] = '';
+                _this._loadConsequenceTypes(conseqTypeFilter, 'default');
+            }
+        });
+
         var formPanel = new EvaFormPanel({
             header: false,
             title: 'Filter',
@@ -341,7 +345,7 @@ EvaVariantWidgetPanel.prototype = {
             target: target,
             submitButtonText: 'Submit',
             submitButtonId: 'vb-submit-button',
-            filters: [speciesFilter, positionFilter, conseqTypeFilter,populationFrequencyFilter,proteinSubScoreFilter, studyFilter],
+            filters: [speciesFilter, positionFilter,annotationFilter,conseqTypeFilter,populationFrequencyFilter,proteinSubScoreFilter, studyFilter],
             height: 1359,
             border: false,
             handlers: {
@@ -409,6 +413,12 @@ EvaVariantWidgetPanel.prototype = {
                         e.values["annot-ct"] = e.values["annot-ct"].join(',');
                     }
 
+                    if(e.values.annotVersion != '_' && !_.isUndefined(e.values.annotVersion)) {
+                        var _annotVersion = e.values.annotVersion.split("_");
+                        e.values['annot-vep-version'] = _annotVersion[0];
+                        e.values['annot-vep-cache-version'] = _annotVersion[1];
+                    }
+                    delete e.values['annotVersion'];
                     var values = _.clone(e.values);
                     delete values['region'];
                     delete values['id'];
@@ -442,12 +452,8 @@ EvaVariantWidgetPanel.prototype = {
 
         _this.on('studies:change', function (e) {
             var formValues = _this.formPanelVariantFilter.getValues();
-            var params = {id: positionFilter.id, species: formValues.species}
-            _this.variantWidget.trigger('species:change', {values: formValues, sender: _this});
             _this.formPanelVariantFilter.trigger('submit', {values: formValues, sender: _this});
         });
-
-
 
         return formPanel;
     },
@@ -487,10 +493,10 @@ EvaVariantWidgetPanel.prototype = {
 
                 if (_.isEmpty(_this.selectStudies)) {
                     //set all records checked default
-                    _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().selectAll()
+                    _this.formPanelVariantFilter.filters[6].grid.getSelectionModel().selectAll()
                 } else {
                     var studyArray = _this.selectStudies.split(",");
-                    var items = _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().store.data.items;
+                    var items = _this.formPanelVariantFilter.filters[6].grid.getSelectionModel().store.data.items;
                     var selectStudies = [];
                     _.each(_.keys(items), function (key) {
                         if (_.indexOf(studyArray, this[key].data.studyId) > -1) {
@@ -498,7 +504,7 @@ EvaVariantWidgetPanel.prototype = {
                         }
                     }, items);
 
-                    _this.formPanelVariantFilter.filters[5].grid.getSelectionModel().select(selectStudies)
+                    _this.formPanelVariantFilter.filters[6].grid.getSelectionModel().select(selectStudies)
                 }
 
                 _this.selectStudies = '';
@@ -508,7 +514,6 @@ EvaVariantWidgetPanel.prototype = {
     },
     _loadConsequenceTypes: function (filter, vepVersion) {
         var _this = this;
-
         var conseqTypeTreeStore = Ext.create('Ext.data.TreeStore', {
             model: 'Tree Model',
             proxy: {
@@ -525,7 +530,7 @@ EvaVariantWidgetPanel.prototype = {
 
         filter.panel.reconfigure(conseqTypeTreeStore);
 
-        var nodes = filter.panel.getRootNode()
+        var nodes = filter.panel.getRootNode();
         nodes.cascadeBy(function (n) {
             if (n.isLeaf()) {
                 n.data.qtip =  n.data.description;
@@ -536,6 +541,40 @@ EvaVariantWidgetPanel.prototype = {
             var annotCT = _this.selectAnnotCT.split(",");
             filter.selectNodes(annotCT);
         }
+    },
+    _loadAnnotationVersion: function (filter, species) {
+        var _this = this;
+        EvaManager.get({
+            category: 'annotation',
+            resource: '',
+            params: {species: species},
+            async:false,
+            success: function (response) {
+                try {
+                    _this.annotationVersions =  response.response[0].result;
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
+        var defaultAnnotVersion = 'default';
+        if( !_.isUndefined(_this.annotationVersions)){
+            if( _this.vepVersion &&  _this.cacheVersion){
+                defaultAnnotVersion = _.findWhere(_this.annotationVersions, {vepVersion: _this.vepVersion,cacheVersion:_this.cacheVersion});
+                _this.vepVersion = '';
+                _this.cacheVersion = '';
+            } else{
+                defaultAnnotVersion = _.findWhere(_this.annotationVersions, {defaultVersion: true});
+            }
+        }
+        filter.panel.items.items[0].store.loadRawData( _this.annotationVersions);
+        filter.panel.form.findField('annotVersion').setValue(defaultAnnotVersion.vepVersion+'_'+defaultAnnotVersion.cacheVersion);
+        filter.panel.items.items[0].store.load({
+            callback : function() {
+                filter.panel.form.findField('annotVersion').setValue(defaultAnnotVersion.vepVersion+'_'+defaultAnnotVersion.cacheVersion);
+            }
+        });
+
     },
     _updateURL: function (values) {
 
@@ -564,24 +603,6 @@ EvaVariantWidgetPanel.prototype = {
         _.each(_.keys(gaValues), function (key) {
             ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
         }, gaValues);
-    },
-    getSpeciesVepVersion : function(species){
-        var data;
-        EvaManager.get({
-            category: 'annotation',
-            resource: '',
-            params: {species: species},
-            async:false,
-            success: function (response) {
-                try {
-                    data =  response.response[0].result;
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-        });
-
-        return data;
     }
 };
 

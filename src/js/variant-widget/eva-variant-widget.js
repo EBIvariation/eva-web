@@ -319,7 +319,7 @@ EvaVariantWidget.prototype = {
                     columns: [
                         {
 //                            text: "Polyphen2",
-                            header: '<span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span> PolyPhen2',
+                            header: '<a href="http://www.ensembl.org/info/genome/variation/predicted_data.html#consequences"><span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span></a> PolyPhen2',
                             dataIndex: "consequenceTypes",
                            // flex: 1.5,
                             width: 135,
@@ -362,7 +362,7 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'id',
                     id: 'variant-grid-view-column',
                     xtype: 'templatecolumn',
-                    tpl: new Ext.XTemplate('<a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species={[this.getSpecies(values)]}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>' +
+                    tpl: new Ext.XTemplate('<a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species={[this.getSpecies(values)]}&annotationVersion={[this.getAnnotationVersion()]}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>' +
                         '&nbsp;<tpl if="this.getURL(values)"><a href="{[this.getURL(values)]}" class="dbsnp_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'dbSNP Link\', eventLabel:this})"><span>dbSNP</span></a>' +
                         '<tpl else><span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>',
                         {
@@ -372,6 +372,13 @@ EvaVariantWidget.prototype = {
                             },
                             getSpecies:function (value) {
                                 return _this.values.species;
+                            },
+                            getAnnotationVersion:function () {
+                                var value = '';
+                                if(_this.selectedAnnotationVersion) {
+                                    value = _this.selectedAnnotationVersion.vepVersion+'_'+_this.selectedAnnotationVersion.cacheVersion;
+                                }
+                                return value;
                             }
                         }),
                     flex: 0.5
@@ -705,7 +712,7 @@ EvaVariantWidget.prototype = {
                 annotationPanel.clear(true);
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
-                    _.extend(e.variant, {annot: e.variant.annotation},{annotationVersion:_this.annotationVersion});
+                    _.extend(e.variant, {annot: e.variant.annotation},{annotationVersion:_this.selectedAnnotationVersion});
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
                     annotationPanel.load(e.variant, proxy.extraParams);
                     //sending tracking data to Google Analytics
@@ -1056,7 +1063,13 @@ EvaVariantWidget.prototype = {
     },
     loadBottomPanel : function (panel, variant){
         var _this = this;
-        var region = variant.chromosome + ':' + variant.start + ':' + variant.reference + ':' + variant.alternate;
+        var region = variant.chromosome + ':' + variant.start;
+        if(variant.reference){
+            region = region  + ':' + variant.reference;
+        }
+        if(variant.alternate){
+            region = region+ ':' + variant.alternate;
+        }
         var proxy = _.clone(_this.variantBrowserGrid.store.proxy);
         EvaManager.get({
             category: 'variants',
