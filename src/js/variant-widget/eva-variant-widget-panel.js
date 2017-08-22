@@ -192,6 +192,9 @@ EvaVariantWidgetPanel.prototype = {
                 return  res;
             },
             dataParser: function (data) {
+                if(_.isUndefined(data)){
+                    return;
+                }
                 for (var i = 0; i < data.length; i++) {
                     var variant = data[i];
                     if (variant.hgvs && variant.hgvs.genomic > 0) {
@@ -244,6 +247,14 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         speciesFilter.on('species:change', function (e) {
+            _this.annotationVersions = _this.getSpeciesVepVersion(e.species);
+            var defaultVepVersion = 'default';
+            if( !_.isUndefined(_this.annotationVersions)){
+                defaultVepVersion = _.findWhere(_this.annotationVersions, {defaultVersion: true});
+                _this.variantWidget['annotationVersion'] = defaultVepVersion;
+                defaultVepVersion = defaultVepVersion.vepVersion;
+            }
+            _this._loadConsequenceTypes(conseqTypeFilter, defaultVepVersion);
             _this._loadListStudies(studyFilter, e.species);
             //setting default positional value
             var defaultRegion;
@@ -279,8 +290,6 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = '1:3000000-3100000';
             }
 
-            _this._loadConsequenceTypes(conseqTypeFilter, e.species);
-
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
 
@@ -291,19 +300,6 @@ EvaVariantWidgetPanel.prototype = {
                 _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
                 Ext.getCmp('clinvar-button').hide();
             }
-
-            EvaManager.get({
-                category: 'meta/studies',
-                resource: 'list',
-                params: {species: e.species},
-                success: function (response) {
-                    try {
-                        projects = response.response[0].result;
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            });
 
         });
 
@@ -510,23 +506,14 @@ EvaVariantWidgetPanel.prototype = {
             }
         });
     },
-    _loadConsequenceTypes: function (filter, species) {
+    _loadConsequenceTypes: function (filter, vepVersion) {
         var _this = this;
-        var vep_version = 'default';
-        var consequenceTypesData = filter.consequenceTypes[vep_version];
-
-        if( !_.isUndefined(_.findWhere(annotation_text, {species: species}))){
-            vep_version = _.findWhere(annotation_text, {species: species}).vep_version;
-            if (vep_version) {
-                consequenceTypesData = filter.consequenceTypes[vep_version];
-            }
-        }
 
         var conseqTypeTreeStore = Ext.create('Ext.data.TreeStore', {
             model: 'Tree Model',
             proxy: {
                 type: 'memory',
-                data:consequenceTypesData,
+                data: filter.consequenceTypes[vepVersion],
                 reader: {
                     type: 'json'
                 }
@@ -577,7 +564,27 @@ EvaVariantWidgetPanel.prototype = {
         _.each(_.keys(gaValues), function (key) {
             ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Search', eventLabel:decodeURIComponent(this[key])});
         }, gaValues);
+    },
+    getSpeciesVepVersion : function(species){
+        var data;
+        EvaManager.get({
+            category: 'annotation',
+            resource: '',
+            params: {species: species},
+            async:false,
+            success: function (response) {
+                try {
+                    data =  response.response[0].result;
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
+
+        return data;
     }
 };
+
+
 
 

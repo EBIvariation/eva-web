@@ -196,7 +196,7 @@ module.exports = {
                                 },function(err) {});
                                 //check MAF
                                 driver.findElement(By.xpath("//div[@id='" + id + "']//table["+i+"]//td[3]/div")).getText().then(function(text){
-                                    assert(text).matches(/^[+-]?\d+(?:\.\d{1,3})?$|^[+-]?\d+(?:\.\d{3})[e]\-\d$/);
+                                    assert(text).matches(/^NA$|^[+-]?\d+(?:\.\d{1,3})?$|^[+-]?\d+(?:\.\d{3})[e]\-\d$/);
                                 },function(err) {});
                                 //check MAF allele
                                 driver.findElement(By.xpath("//div[@id='" + id + "']//table[1]//td[4]/div")).getText().then(function(text){

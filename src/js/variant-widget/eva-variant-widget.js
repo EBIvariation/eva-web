@@ -642,6 +642,8 @@ EvaVariantWidget.prototype = {
                 {
                     text: "cDna <br />Position",
                     dataIndex: "cDnaPosition",
+                    xtype: "templatecolumn",
+                    tpl: '<tpl if="cDnaPosition">{cDnaPosition}<tpl elseif="cDnaPosition == 0">{cDnaPosition}<tpl else>-</tpl>',
                     flex: 0.6
                 },
                 {
@@ -703,7 +705,7 @@ EvaVariantWidget.prototype = {
                 annotationPanel.clear(true);
             } else {
                 if (target.id === _this.selectedToolDiv.id) {
-                    _.extend(e.variant, {annot: e.variant.annotation});
+                    _.extend(e.variant, {annot: e.variant.annotation},{annotationVersion:_this.annotationVersion});
                     var proxy = _.clone(this.variantBrowserGrid.store.proxy);
                     annotationPanel.load(e.variant, proxy.extraParams);
                     //sending tracking data to Google Analytics
@@ -1118,6 +1120,7 @@ function getProteinSubstitutionScore(consequenceTypes,so_array,source) {
             }
         }
     }
+
     if (!_.isEmpty(score_array) && source == 'Sift') {
         score = Math.min.apply(Math, score_array)
     } else if (!_.isEmpty(score_array) && source == 'Polyphen') {
