@@ -28,7 +28,6 @@ function SpeciesFilterFormPanel(args) {
     this.collapsible = true;
     this.titleCollapse = false;
     this.headerConfig;
-    this.speciesList = speciesList;
     this.defaultValue = 'hsapiens_grch37';
 
     //set instantiation args, must be last

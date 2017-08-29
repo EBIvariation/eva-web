@@ -967,9 +967,9 @@ EvaVariantWidget.prototype = {
 
             var speciesName;
             var species;
-            if (!_.isEmpty(speciesList)) {
-                speciesName = _.findWhere(speciesList, {taxonomyCode: params.species.split("_")[0]}).taxonomyEvaName;
-                species = speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + '/' + _.findWhere(speciesList, {assemblyCode: params.species.split('_')[1]}).assemblyName;
+            if (!_.isEmpty(_this.speciesList)) {
+                speciesName = _.findWhere(_this.speciesList, {taxonomyCode: params.species.split("_")[0]}).taxonomyEvaName;
+                species = speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + '/' + _.findWhere(_this.speciesList, {assemblyCode: params.species.split('_')[1]}).assemblyName;
 
             } else {
                 species = params.species;
