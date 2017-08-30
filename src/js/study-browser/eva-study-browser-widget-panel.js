@@ -503,6 +503,10 @@ EvaStudyBrowserWidgetPanel.prototype = {
             values['studySpecies'] = values['species'];
         }
 
+        if (values['genome']) {
+            values['studySpecies'] = values['genome'];
+        }
+
         if (values['type']) {
             values['studyType'] = values['type'];
         }
@@ -510,6 +514,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
         delete values.species;
         delete values.type;
         delete values.structural;
+        delete values.genome;
         _.each(_.keys(_tempValues), function (key) {
             if (_.isArray(this[key])) {
                 values[key] = this[key].join();

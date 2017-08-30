@@ -28,8 +28,6 @@ function StudyFilterFormPanel(args) {
     this.collapsible = true;
     this.titleCollapse = false;
     this.headerConfig;
-    this.speciesList = speciesList;
-    this.defaultValue = 'hsapiens_grch37';
 
     //set instantiation args, must be last
     _.extend(this, args);
@@ -104,12 +102,6 @@ StudyFilterFormPanel.prototype = {
                 }
             }
         });
-
-        // if (!_.isEmpty(_this.defaultValues)) {
-        //     var values = _this.defaultValues.split(",");
-        //     console.log(values)
-        //     _this.selectNodes(values);
-        // }
 
         return  this.panel;
 

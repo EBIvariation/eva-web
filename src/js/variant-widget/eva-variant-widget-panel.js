@@ -207,6 +207,8 @@ EvaVariantWidgetPanel.prototype = {
     },
     _createFormPanelVariantFilter: function (target) {
         var _this = this;
+        var speciesList = getSpeciesList();
+        _this.variantWidget['speciesList'] = speciesList;
         var positionFilter = new EvaPositionFilterFormPanel({
             emptyText: '',
             defaultFilterValue: _this.filter,
@@ -216,7 +218,8 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         var speciesFilter = new SpeciesFilterFormPanel({
-            defaultValue: _this.species
+            defaultValue: _this.species,
+            speciesList : speciesList
         });
 
         this.studiesStore = Ext.create('Ext.data.Store', {

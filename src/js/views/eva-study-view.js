@@ -313,6 +313,7 @@ EvaStudyView.prototype = {
     },
     _getProjectUrl: function (data) {
         var _this = this;
+        var projects = getProjects();
         for (var i = 0; i < projects.length; i++) {
             if (projects[i].id === data) {
                 return projects[i].url;

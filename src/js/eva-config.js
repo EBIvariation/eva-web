@@ -28,65 +28,41 @@ clinVarSpeciesList = [
 ];
 
 
-var speciesList = '';
-EvaManager.get({
-    category: 'meta/species',
-    resource: 'list',
+function getSpeciesList(){
+    var speciesList = '';
+    EvaManager.get({
+        category: 'meta/species',
+        resource: 'list',
 //    params: {loaded: true},
-    async: false,
-    success: function (response) {
-        try {
-            speciesList = response.response[0].result;
-        } catch (e) {
-            console.log(e);
+        async: false,
+        success: function (response) {
+            try {
+                speciesList = response.response[0].result;
+            } catch (e) {
+                console.log(e);
+            }
         }
-    }
-});
+    });
 
-var projects = '';
-EvaManager.get({
-    category: 'meta/studies',
-    resource: 'all',
-    async: false,
-    success: function (response) {
-        try {
-            projects = response.response[0].result;
-        } catch (e) {
-            console.log(e);
-        }
-    }
-});
+    return speciesList;
+}
 
-var AVAILABLE_SPECIES = {
-    "text": "Species",
-    "items": [
-        {
-            "text": "Vertebrates",
-            "items": [
-                {"text": "Homo sapiens", "assembly": "GRCh37.p10"},
-                {"text": "Chlorocebus sabaeus", "assembly": "Chlorocebus_sabeus 1.1"},
-                {"text": "Oryzias latipes", "assembly": "ASM31367v1"},
-                {"text": "Bos taurus", "assembly": "Bos_taurus_UMD_3.1"},
-                {"text": "Ovis aries", "assembly": "Oar_v3.1"},
-                {"text": "Mus musculus", "assembly": "GRCm38.p3"},
-                {"text": "Capra hircus", "assembly": "CHIR_1.0"},
-            ]
-        },
-        {
-            "text": "Metazoa",
-            "items": [
-                {"text": "Anopheles gambiae", "assembly": "AgamP3"}
-            ]
-        },
-        {
-            "text": "Plants",
-            "items": [
-                {"text": "Solanum lycopersicum", "assembly": "SL2.40"},
-                {"text": "Zea Mays", "assembly": "AGPv3"},
-                {"text": "Shorgum bicolor", "assembly": "Sorbi1"},
-            ]
+function getProjects(){
+    var projects = '';
+    EvaManager.get({
+        category: 'meta/studies',
+        resource: 'all',
+        async: false,
+        success: function (response) {
+            try {
+                projects = response.response[0].result;
+            } catch (e) {
+                console.log(e);
+            }
         }
-    ]
-};
+    });
+
+    return projects;
+}
 
 DISABLE_STUDY_LINK = ['PRJX00001'];
