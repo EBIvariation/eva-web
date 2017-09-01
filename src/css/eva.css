@@ -33,6 +33,7 @@ body {
 
 .eva a {
     cursor: pointer;
+    text-decoration: none;
 }
 
 .eva-grid-img-active {
@@ -739,5 +740,9 @@ table.tablesorter thead tr th.tablesorter-headerAsc{
 
 table.tablesorter thead tr th.tablesorter-headerDesc{
     background-image: url(../img/white-desc.gif);
+}
+
+.image-link {
+    border-bottom-style: none;
 }
 
