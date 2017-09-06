@@ -152,10 +152,11 @@ EvaStudyView.prototype = {
             }
             var projectURL;
             var ena_link = 'ENA:<a href="http://www.ebi.ac.uk/ena/data/view/' + data.summaryData[0].id + '" target="_blank">' + data.summaryData[0].id + '</a>';
-            if (_.isUndefined(_this._getProjectUrl(data.summaryData[0].id))) {
+            console.log(data.summaryData[0])
+            if (_.isUndefined(data.summaryData[0].url)) {
                 projectURL = ena_link;
             } else {
-                projectURL = '<a href="' + _this._getProjectUrl(data.summaryData[0].id) + '" target="_blank">' + _this._getProjectUrl(data.summaryData[0].id) + '</a><br /><br />' + ena_link;
+                projectURL = '<a href="' + data.summaryData[0].url + '" target="_blank">' + data.summaryData[0].url + '</a><br /><br />' + ena_link;
             }
 
            var assembly_link= '-';

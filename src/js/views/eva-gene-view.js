@@ -114,42 +114,6 @@ EvaGeneView.prototype = {
 
         return _summaryTable;
     },
-    createTranscriptsPanel: function (target, data) {
-        var _this = this;
-
-        var View = Ext.create('Ext.view.View', {
-            tpl: new Ext.XTemplate('<div id="transcript-grid"></div>'),
-            margin: '5 10 10 10'
-        });
-        this.margin = '0 0 0 20';
-
-        var panel = Ext.create('Ext.panel.Panel', {
-            title: 'Transcripts',
-            layout: {
-                type: 'vbox',
-                align: 'stretch'
-            },
-            autoHeight: true,
-            overflowY: true,
-            height: 330,
-            cls: 'eva-panel',
-            header: {
-                titlePosition: 1
-            },
-            collapsible: true,
-            renderTo: target,
-            items: [View],
-            margin: this.margin
-        });
-        var variantTranscriptGrid = new EvaVariantTranscriptGrid({
-            target: 'transcript-grid'
-        });
-
-        variantTranscriptGrid.load(data);
-        variantTranscriptGrid.draw();
-
-        return variantTranscriptGrid;
-    },
     _createClinvarPanel: function (target, data) {
         var _this = this;
         var View = Ext.create('Ext.view.View', {

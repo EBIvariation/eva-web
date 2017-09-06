@@ -572,6 +572,7 @@ EvaClinVarWidget.prototype = {
         this.variantBrowserGrid.setLoading(loading);
     },
     _exportToExcel: function (records, params) {
+        var _this = this;
         var csvContent = '',
         /*
          Does this browser support the download attribute
@@ -662,9 +663,9 @@ EvaClinVarWidget.prototype = {
             var speciesName;
             var species;
 
-            if (!_.isEmpty(clinVarSpeciesList)) {
-                speciesName = _.findWhere(clinVarSpeciesList, {taxonomyCode: params.species.split("_")[0]}).taxonomyEvaName;
-                species = speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + '/' + _.findWhere(clinVarSpeciesList, {assemblyCode: params.species.split('_')[1]}).assemblyName;
+            if (!_.isEmpty(_this.clinVarSpeciesList)) {
+                speciesName = _.findWhere(_this.clinVarSpeciesList, {taxonomyCode: params.species.split("_")[0]}).taxonomyEvaName;
+                species = speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + '/' + _.findWhere(_this.clinVarSpeciesList, {assemblyCode: params.species.split('_')[1]}).assemblyName;
 
             } else {
                 species = params.species;
