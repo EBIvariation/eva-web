@@ -231,6 +231,10 @@ function clinVarFilterByVariationType(driver){
     return driver;
 }
 function clinVarFilterByClincalSignificance(driver){
+    driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
+    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
+    driver.findElement(By.name("clinvarRegion")).clear();
+    driver.findElement(By.name("clinvarRegion")).sendKeys("2:48000000-49000000");
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Uncertain significance')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
@@ -243,6 +247,10 @@ function clinVarFilterByClincalSignificance(driver){
     return driver;
 }
 function clinVarFilterByReviewStatus(driver){
+    driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
+    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
+    driver.findElement(By.name("clinvarRegion")).clear();
+    driver.findElement(By.name("clinvarRegion")).sendKeys("2:48000000-49000000");
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Expert panel')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Submit']")).click();
     config.sleep(driver);
@@ -258,8 +266,6 @@ function clinVarFilterByReviewStatus(driver){
 }
 
 function showDataInVariantBrowser(driver){
-
-    console.log()
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
@@ -287,11 +293,11 @@ function clinVarReset(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
     config.sleep(driver);
     driver.findElement(By.name("clinvarRegion")).getText().then(function(text){
-        chai.assert.equal(text, '2:48000000-49000000');
+        chai.assert.equal(text, '13:32889611-32973805');
     });
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, '2');
+            chai.assert.equal(text, '13');
         });
     });
 }

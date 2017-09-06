@@ -65,7 +65,7 @@ function visitClinVarBrowser(driver) {
     driver.findElement(By.xpath("//li//a[text()='Clinical Browser']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
         var value = driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[2]//td[1]/div[text()]")).getText();
-        assert(value).equalTo('2');
+        assert(value).matches(/^\d+/);
     });
 
     return driver;
