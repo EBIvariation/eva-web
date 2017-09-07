@@ -271,7 +271,7 @@ Eva.prototype = {
     },
     _createVariantWidgetPanel: function (target) {
         //      var position = '21:21989000-21989560';
-        var region = '2:48000000-49000000';
+        var region = '13:32889611-32973805';
         var species = 'hsapiens_grch37';
         var filter = 'region';
         var snp = '';
@@ -384,7 +384,7 @@ Eva.prototype = {
     },
     _createClinicalWidgetPanel: function (target) {
 
-        var clinvarRegion = '2:48000000-49000000';
+        var clinvarRegion = '13:32889611-32973805';
         var filter = 'region';
         var accessionId = 'RCV000030271';
         var gene = 'MSH6';

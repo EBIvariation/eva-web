@@ -258,7 +258,7 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = 'X:10000000-11000000';
                     break;
                 case 'aaegypti_aaegl3':
-                    defaultRegion = 'supercont1.18:165624-165624';
+                    defaultRegion = 'supercont1.18:100000-500000';
                     break;
                 case 'ggallus_galgal4':
                     defaultRegion = '1:2100000-2500000';
@@ -270,7 +270,7 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = 'SRAE_chr2:10000-20000';
                     break;
                 case 'hsapiens_grch37':
-                    defaultRegion = '2:48000000-49000000';
+                    defaultRegion = '13:32889611-32973805';
                     break;
                 case 'asinensis_v1':
                     defaultRegion = 'AXCK02015324:1-500000';
@@ -280,6 +280,9 @@ EvaVariantWidgetPanel.prototype = {
                     break;
                 case 'aminimus_1v1':
                     defaultRegion = 'KB663610:1-500000';
+                    break;
+                case 'hsapiens_grch38':
+                    defaultRegion = '13:32315474-32400266';
                     break;
                 default:
                     defaultRegion = '1:3000000-3100000';
@@ -450,7 +453,7 @@ EvaVariantWidgetPanel.prototype = {
         formPanel.on('form:clear', function (e) {
             _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue('hsapiens_grch37');
             _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region');
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue('2:48000000-49000000');
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue('13:32889611-32973805');
         });
 
         _this.on('studies:change', function (e) {

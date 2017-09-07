@@ -565,7 +565,7 @@ EvaClinicalWidgetPanel.prototype = {
 
         formPanel.on('form:clear', function (e) {
             _this.formPanelClinvarFilter.filters[0].panel.getForm().findField('clinvarSelectFilter').setValue('region');
-            _this.formPanelClinvarFilter.filters[0].panel.getForm().findField('clinvarRegion').setValue('2:48000000-49000000');
+            _this.formPanelClinvarFilter.filters[0].panel.getForm().findField('clinvarRegion').setValue('13:32889611-32973805');
             var formValues = _this.formPanelClinvarFilter.getValues();
             _this.formPanelClinvarFilter.trigger('submit', {values: formValues, sender: _this});
         });

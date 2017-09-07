@@ -65,6 +65,9 @@ function ClinvarAnnotationPanel(args) {
 
                     if (!_.isUndefined(value)) {
                         var  so_array = getMostSevereConsequenceType(value);
+                        if(_.isEmpty(so_array)){
+                            return '<tpl>-</tpl>';
+                        }
                         meta.tdAttr = 'data-qtip="' + so_array.join(',') + '"';
                         return value ? Ext.String.format(
                             '<tpl>' + so_array.join(',') + '</tpl>',
