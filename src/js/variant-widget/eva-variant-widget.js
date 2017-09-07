@@ -628,9 +628,11 @@ EvaVariantWidget.prototype = {
                     dataIndex: "soTerms",
                     flex: 1.7,
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
-
                         if (!_.isUndefined(value)) {
                             var  so_array = getMostSevereConsequenceType(value);
+                            if(_.isEmpty(so_array)){
+                                return '<tpl>-</tpl>';
+                            }
                             meta.tdAttr = 'data-qtip="' + so_array.join(',') + '"';
                             return value ? Ext.String.format(
                                 '<tpl>' + so_array.join(',') + '</tpl>',
@@ -644,6 +646,8 @@ EvaVariantWidget.prototype = {
                 {
                     text: "Codon",
                     dataIndex: "codon",
+                    xtype: "templatecolumn",
+                    tpl: '<tpl if="codon">{codon}<tpl else>-</tpl>',
                     flex: 0.6
                 },
                 {
@@ -656,6 +660,8 @@ EvaVariantWidget.prototype = {
                 {
                     text: "AA<br />Change",
                     dataIndex: "aaChange",
+                    xtype: "templatecolumn",
+                    tpl: '<tpl if="aaChange">{aaChange}<tpl else>-</tpl>',
                     flex: 0.6
                 },
                 {

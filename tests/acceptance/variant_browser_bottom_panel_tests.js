@@ -23,8 +23,7 @@ config.loadModules();
 module.exports = {
     filesTab:function(driver){
         config.sleep(driver);
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//a[text()]")), config.wait()).then(function(text) {
-            driver.findElement(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//a[text()]")).getText();
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div//span[text()]")), config.wait()).then(function(text) {
             var filesArray = new Array();
             var studyTitleArray = new Array();
             driver.findElements(By.xpath("//div[contains(@id,'VariantFilesPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
@@ -125,7 +124,7 @@ module.exports = {
     genotypesTab:function(driver){
         config.sleep(driver);
         driver.findElement(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div")).then(function(text) {
-            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div//a[text()]")), config.wait()).then(function(text) {
+            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div//span[text()]")), config.wait()).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantGenotypeGrid-')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                     var genotypesArray = new Array();
                     var studyTitleArray = new Array();
@@ -170,8 +169,8 @@ module.exports = {
     },
     populationTab:function(driver){
         config.sleep(driver);
-        driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")).then(function(webElement) {
-            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//span[text()]")).then(function(webElement) {
+            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//span[text()]")), config.wait()).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                     var popStatsArray = new Array();
                     var studyTitleArray = new Array();

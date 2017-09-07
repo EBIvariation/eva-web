@@ -494,7 +494,7 @@ function variantAnnotationTab(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.name("region")).clear();
-    driver.findElement(By.name("region")).sendKeys('2:48000000-49000000');
+    driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
@@ -506,7 +506,7 @@ function variantFilesTab(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.name("region")).clear();
-    driver.findElement(By.name("region")).sendKeys('2:48000000-49000000');
+    driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     driver.findElement(By.id("vb-submit-button")).click();
     driver.findElement(By.xpath("//span[text()='Files']")).click();
     config.sleep(driver);
@@ -532,7 +532,7 @@ function variantPopulationTab(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.name("region")).clear();
-    driver.findElement(By.name("region")).sendKeys('2:48000000-49000000');
+    driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
     driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
@@ -553,20 +553,14 @@ function clinicalAssertionTab(driver){
 }
 
 function showDataInClinicalBrowser(driver){
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
-    driver.findElement(By.name("gene")).clear();
-    driver.findElement(By.name("gene")).sendKeys("BRCA2");
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
-    driver.findElement(By.id("vb-submit-button")).click();
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.id("clinvar-button")).click();
     });
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[3]/div/a[text()]")).getText().then(function(text){
-            assert(text).equalTo('BRCA2');
+        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")).getText().then(function(text){
+            assert(text).equalTo('13');
         });
     });
     driver.navigate().back();
