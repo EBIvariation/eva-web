@@ -142,8 +142,8 @@ module.exports = {
                             assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
                         },function(err) {});
                         // check for pie chart study
-                        rows[i].findElements(By.className("highcharts-container")).then(function(elems){
-                            chai.assert.equal(elems.length, 1);
+                        rows[i].findElement(By.xpath("//div[contains(@id,'genotype-count-chart-')]")).getAttribute("innerHTML").then(function(text){
+                            assert(text).contains('svg');
                         });
                         rows[i].findElement(By.xpath("//div[contains(@class,'genotype-grid')]//table[1]//td[1]/div[text()]")).getText();
                         //check for duplicate content
@@ -213,7 +213,7 @@ module.exports = {
                             }
                             //check pie chart is present for every ALL population.
                             driver.findElement(By.xpath("//div[@id='" + id + "']//table//td/div[contains(text(),'ALL')]/../..//div[contains(@class,'x-grid-row-expander')]")).click().then(function(){
-                                driver.findElement(By.xpath("//div[@id='" + id + "']//table//div[@class='highcharts-container']")).getAttribute('id').then(function(chartID){
+                                driver.findElement(By.xpath("//div[@id='" + id + "']//table//svg")).getAttribute('id').then(function(chartID){
                                     driver.findElements(By.id(chartID)).then(function(elems){
                                          chai.assert.equal(elems.length, 1);
                                     });

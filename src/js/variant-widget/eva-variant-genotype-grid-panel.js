@@ -223,12 +223,14 @@ EvaVariantGenotypeGridPanel.prototype = {
             columns: genotypeColumns
         });
 
-        var divID = Utils.genId("genotype-grid-") + data.studyId;
-        var tpl = new Ext.XTemplate(['<div id="' + divID + '">Chart</div>']);
+        var divID = Utils.genId("genotype-count-chart-") + data.studyId;
+        var tpl = new Ext.XTemplate(['<div id="' + divID + '"></div>']);
         var view = Ext.create('Ext.view.View', {
             tpl: tpl,
             margin: '20 0 0 0'
         });
+
+
 
         var tempGenotypeCount = _.groupBy(chartData, 'value');
         var genotypeCountArray = [];
@@ -285,71 +287,26 @@ EvaVariantGenotypeGridPanel.prototype = {
         return res;
     },
     _drawChart: function (data) {
-        var _this = this;
-        var height = 290;
-        var width = 250;
+        google.charts.load('current', {'packages':['corechart']});
         var id = '#' + data.id;
-        var render_id = document.querySelector(id)
-        var dataArray = data.data;
+        var chartData = data.data;
         var title = data.title;
-        $(function () {
-            Highcharts.setOptions({
-                colors: ['#207A7A', '#2BA32B', '#2E4988', '#54BDBD', '#5DD15D', '#6380C4', '#70BDBD', '#7CD17C', '#7D92C4', '#295C5C', '#377A37', '#344366', '#0A4F4F', '#0E6A0E', '#0F2559' ],
-                chart: {
-                    style: {
-                        fontFamily: 'sans-serif;'
-                    }
-                }
-            });
-            $(render_id).highcharts({
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
-                    height: height
-                },
-                legend: {
-                    enabled: true,
-                    margin: 0,
-                    labelFormatter: function () {
-                        return '<div>' + this.name + '(' + this.y + ')</div>';
-                    },
-                    layout: 'horizontal',
-                    useHTML: true,
-                    align: 'center'
-                },
-                title: {
-                    text: title,
-                    style: {},
-                    align: 'center'
-                },
-                tooltip: {
-                    pointFormat: '<b>{point.y}</b>'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: false
-                        },
-                        showInLegend: true
-                    }
-                },
-                series: [
-                    {
-                        type: 'pie',
-                        name: 'Studies by ' + title,
-                        data: dataArray
-                    }
-                ],
-                credits: {
-                    enabled: false
-                }
-            });
+        chartData.unshift(['Genotypes', 'count']);
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(function(){
+            var data = google.visualization.arrayToDataTable(chartData);
+            var container = $(id),
+                width = container.width();
+            var options = {
+                title: title,
+                chartArea: {width: width, height:300,top:50},
+                legend:{position: 'right',alignment:'center'}
+            };
 
+            var chart = new google.visualization.PieChart($(id)[0]);
+            chart.draw(data, options);
+            $(id+" svg text").first().attr("x", (($(id+" svg").width() - parseInt($(id+" svg text").first().attr('x'),10)) / 4.5).toFixed(0));
         });
-
     }
 };
 String.prototype.formatAlleles = function () {
