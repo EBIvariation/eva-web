@@ -71,11 +71,11 @@ DgvaStatistics.prototype = {
                 typeArray.push([key, type_data[key]]);
             }
         }
-        var typeChartData = {id: 'dgva-statistics-chart-type', title: 'Type', chartData: typeArray};
+        var typeChartData = {id: 'dgva-statistics-chart-type', title: 'Types', chartData: typeArray};
         _this._drawChart(typeChartData);
     },
     _drawChart: function (data) {
-        var label = 'Type';
+        var label = 'Types';
         if (data.id == 'dgva-statistics-chart-species') {
             data.chartData = data.chartData.slice(0, 5);
             label = 'Species';

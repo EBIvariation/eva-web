@@ -70,16 +70,16 @@ EvaStatistics.prototype = {
                 typeArray.push([key, type_data[key]]);
             }
         }
-        var typeChartData = {id: 'eva-statistics-chart-type', title: 'Type', chartData: typeArray};
+        var typeChartData = {id: 'eva-statistics-chart-type', title: 'Types', chartData: typeArray};
         _this._drawChart(typeChartData);
 
 
     },
     _drawChart: function (data) {
-        var label = 'type';
+        var label = 'Types';
         if (data.id == 'eva-statistics-chart-species') {
             data.chartData = data.chartData.slice(0, 5);
-            label = 'species';
+            label = 'Species';
         }
         var id = '#' + data.id;
         var chartData = data.chartData;
