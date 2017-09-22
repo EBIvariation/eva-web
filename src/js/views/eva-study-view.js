@@ -213,71 +213,76 @@ EvaStudyView.prototype = {
                         }
                     }
                 });
-                _filesTable += '<div><h4>Files</h4></div><table id="filesTable" class="table table-striped"><thead><tr>' +
-                    '<th>File Name</th>' +
-                    '<th>Samples with Genotypes</th>' +
-                    '<th>Variants Count</th>' +
-                    '<th>SNP Count</th>' +
-                    '<th>Indel Count</th>' +
-                    '<th>Pass Count</th>' +
-                    '<th>Transitions/Transversions Ratio</th>' +
-                    '<th>Mean Quality</th>' +
+
+                if (!_.isUndefined(ftpLink)) {
+
+                    _filesTable += '<div><h4>Files</h4></div><table id="filesTable" class="table table-striped"><thead><tr>' +
+                        '<th>File Name</th>' +
+                        '<th>Samples with Genotypes</th>' +
+                        '<th>Variants Count</th>' +
+                        '<th>SNP Count</th>' +
+                        '<th>Indel Count</th>' +
+                        '<th>Pass Count</th>' +
+                        '<th>Transitions/Transversions Ratio</th>' +
+                        '<th>Mean Quality</th>' +
 //                    '<th>View</th>' +
-                    '</tr></thead><tbody>'
-                for (i = 0; i < data.filesData.length; i++) {
-                    var ftpLocation = '';
-                    var downloadLink = data.filesData[i].fileName;
-                    if (!_.isUndefined(_.findWhere(ftpLink, {id: data.filesData[i].fileName}))) {
-                        ftpLocation = _.findWhere(ftpLink, {id: data.filesData[i].fileName}).result[0];
-                    }
-                    if (ftpLink.length > 0 && ftpLocation != 'ftp:/null' && !_.isEmpty(ftpLocation)) {
-                        downloadLink = '<a href="' + ftpLocation + '" target="_blank">' + data.filesData[i].fileName + '</a>';
-                    }
-                    var samples_count;
-                    var variantsCount;
-                    var snpsCount;
-                    var indelsCount;
-                    var passCount;
-                    var transitionsCount;
-                    var meanQuality;
-                    if (!_.isUndefined(data.filesData[i].stats) && !_.isNull(data.filesData[i].stats)) {
-                        if (data.filesData[i].stats.samplesCount) {
-                            samples_count = data.filesData[i].stats.samplesCount;
+                        '</tr></thead><tbody>'
+                    for (i = 0; i < data.filesData.length; i++) {
+                        var ftpLocation = '';
+                        var downloadLink = data.filesData[i].fileName;
+                        if (!_.isUndefined(_.findWhere(ftpLink, {id: data.filesData[i].fileName}))) {
+                            ftpLocation = _.findWhere(ftpLink, {id: data.filesData[i].fileName}).result[0];
+                        }
+                        if (ftpLink.length > 0 && ftpLocation != 'ftp:/null' && !_.isEmpty(ftpLocation)) {
+                            downloadLink = '<a href="' + ftpLocation + '" target="_blank">' + data.filesData[i].fileName + '</a>';
+                        }
+                        var samples_count;
+                        var variantsCount;
+                        var snpsCount;
+                        var indelsCount;
+                        var passCount;
+                        var transitionsCount;
+                        var meanQuality;
+                        if (!_.isUndefined(data.filesData[i].stats) && !_.isNull(data.filesData[i].stats)) {
+                            if (data.filesData[i].stats.samplesCount) {
+                                samples_count = data.filesData[i].stats.samplesCount;
+                            } else {
+                                samples_count = 'NA';
+                            }
+                            variantsCount = data.filesData[i].stats.variantsCount;
+                            snpsCount = data.filesData[i].stats.snpsCount;
+                            indelsCount = data.filesData[i].stats.indelsCount;
+                            passCount = data.filesData[i].stats.passCount;
+                            transitionsCount = (data.filesData[i].stats.transitionsCount / data.filesData[i].stats.transversionsCount).toFixed(2) + '&nbsp;(' + data.filesData[i].stats.transitionsCount + '/' + data.filesData[i].stats.transversionsCount + ')';
+                            if(!isNaN(data.filesData[i].stats.meanQuality)){
+                                meanQuality = data.filesData[i].stats.meanQuality.toFixed(2);
+                            }else{
+                                meanQuality = 'NA';
+                            }
                         } else {
                             samples_count = 'NA';
-                        }
-                        variantsCount = data.filesData[i].stats.variantsCount;
-                        snpsCount = data.filesData[i].stats.snpsCount;
-                        indelsCount = data.filesData[i].stats.indelsCount;
-                        passCount = data.filesData[i].stats.passCount;
-                        transitionsCount = (data.filesData[i].stats.transitionsCount / data.filesData[i].stats.transversionsCount).toFixed(2) + '&nbsp;(' + data.filesData[i].stats.transitionsCount + '/' + data.filesData[i].stats.transversionsCount + ')';
-                        if(!isNaN(data.filesData[i].stats.meanQuality)){
-                            meanQuality = data.filesData[i].stats.meanQuality.toFixed(2);
-                        }else{
+                            variantsCount = 'NA';
+                            snpsCount = 'NA';
+                            indelsCount = 'NA';
+                            passCount = 'NA';
+                            transitionsCount = 'NA';
                             meanQuality = 'NA';
                         }
-                    } else {
-                        samples_count = 'NA';
-                        variantsCount = 'NA';
-                        snpsCount = 'NA';
-                        indelsCount = 'NA';
-                        passCount = 'NA';
-                        transitionsCount = 'NA';
-                        meanQuality = 'NA';
-                    }
 
-                    _filesTable += '<tr>' +
-                        '<td class="link">' + downloadLink + '</td>' +
-                        '<td><span class="samples_count">' + samples_count + '</span></td>' +
-                        '<td><span class="variants_ount">' + variantsCount + '</span></td>' +
-                        '<td><span class="snps_count">' + snpsCount + '</span></td>' +
-                        '<td><span class="indels_count">' + indelsCount + '</span></td>' +
-                        '<td><span class="pass_count">' + passCount + '</span></td>' +
-                        '<td><span class="transition_count">' + transitionsCount + '</span></td>' +
-                        '<td><span class="mean_count">' + meanQuality + '</span></td>' +
-                        '</tr>'
+                        _filesTable += '<tr>' +
+                            '<td class="link">' + downloadLink + '</td>' +
+                            '<td><span class="samples_count">' + samples_count + '</span></td>' +
+                            '<td><span class="variants_ount">' + variantsCount + '</span></td>' +
+                            '<td><span class="snps_count">' + snpsCount + '</span></td>' +
+                            '<td><span class="indels_count">' + indelsCount + '</span></td>' +
+                            '<td><span class="pass_count">' + passCount + '</span></td>' +
+                            '<td><span class="transition_count">' + transitionsCount + '</span></td>' +
+                            '<td><span class="mean_count">' + meanQuality + '</span></td>' +
+                            '</tr>'
+                    }
+                    _filesTable += '</tbody></table>'
                 }
-                _filesTable += '</tbody></table>'
+
 
             }
             _filesTable += '</div></div>'

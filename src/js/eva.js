@@ -521,7 +521,7 @@ Eva.prototype = {
                         }
                     },
                     error: function (x, y, z) {
-                        obj.html('&nbsp;&nbsp;PubMed:<a class="external publication" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + pubmedId + '" target="_blank">' + pubmedId + '</a><br />');
+                        obj.html('PubMed:<a class="external publication" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + pubmedId + '" target="_blank">' + pubmedId + '</a><br />');
                         // x.responseText should have what's wrong
                     }
                 });
