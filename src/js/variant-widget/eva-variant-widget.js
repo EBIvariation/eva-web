@@ -1069,13 +1069,12 @@ EvaVariantWidget.prototype = {
     },
     loadBottomPanel : function (panel, variant){
         var _this = this;
-        var region = variant.chromosome + ':' + variant.start;
-        if(variant.reference){
-            region = region  + ':' + variant.reference;
+        if(!variant.reference){
+            variant.reference = '';
+        }else if(!variant.alternate){
+            variant.alternate = '';
         }
-        if(variant.alternate){
-            region = region+ ':' + variant.alternate;
-        }
+        var region = variant.chromosome + ':' + variant.start+':'+variant.reference+':'+variant.alternate;
         var proxy = _.clone(_this.variantBrowserGrid.store.proxy);
         EvaManager.get({
             category: 'variants',
