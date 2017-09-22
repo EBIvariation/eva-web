@@ -183,6 +183,10 @@ EvaVariantFilesPanel.prototype = {
             }
         });
 
+        _.each(_.keys(attributesData), function (key) {
+            attributesData[key] = this[key].escapeHTML();
+        }, attributesData);
+
         attributesData = _.invert(attributesData);
         var vcfData = '';
         var vcfTpl =  new Ext.XTemplate();
