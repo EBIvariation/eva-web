@@ -30,10 +30,10 @@ EvaStatistics.prototype = {
         if (!this.rendered) {
             var el = document.querySelector("#" + this.targetId);
             var evaStatDiv = '<div class="row">' +
-                                    '<div class="mall-12 medium-12 large-6 columns">' +
+                                    '<div class="small-12 medium-12 large-6 columns">' +
                                         '<div id="eva-statistics-chart-species" style="width:350px;height:350px;"></div>' +
                                     '</div>' +
-                                    '<div class="mall-12 medium-12 large-6 columns">' +
+                                    '<div class="small-12 medium-12 large-6 columns">' +
                                         '<div id="eva-statistics-chart-type" style="width:350px;height:350px;"></div>' +
                                     '</div>' +
                                 '</div>'

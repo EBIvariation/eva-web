@@ -323,17 +323,18 @@ EvaVariantPopulationStatsPanel.prototype = {
         google.charts.setOnLoadCallback(function(){
             var data = google.visualization.arrayToDataTable(chartData);
             var container = $(id),
-                width = container.width();
+                width = (container.width() - 100),
+                height = (container.height() - 100);
             var options = {
                 title: title,
-                chartArea: {width: width, height:300, top:50},
+                chartArea: {width: width, height:height, top:50},
                 colors: ['#207A7A', '#2BA32B', '#2E4988', '#54BDBD', '#5DD15D', '#6380C4', '#70BDBD', '#7CD17C', '#7D92C4', '#295C5C', '#377A37', '#344366', '#0A4F4F', '#0E6A0E', '#0F2559'],
                 legend:{position: 'right', alignment:'center'}
             };
 
             var chart = new google.visualization.PieChart($(id)[0]);
             chart.draw(data, options);
-            $(id+" svg text").first().attr("x", (($(id+" svg").width() - parseInt($(id+" svg text").first().attr('x'),10)) / 4.5).toFixed(0));
+            $(id+" svg text").first().attr("x", (($(id+" svg").width() - parseInt($(id+" svg text").first().attr('x'),10)) / 3.5).toFixed(0));
         });
 
     }

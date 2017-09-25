@@ -224,7 +224,7 @@ EvaVariantGenotypeGridPanel.prototype = {
         });
 
         var divID = Utils.genId("genotype-count-chart-") + data.studyId;
-        var tpl = new Ext.XTemplate(['<div id="' + divID + '" style="height:250px;"></div>']);
+        var tpl = new Ext.XTemplate(['<div id="' + divID + '" style="height:300px;"></div>']);
         var view = Ext.create('Ext.view.View', {
             tpl: tpl,
             margin: '20 0 0 0'
@@ -296,8 +296,8 @@ EvaVariantGenotypeGridPanel.prototype = {
         google.charts.setOnLoadCallback(function(){
             var data = google.visualization.arrayToDataTable(chartData);
             var container = $(id),
-                width = (container.width() - 15),
-                height = (container.height() - 15);
+                width = (container.width() - 100),
+                height = (container.height() - 100);
             var options = {
                 title: title,
                 chartArea: {width: width, height:height, top:50},
@@ -307,7 +307,7 @@ EvaVariantGenotypeGridPanel.prototype = {
 
             var chart = new google.visualization.PieChart($(id)[0]);
             chart.draw(data, options);
-            $(id+" svg text").first().attr("x", (($(id+" svg").width() - parseInt($(id+" svg text").first().attr('x'),10)) / 4.5).toFixed(0));
+            $(id+" svg text").first().attr("x", (($(id+" svg").width() - parseInt($(id+" svg text").first().attr('x'),10)) / 3.5).toFixed(0));
         });
     }
 };
