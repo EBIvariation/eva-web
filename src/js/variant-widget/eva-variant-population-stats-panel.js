@@ -264,10 +264,9 @@ EvaVariantPopulationStatsPanel.prototype = {
 
         grid.view.on('expandbody', function (rowNode, record, body, rowIndex) {
             var genotypesCount = record.data.genotypesCount;
-            console.log(genotypesCount)
             var divID = 'population-stats-grid-' + record.data.id + data.fileId;
             if (!_.isEmpty(genotypesCount)) {
-                body.innerHTML = '<div style="width:800px;" id="' + divID + '"></div>';
+                body.innerHTML = '<div style="width:800px;height:300px;" id="' + divID + '"></div>';
                 var tempArray = [];
                 _.each(_.keys(genotypesCount), function (key) {
 //                    genotypesCountArray.push([key.formatAlleles(), this[key]]);
@@ -280,9 +279,9 @@ EvaVariantPopulationStatsPanel.prototype = {
                         .toArray();
                 var genotypesCountArray = [];
                 _.each(_.keys(result), function (key) {
-                    console.log(this[key])
                     genotypesCountArray.push([this[key].Name, this[key].Value]);
                 },result);
+                console.log(divID)
                 var genotypesCountChartData = {id: divID, title: 'Genotype Count', chartData: genotypesCountArray};
                 _this._drawChart(genotypesCountChartData);
             } else {
@@ -315,72 +314,27 @@ EvaVariantPopulationStatsPanel.prototype = {
         return res;
     },
     _drawChart: function (data) {
-        var _this = this;
-        var height = 290;
-        var width = 250;
+        google.charts.load('current', {'packages':['corechart']});
         var id = '#' + data.id;
-        var render_id = document.querySelector(id);
-        var dataArray = data.chartData;
+        var chartData = data.chartData;
         var title = data.title;
+        chartData.unshift(['Genotypes', 'count']);
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(function(){
+            var data = google.visualization.arrayToDataTable(chartData);
+            var container = $(id),
+                width = (container.width() - 100),
+                height = (container.height() - 100);
+            var options = {
+                title: title,
+                chartArea: {width: width, height:height, top:50},
+                colors: ['#207A7A', '#2BA32B', '#2E4988', '#54BDBD', '#5DD15D', '#6380C4', '#70BDBD', '#7CD17C', '#7D92C4', '#295C5C', '#377A37', '#344366', '#0A4F4F', '#0E6A0E', '#0F2559'],
+                legend:{position: 'right', alignment:'center'}
+            };
 
-        $(function () {
-            Highcharts.setOptions({
-                colors: ['#207A7A', '#2BA32B', '#2E4988', '#54BDBD', '#5DD15D', '#6380C4', '#70BDBD', '#7CD17C', '#7D92C4', '#295C5C', '#377A37', '#344366', '#0A4F4F', '#0E6A0E', '#0F2559' ],
-                chart: {
-                    style: {
-                        fontFamily: 'sans-serif;'
-                    }
-                }
-            });
-            $(render_id).highcharts({
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
-                    height: height,
-                    marginLeft: 50,
-                    marginTop: 50
-                },
-                legend: {
-                    enabled: true,
-                    margin: 0,
-                    labelFormatter: function () {
-                        return '<div>' + this.name + '(' + this.y + ')</div>';
-                    },
-                    layout: 'horizontal',
-                    useHTML: true,
-                    align: 'center'
-                },
-                title: {
-                    text: title,
-                    style: {},
-                    align: 'center'
-                },
-                tooltip: {
-                    pointFormat: '<b>{point.y}</b>'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: false
-                        },
-                        showInLegend: true
-                    }
-                },
-                series: [
-                    {
-                        type: 'pie',
-                        name: 'Studies by ' + title,
-                        data: dataArray
-                    }
-                ],
-                credits: {
-                    enabled: false
-                }
-            });
-
+            var chart = new google.visualization.PieChart($(id)[0]);
+            chart.draw(data, options);
+            $(id+" svg text").first().attr("x", (($(id+" svg").width() - parseInt($(id+" svg text").first().attr('x'),10)) / 3.5).toFixed(0));
         });
 
     }

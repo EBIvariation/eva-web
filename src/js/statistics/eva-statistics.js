@@ -29,23 +29,31 @@ EvaStatistics.prototype = {
         var _this = this;
         if (!this.rendered) {
             var el = document.querySelector("#" + this.targetId);
-            var evaStatDiv = '<div class="row"><div id="eva-statistics-chart-species" class="small-6 medium-6 columns"></div><div id="eva-statistics-chart-type" class="small-6 medium-6 columns"></div></div>'
+            var evaStatDiv = '<div class="row">' +
+                                    '<div class="small-12 medium-12 large-6 columns">' +
+                                        '<div id="eva-statistics-chart-species" style="width:350px;height:350px;"></div>' +
+                                    '</div>' +
+                                    '<div class="small-12 medium-12 large-6 columns">' +
+                                        '<div id="eva-statistics-chart-type" style="width:350px;height:350px;"></div>' +
+                                    '</div>' +
+                                '</div>'
             el.innerHTML = evaStatDiv;
             EvaManager.get({
                 category: 'meta/studies',
                 resource: 'stats',
                 success: function (response) {
                     try {
-                        var stats = response.response[0].result[0];
+                        var data = response.response[0].result[0];
                     } catch (e) {
                         console.log(e);
                     }
-                    _this._parseData(stats);
+                    _this._parseData(data);
                 }
             });
         }
     },
     _parseData: function (data) {
+        console.log(data)
         var _this = this;
         var species_data = data.species
         var type_data = data.type
@@ -62,75 +70,39 @@ EvaStatistics.prototype = {
                 typeArray.push([key, type_data[key]]);
             }
         }
-        var typeChartData = {id: 'eva-statistics-chart-type', title: 'Type', chartData: typeArray};
-        _this._drawChart(typeChartData)
+        var typeChartData = {id: 'eva-statistics-chart-type', title: 'Types', chartData: typeArray};
+        _this._drawChart(typeChartData);
+
 
     },
-    _drawChart: function (data) {     
+    _drawChart: function (data) {
+        var label = 'Types';
         if (data.id == 'eva-statistics-chart-species') {
-            data.chartData = data.chartData.slice(0, 5);           
+            data.chartData = data.chartData.slice(0, 5);
+            label = 'Species';
         }
         var id = '#' + data.id;
-        var render_id = document.querySelector(id);
-        var dataArray = data.chartData;
-        var title = data.title;
-        $(function () {
-            Highcharts.setOptions({
-                colors: ['#207A7A', '#2BA32B', '#2E4988', '#54BDBD', '#5DD15D', '#6380C4', '#70BDBD', '#7CD17C', '#7D92C4', '#295C5C', '#377A37', '#344366', '#0A4F4F', '#0E6A0E', '#0F2559' ],
-                chart: {
-                    style: {
-                        fontFamily: 'sans-serif;'
-                    }
-                }
-            });
-            $(render_id).highcharts({
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,                   
-                    marginBottom:115
-                },
-                legend: {
-                    enabled: true,
-                    width: 100,
-                    // margin: 0,
-                    labelFormatter: function () {
-                        return '<div>' + this.name + '(' + this.y + ')</div>';
-                    },
-                    layout: 'vertical',
-                    useHTML: true,
-                    align: "center"
+        var chartData = data.chartData;
+        chartData.unshift([label, 'count']);
+        var title = 'Top 5 '+data.title;
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(function(){
+            var data = google.visualization.arrayToDataTable(chartData);
+            var container = $(id),
+                width = (container.width() - 15),
+                height = (container.height() - 15);
+            var options = {
+                title: title,
+                chartArea: {width: width, height:height, top:50},
+                colors: ['#207A7A', '#2BA32B', '#2E4988', '#54BDBD', '#5DD15D'],
+                legend:{position: 'right', alignment:'center'}
+            };
 
-                },
-                title: {
-                    text: 'Top 5 Studies <br>\u00A0<span style="font-size:12px;">by ' + title + '</span>',
-                    style: {},
-                    align: 'center'
-                },
-                tooltip: {
-                    pointFormat: '<b>{point.y}</b>'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: false
-                        },
-                        showInLegend: true
-                    }
-                },
-                series: [
-                    {
-                        type: 'pie',
-                        name: 'Top 5 Studies by ' + title,
-                        data: dataArray
-                    }
-                ],
-                credits: {
-                    enabled: false
-                }
-            });
+            var chart = new google.visualization.PieChart($(id)[0]);
+            chart.draw(data, options);
+            $(id+" svg text").first().attr("x", (($(id+" svg").width() - parseInt($(id+" svg text").first().attr('x'),10)) / 4.5).toFixed(0));
+            $(id+" svg text").first().attr("y", (($(id+" svg").width() - parseInt($(id+" svg text").first().attr('x'),10)) / 4).toFixed(0));
         });
+
     }
 }

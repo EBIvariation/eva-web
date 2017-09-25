@@ -56,23 +56,23 @@ function twitterWidgetRendered(driver){
 }
 
 function statisticsChartsRendered(driver){
-    driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")), config.wait()).then(function(text) {
-        driver.findElements(By.xpath("//div[@id='eva-statistics-chart-species']//div[@class='highcharts-container']")).then(function(rows){
+    driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-species']/div")), config.wait()).then(function(text) {
+        driver.findElements(By.xpath("//div[@id='eva-statistics-chart-species']/div")).then(function(rows){
             chai.assert.equal(rows.length, 1);
         });
     });
-    driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")), config.wait()).then(function(text) {
-        driver.findElements(By.xpath("//div[@id='eva-statistics-chart-type']//div[@class='highcharts-container']")).then(function(rows){
+    driver.wait(until.elementLocated(By.xpath("//div[@id='eva-statistics-chart-type']/div")), config.wait()).then(function(text) {
+        driver.findElements(By.xpath("//div[@id='eva-statistics-chart-type']/div")).then(function(rows){
             chai.assert.equal(rows.length, 1);
         });
     });
-    driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")), config.wait()).then(function(text) {
-        driver.findElements(By.xpath("//div[@id='dgva-statistics-chart-species']//div[@class='highcharts-container']")).then(function(rows){
+    driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-species']/div")), config.wait()).then(function(text) {
+        driver.findElements(By.xpath("//div[@id='dgva-statistics-chart-species']/div")).then(function(rows){
             chai.assert.equal(rows.length, 1);
         });
     });
-    driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")), config.wait()).then(function(text) {
-        driver.findElements(By.xpath("//div[@id='dgva-statistics-chart-type']//div[@class='highcharts-container']")).then(function(rows){
+    driver.wait(until.elementLocated(By.xpath("//div[@id='dgva-statistics-chart-type']/div")), config.wait()).then(function(text) {
+        driver.findElements(By.xpath("//div[@id='dgva-statistics-chart-type']/div")).then(function(rows){
             chai.assert.equal(rows.length, 1);
         });
     });
