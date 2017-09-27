@@ -492,11 +492,7 @@ Eva.prototype = {
             var pubmedId = obj.html();
             obj.html('<p>Attempting to retrieve publication information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '...</p>');
             if(pubmedId && pubmedId != '-') {
-                var host = EVA_HOST.replace("/eva/webservices/rest", "");
-                var url = host + '/europepmc/webservices/rest/search?query=ext_id:' + pubmedId + ' src:med&format=json';
-                if (window.location.protocol != 'https:') {
-                    url = url.replace("http", "https");
-                }
+                var url = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=ext_id:' + pubmedId + ' src:med&format=json';
                 // Make the actual AJAX call...
                 $.ajax({
                     type: 'GET',
