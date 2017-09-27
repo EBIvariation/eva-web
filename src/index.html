@@ -665,21 +665,25 @@
                                         <li class="accordion-item" data-accordion-item>
                                             <a href="#collapse18" class="accordion-title"><h5>What accessions are administered by the EVA?</h5></a>
                                             <div class="accordion-content" data-tab-content>
-                                                The EVA follows the SRA model for accessioning:
+                                                <p>
+                                                    The EVA follows the SRA model for accessioning:
                                                 <ul>
                                                     <ul>
-                                                    <li>A submitted project is administered a ‘project’ accession. These begin “PRJEB” followed by a numerical sequence.</li>
-                                                    <li>Each analysis object within a project is administered an ‘analysis’ accession. These begin “ERZ” followed by a numerical sequence.</li>
+                                                        <li>A submitted project is administered a ‘project’ accession. These begin “PRJEB” followed by a numerical sequence.</li>
+                                                        <li>Each analysis object within a project is administered an ‘analysis’ accession. These begin “ERZ” followed by a numerical sequence.</li>
                                                     </ul>
                                                 </ul>
-                                                Both the project and analysis accessions are sent to the submitter once the data has been validated and fully archived at EMBL-EBI. The project and analysis accessions are stable identifiers that are suitable for publication.
+                                                </p>
+                                                <p>
+                                                    Both the project and analysis accessions are sent to the submitter once the data has been validated and fully archived at EMBL-EBI. The project and analysis accessions are stable identifiers that are suitable for publication.
+                                                </p>
                                             </div>
                                         </li>
                                         <li class="accordion-item" data-accordion-item>
-                                            <a href="#collapse19" class="accordion-title"><h5>What new variant accessions will be administered by the EVA?</h5></a>
+                                            <a href="#collapse19" class="accordion-title"><h5>What variant accessions will be administered by the EVA?</h5></a>
                                             <div class="accordion-content" data-tab-content>
                                                 <p>
-                                                    EVA shall follow the same accessioning format and rules that are employed by dbSNP: non-human variants that are submitted to the EVA shall be administered ‘ss’ accessions and these shall periodically be clustered to form ‘rs’ accessions.
+                                                    The EVA shall follow the same accessioning principles employed by dbSNP: non-human variants that are submitted to the EVA are issued 'Submitted SNP' (ss) accessions, and these are periodically clustered to form 'Reference SNP' (rs) accessions.
                                                 </p>
                                             </div>
                                         </li>
@@ -687,10 +691,74 @@
                                             <a href="#collapse20" class="accordion-title"><h5>Will it be possible to retrieve existing dbSNP accessions from the EVA?</h5></a>
                                             <div class="accordion-content" data-tab-content>
                                                <p>
-                                                Yes. The EVA is committed to the continuation of existing dbSNP ‘submitted SNP’ (ss) and ‘reference SNP’ (rs) accessions. These accessions shall be retrievable via the
-                                                <a href="?Variant%20Browser&species=btaurus_umd31&selectFilter=region&studies=PRJEB6119%2CPRJEB7061%2CPRJEB14878&region=1%3A3000000-3100000">EVA variant browser</a> and
-                                                <a href="?API">web services API</a>
+                                                   Yes. The EVA is committed to the continuation of existing dbSNP ‘submitted SNP’ (ss) and ‘reference SNP’ (rs) accessions.
                                                </p>
+                                               <p> The accessions of those dbSNP variants that satisfy the EVA submission requirements will be retrievable via the
+                                                    <a href="?Variant%20Browser&species=hsapiens_grch37&selectFilter=snp&snp=rs55880202">EVA variant browser</a> and
+                                                    <a href="?API">web services API</a>. If you want to learn more about EVA submission requirements, please click <a href="?Submit%20Data">here</a>.
+                                               </p>
+                                            </div>
+                                        </li>
+                                        <li class="accordion-item" data-accordion-item>
+                                            <a href="#collapse21" class="accordion-title"><h5>Why are some variants in a different strand than the one dbSNP reports?</h5></a>
+                                            <div class="accordion-content" data-tab-content>
+                                                <p>
+                                                    The EVA accepts variant submission in the forward strand only, whereas dbSNP is not so restrictive. In addition to this, dbSNP registers multiple orientations:
+                                                </p>
+                                                <p>
+                                                    <ul>
+                                                        <ul>
+                                                            <li>Contig to chromosome</li>
+                                                            <li>SNP to contig</li>
+                                                            <li>SubSNP (ss) to RefSNP (rs)</li>
+                                                        </ul>
+                                                    </ul>
+                                                </p>
+                                                <p>
+                                                    As a result, variants with a ‘reverse’ orientation will be displayed differently despite the underlying data being equivalent.
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li class="accordion-item" data-accordion-item>
+                                            <a href="#collapse22" class="accordion-title"><h5>Why can't I find some of the dbSNP accessions on the EVA website?</h5></a>
+                                            <div class="accordion-content" data-tab-content>
+                                                <p>
+                                                    We will gradually import the dbSNP data, and your species of interest may not have been yet processed. During October 2017, we will add to the website a status report on the transition process.
+                                                </p>
+                                                <p>
+                                                    If a species has been already imported into the EVA, the most probable reason is that the dbSNP variant did not satisfy the EVA submission requirements. Please click <a href="?Submit%20Data">here</a> to learn more about the EVA submission requirements.
+                                                </p>
+                                                <p>
+                                                    If you know the variant satisfied all of them, please communicate the issue via <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a>
+                                                </p>
+                                                <p>
+                                                    dbSNP variants that don't satisfy these requirements will still be searchable via an accession tracking system that will contain all the existing dbSNP accessions (even those of lower quality) plus the new ones to be issued from 2018 onwards.
+                                                    This system will track the full history of an accession (creation, merge, deprecation) as well as the IDs of the studies that reported it.
+                                                    The details of a study submission, reported genotypes and frequencies, etc, can then be queried using the existing EVA website or web services API.
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li class="accordion-item" data-accordion-item>
+                                            <a href="#collapse23" class="accordion-title"><h5>Will there be EVA builds or releases like the dbSNP ones?</h5></a>
+                                            <div class="accordion-content" data-tab-content>
+                                                <p>
+                                                    Yes. The EVA will create RefSNP dumps in VCF format every 6 months, starting in Q2 2018. These dumps shall contain the most basic information about each RefSNP:
+                                                </p>
+                                                <p>
+                                                    <ul>
+                                                        <ul>
+                                                            <li>Genomic coordinates</li>
+                                                            <li>Reference and alternate alleles in the forward strand</li>
+                                                            <li>Identifiers of the studies that reported it</li>
+                                                        </ul>
+                                                    </ul>
+                                                </p>
+                                                <p>
+                                                    Please note that coordinates are mandatory in VCF format, so RefSNP’s without them won’t be included in the dump.
+                                                </p>
+                                                <p>
+                                                    The details of a study submission, reported genotypes and frequencies, etc., can then be queried using the existing EVA website and  <a href="?API">web services API</a>.
+                                                </p>
                                             </div>
                                         </li>
                                     </ul>
