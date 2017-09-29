@@ -193,7 +193,6 @@ module.exports = function (grunt) {
                     'src/js/clinvar/filters/eva-clinvar-position-filter-form-panel.js',
                     'src/js/clinvar/filters/eva-clinvar-trait-filter-form-panel.js',
                     'src/js/clinvar/filters/eva-clinvar-filter-form-panel.js',
-                    'src/js/eva-submission-form.js',
                     'src/js/eva.js',
                     'src/js/eva-google-analytics.js '
                 ],
