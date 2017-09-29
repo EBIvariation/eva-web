@@ -716,3 +716,28 @@ html.fontface .icon-s2:before {
         padding-bottom: 2rem;
     }
 }
+
+
+table.tablesorter thead tr th{
+    color: #fff;
+    background: #3fa8a8;
+}
+
+table.tablesorter thead tr th, table.tablesorter tr td {
+    text-align: center;
+}
+
+table.tablesorter thead tr th, table.tablesorter thead tr th.tablesorter-headerUnSorted {
+    background-image: url(../img/white-unsorted.gif);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 5px) center;
+}
+
+table.tablesorter thead tr th.tablesorter-headerAsc{
+    background-image: url(../img/white-asc.gif);
+}
+
+table.tablesorter thead tr th.tablesorter-headerDesc{
+    background-image: url(../img/white-desc.gif);
+}
+

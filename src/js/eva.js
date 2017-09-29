@@ -83,6 +83,10 @@ Eva.prototype = {
         $(this.faqDiv).addClass('eva-child');
         this.childDivMenuMap['Help'] = this.helpDiv;
 
+        /* dbSNPImport */
+        $(this.dbSNPImportDiv).addClass('eva-child');
+        this.childDivMenuMap['dbSNP Import Progress'] = this.dbSNPImportDiv;
+
     },
     draw: function (option) {
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
@@ -195,6 +199,11 @@ Eva.prototype = {
                     $("a[href='"+hash+"']").click()
                 }
                 break;
+            case 'dbSNP Import Progress':
+                new EvadbSNPImportProgress({
+                    target:'dbSNPImportContent'
+                });
+                break;
             default:
                 this._getPublications();
 
@@ -244,7 +253,7 @@ Eva.prototype = {
         }
 
         var tab = getUrlParameters('');
-        if(tab && decodeURI(tab.id) == 'Study Browser') {
+        if(tab && decodeURI(tab.id) == 'Study-Browser') {
             pushURL = false;
         }
 
@@ -331,7 +340,7 @@ Eva.prototype = {
         }
 
         var tab = getUrlParameters('');
-        if(tab && decodeURI(tab.id) == 'Variant Browser') {
+        if(tab && decodeURI(tab.id) == 'Variant-Browser') {
             pushURL = false;
         }
 
@@ -424,7 +433,7 @@ Eva.prototype = {
         }
 
         var tab = getUrlParameters('');
-        if(tab && decodeURI(tab.id) == 'Clinical Browser') {
+        if(tab && decodeURI(tab.id) == 'Clinical-Browser') {
             pushURL = false;
         }
 
@@ -447,6 +456,7 @@ Eva.prototype = {
     },
     pushURL: function (option, replace) {
         replace = replace || 0;
+        option = option.replace(/ /g, "-");
         if (replace) {
             var replaceURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + option;
             window.history.pushState({path: option}, '', replaceURL);

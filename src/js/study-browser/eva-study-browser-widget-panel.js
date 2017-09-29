@@ -524,7 +524,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
             }
         }, _tempValues);
 
-        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Study Browser&' + $.param(values);
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Study-Browser&' + $.param(values);
         history.pushState('forward', '', newurl);
         //sending tracking data to Google Analytics
         var gaValues = $.param(values).split("&");

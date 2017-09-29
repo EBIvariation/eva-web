@@ -138,6 +138,7 @@
                         <li><a>Clinical Browser</a></li>
                         <li><a>GA4GH</a></li>
                         <li><a>API</a></li>
+                        <li><a>dbSNP Import Progress</a></li>
                         <li><a>Help</a></li>
                         <li><a>Feedback</a></li>
                     </ul>
@@ -823,6 +824,17 @@
                     </nav>
                     <div id="geneViewContent"></div>
                 </div>
+                <div id="dbSNPImport" class="hide-div">
+                    <nav aria-label="You are here:" role="navigation">
+                        <ul class="breadcrumbs">
+                            <li><a href="?Home">EVA</a></li>
+                            <li>
+                                <span class="show-for-sr">Current: </span> dbSNP Import Progress
+                            </li>
+                        </ul>
+                    </nav>
+                    <div id="dbSNPImportContent"></div>
+                </div>
         </div>
     </section>
     <!-- End suggested layout containers -->
@@ -906,6 +918,7 @@
 <script type="text/javascript" src="js/clinvar/eva-clinvar-assertion-panel.js"></script>
 <script type="text/javascript" src="js/clinvar/eva-clinvar-links-panel.js"></script>
 <script type="text/javascript" src="js/clinvar/eva-clinvar-annotation-panel.js"></script>
+<script type="text/javascript" src="js/dbSNP-import/dbSNP-import-progress.js"></script>
 <script type="text/javascript" src="js/eva.js"></script>
 <script type="text/javascript" src="js/eva-google-analytics.js"></script>
 <!-- /build -->
@@ -917,6 +930,7 @@
 <script src="../lib/EBI-Framework/libraries/foundation-6/js/foundation.js"></script>
 <script src="../lib/EBI-Framework/libraries/foundation-6/js/foundation.magellan.js"></script>
 <script src="../lib/EBI-Framework/js/foundationExtendEBI.js"></script>
+<script src="../lib/EBI-Framework/libraries/tablesorter/dist/js/jquery.tablesorter.min.js"></script>
 <!-- /build -->
 <script type="text/JavaScript">$(document).foundation();</script>
 <script type="text/JavaScript">$(document).foundationExtendEBI();</script>
@@ -933,11 +947,13 @@
         var geneViewDiv = document.querySelector('#geneView');
         var apiDiv =  document.querySelector('#api');
         var helpDiv = document.querySelector('#help-section');
+        var dbSNPImportDiv = document.querySelector('#dbSNPImport');
 
 
 
         var tab = getUrlParameters("");
         var tabId =  decodeURI(tab.id);
+        console.log(tabId)
         if(tabId == 'eva-study'){
             var evastudyView = new EvaStudyView({
                 target:'studyViewContent',
@@ -989,7 +1005,8 @@
             variantView:variantViewDiv,
             geneView:geneViewDiv,
             apiDiv:apiDiv,
-            helpDiv:helpDiv
+            helpDiv:helpDiv,
+            dbSNPImportDiv:dbSNPImportDiv
         });
 
 
@@ -1016,7 +1033,7 @@
             if (parArr) {
                 for (var i = 0; i < parArr.length; i++) {
                     parr = parArr[i].split("=");
-                    data.id = parr[0];
+                    data.id = parr[0].replace(/-/g, " ");
                     data.value = parr[1];
                     return data;
                 }
