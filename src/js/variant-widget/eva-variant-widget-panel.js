@@ -349,7 +349,7 @@ EvaVariantWidgetPanel.prototype = {
             headerConfig: false,
             mode: 'accordion',
             target: target,
-            submitButtonText: 'Submit',
+            submitButtonText: 'Search',
             submitButtonId: 'vb-submit-button',
             filters: [speciesFilter, positionFilter,annotationFilter,conseqTypeFilter,populationFrequencyFilter,proteinSubScoreFilter, studyFilter],
             height: 1359,
