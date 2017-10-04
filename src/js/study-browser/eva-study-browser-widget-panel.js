@@ -213,8 +213,6 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 'submit': function (e) {
                     console.log(e)
                     var params = e.values;
-                    params.species = params.genome;
-                    params = _.omit(params, ['genome']);
                     if (params.browserType == 'sv') {
                         _.extend(params, {structural: true})
                     }
@@ -234,6 +232,9 @@ EvaStudyBrowserWidgetPanel.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
+            _this.species = '';
+            _this.type = '';
+            _this.search = '';
             _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').setValue({browserType: 'sgv'})
         });
 
@@ -415,6 +416,8 @@ EvaStudyBrowserWidgetPanel.prototype = {
     },
     _loadStudies: function (params) {
         var _this = this;
+        params.species = params.genome;
+        params = _.omit(params, ['genome']);
         _this._updateColumns(params)
         EvaManager.get({
             category: 'meta/studies',
