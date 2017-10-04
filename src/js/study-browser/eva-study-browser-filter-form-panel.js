@@ -80,6 +80,7 @@ StudyFilterFormPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.tree.Panel', {
+            id:this.title+this.id,
             title: this.title,
             border: this.border,
             useArrows: true,

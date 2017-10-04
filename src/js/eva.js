@@ -168,15 +168,6 @@ Eva.prototype = {
                     // this.pushURL(option, true);
                 }
                 break;
-            case 'Genome Browser':
-                if (this.genomeViewerPanel) {
-                    this.genomeViewerPanel.show();
-                } else {
-                    this.contentDiv.className += ' eva variant-widget-panel ocb-variant-stats-panel';
-                    this.genomeViewerPanel = this._createGenomeViewerPanel(this.contentDiv);
-                }
-                // this.pushURL(option, true);
-                break;
             case 'GA4GH':
                 if (this.beaconPanel) {
                     this.beaconPanel.show();
