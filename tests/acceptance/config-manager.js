@@ -67,7 +67,7 @@ module.exports = {
         return driver;
     },
     submit:function (driver){
-        driver.findElement(By.xpath("//span[text()='Submit']")).click();
+        driver.findElement(By.xpath("//span[text()='Search']")).click();
         return driver;
     },
     back:function(){
