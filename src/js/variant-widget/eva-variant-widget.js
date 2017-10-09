@@ -363,12 +363,15 @@ EvaVariantWidget.prototype = {
                     id: 'variant-grid-view-column',
                     xtype: 'templatecolumn',
                     tpl: new Ext.XTemplate('<a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species={[this.getSpecies(values)]}&annotationVersion={[this.getAnnotationVersion()]}" target="_blank"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>' +
-                        '&nbsp;<tpl if="this.getURL(values)"><a href="{[this.getURL(values)]}" class="dbsnp_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'dbSNP Link\', eventLabel:this})"><span>dbSNP</span></a>' +
-                        '<tpl else><span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>',
+                        '&nbsp;<tpl if="this.getURL(values) && this.isHumanSpecies(values)"><a href="{[this.getURL(values)]}" class="dbsnp_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'dbSNP Link\', eventLabel:this})"><span>dbSNP</span></a>' +
+                        '<tpl else><span  style="opacity:0.2" class="eva-grid-img-inactive">dbSNP</span></tpl>',
                         {
                             getURL: function (value) {
                                 var values = _this.getVariantId(value.ids);
                                 return values.dbsnpURL;
+                            },
+                            isHumanSpecies:function (value) {
+                                return (_this.values.species.toLowerCase().startsWith("hsapiens"));
                             },
                             getSpecies:function (value) {
                                 return _this.values.species;
