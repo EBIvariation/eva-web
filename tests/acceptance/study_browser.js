@@ -92,7 +92,7 @@ function sgvStudySearchBySpeciesType(driver){
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-collapse-top']")).click();
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Exome Sequencing')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
-    config.submit(driver);
+    config.submit(driver, "study-submit-button");
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -117,7 +117,7 @@ function sgvStudySearchByType(driver){
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-collapse-top']")).click();
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Curation')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
-    config.submit(driver);
+    config.submit(driver, "study-submit-button");
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[2]//td[4]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -135,7 +135,7 @@ function sgvStudySearchByType(driver){
 
 function sgvStudySearchBySpecies(driver){
     driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//..//div[@role='button']")).click();
-    config.submit(driver);
+    config.submit(driver, "study-submit-button");
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[1]//td[4]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -160,7 +160,7 @@ function svStudySearchBySpeciesType(driver){
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-collapse-top']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Control Set')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
-    config.submit(driver);
+    config.submit(driver, "study-submit-button");
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -186,7 +186,7 @@ function svStudySearchByType(driver){
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-collapse-top']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Control Set')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
-    config.submit(driver);
+    config.submit(driver, "study-submit-button");
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -207,7 +207,7 @@ function svStudySearchBySpecies(driver){
     driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Chimpanzee')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Dog')]//..//..//div[@role='button']")).click();
-    config.submit(driver);
+    config.submit(driver, "study-submit-button");
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[1]//td[4]/div/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
@@ -229,7 +229,7 @@ function sgvStudySearchByText(driver){
     config.reset(driver);
     driver.findElement(By.name("search")).clear();
     driver.findElement(By.name("search")).sendKeys("1000");
-    config.submit(driver);
+    config.submit(driver, "study-submit-button");
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")), config.wait()).then(function(text) {
         var regex =   new RegExp('1000', 'g');
@@ -248,7 +248,7 @@ function svStudySearchByText(driver){
     driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
     driver.findElement(By.name("search")).clear();
     driver.findElement(By.name("search")).sendKeys("1000");
-    config.submit(driver);
+    config.submit(driver, "study-submit-button");
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[1]//td[3]/div[text()]")), config.wait()).then(function(text) {
         var regex =   new RegExp('1000', 'g');
