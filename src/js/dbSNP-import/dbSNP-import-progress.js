@@ -62,14 +62,14 @@ EvadbSNPImportProgress.prototype = {
         var table =  '<div><h2>Non-human dbSNP Import Status</h2></div>' +
             '<div><table id="dbSNP-import-table" class="responsive-table hover tablesorter"><thead>' +
             '<tr>' +
-            '<th>Common Name</th>' +
-            '<th>Species</th>' +
+            '<th>Common name</th>' +
+            '<th>Scientific name</th>' +
             '<th>Taxonomy ID</th>' +
             '<th>INSDC assembly accession</th>' +
             '<th>dbSNP build</th>' +
             '<th>Supported by Ensembl</th>' +
-            '<th>Browsable at Variant Browser </th>' +
-            '<th>All dbSNP Variants Match <br> INSDC Assembly</th>' +
+            '<th>Suitable for Variant Browser</th>' +
+            '<th>All variants match<br>INSDC Assembly</th>' +
             '<th>Current dbSNP <br>accessions searchable</th>' +
             '<th>Previous dbSNP <br>accessions searchable</th>' +
             '</tr>' +
@@ -88,15 +88,15 @@ EvadbSNPImportProgress.prototype = {
                 taxonomy_link = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:'+this[key].taxId+'">'+this[key].taxId+'</a>';
             }
 
-            var assemblyFullyMatches = _this._getImportStatus(this[key].assemblyFullyMatches,'');
+            var assemblyFullyMatches = _this._getImportStatus(this[key].assemblyFullyMatches,'','');
 
-            var inEnsembl = _this._getImportStatus(this[key].inEnsembl,'');
+            var inEnsembl = _this._getImportStatus(this[key].inEnsembl,'','');
 
-            var toVariantWarehouse = _this._getImportStatus(this[key].toVariantWarehouse,'');
+            var toVariantWarehouse = _this._getImportStatus(this[key].toVariantWarehouse,'',true);
 
-            var variantsImported = _this._getImportStatus(this[key].variantsImported, this[key].variantsImportedDate);
+            var variantsImported = _this._getImportStatus(this[key].variantsImported, this[key].variantsImportedDate, '');
 
-            var rsSynonymsImported = _this._getImportStatus(this[key].rsSynonymsImported, this[key].rsSynonymsImportedDate);
+            var rsSynonymsImported = _this._getImportStatus(this[key].rsSynonymsImported, this[key].rsSynonymsImportedDate,'');
 
             table += '<tr>' +
                 '<td><span class="dbSNP-common-name">'+this[key].commonName+'</span></td>' +
@@ -115,7 +115,7 @@ EvadbSNPImportProgress.prototype = {
         return table;
     },
 
-    _getImportStatus : function (value,date){
+    _getImportStatus : function (value,date,addLink){
         var el;
         switch(value) {
             case 'pending':
@@ -132,6 +132,9 @@ EvadbSNPImportProgress.prototype = {
                 break;
             case false:
                 el = '<h5 class="icon icon-functional" data-icon="x"><span style="visibility: hidden;">N</span></h5>';
+                if(addLink){
+                    el = '<h5 class="icon icon-functional" data-icon="x"><span style="visibility: hidden;">N</span><span style="font-size: 10px;"><a href="?Help#accession-Panel&link=collapse22">Why?</a></span></h5>';
+                }
                 break;
             default:
                 el = '<p></p>';
