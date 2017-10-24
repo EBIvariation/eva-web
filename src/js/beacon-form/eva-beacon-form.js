@@ -240,7 +240,7 @@ EvaBeaconForm.prototype = {
                     }
                 },
                 {
-                    text: 'Submit',
+                    text: 'Search',
                     formBind: true,
                     //only enabled once the form is valid
                     disabled: true,
