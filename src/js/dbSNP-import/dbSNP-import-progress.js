@@ -69,7 +69,7 @@ EvadbSNPImportProgress.prototype = {
             '<th>dbSNP build</th>' +
             '<th>Supported by Ensembl</th>' +
             '<th>Suitable for Variant Browser</th>' +
-            '<th>All variants match<br>INSDC Assembly</th>' +
+            '<th>All variants match<br>INSDC assembly</th>' +
             '<th>Current dbSNP <br>accessions searchable</th>' +
             '<th>Previous dbSNP <br>accessions searchable</th>' +
             '</tr>' +

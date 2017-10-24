@@ -34,7 +34,7 @@ test.describe('dbSNP Import Progress ('+config.browser()+')', function() {
 
     test.describe('dbSNP Import Progress table check', function() {
 
-        test.it('Check "Species" column should not be empty', function() {
+        test.it('Check "Scientific name" column should not be empty', function() {
             driver.wait(until.elementLocated(By.id("dbSNP-import-table")), config.wait()).then(function(text) {
                 driver.findElements(By.className("dbSNP-scientific-name")).then(function(rows){
                     for (var i = 0; i < rows.length; i++){
@@ -106,7 +106,7 @@ test.describe('dbSNP Import Progress ('+config.browser()+')', function() {
             });
         });
 
-        test.it('Check "To variant browser" column should not be empty', function() {
+        test.it('Check "Suitable for Variant Browser" column should not be empty', function() {
             driver.wait(until.elementLocated(By.id("dbSNP-import-table")), config.wait()).then(function(text) {
                 driver.findElements(By.className("dbSNP-to-variant-warehouse")).then(function(rows){
                     for (var i = 0; i < rows.length; i++){
@@ -118,7 +118,7 @@ test.describe('dbSNP Import Progress ('+config.browser()+')', function() {
             });
         });
 
-        test.it('Check "Variants mapped to assembly" column should not be empty', function() {
+        test.it('Check "All variants match INSDC assembly" column should not be empty', function() {
             driver.wait(until.elementLocated(By.id("dbSNP-import-table")), config.wait()).then(function(text) {
                 driver.findElements(By.className("dbSNP-assembly-matches")).then(function(rows){
                     for (var i = 0; i < rows.length; i++){
@@ -157,10 +157,3 @@ test.describe('dbSNP Import Progress ('+config.browser()+')', function() {
     });
 
 });
-
-
-
-
-
-
-
