@@ -504,6 +504,7 @@ EvaClinicalWidgetPanel.prototype = {
             mode: 'accordion',
             target: target,
             submitButtonText: 'Search',
+            submitButtonId: 'cb-submit-button',
             filters: [clinvarPositionFilter, clinvarConseqTypeFilter, phenotypeFilter, variationTypeFilter, clinicalSignfcFilter, reviewStatusFilter],
             height: 1408,
             border: false,
