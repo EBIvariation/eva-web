@@ -585,7 +585,7 @@ EvaVariantWidgetPanel.prototype = {
     _updateURL: function (values) {
 
         var _this = this;
-        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Variant Browser&' + $.param(values);
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'Variant-Browser&' + $.param(values);
         history.pushState ('forward', '', newurl);
 
         //sending tracking data to Google Analytics

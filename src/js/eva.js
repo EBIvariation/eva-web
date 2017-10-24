@@ -68,8 +68,8 @@ Eva.prototype = {
 
         /* studyView */
         $(this.studyView).addClass('eva-child');
-        this.childDivMenuMap['eva-study'] = this.studyView;
-        this.childDivMenuMap['dgva-study'] = this.studyView;
+        this.childDivMenuMap['eva study'] = this.studyView;
+        this.childDivMenuMap['dgva study'] = this.studyView;
 
         /* variantView */
         $(this.variantView).addClass('eva-child');
@@ -82,6 +82,10 @@ Eva.prototype = {
         /* FAQ */
         $(this.faqDiv).addClass('eva-child');
         this.childDivMenuMap['Help'] = this.helpDiv;
+
+        /* dbSNPImport */
+        $(this.dbSNPImportDiv).addClass('eva-child');
+        this.childDivMenuMap['dbSNP Import Progress'] = this.dbSNPImportDiv;
 
     },
     draw: function (option) {
@@ -187,13 +191,26 @@ Eva.prototype = {
                 }
             case 'Help':
                 var hash = document.location.hash;
-                if(hash){
-                    var hashValue = hash.split('-');
+                var tabHash = hash.split('&');
+                var tab = tabHash[0];
+                if(tabHash[0]){
+                    var hashValue = tabHash[0].split('-');
                     if(!_.isUndefined(hashValue[1])){
-                        hash = hashValue[0]+hashValue[1];
+                        tab = hashValue[0]+hashValue[1];
                     }
-                    $("a[href='"+hash+"']").click()
+                    $("a[href='"+tab+"']").click();
+                    if (!_.isEmpty($.urlParam('link'))) {
+                        $("a[href='#"+$.urlParam('link')+"']").click();
+                        $('html, body').animate({
+                            scrollTop: $("a[href='#"+$.urlParam('link')+"']").offset().top + 'px'
+                        }, 'fast');
+                    }
                 }
+                break;
+            case 'dbSNP Import Progress':
+                new EvadbSNPImportProgress({
+                    target:'dbSNPImportContent'
+                });
                 break;
             default:
                 this._getPublications();
@@ -447,11 +464,12 @@ Eva.prototype = {
     },
     pushURL: function (option, replace) {
         replace = replace || 0;
+        option = option.replace(/ /g, "-");
         if (replace) {
             var replaceURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + option;
             window.history.pushState({path: option}, '', replaceURL);
         } else {
-            var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'Variant Browser', 'Clinical Browser', 'Study Browser'];
+            var pageArray = ['eva-study', 'dgva-study', 'variant', 'gene', 'Variant-Browser', 'Clinical-Browser', 'Study-Browser'];
             if (_.indexOf(pageArray, option) < 0 && !_.isEmpty(option)) {
                 var optionValue = option;
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + optionValue;

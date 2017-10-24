@@ -193,6 +193,7 @@ module.exports = function (grunt) {
                     'src/js/clinvar/filters/eva-clinvar-position-filter-form-panel.js',
                     'src/js/clinvar/filters/eva-clinvar-trait-filter-form-panel.js',
                     'src/js/clinvar/filters/eva-clinvar-filter-form-panel.js',
+                    'src/js/dbSNP-import/dbSNP-import-progress.js',
                     'src/js/eva.js',
                     'src/js/eva-google-analytics.js '
                 ],
@@ -224,7 +225,8 @@ module.exports = function (grunt) {
                     'lib/EBI-Framework/js/foot.js',
                     'lib/EBI-Framework/js/script.js',
                     'lib/EBI-Framework/libraries/foundation-6/js/foundation.js',
-                    'lib/EBI-Framework/js/foundationExtendEBI.js'
+                    'lib/EBI-Framework/js/foundationExtendEBI.js',
+                    'lib/EBI-Framework/libraries/tablesorter/dist/js/jquery.tablesorter.min.js'
                 ],
                 dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework-'+date+'.js'
             }
@@ -259,7 +261,8 @@ module.exports = function (grunt) {
                     {   expand: true, src: ['lib/jsorolla/vendor/**'], dest: 'build/<%= meta.version.eva %>',flatten: false},
                     {   expand: true, src: ['vendor/ext-6.0.1/**'], dest: 'build/<%= meta.version.eva %>'},
                     {   expand: true, src: ['lib/EBI-Framework/libraries/modernizr/*'], dest: 'build/<%= meta.version.eva %>', flatten: false},
-                    {   expand: true, src: ['lib/EBI-Framework/images/**'], dest: 'build/<%= meta.version.eva %>', flatten: false}
+                    {   expand: true, src: ['lib/EBI-Framework/images/**'], dest: 'build/<%= meta.version.eva %>', flatten: false},
+                    {   expand: true, src: ['lib/EBI-Framework/libraries/tablesorter/css/images/**'], dest: 'build/<%= meta.version.eva %>', flatten: false}
                 ]
             }
         },
