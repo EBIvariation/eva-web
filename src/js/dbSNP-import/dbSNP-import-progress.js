@@ -45,7 +45,8 @@ EvadbSNPImportProgress.prototype = {
         var _this = this;
         var data;
         EvaManager.get({
-            host:'http://ves-ebi-f8.ebi.ac.uk:8080/dbsnp/webservices/rest',
+            host:DBSNP_HOST,
+            version: DBSNP_VERSION,
             category: 'import-status',
             resource: '',
             params:{size:80},

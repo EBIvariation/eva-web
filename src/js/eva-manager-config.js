@@ -21,8 +21,10 @@
 
 EVA_HOST = window.location.protocol + "//@@EVA_HOST";
 CELLBASE_HOST = window.location.protocol + "//@@CELLBASE_HOST";
+DBSNP_HOST = window.location.protocol + "//@@DBSNP_HOST";
 EVA_VERSION = '@@EVA_VERSION';
 CELLBASE_VERSION = '@@CELLBASE_VERSION';
+DBSNP_VERSION = '@@DBSNP_VERSION';
 
 var EvaManager = {
     host: EVA_HOST,
