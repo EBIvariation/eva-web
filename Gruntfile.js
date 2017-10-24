@@ -46,23 +46,16 @@ module.exports = function (grunt) {
         // Task configuration.
 
         config: {
-            local: {
-                options: {
-                    variables: {
-                        'EVA_HOST': 'localhost:3000',
-                        'EVA_VERSION': 'v1',
-                        'CELLBASE_HOST': 'wwwint.ebi.ac.uk/cellbase/webservices/rest',
-                        'CELLBASE_VERSION': 'v3'
-                    }
-                }
-            },
             dev: {
                 options: {
                     variables: {
                         'EVA_HOST': 'wwwint.ebi.ac.uk/eva/webservices/rest',
                         'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'wwwint.ebi.ac.uk/cellbase/webservices/rest',
-                        'CELLBASE_VERSION': 'v3'
+                        'CELLBASE_VERSION': 'v3',
+                        'DBSNP_HOST': 'wwwint.ebi.ac.uk/dbsnp/webservices/rest',
+                        'DBSNP_VERSION': 'v1'
+
                     }
                 }
             },
@@ -72,7 +65,10 @@ module.exports = function (grunt) {
                         'EVA_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/rest',
                         'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'wwwdev.ebi.ac.uk/cellbase/webservices/rest',
-                        'CELLBASE_VERSION': 'v3'
+                        'CELLBASE_VERSION': 'v3',
+                        'DBSNP_HOST': 'wwwdev.ebi.ac.uk/dbsnp/webservices/rest',
+                        'DBSNP_VERSION': 'v1'
+
                     }
                 }
             },
@@ -82,7 +78,9 @@ module.exports = function (grunt) {
                         'EVA_HOST': 'www.ebi.ac.uk/eva/webservices/rest',
                         'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'www.ebi.ac.uk/cellbase/webservices/rest',
-                        'CELLBASE_VERSION': 'v3'
+                        'CELLBASE_VERSION': 'v3',
+                        'DBSNP_HOST': 'www.ebi.ac.uk/dbsnp/webservices/rest',
+                        'DBSNP_VERSION': 'v1'
                     }
                 }
             }
@@ -106,6 +104,14 @@ module.exports = function (grunt) {
                         {
                             match: 'CELLBASE_VERSION',
                             replacement: '<%= grunt.config.get("CELLBASE_VERSION") %>'
+                        },
+                        {
+                            match: 'DBSNP_HOST',
+                            replacement: '<%= grunt.config.get("DBSNP_HOST") %>'
+                        },
+                        {
+                            match: 'DBSNP_VERSION',
+                            replacement: '<%= grunt.config.get("DBSNP_VERSION") %>'
                         }
                     ]
                 },
