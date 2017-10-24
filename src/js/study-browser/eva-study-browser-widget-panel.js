@@ -204,7 +204,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
             headerConfig: false,
             mode: 'accordion',
             target: target,
-            submitButtonText: 'Submit',
+            submitButtonText: 'Search',
             submitButtonId: 'study-submit-button',
             filters: [this.browserTypeFilter, this.searchFilter, this.speciesFilter, this.typeFilter],
             height: 1359,

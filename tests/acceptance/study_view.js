@@ -63,7 +63,7 @@ test.describe('Study View ('+config.browser()+')', function() {
         test.it('Check Summary Table Values are not empty', function() {
             driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), config.wait()).then(function(text) {
                 driver.findElement(By.xpath("//label[@id='sv-boxLabelEl']")).click();
-                config.submit(driver);
+                config.submit(driver, "study-submit-button");
                 driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid-body']//table[2]//td[2]/div/a")), config.wait()).then(function(text) {
                     driver.findElement(By.xpath("//div[@id='study-browser-grid-panel-body']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
                         var rows = parseInt(text.split(" ")[3]);
