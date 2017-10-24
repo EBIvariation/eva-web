@@ -66,10 +66,6 @@ module.exports = {
         driver.findElement(By.xpath("//span[text()='Reset']")).click();
         return driver;
     },
-    submit:function (driver){
-        driver.findElement(By.xpath("//span[text()='Search']")).click();
-        return driver;
-    },
     submit:function (driver, submitButtonId){
         driver.findElement(By.id(submitButtonId)).click();
         return driver;
