@@ -61,20 +61,37 @@ EvadbSNPImportProgress.prototype = {
         });
 
         var table =  '<div><h2>Non-human dbSNP Import Status</h2></div>' +
-            '<div><table id="dbSNP-import-table" class="responsive-table hover tablesorter"><thead>' +
-            '<tr>' +
-            '<th>Common name</th>' +
-            '<th>Scientific name</th>' +
-            '<th>Taxonomy ID</th>' +
-            '<th>INSDC assembly accession</th>' +
-            '<th>dbSNP build</th>' +
-            '<th>Supported by Ensembl</th>' +
-            '<th>Suitable for Variant Browser</th>' +
-            '<th>All variants match<br>INSDC assembly</th>' +
-            '<th>Current dbSNP <br>accessions searchable</th>' +
-            '<th>Previous dbSNP <br>accessions searchable</th>' +
-            '</tr>' +
-            '</thead><tbody>';
+            '<div class="row">' +
+                '<div class="col-md-12 columns">'+
+                '<p>This report allows you to track the progress of the dbSNP data import. The legend can be summarized as:</p>' +
+                '<p><ul>' +
+                    '<ul>'+
+                    '<li><span class="icon icon-functional" data-icon="/"></span> : Yes</li>'+
+                    '<li><span class="icon icon-generic" data-icon="?"></span> : Unknown</li>'+
+                    '<li>Empty : No</li>'+
+                    '</ul>'+
+                '</ul></p>' +
+                '<p>' +
+                    'A species is only considered suitable for the Variant Browser if variants in the corresponding dbSNP database satisfy the EVA submission requirements. ' +
+                    'Please click <a href="?Submit-Data">here</a> to learn more about the EVA submission requirements.' +
+                    '<br>An "In progress" label will be displayed for a species while its dbSNP accessions are being imported. ' +
+                    'During this process we will also be able to confirm if all the variants match the INSDC assembly;' +
+                    '&nbsp;<span class="icon icon-generic" data-icon="?"></span> will be displayed until then.' +
+                '</p>'+
+                '<table id="dbSNP-import-table" class="responsive-table hover tablesorter"><thead>' +
+                '<tr>' +
+                    '<th>Common name</th>' +
+                    '<th>Scientific name</th>' +
+                    '<th>Taxonomy ID</th>' +
+                    '<th>INSDC assembly accession</th>' +
+                    '<th>dbSNP build</th>' +
+                    '<th>Supported by Ensembl</th>' +
+                    '<th>Suitable for Variant Browser</th>' +
+                    '<th>All variants match<br>INSDC assembly</th>' +
+                    '<th>Current dbSNP <br>accessions searchable</th>' +
+                    '<th>Previous dbSNP <br>accessions searchable</th>' +
+                '</tr>' +
+                '</thead><tbody>';
 
         data = _.sortBy(data, 'commonName');
         _.each (_.keys(data), function(key) {
@@ -112,7 +129,7 @@ EvadbSNPImportProgress.prototype = {
                 '<td><span class="dbSNP-rs-imported">'+rsSynonymsImported+'</span></td>' +
                 '</tr>';
         }, data);
-        table += '</tbody></table></div>';
+        table += '</tbody></table></div></div>';
         return table;
     },
 
@@ -123,7 +140,7 @@ EvadbSNPImportProgress.prototype = {
                 el = '<p></p>';
                 break;
             case 'in_progress':
-                el = '<h6>In Progress<<h6>';
+                el = '<h6>In progress<<h6>';
                 break;
             case 'done':
                 el = '<h5 class="icon icon-functional" data-icon="/"><span style="visibility: hidden;">Y</span>&nbsp;&nbsp;'+date+'</h5>';
@@ -132,13 +149,10 @@ EvadbSNPImportProgress.prototype = {
                 el = '<h5 class="icon icon-functional" data-icon="/"><span style="visibility: hidden;">Y</span></h5>';
                 break;
             case false:
-                el = '<h5 class="icon icon-functional" data-icon="x"><span style="visibility: hidden;">N</span></h5>';
-                if(addLink){
-                    el = '<h5 class="icon icon-functional" data-icon="x"><span style="visibility: hidden;">N</span><span style="font-size: 10px;"><a href="?Help#accession-Panel&link=collapse22">Why?</a></span></h5>';
-                }
+                el = '<p></p>';
                 break;
             default:
-                el = '<p></p>';
+                el = '<p><h5 class="icon icon-generic" data-icon="?"><span style="visibility: hidden;">?</span></p>';
         }
 
         return el;
