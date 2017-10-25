@@ -140,7 +140,7 @@ EvadbSNPImportProgress.prototype = {
                 el = '<p></p>';
                 break;
             case 'in_progress':
-                el = '<h6>In progress<<h6>';
+                el = '<h6>In progress</h6>';
                 break;
             case 'done':
                 el = '<h5 class="icon icon-functional" data-icon="/"><span style="visibility: hidden;">Y</span>&nbsp;&nbsp;'+date+'</h5>';
