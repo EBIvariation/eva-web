@@ -180,7 +180,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[contains(@class,'dbsnp_link')]")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
                 assert(text).equalTo('http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs='+variantID);
             });
@@ -191,7 +191,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div//a[contains(@class,'dbsnp_link')]")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[3]/div[text()]")).getText().then(function(variantID){
                 assert(text).equalTo('http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs='+variantID);
             });
@@ -206,7 +206,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[@class='dbsnp_link']")).getAttribute('href').then(function(text){
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[contains(@class,'dbsnp_link')]")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
                 assert(text).equalTo('http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id='+variantID.substring(2));
             });
@@ -491,6 +491,7 @@ function checkAnnotationNotification(driver){
 
 
 function variantAnnotationTab(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     driver.findElement(By.name("region")).clear();
