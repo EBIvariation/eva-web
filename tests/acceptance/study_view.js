@@ -130,11 +130,14 @@ function evaCheckSummaryTable(driver){
             assert(text).matches(regExp);
         });
         driver.findElement(By.id("resource-span")).getText().then(function(text){
-            assert(text).matches(resourceExp);
-        });
-        driver.findElement(By.id("download-span")).getText().then(function(text){
             assert(text).matches(regExp);
         });
+        driver.findElement(By.id("ena_link")).getAttribute('href').then(function(text){
+            assert(text).matches(/http:\/\/www.ebi.ac.uk\/ena\/data\/view\/PRJ[A-Z0-9]+$/);
+        });
+        driver.findElement(By.id("eva_link")).getAttribute('href').then(function(text){
+            assert(text).matches(/ftp:\/\/ftp.ebi.ac.uk\/pub\/databases\/eva\/PRJ[A-Z0-9]+$/);
+        },function(err) {});
     });
 
     return driver;
@@ -245,9 +248,6 @@ function checkFilesTable(driver){
 function checkFilesTableLinks(driver){
     driver.findElement(By.xpath("//table[@id='filesTable']//td[@class='link']/a")).getText().then(function(text) {
         assert(text).contains('vcf.gz');
-//        var value = driver.findElement(By.xpath("//span[@class='iobio_link']/a")).getText();
-//        assert(value).equalTo('Iobio');
-
     },function(err) {
         if (err.state && err.state === 'no such element') {
 

@@ -133,7 +133,7 @@ EvaStudyView.prototype = {
         var _this = this;
         var publications = data.summaryData[0].publications;
         var pubLinks = '';
-        if(!_.isEmpty(publications)){
+        if(!_.isEmpty(publications) && publications != '-'){
             for (i = 0; i < publications.length; i++) {
                 pubLinks += '<a class="pubmed-id" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + publications[i] + '" target="_blank">' + publications[i]  + '</a><br />'
             }
@@ -150,22 +150,25 @@ EvaStudyView.prototype = {
                     taxonomyId.push(['<a href="' + taxLink + '" target="_blank">' + data.summaryData[0].taxonomyId[i] + '</a>']);
                 }
             }
-            var projectURL;
-            var ena_link = 'ENA:<a href="http://www.ebi.ac.uk/ena/data/view/' + data.summaryData[0].id + '" target="_blank">' + data.summaryData[0].id + '</a>';
-            console.log(data.summaryData[0])
-            if (_.isUndefined(data.summaryData[0].url)) {
-                projectURL = ena_link;
-            } else {
-                projectURL = '<a href="' + data.summaryData[0].url + '" target="_blank">' + data.summaryData[0].url + '</a><br /><br />' + ena_link;
+
+            var projectURL = '-' ;
+            var ena_link = '<a id="ena_link" href="http://www.ebi.ac.uk/ena/data/view/' + data.summaryData[0].id + '" target="_blank">Submitted Files</a>';
+            var eva_link = '';
+            if (data.summaryData[0].browsable) {
+                eva_link = '<a id="eva_link" href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.summaryData[0].id + '" target="_blank">Browsable Files</a>';
             }
 
-           var assembly_link= '-';
-           if(!_.isUndefined(data.summaryData[0].assemblyAccession)){
+            if (!_.isUndefined(_this._getProjectUrl(data.summaryData[0].id)) && _this._getProjectUrl(data.summaryData[0].id) != '-') {
+                projectURL = '<a href="' + _this._getProjectUrl(data.summaryData[0].id) + '" target="_blank">' + _this._getProjectUrl(data.summaryData[0].id) + '</a><br />';
+            }
+
+            var assembly_link= '-';
+            if(!_.isUndefined(data.summaryData[0].assemblyAccession)){
                assembly_link = '<a href="http://www.ebi.ac.uk/ena/data/view/'+data.summaryData[0].assemblyAccession+'" target="_blank">'+data.summaryData[0].assemblyAccession+'<a>';
-           }
+            }
 
             var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
-                '<div class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
+                '<span class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
                 '<thead><tr><th class="col-name"></th><th class="col-value"></th></tr></thead><tbody>' +
                 '<tr><td><b>Genome</b></td><td><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
                 '<tr><td><b>Sample(s)</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
@@ -180,7 +183,7 @@ EvaStudyView.prototype = {
                 '<tr><td><b>Number of samples</b></td><td><span id="samples-span">' + data.summaryData[0].numSamples + '</span></td></tr>' +
                 '<tr><td><b>Description</b></td><td><span id="description-span">' + data.summaryData[0].description + '</span></td></tr>' +
                 '<tr><td><b>Resource</b></td><td><span id="resource-span">' + projectURL + '</div></td></tr>' +
-                '<tr><td><b>Download</b></td><td><span id="download-span"><a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.summaryData[0].id + '" target="_blank">FTP</a></div></td></tr>' +
+                '<tr><td><b>Download</b></td><td><span id="download-span">'+ena_link+'<br /><br />'+eva_link+'</span></td></tr>' +
                 '<tr><td><span><b>Publications</b></span></td><td>'+pubLinks+'</tr>' +
                 '</tbody></table>'
 

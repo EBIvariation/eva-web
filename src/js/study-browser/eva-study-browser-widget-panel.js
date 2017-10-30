@@ -287,12 +287,12 @@ EvaStudyBrowserWidgetPanel.prototype = {
             {
                 text: "Genome",
                 dataIndex: 'speciesCommonName',
-                flex: 2
+                flex: 1.7
             },
             {
                 text: "Sample(s)",
                 dataIndex: 'speciesScientificName',
-                flex: 2.7,
+                flex: 3,
                 renderer: function (value, p, record) {
                     return value ? Ext.String.format(
                         '<div data-toggle="popover" title="'+value+'">{0}</div>',
@@ -313,12 +313,23 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 }
             },
             {
-                text: "Download",
+                text: 'Submitted <br/>Files',
+                //dataIndex: 'id',
+                xtype: 'templatecolumn',
+                tpl: '<tpl><a href="https://www.ebi.ac.uk/ena/data/view/{id}" target="_blank" class="image-link"><img src="//www.ebi.ac.uk/sites/ebi.ac.uk/files/groups/ena/logos/ena_small.png" alt="European Nucleotide Archive" width="60"/></a></tpl>',
+                flex: 1.5
+            },
+            {
+                text: "Browsable <br/>Files",
                 dataIndex: 'id',
                 flex: 1.5,
                 renderer: function (value, p, record) {
+                    var browsable_link = '<img style="opacity:0.2" class="eva-grid-img-inactive" src="img/eva_logo.png" width="20"/>';
+                    if(record.data.browsable){
+                        browsable_link = '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/{0}" target="_blank" class="image-link"><img src="img/eva_logo.png" width="20"/></a>';
+                    }
                     return value ? Ext.String.format(
-                        '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/{0}" target="_blank">FTP</a>',
+                        '&nbsp;&nbsp;'+browsable_link,
                         value,
                         record.data.threadid
                     ) : '';
@@ -338,7 +349,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
             title: '',
             target: target,
             data: this.data,
-            height: 775,
+            height: 850,
             margin: '-25 0 0 0',
             headerConfig: {
                 baseCls: 'eva-header-2'
@@ -432,6 +443,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     console.log(e);
                 }
                 _this.studyBrowserWidget.load(studies)
+                _this.resize(true);
             }
         });
     },

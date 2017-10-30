@@ -491,8 +491,11 @@
                                     <a href="#collapse5" class="accordion-title"><h5>How can I consume variant data from the  EVA?</h5></a>
 
                                     <div class="accordion-content" data-tab-content>
-                                        <p> All EVA files are hosted on our <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/">FTP site</a> and are freely downloadable. Each EVA project FTP site allows users to download the original files as they were submitted to the EVA and/or the EVA 'normalised' files. Please note that due to processing time required not all EVA projects shall have 'normalised' files just yet.</p>
-                                        <p> Additionally users can download query results from the <a href="https://www.ebi.ac.uk/eva/?Variant%20Browser&species=hsapiens_grch37&selectFilter=region&studies=PRJEB4019%2CPRJEB6930%2CPRJEB5439%2CPRJEB5829%2CPRJEB8652%2CPRJEB8650%2CPRJEB8639%2CPRJEB6042%2CPRJX00001%2CPRJEB8705%2CPRJEB8661%2CPRJEB7895%2CPRJEB7217%2CPRJEB7218%2CPRJEB6041&region=1%3A3000000-3100000">EVA variant browser</a> directly and all of our data is available programmatically via our <a href="https://www.ebi.ac.uk/eva/?API">API</a>.</p>
+                                        <p>
+                                            Links are shown on the <a href="?Study%20Browser&browserType=sgv">EVA Study Browser</a>  to both the raw submitted files and the 'EVA browsable files'.
+                                            Not all submitted VCF files for a study are browsable due to overlapping information. For example, we have studies where the submitted VCF files contain the sample and variant data split by population, but also merged together. It would be redundant for the EVA to load all of these data to our variant warehouse. Please note that due to processing time required not all studies have 'EVA browsable files' just yet.
+                                        </p>
+                                        <p> Additionally users can download query results from the <a href="?Variant%20Browser&species=hsapiens_grch37&selectFilter=region&studies=PRJEB4019%2CPRJEB6930%2CPRJEB5439%2CPRJEB5829%2CPRJEB8652%2CPRJEB8650%2CPRJEB8639%2CPRJEB6042%2CPRJX00001%2CPRJEB8705%2CPRJEB8661%2CPRJEB7895%2CPRJEB7217%2CPRJEB7218%2CPRJEB6041&region=1%3A3000000-3100000">EVA variant browser</a> directly and all of our loaded data is available programmatically via our <a href="?API">API</a>.</p>
                                     </div>
                                 </li>
                                 <li class="accordion-item" data-accordion-item>
