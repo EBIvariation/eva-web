@@ -50,57 +50,57 @@ EvaStudyView.prototype = {
                 }
             }
         });
-
-        if (this.type === 'eva') {
-            var studySpeciesList = '';
-            EvaManager.get({
-                category: 'meta/species',
-                resource: 'list',
-                async: false,
-                success: function (response) {
-                    try {
-                        studySpeciesList = response.response[0].result;
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            });
-
-            var speciesCode;
-            var filesParams;
-            var GRCh38_studies = ['PRJEB15197', 'PRJEB15198', 'PRJEB15384'];
-            if (!_.isUndefined(_.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}))) {
-                //TO BE REMOVED temp fix
-                if(summary[0].speciesCommonName  == 'Human' && _.indexOf(GRCh38_studies, summary[0].id) < 0){
-                    speciesCode = 'hsapiens_grch37';
-                    _.extend(summary[0],{assemblyAccession:'GCA_000001405.1'});
-                }else {
-                    speciesCode = _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).taxonomyCode + '_' + _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyCode;
-                    _.extend(summary[0], {assemblyAccession: _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyAccession});
-                }
-                filesParams = {species: speciesCode};
-            } else {
-                filesParams = {species: ''};
-            }
-
-            if(!_.isEmpty(filesParams.species)){
-                EvaManager.get({
-                    category: 'studies',
-                    resource: 'files',
-                    query: this.projectId,
-                    params: filesParams,
-                    async: false,
-                    success: function (response) {
-                        try {
-                            files = response.response[0].result;
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    }
-                });
-            }
-
-        }
+        // #### EVA-812: DISABLED FILES TABLE TEMPORARILY ###
+        // if (this.type === 'eva') {
+        //     var studySpeciesList = '';
+        //     EvaManager.get({
+        //         category: 'meta/species',
+        //         resource: 'list',
+        //         async: false,
+        //         success: function (response) {
+        //             try {
+        //                 studySpeciesList = response.response[0].result;
+        //             } catch (e) {
+        //                 console.log(e);
+        //             }
+        //         }
+        //     });
+        //
+        //     var speciesCode;
+        //     var filesParams;
+        //     var GRCh38_studies = ['PRJEB15197', 'PRJEB15198', 'PRJEB15384'];
+        //     if (!_.isUndefined(_.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}))) {
+        //         //TO BE REMOVED temp fix
+        //         if(summary[0].speciesCommonName  == 'Human' && _.indexOf(GRCh38_studies, summary[0].id) < 0){
+        //             speciesCode = 'hsapiens_grch37';
+        //             _.extend(summary[0],{assemblyAccession:'GCA_000001405.1'});
+        //         }else {
+        //             speciesCode = _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).taxonomyCode + '_' + _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyCode;
+        //             _.extend(summary[0], {assemblyAccession: _.findWhere(studySpeciesList, {taxonomyScientificName: summary[0].speciesScientificName}).assemblyAccession});
+        //         }
+        //         filesParams = {species: speciesCode};
+        //     } else {
+        //         filesParams = {species: ''};
+        //     }
+        //
+        //     if(!_.isEmpty(filesParams.species)){
+        //         EvaManager.get({
+        //             category: 'studies',
+        //             resource: 'files',
+        //             query: this.projectId,
+        //             params: filesParams,
+        //             async: false,
+        //             success: function (response) {
+        //                 try {
+        //                     files = response.response[0].result;
+        //                 } catch (e) {
+        //                     console.log(e);
+        //                 }
+        //             }
+        //         });
+        //     }
+        //
+        // }
         _this._parseData();
 
         //sending tracking data to Google Analytics
@@ -186,108 +186,108 @@ EvaStudyView.prototype = {
                 '<tr><td><b>Download</b></td><td><span id="download-span">'+ena_link+'<br /><br />'+eva_link+'</span></td></tr>' +
                 '<tr><td><span><b>Publications</b></span></td><td>'+pubLinks+'</tr>' +
                 '</tbody></table>'
-
-            if (data.filesData.length > 0) {
-                var fileNameArr = [];
-
-                for (i = 0; i < data.filesData.length; i++) {
-                    var fileName = files[i].fileName;
-                    var regex = /_accessioned.vcf/g;
-                    if (fileName.match(regex)) {
-                        _.extend(data.filesData[i], {ftpId: fileName.replace(regex, ".vcf.gz")});
-                        fileNameArr.push(fileName.replace(regex, ".vcf.gz"));
-                    } else {
-                        fileNameArr.push(fileName)
-                    }
-                }
-                var fileNameList = fileNameArr.join(',');
-                var ftpLink = {};
-                EvaManager.get({
-                    category: 'files',
-                    resource: 'url',
-                    query: fileNameList,
-                    async: false,
-                    success: function (response) {
-                        try {
-                            ftpLink = response.response;
-
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    }
-                });
-
-                if (!_.isUndefined(ftpLink)) {
-
-                    _filesTable += '<div><h4>Files</h4></div><table id="filesTable" class="table table-striped"><thead><tr>' +
-                        '<th>File Name</th>' +
-                        '<th>Samples with Genotypes</th>' +
-                        '<th>Variants Count</th>' +
-                        '<th>SNP Count</th>' +
-                        '<th>Indel Count</th>' +
-                        '<th>Pass Count</th>' +
-                        '<th>Transitions/Transversions Ratio</th>' +
-                        '<th>Mean Quality</th>' +
-//                    '<th>View</th>' +
-                        '</tr></thead><tbody>'
-                    for (i = 0; i < data.filesData.length; i++) {
-                        var ftpLocation = '';
-                        var downloadLink = data.filesData[i].fileName;
-                        if (!_.isUndefined(_.findWhere(ftpLink, {id: data.filesData[i].fileName}))) {
-                            ftpLocation = _.findWhere(ftpLink, {id: data.filesData[i].fileName}).result[0];
-                        }
-                        if (ftpLink.length > 0 && ftpLocation != 'ftp:/null' && !_.isEmpty(ftpLocation)) {
-                            downloadLink = '<a href="' + ftpLocation + '" target="_blank">' + data.filesData[i].fileName + '</a>';
-                        }
-                        var samples_count;
-                        var variantsCount;
-                        var snpsCount;
-                        var indelsCount;
-                        var passCount;
-                        var transitionsCount;
-                        var meanQuality;
-                        if (!_.isUndefined(data.filesData[i].stats) && !_.isNull(data.filesData[i].stats)) {
-                            if (data.filesData[i].stats.samplesCount) {
-                                samples_count = data.filesData[i].stats.samplesCount;
-                            } else {
-                                samples_count = 'NA';
-                            }
-                            variantsCount = data.filesData[i].stats.variantsCount;
-                            snpsCount = data.filesData[i].stats.snpsCount;
-                            indelsCount = data.filesData[i].stats.indelsCount;
-                            passCount = data.filesData[i].stats.passCount;
-                            transitionsCount = (data.filesData[i].stats.transitionsCount / data.filesData[i].stats.transversionsCount).toFixed(2) + '&nbsp;(' + data.filesData[i].stats.transitionsCount + '/' + data.filesData[i].stats.transversionsCount + ')';
-                            if(!isNaN(data.filesData[i].stats.meanQuality)){
-                                meanQuality = data.filesData[i].stats.meanQuality.toFixed(2);
-                            }else{
-                                meanQuality = 'NA';
-                            }
-                        } else {
-                            samples_count = 'NA';
-                            variantsCount = 'NA';
-                            snpsCount = 'NA';
-                            indelsCount = 'NA';
-                            passCount = 'NA';
-                            transitionsCount = 'NA';
-                            meanQuality = 'NA';
-                        }
-
-                        _filesTable += '<tr>' +
-                            '<td class="link">' + downloadLink + '</td>' +
-                            '<td><span class="samples_count">' + samples_count + '</span></td>' +
-                            '<td><span class="variants_ount">' + variantsCount + '</span></td>' +
-                            '<td><span class="snps_count">' + snpsCount + '</span></td>' +
-                            '<td><span class="indels_count">' + indelsCount + '</span></td>' +
-                            '<td><span class="pass_count">' + passCount + '</span></td>' +
-                            '<td><span class="transition_count">' + transitionsCount + '</span></td>' +
-                            '<td><span class="mean_count">' + meanQuality + '</span></td>' +
-                            '</tr>'
-                    }
-                    _filesTable += '</tbody></table>'
-                }
-
-
-            }
+// #### EVA-812: DISABLED FILES TABLE TEMPORARILY ###
+//             if (data.filesData.length > 0) {
+//                 var fileNameArr = [];
+//
+//                 for (i = 0; i < data.filesData.length; i++) {
+//                     var fileName = files[i].fileName;
+//                     var regex = /_accessioned.vcf/g;
+//                     if (fileName.match(regex)) {
+//                         _.extend(data.filesData[i], {ftpId: fileName.replace(regex, ".vcf.gz")});
+//                         fileNameArr.push(fileName.replace(regex, ".vcf.gz"));
+//                     } else {
+//                         fileNameArr.push(fileName)
+//                     }
+//                 }
+//                 var fileNameList = fileNameArr.join(',');
+//                 var ftpLink = {};
+//                 EvaManager.get({
+//                     category: 'files',
+//                     resource: 'url',
+//                     query: fileNameList,
+//                     async: false,
+//                     success: function (response) {
+//                         try {
+//                             ftpLink = response.response;
+//
+//                         } catch (e) {
+//                             console.log(e);
+//                         }
+//                     }
+//                 });
+//
+//                 if (!_.isUndefined(ftpLink)) {
+//
+//                     _filesTable += '<div><h4>Files</h4></div><table id="filesTable" class="table table-striped"><thead><tr>' +
+//                         '<th>File Name</th>' +
+//                         '<th>Samples with Genotypes</th>' +
+//                         '<th>Variants Count</th>' +
+//                         '<th>SNP Count</th>' +
+//                         '<th>Indel Count</th>' +
+//                         '<th>Pass Count</th>' +
+//                         '<th>Transitions/Transversions Ratio</th>' +
+//                         '<th>Mean Quality</th>' +
+// //                    '<th>View</th>' +
+//                         '</tr></thead><tbody>'
+//                     for (i = 0; i < data.filesData.length; i++) {
+//                         var ftpLocation = '';
+//                         var downloadLink = data.filesData[i].fileName;
+//                         if (!_.isUndefined(_.findWhere(ftpLink, {id: data.filesData[i].fileName}))) {
+//                             ftpLocation = _.findWhere(ftpLink, {id: data.filesData[i].fileName}).result[0];
+//                         }
+//                         if (ftpLink.length > 0 && ftpLocation != 'ftp:/null' && !_.isEmpty(ftpLocation)) {
+//                             downloadLink = '<a href="' + ftpLocation + '" target="_blank">' + data.filesData[i].fileName + '</a>';
+//                         }
+//                         var samples_count;
+//                         var variantsCount;
+//                         var snpsCount;
+//                         var indelsCount;
+//                         var passCount;
+//                         var transitionsCount;
+//                         var meanQuality;
+//                         if (!_.isUndefined(data.filesData[i].stats) && !_.isNull(data.filesData[i].stats)) {
+//                             if (data.filesData[i].stats.samplesCount) {
+//                                 samples_count = data.filesData[i].stats.samplesCount;
+//                             } else {
+//                                 samples_count = 'NA';
+//                             }
+//                             variantsCount = data.filesData[i].stats.variantsCount;
+//                             snpsCount = data.filesData[i].stats.snpsCount;
+//                             indelsCount = data.filesData[i].stats.indelsCount;
+//                             passCount = data.filesData[i].stats.passCount;
+//                             transitionsCount = (data.filesData[i].stats.transitionsCount / data.filesData[i].stats.transversionsCount).toFixed(2) + '&nbsp;(' + data.filesData[i].stats.transitionsCount + '/' + data.filesData[i].stats.transversionsCount + ')';
+//                             if(!isNaN(data.filesData[i].stats.meanQuality)){
+//                                 meanQuality = data.filesData[i].stats.meanQuality.toFixed(2);
+//                             }else{
+//                                 meanQuality = 'NA';
+//                             }
+//                         } else {
+//                             samples_count = 'NA';
+//                             variantsCount = 'NA';
+//                             snpsCount = 'NA';
+//                             indelsCount = 'NA';
+//                             passCount = 'NA';
+//                             transitionsCount = 'NA';
+//                             meanQuality = 'NA';
+//                         }
+//
+//                         _filesTable += '<tr>' +
+//                             '<td class="link">' + downloadLink + '</td>' +
+//                             '<td><span class="samples_count">' + samples_count + '</span></td>' +
+//                             '<td><span class="variants_ount">' + variantsCount + '</span></td>' +
+//                             '<td><span class="snps_count">' + snpsCount + '</span></td>' +
+//                             '<td><span class="indels_count">' + indelsCount + '</span></td>' +
+//                             '<td><span class="pass_count">' + passCount + '</span></td>' +
+//                             '<td><span class="transition_count">' + transitionsCount + '</span></td>' +
+//                             '<td><span class="mean_count">' + meanQuality + '</span></td>' +
+//                             '</tr>'
+//                     }
+//                     _filesTable += '</tbody></table>'
+//                 }
+//
+//
+//             }
             _filesTable += '</div></div>'
         }
         else if (_this.type === 'dgva') {
