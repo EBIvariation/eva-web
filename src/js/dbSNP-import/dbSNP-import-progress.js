@@ -85,11 +85,11 @@ EvadbSNPImportProgress.prototype = {
                     '<th>Taxonomy ID</th>' +
                     '<th>INSDC assembly accession</th>' +
                     '<th>dbSNP build</th>' +
-                    '<th>Supported by Ensembl</th>' +
-                    '<th>Suitable for Variant Browser</th>' +
                     '<th>All variants match<br>INSDC assembly</th>' +
+                    '<th>Suitable for Variant Browser</th>' +
                     '<th>Current dbSNP <br>accessions searchable</th>' +
                     '<th>Previous dbSNP <br>accessions searchable</th>' +
+                    '<th>Supported by Ensembl</th>' +
                 '</tr>' +
                 '</thead><tbody>';
 
@@ -122,11 +122,11 @@ EvadbSNPImportProgress.prototype = {
                 '<td><span class="dbSNP-tax-id">'+taxonomy_link+'</span></td>' +
                 '<td><span class="dbSNP-assembly-accession">'+genbankAssemblyAccession+'</span></td>' +
                 '<td><span class="dbSNP-build">'+this[key].lastDbsnpBuild+'</span></td>' +
-                '<td><span class="dbSNP-in-ensembl">'+inEnsembl+'</span></td>' +
-                '<td><span class="dbSNP-to-variant-warehouse">'+toVariantWarehouse+'</span></td>' +
                 '<td><span class="dbSNP-assembly-matches">'+assemblyFullyMatches+'</span></td>' +
+                '<td><span class="dbSNP-to-variant-warehouse">'+toVariantWarehouse+'</span></td>' +
                 '<td><span class="dbSNP-variants-imported">'+variantsImported+'</span></td>' +
                 '<td><span class="dbSNP-rs-imported">'+rsSynonymsImported+'</span></td>' +
+                '<td><span class="dbSNP-in-ensembl">'+inEnsembl+'</span></td>' +
                 '</tr>';
         }, data);
         table += '</tbody></table></div></div>';
