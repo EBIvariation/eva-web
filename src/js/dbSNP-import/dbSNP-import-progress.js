@@ -144,7 +144,7 @@ EvadbSNPImportProgress.prototype = {
                 el = '<h6>In progress</h6>';
                 break;
             case 'done':
-                el = '<h5 class="icon icon-functional" data-icon="/"><span style="visibility: hidden;">Y</span></h5><br/>&nbsp;&nbsp;'
+                el = '<h5 class="icon icon-functional" data-icon="/"><span style="visibility: hidden;">Y</span></h5><br/>'
                     + '<h6>' + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + '</h6>';
                 break;
             case true:
