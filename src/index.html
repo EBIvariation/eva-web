@@ -216,7 +216,7 @@
                     </nav>
                     <h2>Submit</h2>
                     <div class="padding-bottom-large">
-                        <p>The EVA is focused on the accession and archival of SNP and INDELs. The EVA works in collaboration with the Database of Genomics Variants Archive (<a href="http://www.ebi.ac.uk/dgva" target="_blank">DGVa</a>) to accession and archive structural variants. DGVa relies on a template based submission process that is explained in detail <a href="http://www.ebi.ac.uk/dgva/data-submission" target="_blank">here</a></p>
+                        <p>The EVA accepts genetic variants (SNPs and INDELs) from any species, and provides stable long term accessions and archival of the data. The EVA works in collaboration with the Database of Genomics Variants Archive (<a href="http://www.ebi.ac.uk/dgva" target="_blank">DGVa</a>) to accession and archive structural variants. DGVa relies on a template based submission process that is explained in detail <a href="http://www.ebi.ac.uk/dgva/data-submission" target="_blank">here</a></p>
                         <p>Data submitted to the EVA is brokered to our collaborating databases at <a href="http://www.ncbi.nlm.nih.gov/" target="_blank">NCBI</a>, <a href="http://www.ncbi.nlm.nih.gov/SNP/" target="_blank">dbSNP</a> and <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a>. It is therefore unnecessary to submit data to multiple resources.</p>
                         <p>All data valid for EVA submission shall be made available via the <a href="?Study Browser">Study Browser</a> and will be browsable using both the <a href="?Variant Browser">Variant Browser</a> and the <a href="?API">EVA API</a>. <a href="http://www.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Variant Effect Predictor</a> annotations shall be available for variants mapped to genome assemblies that are known to <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>.</p>
                         <p>Please contact <a href="mailto:eva-helpdesk@ebi.ac.uk?subject=Sequence submissionto EVA" target="_top">eva-helpdesk@ebi.ac.uk</a> if you would like any further information on this brokering process or collaboration.</p>
@@ -228,7 +228,7 @@
                         <ol>
                             <li>The genome assembly used is International Nucleotide Sequence Database Collaboration (<a href="http://www.insdc.org/" target="_blank">INSDC</a>) registered, or will be at point of submission</li>
                             <li>The variation data is described in valid VCF file(s) this can be tested prior to submission using the EVA VCF Validation Suite found <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">here</a></li>
-                            <li>Submitted variants are associated with allele frequency values and/or genotypes and/or the raw materials to calculate allele frequency values internally (i.e. Allele Count AND Allele Number values)</li>
+                            <li>For all data submitted to the EVA, we require that it be possible to compute allele frequencies for all submitted variants. Therefore, the EVA supports two types of submissions: 1) variation data with sample genotypes 2) summary data with population allele frequencies</li>
                         </ol>
 
                         <h4>Converting genetic variation data to VCF</h4>
