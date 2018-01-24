@@ -124,7 +124,8 @@ function sgvStudySearchByType(driver){
             var rows = parseInt(text.split(" ")[3]);
             for (i = 1; i <= rows; i++) {
                 type = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[6]/div/tpl[text()]")).getText();
-                assert(type).equalTo('Curation');
+                var typeRegex = new RegExp('.*Curation.*');
+                assert(type).matches(typeRegex);
             }
             return rows;
         });
