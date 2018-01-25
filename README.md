@@ -74,3 +74,17 @@ After successful build the files are then copied to a folder of the form _eva-we
  
  grunt  
  ```
+
+
+## Testing
+
+Currently we build and run tests using [travis](https://travis-ci.org/EBIvariation/eva-web/branches).
+
+### Test design
+
+We use Mocha as test framework and Chai as test assertion library. The tests are run as grunt tasks. We use a specific version of firefox to run those tests in travis (look at .travis.yml to see which specific version). There are 2 types of tests, acceptance and unitary.
+
+### When a test fails
+
+As the whole test suite takes some minutes to complete, you can run only some tests adding `grep "<substring of test description>"` (e.g. grep "Variant Browser") in gruntfile.js in the `mochaTest.acceptanceTest.options` object, and run as `env BROWSER=firefox grunt --env=staging mochaTest:acceptanceTest`.
+
