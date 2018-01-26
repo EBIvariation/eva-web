@@ -78,11 +78,11 @@ After successful build the files are then copied to a folder of the form _eva-we
 
 ## Testing
 
-Currently we build and run tests using [travis](https://travis-ci.org/EBIvariation/eva-web/branches).
+Currently we build and run tests using [Travis CI](https://travis-ci.org/EBIvariation/eva-web/branches).
 
 ### Test design
 
-We use Mocha as test framework and Chai as test assertion library. The tests are run as grunt tasks. We use a specific version of firefox to run those tests in travis (look at .travis.yml to see which specific version). There are 2 types of tests, acceptance and unitary.
+We use Mocha as test framework and Chai as test assertion library. The tests are run as Grunt tasks. We use a specific version of Firefox to run those tests in Travis CI (look at .travis.yml to see which specific version). There are acceptance tests and unit tests.
 
 ### When a test fails
 
