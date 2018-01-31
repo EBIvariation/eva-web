@@ -254,23 +254,17 @@ EvaVariantWidgetPanel.prototype = {
             //setting default positional value
             var defaultRegion;
             switch (e.species) {
-                case 'agambiae_agamp4':
-                    defaultRegion = 'X:10000000-11000000';
-                    break;
                 case 'aaegypti_aaegl3':
                     defaultRegion = 'supercont1.18:100000-500000';
                     break;
-                case 'ggallus_galgal4':
-                    defaultRegion = '1:2100000-2500000';
+                case 'agambiae_agamp4':
+                    defaultRegion = 'X:10000000-11000000';
+                    break;
+                case 'aminimus_1v1':
+                    defaultRegion = 'KB663610:1-500000';
                     break;
                 case 'aquadriannulatus_quad4av1':
                     defaultRegion = 'KB665398:1-200000';
-                    break;
-                case 'sratti_ed321v504':
-                    defaultRegion = 'SRAE_chr2:10000-20000';
-                    break;
-                case 'hsapiens_grch37':
-                    defaultRegion = '13:32889611-32973805';
                     break;
                 case 'asinensis_v1':
                     defaultRegion = 'AXCK02015324:1-500000';
@@ -278,11 +272,35 @@ EvaVariantWidgetPanel.prototype = {
                 case 'astephensi_sda500v1':
                     defaultRegion = 'KB664288:1-500000';
                     break;
-                case 'aminimus_1v1':
-                    defaultRegion = 'KB663610:1-500000';
+                case 'drerio_grcz10':
+                    defaultRegion = '1:4220000-1_4270000';
+                    break;
+                case 'falbicollis_15':
+                    defaultRegion = '10:19105400-19105800';
+                    break;
+                case 'ggallus_galgal4':
+                    defaultRegion = '1:2100000-2500000';
+                    break;
+                case 'hsapiens_grch37':
+                    defaultRegion = '13:32889611-32973805';
                     break;
                 case 'hsapiens_grch38':
                     defaultRegion = '13:32315474-32400266';
+                    break;
+                case 'lcrocea_10':
+                    defaultRegion = 'LG1:3000-3500';
+                    break;
+                case 'mmulatta_801':
+                    defaultRegion = '2:163845000-163846000';
+                    break;
+                case 'oaries_oarv40':
+                    defaultRegion = '19:48656000-48657000';
+                    break;
+                case 'sratti_ed321v504':
+                    defaultRegion = 'SRAE_chr2:10000-20000';
+                    break;
+                case 'sscrofa_111':
+                    defaultRegion = 'X:9610000-9611000';
                     break;
                 default:
                     defaultRegion = '1:3000000-3100000';
