@@ -308,6 +308,9 @@ EvaVariantWidgetPanel.prototype = {
                 case 'slycopersicum_sl250':
                     defaultRegion = '9:59100000-59200000';
                     break;
+                case 'zmays_agpv4':
+                    defaultRegion = '6:166875000-166876000';
+                    break;
                 default:
                     defaultRegion = '1:3000000-3100000';
             }
