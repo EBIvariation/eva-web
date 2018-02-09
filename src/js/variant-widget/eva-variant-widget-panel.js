@@ -264,16 +264,16 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = 'KB663610:1-500000';
                     break;
                 case 'aquadriannulatus_quad4av1':
-                    defaultRegion = 'KB665398:1-200000';
+                    defaultRegion = 'KB665398:1-15000';
                     break;
                 case 'asinensis_v1':
-                    defaultRegion = 'AXCK02015324:1-500000';
+                    defaultRegion = 'AXCK02015324:1-15000';
                     break;
                 case 'astephensi_sda500v1':
-                    defaultRegion = 'KB664288:1-500000';
+                    defaultRegion = 'KB664288:1-15000';
                     break;
                 case 'drerio_grcz10':
-                    defaultRegion = '1:4220000-1_4270000';
+                    defaultRegion = '1:4220000-4270000';
                     break;
                 case 'falbicollis_15':
                     defaultRegion = '10:19105400-19105800';
@@ -288,19 +288,28 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = '13:32315474-32400266';
                     break;
                 case 'lcrocea_10':
-                    defaultRegion = 'LG1:3000-3500';
+                    defaultRegion = 'LG1:3000-30000';
+                    break;
+                case 'mgallopavo_50':
+                    defaultRegion = '1:51940000-51960000';
                     break;
                 case 'mmulatta_801':
                     defaultRegion = '2:163845000-163846000';
                     break;
                 case 'oaries_oarv40':
-                    defaultRegion = '19:48656000-48657000';
+                    defaultRegion = '19:48650000-48660000';
                     break;
                 case 'sratti_ed321v504':
                     defaultRegion = 'SRAE_chr2:10000-20000';
                     break;
                 case 'sscrofa_111':
                     defaultRegion = 'X:9610000-9611000';
+                    break;
+                case 'slycopersicum_sl250':
+                    defaultRegion = '9:59100000-59200000';
+                    break;
+                case 'zmays_agpv4':
+                    defaultRegion = '6:166875000-166876000';
                     break;
                 default:
                     defaultRegion = '1:3000000-3100000';
