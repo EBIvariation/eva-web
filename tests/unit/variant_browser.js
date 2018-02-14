@@ -103,7 +103,7 @@ describe('Protein Substitution Score Tests', function(){
             ]
 
         }];
-    it('check Polyphen Score should be equal to 0.961', function(){
+    it('check Polyphen Score should be equal to 0.981', function(){
         var so_array = getMostSevereConsequenceType(testObjectBefore);
         expect(getProteinSubstitutionScore(testObjectBefore,so_array,'Polyphen')).to.deep.equal(0.981);
     });
@@ -111,6 +111,106 @@ describe('Protein Substitution Score Tests', function(){
         var so_array = getMostSevereConsequenceType(testObjectBefore);
         expect(getProteinSubstitutionScore(testObjectBefore,so_array,'Sift')).to.deep.equal(0.2);
     });
+
+    var noSiftTestObject = [{
+        soTerms: [
+            {
+                soName: "stop_lost",
+                soAccession: "SO:0001623"
+            }
+        ],
+        proteinSubstitutionScores: [
+            {
+                score: 0.961,
+                source: "Polyphen",
+                description: "probably_damaging"
+            }
+        ]
+    },
+        {
+            soTerms: [
+                {
+                    soName: "stop_lost",
+                    soAccession: "SO:0001623"
+                }
+            ],
+            proteinSubstitutionScores: [
+                {
+                    score: 0.981,
+                    source: "Polyphen",
+                    description: "probably_damaging"
+                }
+            ]
+
+        }];
+
+    it('If there are Polyphen but no Sift Scores, "-" should be returned as maximum Sift score', function(){
+        var so_array = getMostSevereConsequenceType(noSiftTestObject);
+        expect(getProteinSubstitutionScore(noSiftTestObject,so_array,'Polyphen')).to.deep.equal(0.981);
+        expect(getProteinSubstitutionScore(noSiftTestObject,so_array,'Sift')).to.deep.equal('-');
+    });
+
+    var noPolyphenTestObject = [{
+        soTerms: [
+            {
+                soName: "stop_lost",
+                soAccession: "SO:0001623"
+            }
+        ],
+        proteinSubstitutionScores: [
+            {
+                score: 0.3,
+                source: "Sift",
+                description: "deleterious"
+            }
+        ]
+    },
+        {
+            soTerms: [
+                {
+                    soName: "stop_lost",
+                    soAccession: "SO:0001623"
+                }
+            ],
+            proteinSubstitutionScores: [
+                {
+                    score: 0.2,
+                    source: "Sift",
+                    description: "deleterious"
+                }
+            ]
+
+        }];
+    it('If there are Sift but no Polyphen Scores, "-" should be returned as maximum Polyphen score', function(){
+        var so_array = getMostSevereConsequenceType(noPolyphenTestObject);
+        expect(getProteinSubstitutionScore(noPolyphenTestObject,so_array,'Polyphen')).to.deep.equal('-');
+        expect(getProteinSubstitutionScore(noPolyphenTestObject,so_array,'Sift')).to.deep.equal(0.2);
+    });
+
+    var noProteinSubstitutionScoresTestObject = [{
+        soTerms: [
+            {
+                soName: "stop_lost",
+                soAccession: "SO:0001623"
+            }
+        ]
+    },
+        {
+            soTerms: [
+                {
+                    soName: "stop_lost",
+                    soAccession: "SO:0001623"
+                }
+            ]
+
+        }];
+    it('If there are no protein substitution Scores, "-" should be returned as maximum Polyphen and Sit scores', function(){
+        var so_array = getMostSevereConsequenceType(noProteinSubstitutionScoresTestObject);
+        expect(getProteinSubstitutionScore(noProteinSubstitutionScoresTestObject,so_array,'Polyphen')).to.deep.equal('-');
+        expect(getProteinSubstitutionScore(noProteinSubstitutionScoresTestObject,so_array,'Sift')).to.deep.equal('-');
+    });
+
+
 });
 
 describe('Consequence Type Tree', function(){
