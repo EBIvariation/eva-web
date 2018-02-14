@@ -1133,7 +1133,6 @@ function getProteinSubstitutionScore(consequenceTypes,so_array,source) {
                 _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
                     var source_scores = _.findWhere(this, {source: source})
                     if (source_scores !== undefined) {
-                        score = source_scores.score
                         score_array.push(source_scores.score)
                     }
                 }, consequenceTypes[i].proteinSubstitutionScores);
