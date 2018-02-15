@@ -249,7 +249,6 @@ EvaVariantWidget.prototype = {
     },
     _createVariantBrowserGrid: function (target) {
         var _this = this;
-
         var columns = {
             items: [
                 {
@@ -1132,8 +1131,10 @@ function getProteinSubstitutionScore(consequenceTypes,so_array,source) {
         for (var j = 0; j < consequenceTypes[i].soTerms.length; j++) {
             if (consequenceTypes[i].soTerms[j].soName == _.first(so_array)) {
                 _.each(_.keys(consequenceTypes[i].proteinSubstitutionScores), function (key) {
-                    score = _.findWhere(this, {source: source}).score
-                    score_array.push(_.findWhere(this, {source: source}).score)
+                    var source_scores = _.findWhere(this, {source: source})
+                    if (source_scores !== undefined) {
+                        score_array.push(source_scores.score)
+                    }
                 }, consequenceTypes[i].proteinSubstitutionScores);
             }
         }
