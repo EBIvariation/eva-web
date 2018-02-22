@@ -18,6 +18,9 @@ module.exports = function (grunt) {
                 eva: '3.9.2'
             }
         },
+        build: {
+            dir: 'build/<%= meta.version.eva %>-' + envTarget
+        },
         serve: {
             options: {
                 port: 9000
@@ -123,7 +126,7 @@ module.exports = function (grunt) {
                     patterns: [
                         {
                             match: 'BASE_URL',
-                            replacement: 'http://localhost:<%= serve.options.port %>/build/<%= meta.version.eva %>/index.html'
+                            replacement: 'http://localhost:<%= serve.options.port %>/<%= build.dir %>/index.html'
                         }
                     ]
                 },
@@ -142,7 +145,7 @@ module.exports = function (grunt) {
                     ]
                 },
                 files: [
-                    {expand: true, flatten: true, src: ['build/<%= meta.version.eva %>/index.html'], dest: 'build/<%= meta.version.eva %>'}
+                    {expand: true, flatten: true, src: ['<%= build.dir %>/index.html'], dest: '<%= build.dir %>'}
                 ]
             }
 
@@ -203,7 +206,7 @@ module.exports = function (grunt) {
                     'src/js/eva.js',
                     'src/js/eva-google-analytics.js '
                 ],
-                dest: 'build/<%= meta.version.eva %>/js/eva-<%= meta.version.eva %>.js'
+                dest: '<%= build.dir %>/js/eva-<%= meta.version.eva %>.js'
             },
             vendors: {
                 src: [
@@ -215,7 +218,7 @@ module.exports = function (grunt) {
                     './bower_components/vkbeautify/vkbeautify.js',
                     './bower_components/autotrack/autotrack.js'
                 ],
-                dest: 'build/<%= meta.version.eva %>/vendor/vendors.js'
+                dest: '<%= build.dir %>/vendor/vendors.js'
             },
             ebi_framework_css: {
                 src: [
@@ -223,7 +226,7 @@ module.exports = function (grunt) {
                     'lib/EBI-Framework/libraries/foundation-6/css/foundation.css',
                     'lib/EBI-Framework/css/theme-embl-petrol.css'
                 ],
-                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/css/ebi-framework.css',
+                dest: '<%= build.dir %>/lib/EBI-Framework/css/ebi-framework.css',
             },
             ebi_framework_js: {
                 src: [
@@ -234,13 +237,13 @@ module.exports = function (grunt) {
                     'lib/EBI-Framework/js/foundationExtendEBI.js',
                     'lib/EBI-Framework/libraries/tablesorter/dist/js/jquery.tablesorter.min.js'
                 ],
-                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework-'+date+'.js'
+                dest: '<%= build.dir %>/lib/EBI-Framework/js/ebi-framework-'+date+'.js'
             }
         },
         uglify: {
             eva: {
                 src: '<%= concat.eva.dest %>',
-                dest: 'build/<%= meta.version.eva %>/js/eva-<%= meta.version.eva %>-'+date+'.min.js'
+                dest: '<%= build.dir %>/js/eva-<%= meta.version.eva %>-'+date+'.min.js'
             },
             gv_config: {
                 src: 'lib/jsorolla/build/1.1.9/genome-viewer/gv-config.js',
@@ -248,27 +251,27 @@ module.exports = function (grunt) {
             },
             vendors: {
                 src: '<%= concat.vendors.dest %>',
-                dest: 'build/<%= meta.version.eva %>/vendor/vendors-'+date+'.min.js'
+                dest: '<%= build.dir %>/vendor/vendors-'+date+'.min.js'
             },
             ebi_framework_js : {
                 src: '<%= concat.ebi_framework_js.dest %>',
-                dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/js/ebi-framework-'+date+'.min.js'
+                dest: '<%= build.dir %>/lib/EBI-Framework/js/ebi-framework-'+date+'.min.js'
             }
         },
 
         copy: {
             eva: {
                 files: [
-                    {   expand: true, src: ['src/files/*'], dest: 'build/<%= meta.version.eva %>/files', flatten: true},
-                    {   expand: true, src: ['src/css/*'], dest: 'build/<%= meta.version.eva %>/css', flatten: true},
-                    {   expand: true, src: ['src/img/'], dest: 'build/<%= meta.version.eva %>/', flatten: true},
-                    {   expand: true, src: ['src/*.html'], dest: 'build/<%= meta.version.eva %>/', flatten: true, filter: 'isFile'},
-                    {   expand: true, src: ['lib/jsorolla/build/1.1.9/genome-viewer/*.js'], dest: 'build/<%= meta.version.eva %>',flatten: false},
-                    {   expand: true, src: ['lib/jsorolla/vendor/**'], dest: 'build/<%= meta.version.eva %>',flatten: false},
-                    {   expand: true, src: ['vendor/ext-6.0.1/**'], dest: 'build/<%= meta.version.eva %>'},
-                    {   expand: true, src: ['lib/EBI-Framework/libraries/modernizr/*'], dest: 'build/<%= meta.version.eva %>', flatten: false},
-                    {   expand: true, src: ['lib/EBI-Framework/images/**'], dest: 'build/<%= meta.version.eva %>', flatten: false},
-                    {   expand: true, src: ['lib/EBI-Framework/libraries/tablesorter/css/images/**'], dest: 'build/<%= meta.version.eva %>', flatten: false}
+                    {   expand: true, src: ['src/files/*'], dest: '<%= build.dir %>/files', flatten: true},
+                    {   expand: true, src: ['src/css/*'], dest: '<%= build.dir %>/css', flatten: true},
+                    {   expand: true, src: ['src/img/'], dest: '<%= build.dir %>/', flatten: true},
+                    {   expand: true, src: ['src/*.html'], dest: '<%= build.dir %>/', flatten: true, filter: 'isFile'},
+                    {   expand: true, src: ['lib/jsorolla/build/1.1.9/genome-viewer/*.js'], dest: '<%= build.dir %>',flatten: false},
+                    {   expand: true, src: ['lib/jsorolla/vendor/**'], dest: '<%= build.dir %>',flatten: false},
+                    {   expand: true, src: ['vendor/ext-6.0.1/**'], dest: '<%= build.dir %>'},
+                    {   expand: true, src: ['lib/EBI-Framework/libraries/modernizr/*'], dest: '<%= build.dir %>', flatten: false},
+                    {   expand: true, src: ['lib/EBI-Framework/images/**'], dest: '<%= build.dir %>', flatten: false},
+                    {   expand: true, src: ['lib/EBI-Framework/libraries/tablesorter/css/images/**'], dest: '<%= build.dir %>', flatten: false}
                 ]
             }
         },
@@ -277,55 +280,55 @@ module.exports = function (grunt) {
             eva: {
                 files: [{
                     expand: true,
-                    cwd: 'build/<%= meta.version.eva %>/css',
+                    cwd: '<%= build.dir %>/css',
                     src: ['*.css'],
-                    dest: 'build/<%= meta.version.eva %>/css',
+                    dest: '<%= build.dir %>/css',
                     ext: '-<%= meta.version.eva %>-'+date+'.min.css'
                 }]
             },
             ebi_framework: {
                 files: [{
                     expand: true,
-                    cwd: 'build/<%= meta.version.eva %>/lib/EBI-Framework/css',
+                    cwd: '<%= build.dir %>/lib/EBI-Framework/css',
                     src: ['*.css'],
-                    dest: 'build/<%= meta.version.eva %>/lib/EBI-Framework/css',
+                    dest: '<%= build.dir %>/lib/EBI-Framework/css',
                     ext: '-<%= meta.version.eva %>-'+date+'.min.css'
                 }]
             }
         },
 
         clean: {
-            eva: ['build/<%= meta.version.eva %>/']
+            eva: ['<%= build.dir %>/']
         },
 
         htmlbuild: {
             eva: {
                 src: 'src/index.html',
-                dest: 'build/<%= meta.version.eva %>/',
+                dest: '<%= build.dir %>/',
                 options: {
                     beautify: true,
                     scripts: {
                         'eva-js': '<%= uglify.eva.dest %>',
                         'lib': [
-                            'build/<%= meta.version.eva %>/lib/jsorolla/build/*/genome-viewer/genome-viewer.min.js',
-                            'build/<%= meta.version.eva %>/lib/jsorolla/build/*/genome-viewer/gv-config.min.js'
+                            '<%= build.dir %>/lib/jsorolla/build/*/genome-viewer/genome-viewer.min.js',
+                            '<%= build.dir %>/lib/jsorolla/build/*/genome-viewer/gv-config.min.js'
                         ],
                         'vendor': [
-                            'build/<%= meta.version.eva %>/vendor/ext-6.0.1/js/ext-all.js',
+                            '<%= build.dir %>/vendor/ext-6.0.1/js/ext-all.js',
                             '<%= uglify.vendors.dest %>'
                         ],
-                        'modernizr': 'build/<%= meta.version.eva %>/lib/EBI-Framework/libraries/modernizr/*.js',
+                        'modernizr': '<%= build.dir %>/lib/EBI-Framework/libraries/modernizr/*.js',
                         'ebi_framework': '<%= uglify.ebi_framework_js.dest %>'
                     },
                     styles: {
                         'ebi_framework': [
-                            'build/<%= meta.version.eva %>/lib/EBI-Framework/css/*.min.css'
+                            '<%= build.dir %>/lib/EBI-Framework/css/*.min.css'
                         ],
                         'css': [
-                            'build/<%= meta.version.eva %>/css/*.min.css'
+                            '<%= build.dir %>/css/*.min.css'
                         ],
                         'vendor': [
-                            'build/<%= meta.version.eva %>/vendor/ext-6.0.1/theme/theme-ebi-embl-all.css'
+                            '<%= build.dir %>/vendor/ext-6.0.1/theme/theme-ebi-embl-all.css'
                         ]
                     }
                 }
@@ -337,7 +340,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'build/<%= meta.version.eva %>/index.html': 'build/<%= meta.version.eva %>/index.html'
+                    '<%= build.dir %>/index.html': '<%= build.dir %>/index.html'
                 }
             }
         },
@@ -348,7 +351,7 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: 'src/img/',
                     src: ['**/*.{png,jpg,gif,svg}'],
-                    dest: 'build/<%= meta.version.eva %>/img/'
+                    dest: '<%= build.dir %>/img/'
                 }]
             }
         },
