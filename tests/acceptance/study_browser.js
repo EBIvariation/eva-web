@@ -35,7 +35,7 @@ test.describe('Study Browser ('+config.browser()+')', function() {
     });
     test.describe('Short Genetic Variants', function() {
         test.describe('search by Species', function() {
-            test.it('Search by Barley should match with column Organism', function() {
+            test.it('Search by Chicken should match with column Organism', function() {
                 sgvStudySearchBySpecies(driver);
             });
         });
@@ -46,7 +46,7 @@ test.describe('Study Browser ('+config.browser()+')', function() {
         });
 
         test.describe('search by Species and Types', function() {
-            test.it('Search by (Barley,Human) and Exome Sequencing should match with column Organism and Type', function() {
+            test.it('Search by (Horse,Human) and Exome Sequencing should match with column Organism and Type', function() {
                 sgvStudySearchBySpeciesType(driver);
             });
         });
@@ -87,7 +87,7 @@ test.describe('Study Browser ('+config.browser()+')', function() {
 
 function sgvStudySearchBySpeciesType(driver){
     config.reset(driver);
-    driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//..//div[@role='button']")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Horse')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Human')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-collapse-top']")).click();
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Exome Sequencing')]//..//..//div[@role='button']")).click();
@@ -100,7 +100,7 @@ function sgvStudySearchBySpeciesType(driver){
             for (i = 1; i <= rows; i++) {
                 species = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[4]/div[text()]")).getText();
                 type = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[6]/div/tpl[text()]")).getText();
-                var speciesRegex =   new RegExp('(Barley|Human)', 'g');
+                var speciesRegex =   new RegExp('(Horse|Human)', 'g');
                 var typeRegex =   new RegExp('(ES|WGS)', 'g');
                 assert(species).matches(speciesRegex);
                 assert(type).matches(typeRegex);
@@ -135,7 +135,7 @@ function sgvStudySearchByType(driver){
 }
 
 function sgvStudySearchBySpecies(driver){
-    driver.findElement(By.xpath("//span[contains(text(),'Barley')]//..//..//div[@role='button']")).click();
+    driver.findElement(By.xpath("//span[contains(text(),'Chicken')]//..//..//div[@role='button']")).click();
     config.submit(driver, "study-submit-button");
     config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table[1]//td[4]/div[text()]")), config.wait()).then(function(text) {
@@ -143,7 +143,7 @@ function sgvStudySearchBySpecies(driver){
             var rows = parseInt(text.split(" ")[3]);
             for (i = 1; i <= rows; i++) {
                 species = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[4]/div[text()]")).getText();
-                assert(species).equalTo('Barley');
+                assert(species).equalTo('Chicken');
             }
             return rows;
         });
