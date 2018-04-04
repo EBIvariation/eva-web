@@ -219,7 +219,6 @@
                         <p>The EVA accepts genetic variants (SNPs and INDELs) from any species, and provides stable long term accessions and archival of the data. The EVA works in collaboration with the Database of Genomics Variants Archive (<a href="http://www.ebi.ac.uk/dgva" target="_blank">DGVa</a>) to accession and archive structural variants. DGVa relies on a template based submission process that is explained in detail <a href="http://www.ebi.ac.uk/dgva/data-submission" target="_blank">here</a></p>
                         <p>Data submitted to the EVA is brokered to our collaborating databases at <a href="http://www.ncbi.nlm.nih.gov/" target="_blank">NCBI</a>, <a href="http://www.ncbi.nlm.nih.gov/SNP/" target="_blank">dbSNP</a> and <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a>. It is therefore unnecessary to submit data to multiple resources.</p>
                         <p>All data valid for EVA submission shall be made available via the <a href="?Study Browser">Study Browser</a> and will be browsable using both the <a href="?Variant Browser">Variant Browser</a> and the <a href="?API">EVA API</a>. <a href="http://www.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Variant Effect Predictor</a> annotations shall be available for variants mapped to genome assemblies that are known to <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>.</p>
-                        <p>Please contact <a href="mailto:eva-helpdesk@ebi.ac.uk?subject=Sequence submissionto EVA" target="_top">eva-helpdesk@ebi.ac.uk</a> if you would like any further information on this brokering process or collaboration.</p>
                     </div>
 
                     <h3 class="padding-bottom-large">Data requirements</h3>
@@ -233,18 +232,13 @@
 
                         <h4>Converting genetic variation data to VCF</h4>
                         <div>
-                            <p>Submitters that need to convert their data to VCF should first contact <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> to discuss their situation, as we may be able to offer advice and/or tools to aid the conversion process.</p>
-                            <p>We advise submitters to consult the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf">VCF specification guidelines</a> (specifically sections 1.1 and 5) when converting data to VCF in order to ensure that file(s) generated are valid, as this is a requirement of EVA submission.</p>
                             <p>Should manual conversion to VCF be necessary, we have provided a  minimal VCF file template <a href="files/template.vcf">here</a>; this may be useful for non-technical submitters, or submitters with only a very low number of variants to report.</p>
+                            <p>We advise submitters to consult the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf">VCF specification guidelines</a> (specifically sections 1.1 and 5) when converting data to VCF in order to ensure that file(s) generated are valid, as this is a requirement of EVA submission.</p>
+                            <p>Submitters that need advice to do either manual or automatic conversion can contact <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> to discuss their situation, as we may be able to offer ideas and/or tools to aid the conversion process.</p>
                         </div>
                     </div>
 
                     <h3 class="padding-bottom-large">Key stages of EVA submissions</h3>
-
-                    <h4><span class="icon icon-generic" data-icon="C" aria-hidden="true"></span> Contact</h4>
-                    <div>
-                        <p>Contact  <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> in order to provide details of your submission. You shall receive a custom private FTP location for you to deposit files.</p>
-                    </div>
 
                     <h4><span class="icon icon-generic" data-icon="'" aria-hidden="true"></span> Prepare</h4>
                     <div>
@@ -256,6 +250,11 @@
                             VCF file(s) submitted to the EVA must be truly valid a 4.X version of the file format <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">specification</a>.
                             Files can be validated prior to submission using our validation suite that is available via our <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a>.
                         </p>
+                    </div>
+
+                    <h4><span class="icon icon-generic" data-icon="C" aria-hidden="true"></span> Contact</h4>
+                    <div>
+                        <p>Contact  <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> in order to provide details of your submission. You shall receive a custom private FTP location for you to deposit files.</p>
                     </div>
 
                     <h4><span class="icon icon-functional" data-icon="_"></span> Submit</h4>
