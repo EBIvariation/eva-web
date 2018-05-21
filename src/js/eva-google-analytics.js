@@ -32,3 +32,4 @@ if (document.location.hostname == 'www.ebi.ac.uk') {
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
 ga('create', trackingID, 'auto');
+ga('set', 'anonymizeIp', true);
