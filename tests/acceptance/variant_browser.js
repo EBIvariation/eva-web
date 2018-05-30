@@ -475,6 +475,7 @@ function variantFilterByMAF(driver){
 function checkAnnotationNotification(driver){
     driver.findElement(By.xpath("//span[text()='Reset']")).click();
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//li[text()='Mosquito / AaegL3']")));
     driver.findElement(By.xpath("//li[text()='Mosquito / AaegL3']")).click();
     driver.findElement(By.id("annotVersion-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='VEP version 89 - Cache version 35']")).click();
