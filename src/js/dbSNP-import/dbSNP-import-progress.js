@@ -66,20 +66,28 @@ EvadbSNPImportProgress.prototype = {
                 '<p>This report allows you to track the progress of the dbSNP data import.' +
                 '<p>' +
                     'Variants will be available in the Variant Browser if they satisfy the <a href="?Submit-Data">EVA submission requirements</a>. ' +
-                    'dbSNP variants that don\t satisfy these requirements will still be imported, and searchable via a separate web view and API' +
+                    'dbSNP variants that don\'t satisfy these requirements will still be imported, and searchable via a separate web view and API. ' +
                     'We will work to make this experience as intuitive as possible, while keeping our commitment to only make high-quality variants part of the core EVA database.' +
                 '</p>'+
                 '<p>Please check our <a href="?Help#accessionPanel">FAQ</a> for more information about the import process.</p>'+
-                '<table id="dbSNP-import-table" class="responsive-table hover tablesorter"><thead>' +
+                '<table id="dbSNP-import-table" class="responsive-table hover tablesorter table-fixed"><thead>' +
                 '<tr>' +
-                    '<th>Common name</th>' +
-                    '<th>Scientific name</th>' +
-                    '<th>Taxonomy ID</th>' +
-                    '<th>INSDC assembly accession</th>' +
-                    '<th>dbSNP build</th>' +
-                    '<th><div title="Supported by evidence means genotypes or frequencies were submitted along with the variant">Current dbSNP IDs supported <br>by evidence searchable</div></th>' +
-                    '<th>Current dbSNP <br>IDs searchable</th>' +
-                    '<th>Previous dbSNP <br>accessions searchable</th>' +
+                    '<th rowspan="2">Common name</th>' +
+                    '<th rowspan="2">Scientific name</th>' +
+                    '<th rowspan="2">Taxonomy ID</th>' +
+                    '<th rowspan="2">INSDC assembly accession</th>' +
+                    '<th rowspan="2">dbSNP build</th>' +
+                    '<th colspan="3">Searchable by</th>' +
+                '</tr>' +
+                '<tr>' +
+                    '<th>' +
+                        '<div title="SS and RS IDs matching an assembly accessioned by INSDC, and reporting genotypes and/or frequencies">' +
+                            'Current IDs satisfying<br>submission requirements ' +
+                            '<i class="icon icon-generic" data-icon="i">' +
+                        '</div>' +
+                    '</th>' +
+                    '<th><div title="SS and RS IDs matching an assembly accessioned by INSDC">All current IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th><dib title="RS IDs merged into others">Synonymous RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                 '</tr>' +
                 '</thead><tbody>';
 
