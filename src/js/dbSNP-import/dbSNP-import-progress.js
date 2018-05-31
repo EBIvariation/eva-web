@@ -63,21 +63,13 @@ EvadbSNPImportProgress.prototype = {
         var table =  '<div><h2>Non-human dbSNP Import Status</h2></div>' +
             '<div class="row">' +
                 '<div class="col-md-12 columns">'+
-                '<p>This report allows you to track the progress of the dbSNP data import. The legend can be summarized as:</p>' +
-                '<p><ul>' +
-                    '<ul>'+
-                    '<li><span class="icon icon-functional" data-icon="/"></span> : Yes</li>'+
-                    '<li><span class="icon icon-generic" data-icon="?"></span> : Unknown</li>'+
-                    '<li>Empty : No</li>'+
-                    '</ul>'+
-                '</ul></p>' +
+                '<p>This report allows you to track the progress of the dbSNP data import.' +
                 '<p>' +
-                    'A species is only considered suitable for the Variant Browser if variants in the corresponding dbSNP database satisfy the EVA submission requirements. ' +
-                    'Please click <a href="?Submit-Data">here</a> to learn more about the EVA submission requirements.' +
-                    '<br>An "In progress" label will be displayed for a species while its dbSNP accessions are being imported. ' +
-                    'During this process we will also be able to confirm if all the variants match the INSDC assembly;' +
-                    '&nbsp;<span class="icon icon-generic" data-icon="?"></span> will be displayed until then.' +
+                    'Variants will be available in the Variant Browser if they satisfy the <a href="?Submit-Data">EVA submission requirements</a>. ' +
+                    'dbSNP variants that don\t satisfy these requirements will still be imported, and searchable via a separate web view and API' +
+                    'We will work to make this experience as intuitive as possible, while keeping our commitment to only make high-quality variants part of the core EVA database.' +
                 '</p>'+
+                '<p>Please check our <a href="?Help#accessionPanel">FAQ</a> for more information about the import process.</p>'+
                 '<table id="dbSNP-import-table" class="responsive-table hover tablesorter"><thead>' +
                 '<tr>' +
                     '<th>Common name</th>' +
@@ -85,11 +77,9 @@ EvadbSNPImportProgress.prototype = {
                     '<th>Taxonomy ID</th>' +
                     '<th>INSDC assembly accession</th>' +
                     '<th>dbSNP build</th>' +
-                    '<th>All variants match<br>INSDC assembly</th>' +
-                    '<th>Suitable for Variant Browser</th>' +
-                    '<th>Current dbSNP <br>accessions searchable</th>' +
+                    '<th><div title="Supported by evidence means genotypes or frequencies were submitted along with the variant">Current dbSNP IDs supported <br>by evidence searchable</div></th>' +
+                    '<th>Current dbSNP <br>IDs searchable</th>' +
                     '<th>Previous dbSNP <br>accessions searchable</th>' +
-                    '<th>Supported by Ensembl</th>' +
                 '</tr>' +
                 '</thead><tbody>';
 
@@ -106,11 +96,7 @@ EvadbSNPImportProgress.prototype = {
                 taxonomy_link = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:'+this[key].taxId+'">'+this[key].taxId+'</a>';
             }
 
-            var assemblyFullyMatches = _this._getImportStatus(this[key].assemblyFullyMatches,'','');
-
-            var inEnsembl = _this._getImportStatus(this[key].inEnsembl,'','');
-
-            var toVariantWarehouse = _this._getImportStatus(this[key].toVariantWarehouse,'',true);
+            var variantsWithEvidenceImported = _this._getImportStatus(this[key].variantsWithEvidenceImported, this[key].variantsWithEvidenceImportedDate, '');
 
             var variantsImported = _this._getImportStatus(this[key].variantsImported, this[key].variantsImportedDate, '');
 
@@ -122,11 +108,9 @@ EvadbSNPImportProgress.prototype = {
                 '<td><span class="dbSNP-tax-id">'+taxonomy_link+'</span></td>' +
                 '<td><span class="dbSNP-assembly-accession">'+genbankAssemblyAccession+'</span></td>' +
                 '<td><span class="dbSNP-build">'+this[key].lastDbsnpBuild+'</span></td>' +
-                '<td><span class="dbSNP-assembly-matches">'+assemblyFullyMatches+'</span></td>' +
-                '<td><span class="dbSNP-to-variant-warehouse">'+toVariantWarehouse+'</span></td>' +
-                '<td><span class="dbSNP-variants-imported">'+variantsImported+'</span></td>' +
+                '<td><span class="dbSNP-variants-with-evidence-imported">'+variantsWithEvidenceImported+'</span></td>' +
+                '<td><span class="dbSNP-variants-imported">'+variantsImported+'</span></td>' + 
                 '<td><span class="dbSNP-rs-imported">'+rsSynonymsImported+'</span></td>' +
-                '<td><span class="dbSNP-in-ensembl">'+inEnsembl+'</span></td>' +
                 '</tr>';
         }, data);
         table += '</tbody></table></div></div>';
