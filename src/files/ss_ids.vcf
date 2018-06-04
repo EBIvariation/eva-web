@@ -1,0 +1,8 @@
+##fileformat=VCFv4.2
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+1	1000	ss1	A	T	.	.	.
+1	1001	ss2	G	C	.	.	.
+1	1001	ss3	G	A	.	.	.
+2	2000	ss4	C	CT	.	.	.
+2	2000	ss5	C	G	.	.	.
+2	2000	ss6	CA	C	.	.	.
