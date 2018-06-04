@@ -69,6 +69,10 @@ EvadbSNPImportProgress.prototype = {
                     'dbSNP variants that don\'t satisfy these requirements will still be imported, and searchable via a separate web view and API. ' +
                     'We will work to make this experience as intuitive as possible, while keeping our commitment to only make high-quality variants part of the core EVA database.' +
                 '</p>'+
+                '<p> ' + 
+                    'In addition to the most recent RS IDs available for a given species, ' + 
+                    'older RS IDs that were merged into the newer ones will also be imported to support reproducible analyses based on historical data.' +
+                '</p>' +
                 '<p>Please check our <a href="?Help#accessionPanel">FAQ</a> for more information about the import process.</p>'+
                 '<table id="dbSNP-import-table" class="responsive-table hover tablesorter table-fixed"><thead>' +
                 '<tr>' +
