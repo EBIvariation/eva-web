@@ -1,0 +1,11 @@
+##fileformat=VCFv4.2
+##reference=GCA_000002285.2
+##INFO=<ID=VC,Number=1,Type=String,Description="Variant class">
+##INFO=<ID=SID,Number=.,Type=String,Description="Identifiers of studies that report a variant">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+1	1000	rs1	A	T	.	.	VC=SO:0001483;SID=PRJEB1234
+1	1001	rs2	G	C	.	.	VC=SO:0001483;SID=PRJEB1234,PRJEB9876
+1	1001	rs2	G	A	.	.	VC=SO:0001483;SID=PRJEB1234,PRJEB9876
+2	2000	rs4	C	CT	.	.	VC=SO:0000667;SID=PRJEB9876
+2	2000	rs5	C	G	.	.	VC=SO:0001483;SID=PRJEB1234
+2	2000	rs6	CA	C	.	.	VC=SO:0000159;SID=PRJEB1234
