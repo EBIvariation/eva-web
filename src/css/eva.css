@@ -750,3 +750,14 @@ table.tablesorter thead tr th.tablesorter-headerDesc{
     border-bottom-style: none;
 }
 
+.accordion-title {
+    background: #eeeeee;
+}
+
+.is-active>.accordion-title::before {
+    content: ' ';
+}
+
+.img-format {
+    text-align: center;
+}
