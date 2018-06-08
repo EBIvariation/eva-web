@@ -757,3 +757,7 @@ table.tablesorter thead tr th.tablesorter-headerDesc{
 .is-active>.accordion-title::before {
     content: ' ';
 }
+
+.img-format {
+    text-align: center;
+}
