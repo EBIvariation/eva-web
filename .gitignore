@@ -58,6 +58,7 @@ node_modules/*
 lib 
 temp/*
 bower_components
+package-lock.json
 
 # OS generated files #
 ######################
