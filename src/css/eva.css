@@ -761,3 +761,9 @@ table.tablesorter thead tr th.tablesorter-headerDesc{
 .img-format {
     text-align: center;
 }
+.percentage-indicator {
+    color: #3fa8a8; 
+    font-size: 120%; 
+    font-weight: bold;
+    margin-bottom: 0px;
+}
