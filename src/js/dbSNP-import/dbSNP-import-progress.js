@@ -28,7 +28,7 @@ EvadbSNPImportProgress.prototype = {
     render: function () {
         var _this = this;
         _this._draw( _this._createContent());
-        $("#dbSNP-import-table").tablesorter();
+        $("#dbSNP-import-table").tablesorter({ sortList: [[5,1], [0,0]] });
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'EvadbSNPImportProgress', eventLabel: 'EvadbSNPImportProgress'});
     },
@@ -89,7 +89,7 @@ EvadbSNPImportProgress.prototype = {
                 '</tr>' +
                 '</thead><tbody>';
 
-        data = _.sortBy(data, 'commonName');
+        //data = _.sortBy(data, 'importedIds', 'commonName');
         _.each (_.keys(data), function(key) {
             var genbankAssemblyAccession = '-';
             var taxonomy_link;
@@ -125,11 +125,13 @@ EvadbSNPImportProgress.prototype = {
         var percentage;
         var progress;
         if(importedIds && totalIds) {
-            totalIds != 0? percentage = Math.round((importedIds / totalIds) * 100) : percentage = 0;
-            progress =  importedIds + '/' + totalIds;
+            var progresValue = (importedIds / totalIds)*100;
+            var decimal = progresValue % 1 == 0? ',00' : (progresValue % 1).toString().substr(1,3).replace('.',',');
+            totalIds != 0? percentage = Math.trunc(progresValue) + decimal : percentage = 0;
+            progress = importedIds.toLocaleString().replace(/[,]+/g, '.') + ' / ' + totalIds.toLocaleString().replace(/[,]+/g, '.');
         } else {
-            percentage = 0;
-            progress = '0/0';
+            percentage = '0,00';
+            progress = '0 / 0';
         }
         indicator = '<a title="' + progress + '" class="percentage-indicator">' + percentage + '%</a>';
         return indicator;
