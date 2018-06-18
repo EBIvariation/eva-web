@@ -123,17 +123,19 @@ EvadbSNPImportProgress.prototype = {
     _getImportStatus : function (importedIds,totalIds){
         var indicator;
         var percentage;
+        var proportion;
         var progress;
         if(importedIds && totalIds) {
-            var progresValue = (importedIds / totalIds)*100;
-            var decimal = progresValue % 1 == 0? ',00' : (progresValue % 1).toString().substr(1,3).replace('.',',');
-            totalIds != 0? percentage = Math.trunc(progresValue) + decimal : percentage = 0;
-            progress = importedIds.toLocaleString().replace(/[,]+/g, '.') + ' / ' + totalIds.toLocaleString().replace(/[,]+/g, '.');
+            // truncate the proportion to 4 decimals, to be showed as a percentage with 2 decimals
+            proportion = Math.floor((importedIds / totalIds) * 10000) / 10000;
+            progress = importedIds.toLocaleString() + ' / ' + totalIds.toLocaleString();
         } else {
-            percentage = '0,00';
+            proportion = 0;
             progress = '0 / 0';
         }
-        indicator = '<a title="' + progress + '" class="percentage-indicator">' + percentage + '%</a>';
+        percentage = proportion.toLocaleString(undefined, {style: 'percent', maximumFractionDigits: 2});
+
+        indicator = '<a title="' + progress + '" class="percentage-indicator">' + percentage + '</a>';
         return indicator;
     }
 
