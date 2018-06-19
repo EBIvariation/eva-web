@@ -28,7 +28,7 @@ EvadbSNPImportProgress.prototype = {
     render: function () {
         var _this = this;
         _this._draw( _this._createContent());
-        $("#dbSNP-import-table").tablesorter();
+        $("#dbSNP-import-table").tablesorter({ sortList: [[5,1], [0,0]] });
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'EvadbSNPImportProgress', eventLabel: 'EvadbSNPImportProgress'});
     },
@@ -81,21 +81,15 @@ EvadbSNPImportProgress.prototype = {
                     '<th rowspan="2">Taxonomy ID</th>' +
                     '<th rowspan="2">INSDC assembly accession</th>' +
                     '<th rowspan="2">dbSNP build</th>' +
-                    '<th colspan="3">Searchable by</th>' +
+                    '<th colspan="3" style="background-image:none;">Searchable by</th>' +
                 '</tr>' +
                 '<tr>' +
-                    '<th>' +
-                        '<div title="SS and RS IDs matching an assembly accessioned by INSDC, and reporting genotypes and/or frequencies">' +
-                            'Current IDs satisfying<br>submission requirements ' +
-                            '<i class="icon icon-generic" data-icon="i">' +
-                        '</div>' +
-                    '</th>' +
-                    '<th><div title="SS and RS IDs matching an assembly accessioned by INSDC">All current IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
-                    '<th><dib title="RS IDs merged into others">Synonymous RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th><div title="RS IDs and associated SS IDs available in the last dbSNP build for a species">Current RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th><div title="RS IDs merged into others">Synonymous RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                 '</tr>' +
                 '</thead><tbody>';
 
-        data = _.sortBy(data, 'commonName');
+        //data = _.sortBy(data, 'importedIds', 'commonName');
         _.each (_.keys(data), function(key) {
             var genbankAssemblyAccession = '-';
             var taxonomy_link;
@@ -108,11 +102,9 @@ EvadbSNPImportProgress.prototype = {
                 taxonomy_link = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:'+this[key].taxId+'">'+this[key].taxId+'</a>';
             }
 
-            var variantsWithEvidenceImported = _this._getImportStatus(this[key].variantsWithEvidenceImported, this[key].variantsWithEvidenceImportedDate, '');
+            var importedIds = _this._getImportStatus(this[key].importedIds, this[key].totalIdsDbsnp);
 
-            var variantsImported = _this._getImportStatus(this[key].variantsImported, this[key].variantsImportedDate, '');
-
-            var rsSynonymsImported = _this._getImportStatus(this[key].rsSynonymsImported, this[key].rsSynonymsImportedDate,'');
+            var importedSynonymousIds = _this._getImportStatus(this[key].importedSynonymousIds, this[key].totalSynonymousIdsDbsnp);            
 
             table += '<tr>' +
                 '<td><span class="dbSNP-common-name">'+this[key].commonName+'</span></td>' +
@@ -120,40 +112,31 @@ EvadbSNPImportProgress.prototype = {
                 '<td><span class="dbSNP-tax-id">'+taxonomy_link+'</span></td>' +
                 '<td><span class="dbSNP-assembly-accession">'+genbankAssemblyAccession+'</span></td>' +
                 '<td><span class="dbSNP-build">'+this[key].lastDbsnpBuild+'</span></td>' +
-                '<td><span class="dbSNP-variants-with-evidence-imported">'+variantsWithEvidenceImported+'</span></td>' +
-                '<td><span class="dbSNP-variants-imported">'+variantsImported+'</span></td>' + 
-                '<td><span class="dbSNP-rs-imported">'+rsSynonymsImported+'</span></td>' +
+                '<td><span class="dbSNP-imported-ids">'+importedIds+'</span></td>' + 
+                '<td><span class="dbSNP-imported-synonymous-ids">'+importedSynonymousIds+'</span></td>' +
                 '</tr>';
         }, data);
         table += '</tbody></table></div></div>';
         return table;
     },
 
-    _getImportStatus : function (value,dateString,addLink){
-        var el;
-        var date = new Date(dateString);
-        switch(value) {
-            case 'pending':
-                el = '<p></p>';
-                break;
-            case 'in_progress':
-                el = '<h6>In progress</h6>';
-                break;
-            case 'done':
-                el = '<h5 class="icon icon-functional" data-icon="/"><span style="visibility: hidden;">Y</span></h5>'
-                    + '<h6>' + date.getDate() + "/" + (date.getMonth() +1) + "/" + date.getFullYear() + '</h6>';
-                break;
-            case true:
-                el = '<h5 class="icon icon-functional" data-icon="/"><span style="visibility: hidden;">Y</span></h5>';
-                break;
-            case false:
-                el = '<p></p>';
-                break;
-            default:
-                el = '<p><h5 class="icon icon-generic" data-icon="?"><span style="visibility: hidden;">?</span></p>';
+    _getImportStatus : function (importedIds,totalIds){
+        var indicator;
+        var percentage;
+        var proportion;
+        var progress;
+        if(importedIds && totalIds) {
+            // truncate the proportion to 4 decimals, to be showed as a percentage with 2 decimals
+            proportion = Math.floor((importedIds / totalIds) * 10000) / 10000;
+            progress = importedIds.toLocaleString() + ' / ' + totalIds.toLocaleString();
+        } else {
+            proportion = 0;
+            progress = '0 / 0';
         }
+        percentage = proportion.toLocaleString(undefined, {style: 'percent', maximumFractionDigits: 2});
 
-        return el;
+        indicator = '<a title="' + progress + '" class="percentage-indicator">' + percentage + '</a>';
+        return indicator;
     }
 
 }
