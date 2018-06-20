@@ -272,6 +272,15 @@ EvaVariantWidgetPanel.prototype = {
                 case 'astephensi_sda500v1':
                     defaultRegion = 'KB664288:1-15000';
                     break;
+                case 'bjuncea_t8466v1':
+                    defaultRegion = 'CM007185.1:4000000-4900000';
+                    break;
+                case 'cporcellus_30':
+                    defaultRegion = 'DS562860.1:4330000-4340000';
+                    break;
+                case 'dmelanogaster_6':
+                    defaultRegion = '2L:4000-8000';
+                    break;
                 case 'drerio_grcz10':
                     defaultRegion = '1:4220000-4270000';
                     break;
@@ -280,6 +289,12 @@ EvaVariantWidgetPanel.prototype = {
                     break;
                 case 'ggallus_galgal4':
                     defaultRegion = '1:2100000-2500000';
+                    break;
+                case 'hannuus_xrqr10':
+                    defaultRegion = '10:84310000-84315000';
+                    break;
+                case 'hbrasiliensis_asm165405v1':
+                    defaultRegion = 'LVXX01000001.1:3000000-3900000';
                     break;
                 case 'hsapiens_grch37':
                     defaultRegion = '13:32889611-32973805';
@@ -307,6 +322,9 @@ EvaVariantWidgetPanel.prototype = {
                     break;
                 case 'slycopersicum_sl250':
                     defaultRegion = '9:59100000-59200000';
+                    break;
+                case 'vvinifera_12x':
+                    defaultRegion = '18:7850000-7895000';
                     break;
                 case 'zmays_agpv4':
                     defaultRegion = '6:166875000-166876000';
