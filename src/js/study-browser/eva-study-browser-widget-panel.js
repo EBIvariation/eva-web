@@ -214,10 +214,11 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     console.log(e)
                     var params = e.values;
                     if (params.browserType == 'sv') {
-                        _.extend(params, {structural: true})
+                        _this._loadStructuralStudies(params);
+                    } else {
+                        _this._loadStudies(params);
                     }
 
-                    _this._loadStudies(params);
                     if (params.search) {
                         _this._textSearch(params.search);
                     }
@@ -244,15 +245,14 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         this.browserTypeFilter.on('browserType:change', function (e) {
             var btValue = _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').getValue();
-            var params;
+            var values = formPanel.getValues();
+
             if (btValue.browserType == 'sv') {
-                params = {structural: true};
+                _this._loadStructuralStudies(values);
+            } else {
+                _this._loadStudies(values);
             }
 
-            _this._loadFilterPanelvalues(params)
-            var values = formPanel.getValues();
-            _.extend(values, params)
-            _this._loadStudies(values);
             if(_this.pushURL) {
                 _this._updateURL(values);
             }
@@ -425,6 +425,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
             }
         });
     },
+
     _loadStudies: function (params) {
         var _this = this;
         params.species = params.genome;
@@ -447,6 +448,30 @@ EvaStudyBrowserWidgetPanel.prototype = {
             }
         });
     },
+
+    _loadStructuralStudies: function (params) {
+        var _this = this;
+        params.species = params.genome;
+        params = _.omit(params, ['genome']);
+        _this._updateColumns(params)
+        DgvaManager.get({
+            category: 'meta/studies',
+            resource: 'all',
+            params: params,
+            async: false,
+            success: function (response) {
+                var studies = [];
+                try {
+                    studies = response.response[0].result;
+                } catch (e) {
+                    console.log(e);
+                }
+                _this.studyBrowserWidget.load(studies)
+                _this.resize(true);
+            }
+        });
+    },
+
     _updateColumns: function (params) {
         var _this = this;
         var columns = _this.studyColumns;

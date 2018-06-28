@@ -52,38 +52,42 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     variables: {
-                        'EVA_HOST': 'wwwint.ebi.ac.uk/eva/webservices/rest',
-                        'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'wwwint.ebi.ac.uk/cellbase/webservices/rest',
                         'CELLBASE_VERSION': 'v3',
                         'DBSNP_HOST': 'wwwint.ebi.ac.uk/dbsnp/webservices/rest',
-                        'DBSNP_VERSION': 'v1'
-
+                        'DBSNP_VERSION': 'v1',
+                        'DGVA_HOST': 'wwwint.ebi.ac.uk/dgva/webservices/rest',
+                        'DGVA_VERSION': 'v1',
+                        'EVA_HOST': 'wwwint.ebi.ac.uk/eva/webservices/rest',
+                        'EVA_VERSION': 'v1'
                     }
                 }
             },
             staging: {
                 options: {
                     variables: {
-                        'EVA_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/rest',
-                        'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'wwwdev.ebi.ac.uk/cellbase/webservices/rest',
                         'CELLBASE_VERSION': 'v3',
                         'DBSNP_HOST': 'wwwdev.ebi.ac.uk/dbsnp/webservices/rest',
-                        'DBSNP_VERSION': 'v1'
-
+                        'DBSNP_VERSION': 'v1',
+                        'DGVA_HOST': 'wwwdev.ebi.ac.uk/dgva/webservices/rest',
+                        'DGVA_VERSION': 'v1',
+                        'EVA_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/rest',
+                        'EVA_VERSION': 'v1'
                     }
                 }
             },
             prod: {
                 options: {
                     variables: {
-                        'EVA_HOST': 'www.ebi.ac.uk/eva/webservices/rest',
-                        'EVA_VERSION': 'v1',
                         'CELLBASE_HOST': 'www.ebi.ac.uk/cellbase/webservices/rest',
                         'CELLBASE_VERSION': 'v3',
                         'DBSNP_HOST': 'www.ebi.ac.uk/dbsnp/webservices/rest',
-                        'DBSNP_VERSION': 'v1'
+                        'DBSNP_VERSION': 'v1',
+                        'DGVA_HOST': 'www.ebi.ac.uk/dgva/webservices/rest',
+                        'DGVA_VERSION': 'v1',
+                        'EVA_HOST': 'www.ebi.ac.uk/eva/webservices/rest',
+                        'EVA_VERSION': 'v1'
                     }
                 }
             }
@@ -92,14 +96,6 @@ module.exports = function (grunt) {
             eva_manager: {
                 options: {
                     patterns: [
-                        {
-                            match: 'EVA_HOST',
-                            replacement: '<%= grunt.config.get("EVA_HOST") %>'
-                        },
-                        {
-                            match: 'EVA_VERSION',
-                            replacement: '<%= grunt.config.get("EVA_VERSION") %>'
-                        },
                         {
                             match: 'CELLBASE_HOST',
                             replacement: '<%= grunt.config.get("CELLBASE_HOST") %>'
@@ -115,6 +111,22 @@ module.exports = function (grunt) {
                         {
                             match: 'DBSNP_VERSION',
                             replacement: '<%= grunt.config.get("DBSNP_VERSION") %>'
+                        },
+                        {
+                            match: 'DGVA_HOST',
+                            replacement: '<%= grunt.config.get("DGVA_HOST") %>'
+                        },
+                        {
+                            match: 'DGVA_VERSION',
+                            replacement: '<%= grunt.config.get("DGVA_VERSION") %>'
+                        },
+                        {
+                            match: 'EVA_HOST',
+                            replacement: '<%= grunt.config.get("EVA_HOST") %>'
+                        },
+                        {
+                            match: 'EVA_VERSION',
+                            replacement: '<%= grunt.config.get("EVA_VERSION") %>'
                         }
                     ]
                 },
@@ -457,7 +469,7 @@ module.exports = function (grunt) {
         'htmlbuild:eva',
         'replace-html',
         'minifyHtml',
-        'imagemin',
+        'imagemin'
         'unitTest',
         'runAcceptanceTest'
     ]);
