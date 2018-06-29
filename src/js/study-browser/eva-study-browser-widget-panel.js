@@ -213,11 +213,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 'submit': function (e) {
                     console.log(e)
                     var params = e.values;
-                    if (params.browserType == 'sv') {
-                        _this._loadStructuralStudies(params);
-                    } else {
-                        _this._loadStudies(params);
-                    }
+                    _this._loadStudies(params, params.browserType);
 
                     if (params.search) {
                         _this._textSearch(params.search);
@@ -245,13 +241,14 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         this.browserTypeFilter.on('browserType:change', function (e) {
             var btValue = _this.formPanelStudyFilter.panel.getForm().findField('browserTypeRadio').getValue();
-            var values = formPanel.getValues();
+            var params;
 
-            if (btValue.browserType == 'sv') {
-                _this._loadStructuralStudies(values);
-            } else {
-                _this._loadStudies(values);
-            }
+            _this._loadFilterPanelValues({}, btValue.browserType);
+
+            var values = formPanel.getValues();
+            _.extend(values, params);
+
+            _this._loadStudies(values, btValue.browserType);
 
             if(_this.pushURL) {
                 _this._updateURL(values);
@@ -361,7 +358,8 @@ EvaStudyBrowserWidgetPanel.prototype = {
         return evaStudyBrowserGrid;
 
     },
-    _loadFilterPanelvalues: function (values) {
+
+    _loadFilterPanelValues: function (values, browserType) {
         var _this = this;
 
         var tmpSpecies = _this.species.split(",");
@@ -374,8 +372,11 @@ EvaStudyBrowserWidgetPanel.prototype = {
         for (i = 0; i < tmpSpecies.length; ++i) {
             defaultSpecies.push(tmpSpecies[i].replace(/\+/g, " "));
         }
+
         var data;
-        EvaManager.get({
+        var manager = browserType == 'sv' ? DgvaManager : EvaManager;
+
+        manager.get({
             category: 'meta/studies',
             resource: 'stats',
             params: values,
@@ -426,35 +427,14 @@ EvaStudyBrowserWidgetPanel.prototype = {
         });
     },
 
-    _loadStudies: function (params) {
+    _loadStudies: function (params, browserType) {
         var _this = this;
         params.species = params.genome;
         params = _.omit(params, ['genome']);
-        _this._updateColumns(params)
-        EvaManager.get({
-            category: 'meta/studies',
-            resource: 'all',
-            params: params,
-            async: false,
-            success: function (response) {
-                var studies = [];
-                try {
-                    studies = response.response[0].result;
-                } catch (e) {
-                    console.log(e);
-                }
-                _this.studyBrowserWidget.load(studies)
-                _this.resize(true);
-            }
-        });
-    },
+        _this._updateColumns(params);
 
-    _loadStructuralStudies: function (params) {
-        var _this = this;
-        params.species = params.genome;
-        params = _.omit(params, ['genome']);
-        _this._updateColumns(params)
-        DgvaManager.get({
+        var manager = browserType == 'sv' ? DgvaManager : EvaManager;
+        manager.get({
             category: 'meta/studies',
             resource: 'all',
             params: params,
