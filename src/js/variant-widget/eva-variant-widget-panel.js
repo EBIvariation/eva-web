@@ -419,6 +419,8 @@ EvaVariantWidgetPanel.prototype = {
                     }
 
                     if (typeof e.values.snp !== 'undefined') {//
+                        e.values.snp = e.values.snp.replace(/\s+/g, ",");
+                        e.values.snp = e.values.snp.replace(/,+/g, ",");
                         e.values.id = e.values.snp;
                     }
 
@@ -444,7 +446,7 @@ EvaVariantWidgetPanel.prototype = {
 
 //                    //<!--------Query by ID ----->
                     if (e.values.id) {
-                        resource = 'info';
+                        resource = null;
                         category = 'variants';
                         query = e.values.id;
                     }
