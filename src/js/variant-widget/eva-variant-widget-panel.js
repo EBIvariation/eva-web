@@ -422,6 +422,7 @@ EvaVariantWidgetPanel.prototype = {
                         e.values.snp = e.values.snp.replace(/\s+/g, ",");
                         e.values.snp = e.values.snp.replace(/,+/g, ",");
                         e.values.id = e.values.snp;
+                        this.panel.getForm().findField('snp').setValue(e.values.id);
                     }
 
                     //CONSEQUENCE TYPES CHECK
