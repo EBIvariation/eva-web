@@ -39,6 +39,12 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('search by multiple Variant IDs', function() {
+        test.it('Search term "rs555,rs666,rs777" match with column Variant ID values', function() {
+            variantSearchByMutlipleIds(driver);
+        });
+    });
+
     test.describe('search by Species and Chromosomal Location', function() {
         test.it('Search by species  "Goat / CHIR_1.0" and location "2:4000000-4100000"  where column "Chr"  should match with "2" and Position should be between "4000000-4100000"', function() {
             variantSearchBySpeciesandChrLocation(driver);
@@ -149,6 +155,28 @@ function variantSearchById(driver){
     });
     return driver;
 }
+
+function variantSearchByMutlipleIds(driver){
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    driver.findElement(By.name("snp")).clear();
+    driver.findElement(By.name("snp")).sendKeys("rs555,rs666,rs777");
+    driver.findElement(By.id("vb-submit-button")).click();
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(text){
+            chai.assert.equal(text, 'rs666');
+        });
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[3]/div[text()]")).getText().then(function(text){
+            chai.assert.equal(text, 'rs777');
+        });
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[3]//td[3]/div[text()]")).getText().then(function(text){
+            chai.assert.equal(text, 'rs555');
+        });
+    });
+    return driver;
+}
+
 function variantSearchBySpeciesandChrLocation(driver){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
