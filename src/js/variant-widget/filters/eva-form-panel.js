@@ -206,7 +206,7 @@ EvaFormPanel.prototype = {
             return true;
         } else if (Array.isArray(values)) {
             // var nonEmptyValues = values.filter(function (value) { return value.trim().length > 0});
-            var nonEmptyValues = values.filter(value => value.trim().length > 0);
+            var nonEmptyValues = values.filter(function(value) {return value.trim().length > 0});
             return nonEmptyValues.length === 0;
         } else {
             return values.trim().length === 0;
