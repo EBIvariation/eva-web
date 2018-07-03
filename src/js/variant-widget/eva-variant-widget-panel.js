@@ -480,7 +480,7 @@ EvaVariantWidgetPanel.prototype = {
                     delete values['selectFilter'];
                     delete values['gene'];
 
-                    if (_this.formPanelVariantFilter.validatePositionFilter(regions)) {
+                    if (_this.formPanelVariantFilter.validatePositionFilter(category, query)) {
                         _this.variantWidget.retrieveData(url,values);
                         _this.variantWidget.retrieveDataURL = url;
                         _this.variantWidget.values = e.values;

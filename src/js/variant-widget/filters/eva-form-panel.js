@@ -192,7 +192,16 @@ EvaFormPanel.prototype = {
         return form;
 
     },
-    validatePositionFilter : function(values) {
+    validatePositionFilter : function(category, values) {
+        if (values === undefined || values.length === 0) {
+            Ext.Msg.alert('Invalid Position', 'The Position filter cannot be empty');
+            return false;
+        } else if (category === 'segments') {
+            return this.validateChromosomalLocationFilter(values);
+        }
+        return true;
+    },
+    validateChromosomalLocationFilter : function(values) {
         var validate = true;
         _.each(values, function (region) {
             if(region.match(/^[\w\d\D]+\:\d+\-\d+/)){
