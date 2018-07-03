@@ -191,26 +191,27 @@ function clinVarSearchByGene(driver){
 
 function emtpyPositionFilter(driver){
     // 'Chromosomal Location' filter
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
     driver.findElement(By.name("clinvarRegion")).clear();
-    driver.findElement(By.id("vb-submit-button")).click();
+    driver.findElement(By.id("cb-submit-button")).click();
     assertAlertWindowShown(driver, 'The Position filter cannot be empty');
-    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
 
     // 'Variant ID' filter
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
+    driver.findElement(By.xpath("//li[text()='ClinVar Accession']")).click();
     driver.findElement(By.name("accessionId")).clear();
-    driver.findElement(By.id("vb-submit-button")).click();
+    driver.findElement(By.id("cb-submit-button")).click();
     assertAlertWindowShown(driver, 'The Position filter cannot be empty');
-    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
 
     // 'Ensembl Gene Symbol/Accession' filter
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
     driver.findElement(By.name("gene")).clear();
-    driver.findElement(By.id("vb-submit-button")).click();
+    driver.findElement(By.id("cb-submit-button")).click();
     assertAlertWindowShown(driver, 'The Position filter cannot be empty');
-    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
 }
 
 function assertAlertWindowShown(driver, message) {
