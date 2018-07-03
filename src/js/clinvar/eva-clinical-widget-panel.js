@@ -516,14 +516,22 @@ EvaClinicalWidgetPanel.prototype = {
                     _this.clinvarWidget.clinvarBrowserGrid.setLoading(true);
                     //POSITION CHECK
                     var regions = [];
+                    var category;
+                    var query;
                     if (typeof e.values.clinvarRegion !== 'undefined') {
+                        category = 'segments';
                         if (e.values.clinvarRegion !== "") {
                             regions = e.values.clinvarRegion.split(",");
                         }
+                        query = regions;
                         delete  e.values.clinvarRegion;
                     }
 
                     var gene = e.values.gene;
+                    if (typeof e.values.gene !== 'undefined') {
+                        category = 'genes';
+                        query = e.values.gene;
+                    }
 
                     //CONSEQUENCE TYPES CHECK
                     if (typeof e.values['annot-ct'] !== 'undefined') {
@@ -534,7 +542,9 @@ EvaClinicalWidgetPanel.prototype = {
                     }
 
                     if (typeof e.values.accessionId !== 'undefined') {
+                        category = 'variants';
                         e.values['rcv'] = e.values.accessionId;
+                        query = e.values.accessionId;
                     }
 
                     if (regions.length > 0) {
@@ -550,7 +560,7 @@ EvaClinicalWidgetPanel.prototype = {
                         resource: 'all',
                         params: params
                     });
-                    if (_this.formPanelClinvarFilter.validatePositionFilter(regions)) {
+                    if (_this.formPanelClinvarFilter.validatePositionFilter(category, query)) {
                         _this.clinvarWidget.retrieveData(url, e.values);
                         _this.clinvarWidget.values = e.values;
                         _this['queryParams'] = e.values;

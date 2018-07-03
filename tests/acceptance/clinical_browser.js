@@ -53,6 +53,12 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('Position filter invalid when left empty', function() {
+        test.it('Empty location filter should open alert box with "The Position filter cannot be empty"', function () {
+            emtpyPositionFilter(driver);
+        });
+    });
+    
     test.describe('search by Trait', function() {
         test.it('Search term "Pancreatic cancer" should match with column "Trait"', function() {
             clinVarSearchByTrait(driver);
@@ -182,6 +188,41 @@ function clinVarSearchByGene(driver){
 
     return driver;
 }
+
+function emtpyPositionFilter(driver){
+    // 'Chromosomal Location' filter
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.id("vb-submit-button")).click();
+    assertAlertWindowShown(driver, 'The Position filter cannot be empty');
+    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+
+    // 'Variant ID' filter
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    driver.findElement(By.name("id")).clear();
+    driver.findElement(By.id("vb-submit-button")).click();
+    assertAlertWindowShown(driver, 'The Position filter cannot be empty');
+    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+
+    // 'Ensembl Gene Symbol/Accession' filter
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    driver.findElement(By.name("gene")).clear();
+    driver.findElement(By.id("vb-submit-button")).click();
+    assertAlertWindowShown(driver, 'The Position filter cannot be empty');
+    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+}
+
+function assertAlertWindowShown(driver, message) {
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function (text) {
+        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function (text) {
+            assert(text).equalTo(message);
+            driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
+        });
+    });
+}
+
 function clinVarSearchByTrait(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
