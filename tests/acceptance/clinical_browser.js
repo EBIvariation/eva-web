@@ -58,7 +58,7 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
             emtpyPositionFilter(driver);
         });
     });
-    
+
     test.describe('search by Trait', function() {
         test.it('Search term "Pancreatic cancer" should match with column "Trait"', function() {
             clinVarSearchByTrait(driver);
@@ -191,7 +191,7 @@ function clinVarSearchByGene(driver){
 
 function emtpyPositionFilter(driver){
     // 'Chromosomal Location' filter
-    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("clinvarRegion")).clear();
     driver.findElement(By.id("vb-submit-button")).click();
     assertAlertWindowShown(driver, 'The Position filter cannot be empty');
     driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
@@ -199,7 +199,7 @@ function emtpyPositionFilter(driver){
     // 'Variant ID' filter
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
-    driver.findElement(By.name("id")).clear();
+    driver.findElement(By.name("accessionId")).clear();
     driver.findElement(By.id("vb-submit-button")).click();
     assertAlertWindowShown(driver, 'The Position filter cannot be empty');
     driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
