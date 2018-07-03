@@ -101,7 +101,12 @@ var EvaManager = {
             query = '/' + config.query;
         }
 
-        var url = config.host + '/' + config.version + '/' + config.category + query + '/' + config.resource;
+        // the resource is just added if is not null to avoid composing URLS  like "query/?param=..."
+        if (typeof config.resource !== 'undefined' && config.resource != null) {
+            query = query + '/' + config.resource;
+        }
+
+        var url = config.host + '/' + config.version + '/' + config.category + query;
         url = Utils.addQueryParamtersToUrl(config.params, url);
         return url;
     }

@@ -418,8 +418,11 @@ EvaVariantWidgetPanel.prototype = {
                         e.values.gene = e.values.gene.toUpperCase();
                     }
 
-                    if (typeof e.values.snp !== 'undefined') {//
+                    if (typeof e.values.snp !== 'undefined') {
+                        e.values.snp = e.values.snp.replace(/\s+/g, ",");
+                        e.values.snp = e.values.snp.replace(/,+/g, ",");
                         e.values.id = e.values.snp;
+                        this.panel.getForm().findField('snp').setValue(e.values.id);
                     }
 
                     //CONSEQUENCE TYPES CHECK
@@ -442,9 +445,9 @@ EvaVariantWidgetPanel.prototype = {
                         query = e.values.gene;
                     }
 
-//                    //<!--------Query by ID ----->
+                    //<!--------Query by ID ----->
                     if (e.values.id) {
-                        resource = 'info';
+                        resource = null;
                         category = 'variants';
                         query = e.values.id;
                     }
