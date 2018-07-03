@@ -193,13 +193,24 @@ EvaFormPanel.prototype = {
 
     },
     validatePositionFilter : function(category, values) {
-        if (values === undefined || values.length === 0) {
+        if (this.filterIsEmpty(values)) {
             Ext.Msg.alert('Invalid Position', 'The Position filter cannot be empty');
             return false;
         } else if (category === 'segments') {
             return this.validateChromosomalLocationFilter(values);
         }
         return true;
+    },
+    filterIsEmpty : function(values) {
+        if (values === undefined) {
+            return true;
+        } else if (Array.isArray(values)) {
+            // var nonEmptyValues = values.filter(function (value) { return value.trim().length > 0});
+            var nonEmptyValues = values.filter(value => value.trim().length > 0);
+            return nonEmptyValues.length === 0;
+        } else {
+            return values.trim().length === 0;
+        }
     },
     validateChromosomalLocationFilter : function(values) {
         var validate = true;
