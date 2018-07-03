@@ -418,7 +418,7 @@ EvaVariantWidgetPanel.prototype = {
                         e.values.gene = e.values.gene.toUpperCase();
                     }
 
-                    if (typeof e.values.snp !== 'undefined') {//
+                    if (typeof e.values.snp !== 'undefined') {
                         e.values.snp = e.values.snp.replace(/\s+/g, ",");
                         e.values.snp = e.values.snp.replace(/,+/g, ",");
                         e.values.id = e.values.snp;
@@ -445,7 +445,7 @@ EvaVariantWidgetPanel.prototype = {
                         query = e.values.gene;
                     }
 
-//                    //<!--------Query by ID ----->
+                    //<!--------Query by ID ----->
                     if (e.values.id) {
                         resource = null;
                         category = 'variants';
