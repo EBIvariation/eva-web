@@ -194,7 +194,7 @@ EvaFormPanel.prototype = {
     },
     validatePositionFilter : function(category, values) {
         if (this.filterIsEmpty(values)) {
-            Ext.Msg.alert('Invalid Position', 'The Position filter cannot be empty');
+            Ext.Msg.alert('Invalid Position', 'Please request a variant ID, genomic location or gene name/symbol');
             return false;
         } else if (category === 'segments') {
             return this.validateChromosomalLocationFilter(values);
