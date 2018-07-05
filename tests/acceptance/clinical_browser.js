@@ -194,7 +194,7 @@ function emtpyPositionFilter(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
     driver.findElement(By.name("clinvarRegion")).clear();
     driver.findElement(By.id("cb-submit-button")).click();
-    assertAlertWindowShown(driver, 'The Position filter cannot be empty');
+    assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
 
     // 'Variant ID' filter
@@ -202,7 +202,7 @@ function emtpyPositionFilter(driver){
     driver.findElement(By.xpath("//li[text()='ClinVar Accession']")).click();
     driver.findElement(By.name("accessionId")).clear();
     driver.findElement(By.id("cb-submit-button")).click();
-    assertAlertWindowShown(driver, 'The Position filter cannot be empty');
+    assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
 
     // 'Ensembl Gene Symbol/Accession' filter
@@ -210,7 +210,7 @@ function emtpyPositionFilter(driver){
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
     driver.findElement(By.name("gene")).clear();
     driver.findElement(By.id("cb-submit-button")).click();
-    assertAlertWindowShown(driver, 'The Position filter cannot be empty');
+    assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
     driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
 }
 
