@@ -193,7 +193,7 @@ EvaFormPanel.prototype = {
 
     },
     validatePositionFilter : function(category, values) {
-        if (this.filterIsEmpty(values)) {
+        if (this.isFilterEmpty(values)) {
             Ext.Msg.alert('Invalid Position', 'Please request a variant ID, genomic location or gene name/symbol');
             return false;
         } else if (category === 'segments') {
@@ -201,11 +201,10 @@ EvaFormPanel.prototype = {
         }
         return true;
     },
-    filterIsEmpty : function(values) {
+    isFilterEmpty : function(values) {
         if (values === undefined) {
             return true;
         } else if (Array.isArray(values)) {
-            // var nonEmptyValues = values.filter(function (value) { return value.trim().length > 0});
             var nonEmptyValues = values.filter(function(value) {return value.trim().length > 0});
             return nonEmptyValues.length === 0;
         } else {

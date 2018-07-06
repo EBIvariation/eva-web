@@ -70,11 +70,24 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
-    test.describe('Position filter invalid when left empty', function() {
-        test.it('Empty location filter should open alert box with "The Position filter cannot be empty"', function () {
-            emtpyPositionFilter(driver);
+    test.describe('Region filter invalid when left empty', function() {
+        test.it('Empty region filter should open alert box with an error message', function () {
+            emptyRegionFilter(driver);
         });
     });
+
+    test.describe('Variant ID filter invalid when left empty', function() {
+        test.it('Empty variant ID filter should open alert box with an error message', function () {
+            emptyVariantIDFilter(driver);
+        });
+    });
+
+    test.describe('Gene filter invalid when left empty', function() {
+        test.it('Empty gene filter should open alert box with an error message', function () {
+            emptyGeneFilter(driver);
+        });
+    });
+
 
     test.describe('search by Gene', function() {
         test.it('Search by "BRCA2" should match column "Chr" with "13"', function() {
@@ -325,21 +338,25 @@ function assertAlertWindowShown(driver, message) {
     });
 }
 
-function emtpyPositionFilter(driver){
+function emptyRegionFilter(driver) {
     // 'Chromosomal Location' filter
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.id("vb-submit-button")).click();
     assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
-    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+    driver.findElement(By.xpath("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click();
+}
 
+function emptyVariantIDFilter(driver) {
     // 'Variant ID' filter
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.id("vb-submit-button")).click();
     assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
-    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+    driver.findElement(By.xpath("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click();
+}
 
+function emptyGeneFilter(driver) {
     // 'Ensembl Gene Symbol/Accession' filter
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
