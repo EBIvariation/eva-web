@@ -416,11 +416,11 @@ EvaVariantWidgetPanel.prototype = {
 
                     if (typeof e.values.gene !== 'undefined') {
                         e.values.gene = e.values.gene.toUpperCase();
+                        this.panel.getForm().findField('gene').setValue(e.values.gene);
                     }
 
                     if (typeof e.values.snp !== 'undefined') {
-                        e.values.snp = e.values.snp.replace(/\s+/g, ",");
-                        e.values.snp = e.values.snp.replace(/,+/g, ",");
+                        e.values.snp = e.values.snp.replace(/\s+/g, ",").replace(/,+/g, ",").replace(/,$/g, "").replace(/^,/g, "");
                         e.values.id = e.values.snp;
                         this.panel.getForm().findField('snp').setValue(e.values.id);
                     }
@@ -480,7 +480,7 @@ EvaVariantWidgetPanel.prototype = {
                     delete values['selectFilter'];
                     delete values['gene'];
 
-                    if (_this.formPanelVariantFilter.validatePositionFilter(regions)) {
+                    if (_this.formPanelVariantFilter.validatePositionFilter(category, query)) {
                         _this.variantWidget.retrieveData(url,values);
                         _this.variantWidget.retrieveDataURL = url;
                         _this.variantWidget.values = e.values;

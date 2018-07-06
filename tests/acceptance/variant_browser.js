@@ -70,6 +70,25 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('Region filter invalid when left empty', function() {
+        test.it('Empty region filter should open alert box with an error message', function () {
+            emptyRegionFilter(driver);
+        });
+    });
+
+    test.describe('Variant ID filter invalid when left empty', function() {
+        test.it('Empty variant ID filter should open alert box with an error message', function () {
+            emptyVariantIDFilter(driver);
+        });
+    });
+
+    test.describe('Gene filter invalid when left empty', function() {
+        test.it('Empty gene filter should open alert box with an error message', function () {
+            emptyGeneFilter(driver);
+        });
+    });
+
+
     test.describe('search by Gene', function() {
         test.it('Search by "BRCA2" should match column "Chr" with "13"', function() {
             variantSearchByGene(driver);
@@ -289,50 +308,62 @@ function positionFilterBoxInValidation(driver){
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('12334');
     driver.findElement(By.id("vb-submit-button")).click();
-    config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
-            assert(text).equalTo('Please enter a valid region');
-            driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
-        });
-    });
+    assertAlertWindowShown(driver, 'Please enter a valid region');
 
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1:3200000-3100000');
     driver.findElement(By.id("vb-submit-button")).click();
-    config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
-            assert(text).equalTo('Please enter the correct range.The start of the region should be smaller than the end');
-            driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
-        });
-    });
+    assertAlertWindowShown(driver, 'Please enter the correct range.The start of the region should be smaller than the end');
 
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1:3000000-310000000');
     driver.findElement(By.id("vb-submit-button")).click();
-    config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
-            assert(text).equalTo('Please enter a region no larger than 1 million bases');
-            driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
-        });
-    });
+    assertAlertWindowShown(driver, 'Please enter a region no larger than 1 million bases');
 
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1,13:12233-12234');
     driver.findElement(By.id("vb-submit-button")).click();
+    assertAlertWindowShown(driver, 'Please enter a valid region');
+
+    driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
+}
+
+function assertAlertWindowShown(driver, message) {
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function(text){
-            assert(text).equalTo('Please enter a valid region');
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function (text) {
+        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function (text) {
+            assert(text).equalTo(message);
             driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
         });
     });
+}
 
+function emptyRegionFilter(driver) {
+    // 'Chromosomal Location' filter
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.id("vb-submit-button")).click();
+    assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
+    driver.findElement(By.xpath("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click();
+}
+
+function emptyVariantIDFilter(driver) {
+    // 'Variant ID' filter
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    driver.findElement(By.name("snp")).clear();
+    driver.findElement(By.id("vb-submit-button")).click();
+    assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
+    driver.findElement(By.xpath("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click();
+}
+
+function emptyGeneFilter(driver) {
+    // 'Ensembl Gene Symbol/Accession' filter
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    driver.findElement(By.name("gene")).clear();
+    driver.findElement(By.id("vb-submit-button")).click();
+    assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
     driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
-
-
 }
 
 function variantSearchByGene(driver){

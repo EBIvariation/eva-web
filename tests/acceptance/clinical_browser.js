@@ -53,6 +53,24 @@ test.describe('Clinical Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('Region filter invalid when left empty', function() {
+        test.it('Empty region filter should open alert box with an error message', function () {
+            emptyRegionFilter(driver);
+        });
+    });
+
+    test.describe('Variant ID filter invalid when left empty', function() {
+        test.it('Empty variant ID filter should open alert box with an error message', function () {
+            emptyVariantIDFilter(driver);
+        });
+    });
+
+    test.describe('Gene filter invalid when left empty', function() {
+        test.it('Empty gene filter should open alert box with an error message', function () {
+            emptyGeneFilter(driver);
+        });
+    });
+
     test.describe('search by Trait', function() {
         test.it('Search term "Pancreatic cancer" should match with column "Trait"', function() {
             clinVarSearchByTrait(driver);
@@ -182,6 +200,46 @@ function clinVarSearchByGene(driver){
 
     return driver;
 }
+
+function emptyRegionFilter(driver) {
+    // 'Chromosomal Location' filter
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
+    driver.findElement(By.name("clinvarRegion")).clear();
+    driver.findElement(By.id("cb-submit-button")).click();
+    assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
+}
+
+function emptyVariantIDFilter(driver) {
+    // 'Variant ID' filter
+    driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
+    driver.findElement(By.xpath("//li[text()='ClinVar Accession']")).click();
+    driver.findElement(By.name("accessionId")).clear();
+    driver.findElement(By.id("cb-submit-button")).click();
+    assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
+}
+
+function emptyGeneFilter(driver){
+    // 'Ensembl Gene Symbol/Accession' filter
+    driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
+    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    driver.findElement(By.name("gene")).clear();
+    driver.findElement(By.id("cb-submit-button")).click();
+    assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
+    driver.findElement(By.xpath("//div[contains(@id,'ClinvarWidgetPanel')]//span[text()='Reset']")).click();
+}
+
+function assertAlertWindowShown(driver, message) {
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function (text) {
+        driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function (text) {
+            assert(text).equalTo(message);
+            driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
+        });
+    });
+}
+
 function clinVarSearchByTrait(driver){
     driver.findElement(By.xpath("//div[contains(@id,'ClinVarPositionFilterFormPanel')]//div[contains(@id,'selectFilter-trigger-picker')]")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();

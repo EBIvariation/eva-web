@@ -192,7 +192,26 @@ EvaFormPanel.prototype = {
         return form;
 
     },
-    validatePositionFilter : function(values) {
+    validatePositionFilter : function(category, values) {
+        if (this.isFilterEmpty(values)) {
+            Ext.Msg.alert('Invalid Position', 'Please request a variant ID, genomic location or gene name/symbol');
+            return false;
+        } else if (category === 'segments') {
+            return this.validateChromosomalLocationFilter(values);
+        }
+        return true;
+    },
+    isFilterEmpty : function(values) {
+        if (values === undefined) {
+            return true;
+        } else if (Array.isArray(values)) {
+            var nonEmptyValues = values.filter(function(value) {return value.trim().length > 0});
+            return nonEmptyValues.length === 0;
+        } else {
+            return values.trim().length === 0;
+        }
+    },
+    validateChromosomalLocationFilter : function(values) {
         var validate = true;
         _.each(values, function (region) {
             if(region.match(/^[\w\d\D]+\:\d+\-\d+/)){
