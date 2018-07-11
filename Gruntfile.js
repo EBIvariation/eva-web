@@ -418,7 +418,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-rename');
     grunt.loadNpmTasks('grunt-html-build');
     grunt.loadNpmTasks('grunt-hub');
-//     grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-minify-html');
@@ -426,7 +426,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-config');
     grunt.loadNpmTasks('grunt-replace');
-//     grunt.loadNpmTasks('grunt-mocha-phantomjs');
+    grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
     grunt.loadNpmTasks('grunt-serve');
 
@@ -437,10 +437,10 @@ module.exports = function (grunt) {
     grunt.registerTask('replace-html', ['replace:html']);
 
     //selenium with mocha
-//     grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
+    grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
 
     // unit tests wirh mocha_phantomjs to run from command line
-//     grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
+    grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
 
     //run test
     grunt.registerTask('runAcceptanceTest', ['exec:firefox']);
@@ -469,8 +469,8 @@ module.exports = function (grunt) {
         'htmlbuild:eva',
         'replace-html',
         'minifyHtml',
-        'imagemin'
-//         'unitTest',
-//         'runAcceptanceTest'
+        'imagemin',
+        'unitTest',
+        'runAcceptanceTest'
     ]);
 };
