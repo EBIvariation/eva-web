@@ -18,6 +18,7 @@
  */
 var summary = {};
 var files = [];
+
 function EvaStudyView(args) {
     _.extend(this, Backbone.Events);
     this.id = Utils.genId("EVAStudyView");
@@ -27,16 +28,20 @@ function EvaStudyView(args) {
     this.rendered = false;
     this.render();
 }
+
 EvaStudyView.prototype = {
     render: function () {
         var _this = this;
         var params = {};
+        var manager;
 
         if (this.type === 'dgva') {
-            var params = {structural: 'true'};
+            manager = DgvaManager;
+        } else {
+            manager = EvaManager;
         }
 
-        EvaManager.get({
+        manager.get({
             category: 'studies',
             resource: 'summary',
             query: this.projectId,
@@ -50,6 +55,7 @@ EvaStudyView.prototype = {
                 }
             }
         });
+
         // #### EVA-812: DISABLED FILES TABLE TEMPORARILY ###
         // if (this.type === 'eva') {
         //     var studySpeciesList = '';
@@ -131,26 +137,50 @@ EvaStudyView.prototype = {
     },
     _createContent: function (data) {
         var _this = this;
+
+        // Links to publications
         var publications = data.summaryData[0].publications;
         var pubLinks = '';
-        if(!_.isEmpty(publications) && publications != '-'){
+        if(!_.isEmpty(publications) && publications != '-') {
             for (i = 0; i < publications.length; i++) {
                 pubLinks += '<a class="pubmed-id" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + publications[i] + '" target="_blank">' + publications[i]  + '</a><br />'
             }
-        }else{
+        } else {
             pubLinks = '<span class="pubmed-id">-</span>';
         }
 
-        if (_this.type === 'eva') {
-
-            var taxonomyId = new Array();
-            if (data.summaryData[0].taxonomyId) {
-                for (i = 0; i < data.summaryData[0].taxonomyId.length; i++) {
-                    var taxLink = 'http://www.ebi.ac.uk/ena/data/view/Taxon:' + data.summaryData[0].taxonomyId[i];
-                    taxonomyId.push(['<a href="' + taxLink + '" target="_blank">' + data.summaryData[0].taxonomyId[i] + '</a>']);
-                }
+        // Links to taxonomies
+        var taxonomyId = new Array();
+        if (data.summaryData[0].taxonomyId) {
+            for (i = 0; i < data.summaryData[0].taxonomyId.length; i++) {
+                var taxLink = 'http://www.ebi.ac.uk/ena/data/view/Taxon:' + data.summaryData[0].taxonomyId[i];
+                taxonomyId.push(['<a href="' + taxLink + '" target="_blank">' + data.summaryData[0].taxonomyId[i] + '</a>']);
             }
+        }
 
+        // Links to assemblies
+        var inAccessions = data.summaryData[0].assemblyAccession;
+        var assemblyAccessions = new Array();
+
+        if(!_.isUndefined(inAccessions) && inAccessions != null) {
+            inAccessions.split(",").map(function(accession) {
+                accession = accession.trim();
+                var assemblyLink;
+
+                if (accession.startsWith("GCA_")) {
+                    assemblyLink = 'https://www.ebi.ac.uk/ena/data/view/' + accession;
+                } else if (accession.startsWith("GCF_")) {
+                    assemblyLink = 'https://www.ncbi.nlm.nih.gov/assembly/' + accession;
+                } else {
+                    assemblyLink = 'https://www.ebi.ac.uk/ena/data/search?query=' + accession;
+                }
+
+                assemblyAccessions.push(['<a href="' + assemblyLink + '" target="_blank">' + accession + '<a>']);
+            });
+        }
+
+
+        if (_this.type === 'eva') {
             var projectURL = '-' ;
             var ena_link = '<a id="ena_link" href="http://www.ebi.ac.uk/ena/data/view/' + data.summaryData[0].id + '" target="_blank">Submitted Files</a>';
             var eva_link = '';
@@ -162,29 +192,24 @@ EvaStudyView.prototype = {
                 projectURL = '<a href="' + _this._getProjectUrl(data.summaryData[0].id) + '" target="_blank">' + _this._getProjectUrl(data.summaryData[0].id) + '</a><br />';
             }
 
-            var assembly_link= '-';
-            if(!_.isUndefined(data.summaryData[0].assemblyAccession)){
-               assembly_link = '<a href="http://www.ebi.ac.uk/ena/data/view/'+data.summaryData[0].assemblyAccession+'" target="_blank">'+data.summaryData[0].assemblyAccession+'<a>';
-            }
-
             var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
                 '<span class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
                 '<thead><tr><th class="col-name"></th><th class="col-value"></th></tr></thead><tbody>' +
                 '<tr><td><b>Genome</b></td><td><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
                 '<tr><td><b>Sample(s)</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
-                '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join() + '</span></td></tr>' +
+                '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join(", ") + '</span></td></tr>' +
                 '<tr><td><b>Center</b></td><td><span id="center-span">' + data.summaryData[0].center + '</span></td></tr>' +
                 '<tr><td><b>Material</b></td><td><span id="material-span">' + data.summaryData[0].material + '</span></td></tr>' +
                 '<tr><td><b>Scope</b></td><td><span id="scope-span">' + data.summaryData[0].scope + '</span></td></tr>' +
                 '<tr><td><b>Type</b></td><td><span id="type-span">' + data.summaryData[0].experimentType + '</span></td></tr>' +
-                '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + assembly_link + '</span></td></tr>' +
+                '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + assemblyAccessions.join(", ") + '</span></td></tr>' +
                 '<tr><td><b>Source Type</b></td><td><span id="source-type-span">' + data.summaryData[0].sourceType + '</span></td></tr>' +
                 '<tr><td><b>Platform</b></td><td><span id="platform-span">' + data.summaryData[0].platform + '</span></td></tr>' +
                 '<tr><td><b>Number of samples</b></td><td><span id="samples-span">' + data.summaryData[0].numSamples + '</span></td></tr>' +
                 '<tr><td><b>Description</b></td><td><span id="description-span">' + data.summaryData[0].description + '</span></td></tr>' +
                 '<tr><td><b>Resource</b></td><td><span id="resource-span">' + projectURL + '</div></td></tr>' +
-                '<tr><td><b>Download</b></td><td><span id="download-span">'+ena_link+'<br /><br />'+eva_link+'</span></td></tr>' +
-                '<tr><td><span><b>Publications</b></span></td><td>'+pubLinks+'</tr>' +
+                '<tr><td><b>Download</b></td><td><span id="download-span">' + ena_link + '<br /><br />' + eva_link + '</span></td></tr>' +
+                '<tr><td><span><b>Publications</b></span></td><td>' + pubLinks + '</tr>' +
                 '</tbody></table>'
 // #### EVA-812: DISABLED FILES TABLE TEMPORARILY ###
 //             if (data.filesData.length > 0) {
@@ -291,29 +316,19 @@ EvaStudyView.prototype = {
             _filesTable += '</div></div>'
         }
         else if (_this.type === 'dgva') {
-            var taxonomyId = new Array();
-
-            if (data.summaryData[0].taxonomyId) {
-                for (i = 0; i < data.summaryData[0].taxonomyId.length; i++) {
-                    var taxLink = 'http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' + data.summaryData[0].taxonomyId[i];
-                    taxonomyId.push(['<a href="' + taxLink + '" target="_blank">' + data.summaryData[0].taxonomyId[i] + '</a>']);
-                }
-            }
-
             var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
                 '<div class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered  study-view-table">' +
                 '<thead><tr><th class="col-name"></th><th class="col-value"></th></tr></thead><tbody>' +
                 '<tr><td><b>Genome</b></td><td class="eva-capitalize"><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
                 '<tr><td><b>Sample(s)</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
-                '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join() + '</span></td></tr>' +
+                '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join(", ") + '</span></td></tr>' +
                 '<tr><td><b>Study Type</b></td><td><span id="study-type-span">' + data.summaryData[0].typeName + '</span></td></tr>' +
                 '<tr><td><b>Experiment Type</b></td><td><span id="exp-type-span">' + data.summaryData[0].experimentType + '</span></td></tr>' +
                 '<tr><td><b>Platform</b></td><td><span id="platform-span">' + data.summaryData[0].platform + '</span></td></tr>' +
-                '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + data.summaryData[0].assembly + '</span></td></tr>' +
-                '<tr><td><b>Number of Variants</b></td><td><span id="variants-span">' + data.summaryData[0].numVariants + '</span></td></tr>' +
+                '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + assemblyAccessions.join(", ") + '</span></td></tr>' +
                 '<tr><td><b>Description</b></td><td><span id="description-span">' + data.summaryData[0].description + '</span></td></tr>' +
                 '<tr><td><b>Download</b></td><td><span id="download-span"><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/' + data.summaryData[0].id + '_' + data.summaryData[0].name + '" target="_blank">FTP</a></span></td></tr>' +
-                '<tr><td><span><b>Publications</b></span></td><td>'+pubLinks+'</tr>' +
+                '<tr><td><span><b>Publications</b></span></td><td>' + pubLinks + '</tr>' +
                 '</tbody></table></div></div>'
 
         }

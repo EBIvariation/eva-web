@@ -156,7 +156,7 @@ function dgvaCheckSummaryTable(driver){
             assert(text).matches(regExp);
         });
         driver.findElement(By.id("taxonomy-id-span")).getText().then(function(text){
-            var values = text.split(",");
+            var values = text.split(", ");
             for (var i = 0; i < values.length; i++) {
                 assert(values[i]).matches(numExp);
             }
@@ -172,9 +172,6 @@ function dgvaCheckSummaryTable(driver){
         });
         driver.findElement(By.id("assembly-span")).getText().then(function(text){
             assert(text).matches(regExp);
-        });
-        driver.findElement(By.id("variants-span")).getText().then(function(text){
-            assert(text).matches(numExp);
         });
         driver.findElement(By.id("description-span")).getText().then(function(text){
             assert(text).matches(regExp);
