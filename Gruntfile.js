@@ -16,6 +16,9 @@ module.exports = function (grunt) {
         meta: {
             version: {
                 eva: '3.12.0'
+            },
+            submissionTemplate: {
+                version: 'V1.1.12'
             }
         },
         build: {
@@ -153,6 +156,10 @@ module.exports = function (grunt) {
                             replacement: function () {
                                 return ''; // replaces "foo" to "bar"
                             }
+                        },
+                        {
+                            match: /METADATA_TEMPLATE_VERSION/g,
+                            replacement: '<%= meta.submissionTemplate.version %>'
                         }
                     ]
                 },
