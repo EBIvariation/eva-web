@@ -218,14 +218,14 @@
                     <div class="padding-bottom-large">
                         <p>Please read our Data Requirements and the <a href="?Submit-Data#key-stages" target="_blank">Key stages of submission</a> below.</p>
                         <p>Data submitted to the EVA is brokered to our collaborating databases at <a href="http://www.ncbi.nlm.nih.gov/" target="_blank">NCBI</a>, <a href="http://www.ncbi.nlm.nih.gov/SNP/" target="_blank">dbSNP</a> and <a href="http://www.ncbi.nlm.nih.gov/dbvar" target="_blank">dbVar</a>. It is therefore unnecessary to submit data to multiple resources.</p>
-                        <p>All data valid for EVA submission shall be made available via the <a href="?Study Browser">Study Browser</a> and will be browsable using both the <a href="?Variant Browser">Variant Browser</a> and the <a href="?API">EVA API</a>. <a href="http://www.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Variant Effect Predictor</a> annotations shall be available for variants mapped to genome assemblies that are known to <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>.</p>
+                        <p>All data valid for EVA submission shall be made available via the <a href="?Study Browser" target="_blank">Study Browser</a> and will be browsable using both the <a href="?Variant Browser">Variant Browser</a> and the <a href="?API">EVA API</a>. <a href="http://www.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Variant Effect Predictor</a> annotations shall be available for variants mapped to genome assemblies that are known to <a href="http://www.ensembl.org/index.html" target="_blank">Ensembl</a>.</p>
                     </div>
 
                     <h3 class="padding-bottom-large">Data requirements</h3>
                     <div class="padding-bottom-large">
                         <p>EVA accepts <b>all</b> types of short sequence variation &le;50bp, in <b>any species</b> providing the following requirements are met:</p>
                         <ol>
-                            <li>Data is described in valid VCF file(s).<br/> This can be tested prior to submission using the EVA VCF Validation Suite found <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">here</a>. For help with converting variation data to VCF, please see our <a href="?Help#what-happens-to-submitted-data" target="_blank">help</a> pages.</li>
+                            <li>Data is described in valid VCF file(s).<br/> This can be tested prior to submission using the EVA VCF Validation Suite found <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">here</a>. For help with converting variation data to VCF, please see our <a href="https://www.ebi.ac.uk/eva?Help#submissionPanel">help</a> pages.</li>
                             <li>Data includes:
                                 <ol type="i">
                                     <li><b>sample genotypes</b> and/or</li>
@@ -261,7 +261,7 @@
                     <div>
                         <ul>
                             <li>Prepare <a href="?Help#is-my-data-suitable" target="_blank">valid VCF file</a>(s), which can be validated prior to submission using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a>.</li>
-                            <li>Complete a <a href="/files/EVA_Submission_template.V1.1.2.xlsx" target="_blank">metadata template</a> describing the samples and analyses in your study. Please provide as much metadata as possible since this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused. An example of a completed metadata template is available <a href="/files/EVA_Submission_template.V1.1.1_mockup.xlsx" target="_blank">here</a>.</li>
+                            <li>Complete a <a href="/files/EVA_Submission_template.V1.1.2.xlsx" target="_blank">metadata template</a> describing the samples and analyses in your study. Please provide as much metadata as possible since this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused. For reference, here is an <a href="/files/EVA_Submission_template.V1.1.1_mockup.xlsx" target="_blank"><b>example</b></a> of a completed metadata template.</li>
                         </ul>
                         <p>Please also note that the template requires the submitter to fill in some personal data, which will be used as described in our <a href="https://www.ebi.ac.uk/data-protection/privacy-notice/eva-submission-service" target="_blank">privacy notice</a>.</p>
                     </div>
@@ -600,9 +600,6 @@
                             <ul class="padding-top-large padding-bottom-large">
                                 <li><a href="#why-submit-data-to-eva">Why submit data to the EVA??</a></li>
                                 <li><a href="#is-my-data-suitable">Is my data suitable for submission to the EVA?</a></li>
-                                <li><a href="#is-your-data-open-access">Is your data open access?</a></li>
-                                <li><a href="#is-your-data-in-valid-vcf">Is your data represented in a valid VCF file?</a></li>
-                                <li><a href="#is-ref-insdc-reg">Is the reference sequence INSDC registered?</a></li>
                                 <li><a href="#how-to-gen-vcf">How do I generate a VCF file?</a></li>
                                 <li><a href="#what-happens-to-submitted-data">What happens to my data once submitted?</a></li>
                                 <li><a href="#accept-submission-same-variation-file-format">Do EVA and dbSNP accept submission of the same genetic variation file format?</a></li>
@@ -625,63 +622,42 @@
                                         <a class="accordion-title"><h5>Is my data suitable for submission to the EVA?</h5></a>
 
                                         <div class="accordion-content" data-tab-content>
-                                            <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter's responsibility to ensure that the data archived at the EVA complies to this open access policy.</p>
-                                            <p>
-                                                Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>.
-                                                The EVA has developed a custom <a href="https://github.com/ebivariation/vcf-validator" target="_blank">VCF file validator</a> and accepts submission of only VCF files that pass <a href="https://docs.google.com/document/d/1Wcr2fjzwQ7NmxvqZEbiT7GVck8dLyWG2KvzmOxXAVfs/edit" target="_blank">these validation steps</a>.
-                                                Furthermore, VCF files submitted to the EVA should provide either genotypes from the individual samples analysed, or aggregated sample summary information, such as allele frequencies.
-                                            </p>
-                                            <p>Finally, each submission to the EVA is accompanied by a completed metadata template. This metadata template captures the study description, details of the sample(s) analysed and the experimental methodology. Submission of as much metadata as possible is strongly encouraged as this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused.</p>
-                                        </div>
-                                    </li>
-                                </div>
-                                <div id="is-your-data-open-access">
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title"><h5>Is your data open access?</h5></a>
+                                        <b>Is your data open access?</b>
+                                        <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter's responsibility to ensure that the data archived at the EVA complies to this open access policy.<br/>
+                                            <b>
+                                                If consent was gathered for any individual genotype data in the study then we will require a <a href="https://docs.google.com/document/d/1UaRmimAe919IZYIH55mDXMe-4sHsRVqaP4moqx2IYE4/edit" target="_blank">consent statement</a> to be completed prior to submission.
+                                            </b>
+                                        </p>
 
-                                        <div class="accordion-content" data-tab-content>
-                                            <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter's responsibility to ensure that the data archived at the EVA complies to this open access policy.</p>
-                                            <p>
-                                                <b>
-                                                    If consent was gathered for any individual genotype data in the study then we will require a <a href="https://docs.google.com/document/d/1UaRmimAe919IZYIH55mDXMe-4sHsRVqaP4moqx2IYE4/edit" target="_blank">consent statement</a> to be completed prior to submission.
-                                                </b>
-                                            </p>
-                                        </div>
-                                    </li>
-                                </div>
-                                <div id="is-your-data-in-valid-vcf">
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title"><h5>Is your data represented in a valid VCF file?</h5></a>
 
-                                        <div class="accordion-content" data-tab-content>
+                                            <br/>
+
+                                            <b>Is your data represented in a valid VCF file?</b>
                                             <p>
                                                 Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>. The EVA has developed a custom <a href="https://github.com/ebivariation/vcf-validator" target="_blank">VCF file validator</a> and accepts submission of only VCF files that adhere to the specification. Furthermore, VCF files submitted to the EVA should provide either sample genotypes and/or aggregated sample summary-level allele frequencies.
-                                                <ul>
-                                                    <li><b>Population allele frequencies</b>: Alleles typically exist at different frequencies in different populations and this information provides useful supporting evidence for all submitted variants. Population-level allele frequencies can be provided in the INFO field of the VCF. (See section 1.6.1 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>.)</li>
-                                                    <li><b>Individual genotypes</b>: EVA accepts individual genotypes from samples provided by donors that have consented to having their DNA sequence housed in a public database. Genotypes can be provided in the FORMAT field of the VCF. (See section 1.6.2 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>.)</li>
-                                                </ul>
+                                            <ul>
+                                                <li><b>Population allele frequencies</b>: Alleles typically exist at different frequencies in different populations and this information provides useful supporting evidence for all submitted variants. Population-level allele frequencies can be provided in the INFO field of the VCF. (See section 1.6.1 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>.)</li>
+                                                <li><b>Individual genotypes</b>: EVA accepts individual genotypes from samples provided by donors that have consented to having their DNA sequence housed in a public database. Genotypes can be provided in the FORMAT field of the VCF. (See section 1.6.2 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>.)</li>
+                                            </ul>
                                             </p>
-                                        </div>
-                                    </li>
-                                </div>
-                                <div id="is-ref-insdc-reg">
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title"><h5>Is the reference sequence INSDC registered?</h5></a>
 
-                                        <div class="accordion-content" data-tab-content>
+                                            <br/>
+
+                                            <b>Is the reference sequence INSDC registered?</b>
                                             <p>
                                                 The EVA requires that all variants are submitted with an asserted position on an <a href="https://www.insdc.org/" target="_blank">INSDC</a> sequence. This means that the reference allele submitted for every variant must match the position in a sequence that has been accessioned in either GenBank or ENA database. An “INSDC sequence” can be any of, but not restricted to, the following assembled sequences:
-                                                <ul>
-                                                    <li>Genome assembly</li>
-                                                    <li>Transcriptome</li>
-                                                    <li>Gene sequence</li>
-                                                </ul>
+                                            <ul>
+                                                <li>Genome assembly</li>
+                                                <li>Transcriptome</li>
+                                                <li>Gene sequence</li>
+                                            </ul>
                                             </p>
                                             <p>
                                                 Aligning all of our submitted data with INSDC sequences enables integration with other EMBL-EBI resources including Ensembl and is an important step in maintaining standardisation at the EVA.
                                                 <b>Importantly this requires all sequence identifiers in your VCF to match those in the reference FASTA file.</b>
                                             </p>
                                         </div>
+
                                     </li>
                                 </div>
 
