@@ -107,7 +107,6 @@ Eva.prototype = {
         this._selectHandler(option, true);
     },
     _selectHandler: function (option, update) {
-
         update = update || 0;
         var _this = this;
 
@@ -201,9 +200,6 @@ Eva.prototype = {
                     $("a[href='"+tab+"']").click();
                     if (!_.isEmpty($.urlParam('link'))) {
                         $("a[href='#"+$.urlParam('link')+"']").click();
-                        $('html, body').animate({
-                            scrollTop: $("a[href='#"+$.urlParam('link')+"']").offset().top + 'px'
-                        }, 'fast');
                     }
                 }
                 break;
