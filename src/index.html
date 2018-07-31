@@ -238,7 +238,7 @@
                             </li>
                             <li>If consent was gathered for any <b>individual human genotype data</b> then a <a href="https://docs.google.com/document/d/1UaRmimAe919IZYIH55mDXMe-4sHsRVqaP4moqx2IYE4/edit" target="_blank">consent statement</a> must be completed prior to submission.</p></li>
                         </ol>
-                        <p><a href="?Help#accessionPanel&link=variant-accession-administred-by-eva" target="_blank">Variant accessions</a> (ss# and rs#) and <a href="?Help#accessionPanel&link=accessions-administred-by-eva" target="_blank">study accessions</a> will only be provided for data which satisfies all 3 data requirements. More details on whether your data is suitable can be found <a href="?Help#submissionPanel&link=is-my-data-suitable" target="_blank">here</a>.</p>
+                        <p><a href="?Help#accessionPanel&link=variant-accession-administred-by-eva" target="_blank">Variant accessions</a> (ss# and rs#) and <a href="?Help#accessionPanel&link=accessions-administred-by-eva" target="_blank">study accessions</a> will only be provided for data which satisfies all data requirements. More details on whether your data is suitable can be found <a href="?Help#submissionPanel&link=is-my-data-suitable" target="_blank">here</a>.</p>
                     </div>
 
                     <h3 class="padding-bottom-large">Alternative resources for data not accepted by EVA</h3>
@@ -587,7 +587,7 @@
                         </div>
                         <div class="tabs-panel is-active" id="submissionPanel">
                             <ul class="padding-top-large padding-bottom-large">
-                                <li><a href="#why-submit-data-to-eva">Why submit data to the EVA??</a></li>
+                                <li><a href="#why-submit-data-to-eva">Why submit data to the EVA?</a></li>
                                 <li><a href="#is-my-data-suitable">Is my data suitable for submission to the EVA?</a></li>
                                 <li><a href="#how-to-gen-vcf">How do I generate a VCF file?</a></li>
                                 <li><a href="#what-happens-to-submitted-data">What happens to my data once submitted?</a></li>
@@ -611,12 +611,12 @@
                                         <a class="accordion-title"><h5>Is my data suitable for submission to the EVA?</h5></a>
 
                                         <div class="accordion-content" data-tab-content>
-                                        <b>Is your data open access?</b>
-                                        <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter's responsibility to ensure that the data archived at the EVA complies to this open access policy.<br/>
-                                            <b>
-                                                If consent was gathered for any individual genotype data in the study then we will require a <a href="https://docs.google.com/document/d/1UaRmimAe919IZYIH55mDXMe-4sHsRVqaP4moqx2IYE4/edit" target="_blank">consent statement</a> to be completed prior to submission.
-                                            </b>
-                                        </p>
+                                            <b>Is your data open access?</b>
+                                            <p>The most important consideration is that all data archived at the EVA is open access. As such, there are no restrictions as to who can access the data or how such data is reused. It is the submitter's responsibility to ensure that the data archived at the EVA complies to this open access policy.<br/>
+                                                <b>
+                                                    If consent was gathered for any individual genotype data in the study then we will require a <a href="https://docs.google.com/document/d/1UaRmimAe919IZYIH55mDXMe-4sHsRVqaP4moqx2IYE4/edit" target="_blank">consent statement</a> to be completed prior to submission.
+                                                </b>
+                                            </p>
 
 
                                             <br/>
@@ -625,8 +625,8 @@
                                             <p>
                                                 Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>. The EVA has developed a custom <a href="https://github.com/ebivariation/vcf-validator" target="_blank">VCF file validator</a> and accepts submission of only VCF files that adhere to the specification. Furthermore, VCF files submitted to the EVA should provide either sample genotypes and/or aggregated sample summary-level allele frequencies.
                                             <ul>
-                                                <li><b>Population allele frequencies</b>: Alleles typically exist at different frequencies in different populations and this information provides useful supporting evidence for all submitted variants. Population-level allele frequencies can be provided in the INFO field of the VCF. (See section 1.6.1 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>.)</li>
-                                                <li><b>Individual genotypes</b>: EVA accepts individual genotypes from samples provided by donors that have consented to having their DNA sequence housed in a public database. Genotypes can be provided in the FORMAT field of the VCF. (See section 1.6.2 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>.)</li>
+                                                <li><b>Population allele frequencies</b>: Alleles typically exist at different frequencies in different populations and this information provides useful supporting evidence for all submitted variants. Population-level allele frequencies can be provided in the INFO field of the VCF (see section 1.6.1 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>).</li>
+                                                <li><b>Individual genotypes</b>: EVA accepts individual genotypes from samples provided by donors that have consented to having their DNA sequence housed in a public database. Genotypes can be provided in the FORMAT field of the VCF (see section 1.6.2 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>).</li>
                                             </ul>
                                             </p>
 
@@ -661,36 +661,35 @@
                                                     ##fileformat=VCFv4.3
                                                     #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
                                                 </pre>
-                                            Examples of valid VCF submissions:
-                                            <ul>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27443/two_indels-CAU_100718.vcf.gz" target="_blank">PRJEB27443</a> Simple INDEL submission with allele frequencies</li>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27177/07_06_2018_pine.vcf.gz" target="_blank">PRJEB27177</a>Single sample VCF with genotype</li>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27093/68_Osativa_lines.vcf.gz" target="_blank">PRJEB27093</a> Multiple sample VCF with genotypes</li>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB4163/Sratti_lanes.recode_filtered.normalized_merged_noPL.vcf.gz" target="_blank">PRJEB4163</a> VCF with population allele frequencies and genotypes</li>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB6041/CAR_Batch123.vcf.gz" target="_blank">PRJEB6041</a> VCF with allele counts (for calculating AF)</li>
-                                            </ul>
+                                                <p>We advise submitters to consult the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a> (specifically sections 1.1 and 5) when converting data to VCF in order to ensure that files generated are valid, as this is a mandatory requirement.</p>
+                                                <b>Examples of valid VCF submissions</b><br/>
+                                                <ul>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27443/two_indels-CAU_100718.vcf.gz" target="_blank">PRJEB27443</a> - Simple INDEL submission with allele frequencies</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27177/07_06_2018_pine.vcf.gz" target="_blank">PRJEB27177</a> - Single sample VCF with genotype</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27093/68_Osativa_lines.vcf.gz" target="_blank">PRJEB27093</a> - Multiple sample VCF with genotypes</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB4163/Sratti_lanes.recode_filtered.normalized_merged_noPL.vcf.gz" target="_blank">PRJEB4163</a> - VCF with population allele frequencies and genotypes</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB6041/CAR_Batch123.vcf.gz" target="_blank">PRJEB6041</a> - VCF with allele counts (for calculating AF)</li>
+                                                </ul>
                                             </p>
                                             <p>Further examples can be found on our <a href="http://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP</a> site.</p>
-                                            <p>We advise submitters to consult the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a> (specifically sections 1.1 and 5) when converting data to VCF in order to ensure that files generated are valid, as this is a mandatory requirement.</p>
                                             <p>
                                                 <b>Useful tools for handling VCF files</b>
 
                                                 <ul>
-                                                <li>
-                                                <u>VCF Validation</u>: <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">vcf-validator</a>, <a href="https://github.com/samtools/bcftools" target="_blank">bcftools</a>
-                                                </li>
+                                                    <li>
+                                                    VCF Validation: <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a>
+                                                    </li>
 
-                                            <li>
-                                            <u>Sorting, merging and manipulation of VCF files</u>: <a href="https://github.com/samtools/bcftools" target="_blank">bcftools</a>
-                                            </li>
+                                                    <li>
+                                                    Sorting, merging and manipulation of VCF files: <a href="https://github.com/samtools/bcftools" target="_blank">bcftools</a>
+                                                    </li>
 
-                                            <li>
-                                                <u>Conversion from genotyping arrays/PED files</u>: <a href="https://www.cog-genomics.org/plink/1.9/data#recode" target="_blank">PLINK1.9</a> (using --recode vcf)
-                                                [Importantly, PLINK does not automatically know which is the REF allele in your data. You can update the reference alleles with  --reference-allele before reformatting as VCF.]
-                                            </li>
+                                                    <li>
+                                                        Conversion from genotyping arrays/PED files: <a href="https://www.cog-genomics.org/plink/1.9/data#recode" target="_blank">PLINK1.9</a> (using <i>--recode vcf</i> and <i>--reference-allele</i> to select the reference alleles)
+                                                    </li>
 
-                                            <li><u>Variant callers</u>: <a href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_haplotypecaller_HaplotypeCaller.php" target="_blank">GATK HaplotypeCaller</a>, <a href="http://www.well.ox.ac.uk/platypus-doc" target="_blank">Platypus</a>, <a href="http://varscan.sourceforge.net/" target="_blank">VarScan</a>, <a href="http://csb5.github.io/lofreq/" target="_blank">LoFreq</a>, <a href="https://github.com/ekg/freebayes" target="_blank">FreeBayes</a>, <a href="http://snver.sourceforge.net/" target="_blank">SNVer</a>, <a href="http://www.htslib.org/" target="_blank">SAMtools</a> and <a href="https://github.com/AstraZeneca-NGS/VarDict" target="_blank">VarDict</a>
-                                            </li>
+                                                    <li>Variant callers: <a href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_haplotypecaller_HaplotypeCaller.php" target="_blank">GATK HaplotypeCaller</a>, <a href="http://www.well.ox.ac.uk/platypus-doc" target="_blank">Platypus</a>, <a href="http://varscan.sourceforge.net/" target="_blank">VarScan</a>, <a href="http://csb5.github.io/lofreq/" target="_blank">LoFreq</a>, <a href="https://github.com/ekg/freebayes" target="_blank">FreeBayes</a>, <a href="http://snver.sourceforge.net/" target="_blank">SNVer</a>, <a href="http://www.htslib.org/" target="_blank">SAMtools</a> and <a href="https://github.com/AstraZeneca-NGS/VarDict" target="_blank">VarDict</a>
+                                                    </li>
                                                 </ul>
                                             </p>
                                         </div>
