@@ -266,7 +266,7 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'ids',
                     flex: 0.6,
                     iconCls: 'icon-info',
-                    tooltip: 'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)',
+                    tooltip: 'RefSnp (RS) or SubSnp (SS) identifier',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         var values = _this.getVariantId(value);
                         return values.variantId;
@@ -361,11 +361,11 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'id',
                     id: 'variant-grid-view-column',
                     xtype: 'templatecolumn',
-                    tpl: new Ext.XTemplate('<a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species={[this.getSpecies(values)]}&annotationVersion={[this.getAnnotationVersion()]}" target="_blank" class="image-link"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>' +
-                        '&nbsp;<tpl if="this.getEnsemblURL(values)"><a href="{[this.getEnsemblURL(values)]}" class="image-link ensembl_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'Ensembl Link\', eventLabel:this})"><img class="eva-grid-img-active" src="img/ensembl_logo.png"/></a>' +
-                        '<tpl else><img style="opacity:0.2" class="eva-grid-img-inactive src="img/ensembl_logo.png"/></span></tpl>' +
+                    tpl: new Ext.XTemplate('<a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species={[this.getSpecies(values)]}&annotationVersion={[this.getAnnotationVersion()]}" target="_blank" class="image-link"><img class="eva-grid-img-active" src="img/eva_logo.png"></a>' +
+                        '&nbsp;<tpl if="this.getEnsemblURL(values)"><a href="{[this.getEnsemblURL(values)]}" class="image-link ensembl_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'Ensembl Link\', eventLabel:this})"><img class="eva-grid-img-active" src="img/ensembl_logo.png" alt="Ensembl link enabled"></a>' +
+                        '<tpl else><img class="image-link eva-grid-img-inactive" src="img/ensembl_logo.png" alt="Ensembl link disabled"></tpl>' +
                         '&nbsp;<tpl if="this.getDbsnpURL(values)"><a href="{[this.getDbsnpURL(values)]}" class="image-link dbsnp_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'dbSNP Link\', eventLabel:this})"><span>dbSNP</span></a>' +
-                        '<tpl else><span style="opacity:0.2" class="eva-grid-img-inactive">dbSNP</span></tpl>',
+                        '<tpl else><span class="eva-grid-img-inactive">dbSNP</span></tpl>',
                         {
                             getEnsemblURL: function (value) {
                                 var values = _this.getVariantId(value.ids);
