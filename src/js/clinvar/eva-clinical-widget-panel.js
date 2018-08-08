@@ -105,8 +105,8 @@ EvaClinicalWidgetPanel.prototype = {
                 titlePosition: 1
             },
             title:'<nav aria-label="You are here:" role="navigation"><ul class="breadcrumbs"><li><a href="?Home">EVA</a></li><li><span class="show-for-sr">Current: </span>Clinical Browser</li></ul></nav><h2>Clinical Browser</h2>' +
-            '<div class="callout alert"><p style="white-space:normal">This browser will be deprecated on 1st September 2018. It will still be possible to find this information using the ' +
-            '<a href="https://www.ensembl.org/Homo_sapiens/Variation/Phenotype?db=core;r=13:32315961-32316961;v=rs863224464;vdb=variation;vf=149256973" target="_blank">Ensembl phenotype view</a>.</p></div>' +
+            '<div class="callout alert"><p style="white-space:normal">This browser will be deprecated on 1st September 2018. It will still be possible to find this information using the Ensembl ' +
+            '<a href="http://www.ensembl.org/Homo_sapiens/Location/Variant/Table?g=ENSG00000158158" target="_blank">variant table</a> and <a href="https://www.ensembl.org/Homo_sapiens/Variation/Phenotype?db=core;r=13:32315961-32316961;v=rs863224464;vdb=variation;vf=149256973" target="_blank">phenotype view</a>.</p></div>' +
             '<div class="eva-panel-header-para"><p>Search ClinVar (release 04-2017) using any combination of the filtering options on the left hand-side.</p>' +
             '<p>Search results can be exported in CSV format and individual variants can be further investigated using the in-depth ClinVar Data tabs found below the main results table.</p></div>',
             layout: {

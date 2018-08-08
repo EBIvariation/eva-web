@@ -48,7 +48,10 @@ body {
 }
 
 .eva-grid-img-inactive {
+    width: 16px;
+    height: 16px;
     opacity: 0.2;
+    filter: alpha(opacity=20); /* For IE8 and earlier */
 }
 
 .eva-child {

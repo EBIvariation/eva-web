@@ -92,6 +92,13 @@ ClinvarAssertionPanel.prototype = {
                     html: '<h4>Clinical Assertions</h4>',
                     margin: '5 0 10 10'
                 },
+                {
+                    xtype: 'box',
+                    cls: 'callout alert',
+                    html: '<p style="white-space:normal">Clinical assertions will be deprecated on 1st September 2018. It will still be possible to find this information using the Ensembl ' +
+            '<a href="http://www.ensembl.org/Homo_sapiens/Location/Variant/Table?g=ENSG00000158158" target="_blank">variant table</a> and <a href="https://www.ensembl.org/Homo_sapiens/Variation/Phenotype?db=core;r=13:32315961-32316961;v=rs863224464;vdb=variation;vf=149256973" target="_blank">phenotype view</a>.</p>',
+                    margin: '5 0 10 10'
+                },
                 this.assertionContainer
             ],
             height: this.height
