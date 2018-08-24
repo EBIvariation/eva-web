@@ -334,13 +334,6 @@ EvaVariantWidgetPanel.prototype = {
             }
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
-
-            if (e.species == 'hsapiens_grch37') {
-                _this.variantWidget.toolTabPanel.getComponent(4).tab.show();
-            } else {
-                _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
-            }
-
         });
 
         var conseqTypeFilter = new EvaConsequenceTypeFilterFormPanel({
