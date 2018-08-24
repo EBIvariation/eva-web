@@ -20,7 +20,6 @@
 var config = require('./config.js');
 config.loadModules();
 var variantBrowser = require('./variant_browser_bottom_panel_tests.js');
-var clinicalBrowser = require('./clinvar_bottom_panel_tests.js');
 
 test.describe('Variant Browser ('+config.browser()+')', function() {
     var driver;
@@ -146,15 +145,6 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
         test.it('Population Statistics should not be empty and no duplicate Items ', function() {
             variantPopulationTab(driver);
-        });
-        test.it('Clinical Assertion Tab should not be empty and no duplicate items ', function() {
-            clinicalAssertionTab(driver);
-        });
-    });
-
-    test.describe('Show data in Clinical Browser', function() {
-        test.it('Clicking "Show in Clinical Browser" button should go to "Clinical Browser" and click back should go back to "Variant Browser"', function() {
-            showDataInClinicalBrowser(driver);
         });
     });
 
@@ -625,38 +615,6 @@ function variantPopulationTab(driver){
     driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
     variantBrowser.populationTab(driver);
     return driver;
-}
-
-function clinicalAssertionTab(driver){
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
-    driver.findElement(By.name("region")).clear();
-    driver.findElement(By.name("region")).sendKeys('2:48009816-48009816');
-    driver.findElement(By.id("vb-submit-button")).click();
-    driver.findElement(By.xpath("//span[text()='Clinical Assertion']")).click();
-    config.sleep(driver);
-    clinicalBrowser.clinVarAssertionTab(driver, 'variant-widget');
-    return driver;
-}
-
-function showDataInClinicalBrowser(driver){
-    driver.findElement(By.xpath("//span[text()='Reset']")).click();
-    config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.id("clinvar-button")).click();
-    });
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")).getText().then(function(text){
-            assert(text).equalTo('13');
-        });
-    });
-    driver.navigate().back();
-
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, '13');
-        });
-    });
 }
 
 function variantReset(driver) {
