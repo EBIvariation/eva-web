@@ -135,7 +135,6 @@
                         <li><a>Submit Data</a></li>
                         <li><a>Study Browser</a></li>
                         <li><a>Variant Browser</a></li>
-                        <li><a>Clinical Browser</a></li>
                         <li><a>GA4GH</a></li>
                         <li><a>API</a></li>
                         <li><a>dbSNP Import Progress</a></li>
@@ -508,7 +507,8 @@
                                 <li><a href="#how-to-search-existing-dbsnp">How can I search EVA with existing dbSNP accessions?</a></li>
                                 <li><a href="#can-download-accesioned-variants">Can I download accessioned variants from the EVA?</a></li>
                                 <li><a href="#how-to-track-variants">How can I track variants that have been generated, merged and/or deprecated over time?</a></li>
-                                <li><a href="#data-shown-clinical-browser">What data is shown in the EVA Clinical Browser?</a></li>
+                                <li><a href="#data-shown-clinical-browser">What data is shown in the EVA Clinical
+                                    Browser?</a></li> <!--TODO-remove-clinical-->
                             </ul>
                             <ul class="accordion" data-accordion>
                                 <div id="how-to-consume-variant-data">
@@ -572,7 +572,7 @@
                                         </div>
                                     </li>
                                 </div>
-                                <div id="data-shown-clinical-browser">
+                                <div id="data-shown-clinical-browser"><!--TODO-remove-clinical-->
                                     <li class="accordion-item is-active" data-accordion-item>
                                         <a class="accordion-title"><h5>What data is shown in the EVA Clinical Browser?</h5></a>
                                         <div class="accordion-content" data-tab-content>
@@ -1089,18 +1089,6 @@
                     </div>
                     <div id="variantViewContent"></div>
                 </div>
-                <div id="geneView" class="hide-div">
-                    <nav aria-label="You are here:" role="navigation">
-                        <ul class="breadcrumbs">
-                            <li><a href="?Home">EVA</a></li>
-                            <li><a href="?Clinical Browser">Clinical Browser</a></li>
-                            <li>
-                                <span class="show-for-sr">Current: </span> Gene View
-                            </li>
-                        </ul>
-                    </nav>
-                    <div id="geneViewContent"></div>
-                </div>
                 <div id="dbSNPImport" class="hide-div">
                     <nav aria-label="You are here:" role="navigation">
                         <ul class="breadcrumbs">
@@ -1171,7 +1159,6 @@
 <script type="text/javascript" src="js/variant-widget/eva-variant-population-stats-panel.js"></script>
 <script type="text/javascript" src="js/views/eva-study-view.js"></script>
 <script type="text/javascript" src="js/views/eva-variant-view.js"></script>
-<script type="text/javascript" src="js/views/eva-gene-view.js"></script>
 <script type="text/javascript" src="js/statistics/eva-statistics.js"></script>
 <script type="text/javascript" src="js/statistics/dgva-statistics.js"></script>
 <script type="text/javascript" src="js/beacon-form/eva-beacon-form.js"></script>
@@ -1185,15 +1172,7 @@
 <script type="text/javascript" src="js/variant-widget/filters/eva-protein-substitutions-score-filter-form-panel.js"></script>
 <script type="text/javascript" src="js/variant-widget/filters/eva-consequence-type-filter-form-panel.js"></script>
 <script type="text/javascript" src="js/variant-widget/filters/eva-conservation-score-filter-form-panel.js"></script>
-<script type="text/javascript" src="js/clinvar/eva-clinical-widget-panel.js"></script>
-<script type="text/javascript" src="js/clinvar/eva-clinvar-widget.js"></script>
-<script type="text/javascript" src="js/clinvar/eva-clinvar-browser-grid.js"></script>
-<script type="text/javascript" src="js/clinvar/filters/eva-clinvar-position-filter-form-panel.js"></script>
-<script type="text/javascript" src="js/clinvar/filters/eva-clinvar-filter-form-panel.js"></script>
-<script type="text/javascript" src="js/clinvar/filters/eva-clinvar-trait-filter-form-panel.js"></script>
-<script type="text/javascript" src="js/clinvar/eva-clinvar-summary-panel.js"></script>
 <script type="text/javascript" src="js/clinvar/eva-clinvar-assertion-panel.js"></script>
-<script type="text/javascript" src="js/clinvar/eva-clinvar-links-panel.js"></script>
 <script type="text/javascript" src="js/clinvar/eva-clinvar-annotation-panel.js"></script>
 <script type="text/javascript" src="js/dbSNP-import/dbSNP-import-progress.js"></script>
 <script type="text/javascript" src="js/eva.js"></script>
@@ -1222,7 +1201,6 @@
         var feedbackDiv = document.querySelector('#feedback');
         var studyViewDiv = document.querySelector('#studyView');
         var variantViewDiv = document.querySelector('#variantView');
-        var geneViewDiv = document.querySelector('#geneView');
         var apiDiv =  document.querySelector('#api');
         var helpDiv = document.querySelector('#help-section');
         var dbSNPImportDiv = document.querySelector('#dbSNPImport');
@@ -1259,15 +1237,6 @@
             $(window).trigger('resize');
         }
 
-        if(tabId == 'gene'){
-            var variantSpecies = $.urlParam('species');
-            var evaGeneView = new EvaGeneView({
-                target:'geneViewContent',
-                geneId:tab.value,
-                species:variantSpecies
-            });
-        }
-
         Ext.getBody().removeCls('x-body');
         var ulLocalNav = document.querySelector('.eva-primary-menu');
 
@@ -1280,7 +1249,6 @@
             feedbackDiv:feedbackDiv,
             studyView:studyViewDiv,
             variantView:variantViewDiv,
-            geneView:geneViewDiv,
             apiDiv:apiDiv,
             helpDiv:helpDiv,
             dbSNPImportDiv:dbSNPImportDiv

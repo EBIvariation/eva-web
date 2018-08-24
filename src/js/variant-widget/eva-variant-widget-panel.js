@@ -337,10 +337,8 @@ EvaVariantWidgetPanel.prototype = {
 
             if (e.species == 'hsapiens_grch37') {
                 _this.variantWidget.toolTabPanel.getComponent(4).tab.show();
-                Ext.getCmp('clinvar-button').show();
             } else {
                 _this.variantWidget.toolTabPanel.getComponent(4).tab.hide();
-                Ext.getCmp('clinvar-button').hide();
             }
 
         });

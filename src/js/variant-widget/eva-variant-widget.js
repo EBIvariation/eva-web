@@ -536,7 +536,7 @@ EvaVariantWidget.prototype = {
             xtype: 'toolbar',
             dock: 'bottom',
             border: false,
-            items: ['Results per Page: ', resultsPerPage,exportCSVButton,clincalButton]
+            items: ['Results per Page: ', resultsPerPage,exportCSVButton]
         });
 
         resultsPerPage.on('select', function (combo, record) {

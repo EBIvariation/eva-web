@@ -75,10 +75,6 @@ Eva.prototype = {
         $(this.variantView).addClass('eva-child');
         this.childDivMenuMap['variant'] = this.variantView;
 
-        /* geneView */
-        $(this.geneView).addClass('eva-child');
-        this.childDivMenuMap['gene'] = this.geneView;
-
         /* FAQ */
         $(this.faqDiv).addClass('eva-child');
         this.childDivMenuMap['Help'] = this.helpDiv;
@@ -178,16 +174,6 @@ Eva.prototype = {
                     this.beaconPanel = this._createBeaconPanel(this.contentDiv);
                 }
                 break;
-            case 'Clinical Browser':
-                if (this.clinicalWidgetPanel) {
-                    this.clinicalWidgetPanel.show();
-                } else {
-                    this.clinicalWidgetPanel = this._createClinicalWidgetPanel(this.contentDiv);
-                    this.select('Clinical Browser');
-                    this.clinicalWidgetPanel.panel.updateLayout();
-                    this.clinicalWidgetPanel.formPanelClinvarFilter.trigger('submit', {values: this.clinicalWidgetPanel.formPanelClinvarFilter.getValues(), sender: _this});
-                    // this.pushURL(option, false);
-                }
             case 'Help':
                 var hash = document.location.hash;
                 var tabHash = hash.split('&');
@@ -384,78 +370,6 @@ Eva.prototype = {
         });
         evaBeacon.draw();
         return evaBeacon;
-
-    },
-    _createClinicalWidgetPanel: function (target) {
-
-        var clinvarRegion = '13:32889611-32973805';
-        var filter = 'region';
-        var accessionId = 'RCV000030271';
-        var gene = 'MSH6';
-        var so = '';
-        var phenotype = '';
-        var type = '';
-        var significance = '';
-        var review = '';
-        var pushURL = true;
-
-
-        if (!_.isEmpty($.urlParam('clinvarRegion'))) {
-            clinvarRegion = decodeURIComponent($.urlParam('clinvarRegion'));
-        }
-
-        if (!_.isEmpty($.urlParam('clinvarSelectFilter'))) {
-            filter = decodeURIComponent($.urlParam('clinvarSelectFilter'))
-        }
-
-        if (!_.isEmpty($.urlParam('accessionId'))) {
-            accessionId = decodeURIComponent($.urlParam('accessionId'))
-        }
-
-        if (!_.isEmpty($.urlParam('gene'))) {
-            gene = decodeURIComponent($.urlParam('gene'))
-        }
-
-        if (!_.isEmpty($.urlParam('so'))) {
-            so = decodeURIComponent($.urlParam('so'))
-        }
-
-        if (!_.isEmpty($.urlParam('type'))) {
-            type = decodeURIComponent($.urlParam('type'))
-        }
-
-        if (!_.isEmpty($.urlParam('phenotype'))) {
-            phenotype = decodeURIComponent($.urlParam('phenotype'))
-        }
-
-        if (!_.isEmpty($.urlParam('significance'))) {
-            significance = decodeURIComponent($.urlParam('significance'))
-        }
-
-        if (!_.isEmpty($.urlParam('review'))) {
-            review = decodeURIComponent($.urlParam('review'))
-        }
-
-        var tab = getUrlParameters('');
-        if(tab && decodeURI(tab.id) == 'Clinical Browser') {
-            pushURL = false;
-        }
-
-        var evaClinicalWidgetPanel = new EvaClinicalWidgetPanel({
-            target: target,
-            filter: filter,
-            clinvarRegion: clinvarRegion,
-            gene: gene,
-            accessionId: accessionId,
-            selectSO: so,
-            phenotype: phenotype,
-            type: type,
-            significance: significance,
-            review: review,
-            pushURL:pushURL
-        });
-        evaClinicalWidgetPanel.draw();
-        return evaClinicalWidgetPanel;
 
     },
     pushURL: function (option, replace) {
