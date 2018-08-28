@@ -329,7 +329,7 @@ EvaVariantWidgetPanel.prototype = {
                 case 'zmays_agpv4':
                     defaultRegion = '6:166875000-166876000';
                     break;
-		        case 'pyedoensis_pynv1':
+                case 'pyedoensis_pynv1':
                     defaultRegion = 'Pyn_C0000:4000-6000';
                     break;
                 default:
