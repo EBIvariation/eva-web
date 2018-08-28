@@ -127,6 +127,13 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('check Ensembl link href', function() {
+        test.it('should match with Variant ID,\n' +
+            'Variant ID ex: rs541552030 should have "http://www.ensembl.org/Homo_sapiens/Variation/Explore?v="\n', function() {
+            checkEnsemblLink(driver);
+        });
+    });
+
     test.describe('Bottom Panel', function() {
         test.it('Annotation Tab should not be empty', function() {
             variantAnnotationTab(driver);
@@ -258,6 +265,23 @@ function checkdbSNPLink(driver){
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div//a[contains(@class,'dbsnp_link')]")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[3]/div[text()]")).getText().then(function(variantID){
                 assert(text).equalTo('http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs='+variantID);
+            });
+        });
+    });
+}
+
+function checkEnsemblLink(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.findElement(By.id("selectFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    driver.findElement(By.name("snp")).clear();
+    driver.findElement(By.name("snp")).sendKeys("rs541552030");
+    driver.findElement(By.id("vb-submit-button")).click();
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div[text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[contains(@class,'ensembl_link')]")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
+                assert(text).equalTo('http://www.ensembl.org/Homo_sapiens/Variation/Explore?v='+variantID);
             });
         });
     });
