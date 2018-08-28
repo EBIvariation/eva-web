@@ -266,7 +266,7 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'ids',
                     flex: 0.6,
                     iconCls: 'icon-info',
-                    tooltip: 'dbSNP ID(Human), TransPlant ID(Plant) and Submitted ID(others)',
+                    tooltip: 'RefSnp (RS) or SubSnp (SS) identifier',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         var values = _this.getVariantId(value);
                         return values.variantId;
@@ -361,11 +361,17 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'id',
                     id: 'variant-grid-view-column',
                     xtype: 'templatecolumn',
-                    tpl: new Ext.XTemplate('<a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species={[this.getSpecies(values)]}&annotationVersion={[this.getAnnotationVersion()]}" target="_blank" class="image-link"><img class="eva-grid-img-active" src="img/eva_logo.png"/></a>' +
-                        '&nbsp;<tpl if="this.getURL(values)"><a href="{[this.getURL(values)]}" class="image-link dbsnp_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'dbSNP Link\', eventLabel:this})"><span>dbSNP</span></a>' +
-                        '<tpl else><span  style="opacity:0.2" class="eva-grid-img-inactive ">dbSNP</span></tpl>',
+                    tpl: new Ext.XTemplate('<a href="?variant={chromosome}:{start}:{reference:htmlEncode}:{alternate:htmlEncode}&species={[this.getSpecies(values)]}&annotationVersion={[this.getAnnotationVersion()]}" target="_blank" class="image-link"><img class="eva-grid-img-active" src="img/eva_logo.png"></a>' +
+                        '&nbsp;<tpl if="this.getEnsemblURL(values)"><a href="{[this.getEnsemblURL(values)]}" class="image-link ensembl_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'Ensembl Link\', eventLabel:this})"><img class="eva-grid-img-active" src="img/ensembl_logo.png" alt="Ensembl link enabled"></a>' +
+                        '<tpl else><img class="image-link eva-grid-img-inactive" src="img/ensembl_logo.png" alt="Ensembl link disabled"></tpl>' +
+                        '&nbsp;<tpl if="this.getDbsnpURL(values)"><a href="{[this.getDbsnpURL(values)]}" class="image-link dbsnp_link" target="_blank" onclick="ga(\'send\', \'event\', { eventCategory: \'Variant Browser\', eventAction: \'dbSNP Link\', eventLabel:this})"><span>dbSNP</span></a>' +
+                        '<tpl else><span class="eva-grid-img-inactive">dbSNP</span></tpl>',
                         {
-                            getURL: function (value) {
+                            getEnsemblURL: function (value) {
+                                var values = _this.getVariantId(value.ids);
+                                return values.ensemblURL;
+                            },
+                            getDbsnpURL: function (value) {
                                 var values = _this.getVariantId(value.ids);
                                 return values.dbsnpURL;
                             },
@@ -1020,6 +1026,7 @@ EvaVariantWidget.prototype = {
     },
     getVariantId: function (value) {
         var id = value;
+        var ensemblURL = '';
         var dbsnpURL = '';
         var rsRegEx = /^rs\d+$/;
         var ssRegEx = /^ss\d+$/;
@@ -1055,17 +1062,21 @@ EvaVariantWidget.prototype = {
         }
 
         if (id.match (rsRegEx)) {
+            ensemblURL = 'http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=' + id;
             dbsnpURL = 'http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs=' + id;
         } else if (id.match (ssRegEx)) {
+            ensemblURL = 'http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=' + id;
             dbsnpURL = 'http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id=' + id.substring (2);
         } else {
+            ensemblURL = false;
             dbsnpURL = false;
         }
 
-        var values = {variantId: id, dbsnpURL: dbsnpURL};
+        var values = {variantId: id, ensemblURL: ensemblURL, dbsnpURL: dbsnpURL};
 
         return values;
     },
+
     loadBottomPanel : function (panel, variant){
         var _this = this;
         if(!variant.reference){
