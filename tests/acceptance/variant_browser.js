@@ -148,6 +148,21 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         });
     });
 
+    test.describe('check Annotation Tab ensembl links', function() {
+        test.it('should match with Gen ID,\n' +
+            'Gen ID ex ENSG00000139618: should have "http://www.ensembl.org/Homo_sapiens/Gene/Summary?g="\n', function() {
+            checkGeneIdEnsemblLink(driver);
+        });
+        test.it('should match with Gen Symbol,\n' +
+            'Gen Symbol ex BRCA2: should have "http://www.ensembl.org/Homo_sapiens/Gene/Summary?g="\n', function() {
+            checkGeneSymbolEnsemblLink(driver);
+        });
+        test.it('should match with Transcript ID,\n' +
+            'Transcript ID ex ENST00000530893: should have "http://www.ensembl.org/Homo_sapiens/Transcript/Summary?t="\n', function() {
+            checkTranscriptIdEnsemblLink(driver);
+        });        
+    });
+
     test.describe('Reset button', function() {
         test.it('Clicking "Reset" button should add default values', function() {
             variantReset(driver);
@@ -565,6 +580,56 @@ function checkAnnotationNotification(driver){
     return driver;
 }
 
+function checkGeneIdEnsemblLink(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
+    driver.findElement(By.id("vb-submit-button")).click();
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div//a")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")).getText().then(function(geneID){
+                assert(text).contains('http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+geneID);
+            });
+        });
+    });
+}
+
+function checkGeneSymbolEnsemblLink(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
+    driver.findElement(By.id("vb-submit-button")).click();
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div//a")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")).getText().then(function(geneSymbol){
+                assert(text).contains('http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+geneSymbol);
+            });
+        });
+    });
+}
+
+function checkTranscriptIdEnsemblLink(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
+    driver.findElement(By.id("vb-submit-button")).click();
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div//a")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")).getText().then(function(TranscriptID){
+                assert(text).contains('http://www.ensembl.org/Homo_sapiens/Transcript/Summary?t='+TranscriptID);
+            });
+        });
+    });
+}
 
 function variantAnnotationTab(driver){
     driver.findElement(By.xpath("//span[text()='Reset']")).click();

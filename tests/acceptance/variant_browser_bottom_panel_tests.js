@@ -70,20 +70,20 @@ module.exports = {
     },
     annotationTab:function(driver){
         config.sleep(driver);
-        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
+        driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")), config.wait()).then(function(text) {
             driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//div[contains(@id,'_annotatPagingToolbar-targetEl')]//div[contains(text(), 'Transcripts 1 -')]")).getText().then(function(text) {
                 var rows = parseInt(text.split(" ")[3]);
                 for (var i = 1; i <= rows; i++) {
                     //check Ensemble Gene ID
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[1]/div[text()]")).getText().then(function(text){
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[1]/div[//a/text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[A-Z]+/);
                     });
                     //check Ensemble Gene symbol
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[2]/div[text()]")).getText().then(function(text){
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[2]/div[//a/text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^\w[\w\d-]+$/);
                     });
                     //check Ensemble Transcript ID
-                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div[text()]")).getText().then(function(text){
+                    driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table["+i+"]//td[3]/div[//a/text()]")).getText().then(function(text){
                         assert(text).matches(/^-$|^[A-Z]+/);
                     });
                     //check Biotype
