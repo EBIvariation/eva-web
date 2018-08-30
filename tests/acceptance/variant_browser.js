@@ -150,15 +150,15 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
 
     test.describe('check Annotation Tab ensembl links', function() {
         test.it('should match with Gen ID,\n' +
-            'Gen ID ex ENSG00000139618: should have "http://www.ensembl.org/Homo_sapiens/Gene/Summary?g="\n', function() {
+            'Gen ID ex ENSG00000139618: should have "http://www.ensembl.org/Multi/Search/Results?q=ENSG00000139618;facet_feature_type=Gene"\n', function() {
             checkGeneIdEnsemblLink(driver);
         });
         test.it('should match with Gen Symbol,\n' +
-            'Gen Symbol ex BRCA2: should have "http://www.ensembl.org/Homo_sapiens/Gene/Summary?g="\n', function() {
+            'Gen Symbol ex BRCA2: should have "http://www.ensembl.org/Multi/Search/Results?q=BRCA2;facet_feature_type=Gene"\n', function() {
             checkGeneSymbolEnsemblLink(driver);
         });
         test.it('should match with Transcript ID,\n' +
-            'Transcript ID ex ENST00000530893: should have "http://www.ensembl.org/Homo_sapiens/Transcript/Summary?t="\n', function() {
+            'Transcript ID ex ENST00000530893: should have "http://www.ensembl.org/Multi/Search/Results?q=ENST00000530893;facet_feature_type=Transcript"\n', function() {
             checkTranscriptIdEnsemblLink(driver);
         });        
     });
