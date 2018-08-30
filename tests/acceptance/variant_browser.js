@@ -591,7 +591,7 @@ function checkGeneIdEnsemblLink(driver){
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div//a")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")).getText().then(function(geneID){
-                assert(text).contains('http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+geneID);
+                assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+geneID+';facet_feature_type=Gene');
             });
         });
     });
@@ -608,7 +608,7 @@ function checkGeneSymbolEnsemblLink(driver){
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div//a")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")).getText().then(function(geneSymbol){
-                assert(text).contains('http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+geneSymbol);
+                assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+geneSymbol+';facet_feature_type=Gene');
             });
         });
     });
@@ -625,7 +625,7 @@ function checkTranscriptIdEnsemblLink(driver){
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div//a")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")).getText().then(function(TranscriptID){
-                assert(text).contains('http://www.ensembl.org/Homo_sapiens/Transcript/Summary?t='+TranscriptID);
+                assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+TranscriptID+';facet_feature_type=Transcript');
             });
         });
     });

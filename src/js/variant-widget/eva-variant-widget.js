@@ -550,21 +550,21 @@ EvaVariantWidget.prototype = {
                     dataIndex: "ensemblGeneId",
                     flex: 1.4,
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Multi/Search/Results?q={ensemblGeneId};facet_feature_type=Gene" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br /> Gene Symbol",
                     dataIndex: "geneName",
                     xtype: "templatecolumn",
                     flex: 0.9,
-                    tpl: '<tpl if="geneName"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={geneName}" target="_blank">{geneName}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="geneName"><a href="http://www.ensembl.org/Multi/Search/Results?q={geneName};facet_feature_type=Gene" target="_blank">{geneName}</a><tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br />Transcript ID",
                     dataIndex: "ensemblTranscriptId",
                     flex: 1.3,
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/Transcript/Summary?t={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Multi/Search/Results?q={ensemblTranscriptId};facet_feature_type=Transcript" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br />Transcript Biotype",
