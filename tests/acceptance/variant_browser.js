@@ -588,9 +588,9 @@ function checkGeneIdEnsemblLink(driver){
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div//a")).getAttribute('href').then(function(text){
-            driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")).getText().then(function(geneID){
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[1]/div//a")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")).getText().then(function(geneID){
                 assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+geneID+';facet_feature_type=Gene');
             });
         });
@@ -605,9 +605,9 @@ function checkGeneSymbolEnsemblLink(driver){
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div//a")).getAttribute('href').then(function(text){
-            driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")).getText().then(function(geneSymbol){
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div//a")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")).getText().then(function(geneSymbol){
                 assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+geneSymbol+';facet_feature_type=Gene');
             });
         });
@@ -622,9 +622,9 @@ function checkTranscriptIdEnsemblLink(driver){
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     driver.findElement(By.id("vb-submit-button")).click();
     config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div//a")).getAttribute('href').then(function(text){
-            driver.findElement(By.xpath("//div[contains(@id,'ClinVarAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")).getText().then(function(TranscriptID){
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div//a")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")).getText().then(function(TranscriptID){
                 assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+TranscriptID+';facet_feature_type=Transcript');
             });
         });

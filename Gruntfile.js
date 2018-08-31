@@ -189,6 +189,7 @@ module.exports = function (grunt) {
                     'src/js/variant-widget/eva-variant-files-panel.js',
                     'src/js/variant-widget/eva-variant-genotype-grid-panel.js',
                     'src/js/variant-widget/eva-variant-population-stats-panel.js',
+                    'src/js/variant-widget/eva-variant-annotation-panel.js',
                     'src/js/variant-widget/filters/eva-form-panel.js',
                     'src/js/variant-widget/filters/eva-species-filter-form-panel.js',
                     'src/js/variant-widget/filters/eva-study-filter-form-panel.js',
@@ -210,7 +211,6 @@ module.exports = function (grunt) {
                     'src/js/beacon-form/eva-beacon-panel.js',
                     'src/js/beacon-form/eva-beacon-form.js',
                     'src/js/beacon-form/eva-variant-search-form.js',
-                    'src/js/clinvar/eva-clinvar-annotation-panel.js',
                     'src/js/dbSNP-import/dbSNP-import-progress.js',
                     'src/js/eva.js',
                     'src/js/eva-google-analytics.js '

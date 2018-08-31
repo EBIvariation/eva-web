@@ -653,7 +653,7 @@ EvaVariantWidget.prototype = {
                 sortable: true
             }
         };
-        var annotationPanel = new ClinvarAnnotationPanel({
+        var annotationPanel = new VariantAnnotationPanel({
             target: target,
             height: 800,
             columns: annotationColumns
