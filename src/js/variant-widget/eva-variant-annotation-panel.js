@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function ClinvarAnnotationPanel(args) {
+function VariantAnnotationPanel(args) {
     _.extend(this, Backbone.Events);
-    this.id = Utils.genId("ClinVarAnnotationDataPanel");
+    this.id = Utils.genId("VariantAnnotationDataPanel");
 
     this.target;
     this.title = "Stats";
@@ -115,7 +115,7 @@ function ClinvarAnnotationPanel(args) {
     }
 }
 
-ClinvarAnnotationPanel.prototype = {
+VariantAnnotationPanel.prototype = {
     render: function () {
         var _this = this;
 

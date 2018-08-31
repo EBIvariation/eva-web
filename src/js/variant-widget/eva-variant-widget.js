@@ -176,16 +176,6 @@ EvaVariantWidget.prototype = {
             });
         }
 
-        if (this.defaultToolConfig.clinvarAssertion) {
-            this.clinvarAssertionPanelDiv = document.createElement('div');
-            this.clinvarAssertionPanelDiv.setAttribute('class', 'ocb-variant-rawdata-panel');
-            this.clinvarAssertionPanel = this._createClinvarAssertionPanel(this.clinvarAssertionPanelDiv);
-            tabPanelItems.push({
-                title: 'Clinical Assertion',
-                contentEl: this.clinvarAssertionPanelDiv
-            });
-        }
-
         for (var i = 0; i < this.tools.length; i++) {
             var tool = this.tools[i];
             var toolDiv = document.createElement('div');
@@ -233,10 +223,6 @@ EvaVariantWidget.prototype = {
 
         if (this.defaultToolConfig.populationStats) {
             this.variantPopulationStatsPanel.draw();
-        }
-
-        if (this.defaultToolConfig.clinvarAssertion) {
-            this.clinvarAssertionPanel.draw();
         }
 
 
@@ -493,50 +479,11 @@ EvaVariantWidget.prototype = {
             }
         };
 
-        var clincalButton = {
-            xtype: 'button',
-            text: 'Show in Clinical Browser',
-            id:'clinvar-button',
-            style: {
-                borderStyle: 'solid'
-            },
-            listeners: {
-                click: {
-                    element: 'el', //bind to the underlying el property on the panel
-                    fn: function () {
-                        var queryURL;
-                        //sending tracking data to Google Analytics
-                        ga('send', 'event', { eventCategory: 'Variant Browser', eventAction: 'Show in Clinical Browser', eventLabel:'Clicked'});
-                        if (_this.values.selectFilter == 'gene') {
-                            queryURL = 'clinvarSelectFilter=gene&gene='+_this.values.gene;
-                        } else if (_this.values.selectFilter == 'region') {
-                            queryURL = 'clinvarSelectFilter=region&clinvarRegion='+_this.values.region;
-                        } else {
-                            if (variantBrowserGrid.store.getTotalCount() > 1) {
-                                var totalRecordsStore = _this._getAllRecordStore(variantBrowserGrid);
-                                totalRecordsStore.on( 'load', function( store, records, options ) {
-                                    queryURL = 'clinvarSelectFilter=region&clinvarRegion='+_.first(records).data.chromosome+':'+_.first(records).data.start+'-'+ _.last(records).data.end;
-                                    window.location = '?Clinical Browser&'+queryURL;
-                                });
-                                return;
-                            } else {
-                                queryURL = 'clinvarSelectFilter=region&clinvarRegion='+_this.lastVariant.chromosome+':'+_this.lastVariant.start+'-'+_this.lastVariant.end;
-                            }
-                        }
-
-                        window.location = '?Clinical Browser&'+queryURL;
-
-
-                    }
-                }
-            }
-        };
-
         variantBrowserGrid.grid.addDocked({
             xtype: 'toolbar',
             dock: 'bottom',
             border: false,
-            items: ['Results per Page: ', resultsPerPage,exportCSVButton,clincalButton]
+            items: ['Results per Page: ', resultsPerPage,exportCSVButton]
         });
 
         resultsPerPage.on('select', function (combo, record) {
@@ -603,23 +550,21 @@ EvaVariantWidget.prototype = {
                     dataIndex: "ensemblGeneId",
                     flex: 1.4,
                     xtype: "templatecolumn",
-//                    tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>'
-                    tpl: '<tpl if="ensemblGeneId">{ensemblGeneId}<tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Multi/Search/Results?q={ensemblGeneId};facet_feature_type=Gene" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br /> Gene Symbol",
                     dataIndex: "geneName",
                     xtype: "templatecolumn",
                     flex: 0.9,
-                    tpl: '<tpl if="geneName">{geneName}<tpl else>-</tpl>'
+                    tpl: '<tpl if="geneName"><a href="http://www.ensembl.org/Multi/Search/Results?q={geneName};facet_feature_type=Gene" target="_blank">{geneName}</a><tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br />Transcript ID",
                     dataIndex: "ensemblTranscriptId",
                     flex: 1.3,
                     xtype: "templatecolumn",
-//                    tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>'
-                    tpl: '<tpl if="ensemblTranscriptId">{ensemblTranscriptId}<tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Multi/Search/Results?q={ensemblTranscriptId};facet_feature_type=Transcript" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br />Transcript Biotype",
@@ -708,7 +653,7 @@ EvaVariantWidget.prototype = {
                 sortable: true
             }
         };
-        var annotationPanel = new ClinvarAnnotationPanel({
+        var annotationPanel = new VariantAnnotationPanel({
             target: target,
             height: 800,
             columns: annotationColumns
@@ -825,52 +770,6 @@ EvaVariantWidget.prototype = {
         });
 
         return variantGenotypeGridPanel;
-    },
-    _createClinvarAssertionPanel: function (target) {
-        var _this = this;
-        var assertionPanel = new ClinvarAssertionPanel ({
-            target: target,
-            headerId:'vb-clinical-assertion-header',
-        });
-
-        this.variantBrowserGrid.on ("variant:clear", function (e) {
-            assertionPanel.clear (true);
-        });
-
-        this.on ("variant:change", function (e) {
-            if (_.isUndefined (e.variant)) {
-                assertionPanel.clear (true);
-            } else {
-                if (target.id === _this.selectedToolDiv.id) {
-                    var region = e.variant.chromosome + ':' + e.variant.start + '-' + e.variant.end;
-                    var params = {source: 'clinvar', species: 'hsapiens_grch37', 'region': region};
-                    EvaManager.get ({
-                        host: CELLBASE_HOST,
-                        version: CELLBASE_VERSION,
-                        category: 'hsapiens/feature/clinical',
-                        resource: 'all',
-                        params: params,
-                        async: false,
-                        success: function (response) {
-                            var clinvarRecord;
-                            try {
-                                clinvarRecord = response.response[0].result[0];
-                            } catch (e) {
-                                console.log (e);
-                            }
-                            if (_.isUndefined(clinvarRecord)) {
-                                Ext.getCmp(assertionPanel.headerId).update('<h4>Clinical Assertions</h4><p>&nbsp;No clinical data available</p>')
-                            } else {
-                                Ext.getCmp(assertionPanel.headerId).update('<h4>Clinical Assertions</h4>')
-                            }
-                            assertionPanel.load(clinvarRecord);
-                        }
-                    });
-                }
-            }
-        });
-
-        return assertionPanel;
     },
     retrieveData: function (baseUrl, filterParams) {
         this.variantBrowserGrid.loadUrl(baseUrl, filterParams);
