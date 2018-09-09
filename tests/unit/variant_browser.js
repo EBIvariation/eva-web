@@ -312,7 +312,7 @@ describe('Consequence Type Tree', function(){
 });
 
 describe('VEP version Notification Text', function(){
-    var annotationPanel = new ClinvarAnnotationPanel();
+    var annotationPanel = new VariantAnnotationPanel();
 
     var testObjectBefore =  {
         "vepVersion": "89",

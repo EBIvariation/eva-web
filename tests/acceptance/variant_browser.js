@@ -20,7 +20,6 @@
 var config = require('./config.js');
 config.loadModules();
 var variantBrowser = require('./variant_browser_bottom_panel_tests.js');
-var clinicalBrowser = require('./clinvar_bottom_panel_tests.js');
 
 test.describe('Variant Browser ('+config.browser()+')', function() {
     var driver;
@@ -147,15 +146,21 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         test.it('Population Statistics should not be empty and no duplicate Items ', function() {
             variantPopulationTab(driver);
         });
-        test.it('Clinical Assertion Tab should not be empty and no duplicate items ', function() {
-            clinicalAssertionTab(driver);
-        });
     });
 
-    test.describe('Show data in Clinical Browser', function() {
-        test.it('Clicking "Show in Clinical Browser" button should go to "Clinical Browser" and click back should go back to "Variant Browser"', function() {
-            showDataInClinicalBrowser(driver);
+    test.describe('check Annotation Tab ensembl links', function() {
+        test.it('should match with Gen ID,\n' +
+            'Gen ID ex ENSG00000139618: should have "http://www.ensembl.org/Multi/Search/Results?q=ENSG00000139618;facet_feature_type=Gene"\n', function() {
+            checkGeneIdEnsemblLink(driver);
         });
+        test.it('should match with Gen Symbol,\n' +
+            'Gen Symbol ex BRCA2: should have "http://www.ensembl.org/Multi/Search/Results?q=BRCA2;facet_feature_type=Gene"\n', function() {
+            checkGeneSymbolEnsemblLink(driver);
+        });
+        test.it('should match with Transcript ID,\n' +
+            'Transcript ID ex ENST00000530893: should have "http://www.ensembl.org/Multi/Search/Results?q=ENST00000530893;facet_feature_type=Transcript"\n', function() {
+            checkTranscriptIdEnsemblLink(driver);
+        });        
     });
 
     test.describe('Reset button', function() {
@@ -575,6 +580,56 @@ function checkAnnotationNotification(driver){
     return driver;
 }
 
+function checkGeneIdEnsemblLink(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
+    driver.findElement(By.id("vb-submit-button")).click();
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[1]/div//a")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")).getText().then(function(geneID){
+                assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+geneID+';facet_feature_type=Gene');
+            });
+        });
+    });
+}
+
+function checkGeneSymbolEnsemblLink(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
+    driver.findElement(By.id("vb-submit-button")).click();
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div//a")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")).getText().then(function(geneSymbol){
+                assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+geneSymbol+';facet_feature_type=Gene');
+            });
+        });
+    });
+}
+
+function checkTranscriptIdEnsemblLink(driver){
+    driver.findElement(By.xpath("//span[text()='Reset']")).click();
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
+    driver.findElement(By.id("vb-submit-button")).click();
+    config.sleep(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div//a")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")).getText().then(function(TranscriptID){
+                assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+TranscriptID+';facet_feature_type=Transcript');
+            });
+        });
+    });
+}
 
 function variantAnnotationTab(driver){
     driver.findElement(By.xpath("//span[text()='Reset']")).click();
@@ -625,38 +680,6 @@ function variantPopulationTab(driver){
     driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
     variantBrowser.populationTab(driver);
     return driver;
-}
-
-function clinicalAssertionTab(driver){
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
-    driver.findElement(By.name("region")).clear();
-    driver.findElement(By.name("region")).sendKeys('2:48009816-48009816');
-    driver.findElement(By.id("vb-submit-button")).click();
-    driver.findElement(By.xpath("//span[text()='Clinical Assertion']")).click();
-    config.sleep(driver);
-    clinicalBrowser.clinVarAssertionTab(driver, 'variant-widget');
-    return driver;
-}
-
-function showDataInClinicalBrowser(driver){
-    driver.findElement(By.xpath("//span[text()='Reset']")).click();
-    config.sleep(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.id("clinvar-button")).click();
-    });
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[contains(@id,'clinvar-browser-grid-body')]//table[1]//td[1]/div[text()]")).getText().then(function(text){
-            assert(text).equalTo('13');
-        });
-    });
-    driver.navigate().back();
-
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, '13');
-        });
-    });
 }
 
 function variantReset(driver) {
