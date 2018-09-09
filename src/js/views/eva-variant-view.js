@@ -37,9 +37,54 @@ EvaVariantView.prototype = {
             return;
         }
 
-        variantID = this.position;
         _this.studiesList = [];
         _this.speciesList = getSpeciesList();
+        _this.variantInfoFromAccessioningService = {};
+        _this.variantInfoFromEVAService = {};
+
+        if (this.accessionID) {
+            if (this.accessionID.startsWith("rs")) {
+                this.accessionCategory = "clustered-variants";
+            }
+            else if (this.accessionID.startsWith("ss")) {
+                this.accessionCategory = "submitted-variants";
+            }
+            _this.species = '';
+            EvaManager.get({
+                                service: ACCESSIONING_SERVICE,
+                                category: _this.accessionCategory || 'submitted-variants',
+                                resource: _this.accessionID.substring(2),
+                                async: false,
+                                success: function (response) {
+                                    try {
+                                        console.log(response[0]);
+                                        if (typeof response !== 'undefined' && response != null) {
+                                            var accessioningServiceResponse = response[0];
+                                            var taxonomyIdFromAccService = accessioningServiceResponse.data.taxonomyAccession;
+                                            console.log(taxonomyIdFromAccService);
+                                            console.log(_.isEmpty(_this.speciesList));
+                                            if (!_.isEmpty(_this.speciesList) && typeof taxonomyIdFromAccService !== 'undefined') {
+                                                speciesObj = _.chain(_this.speciesList)
+                                                                .filter({taxonomyId: taxonomyIdFromAccService})
+                                                                .sortBy('assemblyAccession').value()[0];
+                                                _this.species = speciesObj.taxonomyCode + "_" + speciesObj.assemblyCode;
+                                                _this.variantInfoFromAccessioningService.chromosome = accessioningServiceResponse.data.contig;
+                                                _this.variantInfoFromAccessioningService.start = accessioningServiceResponse.data.start;
+                                                console.log(accessioningServiceResponse.data.referenceAllele);
+                                                _this.variantInfoFromAccessioningService.reference = accessioningServiceResponse.data.referenceAllele;
+                                                _this.variantInfoFromAccessioningService.alternate = accessioningServiceResponse.data.alternateAllele;
+                                                _this.variantInfoFromAccessioningService.end = _this.variantInfoFromAccessioningService.start +
+                                                                        Math.max(accessioningServiceResponse.data.referenceAllele.length,
+                                                                                 accessioningServiceResponse.data.alternateAllele.length) - 1;
+                                                _this.variantInfoFromAccessioningService.id = "ss" + accessioningServiceResponse.accession;
+                                            }
+                                        }
+                                    } catch (e) {
+                                        console.log(e);
+                                    }
+                                }
+                            });
+        }
 
         EvaManager.get({
             category: 'meta/studies',
@@ -72,23 +117,26 @@ EvaVariantView.prototype = {
             _.extend(params, {'annot-vep-version':_annotVersion[0]},{'annot-vep-cache-version':_annotVersion[1]});
         }
 
+        console.log(this.variantID);
+
         EvaManager.get({
             category: 'variants',
             resource: 'info',
-            query: variantID,
+            query: this.position || this.variantInfoFromAccessioningService.id,
             params: params,
             async: false,
             success: function (response) {
                 try {
                     variant = response.response[0].result;
-                    _this.variant = variant;
+                    _this.variantInfoFromEVAService = variant;
                 } catch (e) {
                     console.log(e);
                 }
-                _this.draw();
             }
         });
 
+        this.variant = this.variantInfoFromEVAService || this.variantInfoFromAccessioningService;
+        this.draw();
 
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'Variant', eventLabel:'species='+this.species+'variant='+this.position});

@@ -176,6 +176,24 @@
                             <div id="twitter-widget"></div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="small-12 medium-8 columns">
+                            <h3><span class="icon icon-functional" data-icon="1"> </span>Search for SNPs</h3>
+                            <form id="local-search" name="global-search" action="/variant" method="GET">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <input type="text" name="accessionID" id="accession-search-box" placeholder="ex: rs123, ss567">
+                                        <div class="input-group-button">
+                                            <input name="accession" id="accession-search-button" value="Search" type="button" onclick="searchURL();">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    <br/>
+
                     <div class="padding-bottom-large"></div>
                     <div class="row">
                         <div class="columns"><h3><span class="icon icon-generic" data-icon="g"> </span>Statistics</h3></div>
@@ -1210,12 +1228,16 @@
                 projectId:tab.value
             });
         }
+
         if(tabId == 'variant'){
             var variantSpecies = $.urlParam('species');
             var annotationVersion = $.urlParam('annotationVersion');
-            var evaVarinatView = new EvaVariantView({
+            var accessionID = $.urlParam('accessionID');
+
+            var evaVariantView = new EvaVariantView({
                 target:'variantViewContent',
                 position:tab.value,
+                accessionID:accessionID,
                 species:variantSpecies,
                 annotationVersion:annotationVersion
             });
@@ -1254,6 +1276,20 @@
         }
 
     };
+
+    function isValidAccessionID (accessionID) {
+        return /^(rs|ss)[0-9]+$/.test(accessionID);
+    }
+
+    function searchURL() {
+        var accessionID = document.getElementById("accession-search-box").value.trim();
+        if (isValidAccessionID(accessionID)) {
+            window.location = "/src/index.html?variant&accessionID=" + accessionID
+        }
+        else {
+            Ext.Msg.alert('Invalid accession ID', 'Please enter rs or ss followed by a numeric ID (ex: rs123 or ss567)');
+        }
+    }
 
     function getUrlParameters(staticURL) {
         var data = [];

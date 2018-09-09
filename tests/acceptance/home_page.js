@@ -18,6 +18,7 @@
  */
 
 var config = require('./config.js');
+var utils = require('./utils.js');
 config.loadModules();
 
 test.describe('Home Page ('+config.browser()+')', function() {
@@ -36,6 +37,10 @@ test.describe('Home Page ('+config.browser()+')', function() {
 
     test.it('Statistics all four charts rendered', function() {
         statisticsChartsRendered(driver);
+    });
+
+    test.it('Accession ID should be rs or ss followed by a number', function() {
+        testAccessionIDClientSideValidation(driver);
     });
 
 });
@@ -80,5 +85,24 @@ function statisticsChartsRendered(driver){
     return driver;
 }
 
+function testAccessionIDClientSideValidation (driver) {
+    driver.findElement(By.id("accession-search-box")).sendKeys('rs123#');
+    driver.findElement(By.id("accession-search-button")).click();
+    utils.assertAlertWindowShown(driver, 'Invalid accession ID');
 
+    driver.findElement(By.id("accession-search-box")).clear();
+    driver.findElement(By.id("accession-search-box")).sendKeys('r123');
+    driver.findElement(By.id("accession-search-button")).click();
+    utils.assertAlertWindowShown(driver, 'Invalid accession ID');
+
+    driver.findElement(By.id("accession-search-box")).clear();
+    driver.findElement(By.id("accession-search-box")).sendKeys('ss123a');
+    driver.findElement(By.id("accession-search-button")).click();
+    utils.assertAlertWindowShown(driver, 'Invalid accession ID');
+
+    driver.findElement(By.id("accession-search-box")).clear();
+    driver.findElement(By.id("accession-search-box")).sendKeys('123');
+    driver.findElement(By.id("accession-search-button")).click();
+    utils.assertAlertWindowShown(driver, 'Invalid accession ID');
+}
 

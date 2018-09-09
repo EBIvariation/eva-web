@@ -55,3 +55,4 @@ function getProjects(){
 }
 
 DISABLE_STUDY_LINK = ['PRJX00001'];
+ACCESSIONING_SERVICE = 'accessioning-service';
