@@ -18,6 +18,7 @@
  * limitations under the License.
  *
  */
+var config = require('./config.js');
 module.exports = {
 assertAlertWindowShown: function (driver, message) {
     config.sleep(driver);

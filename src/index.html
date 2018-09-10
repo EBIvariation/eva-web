@@ -1284,7 +1284,7 @@
     function searchURL() {
         var accessionID = document.getElementById("accession-search-box").value.trim();
         if (isValidAccessionID(accessionID)) {
-            window.location = "/src/index.html?variant&accessionID=" + accessionID
+            window.open("/src/index.html?variant&accessionID=" + accessionID, "_blank");
         }
         else {
             Ext.Msg.alert('Invalid accession ID', 'Please enter rs or ss followed by a numeric ID (ex: rs123 or ss567)');

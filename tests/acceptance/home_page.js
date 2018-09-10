@@ -21,6 +21,8 @@ var config = require('./config.js');
 var utils = require('./utils.js');
 config.loadModules();
 
+var INVALID_ACCESSION_ID_ERR_MSG = "Please enter rs or ss followed by a numeric ID (ex: rs123 or ss567)";
+
 test.describe('Home Page ('+config.browser()+')', function() {
     var driver;
     test.before(function() {
@@ -86,23 +88,24 @@ function statisticsChartsRendered(driver){
 }
 
 function testAccessionIDClientSideValidation (driver) {
-    driver.findElement(By.id("accession-search-box")).sendKeys('rs123#');
+    driver.findElement(By.id("accession-search-box")).clear();
+    driver.findElement(By.id("accession-search-box")).sendKeys("rs123#");
     driver.findElement(By.id("accession-search-button")).click();
-    utils.assertAlertWindowShown(driver, 'Invalid accession ID');
+    utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
 
     driver.findElement(By.id("accession-search-box")).clear();
-    driver.findElement(By.id("accession-search-box")).sendKeys('r123');
+    driver.findElement(By.id("accession-search-box")).sendKeys("r123");
     driver.findElement(By.id("accession-search-button")).click();
-    utils.assertAlertWindowShown(driver, 'Invalid accession ID');
+    utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
 
     driver.findElement(By.id("accession-search-box")).clear();
-    driver.findElement(By.id("accession-search-box")).sendKeys('ss123a');
+    driver.findElement(By.id("accession-search-box")).sendKeys("ss123a");
     driver.findElement(By.id("accession-search-button")).click();
-    utils.assertAlertWindowShown(driver, 'Invalid accession ID');
+    utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
 
     driver.findElement(By.id("accession-search-box")).clear();
-    driver.findElement(By.id("accession-search-box")).sendKeys('123');
+    driver.findElement(By.id("accession-search-box")).sendKeys("123");
     driver.findElement(By.id("accession-search-button")).click();
-    utils.assertAlertWindowShown(driver, 'Invalid accession ID');
+    utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
 }
 
