@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 var variant = {};
-var variantID = '';
 
 function EvaVariantView(args) {
     _.extend(this, Backbone.Events);
@@ -39,7 +38,7 @@ EvaVariantView.prototype = {
 
         _this.studiesList = [];
         _this.speciesList = getSpeciesList();
-        _this.variantInfoFromAccessioningService = {};
+        _this.variantInfoFromAccessioningService = [];
         _this.variantInfoFromEVAService = {};
 
         if (this.accessionID) {
@@ -49,43 +48,81 @@ EvaVariantView.prototype = {
             else if (this.accessionID.startsWith("ss")) {
                 this.accessionCategory = "submitted-variants";
             }
+
             _this.species = '';
+            _this.getVariantInfoFromAccessioningServiceResponse = function(response) {
+                var variantInfo = {};
+                variantInfo.chromosome = response.data.contig;
+                variantInfo.start = response.data.start;
+
+                variantInfo.reference = response.data.referenceAllele;
+                variantInfo.alternate = response.data.alternateAllele;
+                variantInfo.end = variantInfo.start +
+                                        Math.max(response.data.referenceAllele.length,
+                                                 response.data.alternateAllele.length) - 1;
+                variantInfo.id = "ss" + response.accession;
+                return variantInfo;
+            }
+
             EvaManager.get({
-                                service: ACCESSIONING_SERVICE,
-                                category: _this.accessionCategory || 'submitted-variants',
-                                resource: _this.accessionID.substring(2),
-                                async: false,
-                                success: function (response) {
-                                    try {
-                                        console.log(response[0]);
-                                        if (typeof response !== 'undefined' && response != null) {
-                                            var accessioningServiceResponse = response[0];
-                                            var taxonomyIdFromAccService = accessioningServiceResponse.data.taxonomyAccession;
-                                            console.log(taxonomyIdFromAccService);
-                                            console.log(_.isEmpty(_this.speciesList));
-                                            if (!_.isEmpty(_this.speciesList) && typeof taxonomyIdFromAccService !== 'undefined') {
-                                                speciesObj = _.chain(_this.speciesList)
-                                                                .filter({taxonomyId: taxonomyIdFromAccService})
-                                                                .sortBy('assemblyAccession').value()[0];
-                                                _this.species = speciesObj.taxonomyCode + "_" + speciesObj.assemblyCode;
-                                                _this.variantInfoFromAccessioningService.chromosome = accessioningServiceResponse.data.contig;
-                                                _this.variantInfoFromAccessioningService.start = accessioningServiceResponse.data.start;
-                                                console.log(accessioningServiceResponse.data.referenceAllele);
-                                                _this.variantInfoFromAccessioningService.reference = accessioningServiceResponse.data.referenceAllele;
-                                                _this.variantInfoFromAccessioningService.alternate = accessioningServiceResponse.data.alternateAllele;
-                                                _this.variantInfoFromAccessioningService.end = _this.variantInfoFromAccessioningService.start +
-                                                                        Math.max(accessioningServiceResponse.data.referenceAllele.length,
-                                                                                 accessioningServiceResponse.data.alternateAllele.length) - 1;
-                                                _this.variantInfoFromAccessioningService.id = "ss" + accessioningServiceResponse.accession;
-                                            }
+                            service: ACCESSIONING_SERVICE,
+                            category: _this.accessionCategory,
+                            resource: _this.accessionID.substring(2),
+                            async: false,
+                            success: function (response) {
+                                try {
+                                    response = [
+                                                  {
+                                                     "accession":142462503,
+                                                     "version":1,
+                                                     "data":{
+                                                        "assemblyAccession":"GCF_000146605.1",
+                                                        "taxonomyAccession":9103,
+                                                        "projectAccession":"WU_ABGC_TURKEY_SILICO_DETECT_1",
+                                                        "contig":"scf_7180002103295",
+                                                        "start":45938,
+                                                        "referenceAllele":"GT",
+                                                        "alternateAllele":"G",
+                                                        "supportedByEvidence":false,
+                                                        "createdDate":"2018-06-25T22:55:54.437"
+                                                     }
+                                                  },
+                                                  {
+                                                   "accession":142462503,
+                                                   "version":1,
+                                                   "data":{
+                                                      "assemblyAccession":"GCF_000146605.1",
+                                                      "taxonomyAccession":9103,
+                                                      "projectAccession":"WU_ABGC_TURKEY_SILICO_DETECT_1",
+                                                      "contig":"scf_7180002103295",
+                                                      "start":45938,
+                                                      "referenceAllele":"GT",
+                                                      "alternateAllele":"A",
+                                                      "supportedByEvidence":false,
+                                                      "createdDate":"2018-06-25T22:55:54.437"
+                                                   }
+                                                }
+                                               ]
+                                    if (typeof response !== 'undefined' && response != null) {
+                                        var taxonomyIdFromAccService = response[0].data.taxonomyAccession;
+
+                                        if (!_.isEmpty(_this.speciesList) && typeof taxonomyIdFromAccService !== 'undefined') {
+                                            speciesObj = _.chain(_this.speciesList)
+                                                        .filter({taxonomyId: taxonomyIdFromAccService})
+                                                        .sortBy('assemblyAccession').value()[0];
+                                            _this.species = speciesObj.taxonomyCode + "_" + speciesObj.assemblyCode;
+                                            _this.variantInfoFromAccessioningService =
+                                                    response.map(_this.getVariantInfoFromAccessioningServiceResponse);
                                         }
-                                    } catch (e) {
-                                        console.log(e);
                                     }
+                                } catch (e) {
+                                    console.log(e);
                                 }
-                            });
+                            }
+                        });
         }
 
+        // Get studies list
         EvaManager.get({
             category: 'meta/studies',
             resource: 'list',
@@ -117,25 +154,27 @@ EvaVariantView.prototype = {
             _.extend(params, {'annot-vep-version':_annotVersion[0]},{'annot-vep-cache-version':_annotVersion[1]});
         }
 
-        console.log(this.variantID);
-
-        EvaManager.get({
-            category: 'variants',
-            resource: 'info',
-            query: this.position || this.variantInfoFromAccessioningService.id,
-            params: params,
-            async: false,
-            success: function (response) {
-                try {
-                    variant = response.response[0].result;
-                    _this.variantInfoFromEVAService = variant;
-                } catch (e) {
-                    console.log(e);
+        if (this.position) {
+            EvaManager.get({
+                category: 'variants',
+                resource: 'info',
+                query: this.position,
+                params: params,
+                async: false,
+                success: function (response) {
+                    try {
+                        variant = response.response[0].result;
+                        _this.variantInfoFromEVAService = variant;
+                    } catch (e) {
+                        console.log(e);
+                    }
                 }
-            }
-        });
+            });
+        }
 
-        this.variant = this.variantInfoFromEVAService || this.variantInfoFromAccessioningService;
+        this.variant = _.isEmpty(this.variantInfoFromEVAService)?
+                            this.variantInfoFromAccessioningService : this.variantInfoFromEVAService;
+        console.log(this.variant);
         this.draw();
 
         //sending tracking data to Google Analytics
@@ -189,6 +228,8 @@ EvaVariantView.prototype = {
 
     draw: function (data, content) {
         var _this = this;
+        var variant = this.variant;
+
         if(_.isEmpty(variant)){
             var noDataEl = document.querySelector("#summary-grid");
             var noDataElDiv = document.createElement("div");
