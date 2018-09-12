@@ -56,11 +56,22 @@ EvaVariantView.prototype = {
                 variantInfo.start = response.data.start;
 
                 variantInfo.reference = response.data.referenceAllele;
-                variantInfo.alternate = response.data.alternateAllele;
-                variantInfo.end = variantInfo.start +
-                                        Math.max(response.data.referenceAllele.length,
-                                                 response.data.alternateAllele.length) - 1;
-                variantInfo.id = "ss" + response.accession;
+                if (response.data.alternateAllele) {
+                    variantInfo.alternate = response.data.alternateAllele;
+                    variantInfo.end = variantInfo.start +
+                                            Math.max(response.data.referenceAllele.length,
+                                                     response.data.alternateAllele.length) - 1;
+                }
+                if (this.accessionCategory === "clustered-variants") {
+                    variantInfo.id = "rs" + response.accession;
+                }
+                if (this.accessionCategory === "submitted-variants") {
+                    variantInfo.id = "ss" + response.accession;
+                }
+                variantInfo.associatedSSIDs = [{"ID": "ss1", "Handle": "EVA_HANDLE1", "Orientation": "Fwd",
+                                                "Alleles": "GT/G"},
+                                                {"ID": "ss2", "Handle": "EVA_HANDLE2", "Orientation": "Fwd",
+                                                "Alleles": "GT/A"}]
                 return variantInfo;
             }
 
@@ -73,30 +84,30 @@ EvaVariantView.prototype = {
                                 try {
                                     response = [
                                                   {
-                                                     "accession":142462503,
+                                                     "accession":914406059,
                                                      "version":1,
                                                      "data":{
-                                                        "assemblyAccession":"GCF_000146605.1",
-                                                        "taxonomyAccession":9103,
-                                                        "projectAccession":"WU_ABGC_TURKEY_SILICO_DETECT_1",
-                                                        "contig":"scf_7180002103295",
-                                                        "start":45938,
-                                                        "referenceAllele":"GT",
-                                                        "alternateAllele":"G",
+                                                        "assemblyAccession":"GCA_000001635.5",
+                                                        "taxonomyAccession":10090,
+                                                        "projectAccession":"PRJEB6911",
+                                                        "contig":"1",
+                                                        "start":3001313,
+                                                        "referenceAllele":"C",
+                                                        "alternateAllele":"T",
                                                         "supportedByEvidence":false,
                                                         "createdDate":"2018-06-25T22:55:54.437"
                                                      }
                                                   },
                                                   {
-                                                   "accession":142462503,
+                                                   "accession":914406059,
                                                    "version":1,
                                                    "data":{
-                                                      "assemblyAccession":"GCF_000146605.1",
-                                                      "taxonomyAccession":9103,
-                                                      "projectAccession":"WU_ABGC_TURKEY_SILICO_DETECT_1",
-                                                      "contig":"scf_7180002103295",
-                                                      "start":45938,
-                                                      "referenceAllele":"GT",
+                                                      "assemblyAccession":"GCA_000001635.5",
+                                                      "taxonomyAccession":10090,
+                                                      "projectAccession":"PRJEB6911",
+                                                      "contig":"1",
+                                                      "start":3001313,
+                                                      "referenceAllele":"C",
                                                       "alternateAllele":"A",
                                                       "supportedByEvidence":false,
                                                       "createdDate":"2018-06-25T22:55:54.437"
@@ -245,59 +256,82 @@ EvaVariantView.prototype = {
         summaryElDiv.innerHTML = summaryContent;
         summaryEl.appendChild(summaryElDiv);
 
-        if(!_.isUndefined(_this._renderConsequenceTypeData(_this.variant))){
-            var consqTypeContent = _this._renderConsequenceTypeData(_this.variant);
-            var consqTypeEl = document.querySelector("#consequence-types-grid");
-            var consqTypeElDiv = document.createElement("div");
-            consqTypeElDiv.innerHTML = consqTypeContent;
-            consqTypeEl.appendChild(consqTypeElDiv);
+        if (this.accessionCategory == "submitted-variants") {
+            if(!_.isUndefined(_this._renderConsequenceTypeData(_this.variant))){
+                var consqTypeContent = _this._renderConsequenceTypeData(_this.variant);
+                var consqTypeEl = document.querySelector("#consequence-types-grid");
+                var consqTypeElDiv = document.createElement("div");
+                consqTypeElDiv.innerHTML = consqTypeContent;
+                consqTypeEl.appendChild(consqTypeElDiv);
+            }
+
+            var studyEl = document.querySelector("#studies-grid");
+            var studyElDiv = document.createElement("div");
+            studyElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
+            studyEl.appendChild(studyElDiv);
+            _this.createVariantFilesPanel(studyElDiv);
+
+            var popStatsEl = document.querySelector("#population-stats-grid-view");
+            var popStatsElDiv = document.createElement("div");
+            popStatsElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
+            popStatsEl.appendChild(popStatsElDiv);
+            var variantData = {sourceEntries: _this.variant[0].sourceEntries, species: _this.species};
+            _this._createPopulationStatsPanel(popStatsElDiv, variantData);
         }
-
-        var studyEl = document.querySelector("#studies-grid");
-        var studyElDiv = document.createElement("div");
-        studyElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
-        studyEl.appendChild(studyElDiv);
-        _this.createVariantFilesPanel(studyElDiv);
-
-        var popStatsEl = document.querySelector("#population-stats-grid-view");
-        var popStatsElDiv = document.createElement("div");
-        popStatsElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
-        popStatsEl.appendChild(popStatsElDiv);
-        var variantData = {sourceEntries: _this.variant[0].sourceEntries, species: _this.species};
-        _this._createPopulationStatsPanel(popStatsElDiv, variantData);
 
     },
     _renderSummaryData: function (data) {
-        var _summaryTable = '<h4 class="variant-view-h4"> Summary</h4><div class="row"><div class="col-md-8"><table class="table hover">'
-        var variantInfoTitle = document.querySelector("#variantInfo").textContent = data[0].chromosome + ':' + data[0].start + ':' + data[0].reference + ':' + data[0].alternate + ' Info';
         var speciesName;
         if (!_.isEmpty(this.speciesList)) {
             speciesName = _.findWhere(this.speciesList, {taxonomyCode: this.species.split("_")[0]}).taxonomyEvaName;
-            _summaryTable += '<tr><td class="header">Organism / Assembly</td><td id="variant-view-organism">' + speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + ' / ' + _.findWhere(this.speciesList, {taxonomyCode: this.species.split("_")[0]}).assemblyName + '</td></tr>'
+            speciesName = speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + ' / ' +
+                _.findWhere(this.speciesList, {taxonomyCode: this.species.split("_")[0]}).assemblyName;
         } else {
-            _summaryTable += '<tr><td class="header">Organism / Assembly</td><td id="variant-view-organism">' + this.species + '</td></tr>'
+            speciesName = this.species;
         }
 
-        if (data[0].id) {
-            _summaryTable += '<tr><td class="header">ID</td><td id="variant-view-id">' + data[0].id + '</td></tr>'
+        var getSummaryTableHeaderRow = function(summaryData) {
+            var header = '';
+            _.each(_.keys(summaryData), function(key) {
+                header += `<th>${key}</th>`;
+            });
+            return `<thead><tr>${header}</tr></thead>`;
         }
-        var reference = '-';
-        var alternate = '-';
-
-        if (data[0].reference) {
-            reference = _.escape(data[0].reference);
-        }
-        if (data[0].alternate) {
-            alternate = _.escape(data[0].alternate);
+        var getSummaryTableContentRow = function(summaryData) {
+            var rowContent = '';
+            _.each(_.keys(summaryData), function(key) {
+                rowContent += `<td>${summaryData[key]}</td>`;
+            });
+            return `<tr>${rowContent}</tr>`;
         }
 
-        _summaryTable += '<tr><td class="header">Type</td><td id="variant-view-type">' + data[0].type + '</td></tr>' +
-            '<tr><td class="header">Chromosome:Start-End</td><td id="variant-view-chr">' + data[0].chromosome + ':' + data[0].start + '-' + data[0].end + '</td></tr>' +
-            '<tr><td class="header">Ref</td><td id="variant-view-ref">' + reference + '</td></tr>' +
-            '<tr><td class="header">Alt</td><td id="variant-view-ale">' + alternate + '</td></tr>' +
-            '</table>'
+        var summaryData = data.map(function(x) {
+            return {"Organism/Assembly": speciesName, "Chromosome": x.chromosome, "Start": x.start, "End": x.end,
+                    "Ref": _.escape(x.reference), "Alt": _.escape(x.alternate)}
+        });
+        var _summaryTable = '<h4 class="variant-view-h4">Variant Information</h4><div class="row"><div class="col-md-8">'
+        var variantInfoTitle = [data[0].chromosome, data[0].start, data[0].reference].join(":");
 
-        _summaryTable += '</div></div>'
+        if (this.accessionCategory === "clustered-variants") {
+            summaryData = summaryData.map(x => _.omit(x, ["End", "Alt"]));
+            var submitterInfoHeading = '<h4 class="variant-view-h4">Submitted Variants</b></h4><div class="row"><div class="col-md-8">'
+            var associatedSSData = data[0].associatedSSIDs;
+            var ssInfoHeaderRow = getSummaryTableHeaderRow(associatedSSData[0]);
+            var ssInfoContentRows = associatedSSData.map(getSummaryTableContentRow).join("");
+        }
+        else {
+            variantInfoTitle += `:${data[0].alternate}`;
+        }
+
+        var variantInfoHeaderRow = getSummaryTableHeaderRow(summaryData[0]);
+        var variantInfoContentRows = summaryData.map(getSummaryTableContentRow).join("");
+
+        //document.querySelector("#variantInfo").textContent = variantInfoTitle;
+        _summaryTable += `<table class="table hover">${variantInfoHeaderRow}${variantInfoContentRows}</table>`;
+        _summaryTable += '</div></div>';
+        _summaryTable += ssInfoHeaderRow?
+                            `${submitterInfoHeading}<table class="table hover">${ssInfoHeaderRow}${ssInfoContentRows}</table>` : '';
+        _summaryTable += '</div></div>';
 
         return _summaryTable;
 
