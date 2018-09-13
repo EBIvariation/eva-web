@@ -78,10 +78,8 @@ EvaVariantFilesPanel.prototype = {
             console.log('target not found');
             return;
         }
-
         this.targetDiv.appendChild(this.div);
         this.panel.render(this.div);
-
     },
     clear: function () {
         this.studiesContainer.removeAll(true);
@@ -119,9 +117,9 @@ EvaVariantFilesPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
-                    id: 'fileStats',
+                    id: 'fileStats' + this.panelID,
                     cls: 'ocb-header-4',    
-                    html: '<h4>Files</h4><h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>',
+                    html: `<h4>Files for ${this.variantAlleles}</h4><h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>`,
                 margin: '5 0 10 15'
                 },
                 this.studiesContainer
