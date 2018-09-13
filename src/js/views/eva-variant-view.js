@@ -38,16 +38,16 @@ EvaVariantView.prototype = {
 
         this.studiesList = [];
         this.speciesList = getSpeciesList();
-        this.variantInfoFromAccessioningService = [];
+        this.variantInfoFromAccessioningService = null;
         this.getVariantInfoFromEVAService = function(position) {
-                    var retValue = EvaManager.get({
+                    var webServiceResponse = EvaManager.get({
                         category: 'variants',
                         resource: 'info',
                         query: position,
                         params: params,
                         async: false
                     });
-                    return retValue.response[0].result;
+                    return webServiceResponse.response[0].result;
         }
         this.variantAttributesFromAccessioningService = ["chromosome", "start", "reference", "alternate", "end", "id",
                                                            "position", "associatedSSIDs"]
@@ -183,9 +183,7 @@ EvaVariantView.prototype = {
                         variantObj[key] = variantInfoFromEVAService[key];
                     }
                 }
-                if (variantObj.alternate) {
-                    variantObj.repr = variantObj.reference + "/" + variantObj.alternate;
-                }
+                variantObj.repr = variantObj.alternate ? (variantObj.reference + "/" + variantObj.alternate) : '';
             });
         }
 
@@ -197,7 +195,7 @@ EvaVariantView.prototype = {
     createVariantFilesPanel: function (targetDiv, variantData) {
         var _this = this;
         var variantFilesPanel = new EvaVariantFilesPanel({
-            panelID: variantData.repr.replace("/", "_"),
+            panelID: variantData.repr ? variantData.repr.replace("/", "_"):'',
             variantAlleles: variantData.repr,
             target: targetDiv,
             height: '',
@@ -284,7 +282,7 @@ EvaVariantView.prototype = {
                 popStatsElDiv.setAttribute('id', `${variant.reference}_${variant.alternate}`);
                 popStatsElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
                 popStatsEl.appendChild(popStatsElDiv);
-                var variantData = {variantAlleles: variant.repr, sourceEntries: variant.sourceEntries,
+                var variantData = {repr: variant.repr, sourceEntries: variant.sourceEntries,
                                     species: _this.species};
                 _this._createPopulationStatsPanel(popStatsElDiv, variantData);
             });
@@ -354,12 +352,12 @@ EvaVariantView.prototype = {
               return;
             }
             var annotation = data.annotation.consequenceTypes;
-            var consequenceTypeHeading = `<h4 class="variant-view-h4"> Consequence Types for ${data.reference}/${data.alternate} </h4>`;
+            var consequenceTypeHeading = '<h4 class="variant-view-h4"> Consequence Types' + (data.repr ? " for "+data.repr : "") +  '</h4>';
             if (!annotation) {
                 return `${consequenceTypeHeading}<div style="margin-left:15px;">No Data Available</div>`;
             }
             annotation = annotation.sort(_this._sortBy('ensemblGeneId', _this._sortBy('ensemblTranscriptId')));
-            var _consequenceTypeTable = `${consequenceTypeHeading}<div class="row"><div><table class="table hover">`;
+            var _consequenceTypeTable = `${consequenceTypeHeading}<div class="row"><div><table class="table hover" style="font-size: small">`;
             _consequenceTypeTable += '<thead><tr><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th><th>Accession</th><th>Name</th></tr></thead><tbody>'
             _.each(_.keys(annotation), function (key) {
                 var annotationDetails = this[key];
@@ -410,7 +408,7 @@ EvaVariantView.prototype = {
 
         return _conservedRegionTable;
     },
-    _createPopulationStatsPanel: function (target, data) {
+    _createPopulationStatsPanel: function (target, variantData) {
         var _this = this;
         this.defaultToolConfig = {
             headerConfig: {
@@ -418,6 +416,8 @@ EvaVariantView.prototype = {
             }
         };
         var variantPopulationStatsPanel = new EvaVariantPopulationStatsPanel({
+            panelID: variantData.repr ? variantData.repr.replace("/", "_"):'',
+            variantAlleles: variantData.repr,
             target: target,
             headerConfig: this.defaultToolConfig.headerConfig,
             handlers: {
@@ -428,7 +428,7 @@ EvaVariantView.prototype = {
 
         });
 
-        variantPopulationStatsPanel.load(data.sourceEntries, {species: data.species},  _this.studiesList);
+        variantPopulationStatsPanel.load(variantData.sourceEntries, {species: variantData.species},  _this.studiesList);
         variantPopulationStatsPanel.draw();
 
         return variantPopulationStatsPanel;

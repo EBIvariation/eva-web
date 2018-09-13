@@ -49,6 +49,7 @@ function EvaVariantPopulationStatsPanel(args) {
     );
     this.tooltipText = "Population frequency data. N.B. “*” in the genotype denotes ‘not reference but exact ALT not known’. This is a temporary solution whilst we work with the VCF specification team to better describe these complex cases";
     _.extend(this, args);
+    this.populationStatsPanelID = 'populationStats' + this.panelID;
     this.on(this.handlers);
     this.rendered = false;
     if (this.autoRender) {
@@ -112,14 +113,13 @@ EvaVariantPopulationStatsPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
-                    id: 'populationStats',
+                    id: this.populationStatsPanelID,
                     cls: 'ocb-header-4',
                     html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>',
                     margin: '5 0 10 15'
                 },
                 this.studiesContainer
-            ],
-            height: this.height
+            ]
         });
         return this.panel;
     },
@@ -211,11 +211,13 @@ EvaVariantPopulationStatsPanel.prototype = {
             }
         };
 
+        var populationStatsHeading = "<h4>Population Statistics" +
+                                        (this.variantAlleles? " for " + this.variantAlleles: "") + "</h4>";
         if (_.isEmpty(populationData)) {
-            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>')
+            Ext.getCmp(this.populationStatsPanelID).update(`${populationStatsHeading}<p class="genotype-grid-no-data">&nbsp;No Population data available</p>`)
             return;
         } else {
-            Ext.getCmp('populationStats').update('<h4>Population Statistics</h4><h6><small>'+this.tooltipText+'</small></h6>')
+            Ext.getCmp(this.populationStatsPanelID).update(`${populationStatsHeading}<small>${this.tooltipText}</small></h6>`);
         }
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",

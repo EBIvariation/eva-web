@@ -98,6 +98,7 @@ EvaVariantFilesPanel.prototype = {
         this.studiesContainer.add(panels);
     },
     _createPanel: function () {
+        var panelHeading = "<h4>Files" + (this.variantAlleles? " for " + this.variantAlleles : "") + "</h4>";
         this.studiesContainer = Ext.create('Ext.container.Container', {
             layout: {
                 type: 'accordion',
@@ -119,7 +120,7 @@ EvaVariantFilesPanel.prototype = {
                     xtype: 'box',
                     id: 'fileStats' + this.panelID,
                     cls: 'ocb-header-4',    
-                    html: `<h4>Files for ${this.variantAlleles}</h4><h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>`,
+                    html: `${panelHeading}<h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>`,
                 margin: '5 0 10 15'
                 },
                 this.studiesContainer
@@ -129,8 +130,6 @@ EvaVariantFilesPanel.prototype = {
         return panel;
     },
     _createStudyPanel: function (data, params, studies) {
-
-        console.log(data)
         var fileId = data.fileId;
         var stats = (data.stats) ? data.stats : {};
         var attributes = (data.attributes) ? data.attributes : {};
