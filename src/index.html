@@ -177,17 +177,32 @@
                         </div>
                     </div>
 
+                    <br/><br/>
                     <div class="row">
                         <div class="small-12 medium-8 columns">
                             <h3><span class="icon icon-functional" data-icon="1"> </span>Search for SNPs</h3>
-                            <form id="local-search" name="global-search" action="/variant" method="GET">
+                            <form id="local-search" name="local-search" action="./variant" method="GET">
                                 <fieldset>
-                                    <div class="input-group">
+                                    <div class="inline-block">
+                                    <!--<table>-->
+                                        <!--<tr>-->
+                                            <!--<td>-->
+                                        <select>
+                                            <option value="" disabled selected>Select species</option>
+                                            <option>1</option>
+                                        </select>
+                                            <!--</td>-->
+                                            <!--<td>-->
                                         <input type="text" name="accessionID" id="accession-search-box" placeholder="ex: rs123, ss567">
+                                            <!--</td>-->
                                         <div class="input-group-button">
-                                            <input name="accession" id="accession-search-button" value="Search" type="button" onclick="searchURL();">
+                                            <!--<td>-->
+                                                <input name="accessionID" id="accession-search-button" value="Search" type="button" style="height:40px;vertical-align:top" onclick="searchURL();">
+                                            <!--</td>-->
                                         </div>
                                     </div>
+                                        <!--</tr>-->
+                                    <!--</table>-->
                                 </fieldset>
                             </form>
                         </div>
@@ -1284,7 +1299,7 @@
     function searchURL() {
         var accessionID = document.getElementById("accession-search-box").value.trim();
         if (isValidAccessionID(accessionID)) {
-            window.open("/src/index.html?variant&accessionID=" + accessionID, "_blank");
+            //window.open("/src/index.html?variant&accessionID=" + accessionID, "_blank");
         }
         else {
             Ext.Msg.alert('Invalid accession ID', 'Please enter rs or ss followed by a numeric ID (ex: rs123 or ss567)');

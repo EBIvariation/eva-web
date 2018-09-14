@@ -16,6 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+$.getScript('js/eva-web-utils.js');
+
 function EvaStudyBrowserWidgetPanel(args) {
     var _this = this;
     _.extend(this, Backbone.Events);
@@ -375,55 +378,10 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         var data;
         var manager = browserType == 'sv' ? DgvaManager : EvaManager;
-
-        manager.get({
-            category: 'meta/studies',
-            resource: 'stats',
-            params: values,
-            async: false,
-            success: function (response) {
-                try {
-                    var statsData = {};
-                    var responseStatsData = response.response[0].result[0];
-
-                    for (key in responseStatsData) {
-                        var stat = responseStatsData[key];
-                        var arr = [];
-                        for (key2 in stat) {
-                            var obj = {};
-                            var checked = false;
-                            if (key == 'species') {
-                                if (_.indexOf(defaultSpecies, key2) > -1) {
-                                    checked = true;
-                                }
-                            } else if (key == 'type') {
-                                if (_.indexOf(defaultType, key2) > -1) {
-                                    checked = true;
-                                }
-                            }
-                            // TODO We must take care of the types returned
-                            if (key2.indexOf(',') == -1) {
-                                obj['display'] = key2;
-                                obj['leaf'] = true;
-                                obj['checked'] = checked;
-                                obj['iconCls'] = "no-icon";
-                                obj['count'] = stat[key2];
-                            }
-                            if (!_.isEmpty(obj)) {
-                                arr.push(obj);
-                            }
-                        }
-
-                        statsData[key] = arr;
-                        statsData[key] = _.sortBy(statsData[key], 'display');
-                        _this.speciesFilter.store.loadRawData(statsData['species']);
-                        _this.typeFilter.store.loadRawData(statsData['type']);
-                        data = statsData;
-                    }
-                } catch (e) {
-                    console.log(e);
-                }
-            }
+        var statsDataArray = getStudyStats(manager, defaultSpecies, defaultType);
+        statsDataArray.forEach(function(statsData) {
+            _this.speciesFilter.store.loadRawData(statsData['species']);
+            _this.typeFilter.store.loadRawData(statsData['type']);
         });
     },
 
