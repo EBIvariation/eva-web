@@ -181,28 +181,19 @@
                     <div class="row">
                         <div class="small-12 medium-8 columns">
                             <h3><span class="icon icon-functional" data-icon="1"> </span>Search for SNPs</h3>
-                            <form id="local-search" name="local-search" action="./variant" method="GET">
+                            <form id="snpSearch" name="local-search" action="./variant" method="GET">
                                 <fieldset>
                                     <div class="inline-block">
-                                    <!--<table>-->
-                                        <!--<tr>-->
-                                            <!--<td>-->
-                                        <select>
-                                            <option value="" disabled selected>Select species</option>
-                                            <option>1</option>
+                                        <select id="speciesDropDown">
+                                            <option value="Select Species" disabled selected>Select Species</option>
                                         </select>
-                                            <!--</td>-->
-                                            <!--<td>-->
+
                                         <input type="text" name="accessionID" id="accession-search-box" placeholder="ex: rs123, ss567">
-                                            <!--</td>-->
+
                                         <div class="input-group-button">
-                                            <!--<td>-->
-                                                <input name="accessionID" id="accession-search-button" value="Search" type="button" style="height:40px;vertical-align:top" onclick="searchURL();">
-                                            <!--</td>-->
+                                            <input name="accessionID" id="accession-search-button" value="Search" type="submit">
                                         </div>
                                     </div>
-                                        <!--</tr>-->
-                                    <!--</table>-->
                                 </fieldset>
                             </form>
                         </div>
@@ -1214,6 +1205,8 @@
 <script type="text/javascript">
     var eva;
     var start = function () {
+        populateSpeciesListForSNPSearch();
+
         // Bring in the import content.
         var homeDiv = document.querySelector('#home-page');
         var submitDiv = document.querySelector('#submit');
@@ -1223,8 +1216,6 @@
         var apiDiv =  document.querySelector('#api');
         var helpDiv = document.querySelector('#help-section');
         var dbSNPImportDiv = document.querySelector('#dbSNPImport');
-
-
 
         var tab = getUrlParameters("");
         var tabId =  decodeURI(tab.id);
@@ -1292,19 +1283,54 @@
 
     };
 
+    function populateSpeciesListForSNPSearch () {
+        $.getScript('js/eva-config.js');
+        var speciesList = getSpeciesList();
+        //TODO: This hard-coded list should eventually be removed after a web-service is made available for retrieving the set of accessioned species
+        var evaAccessionedSpeciesList = [
+            {"taxonomyEvaName": "carrot",  "assemblyName" : "GCA_001625215.1", "assemblyName": "ASM162521v1", "assemblyCode": "ASM162521v1"}
+        ]
+
+        var speciesListItems = speciesList.map(function(element) {
+            var key = element['taxonomyEvaName'].substr(0, 1).toUpperCase() + element['taxonomyEvaName'].substr(1) + ' / ' + element['assemblyName'];
+            var value = element['taxonomyCode'] + "_" + element['assemblyCode'];
+            return [key, value];
+        });
+
+        speciesListItems.sort(function(first, second) {return second[0] > first[0]? -1:1;});
+        var selectedSpeciesDropDown = document.getElementById("speciesDropDown");
+        speciesListItems.forEach(function(element) {
+            var option = document.createElement("option");
+            option.text = element[0];
+            option.value = element[1];
+            selectedSpeciesDropDown.add(option);
+        });
+    }
+
     function isValidAccessionID (accessionID) {
         return /^(rs|ss)[0-9]+$/.test(accessionID);
     }
 
-    function searchURL() {
+    $("#snpSearch").submit(function(event) {
+        /* stop form from submitting normally */
+        event.preventDefault();
+
         var accessionID = document.getElementById("accession-search-box").value.trim();
-        if (isValidAccessionID(accessionID)) {
-            //window.open("/src/index.html?variant&accessionID=" + accessionID, "_blank");
+        var selectedSpecies = document.getElementById("speciesDropDown");
+        var species = selectedSpecies.options[selectedSpecies.selectedIndex].value;
+
+        if (species === "Select Species") {
+            Ext.Msg.alert('Invalid Species', 'Please select a species');
+            return;
         }
-        else {
-            Ext.Msg.alert('Invalid accession ID', 'Please enter rs or ss followed by a numeric ID (ex: rs123 or ss567)');
+
+        if (!isValidAccessionID(accessionID)) {
+            Ext.Msg.alert('Invalid Accession ID', 'Please enter rs or ss followed by a numeric ID (ex: rs123 or ss567)');
+            return;
         }
-    }
+
+        window.open(window.location.href + "?variant&accessionID=" + accessionID + "&species=" + species, "_blank");
+    });
 
     function getUrlParameters(staticURL) {
         var data = [];
