@@ -252,7 +252,7 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'ids',
                     flex: 0.6,
                     iconCls: 'icon-info',
-                    tooltip: 'RefSnp (RS) or SubSnp (SS) identifier',
+                    tooltip: 'RefSNP (RS) or SubSNP (SS) identifier',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         var mainId = rec.get('mainId');
                         var values = _this.getVariantId(value, mainId);
@@ -934,24 +934,24 @@ EvaVariantWidget.prototype = {
                 var ssArray = [];
                 var otherArray = [];
                 _.each (_.keys (_temp), function (key) {
-                    if (this[key].match (rsRegEx)) {
-                        rsArray.push (this[key]);
+                    if (this[key].match(rsRegEx)) {
+                        rsArray.push(this[key]);
                     } else if (this[key].match (ssRegEx)) {
-                        ssArray.push (this[key]);
+                        ssArray.push(this[key]);
                     } else {
-                        otherArray.push (this[key]);
+                        otherArray.push(this[key]);
                     }
                 }, _temp);
 
-                if (!_.isEmpty (rsArray)) {
-                    rsArray.sort ();
-                    id = _.first (rsArray);
-                } else if (!_.isEmpty (ssArray)) {
-                    ssArray.sort ();
-                    id = _.first (ssArray);
+                if (!_.isEmpty(rsArray)) {
+                    rsArray.sort();
+                    id = _.first(rsArray);
+                } else if (!_.isEmpty(ssArray)) {
+                    ssArray.sort();
+                    id = _.first(ssArray);
                 } else {
-                    otherArray.sort ();
-                    id = _.first (otherArray);
+                    otherArray.sort();
+                    id = _.first(otherArray);
                 }
             } else {
                     id = '-';
@@ -959,10 +959,10 @@ EvaVariantWidget.prototype = {
         }
 
         if (id.match (rsRegEx)) {
-            ensemblURL = 'http://www.ensembl.org/Multi/Search/Results?q=' + id + ';site=ensembl_all;page=1;facet_feature_type=Variant';
+            ensemblURL = 'http://www.ensembl.org/Multi/Search/Results?q=' + id + ';facet_feature_type=Variant';
             dbsnpURL = 'http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs=' + id;
         } else if (id.match (ssRegEx)) {
-            ensemblURL = 'http://www.ensembl.org/Multi/Search/Results?q=' + id + ';site=ensembl_all;page=1;facet_feature_type=Variant';
+            ensemblURL = 'http://www.ensembl.org/Multi/Search/Results?q=' + id + ';facet_feature_type=Variant';
             dbsnpURL = 'http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id=' + id.substring (2);
         } else {
             ensemblURL = false;
