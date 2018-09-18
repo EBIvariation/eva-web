@@ -286,7 +286,7 @@ function checkEnsemblLink(driver){
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[contains(@class,'ensembl_link')]")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
-                assert(text).equalTo('http://www.ensembl.org/Homo_sapiens/Variation/Explore?v='+variantID);
+                assert(text).equalTo('http://www.ensembl.org/Multi/Search/Results?q='+variantID+';site=ensembl_all;page=1;facet_feature_type=Variant');
             });
         });
     });
