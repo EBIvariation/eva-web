@@ -252,9 +252,10 @@ EvaVariantWidget.prototype = {
                     dataIndex: 'ids',
                     flex: 0.6,
                     iconCls: 'icon-info',
-                    tooltip: 'RefSnp (RS) or SubSnp (SS) identifier',
+                    tooltip: 'RefSNP (RS) or SubSNP (SS) identifier',
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
-                        var values = _this.getVariantId(value);
+                        var mainId = rec.get('mainId');
+                        var values = _this.getVariantId(value, mainId);
                         return values.variantId;
                     }
                 },
@@ -270,7 +271,6 @@ EvaVariantWidget.prototype = {
                     xtype: "templatecolumn",
                     tpl: '<tpl if="type"><a href="http://www.ncbi.nlm.nih.gov/books/NBK44447/#Content.what_classes_of_genetic_variatio" target="_blank">{type}</a><tpl else>-</tpl>',
                     flex: 0.3
-
                 },
                 {
                     text: '<a href="http://www.ensembl.org/info/genome/variation/predicted_data.html#consequences" target="_blank"><span class="icon icon-generic header-icon" data-icon="i" style="margin-bottom:0px;"></span></a>Most Severe <br /> Consequence Type',
@@ -354,11 +354,11 @@ EvaVariantWidget.prototype = {
                         '<tpl else><span class="eva-grid-img-inactive">dbSNP</span></tpl>',
                         {
                             getEnsemblURL: function (value) {
-                                var values = _this.getVariantId(value.ids);
+                                var values = _this.getVariantId(value.ids, value.mainId);
                                 return values.ensemblURL;
                             },
                             getDbsnpURL: function (value) {
-                                var values = _this.getVariantId(value.ids);
+                                var values = _this.getVariantId(value.ids, value.mainId);
                                 return values.dbsnpURL;
                             },
                             getSpecies:function (value) {
@@ -827,11 +827,13 @@ EvaVariantWidget.prototype = {
 
         /* Get the column headers from the store dataIndex */
 
-        var removeKeys = ['hgvs', 'sourceEntries', 'ref', 'alt', 'hgvs_name', 'iid', 'annotation', 'id', 'conservedRegionScores', 'length'];
+        var removeKeys = ['hgvs', 'sourceEntries', 'ref', 'alt', 'hgvs_name', 'iid', 'annotation', 'id', 'conservedRegionScores', 'length', 'mainId'];
+        var columns = [];
 
         Ext.Object.each(records[0].data, function (key) {
             if (_.indexOf(removeKeys, key) <  0) {
                 csvContent += sdelimiter + key + edelimiter;
+                columns.push(key);
             }
         });
         csvContent += sdelimiter + 'Organism / Assembly' + edelimiter;
@@ -846,35 +848,28 @@ EvaVariantWidget.prototype = {
         for (var i = 0; i < records.length; i++) {
             /* Put the record object in somma seperated format */
             csvContent += snewLine;
-            Ext.Object.each(records[i].data, function (key, value) {
-                if (key == 'consequenceTypes') {
-                    var  so_array = getMostSevereConsequenceType(value);
-                    value = _.first(so_array);
-                } else if (key == 'phylop') {
-                    var phylop = _.findWhere(records[i].data[key], {source: key});
-                    if (phylop) {
-                        value = phylop.score.toFixed(3);
-                    } else {
-                        value = '';
-                    }
-                } else if (key == 'phastCons') {
-                    var phastCons = _.findWhere(records[i].data[key], {source: key});
-                    if (phastCons) {
-                        value = phastCons.score.toFixed(3);
-                    } else {
-                        value = '';
-                    }
-                } else if (key == 'ids') {
-                    value = _this.getVariantId(value).variantId;
-                }
-                if (_.indexOf(removeKeys, key) < 0 ){
-                    printableValue = ((noCsvSupport) && value == '') ? '&nbsp;' : value;
-                    printableValue = String(printableValue).replace(/,/g, "");
-                    printableValue = String(printableValue).replace(/(\r\n|\n|\r)/gm, "");
-                    csvContent += sdelimiter + printableValue + edelimiter;
-                }
-            });
 
+            var variant = records[i].data;
+            columns.forEach(function(element) {
+                var value = variant[element];
+
+                if(element == 'reference') {
+                    variant.reference ? value = variant.reference : value = '-';
+                } else if (element == 'alternate') {
+                    variant.alternate ? value = variant.alternate : value = '-';
+                } else if (element == 'ids') {
+                    value = _this.getVariantId(variant.ids, variant.mainId).variantId;
+                } else if (element == 'consequenceTypes') {
+                    var so_array = getMostSevereConsequenceType(variant.consequenceTypes);
+                    _.first(so_array) ? value = _.first(so_array) : value = '-';
+                }
+
+                printableValue = ((noCsvSupport) && value == '') ? '&nbsp;' : value;
+                printableValue = String(printableValue).replace(/,/g, "");
+                printableValue = String(printableValue).replace(/(\r\n|\n|\r)/gm, "");
+                csvContent += sdelimiter + printableValue + edelimiter;
+            });          
+                    
             var speciesName;
             var species;
             if (!_.isEmpty(_this.speciesList)) {
@@ -923,48 +918,51 @@ EvaVariantWidget.prototype = {
 
         return true;
     },
-    getVariantId: function (value) {
-        var id = value;
+    getVariantId: function (value, mainId) {
+        var id;
         var ensemblURL = '';
         var dbsnpURL = '';
         var rsRegEx = /^rs\d+$/;
         var ssRegEx = /^ss\d+$/;
-        if (value && value.split (",").length > 1) {
-            var _temp = value.split (",");
-            var rsArray = [];
-            var ssArray = [];
-            var otherArray = [];
-            _.each (_.keys (_temp), function (key) {
-                if (this[key].match (rsRegEx)) {
-                    rsArray.push (this[key]);
-                } else if (this[key].match (ssRegEx)) {
-                    ssArray.push (this[key]);
-                } else {
-                    otherArray.push (this[key]);
-                }
-            }, _temp);
 
-            if (!_.isEmpty (rsArray)) {
-                rsArray.sort ();
-                id = _.first (rsArray);
-            } else if (!_.isEmpty (ssArray)) {
-                ssArray.sort ();
-                id = _.first (ssArray);
-            } else {
-                otherArray.sort ();
-                id = _.first (otherArray);
-            }
+        if(mainId) {
+            id = mainId;
         } else {
-            if (_.isEmpty (value)) {
-                id = '-';
+            if (value && value.split (",").length > 1) {
+                var _temp = value.split (",");
+                var rsArray = [];
+                var ssArray = [];
+                var otherArray = [];
+                _.each (_.keys (_temp), function (key) {
+                    if (this[key].match(rsRegEx)) {
+                        rsArray.push(this[key]);
+                    } else if (this[key].match (ssRegEx)) {
+                        ssArray.push(this[key]);
+                    } else {
+                        otherArray.push(this[key]);
+                    }
+                }, _temp);
+
+                if (!_.isEmpty(rsArray)) {
+                    rsArray.sort();
+                    id = _.first(rsArray);
+                } else if (!_.isEmpty(ssArray)) {
+                    ssArray.sort();
+                    id = _.first(ssArray);
+                } else {
+                    otherArray.sort();
+                    id = _.first(otherArray);
+                }
+            } else {
+                    id = '-';
             }
         }
 
         if (id.match (rsRegEx)) {
-            ensemblURL = 'http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=' + id;
+            ensemblURL = 'http://www.ensembl.org/Multi/Search/Results?q=' + id + ';facet_feature_type=Variant';
             dbsnpURL = 'http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs=' + id;
         } else if (id.match (ssRegEx)) {
-            ensemblURL = 'http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=' + id;
+            ensemblURL = 'http://www.ensembl.org/Multi/Search/Results?q=' + id + ';facet_feature_type=Variant';
             dbsnpURL = 'http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id=' + id.substring (2);
         } else {
             ensemblURL = false;
