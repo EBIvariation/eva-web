@@ -24,157 +24,215 @@ function EvaVariantView(args) {
     _.extend(this, args);
     this.rendered = false;
     this.render();
-
 }
 EvaVariantView.prototype = {
-    render: function () {
-        var _this = this;
 
+    // Get the list of studies pertinent to the current species
+    getStudiesList: function(species) {
+        // Get studies list
+        var response = EvaManager.get({
+            category: 'meta/studies',
+            resource: 'list',
+            params: {species: species},
+            async: false
+        });
+
+        try {
+            if (response) {
+                var _tempStudies = response.response[0].result;
+                return _.map(_.keys(_tempStudies), function (key) {
+                    if(_.indexOf(DISABLE_STUDY_LINK, this[key].studyId) > -1){
+                        this[key].link = false;
+                    }else{
+                        this[key].link = true;
+                    }
+                    return this[key];
+                }, _tempStudies);
+            }
+            else {
+                return [];
+            }
+
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    // Given the accession category, use the accessioning web service to construct a variant object
+    getVariantInfoFromAccessioningService: function(accessionCategory, accessionID) {
+        var _this = this;
+        // Use attributes from Accessioning web service response to construct a variant object
+        var mapAccessioningServiceResponseToVariantInfo = function(response) {
+            var variantInfo = {};
+
+            var taxonomyIdFromAccService = response.data.taxonomyAccession;
+            if (!_.isEmpty(_this.speciesList) && typeof taxonomyIdFromAccService !== 'undefined') {
+                speciesObj = _.chain(_this.speciesList)
+                            .filter({taxonomyId: taxonomyIdFromAccService})
+                            .sortBy('assemblyAccession').value()[0];
+                variantInfo.species = speciesObj.taxonomyCode + "_" + speciesObj.assemblyCode;
+
+                variantInfo.chromosome = response.data.contig;
+                variantInfo.start = response.data.start;
+
+                variantInfo.reference = response.data.referenceAllele;
+                if (response.data.alternateAllele) {
+                    variantInfo.alternate = response.data.alternateAllele;
+                    variantInfo.end = variantInfo.start +
+                                            Math.max(response.data.referenceAllele.length,
+                                                     response.data.alternateAllele.length) - 1;
+                    variantInfo.position = [variantInfo.chromosome, variantInfo.start, variantInfo.reference,
+                                                         variantInfo.alternate].join(":");
+                    variantInfo.associatedRSID = variantInfo.clusteredVariantAccession;
+                }
+
+                var booleanToYesNo = function(booleanValue) {return booleanValue? "Yes" : "No"};
+                variantInfo.evidence = booleanToYesNo(response.data.supportedByEvidence);
+                variantInfo.assemblyMatch = booleanToYesNo(response.data.assemblyMatch);
+                variantInfo.allelesMatch = booleanToYesNo(response.data.allelesMatch);
+                variantInfo.validated = booleanToYesNo(response.data.validated);
+                if (response.data.createdDate) {
+                    var dateObj = new Date(response.data.createdDate);
+                    const monthNames = ["January", "February", "March", "April", "May", "June",
+                      "July", "August", "September", "October", "November", "December"
+                    ];
+                    variantInfo.createdDate = monthNames[dateObj.getMonth()] + " " + dateObj.getDate() + ", " +
+                                                dateObj.getFullYear();
+                }
+
+                if (accessionCategory === "clustered-variants") {
+                    variantInfo.id = "rs" + response.accession;
+                    variantInfo.associatedSSIDs = getAssociatedSSIDsFromAccessioningService
+                                                    (_this.accessionCategory, variantInfo.id).map(function(ssIDInfo) {
+                                                        return {"ID": "ss" + ssIDInfo.accession, "Chromosome": ssIDInfo.data.contig,
+                                                                "Start": ssIDInfo.data.start, "End": ssIDInfo.data.start,
+                                                                "Reference": ssIDInfo.data.referenceAllele, "Alternate": ssIDInfo.data.alternateAllele,
+                                                                "Orientation":"Fwd"}
+                                                    }
+                                                  );
+                    variantInfo.assembly = response.data.assemblyAccession;
+                }
+                if (_this.accessionCategory === "submitted-variants") {
+                    variantInfo.id = "ss" + response.accession;
+                    variantInfo.assembly = response.data.referenceSequenceAccession;
+                }
+
+                return variantInfo;
+            }
+        }
+
+        // For a given RS ID, get associated SS ID
+        var getAssociatedSSIDsFromAccessioningService = function(accessionCategory, accessionID) {
+             var response = EvaManager.get({
+                             service: ACCESSIONING_SERVICE,
+                             category: accessionCategory,
+                             resource: accessionID.substring(2) + "/submitted",
+                             async: false
+                         });
+             return response;
+        }
+
+        // Get response from the accessioning web service
+        var response = EvaManager.get({
+                        service: ACCESSIONING_SERVICE,
+                        category: accessionCategory,
+                        resource: accessionID.substring(2),
+                        async: false
+                    });
+        try {
+            if (typeof response !== 'undefined' && response != null && !_.isEmpty(response)) {
+                return response.map(mapAccessioningServiceResponseToVariantInfo);
+            }
+            else {
+                return [];
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    // Given a position or ssID, use the EVA web service to construct a variant object
+    getVariantInfoFromEVAService : function(attributeToSearchBy, queryParams) {
+        var webServiceResponse = EvaManager.get({
+            category: 'variants',
+            resource: 'info',
+            query: attributeToSearchBy,
+            params: queryParams,
+            async: false
+        });
+        var results = webServiceResponse.response[0].result;
+        if (results) {
+            results.forEach(function(result) {
+                result.associatedRSID = result.ids.find(x => x.startsWith("rs"));
+                result.associatedSSIDs = result.ids.filter(x => x.startsWith("ss"));
+                result.evidence = "Yes";
+                if (attributeToSearchBy.startsWith("rs") || attributeToSearchBy.startsWith("ss")) {
+                    result.id = attributeToSearchBy;
+                }
+                else {
+                    result.id = result.ids.find(x => x.startsWith("ss"));
+                }
+            });
+            return results;
+        }
+        else {
+            return [];
+        }
+    },
+
+    render: function () {
         this.targetDiv = (this.target instanceof HTMLElement) ? this.target : document.querySelector('#' + this.target);
         if (!this.targetDiv) {
             console.log('EVA-VariantView: target ' + this.target + ' not found');
             return;
         }
 
-        this.studiesList = [];
-        this.speciesList = getSpeciesList();
-        this.variantInfoFromAccessioningService = null;
-
-        this.getVariantInfoFromEVAService = function(position) {
-            var webServiceResponse = EvaManager.get({
-                category: 'variants',
-                resource: 'info',
-                query: position,
-                params: params,
-                async: false
-            });
-            var results = webServiceResponse.response[0].result;
-            results.forEach(function(result) {
-                result.associatedRSID = result.ids.find(x => x.startsWith("rs"));
-                result.associatedSSIDs = result.ids.filter(x => x.startsWith("ss"));
-            });
-            return results;
-        }
-
-        if (this.accessionID) {
-            this.getVariantInfoFromAccessioningService = function(accessionCategory, accessionID) {
-                EvaManager.get({
-                                service: ACCESSIONING_SERVICE,
-                                category: accessionCategory,
-                                resource: accessionID.substring(2),
-                                async: false,
-                                success: function (response) {
-                                    try {
-                                        if (typeof response !== 'undefined' && response != null && !_.isEmpty(response)) {
-                                            return response.map(_this.getVariantInfoFromAccessioningServiceResponse);
-                                        }
-                                    } catch (e) {
-                                        console.log(e);
-                                    }
-                                }
-                            });
-            }
-            this.getVariantInfoFromAccessioningServiceResponse = function(response) {
-                var variantInfo = {};
-
-                var taxonomyIdFromAccService = response[0].data.taxonomyAccession;
-                if (!_.isEmpty(_this.speciesList) && typeof taxonomyIdFromAccService !== 'undefined') {
-                    speciesObj = _.chain(_this.speciesList)
-                                .filter({taxonomyId: taxonomyIdFromAccService})
-                                .sortBy('assemblyAccession').value()[0];
-                    variantInfo.species = speciesObj.taxonomyCode + "_" + speciesObj.assemblyCode;
-
-                    variantInfo.chromosome = response.data.contig;
-                    variantInfo.start = response.data.start;
-
-                    variantInfo.reference = response.data.referenceAllele;
-                    if (response.data.alternateAllele) {
-                        variantInfo.alternate = response.data.alternateAllele;
-                        variantInfo.end = variantInfo.start +
-                                                Math.max(response.data.referenceAllele.length,
-                                                         response.data.alternateAllele.length) - 1;
-                        variantInfo.position = [variantInfo.chromosome, variantInfo.start, variantInfo.reference,
-                                                             variantInfo.alternate].join(":");
-                        variantInfo.associatedRSID = variantInfo.clusteredVariantAccession;
-                    }
-                    if (this.accessionCategory === "clustered-variants") {
-                        variantInfo.id = "rs" + response.accession;
-                    }
-                    if (this.accessionCategory === "submitted-variants") {
-                        variantInfo.id = "ss" + response.accession;
-                    }
-                    variantInfo.associatedSSIDs = [{"ID": "ss1", "Chromosome": 1, "Start": 3001313, "End": 3001313,
-                                                    "Reference": "C", "Alternate": "T",
-                                                    "Handle": "EVA_HANDLE1", "Orientation":"Fwd"},
-                                                   {"ID": "ss1", "Chromosome": 1, "Start": 3001313, "End": 3001313,
-                                                    "Reference": "C", "Alternate": "A",
-                                                    "Handle": "EVA_HANDLE1", "Orientation":"Fwd"},
-                                                   {"ID": "ss2", "Chromosome": 1, "Start": 3001313, "End": 3001313,
-                                                    "Reference": "C", "Alternate": "G",
-                                                    "Handle": "EVA_HANDLE1", "Orientation":"Fwd"}]
-                    return variantInfo;
-                }
-            }
-
-            this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
-            this.variantInfoFromAccessioningService = this.getVariantInfoFromAccessioningService(this.accessionCategory, this.accessionID);
-        }
-
-        // Get studies list
-        EvaManager.get({
-            category: 'meta/studies',
-            resource: 'list',
-            params: {species: this.species},
-            async: false,
-            success: function (response) {
-                try {
-                    var _tempStudies = response.response[0].result;
-                    _.each(_.keys(_tempStudies), function (key) {
-
-                        if(_.indexOf(DISABLE_STUDY_LINK, this[key].studyId) > -1){
-                            this[key].link = false;
-                        }else{
-                            this[key].link = true;
-                        }
-                        _this.studiesList.push(this[key])
-
-                    },_tempStudies);
-
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-        });
-
-        var params = {species: this.species};
+        var _this = this;
+        var queryParams = {species: this.species};
         if(this.annotationVersion){
             var _annotVersion = this.annotationVersion.split("_");
-            _.extend(params, {'annot-vep-version':_annotVersion[0]},{'annot-vep-cache-version':_annotVersion[1]});
+            _.extend(queryParams, {'annot-vep-version':_annotVersion[0]},{'annot-vep-cache-version':_annotVersion[1]});
         }
 
-        this.variant = []
-        if (this.variantInfoFromAccessioningService) {
-            this.variant = this.variantInfoFromAccessioningService;
-            this.variantAttributesFromAccessioningService = ["chromosome", "start", "reference", "alternate", "end", "id",
-                                                                               "position", "associatedSSIDs"]
+        this.studiesList = this.getStudiesList(this.species);
+        this.speciesList = getSpeciesList();
+
+        if (this.accessionID) {
+            this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
+            this.variant = this.getVariantInfoFromAccessioningService(this.accessionCategory, this.accessionID);
             this.variant.forEach(function(variantObj) {
-                var variantInfoFromEVAService = _this.getVariantInfoFromEVAService(variantObj.position)[0];
+                var variantInfoFromEVAService = _this.getVariantInfoFromEVAService(variantObj.id, queryParams);
+                // The above call returns an array with only one result so retrieve that result
+                variantInfoFromEVAService = variantInfoFromEVAService ? variantInfoFromEVAService[0] : null;
                 for (var key in variantInfoFromEVAService) {
-                    if (!_this.variantAttributesFromAccessioningService.includes(key)) {
+                    if (!(key in variantObj) || !(variantObj[key])) {
                         variantObj[key] = variantInfoFromEVAService[key];
                     }
                 }
                 variantObj.repr = variantObj.alternate ? (variantObj.reference + "/" + variantObj.alternate) : '';
             });
-            console.log(this.variantInfoFromAccessioningService);
         }
         else {
-            if (this.position || this.accessionID) {
-                var attributeToSearchBy = this.position ? this.position : this.accessionID;
-                var variantInfoFromEVAService = this.getVariantInfoFromEVAService(attributeToSearchBy);
-                if (variantInfoFromEVAService) {
-                    this.variant = [variantInfoFromEVAService[0]];
-                }
+            if (this.position) {
+                this.variant = this.getVariantInfoFromEVAService(this.position, queryParams);
+                this.variant.forEach(function(variantObj) {
+                    var matchingVariantFromAccessioningService = null;
+                    for (var ssID of variantObj.associatedSSIDs) {
+                        var result = _this.getVariantInfoFromAccessioningService("submitted-variants", ssID);
+                        if (result) {
+                            if (result.start == variantObj.start && result.reference === variantObj.reference &&
+                                result.alternate === variantObj.alternate) {
+                                    matchingVariantFromAccessioningService = result;
+                                    break;
+                            }
+                        }
+                    }
+                    for (var key in matchingVariantFromAccessioningService) {
+                        if (!(key in variantObj) || !(variantObj[key])) {
+                            variantObj[key] = matchingVariantFromAccessioningService[key];
+                        }
+                    }
+                });
             }
         }
 
@@ -250,8 +308,8 @@ EvaVariantView.prototype = {
         summaryEl.appendChild(summaryElDiv);
 
         if (this.accessionCategory == "submitted-variants" || this.position) {
-            if(!_.isUndefined(_this._renderConsequenceTypeData(_this.variant))) {
-                var consqTypeContent = _this._renderConsequenceTypeData(_this.variant);
+            var consqTypeContent = _this._renderConsequenceTypeData(_this.variant);
+            if(!_.isUndefined(consqTypeContent) && !_.isEmpty(consqTypeContent)) {
                 var consqTypeEl = document.querySelector("#consequence-types-grid");
                 var consqTypeElDiv = document.createElement("div");
                 consqTypeElDiv.innerHTML = consqTypeContent;
@@ -261,7 +319,7 @@ EvaVariantView.prototype = {
             var studyEl = document.querySelector("#studies-grid");
             this.variant.forEach(function(variant) {
                 var studyElDiv = document.createElement("div");
-                studyElDiv.setAttribute('id', `${variant.reference}_${variant.alternate}`);
+                studyElDiv.setAttribute('id', `files_${variant.reference}_${variant.alternate}`);
                 studyElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
                 studyEl.appendChild(studyElDiv);
                 _this.createVariantFilesPanel(studyElDiv, variant);
@@ -270,22 +328,32 @@ EvaVariantView.prototype = {
             var popStatsEl = document.querySelector("#population-stats-grid-view");
             this.variant.forEach(function(variant) {
                 var popStatsElDiv = document.createElement("div");
-                popStatsElDiv.setAttribute('id', `${variant.reference}_${variant.alternate}`);
+                popStatsElDiv.setAttribute('id', `popstats_${variant.reference}_${variant.alternate}`);
                 popStatsElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
                 popStatsEl.appendChild(popStatsElDiv);
-                var variantData = {repr: variant.repr, sourceEntries: variant.sourceEntries,
-                                    species: _this.species};
+                var variantData = {repr: variant.repr, sourceEntries: variant.sourceEntries, species: _this.species};
                 _this._createPopulationStatsPanel(popStatsElDiv, variantData);
             });
-        }
 
+            var genotypesEl = document.querySelector("#genotypes-grid");
+            this.variant.forEach(function(variant) {
+                var genotypesElDiv = document.createElement('div');
+                genotypesElDiv.setAttribute('id', `genotypes_${variant.reference}_${variant.alternate}`);
+                genotypesElDiv.setAttribute('class', 'ocb-variant-genotype-grid');
+                genotypesEl.appendChild(genotypesElDiv);
+                var variantData = {repr: variant.repr, sourceEntries: variant.sourceEntries, species: _this.species};
+                _this._createVariantGenotypeGridPanel(genotypesElDiv, variantData);
+            });
+        }
+        else {
+            document.getElementById("navigation-strip").remove();
+        }
     },
     _renderSummaryData: function (data) {
-        var speciesName;
+        var speciesName, organism;
         if (!_.isEmpty(this.speciesList)) {
             speciesName = _.findWhere(this.speciesList, {taxonomyCode: this.species.split("_")[0]}).taxonomyEvaName;
-            speciesName = speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1) + ' / ' +
-                _.findWhere(this.speciesList, {taxonomyCode: this.species.split("_")[0]}).assemblyName;
+            organism = speciesName.substr(0, 1).toUpperCase() + speciesName.substr(1);
         } else {
             speciesName = this.species;
         }
@@ -293,36 +361,55 @@ EvaVariantView.prototype = {
         var getSummaryTableHeaderRow = function(summaryData) {
             var header = '';
             _.each(_.keys(summaryData), function(key) {
-                header += `<th>${key}</th>`;
+                if (key === summaryDisplayFields.allelesMatch) {
+                    header += `<th><span title="${allelesMatchToolTip}">${key}</span></th>`;
+                }
+                else {
+                    header += `<th>${key}</th>`;
+                }
             });
             return `<thead><tr>${header}</tr></thead>`;
         }
         var getSummaryTableContentRow = function(summaryData) {
             var rowContent = '';
             _.each(_.keys(summaryData), function(key) {
-                rowContent += `<td>${summaryData[key]}</td>`;
+                var content = summaryData[key] ? summaryData[key]: '';
+                rowContent += `<td>${content}</td>`;
             });
             return `<tr>${rowContent}</tr>`;
         }
 
+        var summaryDisplayFields = {organism : "Organism", assembly: "Assembly", chromosome: "Contig", start: "Start",
+                                    end: "End", reference: "Reference", alternate: "Alternate", id: "ID",
+                                    evidence: "Evidence?", assemblyMatch: "Alleles match reference assembly?",
+                                    allelesMatch: "Reference allele in alleles list?",
+                                    validated: "Validated?", createdDate: "Created Date"};
+        var allelesMatchToolTip = "Reference allele appears in the list of alleles that were submitted";
         var summaryData = data.map(function(x) {
-            return {"Organism/Assembly": speciesName, "Chromosome": x.chromosome, "Start": x.start, "End": x.end,
-                    "Reference": _.escape(x.reference), "Alternate": _.escape(x.alternate)}
+
+            return {[summaryDisplayFields.organism]: [organism], [summaryDisplayFields.assembly]: [x.assembly],
+                    [summaryDisplayFields.chromosome]: [x.chromosome],
+                    [summaryDisplayFields.start]: [x.start], [summaryDisplayFields.end]: [x.end],
+                    [summaryDisplayFields.reference]: [_.escape(x.reference)], [summaryDisplayFields.alternate]: [_.escape(x.alternate)],
+                    [summaryDisplayFields.id]: [x.id], [summaryDisplayFields.evidence]: [x.evidence],
+                    [summaryDisplayFields.assemblyMatch]: [x.assemblyMatch], [summaryDisplayFields.allelesMatch]: [x.allelesMatch],
+                    [summaryDisplayFields.validated]: [x.validated], [summaryDisplayFields.createdDate]: [x.createdDate]}
         });
         var _summaryTable = '<h4 class="variant-view-h4">Variant Information</h4><div class="row"><div class="col-md-8">'
         var variantInfoTitle = [data[0].chromosome, data[0].start, data[0].reference].join(":");
         var rsReference = '';
 
         if (this.accessionCategory === "clustered-variants") {
-            summaryData = summaryData.map(x => _.omit(x, ["End", "Alternate"]));
+            summaryData = summaryData.map(x => _.omit(x, [summaryDisplayFields.end, summaryDisplayFields.reference, summaryDisplayFields.alternate,
+                                                          summaryDisplayFields.evidence, summaryDisplayFields.assemblyMatch,
+                                                          summaryDisplayFields.allelesMatch, summaryDisplayFields.validated]));
             var submitterInfoHeading = '<h4 class="variant-view-h4">Submitted Variants</b></h4><div class="row"><div class="col-md-8">'
             var associatedSSData = data[0].associatedSSIDs;
-            associatedSSData.forEach(x => x.ID = `<a href="?variant&accessionID=${x.ID}">${x.ID}</a>`);
+            associatedSSData.forEach(x => x.ID = `<a href="?variant&accessionID=${x.ID}&species=${this.species}">${x.ID}</a>`);
             var ssInfoHeaderRow = getSummaryTableHeaderRow(associatedSSData[0]);
             var ssInfoContentRows = associatedSSData.map(getSummaryTableContentRow).join("");
         }
         else {
-            variantInfoTitle += `:${data[0].alternate}`;
             if (data[0].associatedRSID) {
                 rsReference = `<small><b>Clustered</b> under
                                 <a href="?variant&accessionID=${data[0].associatedRSID}&species=${this.species}">
@@ -333,7 +420,6 @@ EvaVariantView.prototype = {
         var variantInfoHeaderRow = getSummaryTableHeaderRow(summaryData[0]);
         var variantInfoContentRows = summaryData.map(getSummaryTableContentRow).join("");
 
-        document.querySelector("#variantInfo").textContent = variantInfoTitle;
         _summaryTable += `<table class="table hover" style="font-size: small">${variantInfoHeaderRow}${variantInfoContentRows}</table>`;
         _summaryTable += '</div></div>';
         _summaryTable += ssInfoHeaderRow?
@@ -347,13 +433,14 @@ EvaVariantView.prototype = {
     _renderConsequenceTypeData: function (variantDataArray) {
         var _this = this;
         return variantDataArray.map(function(data) {
+            var consequenceTypeHeading = '<h4 class="variant-view-h4"> Consequence Types' + (data.repr ? " for "+data.repr : "") +  '</h4>';
+            var noDataAvailableSection = `${consequenceTypeHeading}<div style="margin-left:15px;">No Data Available</div>`;
             if(_.isUndefined(data.annotation)){
-              return;
+              return noDataAvailableSection;
             }
             var annotation = data.annotation.consequenceTypes;
-            var consequenceTypeHeading = '<h4 class="variant-view-h4"> Consequence Types' + (data.repr ? " for "+data.repr : "") +  '</h4>';
             if (!annotation) {
-                return `${consequenceTypeHeading}<div style="margin-left:15px;">No Data Available</div>`;
+                return noDataAvailableSection;
             }
             annotation = annotation.sort(_this._sortBy('ensemblGeneId', _this._sortBy('ensemblTranscriptId')));
             var _consequenceTypeTable = `${consequenceTypeHeading}<div class="row"><div><table class="table hover" style="font-size: small">`;
@@ -390,22 +477,6 @@ EvaVariantView.prototype = {
             _consequenceTypeTable += '</tbody></table></div></div>'
             return _consequenceTypeTable;
         }).join("");
-    },
-    _renderConservedRegionData: function (data) {
-        var conservedRegionScores = data[0].annotation.conservedRegionScores;
-        if (!conservedRegionScores) {
-            return '';
-        }
-        var _conservedRegionTable = '<div class="row"><div class="col-md-8"><table class="table hover">'
-        _conservedRegionTable += '<tr><th>Source</th><th>Score</th></tr>'
-        _.each(_.keys(conservedRegionScores), function (key) {
-            console.log(this[key])
-            _conservedRegionTable += '<tr><td>' + this[key].source + '</td><td>' + this[key].score + '</td></tr>'
-
-        }, conservedRegionScores);
-        _conservedRegionTable += '</table></div></div>'
-
-        return _conservedRegionTable;
     },
     _createPopulationStatsPanel: function (target, variantData) {
         var _this = this;
@@ -452,5 +523,41 @@ EvaVariantView.prototype = {
                 };
             }
         }
+    },
+
+    _createVariantGenotypeGridPanel: function (target, variantData) {
+        var _this = this;
+        var genotypeColumns = [
+            {
+                text: "Study",
+                dataIndex: "studyId",
+                flex: 1,
+                xtype: 'templatecolumn',
+                tpl: '<tpl if="reference">{reference}<tpl else>-</tpl>/<tpl if="alternate">{alternate}<tpl else>-</tpl>'
+            },
+            {
+                text: "Samples Count",
+                dataIndex: "samplesData",
+                flex: 1
+            }
+        ];
+
+        var variantGenotypeGridPanel = new EvaVariantGenotypeGridPanel({
+            panelID: variantData.repr ? variantData.repr.replace("/", "_"):'',
+            variantAlleles: variantData.repr,
+            target: target,
+            gridConfig: {
+                flex: 1,
+                layout: {
+                    align: 'stretch'
+                }
+            },
+            height: 500
+        });
+
+        variantGenotypeGridPanel.load(variantData.sourceEntries, {species: variantData.species}, _this.studiesList);
+        variantGenotypeGridPanel.draw();
+
+        return variantGenotypeGridPanel;
     }
 }

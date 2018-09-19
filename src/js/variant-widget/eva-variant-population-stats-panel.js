@@ -217,7 +217,7 @@ EvaVariantPopulationStatsPanel.prototype = {
             Ext.getCmp(this.populationStatsPanelID).update(`${populationStatsHeading}<p class="genotype-grid-no-data">&nbsp;No Population data available</p>`)
             return;
         } else {
-            Ext.getCmp(this.populationStatsPanelID).update(`${populationStatsHeading}<small>${this.tooltipText}</small></h6>`);
+            Ext.getCmp(this.populationStatsPanelID).update(`${populationStatsHeading}<h6><small>${this.tooltipText}</small></h6>`);
         }
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",
