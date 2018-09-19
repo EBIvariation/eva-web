@@ -52,6 +52,7 @@ function EvaVariantGenotypeGridPanel(args) {
     this.tooltipText = "Genotype data for the selected variant, split by study. N.B. “*” in the genotype denotes ‘not reference but exact ALT unknown’. This is a temporary solution whilst we work with the VCF specification team to better describe these complex cases";
 
     _.extend(this, args);
+    this.genotypesPanelID = 'genotypes' + this.panelID;
 
     this.on(this.handlers);
 
@@ -93,10 +94,12 @@ EvaVariantGenotypeGridPanel.prototype = {
         var genotypeChartData = [];
 
 
+        var genotypesHeading = "<h4>Genotypes" +
+                                                (this.variantAlleles? " for " + this.variantAlleles: "") + "</h4>";
         for (var key in data) {
             var study = data[key];
             if (!_.isUndefined(study.samplesData) && Object.keys(study.samplesData).length > 0) {
-                Ext.getCmp('genotypeTitle').update('<h4>Genotypes</h4><h6><small>'+this.tooltipText+'</small></h6>')
+                Ext.getCmp(this.genotypesPanelID).update(`${genotypesHeading}<h6><small>${this.tooltipText}</small></h6>`);
                 var genotypePanel = this._createGenotypePanel(study, params, studies);
                 genotypeChartData.push(genotypePanel.chartData)
                 panels.push(genotypePanel);
@@ -104,7 +107,7 @@ EvaVariantGenotypeGridPanel.prototype = {
         }
 
         if (_.isEmpty(panels)) {
-            Ext.getCmp('genotypeTitle').update('<h4>Genotypes</h4><p class="genotype-grid-no-data">No Genotypes data available</p>')
+            Ext.getCmp(this.genotypesPanelID).update(`${genotypesHeading}<p class="genotype-grid-no-data">No Genotypes data available</p>`)
         }
         this.clear();
         panels = _.sortBy(panels, 'projectName');
@@ -133,7 +136,7 @@ EvaVariantGenotypeGridPanel.prototype = {
             items: [
                 {
                     xtype: 'box',
-                    id: 'genotypeTitle',
+                    id: this.genotypesPanelID,
                     cls: 'ocb-header-4',
                     html: '<h4>Genotypes</h4><h6><small>'+this.tooltipText+'</small></h6>',
                     margin: '5 0 10 10'
