@@ -368,16 +368,9 @@ EvaVariantView.prototype = {
                 popStatsElDiv.setAttribute('id', "popstats_" + variant.reference + "_" + variant.alternate);
                 popStatsElDiv.setAttribute('class', 'eva variant-widget-panel ocb-variant-stats-panel');
                 popStatsEl.appendChild(popStatsElDiv);
-                var populationStatsHeading = '<h4 class="variant-view-h4"> Population Statistics' +
-                                                (variant.repr ? " for "+ variant.repr : "") +  '</h4>';
-                var noDataAvailableSection = '<div style="margin-left:15px;">No Data Available</div>';
                 if (variant.sourceEntries) {
-                    popStatsElDiv.innerHTML = populationStatsHeading;
                     var variantData = {repr: variant.repr, sourceEntries: variant.sourceEntries, species: _this.species};
                     _this._createPopulationStatsPanel(popStatsElDiv, variantData);
-                }
-                else {
-                    popStatsElDiv.innerHTML = populationStatsHeading + noDataAvailableSection;
                 }
             });
 

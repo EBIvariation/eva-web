@@ -117,11 +117,12 @@ EvaVariantPopulationStatsPanel.prototype = {
                     xtype: 'box',
                     id: this.populationStatsPanelID,
                     cls: 'ocb-header-4',
-                    //html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>',
+                    html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>',
                     margin: '5 0 10 15'
                 },
                 this.studiesContainer
-            ]
+            ],
+            height: this.height
         });
         return this.panel;
     },
