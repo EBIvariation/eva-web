@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-function getSpeciesList(){
+function getEVASpeciesList(){
     var speciesList = '';
     EvaManager.get({
         category: 'meta/species',
@@ -33,6 +33,16 @@ function getSpeciesList(){
         }
     });
 
+    return speciesList;
+}
+
+function getSpeciesList() {
+    //TODO: This hard-coded list should eventually be removed after a web-service is made available for retrieving the set of accessioned species
+    var evaAccessionedSpeciesList = [
+        {"taxonomyEvaName": "carrot",  "assemblyName" : "GCA_001625215.1", "assemblyName": "ASM162521v1", "assemblyCode": "ASM162521v1"}
+    ]
+    var speciesList = getEVASpeciesList();
+    speciesList = speciesList.concat(evaAccessionedSpeciesList);
     return speciesList;
 }
 

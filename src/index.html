@@ -1288,11 +1288,6 @@
     function populateSpeciesListForSNPSearch () {
         $.getScript('js/eva-config.js');
         var speciesList = getSpeciesList();
-        //TODO: This hard-coded list should eventually be removed after a web-service is made available for retrieving the set of accessioned species
-        var evaAccessionedSpeciesList = [
-            {"taxonomyEvaName": "carrot",  "assemblyName" : "GCA_001625215.1", "assemblyName": "ASM162521v1", "assemblyCode": "ASM162521v1"}
-        ]
-        speciesList = speciesList.concat(evaAccessionedSpeciesList);
 
         var speciesListItems = speciesList.map(function(element) {
             var key = element['taxonomyEvaName'].substr(0, 1).toUpperCase() + element['taxonomyEvaName'].substr(1) + ' / ' + element['assemblyName'];
