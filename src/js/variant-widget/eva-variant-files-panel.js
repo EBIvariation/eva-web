@@ -120,7 +120,7 @@ EvaVariantFilesPanel.prototype = {
                     xtype: 'box',
                     id: 'fileStats' + this.panelID,
                     cls: 'ocb-header-4',    
-                    html: `${panelHeading}<h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>`,
+                    html: panelHeading + "<h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>",
                 margin: '5 0 10 15'
                 },
                 this.studiesContainer

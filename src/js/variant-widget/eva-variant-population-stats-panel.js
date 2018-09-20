@@ -83,6 +83,8 @@ EvaVariantPopulationStatsPanel.prototype = {
         var _this = this;
         this.clear();
         var panels = [];
+        console.log(params.species);
+        console.log(this.variantAlleles);
         if (params.species) {
             for (var key in data) {
                 var study = data[key];
@@ -115,7 +117,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     xtype: 'box',
                     id: this.populationStatsPanelID,
                     cls: 'ocb-header-4',
-                    html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>',
+                    //html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>',
                     margin: '5 0 10 15'
                 },
                 this.studiesContainer
@@ -210,6 +212,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 sortable: true
             }
         };
+
 
         var populationStatsHeading = "<h4>Population Statistics" +
                                         (this.variantAlleles? " for " + this.variantAlleles: "") + "</h4>";
