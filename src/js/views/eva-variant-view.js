@@ -128,8 +128,6 @@ EvaVariantView.prototype = {
                     variantInfo.alternate = response.data.alternateAllele;
                     variantInfo.end = getVariantEndCoordinate(variantInfo.start, response.data.referenceAllele,
                                                                 response.data.alternateAllele);
-                    variantInfo.position = [variantInfo.chromosome, variantInfo.start, variantInfo.reference,
-                                                         variantInfo.alternate].join(":");
                     variantInfo.associatedRSID = variantInfo.clusteredVariantAccession;
                 }
 
@@ -164,7 +162,8 @@ EvaVariantView.prototype = {
                                                                 "End": getVariantEndCoordinate(ssIDInfo.data.start,
                                                                         ssIDInfo.data.referenceAllele, ssIDInfo.data.alternateAllele),
                                                                 "Reference": ssIDInfo.data.referenceAllele,
-                                                                "Alternate": ssIDInfo.data.alternateAllele};
+                                                                "Alternate": ssIDInfo.data.alternateAllele,
+                                                                "Created Date": ssIDInfo.data.createdDate};
                                                     }
                                                   );
                     variantInfo.type = response.data.type;
@@ -238,7 +237,7 @@ EvaVariantView.prototype = {
                 result.associatedSSIDs = result.associatedSSIDs.map(function(ssID) {
                     return {"ID": ssID, "Contig": result.chromosome,
                             "Start": result.start, "End": result.end,
-                            "Reference": result.reference, "Alternate": result.allAlternates};
+                            "Reference": result.reference, "Alternate": result.allAlternates, "Created Date": null};
                 });
                 result.evidence = "Yes";
                 if (attributeToSearchBy.startsWith("rs") || attributeToSearchBy.startsWith("ss")) {
@@ -257,6 +256,12 @@ EvaVariantView.prototype = {
         }
     },
 
+    // Test variant objects from the EVA and accessioning service
+    areVariantObjectsComparable: function (variantObj1, variantObj2) {
+        return (variantObj1.start === variantObj2.start && variantObj1.reference === variantObj2.reference &&
+                    variantObj1.alternate === variantObj2.alternate);
+    },
+
     // Process a query based on accession ID
     processQueryWithAccessioningService: function () {
         var _this = this;
@@ -266,26 +271,28 @@ EvaVariantView.prototype = {
                             return !_.isEmpty(variantObj);
                         });
 
-        this.variant.forEach(function(variantObj) {
-            var variantInfoFromEVAService = _this.getVariantInfoFromEVAService(variantObj.id, _this.queryParams);
-            // Prefer nice chromosome numbers (while it lasts) over ugly contig names from the accessioning service
+        this.variant.forEach(function(variantObjFromAccService) {
+            // A position based query would be more accurate but at this time contigs in
+            // the accessioning service is not equivalent to those in the EVA service
+            var variantInfoFromEVAService = _this.getVariantInfoFromEVAService(variantObjFromAccService.id, _this.queryParams);
+            // Prefer nice chromosome numbers, while it lasts, over ugly contig names from the accessioning service
             var preferredAttributesFromEVAService = ["chromosome"];
-            // The above call returns an array with only one result so retrieve that result
-            matchingVariantInfoFromEVAService = variantInfoFromEVAService.find(function(result) {
-                return (result.start === variantObj.start && result.reference === variantObj.reference &&
-                                                        result.alternate === variantObj.alternate);
-            });
+            // Match them against the
+            matchingVariantInfoFromEVAService = variantInfoFromEVAService.filter(function(variantObjFromEVAService) {
+                return _this.areVariantObjectsComparable(variantInfoFromEVAService, variantObjFromAccService);
+            })[0];
             for (var key in variantInfoFromEVAService) {
-                if (_.contains(preferredAttributesFromEVAService, key) || !(key in variantObj) ||
-                    typeof(variantObj[key]) === 'undefined' ||
-                    (variantObj[key] === "" && key !== "reference" && key !== "alternate")) {
-                        variantObj[key] = variantInfoFromEVAService[key];
+                if (_.contains(preferredAttributesFromEVAService, key) || !(key in variantObjFromAccService) ||
+                    typeof(variantObjFromAccService[key]) === 'undefined' ||
+                    (variantObjFromAccService[key] === "" && variantObjFromAccService !== "reference" &&
+                    variantObjFromAccService !== "alternate")) {
+                        variantObjFromAccService[key] = matchingVariantInfoFromEVAService[key];
                 }
             }
-            variantObj.associatedSSIDs.forEach(function(ssIDInfo){
-                ssIDInfo.Contig = variantInfoFromEVAService["chromosome"];
+            variantObjFromAccService.associatedSSIDs.forEach(function(ssIDInfo){
+                ssIDInfo.Contig = matchingVariantInfoFromEVAService["chromosome"];
             });
-            _this.addReprToVariantObj(variantObj);
+            _this.addReprToVariantObj(variantObjFromAccService);
         });
     },
 
@@ -296,26 +303,26 @@ EvaVariantView.prototype = {
                             .filter(function(variantObj) {
                                 return !_.isEmpty(variantObj);
                             });
-        this.variant.forEach(function(variantObj) {
-            var matchingVariantFromAccessioningService = _.chain(variantObj.associatedSSIDs).map(function(ssIDInfo) {
-                     return _this.getVariantInfoFromAccessioningService(_this.species, _this.speciesList,
-                                                                            "submitted-variants", ssIDInfo.ID);
-                    }).find(function(result) {
-                        if (result) {
-                            return (result.start === variantObj.start && result.reference === variantObj.reference &&
-                                        result.alternate === variantObj.alternate);
-                        }
-                        return false;
-                    }).value();
-            // Accessioning service is very precise when it comes to alleles for multi-allelics
-            var preferredAttributesFromAccessioningService = ["start", "end", "reference", "alternate", "id"];
-            for (var key in matchingVariantFromAccessioningService) {
-                if (_.contains(preferredAttributesFromAccessioningService, key) || !(key in variantObj) || !(variantObj[key])) {
-                    variantObj[key] = matchingVariantFromAccessioningService[key];
+        if (this.position) {
+            this.variant.forEach(function(variantObjFromEVAService) {
+                var matchingVariantFromAccessioningService = _.chain(variantObjFromEVAService.associatedSSIDs).map(function(ssIDInfo) {
+                         return _this.getVariantInfoFromAccessioningService(_this.species, _this.speciesList,
+                                                                                "submitted-variants", ssIDInfo.ID);
+                        }).filter(function(variantObjFromAccService) {
+                            return result ?
+                                _this.areVariantObjectsComparable(variantObjFromAccService, variantInfoFromEVAService) : false;
+                        }).value()[0];
+                // Accessioning service is very precise when it comes to alleles for multi-allelics
+                var preferredAttributesFromAccessioningService = ["start", "end", "reference", "alternate", "id"];
+                for (var key in matchingVariantFromAccessioningService) {
+                    if (_.contains(preferredAttributesFromAccessioningService, key) ||
+                        !(key in variantObjFromEVAService) || !(variantObjFromEVAService[key])) {
+                        variantObjFromEVAService[key] = matchingVariantFromAccessioningService[key];
+                    }
                 }
-            }
-            _this.addReprToVariantObj(variantObj);
-        });
+                _this.addReprToVariantObj(variantObjFromEVAService);
+            });
+        }
     },
 
     render: function () {
