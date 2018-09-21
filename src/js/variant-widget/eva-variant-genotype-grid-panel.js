@@ -99,7 +99,7 @@ EvaVariantGenotypeGridPanel.prototype = {
         for (var key in data) {
             var study = data[key];
             if (!_.isUndefined(study.samplesData) && Object.keys(study.samplesData).length > 0) {
-                Ext.getCmp(this.genotypesPanelID).update(`${genotypesHeading}<h6><small>${this.tooltipText}</small></h6>`);
+                Ext.getCmp(this.genotypesPanelID).update(genotypesHeading + '<h6><small>' + this.tooltipText + '</small></h6>');
                 var genotypePanel = this._createGenotypePanel(study, params, studies);
                 genotypeChartData.push(genotypePanel.chartData)
                 panels.push(genotypePanel);
@@ -107,7 +107,7 @@ EvaVariantGenotypeGridPanel.prototype = {
         }
 
         if (_.isEmpty(panels)) {
-            Ext.getCmp(this.genotypesPanelID).update(`${genotypesHeading}<p class="genotype-grid-no-data">No Genotypes data available</p>`)
+            Ext.getCmp(this.genotypesPanelID).update(genotypesHeading + '<p class="genotype-grid-no-data">No Genotypes data available</p>');
         }
         this.clear();
         panels = _.sortBy(panels, 'projectName');

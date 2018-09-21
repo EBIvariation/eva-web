@@ -118,7 +118,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     id: this.populationStatsPanelID,
                     cls: 'ocb-header-4',
                     html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>',
-                    margin: '5 0 10 15'
+                    margin: this.customMargin ? this.customMargin: '5 0 10 15',
                 },
                 this.studiesContainer
             ],
@@ -218,10 +218,10 @@ EvaVariantPopulationStatsPanel.prototype = {
         var populationStatsHeading = "<h4>Population Statistics" +
                                         (this.variantAlleles? " for " + this.variantAlleles: "") + "</h4>";
         if (_.isEmpty(populationData)) {
-            Ext.getCmp(this.populationStatsPanelID).update(`${populationStatsHeading}<p class="genotype-grid-no-data">&nbsp;No Population data available</p>`)
+            Ext.getCmp(this.populationStatsPanelID).update(populationStatsHeading + '<p class="genotype-grid-no-data">&nbsp;No Population data available</p>');
             return;
         } else {
-            Ext.getCmp(this.populationStatsPanelID).update(`${populationStatsHeading}<h6><small>${this.tooltipText}</small></h6>`);
+            Ext.getCmp(this.populationStatsPanelID).update(populationStatsHeading + '<h6><small>' + this.tooltipText + '</small></h6>');
         }
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",

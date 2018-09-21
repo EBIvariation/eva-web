@@ -1083,8 +1083,8 @@
                                     <a id="summary-button" href="#summary-grid-div" class="button">Summary</a>
                                     <a id="consequence-types-button" href="#consequence-types-grid-div" class="button">Consequence Type</a>
                                     <a id="studies-button" href="#studies-grid-div" class="button">Files</a>
-                                    <a id="population-stats-button" href="#population-stats-grid-div" class="button">Population Statistics</a>
                                     <a id="genotypes-button" href="#genotypes-grid-div" class="button">Genotypes</a>
+                                    <a id="population-stats-button" href="#population-stats-grid-div" class="button">Population Statistics</a>
                                 </div>
                         </div>
                     </div>
@@ -1095,10 +1095,10 @@
                         <div id="consequence-types-grid"></div>
                         <div id="studies-grid-div"  data-magellan-target="studies-grid-div"></div><br/>
                         <div id="studies-grid" style="margin-left:-20px;"></div>
-                        <div id="population-stats-grid-div"  data-magellan-target="population-stats-grid-div"></div><br/>
-                        <div id="population-stats-grid-view" style="margin-left:-20px;"></div>
                         <div id="genotypes-grid-div"  data-magellan-target="genotypes-grid-div"></div><br/>
                         <div id="genotypes-grid" style="margin-left:-20px;"></div>
+                        <div id="population-stats-grid-div"  data-magellan-target="population-stats-grid-div"></div><br/>
+                        <div id="population-stats-grid-view" style="margin-left:-20px;"></div>
                     </div>
                     <div id="variantViewContent"></div>
                 </div>
@@ -1323,7 +1323,7 @@
         }
 
         if (!isValidAccessionID(accessionID)) {
-            Ext.Msg.alert('Invalid Accession ID', 'Please enter rs or ss followed by a numeric ID (ex: rs123 or ss567)');
+            Ext.Msg.alert('Invalid Accession ID', 'Accession ID must have rs or ss followed by a number (ex: rs123 or ss567)');
             return;
         }
 
