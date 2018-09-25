@@ -190,7 +190,7 @@ EvaVariantFilesPanel.prototype = {
         if (attributes['src']) {
             vcfData = attributes['src'].split('\t');
             vcfTpl = new Ext.XTemplate(
-                '<table class="eva-attributes-table chrom-table">' +
+                '<table id="' + (this.panelTableID?this.panelTableID: Utils.genId("files-panel-table")) + '" class="eva-attributes-table chrom-table">' +
                     '<tr><td class="header"><span>CHROM</span></td>' +
                     '<td class="header"><span>POS</span></td>' +
                     '<td class="header"><span>ID</span></td>' +

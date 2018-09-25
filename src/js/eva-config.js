@@ -39,7 +39,10 @@ function getEVASpeciesList(){
 function getSpeciesList() {
     //TODO: This hard-coded list should eventually be removed after a web-service is made available for retrieving the set of accessioned species
     var evaAccessionedSpeciesList = [
-        {"taxonomyEvaName": "carrot",  "assemblyName" : "GCA_001625215.1", "assemblyName": "ASM162521v1", "assemblyCode": "ASM162521v1"}
+        {"taxonomyEvaName": "carrot", "taxonomyId": 79200, "taxonomyCode": "dcarota", "assemblyAccession" : "GCA_001625215.1", "assemblyName": "ASM162521v1",
+            "assemblyCode": "ASM162521v1"},
+        {"taxonomyEvaName": "bony fish", "taxonomyId": 7994, "taxonomyCode": "amexicanus", "assemblyAccession" : "GCF_000372685.1",
+            "assemblyName": "Astyanax_mexicanus-1.0.2", "assemblyCode": "Astyanax_mexicanus-1.0.2"}
     ]
     var speciesList = getEVASpeciesList();
     speciesList = speciesList.concat(evaAccessionedSpeciesList);
