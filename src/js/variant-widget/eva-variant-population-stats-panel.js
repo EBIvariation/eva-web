@@ -49,7 +49,7 @@ function EvaVariantPopulationStatsPanel(args) {
     );
     this.tooltipText = "Population frequency data. N.B. “*” in the genotype denotes ‘not reference but exact ALT not known’. This is a temporary solution whilst we work with the VCF specification team to better describe these complex cases";
     _.extend(this, args);
-    this.populationStatsPanelID = 'populationStats' + this.panelID;
+    this.populationStatsPanelID = 'populationStats' + (this.panelID ? this.panelID : '');
     this.on(this.handlers);
     this.rendered = false;
     if (this.autoRender) {

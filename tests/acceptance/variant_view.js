@@ -83,6 +83,19 @@ function checkElementContent(sectionName, testName, element, elementID, expected
     });
 }
 
+function checkNoDataAvailable(sectionName, testName, element, elementID, expectedValue) {
+    test.describe(sectionName, function() {
+        test.it(testName, function() {
+            var elementToFind = "//" + element + "[@id='" + elementID + "']//div[1]//span";
+            driver.wait(until.elementLocated(By.xpath(elementToFind)), config.wait()).then(function(text) {
+                driver.findElement(By.xpath(elementToFind)).getText().then(function(text){
+                    assert(text).equalTo(expectedValue);
+                });
+            });
+        });
+    });
+}
+
 test.describe('Variant View - rs exclusive to EVA', function() {
     var driver;
     test.before(function() {
@@ -333,4 +346,18 @@ test.describe('Variant View - ss by position', function() {
                       ];
     runTableTest("Population Statistics Section", "Population Statistics Section has the correct values",
                     "div", "popstats_C_T", expectedResults, checkPopulationStatsGrid);
+});
+
+test.describe('Variant View - Invalid SS', function() {
+    var driver;
+    test.before(function() {
+        driver = config.initDriver(config.browser());
+        driver.get(config.baseURL()+'?variant&accessionID=rs123&species=dcarota_ASM162521v1');
+    });
+
+    test.after(function() {
+        config.shutdownDriver(driver);
+    });
+
+    checkNoDataAvailable("Invalid SS", "Invalid SS shows proper error message", "div", "summary-grid", "No Data Available");
 });

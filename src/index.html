@@ -184,7 +184,7 @@
                             <form id="snpSearch" name="local-search" action="./variant" method="GET">
                                 <fieldset>
                                     <div class="inline-block">
-                                        <select id="speciesDropDown">
+                                        <select id="species-drop-down">
                                             <option value="Select Species" disabled selected>Select Species</option>
                                         </select>
 
@@ -1296,7 +1296,7 @@
         });
 
         speciesListItems.sort(function(first, second) {return second[0] > first[0]? -1:1;});
-        var selectedSpeciesDropDown = document.getElementById("speciesDropDown");
+        var selectedSpeciesDropDown = document.getElementById("species-drop-down");
         speciesListItems.forEach(function(element) {
             var option = document.createElement("option");
             option.text = element[0];
@@ -1314,7 +1314,7 @@
         event.preventDefault();
 
         var accessionID = document.getElementById("accession-search-box").value.trim();
-        var selectedSpecies = document.getElementById("speciesDropDown");
+        var selectedSpecies = document.getElementById("species-drop-down");
         var species = selectedSpecies.options[selectedSpecies.selectedIndex].value;
 
         if (species === "Select Species") {
