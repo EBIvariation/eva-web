@@ -83,8 +83,6 @@ EvaVariantPopulationStatsPanel.prototype = {
         var _this = this;
         this.clear();
         var panels = [];
-        console.log(params.species);
-        console.log(this.variantAlleles);
         if (params.species) {
             for (var key in data) {
                 var study = data[key];

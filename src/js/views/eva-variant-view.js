@@ -130,7 +130,7 @@ EvaVariantView.prototype = {
                 return response[0].data.type;
             }
             return '';
-        };
+        }
 
         // Check if two assemblies are equivalent. This is a crude and rudimentary check until
         // a better approach to determine assembly synonyms comes along
@@ -142,7 +142,7 @@ EvaVariantView.prototype = {
                     assemblyAccession1.replace("gcf", "gca") === assemblyAccession2.replace("gcf", "gca"));
             }
             return false;
-        };
+        }
 
         // Use attributes from Accessioning web service response to construct a variant object
         function mapAccessioningServiceResponseToVariantInfo(response) {
@@ -197,7 +197,7 @@ EvaVariantView.prototype = {
 
                 return variantInfo;
             }
-        };
+        }
 
         // Get response from the accessioning web service
         var response = EvaManager.get({
