@@ -16,9 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-$.getScript('js/eva-web-utils.js');
-
 function EvaStudyBrowserWidgetPanel(args) {
     var _this = this;
     _.extend(this, Backbone.Events);
@@ -378,6 +375,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
 
         var data;
         var manager = browserType == 'sv' ? DgvaManager : EvaManager;
+
         manager.get({
                     category: 'meta/studies',
                     resource: 'stats',
@@ -426,7 +424,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                             console.log(e);
                         }
                     }
-        });
+                });
     },
 
     _loadStudies: function (params, browserType) {
