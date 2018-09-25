@@ -377,54 +377,54 @@ EvaStudyBrowserWidgetPanel.prototype = {
         var manager = browserType == 'sv' ? DgvaManager : EvaManager;
 
         manager.get({
-                    category: 'meta/studies',
-                    resource: 'stats',
-                    params: values,
-                    async: false,
-                    success: function (response) {
-                        try {
-                            var statsData = {};
-                            var responseStatsData = response.response[0].result[0];
+            category: 'meta/studies',
+            resource: 'stats',
+            params: values,
+            async: false,
+            success: function (response) {
+                try {
+                    var statsData = {};
+                    var responseStatsData = response.response[0].result[0];
 
-                            for (key in responseStatsData) {
-                                var stat = responseStatsData[key];
-                                var arr = [];
-                                for (key2 in stat) {
-                                    var obj = {};
-                                    var checked = false;
-                                    if (key == 'species') {
-                                        if (_.indexOf(defaultSpecies, key2) > -1) {
-                                            checked = true;
-                                        }
-                                    } else if (key == 'type') {
-                                        if (_.indexOf(defaultType, key2) > -1) {
-                                            checked = true;
-                                        }
-                                    }
-                                    // TODO We must take care of the types returned
-                                    if (key2.indexOf(',') == -1) {
-                                        obj['display'] = key2;
-                                        obj['leaf'] = true;
-                                        obj['checked'] = checked;
-                                        obj['iconCls'] = "no-icon";
-                                        obj['count'] = stat[key2];
-                                    }
-                                    if (!_.isEmpty(obj)) {
-                                        arr.push(obj);
-                                    }
+                    for (key in responseStatsData) {
+                        var stat = responseStatsData[key];
+                        var arr = [];
+                        for (key2 in stat) {
+                            var obj = {};
+                            var checked = false;
+                            if (key == 'species') {
+                                if (_.indexOf(defaultSpecies, key2) > -1) {
+                                    checked = true;
                                 }
-
-                                statsData[key] = arr;
-                                statsData[key] = _.sortBy(statsData[key], 'display');
-                                _this.speciesFilter.store.loadRawData(statsData['species']);
-                                _this.typeFilter.store.loadRawData(statsData['type']);
-                                data = statsData;
+                            } else if (key == 'type') {
+                                if (_.indexOf(defaultType, key2) > -1) {
+                                    checked = true;
+                                }
                             }
-                        } catch (e) {
-                            console.log(e);
+                            // TODO We must take care of the types returned
+                            if (key2.indexOf(',') == -1) {
+                                obj['display'] = key2;
+                                obj['leaf'] = true;
+                                obj['checked'] = checked;
+                                obj['iconCls'] = "no-icon";
+                                obj['count'] = stat[key2];
+                            }
+                            if (!_.isEmpty(obj)) {
+                                arr.push(obj);
+                            }
                         }
+
+                        statsData[key] = arr;
+                        statsData[key] = _.sortBy(statsData[key], 'display');
+                        _this.speciesFilter.store.loadRawData(statsData['species']);
+                        _this.typeFilter.store.loadRawData(statsData['type']);
+                        data = statsData;
                     }
-                });
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
     },
 
     _loadStudies: function (params, browserType) {
