@@ -49,7 +49,7 @@ EvadbSNPImportProgress.prototype = {
             version: DBSNP_VERSION,
             category: 'import-status',
             resource: '',
-            params:{size:80},
+            params:{size:190},
             async: false,
             success: function (response) {
                 try {
