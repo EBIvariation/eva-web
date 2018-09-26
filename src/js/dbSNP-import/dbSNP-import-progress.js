@@ -131,6 +131,9 @@ EvadbSNPImportProgress.prototype = {
             // truncate the proportion to 4 decimals, to be showed as a percentage with 2 decimals
             proportion = Math.floor((importedIds / totalIds) * 10000) / 10000;
             progress = importedIds.toLocaleString() + ' / ' + totalIds.toLocaleString();
+        } else if(totalIds) {
+            proportion = 0;
+            progress = '0 / ' + totalIds.toLocaleString();
         } else {
             proportion = 0;
             progress = '0 / 0';
