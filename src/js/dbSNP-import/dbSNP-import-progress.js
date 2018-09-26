@@ -28,7 +28,7 @@ EvadbSNPImportProgress.prototype = {
     render: function () {
         var _this = this;
         _this._draw( _this._createContent());
-        $("#dbSNP-import-table").tablesorter({ sortList: [[5,1], [7,1], [0,0]] });
+        $("#dbSNP-import-table").tablesorter({ sortList: [[5,1], [6,1], [0,0]] });
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'EvadbSNPImportProgress', eventLabel: 'EvadbSNPImportProgress'});
     },
@@ -85,8 +85,8 @@ EvadbSNPImportProgress.prototype = {
                 '</tr>' +
                 '<tr>' +
                     '<th><div title="RS IDs and associated SS IDs available in the last dbSNP build for a species">Current RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
-                    '<th><div title="RS IDs merged into others">Synonymous RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                     '<th><div title="SS IDs available in the last dbSNP build for a species">Current SS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th><div title="RS IDs merged into others">Synonymous RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                 '</tr>' +
                 '</thead><tbody>';
 
@@ -104,20 +104,18 @@ EvadbSNPImportProgress.prototype = {
             }
 
             var importedRs = _this._getImportStatus(this[key].importedRs, this[key].totalRsDbsnp);
-
-            var importedSynonymousRs = _this._getImportStatus(this[key].importedSynonymousRs, this[key].totalSynonymousRsDbsnp);
-            
             var importedSs = _this._getImportStatus(this[key].importedSs, this[key].totalSsDbsnp);
+            var importedSynonymousRs = _this._getImportStatus(this[key].importedSynonymousRs, this[key].totalSynonymousRsDbsnp);
 
             table += '<tr>' +
-                '<td style="text-align:left;"><span class="dbSNP-common-name">'+this[key].commonName+'</span></td>' +
-                '<td style="text-align:left;"><span class="dbSNP-scientific-name">'+this[key].scientificName+'</span></td>' +
+                '<td><span class="dbSNP-common-name">'+this[key].commonName+'</span></td>' +
+                '<td><span class="dbSNP-scientific-name">'+this[key].scientificName+'</span></td>' +
                 '<td><span class="dbSNP-tax-id">'+taxonomy_link+'</span></td>' +
                 '<td><span class="dbSNP-assembly-accession">'+genbankAssemblyAccession+'</span></td>' +
                 '<td><span class="dbSNP-build">'+this[key].lastDbsnpBuild+'</span></td>' +
                 '<td><span class="dbSNP-imported-rs">'+importedRs+'</span></td>' + 
-                '<td><span class="dbSNP-imported-synonymous-rs">'+importedSynonymousRs+'</span></td>' +
                 '<td><span class="dbSNP-imported-ss">'+importedSs+'</span></td>' +
+                '<td><span class="dbSNP-imported-synonymous-rs">'+importedSynonymousRs+'</span></td>' +
                 '</tr>';
         }, data);
         table += '</tbody></table></div></div>';
