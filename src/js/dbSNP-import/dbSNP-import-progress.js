@@ -84,7 +84,7 @@ EvadbSNPImportProgress.prototype = {
                     '<th colspan="3" style="background-image:none;">Searchable by</th>' +
                 '</tr>' +
                 '<tr>' +
-                    '<th><div title="RS IDs and associated SS IDs available in the last dbSNP build for a species">Current RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th><div title="RS IDs available in the last dbSNP build for a species">Current RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                     '<th><div title="SS IDs available in the last dbSNP build for a species">Current SS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                     '<th><div title="RS IDs merged into others">Synonymous RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                 '</tr>' +
