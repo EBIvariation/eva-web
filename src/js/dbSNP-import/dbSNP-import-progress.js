@@ -28,7 +28,7 @@ EvadbSNPImportProgress.prototype = {
     render: function () {
         var _this = this;
         _this._draw( _this._createContent());
-        $("#dbSNP-import-table").tablesorter({ sortList: [[5,1], [0,0]] });
+        $("#dbSNP-import-table").tablesorter({ sortList: [[5,1], [6,1], [0,0]] });
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'EvadbSNPImportProgress', eventLabel: 'EvadbSNPImportProgress'});
     },
@@ -49,7 +49,7 @@ EvadbSNPImportProgress.prototype = {
             version: DBSNP_VERSION,
             category: 'import-status',
             resource: '',
-            params:{size:80},
+            params:{size:190},
             async: false,
             success: function (response) {
                 try {
@@ -84,7 +84,8 @@ EvadbSNPImportProgress.prototype = {
                     '<th colspan="3" style="background-image:none;">Searchable by</th>' +
                 '</tr>' +
                 '<tr>' +
-                    '<th><div title="RS IDs and associated SS IDs available in the last dbSNP build for a species">Current RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th><div title="RS IDs available in the last dbSNP build for a species">Current RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th><div title="SS IDs available in the last dbSNP build for a species">Current SS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                     '<th><div title="RS IDs merged into others">Synonymous RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                 '</tr>' +
                 '</thead><tbody>';
@@ -102,9 +103,9 @@ EvadbSNPImportProgress.prototype = {
                 taxonomy_link = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:'+this[key].taxId+'">'+this[key].taxId+'</a>';
             }
 
-            var importedIds = _this._getImportStatus(this[key].importedIds, this[key].totalIdsDbsnp);
-
-            var importedSynonymousIds = _this._getImportStatus(this[key].importedSynonymousIds, this[key].totalSynonymousIdsDbsnp);            
+            var importedRs = _this._getImportStatus(this[key].importedRs, this[key].totalRsDbsnp);
+            var importedSs = _this._getImportStatus(this[key].importedSs, this[key].totalSsDbsnp);
+            var importedSynonymousRs = _this._getImportStatus(this[key].importedSynonymousRs, this[key].totalSynonymousRsDbsnp);
 
             table += '<tr>' +
                 '<td><span class="dbSNP-common-name">'+this[key].commonName+'</span></td>' +
@@ -112,8 +113,9 @@ EvadbSNPImportProgress.prototype = {
                 '<td><span class="dbSNP-tax-id">'+taxonomy_link+'</span></td>' +
                 '<td><span class="dbSNP-assembly-accession">'+genbankAssemblyAccession+'</span></td>' +
                 '<td><span class="dbSNP-build">'+this[key].lastDbsnpBuild+'</span></td>' +
-                '<td><span class="dbSNP-imported-ids">'+importedIds+'</span></td>' + 
-                '<td><span class="dbSNP-imported-synonymous-ids">'+importedSynonymousIds+'</span></td>' +
+                '<td><span class="dbSNP-imported-rs">'+importedRs+'</span></td>' + 
+                '<td><span class="dbSNP-imported-ss">'+importedSs+'</span></td>' +
+                '<td><span class="dbSNP-imported-synonymous-rs">'+importedSynonymousRs+'</span></td>' +
                 '</tr>';
         }, data);
         table += '</tbody></table></div></div>';
@@ -129,6 +131,9 @@ EvadbSNPImportProgress.prototype = {
             // truncate the proportion to 4 decimals, to be showed as a percentage with 2 decimals
             proportion = Math.floor((importedIds / totalIds) * 10000) / 10000;
             progress = importedIds.toLocaleString() + ' / ' + totalIds.toLocaleString();
+        } else if(totalIds) {
+            proportion = 0;
+            progress = '0 / ' + totalIds.toLocaleString();
         } else {
             proportion = 0;
             progress = '0 / 0';
