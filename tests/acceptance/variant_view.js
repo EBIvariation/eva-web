@@ -108,16 +108,16 @@ test.describe('Variant View - rs exclusive to EVA', function() {
     });
 
     var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.6", "Contig": "7",
-                            "Start": "119786918", "ID": "rs2020677", "Orientation": "Fwd", "Type": "SNV",
+                            "Start": "119786918", "ID": "rs2020677", "Type": "",
                             "Created Date": ""}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 
-    expectedResults = [{"ID": "ss47184058", "Contig": "7", "Start": "119786918",
-                        "End": "119786918", "Reference": "G", "Alternate": "A", "Created Date": ""},
-                        {"ID": "ss1565899", "Contig": "7", "Start": "119786918",
-                         "End": "119786918", "Reference": "G", "Alternate": "A", "Created Date": ""},
-                        {"ID": "ss372922602", "Contig": "7", "Start": "119786918",
+    expectedResults = [{"ID": "ss47184058", "Submitter Handle": "", "Contig": "7", "Start": "119786918",
+                        "End": "119786918", "Submitter Handle": "", "Reference": "G", "Alternate": "A", "Created Date": ""},
+                        {"ID": "ss1565899", "Submitter Handle": "", "Contig": "7", "Start": "119786918",
+                         "End": "119786918", "Submitter Handle": "", "Reference": "G", "Alternate": "A", "Created Date": ""},
+                        {"ID": "ss372922602", "Submitter Handle": "", "Contig": "7", "Start": "119786918",
                          "End": "119786918", "Reference": "G", "Alternate": "A", "Created Date": ""}
                       ];
     runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
@@ -135,14 +135,14 @@ test.describe('Variant View - ss exclusive to EVA', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.6", "Contig": "1",
+    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.6", "Submitter Handle": "", "Contig": "1",
                             "Start": "3001313", "End": "3001313", "Reference": "C", "Alternate": "A",
-                            "ID": "ss914406059", "Orientation": "Fwd", "Type": "SNV", "Evidence?": "Yes",
+                            "ID": "ss914406059", "Type": "", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
                             "Validated?": "", "Created Date": ""},
-                           {"Organism": "Mouse", "Assembly": "GCA_000001635.6", "Contig": "1",
+                           {"Organism": "Mouse", "Assembly": "GCA_000001635.6",  "Submitter Handle": "", "Contig": "1",
                            "Start": "3001313", "End": "3001313", "Reference": "C", "Alternate": "T",
-                           "ID": "ss914406059", "Orientation": "Fwd", "Type": "SNV", "Evidence?": "Yes",
+                           "ID": "ss914406059", "Type": "", "Allele frequencies / genotypes available?": "Yes",
                            "Alleles match reference assembly?": "", "Passed allele checks?": "",
                            "Validated?": "", "Created Date": ""}
                           ];
@@ -189,13 +189,14 @@ test.describe('Variant View - rs exclusive to Accessioning', function() {
     });
 
     var expectedResults = [{"Organism": "Carrot", "Assembly": "GCA_001625215.1", "Contig": "CM004278.1",
-                            "Start": "672678", "ID": "rs884750506", "Orientation": "Fwd", "Type": "SNV",
+                            "Start": "672678", "ID": "rs884750506", "Type": "SNV",
                             "Created Date": "October 27, 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 
-    expectedResults = [{"ID": "ss1996903386", "Contig": "CM004278.1", "Start": "672678",
-                        "End": "672678", "Reference": "A", "Alternate": "C,G,T", "Created Date": "May 19, 2016"}
+    expectedResults = [{"ID": "ss1996903386", "Submitter Handle": "DCAR_GENOME PAPER 1393431 SNPS",
+                        "Contig": "CM004278.1", "Start": "672678", "End": "672678", "Reference": "A",
+                        "Alternate": "C,G,T", "Created Date": "May 19, 2016"}
                       ];
     runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
                 "table", "submitted-variant-summary", expectedResults, checkSection);
@@ -212,9 +213,9 @@ test.describe('Variant View - ss exclusive to Accessioning', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Carrot", "Assembly": "GCA_001625215.1", "Contig": "CM004278.1",
-                            "Start": "672678", "End": "672678", "Reference": "A", "Alternate": "T",
-                            "ID": "ss1996903386", "Orientation": "Fwd", "Type": "", "Evidence?": "No",
+    var expectedResults = [{"Organism": "Carrot", "Assembly": "GCA_001625215.1", "Submitter Handle": "DCAR_GENOME PAPER 1393431 SNPS",
+                            "Contig": "CM004278.1", "Start": "672678", "End": "672678", "Reference": "A", "Alternate": "C",
+                            "ID": "ss1996903386", "Type": "SNV", "Allele frequencies / genotypes available?": "No",
                             "Alleles match reference assembly?": "Yes", "Passed allele checks?": "Yes",
                             "Validated?": "No", "Created Date": "May 19, 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
@@ -233,12 +234,12 @@ test.describe('Variant View - rs found in both EVA and Accessioning', function()
     });
 
     var expectedResults = [{"Organism": "Vervet monkey", "Assembly": "GCA_000409795.2", "Contig": "11",
-                            "Start": "50921862", "ID": "rs869710784", "Orientation": "Fwd", "Type": "SNV",
+                            "Start": "50921862", "ID": "rs869710784", "Type": "SNV",
                             "Created Date": "May 16, 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 
-    expectedResults = [{"ID": "ss1991442915", "Contig": "11", "Start": "50921862",
+    expectedResults = [{"ID": "ss1991442915", "Submitter Handle": "PRJEB7923", "Contig": "11", "Start": "50921862",
                         "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "May 5, 2016"}
                       ];
     runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
@@ -256,9 +257,9 @@ test.describe('Variant View - ss found in both EVA and Accessioning', function()
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Vervet monkey", "Assembly": "GCA_000409795.2", "Contig": "11",
-                            "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G",
-                            "ID": "ss1991442915", "Orientation": "Fwd", "Type": "SNV", "Evidence?": "Yes",
+    var expectedResults = [{"Organism": "Vervet monkey", "Assembly": "GCA_000409795.2", "Submitter Handle": "PRJEB7923",
+                            "Contig": "11", "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G",
+                            "ID": "ss1991442915", "Type": "SNV", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "Yes", "Passed allele checks?": "Yes",
                             "Validated?": "No", "Created Date": "May 5, 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
@@ -298,9 +299,9 @@ test.describe('Variant View - ss by position', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1", "Contig": "1",
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1", "Submitter Handle": "", "Contig": "1",
                             "Start": "3000017", "End": "3000017", "Reference": "C", "Alternate": "T", "ID":"ss1289423512",
-                            "Orientation": "Fwd", "Type": "SNV", "Evidence?": "Yes",
+                            "Type": "", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
                             "Validated?": "", "Created Date": ""}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",

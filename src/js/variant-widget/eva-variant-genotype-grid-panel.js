@@ -52,7 +52,7 @@ function EvaVariantGenotypeGridPanel(args) {
     this.tooltipText = "Genotype data for the selected variant, split by study. N.B. “*” in the genotype denotes ‘not reference but exact ALT unknown’. This is a temporary solution whilst we work with the VCF specification team to better describe these complex cases";
 
     _.extend(this, args);
-    this.genotypesPanelID = 'genotypes' + this.panelID;
+    this.genotypesPanelID = 'genotypes' + (this.panelID ? this.panelID : '');
 
     this.on(this.handlers);
 
@@ -108,6 +108,7 @@ EvaVariantGenotypeGridPanel.prototype = {
 
         if (_.isEmpty(panels)) {
             Ext.getCmp(this.genotypesPanelID).update(genotypesHeading + '<p class="genotype-grid-no-data">No Genotypes data available</p>');
+            this._lowerPanelHeightWhenDataAbsent();
         }
         this.clear();
         panels = _.sortBy(panels, 'projectName');
@@ -116,6 +117,11 @@ EvaVariantGenotypeGridPanel.prototype = {
         _.each(_.keys(genotypeChartData), function (key) {
             _this._drawChart(this[key]);
         }, genotypeChartData);
+    },
+    _lowerPanelHeightWhenDataAbsent: function() {
+        if (this.invokedFromVariantView) {
+            Ext.getCmp("genotypes-containing-panel-" + this.genotypesPanelID).setHeight(120);
+        }
     },
     _createPanel: function () {
         this.studiesContainer = Ext.create('Ext.container.Container', {
@@ -131,6 +137,7 @@ EvaVariantGenotypeGridPanel.prototype = {
                 type: 'vbox',
                 align: 'stretch'
             },
+            id: "genotypes-containing-panel-" + this.genotypesPanelID,
             overflowY: true,
             padding: 0,
             items: [

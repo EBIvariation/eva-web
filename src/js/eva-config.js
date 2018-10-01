@@ -69,3 +69,8 @@ function getProjects(){
 
 DISABLE_STUDY_LINK = ['PRJX00001'];
 ACCESSIONING_SERVICE = 'accessioning-service';
+VARIANT_TYPE_SO_MAP = {"SNV": "SO:0001483", "DEL": "SO:0000159", "INS": "SO:0000667", "INDEL": "SO:1000032",
+                       "TANDEM_REPEAT": "SO:0000705", "SEQUENCE_ALTERATION": "SO:0001059",
+                       "NO_SEQUENCE_ALTERATION" : "SO:0002073", "MNV": "SO:0002007"};
+SO_SERVICE = "http://www.sequenceontology.org/browser/current_release/term";
+ENA_ASSEMBLY_LOOKUP_SERVICE = "https://www.ebi.ac.uk/ena/data/view";

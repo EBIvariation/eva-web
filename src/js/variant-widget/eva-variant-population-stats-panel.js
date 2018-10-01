@@ -50,6 +50,8 @@ function EvaVariantPopulationStatsPanel(args) {
     this.tooltipText = "Population frequency data. N.B. “*” in the genotype denotes ‘not reference but exact ALT not known’. This is a temporary solution whilst we work with the VCF specification team to better describe these complex cases";
     _.extend(this, args);
     this.populationStatsPanelID = 'populationStats' + (this.panelID ? this.panelID : '');
+    this.populationStatsHeading = "<h4>Population Statistics" +
+                                            (this.variantAlleles? " for " + this.variantAlleles: "") + "</h4>";
     this.on(this.handlers);
     this.rendered = false;
     if (this.autoRender) {
@@ -84,13 +86,25 @@ EvaVariantPopulationStatsPanel.prototype = {
         this.clear();
         var panels = [];
         if (params.species) {
-            for (var key in data) {
-                var study = data[key];
-                var studyPanel = this._createPopulationGridPanel(study, params, studies);
-                panels.push(studyPanel);
+            if (data) {
+                for (var key in data) {
+                    var study = data[key];
+                    var studyPanel = this._createPopulationGridPanel(study, params, studies);
+                    panels.push(studyPanel);
+                }
+                panels = _.sortBy(panels, 'projectName');
+                this.studiesContainer.add(panels);
             }
-            panels = _.sortBy(panels, 'projectName');
-            this.studiesContainer.add(panels);
+            else {
+                this.updatePopulationStatsPanelHeading
+                                (this.populationStatsHeading + '<p class="genotype-grid-no-data">No Population data available</p>');
+                this._lowerPanelHeightWhenDataAbsent();
+            }
+        }
+    },
+    _lowerPanelHeightWhenDataAbsent: function() {
+        if (this.invokedFromVariantView) {
+            Ext.getCmp("population-stats-containing-panel-" + this.populationStatsPanelID).setHeight(120);
         }
     },
     _createPanel: function () {
@@ -107,6 +121,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 type: 'vbox',
                 align: 'stretch'
             },
+            id: "population-stats-containing-panel-" + this.populationStatsPanelID,
             overflowY: true,
             overflowX: true,
             padding: 10,
@@ -115,7 +130,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     xtype: 'box',
                     id: this.populationStatsPanelID,
                     cls: 'ocb-header-4',
-                    html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">&nbsp;No Population data available</p>',
+                    html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">No Population data available</p>',
                     margin: this.customMargin ? this.customMargin: '5 0 10 15',
                 },
                 this.studiesContainer
@@ -123,6 +138,9 @@ EvaVariantPopulationStatsPanel.prototype = {
             height: this.height
         });
         return this.panel;
+    },
+    updatePopulationStatsPanelHeading: function (heading) {
+        Ext.getCmp(this.populationStatsPanelID).update(heading);
     },
     _createPopulationGridPanel: function (data, params, studies) {
         var _this = this;
@@ -212,14 +230,14 @@ EvaVariantPopulationStatsPanel.prototype = {
             }
         };
 
-
-        var populationStatsHeading = "<h4>Population Statistics" +
-                                        (this.variantAlleles? " for " + this.variantAlleles: "") + "</h4>";
         if (_.isEmpty(populationData)) {
-            Ext.getCmp(this.populationStatsPanelID).update(populationStatsHeading + '<p class="genotype-grid-no-data">&nbsp;No Population data available</p>');
+            this.updatePopulationStatsPanelHeading
+                (this.populationStatsHeading + '<p class="genotype-grid-no-data">No Population data available</p>');
+            this._lowerPanelHeightWhenDataAbsent();
             return;
         } else {
-            Ext.getCmp(this.populationStatsPanelID).update(populationStatsHeading + '<h6><small>' + this.tooltipText + '</small></h6>');
+            this.updatePopulationStatsPanelHeading
+                (this.populationStatsHeading + '<h6><small>' + this.tooltipText + '</small></h6>');
         }
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",

@@ -184,14 +184,20 @@
                             <form id="snpSearch" name="local-search" action="./variant" method="GET">
                                 <fieldset>
                                     <div class="inline-block">
-                                        <select id="species-drop-down">
-                                            <option value="Select Species" disabled selected>Select Species</option>
-                                        </select>
+                                        <div class="medium-6 columns">
+                                            <select id="species-drop-down">
+                                                <option value="Select Species" disabled selected>Select Species</option>
+                                            </select>
+                                        </div>
 
-                                        <input type="text" name="accessionID" id="accession-search-box" placeholder="ex: rs123, ss567">
+                                        <div class="medium-5 columns">
+                                            <input type="text" name="accessionID" id="accession-search-box" placeholder="ex: rs123, ss567">
+                                        </div>
 
-                                        <div class="input-group-button">
-                                            <input name="accessionID" id="accession-search-button" value="Search" type="submit">
+                                        <div class="medium-1 columns">
+                                            <div class="input-group-button">
+                                                <input class="button" name="accessionID" id="accession-search-button" value="Search" type="submit">
+                                            </div>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -1286,7 +1292,6 @@
     };
 
     function populateSpeciesListForSNPSearch () {
-        $.getScript('js/eva-config.js');
         var speciesList = getSpeciesList();
 
         var speciesListItems = speciesList.map(function(element) {

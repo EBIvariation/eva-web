@@ -69,6 +69,8 @@ EvaVariantFilesPanel.prototype = {
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
 
+        this.panelHeading = "<h4>Files" + (this.variantAlleles? " for " + this.variantAlleles : "") + "</h4>";
+        this.panelID = 'fileStats' + (this.panelID ? this.panelID: '');
         this.panel = this._createPanel();
 
     },
@@ -88,17 +90,26 @@ EvaVariantFilesPanel.prototype = {
         var _this = this;
         this.clear();
         var panels = [];
-
-        for (var key in data) {
-            var study = data[key];
-            var studyPanel = this._createStudyPanel(study, params, studies);
-            panels.push(studyPanel);
+        if (data) {
+            for (var key in data) {
+                var study = data[key];
+                var studyPanel = this._createStudyPanel(study, params, studies);
+                panels.push(studyPanel);
+            }
+            panels = _.sortBy(panels, 'projectName');
+            this.studiesContainer.add(panels);
         }
-        panels = _.sortBy(panels, 'projectName');
-        this.studiesContainer.add(panels);
+        else {
+            this._lowerPanelHeightWhenDataAbsent();
+        }
+    },
+    _lowerPanelHeightWhenDataAbsent: function() {
+        if (this.invokedFromVariantView) {
+            Ext.getCmp("files-containing-panel-" + this.panelID).setHeight(130);
+            Ext.getCmp(this.panelID).setHtml(this.panelHeading + "<div>No files data available</div>");
+        }
     },
     _createPanel: function () {
-        var panelHeading = "<h4>Files" + (this.variantAlleles? " for " + this.variantAlleles : "") + "</h4>";
         this.studiesContainer = Ext.create('Ext.container.Container', {
             layout: {
                 type: 'accordion',
@@ -112,16 +123,17 @@ EvaVariantFilesPanel.prototype = {
                 type: 'vbox',
                 align: 'stretch'
             },
+            id: "files-containing-panel-" + this.panelID,
             overflowY: true,
             overflowX: true,
             padding: 10,
             items: [
                 {
                     xtype: 'box',
-                    id: 'fileStats' + this.panelID,
+                    id: this.panelID,
                     cls: 'ocb-header-4',    
-                    html: panelHeading + "<h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>",
-                margin: '5 0 10 15'
+                    html: this.panelHeading + "<h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>",
+                    margin: this.customMargin? this.customMargin : '5 0 10 15'
                 },
                 this.studiesContainer
             ],
