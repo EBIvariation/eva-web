@@ -100,7 +100,7 @@ function sgvStudySearchBySpeciesType(driver){
             for (i = 1; i <= rows; i++) {
                 species = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[4]/div[text()]")).getText();
                 type = driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[6]/div/tpl[text()]")).getText();
-                var speciesRegex =   new RegExp('(Horse|Human|Guinea pig)', 'g');
+                var speciesRegex =   new RegExp('(Horse|Human)', 'g');
                 var typeRegex =   new RegExp('(ES|WGS)', 'g');
                 assert(species).matches(speciesRegex);
                 assert(type).matches(typeRegex);

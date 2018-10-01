@@ -39,8 +39,15 @@ EvaVariantView.prototype = {
     getAssemblyLink: function(assembly) {
         if (assembly) {
             assembly = assembly.toUpperCase();
-            return '<a href="' + ENA_ASSEMBLY_LOOKUP_SERVICE + "/" + assembly + '" target="_blank">'
-                                        + assembly + '</a>';
+            var assemblyLookupService = "";
+            if (assembly.startsWith("GCA")) {
+                assemblyLookupService = ENA_ASSEMBLY_LOOKUP_SERVICE;
+            } else if (assembly.startsWith("GCF")) {
+                assemblyLookupService = NCBI_ASSEMBLY_LOOKUP_SERVICE;
+            }
+            if (assemblyLookupService) {
+                return '<a href="' + assemblyLookupService + "/" + assembly + '" target="_blank">' + assembly + '</a>';
+            }
         }
         return '';
     },
@@ -74,13 +81,12 @@ EvaVariantView.prototype = {
                 return _.map(_.keys(_tempStudies), function (key) {
                     if(_.indexOf(DISABLE_STUDY_LINK, this[key].studyId) > -1){
                         this[key].link = false;
-                    }else{
+                    } else {
                         this[key].link = true;
                     }
                     return this[key];
                 }, _tempStudies);
-            }
-            else {
+            } else {
                 return [];
             }
 
@@ -107,7 +113,7 @@ EvaVariantView.prototype = {
             var monthNames = ["January", "February", "March", "April", "May", "June",
               "July", "August", "September", "October", "November", "December"
             ];
-            return monthNames[dateObj.getMonth()] + " " + dateObj.getDate() + ", " +
+            return dateObj.getDate() + " " + monthNames[dateObj.getMonth()] + " " +
                                         dateObj.getFullYear();
         }
         return '';
@@ -118,8 +124,7 @@ EvaVariantView.prototype = {
             this.associatedSSIDs[ssIDKey].Alternate =
                 _.uniq(this.associatedSSIDs[ssIDKey].Alternate.concat(ssIDAttributes.Alternate));
             this.associatedSSIDs[ssIDKey].Alternate.sort();
-        }
-        else {
+        } else {
             this.associatedSSIDs[ssIDKey] = ssIDAttributes;
         }
     },
@@ -160,7 +165,7 @@ EvaVariantView.prototype = {
 
     getProjectAccessionAnchor: function (projectAccession) {
         if (projectAccession) {
-            if(projectAccession.trim().startsWith("PRJEB")) {
+            if(projectAccession.trim().startsWith("PRJEB") || projectAccession.trim().startsWith("PRJNA")) {
                 var studyTitle = this.getStudyTitle(projectAccession);
                 return '<a href="?eva-study=' + projectAccession + '" target="_blank" ' +
                         (studyTitle ? 'title="' + studyTitle + '"' : '') + '>' + projectAccession + '</a>';
@@ -190,8 +195,9 @@ EvaVariantView.prototype = {
             return '';
         }
 
-        // Check if two assemblies are equivalent. This is a crude and rudimentary check until
-        // a better approach to determine assembly synonyms comes along
+        // Check if two assemblies are equivalent.
+        // TODO: This is a crude and rudimentary check until a better approach to determine assembly synonyms comes along
+        // For some species like Arabidopsis the equivalent assemblies in GCF and GCA could have different versions
         function areAssembliesEquivalent (assemblyAccession1, assemblyAccession2) {
             if (assemblyAccession1 && assemblyAccession2) {
                 assemblyAccession1 = assemblyAccession1.trim().toLowerCase();
@@ -236,8 +242,7 @@ EvaVariantView.prototype = {
                 var booleanOrNullToYesNoEmpty = function(booleanValue) {
                     if (booleanValue === true) {
                         return "Yes";
-                    }
-                    else if (booleanValue === false) {
+                    } else if (booleanValue === false) {
                         return "No";
                     }
                     return "";
@@ -265,8 +270,7 @@ EvaVariantView.prototype = {
         try {
             if (this.isValidResponse(response)) {
                 return _.map(response, mapAccessioningServiceResponseToVariantInfo);
-            }
-            else {
+            } else {
                 return [];
             }
         } catch (e) {
@@ -300,16 +304,14 @@ EvaVariantView.prototype = {
                     result.evidence = "Yes";
                     if (attributeToSearchBy.startsWith("rs") || attributeToSearchBy.startsWith("ss")) {
                         result.id = attributeToSearchBy;
-                    }
-                    else {
+                    } else {
                         // For position based searches, return all possible IDs because EVA service
                         // cannot precisely tell the ID
                         result.id = result.ids.filter(function(x) {return x.startsWith("ss");}).join(",");
                     }
                 });
                 return results;
-            }
-            else {
+            } else {
                 return [];
             }
         }
@@ -344,7 +346,7 @@ EvaVariantView.prototype = {
                 _this.getAssociatedSSIDsFromAccessioningService(_this.accessionCategory, variantObjFromAccService.id).forEach(function(ssIDInfo) {
                         _this.addAssociatedSSID("ss" + ssIDInfo.accession + "_" + ssIDInfo.data.contig,
                         {"ID": "ss" + ssIDInfo.accession,
-                        "Submitter Handle": _this.getProjectAccessionAnchor(ssIDInfo.data.projectAccession),
+                        "Study": _this.getProjectAccessionAnchor(ssIDInfo.data.projectAccession),
                         "Contig": ssIDInfo.data.contig, "Start": ssIDInfo.data.start,
                         "End": _this.getVariantEndCoordinate(ssIDInfo.data.start,
                                                             ssIDInfo.data.referenceAllele, ssIDInfo.data.alternateAllele),
@@ -395,7 +397,7 @@ EvaVariantView.prototype = {
         this.variant.forEach(function(variantObjFromEVAService) {
             variantObjFromEVAService.associatedSSIDs.forEach(function(ssID) {
                 _this.addAssociatedSSID(ssID + "_" + variantObjFromEVAService.chromosome,
-                    {"ID": ssID, "Submitter Handle": _this.getProjectAccessionAnchorForSSID(ssID),
+                    {"ID": ssID, "Study": _this.getProjectAccessionAnchorForSSID(ssID),
                     "Contig": variantObjFromEVAService.chromosome,
                     "Start": variantObjFromEVAService.start, "End": variantObjFromEVAService.end,
                     "Reference": variantObjFromEVAService.reference, "Alternate": variantObjFromEVAService.allAlternates,
@@ -563,8 +565,7 @@ EvaVariantView.prototype = {
                 var variantData = {repr: variant.repr, sourceEntries: variant.sourceEntries, species: _this.species};
                 _this._createPopulationStatsPanel(popStatsElDiv, variantData);
             });
-        }
-        else {
+        } else {
             document.getElementById("navigation-strip").remove();
         }
     },
@@ -583,8 +584,7 @@ EvaVariantView.prototype = {
             _.each(_.keys(summaryData), function(key) {
                 if (key === summaryDisplayFields.allelesMatch) {
                     header += '<th><span title="' + allelesMatchToolTip + '">' + key + '</span></th>';
-                }
-                else {
+                } else {
                     header += '<th>' + key + '</th>';
                 }
             });
@@ -599,7 +599,7 @@ EvaVariantView.prototype = {
             return '<tr>' + rowContent + '</tr>';
         };
 
-        var summaryDisplayFields = {organism : "Organism", assembly: "Assembly", submitterHandle: "Submitter Handle", chromosome: "Contig", start: "Start",
+        var summaryDisplayFields = {organism : "Organism", assembly: "Assembly", submitterHandle: "Study", chromosome: "Contig", start: "Start",
                                     end: "End", reference: "Reference", alternate: "Alternate", id: "ID",
                                     type: "Type", evidence: "Allele frequencies / genotypes available?", assemblyMatch: "Alleles match reference assembly?",
                                     allelesMatch: 'Passed allele checks? <i class="icon icon-generic" data-icon="i">',
@@ -642,8 +642,7 @@ EvaVariantView.prototype = {
             });
             ssInfoHeaderRow = getSummaryTableHeaderRow(_.values(associatedSSData)[0]);
             ssInfoContentRows = _.values(associatedSSData).map(getSummaryTableContentRow).join("");
-        }
-        else {
+        } else {
             if (data[0].associatedRSID) {
                 rsReference = '<small><b>Clustered</b> under <a id="rs-link" href="?variant&accessionID=' +
                                 data[0].associatedRSID + '&species=' + this.species + '">' +
@@ -686,7 +685,7 @@ EvaVariantView.prototype = {
                 var annotationDetails = this[key];
                 var soTerms = this[key].soTerms;
                 _.each(_.keys(soTerms), function (key) {
-                    var link = '<a href="http://www.sequenceontology.org/miso/current_svn/term/' + this[key].soAccession + '" target="_blank">' + this[key].soAccession + '</a>';
+                    var link = '<a href="' + SO_SERVICE + '/' + this[key].soAccession + '" target="_blank">' + this[key].soAccession + '</a>';
                     var so_term_detail = consequenceTypeDetails[soTerms[0].soName];
                     var color = '';
                     var impact = '';
@@ -699,12 +698,10 @@ EvaVariantView.prototype = {
 
                     var ensemblGeneId = '-';
                     if (annotationDetails.ensemblGeneId) {
-    //                     ensemblGeneId = '<a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g='+annotationDetails.ensemblGeneId+'" target="_blank">'+annotationDetails.ensemblGeneId+'</a>';
                         ensemblGeneId = annotationDetails.ensemblGeneId;
                     }
                     var ensemblTranscriptId = '-';
                     if (annotationDetails.ensemblTranscriptId) {
-    //                    ensemblTranscriptId = '<a href="http://www.ensembl.org/Homo_sapiens/transview?transcript='+annotationDetails.ensemblTranscriptId+'" target="_blank">'+annotationDetails.ensemblTranscriptId+'</a>';
                         ensemblTranscriptId = annotationDetails.ensemblTranscriptId;
                     }
                     _consequenceTypeTable += '<tr><td class="variant-view-ensemblGeneId">' + ensemblGeneId + '</td><td class="variant-view-ensemblTranscriptId">' + ensemblTranscriptId + '</td><td class="variant-view-link">' + link + '</td><td class="variant-view-soname">' + this[key].soName + '&nbsp;' + svg + '</td></tr>';

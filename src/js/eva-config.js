@@ -41,7 +41,7 @@ function getSpeciesList() {
     var evaAccessionedSpeciesList = [
         {"taxonomyEvaName": "carrot", "taxonomyId": 79200, "taxonomyCode": "dcarota", "assemblyAccession" : "GCA_001625215.1", "assemblyName": "ASM162521v1",
             "assemblyCode": "ASM162521v1"},
-        {"taxonomyEvaName": "bony fish", "taxonomyId": 7994, "taxonomyCode": "amexicanus", "assemblyAccession" : "GCF_000372685.1",
+        {"taxonomyEvaName": "Mexican tetra", "taxonomyId": 7994, "taxonomyCode": "amexicanus", "assemblyAccession" : "GCF_000372685.1",
             "assemblyName": "Astyanax_mexicanus-1.0.2", "assemblyCode": "Astyanax_mexicanus-1.0.2"}
     ]
     var speciesList = getEVASpeciesList();
@@ -69,8 +69,14 @@ function getProjects(){
 
 DISABLE_STUDY_LINK = ['PRJX00001'];
 ACCESSIONING_SERVICE = 'accessioning-service';
-VARIANT_TYPE_SO_MAP = {"SNV": "SO:0001483", "DEL": "SO:0000159", "INS": "SO:0000667", "INDEL": "SO:1000032",
-                       "TANDEM_REPEAT": "SO:0000705", "SEQUENCE_ALTERATION": "SO:0001059",
-                       "NO_SEQUENCE_ALTERATION" : "SO:0002073", "MNV": "SO:0002007"};
+VARIANT_TYPE_SO_MAP = {"SNV": "SO:0001483",
+                       "DEL": "SO:0000159",
+                       "INS": "SO:0000667",
+                       "INDEL": "SO:1000032",
+                       "TANDEM_REPEAT": "SO:0000705",
+                       "SEQUENCE_ALTERATION": "SO:0001059",
+                       "NO_SEQUENCE_ALTERATION" : "SO:0002073",
+                       "MNV": "SO:0002007"};
 SO_SERVICE = "http://www.sequenceontology.org/browser/current_release/term";
 ENA_ASSEMBLY_LOOKUP_SERVICE = "https://www.ebi.ac.uk/ena/data/view";
+NCBI_ASSEMBLY_LOOKUP_SERVICE = "https://www.ncbi.nlm.nih.gov/assembly";

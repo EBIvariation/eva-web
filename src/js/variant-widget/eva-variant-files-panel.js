@@ -98,8 +98,7 @@ EvaVariantFilesPanel.prototype = {
             }
             panels = _.sortBy(panels, 'projectName');
             this.studiesContainer.add(panels);
-        }
-        else {
+        } else {
             this._lowerPanelHeightWhenDataAbsent();
         }
     },

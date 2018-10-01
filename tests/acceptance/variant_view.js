@@ -190,13 +190,13 @@ test.describe('Variant View - rs exclusive to Accessioning', function() {
 
     var expectedResults = [{"Organism": "Carrot", "Assembly": "GCA_001625215.1", "Contig": "CM004278.1",
                             "Start": "672678", "ID": "rs884750506", "Type": "SNV",
-                            "Created Date": "October 27, 2016"}];
+                            "Created Date": "27 October 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 
     expectedResults = [{"ID": "ss1996903386", "Submitter Handle": "DCAR_GENOME PAPER 1393431 SNPS",
                         "Contig": "CM004278.1", "Start": "672678", "End": "672678", "Reference": "A",
-                        "Alternate": "C,G,T", "Created Date": "May 19, 2016"}
+                        "Alternate": "C,G,T", "Created Date": "19 May 2016"}
                       ];
     runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
                 "table", "submitted-variant-summary", expectedResults, checkSection);
@@ -217,7 +217,7 @@ test.describe('Variant View - ss exclusive to Accessioning', function() {
                             "Contig": "CM004278.1", "Start": "672678", "End": "672678", "Reference": "A", "Alternate": "C",
                             "ID": "ss1996903386", "Type": "SNV", "Allele frequencies / genotypes available?": "No",
                             "Alleles match reference assembly?": "Yes", "Passed allele checks?": "Yes",
-                            "Validated?": "No", "Created Date": "May 19, 2016"}];
+                            "Validated?": "No", "Created Date": "19 May 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 });
@@ -235,12 +235,12 @@ test.describe('Variant View - rs found in both EVA and Accessioning', function()
 
     var expectedResults = [{"Organism": "Vervet monkey", "Assembly": "GCA_000409795.2", "Contig": "11",
                             "Start": "50921862", "ID": "rs869710784", "Type": "SNV",
-                            "Created Date": "May 16, 2016"}];
+                            "Created Date": "16 May 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 
     expectedResults = [{"ID": "ss1991442915", "Submitter Handle": "PRJEB7923", "Contig": "11", "Start": "50921862",
-                        "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "May 5, 2016"}
+                        "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "5 May 2016"}
                       ];
     runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
                 "table", "submitted-variant-summary", expectedResults, checkSection);
@@ -261,7 +261,7 @@ test.describe('Variant View - ss found in both EVA and Accessioning', function()
                             "Contig": "11", "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G",
                             "ID": "ss1991442915", "Type": "SNV", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "Yes", "Passed allele checks?": "Yes",
-                            "Validated?": "No", "Created Date": "May 5, 2016"}];
+                            "Validated?": "No", "Created Date": "5 May 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 

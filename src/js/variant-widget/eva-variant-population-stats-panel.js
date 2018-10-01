@@ -94,8 +94,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                 }
                 panels = _.sortBy(panels, 'projectName');
                 this.studiesContainer.add(panels);
-            }
-            else {
+            } else {
                 this.updatePopulationStatsPanelHeading
                                 (this.populationStatsHeading + '<p class="genotype-grid-no-data">No Population data available</p>');
                 this._lowerPanelHeightWhenDataAbsent();
