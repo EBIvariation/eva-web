@@ -168,9 +168,11 @@ module.exports = {
         return driver;
     },
     populationTab:function(driver){
-        config.sleep(driver);
-        driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//span[text()]")).then(function(webElement) {
-            driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//span[text()]")), config.wait()).then(function(text) {
+        var populationTabXPath = "//div[contains(@id,'VariantPopulationPanel')]//div//span[text()]";
+        var elementToFind = driver.findElement(By.xpath(populationTabXPath));
+        driver.executeScript("arguments[0].scrollIntoView(true);", elementToFind);
+        elementToFind.then(function(webElement) {
+            driver.wait(until.elementLocated(By.xpath(populationTabXPath)), config.wait()).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
                     var popStatsArray = new Array();
                     var studyTitleArray = new Array();
@@ -236,9 +238,11 @@ module.exports = {
                 });
             });
         },function(err) {
+            console.log(err);
             driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//h5")).then(function(text) {
                 assert(text).equalTo('Currently for 1000 Genomes Project data only');
             },function(err) {
+                console.log(err);
                 driver.findElement(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[@class='popstats-no-data']")).getText().then(function(text){
                     assert(text).equalTo('No Population data available');
                 });

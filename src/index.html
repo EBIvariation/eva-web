@@ -1332,7 +1332,7 @@
             return;
         }
 
-        window.open(window.location.href + "?variant&accessionID=" + accessionID + "&species=" + species, "_blank");
+        window.open(window.location.origin + window.location.pathname + "?variant&accessionID=" + accessionID + "&species=" + species, "_blank");
     });
 
     function getUrlParameters(staticURL) {
