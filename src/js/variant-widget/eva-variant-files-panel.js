@@ -201,7 +201,7 @@ EvaVariantFilesPanel.prototype = {
         if (attributes['src']) {
             vcfData = attributes['src'].split('\t');
             vcfTpl = new Ext.XTemplate(
-                '<table id="' + (this.panelTableID?this.panelTableID: Utils.genId("files-panel-table")) + '" class="eva-attributes-table chrom-table">' +
+                '<table id="' + (this.panelTableID?this.panelTableID: Utils.genId("files-panel-table")) + '" class="ebi-themed-table chrom-table">' +
                     '<tr><td class="header"><span>CHROM</span></td>' +
                     '<td class="header"><span>POS</span></td>' +
                     '<td class="header"><span>ID</span></td>' +
@@ -272,7 +272,7 @@ EvaVariantFilesPanel.prototype = {
                     xtype: 'container',
                     data: attributesData,
                     tpl: new Ext.XTemplate(
-                        '<table class="eva-attributes-table attributes-table"><tr>',
+                        '<table id="' + Utils.genId("files-panel-aux-table") + '" class="ebi-themed-table attributes-table"><tr>',
                         '<tpl foreach=".">',
                         '<td class="header"><span>{.}&nbsp;<tpl if="this.getInfo(values)"><span  data-qtip="{[this.getInfo(values)]}" class="icon icon-generic" data-icon="i"></span> </tpl></span></td>', // the special **`{$}`** variable contains the property name
                         '</tpl>' +

@@ -129,7 +129,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     xtype: 'box',
                     id: this.populationStatsPanelID,
                     cls: 'ocb-header-4',
-                    html: '<h4>Population Statistics</h4><p class="genotype-grid-no-data">No Population data available</p>',
+                    html: '<h4>Population Statistics</h4>' + '<h6><small>' + this.tooltipText + '</small></h6>',
                     margin: this.customMargin ? this.customMargin: '5 0 10 15',
                 },
                 this.studiesContainer
@@ -139,7 +139,7 @@ EvaVariantPopulationStatsPanel.prototype = {
         return this.panel;
     },
     updatePopulationStatsPanelHeading: function (heading) {
-        Ext.getCmp(this.populationStatsPanelID).update(heading);
+        Ext.getCmp(this.populationStatsPanelID).setHtml(heading);
     },
     _createPopulationGridPanel: function (data, params, studies) {
         var _this = this;
@@ -229,15 +229,6 @@ EvaVariantPopulationStatsPanel.prototype = {
             }
         };
 
-        if (_.isEmpty(populationData)) {
-            this.updatePopulationStatsPanelHeading
-                (this.populationStatsHeading + '<p class="genotype-grid-no-data">No Population data available</p>');
-            this._lowerPanelHeightWhenDataAbsent();
-            return;
-        } else {
-            this.updatePopulationStatsPanelHeading
-                (this.populationStatsHeading + '<h6><small>' + this.tooltipText + '</small></h6>');
-        }
         var store = Ext.create("Ext.data.Store", {
             //storeId: "GenotypeStore",
             pageSize: 10,

@@ -200,10 +200,13 @@ EvaVariantView.prototype = {
         // For some species like Arabidopsis the equivalent assemblies in GCF and GCA could have different versions
         function areAssembliesEquivalent (assemblyAccession1, assemblyAccession2) {
             if (assemblyAccession1 && assemblyAccession2) {
-                assemblyAccession1 = assemblyAccession1.trim().toLowerCase();
-                assemblyAccession2 = assemblyAccession2.trim().toLowerCase();
-                return (assemblyAccession1 === assemblyAccession2 ||
-                    assemblyAccession1.replace("gcf", "gca") === assemblyAccession2.replace("gcf", "gca"));
+                var accession1 = assemblyAccession1.trim().toUpperCase();
+                var accession2 = assemblyAccession2.trim().toUpperCase();
+                return (accession1 === accession2
+                        || (accession1 in ASSEMBLY_GCA_TO_GCF_SYNONYMS
+                            && ASSEMBLY_GCA_TO_GCF_SYNONYMS[accession1] === accession2)
+                        || (accession1 in ASSEMBLY_GCF_TO_GCA_SYNONYMS
+                            && ASSEMBLY_GCF_TO_GCA_SYNONYMS[accession1] === accession2));
             }
             return false;
         }
@@ -336,7 +339,6 @@ EvaVariantView.prototype = {
     // Process a query based on accession ID
     processQueryWithAccessioningService: function () {
         var _this = this;
-        this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
         this.variant = this.getVariantInfoFromAccessioningService(this.species, this.speciesList, this.accessionCategory, this.accessionID)
                         .filter(function(variantObj) {
                             return !_.isEmpty(variantObj);
@@ -394,16 +396,19 @@ EvaVariantView.prototype = {
                             .filter(function(variantObj) {
                                 return !_.isEmpty(variantObj);
                             });
-        this.variant.forEach(function(variantObjFromEVAService) {
-            variantObjFromEVAService.associatedSSIDs.forEach(function(ssID) {
-                _this.addAssociatedSSID(ssID + "_" + variantObjFromEVAService.chromosome,
-                    {"ID": ssID, "Study": _this.getProjectAccessionAnchorForSSID(ssID),
-                    "Contig": variantObjFromEVAService.chromosome,
-                    "Start": variantObjFromEVAService.start, "End": variantObjFromEVAService.end,
-                    "Reference": variantObjFromEVAService.reference, "Alternate": variantObjFromEVAService.allAlternates,
-                    "Created Date": null});
+        // Avoid unnecessary calls to associated SS IDs service for calls by position or SS ID
+        if (this.accessionCategory === "clustered-variants") {
+            this.variant.forEach(function(variantObjFromEVAService) {
+                variantObjFromEVAService.associatedSSIDs.forEach(function(ssID) {
+                    _this.addAssociatedSSID(ssID + "_" + variantObjFromEVAService.chromosome,
+                        {"ID": ssID, "Study": _this.getProjectAccessionAnchorForSSID(ssID),
+                        "Contig": variantObjFromEVAService.chromosome,
+                        "Start": variantObjFromEVAService.start, "End": variantObjFromEVAService.end,
+                        "Reference": variantObjFromEVAService.reference, "Alternate": variantObjFromEVAService.allAlternates,
+                        "Created Date": null});
+                });
             });
-        });
+        }
         // Add attributes from the accessioning service for the variant
         if (this.position) {
             this.variant.forEach(function(variantObjFromEVAService) {
@@ -444,6 +449,7 @@ EvaVariantView.prototype = {
         this.studiesList = (_.contains(this.EVASpeciesList, this.species) ? this.getStudiesList(this.species) : []);
         this.currAssembly = this.getCurrentAssembly(this.species, this.speciesList);
         this.assemblyLink = this.getAssemblyLink(this.currAssembly);
+        this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
         this.associatedSSIDs = {};
 
         if (this.accessionID) {
@@ -603,7 +609,7 @@ EvaVariantView.prototype = {
                                     end: "End", reference: "Reference", alternate: "Alternate", id: "ID",
                                     type: "Type", evidence: "Allele frequencies / genotypes available?", assemblyMatch: "Alleles match reference assembly?",
                                     allelesMatch: 'Passed allele checks? <i class="icon icon-generic" data-icon="i">',
-                                    validated: '<a href="https://www.ncbi.nlm.nih.gov/projects/SNP/snp_legend.cgi?legend=validation" target="_blank">Validated?</a>', createdDate: "Created Date"};
+                                    validated: '<a id="constant-hyperlink-color" href="https://www.ncbi.nlm.nih.gov/projects/SNP/snp_legend.cgi?legend=validation" target="_blank">Validated?</a>', createdDate: "Created Date"};
         var allelesMatchToolTip = "1) Reference allele appears in the list of alleles that were submitted and 2) Locus orientation was determined definitively";
         var summaryData = data.map(function(x) {
             var summaryDataObj = {};
@@ -653,7 +659,7 @@ EvaVariantView.prototype = {
         var variantInfoHeaderRow = getSummaryTableHeaderRow(summaryData[0]);
         var variantInfoContentRows = summaryData.map(getSummaryTableContentRow).join("");
 
-        _summaryTable += '<table id="variant-view-summary" class="table hover" style="font-size: small">' + variantInfoHeaderRow +
+        _summaryTable += '<table id="variant-view-summary" class="hover ebi-themed-table" style="font-size: small">' + variantInfoHeaderRow +
                             variantInfoContentRows + '</table>';
         _summaryTable += '</div></div>';
         _summaryTable += ssInfoHeaderRow?
@@ -679,7 +685,7 @@ EvaVariantView.prototype = {
                 return noDataAvailableSection;
             }
             annotation = annotation.sort(_this._sortBy('ensemblGeneId', _this._sortBy('ensemblTranscriptId')));
-            var _consequenceTypeTable = consequenceTypeHeading + '<div class="row"><div><table id="consequence-type-summary-' + variantIndex + '" class="table hover" style="font-size: small">';
+            var _consequenceTypeTable = consequenceTypeHeading + '<div class="row"><div><table class="ebi-themed-table" id="consequence-type-summary-' + variantIndex + '" class="table hover" style="font-size: small">';
             _consequenceTypeTable += '<thead><tr><th>Ensembl Gene ID</th><th>Ensembl Transcript ID</th><th>Accession</th><th>Name</th></tr></thead><tbody>';
             _.each(_.keys(annotation), function (key) {
                 var annotationDetails = this[key];

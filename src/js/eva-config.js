@@ -42,7 +42,15 @@ function getSpeciesList() {
         {"taxonomyEvaName": "carrot", "taxonomyId": 79200, "taxonomyCode": "dcarota", "assemblyAccession" : "GCA_001625215.1", "assemblyName": "ASM162521v1",
             "assemblyCode": "ASM162521v1"},
         {"taxonomyEvaName": "Mexican tetra", "taxonomyId": 7994, "taxonomyCode": "amexicanus", "assemblyAccession" : "GCF_000372685.1",
-            "assemblyName": "Astyanax_mexicanus-1.0.2", "assemblyCode": "Astyanax_mexicanus-1.0.2"}
+            "assemblyName": "Astyanax_mexicanus-1.0.2", "assemblyCode": "Astyanax_mexicanus-1.0.2"},
+        {"taxonomyEvaName": "chickpea", "taxonomyId": 3827, "taxonomyCode": "carietinum", "assemblyAccession" : "GCF_000331145.1",
+            "assemblyName": "ASM33114v1", "assemblyCode": "ASM33114v1"},
+        {"taxonomyEvaName": "wild cabbage", "taxonomyId": 3712, "taxonomyCode": "boleracea", "assemblyAccession" : "GCF_000695525.1",
+                            "assemblyName": "BOL", "assemblyCode": "BOL"},
+        {"taxonomyEvaName": "Field mustard", "taxonomyId": 3711, "taxonomyCode": "brapa", "assemblyAccession" : "GCF_000309985.1",
+                            "assemblyName": "Brapa_1.0", "assemblyCode": "Brapa_1.0"},
+        {"taxonomyEvaName": "Barrel medic", "taxonomyId": 3880, "taxonomyCode": "mtruncatula", "assemblyAccession" : "GCF_000219495.1",
+                            "assemblyName": "MedtrA17_3.5", "assemblyCode": "MedtrA17_3.5"}
     ]
     var speciesList = getEVASpeciesList();
     speciesList = speciesList.concat(evaAccessionedSpeciesList);
@@ -67,6 +75,16 @@ function getProjects(){
     return projects;
 }
 
+function getReverseMap (forwardMap) {
+    var reverseMap = {};
+    for (var key in forwardMap) {
+        if (forwardMap.hasOwnProperty(key)) {
+            reverseMap[forwardMap[key]] = key;
+        }
+    }
+    return reverseMap;
+}
+
 DISABLE_STUDY_LINK = ['PRJX00001'];
 ACCESSIONING_SERVICE = 'accessioning-service';
 VARIANT_TYPE_SO_MAP = {"SNV": "SO:0001483",
@@ -80,3 +98,13 @@ VARIANT_TYPE_SO_MAP = {"SNV": "SO:0001483",
 SO_SERVICE = "http://www.sequenceontology.org/browser/current_release/term";
 ENA_ASSEMBLY_LOOKUP_SERVICE = "https://www.ebi.ac.uk/ena/data/view";
 NCBI_ASSEMBLY_LOOKUP_SERVICE = "https://www.ncbi.nlm.nih.gov/assembly";
+ASSEMBLY_GCA_TO_GCF_SYNONYMS = {"GCA_000409795.2" : "GCF_000409795.2" /*Vervet Monkey*/,
+                                "GCA_001625215.1" : "GCF_001625215.1" /*Carrot*/,
+                                "GCA_000372685.1" : "GCF_000372685.1" /*Mexican tetra*/,
+                                "GCA_000001735.1" : "GCF_000001735.3" /*Arabidopsis*/,
+                                "GCA_000331145.1" : "GCF_000331145.1" /*Chickpea*/,
+                                "GCA_000695525.1" : "GCF_000695525.1" /*Wild cabbage*/,
+                                "GCA_000309985.1" : "GCF_000309985.1" /*Field mustard*/,
+                                "GCA_000219495.1" : "GCF_000219495.1" /*Barrel medic*/,
+                                "GCA_000001215.4" : "GCF_000001215.4" /*Fruit fly*/}
+ASSEMBLY_GCF_TO_GCA_SYNONYMS = getReverseMap(ASSEMBLY_GCA_TO_GCF_SYNONYMS);
