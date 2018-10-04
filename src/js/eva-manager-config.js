@@ -19,12 +19,11 @@
  *
  */
 
-CELLBASE_HOST = window.location.protocol + "//@@CELLBASE_HOST";
-DBSNP_HOST = window.location.protocol + "//@@DBSNP_HOST";
-DGVA_HOST = window.location.protocol + "//@@DGVA_HOST";
-EVA_HOST = window.location.protocol + "//@@EVA_HOST";
+DBSNP_HOST = "https:" + "//@@DBSNP_HOST";
+DGVA_HOST = "https:" + "//@@DGVA_HOST";
+EVA_HOST = "https:" + "//@@EVA_HOST";
+EVA_ACCESSIONING_HOST = "https:" + "//@@EVA_ACCESSIONING_HOST";
 
-CELLBASE_VERSION = '@@CELLBASE_VERSION';
 DBSNP_VERSION = '@@DBSNP_VERSION';
 DGVA_VERSION = '@@DGVA_VERSION';
 EVA_VERSION = '@@EVA_VERSION';
@@ -32,6 +31,7 @@ EVA_VERSION = '@@EVA_VERSION';
 
 var EvaManager = {
     host: EVA_HOST,
+    accessioning_host: EVA_ACCESSIONING_HOST,
     version: EVA_VERSION,
     get: function (args) {
         var success = args.success;
@@ -81,6 +81,9 @@ var EvaManager = {
         var host = this.host;
         if (typeof args.host !== 'undefined' && args.host != null) {
             host = args.host;
+        }
+        if (args.service === ACCESSIONING_SERVICE) {
+            host = this.accessioning_host;
         }
 
         delete args.host;

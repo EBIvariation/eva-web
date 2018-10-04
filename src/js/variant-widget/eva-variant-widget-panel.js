@@ -207,7 +207,7 @@ EvaVariantWidgetPanel.prototype = {
     },
     _createFormPanelVariantFilter: function (target) {
         var _this = this;
-        var speciesList = getSpeciesList();
+        var speciesList = getEVASpeciesList();
         _this.variantWidget['speciesList'] = speciesList;
         var positionFilter = new EvaPositionFilterFormPanel({
             emptyText: '',

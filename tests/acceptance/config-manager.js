@@ -33,6 +33,9 @@ module.exports = {
             .build();
         driver.manage().window().maximize();
         driver.get(baseURL);
+        // Wait until the species drop down is fully loaded by checking one of the species
+        driver.wait(until.elementLocated(By.xpath("//select[@id='species-drop-down']/option[@value='drerio_grcz10']")),
+                        10000);
         chai.use(chaiWebdriver(driver));
         driver.wait(until.elementLocated(By.id("cookie-dismiss")), 10000).then(function(text) {
             driver.findElement(By.xpath("//*[@id='data-protection-agree']")).click();

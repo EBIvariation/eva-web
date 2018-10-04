@@ -55,13 +55,12 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     variables: {
-                        'CELLBASE_HOST': 'wwwint.ebi.ac.uk/cellbase/webservices/rest',
-                        'CELLBASE_VERSION': 'v3',
                         'DBSNP_HOST': 'wwwint.ebi.ac.uk/dbsnp/webservices/rest',
                         'DBSNP_VERSION': 'v1',
                         'DGVA_HOST': 'wwwint.ebi.ac.uk/dgva/webservices/rest',
                         'DGVA_VERSION': 'v1',
                         'EVA_HOST': 'wwwint.ebi.ac.uk/eva/webservices/rest',
+                        'EVA_ACCESSIONING_HOST': 'wwwint.ebi.ac.uk/eva/webservices/identifiers',
                         'EVA_VERSION': 'v1'
                     }
                 }
@@ -69,13 +68,12 @@ module.exports = function (grunt) {
             staging: {
                 options: {
                     variables: {
-                        'CELLBASE_HOST': 'wwwdev.ebi.ac.uk/cellbase/webservices/rest',
-                        'CELLBASE_VERSION': 'v3',
                         'DBSNP_HOST': 'wwwdev.ebi.ac.uk/dbsnp/webservices/rest',
                         'DBSNP_VERSION': 'v1',
                         'DGVA_HOST': 'wwwdev.ebi.ac.uk/dgva/webservices/rest',
                         'DGVA_VERSION': 'v1',
                         'EVA_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/rest',
+                        'EVA_ACCESSIONING_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/identifiers',
                         'EVA_VERSION': 'v1'
                     }
                 }
@@ -83,13 +81,12 @@ module.exports = function (grunt) {
             prod: {
                 options: {
                     variables: {
-                        'CELLBASE_HOST': 'www.ebi.ac.uk/cellbase/webservices/rest',
-                        'CELLBASE_VERSION': 'v3',
                         'DBSNP_HOST': 'www.ebi.ac.uk/dbsnp/webservices/rest',
                         'DBSNP_VERSION': 'v1',
                         'DGVA_HOST': 'www.ebi.ac.uk/dgva/webservices/rest',
                         'DGVA_VERSION': 'v1',
                         'EVA_HOST': 'www.ebi.ac.uk/eva/webservices/rest',
+                        'EVA_ACCESSIONING_HOST': 'www.ebi.ac.uk/eva/webservices/identifiers',
                         'EVA_VERSION': 'v1'
                     }
                 }
@@ -99,14 +96,6 @@ module.exports = function (grunt) {
             eva_manager: {
                 options: {
                     patterns: [
-                        {
-                            match: 'CELLBASE_HOST',
-                            replacement: '<%= grunt.config.get("CELLBASE_HOST") %>'
-                        },
-                        {
-                            match: 'CELLBASE_VERSION',
-                            replacement: '<%= grunt.config.get("CELLBASE_VERSION") %>'
-                        },
                         {
                             match: 'DBSNP_HOST',
                             replacement: '<%= grunt.config.get("DBSNP_HOST") %>'
@@ -126,6 +115,10 @@ module.exports = function (grunt) {
                         {
                             match: 'EVA_HOST',
                             replacement: '<%= grunt.config.get("EVA_HOST") %>'
+                        },
+                        {
+                            match: 'EVA_ACCESSIONING_HOST',
+                            replacement: '<%= grunt.config.get("EVA_ACCESSIONING_HOST") %>'
                         },
                         {
                             match: 'EVA_VERSION',

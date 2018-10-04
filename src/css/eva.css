@@ -725,6 +725,33 @@ html.fontface .icon-s2:before {
     }
 }
 
+#constant-hyperlink-color {
+    color: #666666;
+}
+
+table.ebi-themed-table, table[id^='files-panel-table'], table[id*='files-panel-aux-table'] {
+    font-family: "Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+table[id^='files-panel-table'] tbody tr td, table[id*='files-panel-aux-table'] tbody tr td {
+    font-weight: 400;
+    font-size: small;
+    padding: .5rem .625rem .625rem;
+    color: #222222;
+    background: #FFFFFF;
+}
+
+table[id^='files-panel-table'] tbody tr td.header, table[id*='files-panel-aux-table'] tbody tr td.header {
+    font-weight: 700;
+}
+
+table.ebi-themed-table tr th,  table[id^='files-panel-table'] tbody tr td.header, table[id*='files-panel-aux-table'] tbody tr td.header {
+    color: #666666;
+    background: #DFE7E7;
+    border: 1px solid #d3d3d3;
+}
 
 table.tablesorter thead tr th{
     color: #fff;

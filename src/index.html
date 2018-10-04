@@ -176,6 +176,36 @@
                             <div id="twitter-widget"></div>
                         </div>
                     </div>
+
+                    <br/><br/>
+                    <div class="row">
+                        <div class="small-12 medium-8 columns">
+                            <h3><span class="icon icon-functional" data-icon="1"> </span>Search for SNPs</h3>
+                            <form id="snpSearch" name="local-search" action="./variant" method="GET">
+                                <fieldset>
+                                    <div class="inline-block">
+                                        <div class="medium-6 columns">
+                                            <select id="species-drop-down">
+                                                <option value="Select Species" disabled selected>Select Species</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="medium-5 columns">
+                                            <input type="text" name="accessionID" id="accession-search-box" placeholder="ex: rs123, ss567">
+                                        </div>
+
+                                        <div class="medium-1 columns">
+                                            <div class="input-group-button">
+                                                <input class="button" name="accessionID" id="accession-search-button" value="Search" type="submit">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    <br/>
+
                     <div class="padding-bottom-large"></div>
                     <div class="row">
                         <div class="columns"><h3><span class="icon icon-generic" data-icon="g"> </span>Statistics</h3></div>
@@ -1053,14 +1083,14 @@
                             </li>
                         </ul>
                     </nav>
-                    <h2 id="variantInfo"  data-magellan-target="variantInfo" class="padding-bottom-large"></h2>
-                    <div data-sticky-container>
+                    <div data-sticky-container id = "navigation-strip">
                         <div class="sticky" data-sticky data-options="marginTop:2.65;" style="width:100%" data-top-anchor="summary-grid-div:top">
                                 <div data-magellan class="megallan-div expanded button-group">
-                                    <a href="#summary-grid-div" class="button">Summary</a>
-                                    <a href="#consequence-types-grid-div" class="button">Consequence Type</a>
-                                    <a href="#studies-grid-div" class="button">Files</a>
-                                    <a href="#population-stats-grid-div" class="button">Population Statistics</a>
+                                    <a id="summary-button" href="#summary-grid-div" class="button">Summary</a>
+                                    <a id="consequence-types-button" href="#consequence-types-grid-div" class="button">Consequence Type</a>
+                                    <a id="studies-button" href="#studies-grid-div" class="button">Files</a>
+                                    <a id="genotypes-button" href="#genotypes-grid-div" class="button">Genotypes</a>
+                                    <a id="population-stats-button" href="#population-stats-grid-div" class="button">Population Statistics</a>
                                 </div>
                         </div>
                     </div>
@@ -1071,6 +1101,8 @@
                         <div id="consequence-types-grid"></div>
                         <div id="studies-grid-div"  data-magellan-target="studies-grid-div"></div><br/>
                         <div id="studies-grid" style="margin-left:-20px;"></div>
+                        <div id="genotypes-grid-div"  data-magellan-target="genotypes-grid-div"></div><br/>
+                        <div id="genotypes-grid" style="margin-left:-20px;"></div>
                         <div id="population-stats-grid-div"  data-magellan-target="population-stats-grid-div"></div><br/>
                         <div id="population-stats-grid-view" style="margin-left:-20px;"></div>
                     </div>
@@ -1181,6 +1213,8 @@
 <script type="text/javascript">
     var eva;
     var start = function () {
+        populateSpeciesListForSNPSearch();
+
         // Bring in the import content.
         var homeDiv = document.querySelector('#home-page');
         var submitDiv = document.querySelector('#submit');
@@ -1190,8 +1224,6 @@
         var apiDiv =  document.querySelector('#api');
         var helpDiv = document.querySelector('#help-section');
         var dbSNPImportDiv = document.querySelector('#dbSNPImport');
-
-
 
         var tab = getUrlParameters("");
         var tabId =  decodeURI(tab.id);
@@ -1210,12 +1242,16 @@
                 projectId:tab.value
             });
         }
+
         if(tabId == 'variant'){
             var variantSpecies = $.urlParam('species');
             var annotationVersion = $.urlParam('annotationVersion');
-            var evaVarinatView = new EvaVariantView({
+            var accessionID = $.urlParam('accessionID');
+
+            var evaVariantView = new EvaVariantView({
                 target:'variantViewContent',
                 position:tab.value,
+                accessionID:accessionID,
                 species:variantSpecies,
                 annotationVersion:annotationVersion
             });
@@ -1254,6 +1290,50 @@
         }
 
     };
+
+    function populateSpeciesListForSNPSearch () {
+        var speciesList = getSpeciesList();
+
+        var speciesListItems = speciesList.map(function(element) {
+            var key = element['taxonomyEvaName'].substr(0, 1).toUpperCase() + element['taxonomyEvaName'].substr(1) + ' / ' + element['assemblyName'];
+            var value = element['taxonomyCode'] + "_" + element['assemblyCode'];
+            return [key, value];
+        });
+
+        speciesListItems.sort(function(first, second) {return second[0] > first[0]? -1:1;});
+        var selectedSpeciesDropDown = document.getElementById("species-drop-down");
+        speciesListItems.forEach(function(element) {
+            var option = document.createElement("option");
+            option.text = element[0];
+            option.value = element[1];
+            selectedSpeciesDropDown.add(option);
+        });
+    }
+
+    function isValidAccessionID (accessionID) {
+        return /^(rs|ss)[0-9]+$/.test(accessionID);
+    }
+
+    $("#snpSearch").submit(function(event) {
+        /* stop form from submitting normally */
+        event.preventDefault();
+
+        var accessionID = document.getElementById("accession-search-box").value.trim();
+        var selectedSpecies = document.getElementById("species-drop-down");
+        var species = selectedSpecies.options[selectedSpecies.selectedIndex].value;
+
+        if (species === "Select Species") {
+            Ext.Msg.alert('Invalid Species', 'Please select a species');
+            return;
+        }
+
+        if (!isValidAccessionID(accessionID)) {
+            Ext.Msg.alert('Invalid Accession ID', 'Accession ID must have rs or ss followed by a number (ex: rs123 or ss567)');
+            return;
+        }
+
+        window.open(window.location.origin + window.location.pathname + "?variant&accessionID=" + accessionID + "&species=" + species, "_blank");
+    });
 
     function getUrlParameters(staticURL) {
         var data = [];

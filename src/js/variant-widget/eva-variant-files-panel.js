@@ -69,6 +69,8 @@ EvaVariantFilesPanel.prototype = {
         this.div = document.createElement('div');
         this.div.setAttribute('id', this.id);
 
+        this.panelHeading = "<h4>Files" + (this.variantAlleles? " for " + this.variantAlleles : "") + "</h4>";
+        this.panelID = 'fileStats' + (this.panelID ? this.panelID: '');
         this.panel = this._createPanel();
 
     },
@@ -78,10 +80,8 @@ EvaVariantFilesPanel.prototype = {
             console.log('target not found');
             return;
         }
-
         this.targetDiv.appendChild(this.div);
         this.panel.render(this.div);
-
     },
     clear: function () {
         this.studiesContainer.removeAll(true);
@@ -90,14 +90,23 @@ EvaVariantFilesPanel.prototype = {
         var _this = this;
         this.clear();
         var panels = [];
-
-        for (var key in data) {
-            var study = data[key];
-            var studyPanel = this._createStudyPanel(study, params, studies);
-            panels.push(studyPanel);
+        if (data) {
+            for (var key in data) {
+                var study = data[key];
+                var studyPanel = this._createStudyPanel(study, params, studies);
+                panels.push(studyPanel);
+            }
+            panels = _.sortBy(panels, 'projectName');
+            this.studiesContainer.add(panels);
+        } else {
+            this._lowerPanelHeightWhenDataAbsent();
         }
-        panels = _.sortBy(panels, 'projectName');
-        this.studiesContainer.add(panels);
+    },
+    _lowerPanelHeightWhenDataAbsent: function() {
+        if (this.invokedFromVariantView) {
+            Ext.getCmp("files-containing-panel-" + this.panelID).setHeight(130);
+            Ext.getCmp(this.panelID).setHtml(this.panelHeading + "<div>No files data available</div>");
+        }
     },
     _createPanel: function () {
         this.studiesContainer = Ext.create('Ext.container.Container', {
@@ -113,16 +122,17 @@ EvaVariantFilesPanel.prototype = {
                 type: 'vbox',
                 align: 'stretch'
             },
+            id: "files-containing-panel-" + this.panelID,
             overflowY: true,
             overflowX: true,
             padding: 10,
             items: [
                 {
                     xtype: 'box',
-                    id: 'fileStats',
+                    id: this.panelID,
                     cls: 'ocb-header-4',    
-                    html: '<h4>Files</h4><h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>',
-                margin: '5 0 10 15'
+                    html: this.panelHeading + "<h6><small>Per-study reports of the selected variant. The compulsory fields and the metadata section from the source VCF file(s) are displayed.</small></h6>",
+                    margin: this.customMargin? this.customMargin : '5 0 10 15'
                 },
                 this.studiesContainer
             ],
@@ -131,8 +141,6 @@ EvaVariantFilesPanel.prototype = {
         return panel;
     },
     _createStudyPanel: function (data, params, studies) {
-
-        console.log(data)
         var fileId = data.fileId;
         var stats = (data.stats) ? data.stats : {};
         var attributes = (data.attributes) ? data.attributes : {};
@@ -193,7 +201,7 @@ EvaVariantFilesPanel.prototype = {
         if (attributes['src']) {
             vcfData = attributes['src'].split('\t');
             vcfTpl = new Ext.XTemplate(
-                '<table class="eva-attributes-table chrom-table">' +
+                '<table id="' + (this.panelTableID?this.panelTableID: Utils.genId("files-panel-table")) + '" class="ebi-themed-table chrom-table">' +
                     '<tr><td class="header"><span>CHROM</span></td>' +
                     '<td class="header"><span>POS</span></td>' +
                     '<td class="header"><span>ID</span></td>' +
@@ -264,7 +272,7 @@ EvaVariantFilesPanel.prototype = {
                     xtype: 'container',
                     data: attributesData,
                     tpl: new Ext.XTemplate(
-                        '<table class="eva-attributes-table attributes-table"><tr>',
+                        '<table id="' + Utils.genId("files-panel-aux-table") + '" class="ebi-themed-table attributes-table"><tr>',
                         '<tpl foreach=".">',
                         '<td class="header"><span>{.}&nbsp;<tpl if="this.getInfo(values)"><span  data-qtip="{[this.getInfo(values)]}" class="icon icon-generic" data-icon="i"></span> </tpl></span></td>', // the special **`{$}`** variable contains the property name
                         '</tpl>' +
