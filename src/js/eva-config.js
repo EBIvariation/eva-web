@@ -115,6 +115,5 @@ ASSEMBLY_GCA_TO_GCF_SYNONYMS = {"GCA_000409795.2" : "GCF_000409795.2" /*Vervet M
                                 "GCA_000002775.1" : "GCF_000002775.1" /*Cottonwood*/,
                                 "GCA_000317765.1" : "GCF_000317765.1" /*Goat*/,
                                 "GCA_000442705.1" : "GCF_000442705.1" /*Oil Palm*/,
-                                "GCA_000002305.1" : "GCF_000002305.2" /*Horse*/,
                                 "GCA_000004665.1" : "GCF_000004665.1" /*Common Marmoset*/}
 ASSEMBLY_GCF_TO_GCA_SYNONYMS = getReverseMap(ASSEMBLY_GCA_TO_GCF_SYNONYMS);
