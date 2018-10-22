@@ -129,7 +129,7 @@ EvaVariantPopulationStatsPanel.prototype = {
                     xtype: 'box',
                     id: this.populationStatsPanelID,
                     cls: 'ocb-header-4',
-                    html: '<h4>Population Statistics</h4>' + '<h6><small>' + this.tooltipText + '</small></h6>',
+                    html: this.populationStatsHeading + '<h6><small>' + this.tooltipText + '</small></h6>',
                     margin: this.customMargin ? this.customMargin: '5 0 10 15',
                 },
                 this.studiesContainer
