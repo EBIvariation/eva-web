@@ -309,14 +309,12 @@ EvaVariantView.prototype = {
                     result.evidence = "Yes";
                     if (attributeToSearchBy.startsWith("rs") || attributeToSearchBy.startsWith("ss")) {
                         result.id = attributeToSearchBy;
-                    }
-                    else {
+                    } else {
                         if (result.associatedSSIDs) {
                             result.associatedSSIDs.forEach(function(ssID){
                                 _this.addAssociatedSSID(ssID + "_" + result.chromosome , {"ID": ssID});});
                             result.id = result.associatedSSIDs.join(",");
-                        }
-                        else {
+                        } else {
                             result.id = [result.chromosome, result.start, result.reference, result.alternate].join(":");
                         }
                     }
@@ -462,8 +460,7 @@ EvaVariantView.prototype = {
         if (this.accessionID) {
             this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
             this.processQueryWithAccessioningService();
-        }
-        else {
+        } else {
             this.accessionCategory = "submitted-variants";
         }
         // Proceed to EVA warehouse query if query is position-based or the above processing fails
