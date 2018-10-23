@@ -295,6 +295,10 @@ EvaVariantView.prototype = {
             var results = webServiceResponse.response[0].result;
             if (this.isValidResponse(results)) {
                 results.forEach(function(result) {
+                    //Work around https://www.ebi.ac.uk/panda/jira/browse/EVA-1398
+                    if (typeof(result.alternate) === "undefined") { result.alternate = ""; }
+                    if (typeof(result.reference) === "undefined") { result.reference = ""; }
+
                     _this.addReprToVariantObj(result);
                     if (result.ids) {
                         result.associatedRSID = result.ids.filter(function(x) {return x.startsWith("rs");})[0];
