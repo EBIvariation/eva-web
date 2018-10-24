@@ -51,7 +51,7 @@ function getSpeciesList() {
                             "assemblyName": "Brapa_1.0", "assemblyCode": "Brapa_1.0"},
         {"taxonomyEvaName": "Barrel medic", "taxonomyId": 3880, "taxonomyCode": "mtruncatula", "assemblyAccession" : "GCF_000219495.1",
                             "assemblyName": "MedtrA17_3.5", "assemblyCode": "MedtrA17_3.5"},
-        {"taxonomyEvaName": "Cottonwood", "taxonomyId": 3994, "taxonomyCode": "ptrichocarpa", "assemblyAccession" : "GCF_000002775.1",
+        {"taxonomyEvaName": "Cottonwood", "taxonomyId": 3694, "taxonomyCode": "ptrichocarpa", "assemblyAccession" : "GCF_000002775.1",
                             "assemblyName": "Poptr1_1", "assemblyCode": "Poptr1_1"},
         {"taxonomyEvaName": "Oil palm", "taxonomyId": 51953, "taxonomyCode": "eguineensis", "assemblyAccession" : "GCF_000442705.1",
                             "assemblyName": "EG5", "assemblyCode": "EG5"}

@@ -295,9 +295,15 @@ EvaVariantView.prototype = {
             var results = webServiceResponse.response[0].result;
             if (this.isValidResponse(results)) {
                 results.forEach(function(result) {
+                    //Work around https://www.ebi.ac.uk/panda/jira/browse/EVA-1398
+                    if (typeof(result.alternate) === "undefined") { result.alternate = ""; }
+                    if (typeof(result.reference) === "undefined") { result.reference = ""; }
+
                     _this.addReprToVariantObj(result);
-                    result.associatedRSID = result.ids.filter(function(x) {return x.startsWith("rs");})[0];
-                    result.associatedSSIDs = result.ids.filter(function(x) {return x.startsWith("ss");});
+                    if (result.ids) {
+                        result.associatedRSID = result.ids.filter(function(x) {return x.startsWith("rs");})[0];
+                        result.associatedSSIDs = result.ids.filter(function(x) {return x.startsWith("ss");});
+                    }
                     result.allAlternates = _.uniq([result.alternate].concat(
                                                     _.chain(result.sourceEntries).values().map(function(sourceEntry) {
                                                         return (sourceEntry.secondaryAlternates ?
@@ -308,9 +314,13 @@ EvaVariantView.prototype = {
                     if (attributeToSearchBy.startsWith("rs") || attributeToSearchBy.startsWith("ss")) {
                         result.id = attributeToSearchBy;
                     } else {
-                        // For position based searches, return all possible IDs because EVA service
-                        // cannot precisely tell the ID
-                        result.id = result.ids.filter(function(x) {return x.startsWith("ss");}).join(",");
+                        if (result.associatedSSIDs) {
+                            result.associatedSSIDs.forEach(function(ssID){
+                                _this.addAssociatedSSID(ssID + "_" + result.chromosome , {"ID": ssID});});
+                            result.id = result.associatedSSIDs.join(",");
+                        } else {
+                            result.id = [result.chromosome, result.start, result.reference, result.alternate].join(":");
+                        }
                     }
                 });
                 return results;
@@ -449,11 +459,13 @@ EvaVariantView.prototype = {
         this.studiesList = (_.contains(this.EVASpeciesList, this.species) ? this.getStudiesList(this.species) : []);
         this.currAssembly = this.getCurrentAssembly(this.species, this.speciesList);
         this.assemblyLink = this.getAssemblyLink(this.currAssembly);
-        this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
         this.associatedSSIDs = {};
 
         if (this.accessionID) {
+            this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
             this.processQueryWithAccessioningService();
+        } else {
+            this.accessionCategory = "submitted-variants";
         }
         // Proceed to EVA warehouse query if query is position-based or the above processing fails
         if ((this.position || _.isEmpty(this.variant)) && _.contains(this.EVASpeciesList, this.species)) {
