@@ -254,7 +254,7 @@
                     <div class="padding-bottom-large">
                         <p>EVA accepts <b>all</b> types of <b>precise</b> genetic variants, in <b>any species</b> providing the following requirements are met:</p>
                         <ol>
-                            <li>Data is described in <b>valid VCF file(s)</b>. This can be tested prior to submission using the EVA VCF Validation Suite found <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">here</a>. For help with converting variation data to VCF, please see our <a href="?Help#submissionPanel&link=how-to-gen-vcf" target="_blank">help</a> pages.</li>
+                            <li>Data is described in <b>valid VCF file(s)</b>. This can be tested prior to submission using the EVA VCF validation suite found <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">here</a>. For help with converting variation data to VCF, please see our <a href="?Help#submissionPanel&link=how-to-gen-vcf" target="_blank">help</a> pages.</li>
                             <li>Data includes <b>sample genotypes</b> and/or <b>allele frequencies</b></li>
                             <li>
                                 The reference sequence used is <a href="http://www.insdc.org/" target="_blank">INSDC</a> registered, or will be at point of submission. A &quot;reference&quot; can be any of the following, but not restricted to:
@@ -640,7 +640,7 @@
 
                                             <b>Is your data represented in a valid VCF file?</b>
                                             <p>
-                                                Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>. The EVA has developed a custom <a href="https://github.com/ebivariation/vcf-validator" target="_blank">VCF file validator</a> and accepts submission of only VCF files that adhere to the specification. Furthermore, VCF files submitted to the EVA should provide either sample genotypes and/or aggregated sample summary-level allele frequencies.
+                                                Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>. The EVA has developed the <a href="https://github.com/ebivariation/vcf-validator" target="_blank">EVA VCF validation suite</a> and accepts submission of only VCF files that adhere to the specification and match a reference sequence. Furthermore, VCF files submitted to the EVA should provide either sample genotypes and/or aggregated sample summary-level allele frequencies.
                                             <ul>
                                                 <li><b>Population allele frequencies</b>: Alleles typically exist at different frequencies in different populations and this information provides useful supporting evidence for all submitted variants. Population-level allele frequencies can be provided in the INFO field of the VCF (see section 1.6.1 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>).</li>
                                                 <li><b>Individual genotypes</b>: EVA accepts individual genotypes from samples provided by donors that have consented to having their DNA sequence housed in a public database. Genotypes can be provided in the FORMAT field of the VCF (see section 1.6.2 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>).</li>
@@ -724,7 +724,7 @@
                                             <p><span style="font-size:14px;font-weight:bold;">VCF Specification:</span></p>
                                             <p>
                                                 All VCF files submitted to EVA are validated for adherence to the <a href="https://samtools.github.io/hts-specs/" target="_blank">standard format</a> using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a> which includes all the checks from the vcftools suite, and some more that involve lexical, syntactic and semantic analysis of the VCF input.
-                                                The EVA VCF validation suite also includes a debugging tool to automatically correct many of the common errors found in files. In order to improve processing time, submitters are encouraged to pre-validate VCF files prior to submission.
+                                                The EVA VCF validation suite also includes a debugging tool to automatically correct many of the common errors found in files and an assembly checker tool to verify variants match a reference sequence. In order to improve processing time, submitters are encouraged to pre-validate VCF files prior to submission.
                                             </p>
                                             <p><span style="font-size:14px;font-weight:bold;">Genome Assembly:</span></p>
                                             <p>
@@ -744,7 +744,7 @@
                                             <p>
                                                 Yes. EVA, like dbSNP, accepts submission of genetic variation data that is described in Variant Call Format (VCF) files.
                                                 However, unlike dbSNP, EVA does not have a custom VCF specification. Instead EVA only accepts submission of VCF files that conform to the <a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">specification guidelines</a>.
-                                                Conformity to these guidelines is checked at time of submission, but can also be checked beforehand using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA Validation Suite</a>. Further guidelines for submission to EVA can be found <a href="?Submit%20Data">here</a>.
+                                                Conformity to these guidelines is checked at time of submission, but can also be checked beforehand using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a>. Further guidelines for submission to EVA can be found <a href="?Submit%20Data">here</a>.
                                             </p>
                                         </div>
                                     </li>
