@@ -39,10 +39,9 @@ DgvaStatistics.prototype = {
                                  '</div>' +
                              '</div>'
             el.innerHTML = dgvaStatDiv;
-            EvaManager.get({
+            DgvaManager.get({
                 category: 'meta/studies',
                 resource: 'stats',
-                params: {structural: true},
                 success: function (response) {
                     try {
                         var stats = response.response[0].result[0];
