@@ -23,11 +23,11 @@ DBSNP_HOST = "https:" + "//@@DBSNP_HOST";
 DGVA_HOST = "https:" + "//@@DGVA_HOST";
 EVA_HOST = "https:" + "//@@EVA_HOST";
 EVA_ACCESSIONING_HOST = "https:" + "//@@EVA_ACCESSIONING_HOST";
+EVA_VCF_DUMPER_HOST = "https:" + "//@@EVA_VCF_DUMPER_HOST";
 
 DBSNP_VERSION = '@@DBSNP_VERSION';
 DGVA_VERSION = '@@DGVA_VERSION';
 EVA_VERSION = '@@EVA_VERSION';
-
 
 var EvaManager = {
     host: EVA_HOST,
