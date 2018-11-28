@@ -488,8 +488,8 @@ EvaVariantWidget.prototype = {
             listeners: {
                 click: {
                     fn: function () {
-                        var url = EVA_VCF_DUMPER_HOST + '/' + EVA_VERSION + '/variants/headers?species=' +  _this.values.species + '&studies=' + _this.values.studies;
-                        window.open(url);
+                        var vcf_dumper_url = EVA_VCF_DUMPER_HOST + '/' + EVA_VERSION + '/segments/' + _this.values.region + '/variants?species=' +  _this.values.species + '&studies=' + _this.values.studies;
+                        window.open(vcf_dumper_url);
                     }
                 }
             }
