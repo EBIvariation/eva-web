@@ -1,4 +1,12 @@
 ##fileformat=VCFv4.2
+##contig=<ID=CM001217.1>
+##contig=<ID=CM001218.1>
+##contig=<ID=CM001219.1>
+##contig=<ID=CM001220.1>
+##contig=<ID=CM001221.1>
+##contig=<ID=CM001222.1>
+##contig=<ID=CM001223.1>
+##contig=<ID=CM001224.1>
 ##INFO=<ID=ALMM,Number=0,Type=Flag,Description="Alleles mismatch flag, present when some of the submitted variants have inconsistent allele information. See https://github.com/EBIvariation/eva-accession/wiki/Import-accessions-from-dbSNP#alleles-match">
 ##INFO=<ID=ASMM,Number=0,Type=Flag,Description="Assembly mismatch flag, present when the reference allele doesn't match the reference sequence">
 ##INFO=<ID=LOE,Number=0,Type=Flag,Description="Lack of evidence flag, present if no submitted variant includes genotype or frequency information">
@@ -6,7 +14,6 @@
 ##INFO=<ID=SID,Number=.,Type=String,Description="Identifiers of studies that report a variant">
 ##INFO=<ID=SS_VALIDATED,Number=.,Type=Integer,Description="Number of submitted variants clustered in an RS that were validated by any method as indicated by the dbSNP validation status">
 ##INFO=<ID=VC,Number=1,Type=String,Description="Variant class according to the Sequence Ontology">
-##reference=GCF_000219495.1
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
 CM001217.1	5349096	rs119027970	C	A	.	.	LOE;SID=MTRUNCAT_UCDAVIS_20070308A;SS_VALIDATED=1;VC=SO:0001483
 CM001217.1	7122694	rs119027976	C	T	.	.	LOE;SID=MTRUNCAT_UCDAVIS_20070308A;SS_VALIDATED=1;VC=SO:0001483
