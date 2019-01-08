@@ -323,6 +323,9 @@ EvaVariantWidgetPanel.prototype = {
                 case 'slycopersicum_sl250':
                     defaultRegion = '9:59100000-59200000';
                     break;
+                case 'tdicoccoides_wewseqv1':
+                    defaultRegion = 'CM007921.1:100000-1000000';
+                    break;
                 case 'vvinifera_12x':
                     defaultRegion = '18:7850000-7895000';
                     break;
