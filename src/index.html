@@ -254,7 +254,7 @@
                     <div class="padding-bottom-large">
                         <p>EVA accepts <b>all</b> types of <b>precise</b> genetic variants, in <b>any species</b> providing the following requirements are met:</p>
                         <ol>
-                            <li>Data is described in <b>valid VCF file(s)</b>. This can be tested prior to submission using the EVA VCF validation suite found <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">here</a>. For help with converting variation data to VCF, please see our <a href="?Help#submissionPanel&link=how-to-gen-vcf" target="_blank">help</a> pages.</li>
+                            <li>Data is described in <b>valid VCF file(s)</b>. This can be tested prior to submission using the EVA VCF validation suite found <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">here</a>. For help with converting variation data to VCF, please see our <a href="?Help#submissionPanel&link=how-to-gen-vcf" target="_blank">help</a> pages.</li>
                             <li>Data includes <b>sample genotypes</b> and/or <b>allele frequencies</b></li>
                             <li>
                                 The reference sequence used is <a href="http://www.insdc.org/" target="_blank">INSDC</a> registered, or will be at point of submission. A &quot;reference&quot; can be any of the following, but not restricted to:
@@ -284,7 +284,7 @@
                     <h4 id="submit-prepare"><span class="icon icon-generic" data-icon="'" aria-hidden="true"></span> Prepare</h4>
                     <div>
                         <ul>
-                            <li>Prepare <a href="?Help#submissionPanel&link=is-my-data-suitable" target="_blank">valid VCF file</a>(s), which can be validated prior to submission using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a>.</li>
+                            <li>Prepare <a href="?Help#submissionPanel&link=is-my-data-suitable" target="_blank">valid VCF file</a>(s), which can be validated prior to submission using the <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a>.</li>
                             <li>Complete a <a href="files/EVA_Submission_template.METADATA_TEMPLATE_VERSION.xlsx" target="_blank">metadata template</a> describing the samples and analyses in your study. Please provide as much metadata as possible since this information is extremely useful for downstream analysis and is directly related to the frequency at which datasets archived at EVA are reused. For reference, here is an <a href="files/EVA_Submission_template.METADATA_TEMPLATE_VERSION_mockup.xlsx" target="_blank"><b>example</b></a> of a completed metadata template.</li>
                         </ul>
                         <p>Please also note that the template requires the submitter to fill in some personal data, which will be used as described in our <a href="https://www.ebi.ac.uk/data-protection/privacy-notice/eva-submission-service" target="_blank">privacy notice</a>.</p>
@@ -533,7 +533,7 @@
                                                 <ul style="list-style-type:disc">
                                                     <li>
                                                         <p>
-                                                            The <a href="https://github.com/EBIvariation/vcf-validator">EVA VCF validator</a> checks that a file is compliant with the VCF specification.
+                                                            The <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide">EVA VCF validator</a> checks that a file is compliant with the VCF specification.
                                                             It includes and expands the validations supported by the vcftools suite. It supports versions 4.1, 4.2 and 4.3 of the specification.
                                                         </p>
                                                     </li>
@@ -684,7 +684,7 @@
                                             <p>
                                                 Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>. 
                                                 The EVA only accepts VCF files that adhere to the specification and match a reference sequence. 
-                                                Submitters can make use of the <a href="https://github.com/ebivariation/vcf-validator" target="_blank">EVA VCF validation suite</a> to ensure they fulfill these requirements. 
+                                                Submitters can make use of the <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a> to ensure they fulfill these requirements. 
                                                 Furthermore, VCF files submitted to the EVA should provide either sample genotypes and/or aggregated sample summary-level allele frequencies.
                                             <ul>
                                                 <li><b>Population allele frequencies</b>: Alleles typically exist at different frequencies in different populations and this information provides useful supporting evidence for all submitted variants. Population-level allele frequencies can be provided in the INFO field of the VCF (see section 1.6.1 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>).</li>
@@ -741,7 +741,7 @@
 
                                                 <ul>
                                                     <li>
-                                                    VCF Validation: <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a>
+                                                    VCF Validation: <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a>
                                                     </li>
 
                                                     <li>
@@ -766,10 +766,10 @@
                                             <img class="faq-images" src="img/EVA_FIle_Level_Processing.svg" alt="EVA File Level Processing: Submitter brings VCF File(s) and metadata template to EVA -> Submitted data are validated against VCF specification and reference genome sequence ->
                                     Accessions are sent to submitter,for referencing in publication for example -> EVA provide links to download the submitted data via the Study Browser"><br /><br />
                                             <h5>Submission validation processes</h5>
-                                            <p>The <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a> provides tools to check file validity previous to submission.</p>
+                                            <p>The <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a> provides tools to check file validity previous to submission.</p>
                                             <p><span style="font-size:14px;font-weight:bold;">VCF Specification:</span></p>
                                             <p>
-                                                All VCF files submitted to EVA are validated for adherence to the <a href="https://samtools.github.io/hts-specs/" target="_blank">format standard</a> using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a> which includes all the checks from the vcftools suite, and some more that involve lexical, syntactic and semantic analysis of the VCF input.
+                                                All VCF files submitted to EVA are validated for adherence to the <a href="https://samtools.github.io/hts-specs/" target="_blank">format standard</a> using the <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a> which includes all the checks from the vcftools suite, and some more that involve lexical, syntactic and semantic analysis of the VCF input.
                                                 The EVA VCF validation suite also includes a debugging tool to automatically correct many of the common errors found in files. To improve processing time, submitters are encouraged to pre-validate VCF files prior to submission.
                                             </p>
                                             <p><span style="font-size:14px;font-weight:bold;">Genome Assembly:</span></p>
@@ -790,7 +790,7 @@
                                             <p>
                                                 Yes. EVA, like dbSNP, accepts submission of genetic variation data that is described in Variant Call Format (VCF) files.
                                                 However, unlike dbSNP, EVA does not have a custom VCF specification. Instead EVA only accepts submission of VCF files that conform to the <a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">specification guidelines</a>.
-                                                Conformity to these guidelines is checked at time of submission, but can also be checked beforehand using the <a href="https://github.com/EBIvariation/vcf-validator" target="_blank">EVA VCF validation suite</a>. Further guidelines for submission to EVA can be found <a href="?Submit%20Data">here</a>.
+                                                Conformity to these guidelines is checked at time of submission, but can also be checked beforehand using the <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a>. Further guidelines for submission to EVA can be found <a href="?Submit%20Data">here</a>.
                                             </p>
                                         </div>
                                     </li>
