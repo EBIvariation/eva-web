@@ -493,9 +493,9 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
-            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue('hsapiens_grch37');
+            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue('dmelanogaster_6');
             _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region');
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue('13:32889611-32973805');
+            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue('3R:4986500-5011031');
         });
 
         _this.on('studies:change', function (e) {

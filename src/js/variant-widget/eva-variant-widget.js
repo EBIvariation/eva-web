@@ -488,8 +488,14 @@ EvaVariantWidget.prototype = {
             listeners: {
                 click: {
                     fn: function () {
-                        var vcf_dumper_url = EVA_VCF_DUMPER_HOST + '/' + EVA_VERSION + '/segments/' + _this.values.region + '/variants?species=' +  _this.values.species + '&studies=' + _this.values.studies;
-                        window.open(vcf_dumper_url);
+                        if (_this.values.species === 'hsapiens_grch37') {
+                            alert('The "Export as VCF" feature is not available for GRCh37 yet.');
+                        } else {
+                            var vcf_dumper_url = EVA_VCF_DUMPER_HOST + '/' + EVA_VERSION + '/segments/'
+                                + _this.values.region + '/variants?species=' + _this.values.species + '&studies='
+                                + _this.values.studies;
+                            window.open(vcf_dumper_url);
+                        }
                     }
                 }
             }
