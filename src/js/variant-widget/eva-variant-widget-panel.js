@@ -32,6 +32,11 @@ function EvaVariantWidgetPanel(args) {
     }
 };
 
+EvaVariantWidgetPanel.defaultSpecies = 'dmelanogaster_6';
+EvaVariantWidgetPanel.defaultFilter = 'region';
+EvaVariantWidgetPanel.defaultRegion = '3R:4986500-5011031';
+EvaVariantWidgetPanel.defaultGene = 'CG2022-RB';
+
 EvaVariantWidgetPanel.prototype = {
     render: function () {
         var _this = this;
@@ -493,9 +498,12 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
-            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue('dmelanogaster_6');
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region');
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue('3R:4986500-5011031');
+            _this.formPanelVariantFilter.filters[0].panel.getForm()
+                .findField('species').setValue(EvaVariantWidgetPanel.defaultSpecies);
+            _this.formPanelVariantFilter.filters[1].panel.getForm()
+                .findField('selectFilter').setValue(EvaVariantWidgetPanel.defaultFilter);
+            _this.formPanelVariantFilter.filters[1].panel.getForm()
+                .findField('region').setValue(EvaVariantWidgetPanel.defaultRegion);
         });
 
         _this.on('studies:change', function (e) {

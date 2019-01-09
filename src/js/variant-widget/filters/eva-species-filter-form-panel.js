@@ -28,7 +28,7 @@ function SpeciesFilterFormPanel(args) {
     this.collapsible = true;
     this.titleCollapse = false;
     this.headerConfig;
-    this.defaultValue = 'dmelanogaster_6';
+    this.defaultValue = EvaVariantWidgetPanel.defaultSpecies;
 
     //set instantiation args, must be last
     _.extend(this, args);

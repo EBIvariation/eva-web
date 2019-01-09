@@ -260,11 +260,11 @@ Eva.prototype = {
 
     },
     _createVariantWidgetPanel: function (target) {
-        var region = '3R:4986500-5011031';
-        var species = 'dmelanogaster_6';
-        var filter = 'region';
+        var region = EvaVariantWidgetPanel.defaultRegion;
+        var species = EvaVariantWidgetPanel.defaultSpecies;
+        var filter = EvaVariantWidgetPanel.defaultFilter;
         var snp = '';
-        var gene = 'CG2022-RB';
+        var gene = EvaVariantWidgetPanel.defaultGene;
         var studies = '';
         var annotCT = '';
         var polyphen = '';
