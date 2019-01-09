@@ -32,10 +32,10 @@ function EvaVariantWidgetPanel(args) {
     }
 };
 
-EvaVariantWidgetPanel.defaultSpecies = 'dmelanogaster_6';
+EvaVariantWidgetPanel.defaultSpecies = 'ecaballus_20';
 EvaVariantWidgetPanel.defaultFilter = 'region';
-EvaVariantWidgetPanel.defaultRegion = '3R:4986500-5011031';
-EvaVariantWidgetPanel.defaultGene = 'CG2022-RB';
+EvaVariantWidgetPanel.defaultRegion = '1:3000000-3100000';
+EvaVariantWidgetPanel.defaultGene = 'BRCA2';
 
 EvaVariantWidgetPanel.prototype = {
     render: function () {
