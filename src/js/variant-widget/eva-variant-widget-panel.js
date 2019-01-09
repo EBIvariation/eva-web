@@ -310,6 +310,9 @@ EvaVariantWidgetPanel.prototype = {
                 case 'lcrocea_10':
                     defaultRegion = 'LG1:3000-30000';
                     break;
+                case 'lsalmonis_lsalatlcanadafemalev1':
+                    defaultRegion = 'LBBX01036488.1:6000-7000';
+                    break;
                 case 'mgallopavo_50':
                     defaultRegion = '1:51940000-51960000';
                     break;
@@ -318,6 +321,9 @@ EvaVariantWidgetPanel.prototype = {
                     break;
                 case 'oaries_oarv40':
                     defaultRegion = '19:48650000-48660000';
+                    break;
+                case 'pyedoensis_pynv1':
+                    defaultRegion = 'Pyn_C0000:4000-14000';
                     break;
                 case 'sratti_ed321v504':
                     defaultRegion = 'SRAE_chr2:10000-20000';
