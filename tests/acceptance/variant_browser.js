@@ -119,8 +119,7 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
 
     test.describe('check dbSNP link href', function() {
         test.it('should match with Variant ID,\n' +
-            'Variant ID ex: rs541552030 should have "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs="\n' +
-            'Variant ID ex: ss1225720736 should have "http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id="\n', function() {
+            'Variant ID ex: rs68485566 should have "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs="', function() {
             checkdbSNPLink(driver);
         });
     });
@@ -281,7 +280,7 @@ function checkEnsemblLink(driver){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
-    driver.findElement(By.name("snp")).sendKeys("rs541552030");
+    driver.findElement(By.name("snp")).sendKeys("rs68485566");
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div[text()]")), config.wait()).then(function(text) {
