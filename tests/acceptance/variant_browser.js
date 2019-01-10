@@ -34,14 +34,14 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
     });
 
     test.describe('search by Variant ID', function() {
-        test.it('Search term "rs666" match with column Variant ID', function() {
-            variantSearchById(driver);
+        test.it('Search term "rs68485566" match with column Variant ID', function() {
+            variantSearchById(driver, "rs68485566");
         });
     });
 
     test.describe('search by multiple Variant IDs', function() {
-        test.it('Search term "rs555,rs666,rs777" match with column Variant ID values', function() {
-            variantSearchByMutlipleIds(driver);
+        test.it('Search term "rs68485566,rs68485569,rs68485571" match with column Variant ID values', function() {
+            variantSearchByMutlipleIds(driver, ["rs68485566","rs68485569","rs68485571"]);
         });
     });
 
@@ -169,38 +169,39 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
     });
 });
 
-function variantSearchById(driver){
+function variantSearchById(driver, rs){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
-    driver.findElement(By.name("snp")).sendKeys("rs666");
+    driver.findElement(By.name("snp")).sendKeys(rs);
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, 'rs666');
+            chai.assert.equal(text, rs);
         });
     });
     return driver;
 }
 
-function variantSearchByMutlipleIds(driver){
+function variantSearchByMutlipleIds(driver, rsList){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
-    driver.findElement(By.name("snp")).sendKeys("rs555,rs666,rs777");
+    driver.findElement(By.name("snp")).sendKeys(rsList.join(","));
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, 'rs666');
-        });
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[3]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, 'rs777');
-        });
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[3]//td[3]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, 'rs555');
-        });
+    var checkedRsList = [];
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")),
+        config.wait()).then(function(text) {
+            for (let i = 0; i < rsList.length; i++) {
+                driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[" + i + "]//td[3]/div[text()]"))
+                        .getText().then(function (text) {
+                    chai.assert(rsList.includes(text));
+                    chai.assert.isFalse((checkedRsList.includes(text)));
+                    checkedRsList.push(text);
+                });
+            }
     });
     return driver;
 }
