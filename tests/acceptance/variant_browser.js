@@ -194,7 +194,7 @@ function variantSearchByMutlipleIds(driver, rsList){
     var checkedRsList = [];
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")),
         config.wait()).then(function(text) {
-            for (let i = 0; i < rsList.length; i++) {
+            for (let i = 1; i <= rsList.length; i++) {
                 driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[" + i + "]//td[3]/div[text()]"))
                         .getText().then(function (text) {
                     chai.assert(rsList.includes(text));
