@@ -383,6 +383,7 @@ function emptyGeneFilter(driver) {
 }
 
 function variantSearchByGene(driver){
+    variantBrowserResetAndWait(driver);
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
     waitForVariantsToLoad(driver);
@@ -392,7 +393,7 @@ function variantSearchByGene(driver){
     driver.findElement(By.name("gene")).sendKeys("BRCA2");
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
             chai.assert.equal(text, '13');
         });
@@ -707,6 +708,7 @@ function waitForVariantsToLoad(driver) {
 function variantResetCheck(driver) {
     driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
     config.sleep(driver);
+    waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).getText().then(function(text){
         chai.assert.equal(text, '1:3000000-3100000');
     });
