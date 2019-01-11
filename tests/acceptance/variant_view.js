@@ -107,7 +107,7 @@ test.describe('Variant View - rs exclusive to EVA', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.6", "Contig": "7",
+    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.1", "Contig": "7",
                             "Start": "119786918", "ID": "rs2020677", "Type": "",
                             "Created Date": ""}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
@@ -135,12 +135,12 @@ test.describe('Variant View - ss exclusive to EVA', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.6", "Submitter Handle": "", "Contig": "1",
+    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.1", "Submitter Handle": "", "Contig": "1",
                             "Start": "3001313", "End": "3001313", "Reference": "C", "Alternate": "A",
                             "ID": "ss914406059", "Type": "", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
                             "Validated?": "", "Created Date": ""},
-                           {"Organism": "Mouse", "Assembly": "GCA_000001635.6",  "Submitter Handle": "", "Contig": "1",
+                           {"Organism": "Mouse", "Assembly": "GCA_000001635.1",  "Submitter Handle": "", "Contig": "1",
                            "Start": "3001313", "End": "3001313", "Reference": "C", "Alternate": "T",
                            "ID": "ss914406059", "Type": "", "Allele frequencies / genotypes available?": "Yes",
                            "Alleles match reference assembly?": "", "Passed allele checks?": "",
@@ -206,7 +206,7 @@ test.describe('Variant View - ss exclusive to Accessioning', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=ss1996903386&species=dcarota_ASM162521v1');
+        driver.get(config.baseURL()+'?variant&accessionID=ss1996900753&species=dcarota_ASM162521v1');
     });
 
     test.after(function() {
@@ -214,8 +214,8 @@ test.describe('Variant View - ss exclusive to Accessioning', function() {
     });
 
     var expectedResults = [{"Organism": "Carrot", "Assembly": "GCA_001625215.1", "Submitter Handle": "DCAR_GENOME PAPER 1393431 SNPS",
-                            "Contig": "CM004278.1", "Start": "672678", "End": "672678", "Reference": "A", "Alternate": "C",
-                            "ID": "ss1996903386", "Type": "SNV", "Allele frequencies / genotypes available?": "No",
+                            "Contig": "CM004278.1", "Start": "21377", "End": "21377", "Reference": "C", "Alternate": "G",
+                            "ID": "ss1996900753", "Type": "SNV", "Allele frequencies / genotypes available?": "No",
                             "Alleles match reference assembly?": "Yes", "Passed allele checks?": "Yes",
                             "Validated?": "No", "Created Date": "19 May 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",

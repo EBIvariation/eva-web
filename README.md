@@ -86,5 +86,5 @@ We use Mocha as test framework and Chai as test assertion library. The tests are
 
 ### When a test fails
 
-As the whole test suite takes some minutes to complete, you can run only some tests adding `grep "<substring of test description>"` (e.g. grep "Variant Browser") in gruntfile.js in the `mochaTest.acceptanceTest.options` object, and run as `env BROWSER=firefox grunt --env=staging mochaTest:acceptanceTest`.
+As the whole test suite takes some minutes to complete, you can run only some tests adding a property `grep: "<substring of test description>"` (e.g. `grep: "Variant Browser"`) in gruntfile.js in the `mochaTest.acceptanceTest.options` object, and run as `env BROWSER=firefox grunt --env=staging mochaTest:acceptanceTest`.
 

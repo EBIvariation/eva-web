@@ -260,12 +260,11 @@ Eva.prototype = {
 
     },
     _createVariantWidgetPanel: function (target) {
-        //      var position = '21:21989000-21989560';
-        var region = '13:32889611-32973805';
-        var species = 'hsapiens_grch37';
-        var filter = 'region';
+        var region = EvaVariantWidgetPanel.defaultRegion;
+        var species = EvaVariantWidgetPanel.defaultSpecies;
+        var filter = EvaVariantWidgetPanel.defaultFilter;
         var snp = '';
-        var gene = 'BRCA2';
+        var gene = EvaVariantWidgetPanel.defaultGene;
         var studies = '';
         var annotCT = '';
         var polyphen = '';

@@ -34,14 +34,14 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
     });
 
     test.describe('search by Variant ID', function() {
-        test.it('Search term "rs666" match with column Variant ID', function() {
-            variantSearchById(driver);
+        test.it('Search term "rs68485566" match with column Variant ID', function() {
+            variantSearchById(driver, "rs68485566");
         });
     });
 
     test.describe('search by multiple Variant IDs', function() {
-        test.it('Search term "rs555,rs666,rs777" match with column Variant ID values', function() {
-            variantSearchByMutlipleIds(driver);
+        test.it('Search term "rs68485566,rs68485569,rs68485571" match with column Variant ID values', function() {
+            variantSearchByMutlipleIds(driver, ["rs68485566","rs68485569","rs68485571"]);
         });
     });
 
@@ -119,8 +119,7 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
 
     test.describe('check dbSNP link href', function() {
         test.it('should match with Variant ID,\n' +
-            'Variant ID ex: rs541552030 should have "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs="\n' +
-            'Variant ID ex: ss1225720736 should have "http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id="\n', function() {
+            'Variant ID ex: rs68485566 should have "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs="', function() {
             checkdbSNPLink(driver);
         });
     });
@@ -169,38 +168,39 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
     });
 });
 
-function variantSearchById(driver){
+function variantSearchById(driver, rs){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
-    driver.findElement(By.name("snp")).sendKeys("rs666");
+    driver.findElement(By.name("snp")).sendKeys(rs);
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, 'rs666');
+            chai.assert.equal(text, rs);
         });
     });
     return driver;
 }
 
-function variantSearchByMutlipleIds(driver){
+function variantSearchByMutlipleIds(driver, rsList){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
-    driver.findElement(By.name("snp")).sendKeys("rs555,rs666,rs777");
+    driver.findElement(By.name("snp")).sendKeys(rsList.join(","));
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, 'rs666');
-        });
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[3]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, 'rs777');
-        });
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[3]//td[3]/div[text()]")).getText().then(function(text){
-            chai.assert.equal(text, 'rs555');
-        });
+    var checkedRsList = [];
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")),
+        config.wait()).then(function(text) {
+            for (let i = 1; i <= rsList.length; i++) {
+                driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[" + i + "]//td[3]/div[text()]"))
+                        .getText().then(function (text) {
+                    chai.assert(rsList.includes(text));
+                    chai.assert.isFalse((checkedRsList.includes(text)));
+                    checkedRsList.push(text);
+                });
+            }
     });
     return driver;
 }
@@ -232,7 +232,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
-    driver.findElement(By.name("snp")).sendKeys("rs541552030");
+    driver.findElement(By.name("snp")).sendKeys("rs68485566");
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div[text()]")), config.wait()).then(function(text) {
@@ -245,11 +245,13 @@ function checkdbSNPLink(driver){
 
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('1:3008755-3008755');
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div//a[contains(@class,'dbsnp_link')]")).getAttribute('href').then(function(text){
-            driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[3]/div[text()]")).getText().then(function(variantID){
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div[text()]")), config.wait()).then(function(text) {
+        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[contains(@class,'dbsnp_link')]")).getAttribute('href').then(function(text){
+            driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(variantID){
                 assert(text).equalTo('http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?rs='+variantID);
             });
         });
@@ -278,7 +280,7 @@ function checkEnsemblLink(driver){
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
-    driver.findElement(By.name("snp")).sendKeys("rs541552030");
+    driver.findElement(By.name("snp")).sendKeys("rs68485566");
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div[text()]")), config.wait()).then(function(text) {
@@ -381,16 +383,17 @@ function emptyGeneFilter(driver) {
 }
 
 function variantSearchByGene(driver){
+    variantBrowserResetAndWait(driver);
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    waitForVariantsToLoad(driver);
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
     driver.findElement(By.name("gene")).clear();
     driver.findElement(By.name("gene")).sendKeys("BRCA2");
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
-    waitForVariantsToLoad(driver);
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
-    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
             chai.assert.equal(text, '13');
         });
@@ -466,10 +469,13 @@ function checkConsequeceTypeTree(driver){
 
 function variantFilterByPolyphenSift(driver){
     variantBrowserResetAndWait(driver);
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
-    driver.findElement(By.name("gene")).clear();
-    driver.findElement(By.name("gene")).sendKeys("BRCA2");
+
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    waitForVariantsToLoad(driver);
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('13:32884771-32884832');
+
     driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'ProteinSubstitutionScoreFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
     driver.findElement(By.name("polyphen")).clear();
     driver.findElement(By.name("polyphen")).sendKeys("0.9");
@@ -478,7 +484,7 @@ function variantFilterByPolyphenSift(driver){
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        for (i = 1; i < 11; i++) {
+        for (let i = 1; i < 11; i++) {
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[7]/div[text()]")).getText().then(function(text) {
                 var polyphen = parseFloat(text);
                 return chai.assert.operator(text, '>=', 0.9);
@@ -702,12 +708,13 @@ function waitForVariantsToLoad(driver) {
 function variantResetCheck(driver) {
     driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
     config.sleep(driver);
+    waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).getText().then(function(text){
-        chai.assert.equal(text, '13:32889611-32973805');
+        chai.assert.equal(text, '1:3000000-3100000');
     });
     driver.wait (until.elementLocated (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then (function (text) {
         driver.findElement (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText ().then (function (text) {
-            chai.assert.equal (text, '13');
+            chai.assert.equal (text, '1');
         });
     });
 }

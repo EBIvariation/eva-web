@@ -479,11 +479,33 @@ EvaVariantWidget.prototype = {
             }
         };
 
+        var exportVCFButton = {
+            xtype: 'button',
+            text: 'Export as VCF <span class="badge" style="border-radius:30%;padding:0.1em;font-size:10px">beta</span>',
+            style: {
+                borderStyle: 'solid'
+            },            
+            listeners: {
+                click: {
+                    fn: function () {
+                        if (_this.values.species === 'hsapiens_grch37') {
+                            alert('The "Export as VCF" feature is not available for GRCh37 yet.');
+                        } else {
+                            var vcf_dumper_url = EVA_VCF_DUMPER_HOST + '/' + EVA_VERSION + '/segments/'
+                                + _this.values.region + '/variants?species=' + _this.values.species + '&studies='
+                                + _this.values.studies;
+                            window.open(vcf_dumper_url);
+                        }
+                    }
+                }
+            }
+        };
+
         variantBrowserGrid.grid.addDocked({
             xtype: 'toolbar',
             dock: 'bottom',
             border: false,
-            items: ['Results per Page: ', resultsPerPage,exportCSVButton]
+            items: ['Results per Page: ', resultsPerPage, exportCSVButton, exportVCFButton]
         });
 
         resultsPerPage.on('select', function (combo, record) {

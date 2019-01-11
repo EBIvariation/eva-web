@@ -32,6 +32,11 @@ function EvaVariantWidgetPanel(args) {
     }
 };
 
+EvaVariantWidgetPanel.defaultSpecies = 'ecaballus_20';
+EvaVariantWidgetPanel.defaultFilter = 'region';
+EvaVariantWidgetPanel.defaultRegion = '1:3000000-3100000';
+EvaVariantWidgetPanel.defaultGene = 'BRCA2';
+
 EvaVariantWidgetPanel.prototype = {
     render: function () {
         var _this = this;
@@ -305,6 +310,9 @@ EvaVariantWidgetPanel.prototype = {
                 case 'lcrocea_10':
                     defaultRegion = 'LG1:3000-30000';
                     break;
+                case 'lsalmonis_lsalatlcanadafemalev1':
+                    defaultRegion = 'LBBX01036488.1:6000-7000';
+                    break;
                 case 'mgallopavo_50':
                     defaultRegion = '1:51940000-51960000';
                     break;
@@ -314,6 +322,9 @@ EvaVariantWidgetPanel.prototype = {
                 case 'oaries_oarv40':
                     defaultRegion = '19:48650000-48660000';
                     break;
+                case 'pyedoensis_pynv1':
+                    defaultRegion = 'Pyn_C0000:4000-14000';
+                    break;
                 case 'sratti_ed321v504':
                     defaultRegion = 'SRAE_chr2:10000-20000';
                     break;
@@ -322,6 +333,9 @@ EvaVariantWidgetPanel.prototype = {
                     break;
                 case 'slycopersicum_sl250':
                     defaultRegion = '9:59100000-59200000';
+                    break;
+                case 'tdicoccoides_wewseqv1':
+                    defaultRegion = 'CM007921.1:100000-1000000';
                     break;
                 case 'vvinifera_12x':
                     defaultRegion = '18:7850000-7895000';
@@ -490,9 +504,12 @@ EvaVariantWidgetPanel.prototype = {
         });
 
         formPanel.on('form:clear', function (e) {
-            _this.formPanelVariantFilter.filters[0].panel.getForm().findField('species').setValue('hsapiens_grch37');
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('selectFilter').setValue('region');
-            _this.formPanelVariantFilter.filters[1].panel.getForm().findField('region').setValue('13:32889611-32973805');
+            _this.formPanelVariantFilter.filters[0].panel.getForm()
+                .findField('species').setValue(EvaVariantWidgetPanel.defaultSpecies);
+            _this.formPanelVariantFilter.filters[1].panel.getForm()
+                .findField('selectFilter').setValue(EvaVariantWidgetPanel.defaultFilter);
+            _this.formPanelVariantFilter.filters[1].panel.getForm()
+                .findField('region').setValue(EvaVariantWidgetPanel.defaultRegion);
         });
 
         _this.on('studies:change', function (e) {
