@@ -383,13 +383,13 @@ function emptyGeneFilter(driver) {
 }
 
 function variantSearchByGene(driver){
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    waitForVariantsToLoad(driver);
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
     driver.findElement(By.name("gene")).clear();
     driver.findElement(By.name("gene")).sendKeys("BRCA2");
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
-    waitForVariantsToLoad(driver);
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
