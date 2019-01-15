@@ -746,31 +746,34 @@
                                             </p>
 
                                             <p><b>Useful tools for handling VCF files</b></p>
-                                            <ul>
-                                                <li>
-                                                VCF Validation: <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a>
-                                                </li>
+                                            <p>
+                                                <ul>
+                                                    <li>
+                                                    VCF Validation: <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a>
+                                                    </li>
 
-                                                <li>
-                                                Sorting, merging and manipulation of VCF files: <a href="https://github.com/samtools/bcftools" target="_blank">bcftools</a>
-                                                </li>
+                                                    <li>
+                                                    Sorting, merging and manipulation of VCF files: <a href="https://github.com/samtools/bcftools" target="_blank">bcftools</a>
+                                                    </li>
 
-                                                <li>
-                                                    Conversion from genotyping arrays/PED files: <a href="https://www.cog-genomics.org/plink/1.9/data#recode" target="_blank">PLINK1.9</a> (using <i>--recode vcf</i> and <i>--reference-allele</i> to select the reference alleles)
-                                                </li>
+                                                    <li>
+                                                        Conversion from genotyping arrays/PED files: <a href="https://www.cog-genomics.org/plink/1.9/data#recode" target="_blank">PLINK1.9</a> (using <i>--recode vcf</i> and <i>--reference-allele</i> to select the reference alleles)
+                                                    </li>
 
-                                                <li>Variant callers: <a href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_haplotypecaller_HaplotypeCaller.php" target="_blank">GATK HaplotypeCaller</a>, <a href="http://www.well.ox.ac.uk/platypus-doc" target="_blank">Platypus</a>, <a href="http://varscan.sourceforge.net/" target="_blank">VarScan</a>, <a href="http://csb5.github.io/lofreq/" target="_blank">LoFreq</a>, <a href="https://github.com/ekg/freebayes" target="_blank">FreeBayes</a>, <a href="http://snver.sourceforge.net/" target="_blank">SNVer</a>, <a href="http://www.htslib.org/" target="_blank">SAMtools</a> and <a href="https://github.com/AstraZeneca-NGS/VarDict" target="_blank">VarDict</a>
-                                                </li>
-                                            </ul>
+                                                    <li>Variant callers: <a href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_haplotypecaller_HaplotypeCaller.php" target="_blank">GATK HaplotypeCaller</a>, <a href="http://www.well.ox.ac.uk/platypus-doc" target="_blank">Platypus</a>, <a href="http://varscan.sourceforge.net/" target="_blank">VarScan</a>, <a href="http://csb5.github.io/lofreq/" target="_blank">LoFreq</a>, <a href="https://github.com/ekg/freebayes" target="_blank">FreeBayes</a>, <a href="http://snver.sourceforge.net/" target="_blank">SNVer</a>, <a href="http://www.htslib.org/" target="_blank">SAMtools</a> and <a href="https://github.com/AstraZeneca-NGS/VarDict" target="_blank">VarDict</a>
+                                                    </li>
+                                                </ul>
+                                            </p>
                                             
                                             <p><b>Examples of valid VCF submissions</b></p>
-                                            <ul>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27443/two_indels-CAU_100718.vcf.gz" target="_blank">PRJEB27443</a> - Simple INDEL submission with allele frequencies</li>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27177/07_06_2018_pine.vcf.gz" target="_blank">PRJEB27177</a> - Single sample VCF with genotype</li>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27093/68_Osativa_lines.vcf.gz" target="_blank">PRJEB27093</a> - Multiple sample VCF with genotypes</li>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB4163/Sratti_lanes.recode_filtered.normalized_merged_noPL.vcf.gz" target="_blank">PRJEB4163</a> - VCF with population allele frequencies and genotypes</li>
-                                                <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB6041/CAR_Batch123.vcf.gz" target="_blank">PRJEB6041</a> - VCF with allele counts (for calculating AF)</li>
-                                            </ul>
+                                            <p>
+                                                <ul>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27443/two_indels-CAU_100718.vcf.gz" target="_blank">PRJEB27443</a> - Simple INDEL submission with allele frequencies</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27177/07_06_2018_pine.vcf.gz" target="_blank">PRJEB27177</a> - Single sample VCF with genotype</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27093/68_Osativa_lines.vcf.gz" target="_blank">PRJEB27093</a> - Multiple sample VCF with genotypes</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB4163/Sratti_lanes.recode_filtered.normalized_merged_noPL.vcf.gz" target="_blank">PRJEB4163</a> - VCF with population allele frequencies and genotypes</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB6041/CAR_Batch123.vcf.gz" target="_blank">PRJEB6041</a> - VCF with allele counts (for calculating AF)</li>
+                                                </ul>
                                             </p>
                                             <p>Further examples can be found on our <a href="http://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP</a> site.</p>
                                         </div>
