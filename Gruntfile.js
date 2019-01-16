@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         // Metadata.
         meta: {
             version: {
-                eva: '4.1.0'
+                eva: '4.2.0'
             },
             submissionTemplate: {
                 version: 'V1.1.2'
