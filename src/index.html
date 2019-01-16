@@ -718,27 +718,37 @@
 
                                         <div class="accordion-content" data-tab-content>
                                             <p>
-                                                The basic template of a minimal VCF file looks like this (where no genotypes are given):
-                                                <pre>
-                                                    ##fileformat=VCFv4.3
-                                                    #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
-                                                </pre>
-                                                <p>We advise submitters to consult the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a> (specifically sections 1.1 and 5) when converting data to VCF in order to ensure that files generated are valid, as this is a mandatory requirement.</p>
-
-                                                <p><b>Examples of valid VCF submissions</b></p>
-
-                                                <ul>
-                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27443/two_indels-CAU_100718.vcf.gz" target="_blank">PRJEB27443</a> - Simple INDEL submission with allele frequencies</li>
-                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27177/07_06_2018_pine.vcf.gz" target="_blank">PRJEB27177</a> - Single sample VCF with genotype</li>
-                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27093/68_Osativa_lines.vcf.gz" target="_blank">PRJEB27093</a> - Multiple sample VCF with genotypes</li>
-                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB4163/Sratti_lanes.recode_filtered.normalized_merged_noPL.vcf.gz" target="_blank">PRJEB4163</a> - VCF with population allele frequencies and genotypes</li>
-                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB6041/CAR_Batch123.vcf.gz" target="_blank">PRJEB6041</a> - VCF with allele counts (for calculating AF)</li>
-                                                </ul>
+                                                The basic template of a minimal VCF file, where no genotypes are given, looks like this:
                                             </p>
-                                            <p>Further examples can be found on our <a href="http://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP</a> site.</p>
+                                            <pre>
+                                                ##fileformat=VCFv4.3
+                                                #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+                                            </pre>
                                             <p>
-                                                <b>Useful tools for handling VCF files</b>
+                                                We advise submitters to consult the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a> (specifically sections 1.1 and 5) when converting data to VCF in order to ensure that files generated are valid, as this is a mandatory requirement.
+                                            </p>
 
+                                            <p><b>Conversion of spreadsheet to VCF</b></p>
+                                            <p>
+                                                Representing variant data in a spreadsheet can be convenient when you have a small number of variants to report. This file can be used as an example or template: <a href="https://docs.google.com/spreadsheets/d/13MdtQdfbexoVNQIuBeRtZUdw1NUzYh0wXXtUy9d0TB4/edit?usp=sharing">spreadsheet_to_vcf.xlsx</a> (you will need to create a copy). When reporting a large number of variants, the use of specialised software may be a better approach.
+                                            </p>
+                                            <p>
+                                                Using a spreadsheet editor, you can use the 'Save as' feature to convert the given file to a tab delimited text file. This can also be done using an online editor such as Google Sheets with the 'Download as' option. A tab character will be applied between values entered into separate cells. The result should be a file named 'spreadsheet_to_vcf.tsv'.
+                                            </p>
+                                            <p>
+                                                The file can be renamed as appropriate although the extension must be changed from '.tsv' to '.vcf' to create a VCF file.
+                                            </p>
+                                            <p>
+                                                The data entered will remain the same, and the file can be manually checked to ensure spaces between entries are tabulated and there are no extra spaces at the end of lines.
+                                            </p>
+                                            
+                                            <p><b>Conversion from PED / genotyping array files to VCF</b></p>
+                                            <p>
+                                                You can use <a href="https://www.cog-genomics.org/plink/1.9/" target="_blank">PLINK1.9</a> to convert from PLINK text format to VCF, using the command <i>--recode vcf</i>, along with <i>--reference-allele</i> to select the reference alleles. Find more details <a href="https://www.cog-genomics.org/plink/1.9/data#recode" target="_blank">here</a>.
+                                            </p>
+
+                                            <p><b>Useful tools for handling VCF files</b></p>
+                                            <p>
                                                 <ul>
                                                     <li>
                                                     VCF Validation: <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a>
@@ -748,14 +758,22 @@
                                                     Sorting, merging and manipulation of VCF files: <a href="https://github.com/samtools/bcftools" target="_blank">bcftools</a>
                                                     </li>
 
-                                                    <li>
-                                                        Conversion from genotyping arrays/PED files: <a href="https://www.cog-genomics.org/plink/1.9/data#recode" target="_blank">PLINK1.9</a> (using <i>--recode vcf</i> and <i>--reference-allele</i> to select the reference alleles)
-                                                    </li>
-
                                                     <li>Variant callers: <a href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_haplotypecaller_HaplotypeCaller.php" target="_blank">GATK HaplotypeCaller</a>, <a href="http://www.well.ox.ac.uk/platypus-doc" target="_blank">Platypus</a>, <a href="http://varscan.sourceforge.net/" target="_blank">VarScan</a>, <a href="http://csb5.github.io/lofreq/" target="_blank">LoFreq</a>, <a href="https://github.com/ekg/freebayes" target="_blank">FreeBayes</a>, <a href="http://snver.sourceforge.net/" target="_blank">SNVer</a>, <a href="http://www.htslib.org/" target="_blank">SAMtools</a> and <a href="https://github.com/AstraZeneca-NGS/VarDict" target="_blank">VarDict</a>
                                                     </li>
                                                 </ul>
                                             </p>
+                                            
+                                            <p><b>Examples of valid VCF submissions</b></p>
+                                            <p>
+                                                <ul>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27443/two_indels-CAU_100718.vcf.gz" target="_blank">PRJEB27443</a> - Simple INDEL submission with allele frequencies</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27177/07_06_2018_pine.vcf.gz" target="_blank">PRJEB27177</a> - Single sample VCF with genotype</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27093/68_Osativa_lines.vcf.gz" target="_blank">PRJEB27093</a> - Multiple sample VCF with genotypes</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB4163/Sratti_lanes.recode_filtered.normalized_merged_noPL.vcf.gz" target="_blank">PRJEB4163</a> - VCF with population allele frequencies and genotypes</li>
+                                                    <li><a href="http://ftp.ebi.ac.uk/pub/databases/eva/PRJEB6041/CAR_Batch123.vcf.gz" target="_blank">PRJEB6041</a> - VCF with allele counts (for calculating AF)</li>
+                                                </ul>
+                                            </p>
+                                            <p>Further examples can be found on our <a href="http://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP</a> site.</p>
                                         </div>
                                     </li>
                                 </div>
