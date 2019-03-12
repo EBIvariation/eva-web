@@ -53,7 +53,7 @@ EvadbSNPImportProgress.prototype = {
             async: false,
             success: function (response) {
                 try {
-                    data = response._embedded.importStatus;
+                    data = response;
                 } catch (e) {
                     console.log(e);
                 }
@@ -90,12 +90,11 @@ EvadbSNPImportProgress.prototype = {
                 '</tr>' +
                 '</thead><tbody>';
 
-        //data = _.sortBy(data, 'importedIds', 'commonName');
         _.each (_.keys(data), function(key) {
             var genbankAssemblyAccession = '-';
             var taxonomy_link;
 
-            if(!_.isNull(this[key].genbankAssemblyAccession)){
+            if(!this[key].genbankAssemblyAccession.isEmpty()) {
                 genbankAssemblyAccession = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/'+this[key].genbankAssemblyAccession+'">'+this[key].genbankAssemblyAccession+'</a>';
             }
 
