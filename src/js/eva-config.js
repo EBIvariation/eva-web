@@ -36,29 +36,27 @@ function getEVASpeciesList(){
     return speciesList;
 }
 
-function getSpeciesList() {
-    //TODO: This hard-coded list should eventually be removed after a web-service is made available for retrieving the set of accessioned species
-    var evaAccessionedSpeciesList = [
-        {"taxonomyEvaName": "carrot", "taxonomyId": 79200, "taxonomyCode": "dcarota", "assemblyAccession" : "GCA_001625215.1", "assemblyName": "ASM162521v1",
-            "assemblyCode": "ASM162521v1"},
-        {"taxonomyEvaName": "Mexican tetra", "taxonomyId": 7994, "taxonomyCode": "amexicanus", "assemblyAccession" : "GCF_000372685.1",
-            "assemblyName": "Astyanax_mexicanus-1.0.2", "assemblyCode": "Astyanax_mexicanus-1.0.2"},
-        {"taxonomyEvaName": "chickpea", "taxonomyId": 3827, "taxonomyCode": "carietinum", "assemblyAccession" : "GCF_000331145.1",
-            "assemblyName": "ASM33114v1", "assemblyCode": "ASM33114v1"},
-        {"taxonomyEvaName": "wild cabbage", "taxonomyId": 3712, "taxonomyCode": "boleracea", "assemblyAccession" : "GCF_000695525.1",
-                            "assemblyName": "BOL", "assemblyCode": "BOL"},
-        {"taxonomyEvaName": "Field mustard", "taxonomyId": 3711, "taxonomyCode": "brapa", "assemblyAccession" : "GCF_000309985.1",
-                            "assemblyName": "Brapa_1.0", "assemblyCode": "Brapa_1.0"},
-        {"taxonomyEvaName": "Barrel medic", "taxonomyId": 3880, "taxonomyCode": "mtruncatula", "assemblyAccession" : "GCF_000219495.1",
-                            "assemblyName": "MedtrA17_3.5", "assemblyCode": "MedtrA17_3.5"},
-        {"taxonomyEvaName": "Cottonwood", "taxonomyId": 3694, "taxonomyCode": "ptrichocarpa", "assemblyAccession" : "GCF_000002775.1",
-                            "assemblyName": "Poptr1_1", "assemblyCode": "Poptr1_1"},
-        {"taxonomyEvaName": "Oil palm", "taxonomyId": 51953, "taxonomyCode": "eguineensis", "assemblyAccession" : "GCF_000442705.1",
-                            "assemblyName": "EG5", "assemblyCode": "EG5"}
-    ]
-    var speciesList = getEVASpeciesList();
-    speciesList = speciesList.concat(evaAccessionedSpeciesList);
+function getAccessionedSpeciesList() {
+    var speciesList = '';
+    EvaManager.get({
+        category: 'meta/species',
+        resource: 'accessioned',
+        async: false,
+        success: function (response) {
+            try {
+                speciesList = response.response[0].result;
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    });
+
     return speciesList;
+}
+
+function getSpeciesList() {
+    return _.uniq(_.union(getEVASpeciesList(), getAccessionedSpeciesList()),
+                    function(listItem, key, unused) { return listItem.assemblyName; });
 }
 
 function getProjects(){
