@@ -96,85 +96,37 @@ function checkNoDataAvailable(sectionName, testName, element, elementID, expecte
     });
 }
 
-test.describe('Variant View - rs exclusive to EVA', function() {
-    var driver;
-    test.before(function() {
-        driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs2020677&species=mmusculus_grcm38');
-    });
-
-    test.after(function() {
-        config.shutdownDriver(driver);
-    });
-
-    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.1", "Contig": "7",
-                            "Start": "119786918", "ID": "rs2020677", "Type": "",
-                            "Created Date": ""}];
-    runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
-                "table", "variant-view-summary", expectedResults, checkSection);
-
-    expectedResults = [{"ID": "ss47184058", "Submitter Handle": "", "Contig": "7", "Start": "119786918",
-                        "End": "119786918", "Submitter Handle": "", "Reference": "G", "Alternate": "A", "Created Date": ""},
-                        {"ID": "ss1565899", "Submitter Handle": "", "Contig": "7", "Start": "119786918",
-                         "End": "119786918", "Submitter Handle": "", "Reference": "G", "Alternate": "A", "Created Date": ""},
-                        {"ID": "ss372922602", "Submitter Handle": "", "Contig": "7", "Start": "119786918",
-                         "End": "119786918", "Reference": "G", "Alternate": "A", "Created Date": ""}
-                      ];
-    runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
-                "table", "submitted-variant-summary", expectedResults, checkSection);
-});
-
 test.describe('Variant View - ss exclusive to EVA', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=ss914406059&species=mmusculus_grcm38');
+        driver.get(config.baseURL()+'?variant&accessionID=vcZ2JUAF0&species=zmays_agpv3');
     });
 
     test.after(function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.1", "Submitter Handle": "", "Contig": "1",
-                            "Start": "3001313", "End": "3001313", "Reference": "C", "Alternate": "A",
-                            "ID": "ss914406059", "Type": "", "Allele frequencies / genotypes available?": "Yes",
+    var expectedResults = [{"Organism": "Maize", "Assembly": "GCA_000005005.5", "Study": "", "Contig": "10",
+                            "Start": "100012575", "End": "100012575", "Reference": "C", "Alternate": "T",
+                            "ID": "", "Type": "", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
-                            "Validated?": "", "Created Date": ""},
-                           {"Organism": "Mouse", "Assembly": "GCA_000001635.1",  "Submitter Handle": "", "Contig": "1",
-                           "Start": "3001313", "End": "3001313", "Reference": "C", "Alternate": "T",
-                           "ID": "ss914406059", "Type": "", "Allele frequencies / genotypes available?": "Yes",
-                           "Alleles match reference assembly?": "", "Passed allele checks?": "",
-                           "Validated?": "", "Created Date": ""}
+                            "Validated?": "", "Created Date": ""}
                           ];
-    runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
-                "table", "variant-view-summary", expectedResults, checkSection);
 
-    checkElementContent("RS link", "RS link points to the correct ID", "a", "rs-link", "rs582038162");
-
-    expectedResults = [{"Ensembl Gene ID": "-", "Ensembl Transcript ID": "-",
-                        "Accession": "SO:0001628", "Name": "intergenic_variant MODIFIER"}];
+    expectedResults = [{"Ensembl Gene ID": "GRMZM2G159075", "Ensembl Transcript ID": "GRMZM2G159075_T01",
+                        "Accession": "SO:0001583", "Name": "missense_variant MODIFIER"}];
     runTableTest("Consequence Type Section", "Consequence Type Section has the correct values",
                 "table", "consequence-type-summary-1", expectedResults, checkSection);
-    runTableTest("Consequence Type Section", "Consequence Type Section has the correct values",
-                "table", "consequence-type-summary-2", expectedResults, checkSection);
 
-    expectedResults = [{"Sample": "129P2", "Genotype": "0/0"}, {"Sample": "129S1", "Genotype": "0/0"},
-                       {"Sample": "129S5", "Genotype": "0/0"}];
-    runTableTest("Genotypes Section", "Genotypes Section for C/A has the correct values",
-                "div", "genotypes_C_A", expectedResults, checkGenotypeGrid);
+    expectedResults = [{"SUBMITTED_ID": "S10_99996143"}];
+    runTableTest("Files Section", "Files Section has the correct values",
+                "table", "files-panel-table-1", expectedResults, checkSection);
+
+    expectedResults = [{"Sample": "SAMEA2827564", "Genotype": "0/0"}, {"Sample": "SAMEA2827565", "Genotype": "0/0"},
+                       {"Sample": "SAMEA2827566", "Genotype": "0/0"}];
     runTableTest("Genotypes Section", "Genotypes Section for C/T has the correct values",
                 "div", "genotypes_C_T", expectedResults, checkGenotypeGrid);
-
-    expectedResults = [{"Population": "ALL", "Minor Allele Frequency": "0.058", "MAF Allele": "A",
-                            "Missing Alleles": "0", "Missing Genotypes": "0"}
-                          ];
-    runTableTest("Population Statistics Section", "Population Statistics Section for C/A has the correct values",
-                    "div", "popstats_C_A", expectedResults, checkPopulationStatsGrid);
-    expectedResults = [{"Population": "ALL", "Minor Allele Frequency": "0.058", "MAF Allele": "T",
-                        "Missing Alleles": "0", "Missing Genotypes": "0"}
-                      ];
-    runTableTest("Population Statistics Section", "Population Statistics Section for C/T has the correct values",
-                    "div", "popstats_C_T", expectedResults, checkPopulationStatsGrid);
 });
 
 test.describe('Variant View - rs exclusive to Accessioning', function() {
