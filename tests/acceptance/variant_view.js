@@ -96,39 +96,6 @@ function checkNoDataAvailable(sectionName, testName, element, elementID, expecte
     });
 }
 
-test.describe('Variant View - ss exclusive to EVA', function() {
-    var driver;
-    test.before(function() {
-        driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=vcZ2JUAF0&species=zmays_agpv3');
-    });
-
-    test.after(function() {
-        config.shutdownDriver(driver);
-    });
-
-    var expectedResults = [{"Organism": "Maize", "Assembly": "GCA_000005005.5", "Study": "", "Contig": "10",
-                            "Start": "100012575", "End": "100012575", "Reference": "C", "Alternate": "T",
-                            "ID": "", "Type": "", "Allele frequencies / genotypes available?": "Yes",
-                            "Alleles match reference assembly?": "", "Passed allele checks?": "",
-                            "Validated?": "", "Created Date": ""}
-                          ];
-
-    expectedResults = [{"Ensembl Gene ID": "GRMZM2G159075", "Ensembl Transcript ID": "GRMZM2G159075_T01",
-                        "Accession": "SO:0001583", "Name": "missense_variant MODERATE"}];
-    runTableTest("Consequence Type Section", "Consequence Type Section has the correct values",
-                "table", "consequence-type-summary-1", expectedResults, checkSection);
-
-    expectedResults = [{"SUBMITTED_ID": "S10_99996143"}];
-    runTableTest("Files Section", "Files Section has the correct values",
-                "table", "files-panel-table-1", expectedResults, checkSection);
-
-    expectedResults = [{"Sample": "SAMEA2827564", "Genotype": "0/0"}, {"Sample": "SAMEA2827565", "Genotype": "0/0"},
-                       {"Sample": "SAMEA2827566", "Genotype": "0/0"}];
-    runTableTest("Genotypes Section", "Genotypes Section for C/T has the correct values",
-                "div", "genotypes_C_T", expectedResults, checkGenotypeGrid);
-});
-
 test.describe('Variant View - rs exclusive to Accessioning', function() {
     var driver;
     test.before(function() {
