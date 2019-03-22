@@ -115,7 +115,7 @@ test.describe('Variant View - ss exclusive to EVA', function() {
                           ];
 
     expectedResults = [{"Ensembl Gene ID": "GRMZM2G159075", "Ensembl Transcript ID": "GRMZM2G159075_T01",
-                        "Accession": "SO:0001583", "Name": "missense_variant MODIFIER"}];
+                        "Accession": "SO:0001583", "Name": "missense_variant MODERATE"}];
     runTableTest("Consequence Type Section", "Consequence Type Section has the correct values",
                 "table", "consequence-type-summary-1", expectedResults, checkSection);
 
@@ -223,17 +223,20 @@ test.describe('Variant View - ss found in both EVA and Accessioning', function()
                 "table", "consequence-type-summary-1", expectedResults, checkSection);
 
     expectedResults = [{"CHROM": "CHROM", "POS": "POS", "ID": "ID", "REF": "REF", "ALT": "ALT"},
-                       {"CHROM": "11", "POS": "50921862", "ID": "CAE11_50921862", "REF": "C", "ALT": "G"}];
+                       {"CHROM": "11", "POS": "50921862", "ID": ".", "REF": "C", "ALT": "G"}];
+    // TODO: Running tests based on table IDs doesn't seem to work because SenchaJS seems to generate multiple tables
+    // with the same ID!!. If this is not remedied, the values in these tests are a moving target
+    // as variants get added to the archive.
     runTableTest("Files Section", "Files Section has the correct values",
                 "table", "files-panel-table-1", expectedResults, checkSection);
 
-    expectedResults = [{"Sample": "1983091", "Genotype": "1/1"}, {"Sample": "1984011", "Genotype": "1/1"},
-                       {"Sample": "1984014", "Genotype": "0/1"}, {"Sample": "1984084", "Genotype": "0/1"}
+    expectedResults = [{"Sample": "A8518", "Genotype": "1|1"}, {"Sample": "AG23", "Genotype": "1|1"},
+                       {"Sample": "AG5417", "Genotype": "1|1"}, {"Sample": "AGM126", "Genotype": "1|1"}
                       ];
     runTableTest("Genotypes Section", "Genotypes Section has the correct values",
                 "div", "genotypes_C_G", expectedResults, checkGenotypeGrid);
 
-    expectedResults = [{"Population": "ALL", "Minor Allele Frequency": "0.352", "MAF Allele": "C",
+    expectedResults = [{"Population": "ALL", "Minor Allele Frequency": "0.165", "MAF Allele": "C",
                         "Missing Alleles": "0", "Missing Genotypes": "0"}
                       ];
     runTableTest("Population Statistics Section", "Population Statistics Section for C/G has the correct values",
