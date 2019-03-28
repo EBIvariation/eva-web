@@ -55,8 +55,17 @@ function getAccessionedSpeciesList() {
 }
 
 function getSpeciesList() {
-    return _.uniq(_.union(getEVASpeciesList(), getAccessionedSpeciesList()),
-                    function(listItem, key, unused) { return listItem.assemblyName; });
+    //Use assembly accession to de-duplicate common accessions between the
+    //browsable assemblies list and the accessioned assemblies list
+    return _.uniq(getEVASpeciesList().concat(getAccessionedSpeciesList()),
+                    function(listItem, key, unused) { return listItem.assemblyAccession; });
+}
+
+function deDuplicatedSpeciesList(speciesList) {
+    //In the case of multiple assemblies like Grch37 and Grch37.p13 in the species list, use only the first one since
+    //they both have the same assembly name and variants from either assembly reside within the same database
+    speciesList = _.sortBy(speciesList, function(listItem) { return listItem.assemblyAccession; });
+    return _.uniq(speciesList, function(listItem, key, unused) { return listItem.assemblyCode; });
 }
 
 function getProjects(){
