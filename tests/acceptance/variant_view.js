@@ -96,87 +96,6 @@ function checkNoDataAvailable(sectionName, testName, element, elementID, expecte
     });
 }
 
-test.describe('Variant View - rs exclusive to EVA', function() {
-    var driver;
-    test.before(function() {
-        driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs2020677&species=mmusculus_grcm38');
-    });
-
-    test.after(function() {
-        config.shutdownDriver(driver);
-    });
-
-    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.1", "Contig": "7",
-                            "Start": "119786918", "ID": "rs2020677", "Type": "",
-                            "Created Date": ""}];
-    runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
-                "table", "variant-view-summary", expectedResults, checkSection);
-
-    expectedResults = [{"ID": "ss47184058", "Submitter Handle": "", "Contig": "7", "Start": "119786918",
-                        "End": "119786918", "Submitter Handle": "", "Reference": "G", "Alternate": "A", "Created Date": ""},
-                        {"ID": "ss1565899", "Submitter Handle": "", "Contig": "7", "Start": "119786918",
-                         "End": "119786918", "Submitter Handle": "", "Reference": "G", "Alternate": "A", "Created Date": ""},
-                        {"ID": "ss372922602", "Submitter Handle": "", "Contig": "7", "Start": "119786918",
-                         "End": "119786918", "Reference": "G", "Alternate": "A", "Created Date": ""}
-                      ];
-    runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
-                "table", "submitted-variant-summary", expectedResults, checkSection);
-});
-
-test.describe('Variant View - ss exclusive to EVA', function() {
-    var driver;
-    test.before(function() {
-        driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=ss914406059&species=mmusculus_grcm38');
-    });
-
-    test.after(function() {
-        config.shutdownDriver(driver);
-    });
-
-    var expectedResults = [{"Organism": "Mouse", "Assembly": "GCA_000001635.1", "Submitter Handle": "", "Contig": "1",
-                            "Start": "3001313", "End": "3001313", "Reference": "C", "Alternate": "A",
-                            "ID": "ss914406059", "Type": "", "Allele frequencies / genotypes available?": "Yes",
-                            "Alleles match reference assembly?": "", "Passed allele checks?": "",
-                            "Validated?": "", "Created Date": ""},
-                           {"Organism": "Mouse", "Assembly": "GCA_000001635.1",  "Submitter Handle": "", "Contig": "1",
-                           "Start": "3001313", "End": "3001313", "Reference": "C", "Alternate": "T",
-                           "ID": "ss914406059", "Type": "", "Allele frequencies / genotypes available?": "Yes",
-                           "Alleles match reference assembly?": "", "Passed allele checks?": "",
-                           "Validated?": "", "Created Date": ""}
-                          ];
-    runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
-                "table", "variant-view-summary", expectedResults, checkSection);
-
-    checkElementContent("RS link", "RS link points to the correct ID", "a", "rs-link", "rs582038162");
-
-    expectedResults = [{"Ensembl Gene ID": "-", "Ensembl Transcript ID": "-",
-                        "Accession": "SO:0001628", "Name": "intergenic_variant MODIFIER"}];
-    runTableTest("Consequence Type Section", "Consequence Type Section has the correct values",
-                "table", "consequence-type-summary-1", expectedResults, checkSection);
-    runTableTest("Consequence Type Section", "Consequence Type Section has the correct values",
-                "table", "consequence-type-summary-2", expectedResults, checkSection);
-
-    expectedResults = [{"Sample": "129P2", "Genotype": "0/0"}, {"Sample": "129S1", "Genotype": "0/0"},
-                       {"Sample": "129S5", "Genotype": "0/0"}];
-    runTableTest("Genotypes Section", "Genotypes Section for C/A has the correct values",
-                "div", "genotypes_C_A", expectedResults, checkGenotypeGrid);
-    runTableTest("Genotypes Section", "Genotypes Section for C/T has the correct values",
-                "div", "genotypes_C_T", expectedResults, checkGenotypeGrid);
-
-    expectedResults = [{"Population": "ALL", "Minor Allele Frequency": "0.058", "MAF Allele": "A",
-                            "Missing Alleles": "0", "Missing Genotypes": "0"}
-                          ];
-    runTableTest("Population Statistics Section", "Population Statistics Section for C/A has the correct values",
-                    "div", "popstats_C_A", expectedResults, checkPopulationStatsGrid);
-    expectedResults = [{"Population": "ALL", "Minor Allele Frequency": "0.058", "MAF Allele": "T",
-                        "Missing Alleles": "0", "Missing Genotypes": "0"}
-                      ];
-    runTableTest("Population Statistics Section", "Population Statistics Section for C/T has the correct values",
-                    "div", "popstats_C_T", expectedResults, checkPopulationStatsGrid);
-});
-
 test.describe('Variant View - rs exclusive to Accessioning', function() {
     var driver;
     test.before(function() {
@@ -206,7 +125,7 @@ test.describe('Variant View - ss exclusive to Accessioning', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=ss1996900753&species=dcarota_ASM162521v1');
+        driver.get(config.baseURL()+'?variant&accessionID=ss1996903385&species=dcarota_ASM162521v1');
     });
 
     test.after(function() {
@@ -214,8 +133,8 @@ test.describe('Variant View - ss exclusive to Accessioning', function() {
     });
 
     var expectedResults = [{"Organism": "Carrot", "Assembly": "GCA_001625215.1", "Submitter Handle": "DCAR_GENOME PAPER 1393431 SNPS",
-                            "Contig": "CM004278.1", "Start": "21377", "End": "21377", "Reference": "C", "Alternate": "G",
-                            "ID": "ss1996900753", "Type": "SNV", "Allele frequencies / genotypes available?": "No",
+                            "Contig": "CM004278.1", "Start": "672669", "End": "672669", "Reference": "C", "Alternate": "T",
+                            "ID": "ss1996903385", "Type": "SNV", "Allele frequencies / genotypes available?": "No",
                             "Alleles match reference assembly?": "Yes", "Passed allele checks?": "Yes",
                             "Validated?": "No", "Created Date": "19 May 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
@@ -271,17 +190,20 @@ test.describe('Variant View - ss found in both EVA and Accessioning', function()
                 "table", "consequence-type-summary-1", expectedResults, checkSection);
 
     expectedResults = [{"CHROM": "CHROM", "POS": "POS", "ID": "ID", "REF": "REF", "ALT": "ALT"},
-                       {"CHROM": "11", "POS": "50921862", "ID": "CAE11_50921862", "REF": "C", "ALT": "G"}];
+                       {"CHROM": "11", "POS": "50921862", "ID": ".", "REF": "C", "ALT": "G"}];
+    // TODO: Running tests based on table IDs doesn't seem to work because SenchaJS seems to generate multiple tables
+    // with the same ID!!. If this is not remedied, the values in these tests are a moving target
+    // as variants get added to the archive.
     runTableTest("Files Section", "Files Section has the correct values",
                 "table", "files-panel-table-1", expectedResults, checkSection);
 
-    expectedResults = [{"Sample": "1983091", "Genotype": "1/1"}, {"Sample": "1984011", "Genotype": "1/1"},
-                       {"Sample": "1984014", "Genotype": "0/1"}, {"Sample": "1984084", "Genotype": "0/1"}
+    expectedResults = [{"Sample": "A8518", "Genotype": "1|1"}, {"Sample": "AG23", "Genotype": "1|1"},
+                       {"Sample": "AG5417", "Genotype": "1|1"}, {"Sample": "AGM126", "Genotype": "1|1"}
                       ];
     runTableTest("Genotypes Section", "Genotypes Section has the correct values",
                 "div", "genotypes_C_G", expectedResults, checkGenotypeGrid);
 
-    expectedResults = [{"Population": "ALL", "Minor Allele Frequency": "0.352", "MAF Allele": "C",
+    expectedResults = [{"Population": "ALL", "Minor Allele Frequency": "0.165", "MAF Allele": "C",
                         "Missing Alleles": "0", "Missing Genotypes": "0"}
                       ];
     runTableTest("Population Statistics Section", "Population Statistics Section for C/G has the correct values",
@@ -299,7 +221,7 @@ test.describe('Variant View - ss by position', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1", "Submitter Handle": "", "Contig": "1",
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.14", "Submitter Handle": "", "Contig": "1",
                             "Start": "3000017", "End": "3000017", "Reference": "C", "Alternate": "T", "ID":"ss1289423512",
                             "Type": "", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",

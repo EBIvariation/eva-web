@@ -1356,7 +1356,7 @@
     };
 
     function populateSpeciesListForSNPSearch () {
-        var speciesList = getSpeciesList();
+        var speciesList = deDuplicatedSpeciesList(getSpeciesList());
 
         var speciesListItems = speciesList.map(function(element) {
             var key = element['taxonomyEvaName'].substr(0, 1).toUpperCase() + element['taxonomyEvaName'].substr(1) + ' / ' + element['assemblyName'];
