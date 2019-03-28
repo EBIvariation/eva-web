@@ -221,7 +221,7 @@ test.describe('Variant View - ss by position', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1", "Submitter Handle": "", "Contig": "1",
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.14", "Submitter Handle": "", "Contig": "1",
                             "Start": "3000017", "End": "3000017", "Reference": "C", "Alternate": "T", "ID":"ss1289423512",
                             "Type": "", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
