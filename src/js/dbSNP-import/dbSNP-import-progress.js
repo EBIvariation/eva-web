@@ -24,6 +24,7 @@ function EvadbSNPImportProgress(args) {
     this.rendered = false;
     this.render();
 }
+
 EvadbSNPImportProgress.prototype = {
     render: function () {
         var _this = this;
@@ -32,6 +33,7 @@ EvadbSNPImportProgress.prototype = {
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'EvadbSNPImportProgress', eventLabel: 'EvadbSNPImportProgress'});
     },
+
     _draw: function (content) {
         var _this = this;
         var el = document.querySelector("#" + this.target);
@@ -41,6 +43,7 @@ EvadbSNPImportProgress.prototype = {
         el.appendChild(elDiv);
         el.applyAuthorStyles = true;
     },
+
     _createContent: function () {
         var _this = this;
         var data;
@@ -49,11 +52,10 @@ EvadbSNPImportProgress.prototype = {
             version: DBSNP_VERSION,
             category: 'import-status',
             resource: '',
-            params:{size:190},
             async: false,
             success: function (response) {
                 try {
-                    data = response._embedded.importStatus;
+                    data = response;
                 } catch (e) {
                     console.log(e);
                 }
@@ -90,17 +92,16 @@ EvadbSNPImportProgress.prototype = {
                 '</tr>' +
                 '</thead><tbody>';
 
-        //data = _.sortBy(data, 'importedIds', 'commonName');
         _.each (_.keys(data), function(key) {
             var genbankAssemblyAccession = '-';
             var taxonomy_link;
 
-            if(!_.isNull(this[key].genbankAssemblyAccession)){
-                genbankAssemblyAccession = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/'+this[key].genbankAssemblyAccession+'">'+this[key].genbankAssemblyAccession+'</a>';
+            if(this[key].genbankAssemblyAccession) {
+                genbankAssemblyAccession = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/' + this[key].genbankAssemblyAccession + '">' + this[key].genbankAssemblyAccession + '</a>';
             }
-
-            if(this[key].taxId){
-                taxonomy_link = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:'+this[key].taxId+'">'+this[key].taxId+'</a>';
+            
+            if(this[key].taxId) {
+                taxonomy_link = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:' + this[key].taxId + '">' + this[key].taxId + '</a>';
             }
 
             var importedRs = _this._getImportStatus(this[key].importedRs, this[key].totalRsDbsnp);
@@ -108,21 +109,21 @@ EvadbSNPImportProgress.prototype = {
             var importedSynonymousRs = _this._getImportStatus(this[key].importedSynonymousRs, this[key].totalSynonymousRsDbsnp);
 
             table += '<tr>' +
-                '<td><span class="dbSNP-common-name">'+this[key].commonName+'</span></td>' +
-                '<td><span class="dbSNP-scientific-name">'+this[key].scientificName+'</span></td>' +
-                '<td><span class="dbSNP-tax-id">'+taxonomy_link+'</span></td>' +
-                '<td><span class="dbSNP-assembly-accession">'+genbankAssemblyAccession+'</span></td>' +
-                '<td><span class="dbSNP-build">'+this[key].lastDbsnpBuild+'</span></td>' +
-                '<td><span class="dbSNP-imported-rs">'+importedRs+'</span></td>' + 
-                '<td><span class="dbSNP-imported-ss">'+importedSs+'</span></td>' +
-                '<td><span class="dbSNP-imported-synonymous-rs">'+importedSynonymousRs+'</span></td>' +
+                '<td><span class="dbSNP-common-name">' + this[key].commonName + '</span></td>' +
+                '<td><span class="dbSNP-scientific-name">' + this[key].scientificName + '</span></td>' +
+                '<td><span class="dbSNP-tax-id">' + taxonomy_link + '</span></td>' +
+                '<td><span class="dbSNP-assembly-accession">' + genbankAssemblyAccession + '</span></td>' +
+                '<td><span class="dbSNP-build">' + this[key].lastDbsnpBuild + '</span></td>' +
+                '<td><span class="dbSNP-imported-rs">' + importedRs + '</span></td>' +
+                '<td><span class="dbSNP-imported-ss">' + importedSs + '</span></td>' +
+                '<td><span class="dbSNP-imported-synonymous-rs">' + importedSynonymousRs + '</span></td>' +
                 '</tr>';
         }, data);
         table += '</tbody></table></div></div>';
         return table;
     },
 
-    _getImportStatus : function (importedIds,totalIds){
+    _getImportStatus : function (importedIds, totalIds) {
         var indicator;
         var percentage;
         var proportion;

@@ -53,7 +53,7 @@ var EvaManager = {
             async: async,
             success: function (data, textStatus, jqXHR) {
                 if ($.isPlainObject(data) || $.isArray(data)) {
-                    data.query = args.query;
+                    if (args.query) data.query = args.query;
                     if (_.isFunction(success)) success(data);
                     d = data;
                 } else {
