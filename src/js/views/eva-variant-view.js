@@ -229,6 +229,7 @@ EvaVariantView.prototype = {
                 if (variantInfo.species !== selectedSpecies) {
                     return;
                 }
+                variantInfo.assemblyAccession = assemblyFromAccessioningService;
                 variantInfo.projectAccession = response.data.projectAccession;
                 variantInfo.submitterHandle = _this.getProjectAccessionAnchor(variantInfo.projectAccession);
                 variantInfo.chromosome = response.data.contig;
@@ -356,15 +357,17 @@ EvaVariantView.prototype = {
         this.variant.forEach(function(variantObjFromAccService) {
             if (_this.accessionCategory == "clustered-variants") {
                 _this.getAssociatedSSIDsFromAccessioningService(_this.accessionCategory, variantObjFromAccService.id).forEach(function(ssIDInfo) {
-                        _this.addAssociatedSSID("ss" + ssIDInfo.accession + "_" + ssIDInfo.data.contig,
-                        {"ID": "ss" + ssIDInfo.accession,
-                        "Study": _this.getProjectAccessionAnchor(ssIDInfo.data.projectAccession),
-                        "Contig": ssIDInfo.data.contig, "Start": ssIDInfo.data.start,
-                        "End": _this.getVariantEndCoordinate(ssIDInfo.data.start,
-                                                            ssIDInfo.data.referenceAllele, ssIDInfo.data.alternateAllele),
-                        "Reference": ssIDInfo.data.referenceAllele,
-                        "Alternate": [ssIDInfo.data.alternateAllele],
-                        "Created Date": _this.getFormattedDate(ssIDInfo.data.createdDate)});
+                        if (variantObjFromAccService.assemblyAccession == ssIDInfo.data.referenceSequenceAccession) {
+                            _this.addAssociatedSSID("ss" + ssIDInfo.accession + "_" + ssIDInfo.data.contig,
+                            {"ID": "ss" + ssIDInfo.accession,
+                            "Study": _this.getProjectAccessionAnchor(ssIDInfo.data.projectAccession),
+                            "Contig": ssIDInfo.data.contig, "Start": ssIDInfo.data.start,
+                            "End": _this.getVariantEndCoordinate(ssIDInfo.data.start,
+                                                                ssIDInfo.data.referenceAllele, ssIDInfo.data.alternateAllele),
+                            "Reference": ssIDInfo.data.referenceAllele,
+                            "Alternate": [ssIDInfo.data.alternateAllele],
+                            "Created Date": _this.getFormattedDate(ssIDInfo.data.createdDate)});
+                        }
                 });
             }
             // Add attributes from EVA service for the same variant
