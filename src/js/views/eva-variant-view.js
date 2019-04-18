@@ -576,8 +576,9 @@ EvaVariantView.prototype = {
         if (this.variantIsDeprecated) {
             var deprecatedMessageDiv = document.createElement("div");
             deprecatedMessageDiv.setAttribute("class", "callout alert");
-            deprecatedMessageDiv.innerHTML = "Variant " + variant[0].id + " has been deprecated. Summary information " +
-                "about the variant is displayed below for historical purposes. This variant ID should not be used.";
+            deprecatedMessageDiv.innerHTML = _.escape("Variant " + variant[0].id + " has been deprecated. " +
+                "Summary information about the variant is displayed below for historical purposes. " +
+                "This variant ID should not be used.");
             summaryEl.appendChild(deprecatedMessageDiv);
         }
 
@@ -585,8 +586,8 @@ EvaVariantView.prototype = {
         if (this.variantIsMerged) {
             var mergedMessageDiv = document.createElement("div");
             mergedMessageDiv.setAttribute("class", "callout warning");
-            mergedMessageDiv.innerHTML = "Variant " + this.variantMergedFrom + " has been merged into " +
-                variant[0].id + ". Information for the target variant is displayed below.";
+            mergedMessageDiv.innerHTML = _.escape("Variant " + this.variantMergedFrom + " has been merged into " +
+                variant[0].id + ". Information for the target variant is displayed below.");
             summaryEl.appendChild(mergedMessageDiv);
         }
 
