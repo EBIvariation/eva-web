@@ -58,13 +58,15 @@ function getSpeciesList() {
     //Use assembly accession to de-duplicate common accessions between the
     //browsable assemblies list and the accessioned assemblies list
     return _.uniq(getEVASpeciesList().concat(getAccessionedSpeciesList()),
-                    function(listItem, key, unused) { return listItem.assemblyAccession; });
+                    function(listItem, key, unused) { return [listItem.taxonomyId, listItem.assemblyAccession].join(); });
 }
 
 function deDuplicatedSpeciesList(speciesList) {
     //In the case of multiple assemblies like Grch37 and Grch37.p13 in the species list, use only the first one since
     //they both have the same assembly name and variants from either assembly reside within the same database
-    speciesList = _.sortBy(speciesList, function(listItem) { return listItem.assemblyAccession; });
+    speciesList = _.sortBy(speciesList, function(listItem) {
+                                            return [listItem.assemblyAccession,
+                                                    listItem.taxonomyEvaName.toLowerCase()].join(); });
     return _.uniq(speciesList, function(listItem, key, unused) {
         // Different species can have assembly codes which coincide with each other, e. g. "Pepper Zunla 1 Ref_v1.0"
         // (taxonomy ID 4072) and L_crocea_1.0 (taxonomy ID 215358) both have the assembly code of "10". Because of
