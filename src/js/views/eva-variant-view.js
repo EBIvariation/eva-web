@@ -56,12 +56,13 @@ EvaVariantView.prototype = {
         return (typeof response !== 'undefined' && response != null && !_.isEmpty(response));
     },
 
-    getAccessioningWebServiceResponse: function(accessionCategory, accessionResource) {
+    getAccessioningWebServiceResponse: function(accessionCategory, accessionResource, errorHandler) {
         return EvaManager.get({
             service: ACCESSIONING_SERVICE,
             category: accessionCategory,
             resource: accessionResource,
-            async: false
+            async: false,
+            error: errorHandler
         });
     },
 
@@ -183,6 +184,14 @@ EvaVariantView.prototype = {
         return '';
     },
 
+    deprecatedVariantHandler: function(jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status === 410) {
+            console.log('Handling a deprecated variant');
+            this.deprecatedVariantInfo = jqXHR.responseJSON;
+            this.variantIsDeprecated = true;
+        }
+    },
+
     // Given the accession category, use the accessioning web service to construct a variant object
     getVariantInfoFromAccessioningService: function(selectedSpecies, speciesList, accessionCategory, accessionID) {
         var _this = this;
@@ -270,7 +279,11 @@ EvaVariantView.prototype = {
         }
 
         // Get response from the accessioning web service
-        var response = this.getAccessioningWebServiceResponse(accessionCategory, accessionID.substring(2));
+        this.deprecatedVariantInfo = null;
+        var response = this.getAccessioningWebServiceResponse(
+            accessionCategory, accessionID.substring(2), this.deprecatedVariantHandler.bind(this));
+        if (this.deprecatedVariantInfo !== null) {response = this.deprecatedVariantInfo}
+
         try {
             if (this.isValidResponse(response)) {
                 return _.map(response, mapAccessioningServiceResponseToVariantInfo);
@@ -354,8 +367,12 @@ EvaVariantView.prototype = {
                         .filter(function(variantObj) {
                             return !_.isEmpty(variantObj);
                         });
+
+        // Any additional processing is meaningless for deprecated variants
+        if (this.variantIsDeprecated) {return}
+
         this.variant.forEach(function(variantObjFromAccService) {
-            if (_this.accessionCategory == "clustered-variants") {
+            if (_this.accessionCategory === "clustered-variants") {
                 _this.getAssociatedSSIDsFromAccessioningService(_this.accessionCategory, variantObjFromAccService.id).forEach(function(ssIDInfo) {
                         if (variantObjFromAccService.assemblyAccession == ssIDInfo.data.referenceSequenceAccession) {
                             _this.addAssociatedSSID("ss" + ssIDInfo.accession + "_" + ssIDInfo.data.contig,
@@ -475,11 +492,22 @@ EvaVariantView.prototype = {
             this.processQueryWithEVAService();
         }
 
+        // Check if the variant has been merged
+        this.variantIsMerged = false;
+        this.variantMergedFrom = null;
+        var requestedAccessionID = this.accessionID;
+        var responseAccessionID = this.variant[0].id;
+        if (requestedAccessionID !== responseAccessionID) {
+            this.variantIsMerged = true;
+            this.variantMergedFrom = requestedAccessionID;
+        }
+
         this.draw();
 
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'Variant', eventLabel:'species='+this.species+'variant='+this.position});
     },
+
     createVariantFilesPanel: function (targetDiv, variantData, variantIndex) {
         var _this = this;
         var variantFilesPanel = new EvaVariantFilesPanel({
@@ -539,10 +567,32 @@ EvaVariantView.prototype = {
             noDataEl.appendChild(noDataElDiv);
             return;
         }
+
         var variantViewDiv = document.querySelector("#variantView");
         $(variantViewDiv).addClass('show-div');
-        var summaryContent = _this._renderSummaryData(variant);
         var summaryEl = document.querySelector("#summary-grid");
+
+        // Adding message for a deprecated variant (if necessary)
+        if (this.variantIsDeprecated) {
+            var deprecatedMessageDiv = document.createElement("div");
+            deprecatedMessageDiv.setAttribute("class", "callout alert");
+            deprecatedMessageDiv.innerHTML = _.escape("Variant " + variant[0].id + " has been deprecated. " +
+                "Summary information about the variant is displayed below for historical purposes. " +
+                "This variant ID should not be used.");
+            summaryEl.appendChild(deprecatedMessageDiv);
+        }
+
+        // Adding message for merged variant (if necessary)
+        if (this.variantIsMerged) {
+            var mergedMessageDiv = document.createElement("div");
+            mergedMessageDiv.setAttribute("class", "callout warning");
+            mergedMessageDiv.innerHTML = _.escape("Variant " + this.variantMergedFrom + " has been merged into " +
+                variant[0].id + ". Information for the target variant is displayed below.");
+            summaryEl.appendChild(mergedMessageDiv);
+        }
+
+        // Adding summary content
+        var summaryContent = _this._renderSummaryData(variant);
         var summaryElDiv = document.createElement("div");
         summaryElDiv.innerHTML = summaryContent;
         summaryEl.appendChild(summaryElDiv);
@@ -590,6 +640,7 @@ EvaVariantView.prototype = {
             document.getElementById("navigation-strip").remove();
         }
     },
+
     _renderSummaryData: function (data) {
         var _this = this;
         var speciesName, organism;
@@ -656,13 +707,15 @@ EvaVariantView.prototype = {
             summaryData = summaryData.map(function(x) {return _.omit(x, [summaryDisplayFields.submitterHandle, summaryDisplayFields.end, summaryDisplayFields.reference, summaryDisplayFields.alternate,
                                                           summaryDisplayFields.evidence, summaryDisplayFields.assemblyMatch,
                                                           summaryDisplayFields.allelesMatch, summaryDisplayFields.validated]);}).slice(0,1);
-            submitterInfoHeading = '<h4 class="variant-view-h4">Submitted Variants</b></h4><div class="row"><div class="col-md-8">';
-            var associatedSSData = this.associatedSSIDs;
-            _.values(associatedSSData).forEach(function(x) {
-                x.ID = '<a href="?variant&accessionID=' + x.ID + '&species=' + _this.species + '">' + x.ID + '</a>';
-            });
-            ssInfoHeaderRow = getSummaryTableHeaderRow(_.values(associatedSSData)[0]);
-            ssInfoContentRows = _.values(associatedSSData).map(getSummaryTableContentRow).join("");
+            if (! this.variantIsDeprecated) {  // ssID data are not available for deprecated rsIDs
+                submitterInfoHeading = '<h4 class="variant-view-h4">Submitted Variants</b></h4><div class="row"><div class="col-md-8">';
+                var associatedSSData = this.associatedSSIDs;
+                _.values(associatedSSData).forEach(function (x) {
+                    x.ID = '<a href="?variant&accessionID=' + x.ID + '&species=' + _this.species + '">' + x.ID + '</a>';
+                });
+                ssInfoHeaderRow = getSummaryTableHeaderRow(_.values(associatedSSData)[0]);
+                ssInfoContentRows = _.values(associatedSSData).map(getSummaryTableContentRow).join("");
+            }
         } else {
             if (data[0].associatedRSID) {
                 rsReference = '<small><b>Clustered</b> under <a id="rs-link" href="?variant&accessionID=' +
