@@ -560,7 +560,7 @@ function checkAnnotationNotification(driver){
     driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//li[text()='Mosquito / AaegL3']")));
     driver.findElement(By.xpath("//li[text()='Mosquito / AaegL3']")).click();
     driver.findElement(By.id("annotVersion-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='VEP version 89 - Cache version 35']")).click();
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='VEP version 89 - Cache version 35']")));
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.className("vep_text")), 10000).then(function(text) {
@@ -580,11 +580,11 @@ function checkGeneIdEnsemblLink(driver){
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
-    var geneIDHeaderXpath = "//div[contains(@id,'VariantAnnotationDataPanel')]//div[contains(@id,'headercontainer')]//span[contains(.,'Gene ID')]";
-    // Click the header twice to sort by Gene ID and force a non-blank Gene ID
-    driver.findElement(By.xpath(geneIDHeaderXpath)).click();
-    driver.findElement(By.xpath(geneIDHeaderXpath)).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")), config.wait()).then(function(text) {
+        var geneIDHeaderXpath = "//div[contains(@id,'VariantAnnotationDataPanel')]//div[contains(@id,'headercontainer')]//span[contains(.,'Gene ID')]";
+        // Click the header twice to sort by Gene ID and force a non-blank Gene ID
+        safeClick(driver, driver.findElement(By.xpath(geneIDHeaderXpath)));
+        safeClick(driver, driver.findElement(By.xpath(geneIDHeaderXpath)));
         driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[1]/div//a")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[1]/div[//a/text()]")).getText().then(function(geneID){
                 assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+geneID+';facet_feature_type=Gene');
@@ -602,11 +602,11 @@ function checkGeneSymbolEnsemblLink(driver){
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
-    var geneSymbolHeaderXpath = "//div[contains(@id,'VariantAnnotationDataPanel')]//div[contains(@id,'headercontainer')]//span[contains(.,'Gene Symbol')]";
-    // Click the header twice to sort by Gene ID and force a non-blank Gene symbol
-    driver.findElement(By.xpath(geneSymbolHeaderXpath)).click();
-    driver.findElement(By.xpath(geneSymbolHeaderXpath)).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")), config.wait()).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div//a")), config.wait()).then(function(text) {
+        // Click the header twice to sort by Gene ID and force a non-blank Gene symbol
+        var geneSymbolHeaderXpath = "//div[contains(@id,'VariantAnnotationDataPanel')]//div[contains(@id,'headercontainer')]//span[contains(.,'Gene Symbol')]";
+        safeClick(driver, driver.findElement(By.xpath(geneSymbolHeaderXpath)));
+        safeClick(driver, driver.findElement(By.xpath(geneSymbolHeaderXpath)));
         driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div//a")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[2]/div[//a/text()]")).getText().then(function(geneSymbol){
                 assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+geneSymbol+';facet_feature_type=Gene');
@@ -624,11 +624,11 @@ function checkTranscriptIdEnsemblLink(driver){
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
-    var geneTranscriptIDXpath = "//div[contains(@id,'VariantAnnotationDataPanel')]//div[contains(@id,'headercontainer')]//span[contains(.,'Transcript ID')]";
-    // Click the header twice to sort by Transcript ID and force a non-blank Gene ID
-    driver.findElement(By.xpath(geneTranscriptIDXpath)).click();
-    driver.findElement(By.xpath(geneTranscriptIDXpath)).click();
-    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")), config.wait()).then(function(text) {
+    driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div//a")), config.wait()).then(function(text) {
+        // Click the header twice to sort by Transcript ID and force a non-blank Gene ID
+        var geneTranscriptIDXpath = "//div[contains(@id,'VariantAnnotationDataPanel')]//div[contains(@id,'headercontainer')]//span[contains(.,'Transcript ID')]";
+        safeClick(driver, driver.findElement(By.xpath(geneTranscriptIDXpath)));
+        safeClick(driver, driver.findElement(By.xpath(geneTranscriptIDXpath)));
         driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div//a")).getAttribute('href').then(function(text){
             driver.findElement(By.xpath("//div[contains(@id,'VariantAnnotationDataPanel')]//table[1]//td[3]/div[//a/text()]")).getText().then(function(TranscriptID){
                 assert(text).contains('http://www.ensembl.org/Multi/Search/Results?q='+TranscriptID+';facet_feature_type=Transcript');
@@ -672,8 +672,8 @@ function variantGenotypesTab(driver){
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        driver.findElement(By.xpath("//span[text()='Genotypes']")).click();
-        driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]")).click();
+        safeClick(driver, driver.findElement(By.xpath("//span[text()='Genotypes']")));
+        safeClick(driver, driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]")));
         variantBrowser.genotypesTab(driver);
     });
     return driver;
@@ -718,6 +718,18 @@ function waitForVariantsToLoad(driver) {
         console.log('WARN: Mask did not appear (which is alright, the webdriver most likely just missed it)')
     })
 }
+}
+
+function safeClick(driver, element) {
+    // Waits until the element is visible and enabled, then clicks it
+    driver.wait(function () {
+            return element.isDisplayed().then(function (displayed) {
+                if (!displayed) return false;
+                return element.isEnabled();
+            })
+        },
+        config.wait()
+    ).then(function () {driver.executeScript("arguments[0].click();", element)})
 }
 
 function variantResetCheck(driver) {
