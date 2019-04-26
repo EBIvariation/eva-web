@@ -345,7 +345,6 @@ function positionFilterBoxInValidation(driver){
 }
 
 function assertAlertWindowShown(driver, message) {
-    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function (text) {
         driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function (text) {
             assert(text).equalTo(message);
@@ -662,7 +661,6 @@ function variantFilesTab(driver){
     driver.findElement(By.id("vb-submit-button")).click();
     waitForVariantsToLoad(driver);
     driver.findElement(By.xpath("//span[text()='Files']")).click();
-    config.sleep(driver);
     variantBrowser.filesTab(driver);
     return driver;
 }
@@ -707,7 +705,6 @@ function waitForVariantsToLoad(driver) {
 
 function variantResetCheck(driver) {
     driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
-    config.sleep(driver);
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).getText().then(function(text){
         chai.assert.equal(text, '1:3000000-3100000');

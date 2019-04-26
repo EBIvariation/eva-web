@@ -21,7 +21,6 @@
 var config = require('./config.js');
 module.exports = {
 assertAlertWindowShown: function (driver, message) {
-    config.sleep(driver);
     driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function (text) {
         driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function (text) {
             assert(text).equalTo(message);

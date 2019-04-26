@@ -18,11 +18,11 @@
  */
 
 var config = require('./config.js');
-
 config.loadModules();
-var value;
+
 test.describe('Study View ('+config.browser()+')', function() {
     var driver;
+
     test.before(function() {
         driver = config.initDriver(config.browser());
         driver.findElement(By.xpath("//li//a[text()='Study Browser']")).click();
@@ -38,12 +38,10 @@ test.describe('Study View ('+config.browser()+')', function() {
                 driver.findElement(By.xpath("//div[@id='study-browser-grid']//div[contains(@id,'_pagingToolbar-targetEl')]//div[contains(text(), 'Studies 1 -')]")).getText().then(function(text) {
                     var rows = parseInt(text.split(" ")[3]);
                     for (var i = 1; i <= 5; i++) {
-                         config.sleep(driver);
                         driver.wait(until.elementLocated(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")), config.wait());
                         driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
 //                            driver.findElement(By.linkText(text)).click();
                             driver.get(config.baseURL()+'?eva-study='+text);
-                            config.sleep(driver);
                             evaCheckSummaryTable(driver);
                             checkPublications(driver);
                             driver.findElement(By.id('filesTable')).then(function(webElement) {
@@ -72,7 +70,6 @@ test.describe('Study View ('+config.browser()+')', function() {
                             driver.findElement(By.xpath("//div[@id='study-browser-grid']//table["+i+"]//td[2]/div/a[text()]")).getText().then(function(text){
 //                            driver.findElement(By.linkText(text)).click();
                                 driver.get(config.baseURL()+'?dgva-study='+text);
-                                config.sleep(driver);
                                 dgvaCheckSummaryTable(driver);
                                 checkPublications(driver);
                                 config.back(driver);
