@@ -567,7 +567,6 @@ function checkAnnotationNotification(driver){
         driver.findElement(By.className("vep_text")).getText().then(function(text){
             assert(text).matches(/[v][8][9]/);
         });
-    },function(err) {
     });
     return driver;
 }
@@ -699,8 +698,26 @@ function variantBrowserResetAndWait(driver) {
 }
 
 function waitForVariantsToLoad(driver) {
-    driver.wait(until.elementLocated(
-                    By.xpath("//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[1]//div")), config.wait());
+    var maskXpath = "//div[contains(concat(' ', normalize-space(@class),' '), ' x-mask ') and not(contains(@style, 'display: none'))]";
+    var variantsXpath = "//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[1]//div";
+    // First, *optionally* wait for the loading mask to appear
+    driver.wait(until.elementLocated(By.xpath(maskXpath)), config.wait()).then(function() {
+        driver.wait(
+            function () {
+                // Next, wait for the mask to disappear
+                return driver.findElements(By.xpath(maskXpath)).then(function (elements) {
+                    return elements.length === 0
+                });
+            },
+            config.wait()
+        ).then(function () {
+            // Finally, wait for the variants to load
+            driver.wait(until.elementLocated(By.xpath(variantsXpath)), config.wait())
+        })
+    }, function(err) {
+        console.log('WARN: Mask did not appear (which is alright, the webdriver most likely just missed it)')
+    })
+}
 }
 
 function variantResetCheck(driver) {
