@@ -180,7 +180,7 @@ function variantSearchById(driver, rs){
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys(rs);
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")).getText().then(function(text){
@@ -195,7 +195,7 @@ function variantSearchByMutlipleIds(driver, rsList){
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys(rsList.join(","));
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     var checkedRsList = [];
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[3]/div[text()]")),
@@ -219,7 +219,7 @@ function variantSearchBySpeciesandChrLocation(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
@@ -240,7 +240,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys("rs68485566");
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[contains(@class,'dbsnp_link')]")).getAttribute('href').then(function(text){
@@ -254,7 +254,7 @@ function checkdbSNPLink(driver){
     driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1:3008755-3008755');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[contains(@class,'dbsnp_link')]")).getAttribute('href').then(function(text){
@@ -271,7 +271,7 @@ function checkdbSNPLink(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div//a[contains(@class,'dbsnp_link')]")).getAttribute('href').then(function(text){
@@ -287,7 +287,7 @@ function checkEnsemblLink(driver){
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys("rs68485566");
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[9]/div//a[contains(@class,'ensembl_link')]")).getAttribute('href').then(function(text){
@@ -305,7 +305,7 @@ function positionFilterBoxValidation(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('X:10000000-11000000');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
@@ -317,7 +317,7 @@ function positionFilterBoxValidation(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1!~13:12233-12234');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//div[@class='x-grid-empty']")).getText().then(function(text){
             assert(text).equalTo('No records to display');
@@ -329,25 +329,25 @@ function positionFilterBoxInValidation(driver){
     variantBrowserResetAndWait(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('12334');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     assertAlertWindowShown(driver, 'Please enter a valid region');
 
     variantBrowserResetAndWait(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1:3200000-3100000');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     assertAlertWindowShown(driver, 'Please enter the correct range.The start of the region should be smaller than the end');
 
     variantBrowserResetAndWait(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1:3000000-310000000');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     assertAlertWindowShown(driver, 'Please enter a region no larger than 1 million bases');
 
     variantBrowserResetAndWait(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1,13:12233-12234');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     assertAlertWindowShown(driver, 'Please enter a valid region');
 }
 
@@ -363,7 +363,7 @@ function assertAlertWindowShown(driver, message) {
 function emptyRegionFilter(driver) {
     // 'Chromosomal Location' filter
     driver.findElement(By.name("region")).clear();
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
     variantBrowserResetAndWait(driver);
 }
@@ -373,7 +373,7 @@ function emptyVariantIDFilter(driver) {
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
     driver.findElement(By.name("snp")).clear();
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
     variantBrowserResetAndWait(driver);
 }
@@ -383,7 +383,7 @@ function emptyGeneFilter(driver) {
     driver.findElement(By.id("selectFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
     driver.findElement(By.name("gene")).clear();
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
     variantBrowserResetAndWait(driver);
 }
@@ -397,7 +397,7 @@ function variantSearchByGene(driver){
     driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
     driver.findElement(By.name("gene")).clear();
     driver.findElement(By.name("gene")).sendKeys("BRCA2");
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
@@ -486,7 +486,7 @@ function variantFilterByPolyphenSift(driver){
     driver.findElement(By.name("polyphen")).sendKeys("0.9");
     driver.findElement(By.name("sift")).clear();
     driver.findElement(By.name("sift")).sendKeys("0.02");
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
         // TODO:  The expected number of results in the staging environment is 4 due to an outdated database; when the
@@ -518,7 +518,7 @@ function variantFilterByMAF(driver){
     driver.findElement(By.xpath("//li[text()='<']")).click();
     driver.findElement(By.name("maf")).clear();
     driver.findElement(By.name("maf")).sendKeys("0.3");
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), config.wait()).then(function(text) {
@@ -559,7 +559,7 @@ function checkAnnotationNotification(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.id("annotVersion-trigger-picker")).click();
     safeClick(driver, driver.findElement(By.xpath("//li[text()='VEP version 89 - Cache version 35']")));
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.className("vep_text")), 10000).then(function(text) {
         driver.findElement(By.className("vep_text")).getText().then(function(text){
@@ -648,7 +648,7 @@ function variantAnnotationTab(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         variantBrowser.annotationTab(driver);
@@ -661,7 +661,7 @@ function variantFilesTab(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.findElement(By.xpath("//span[text()='Files']")).click();
     variantBrowser.filesTab(driver);
@@ -673,7 +673,7 @@ function variantGenotypesTab(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('2:48000000-49000000');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         safeClick(driver, driver.findElement(By.xpath("//span[text()='Genotypes']")));
@@ -689,7 +689,7 @@ function variantPopulationTab(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
-    driver.findElement(By.id("vb-submit-button")).click();
+    clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
     variantBrowser.populationTab(driver);
@@ -734,6 +734,11 @@ function safeClick(driver, element) {
         },
         config.wait()
     ).then(function () {driver.executeScript("arguments[0].click();", element)})
+}
+
+function clickSubmit(driver) {
+    driver.executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
+    safeClick(driver, driver.findElement(By.id("vb-submit-button")));
 }
 
 function variantResetCheck(driver) {
