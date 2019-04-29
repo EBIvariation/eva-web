@@ -1120,6 +1120,15 @@
                                                         The list of RS IDs issued for a species in a release will be provided in VCF format, as in <a href="files/rs_ids.vcf">this example</a>; multi-allelic variants are split in multiple records, one per alternate allele, even if several of them have the same variant class. Coordinates are mandatory in VCF format, so RefSNP's without them won't be included in the dump. Please note the example file is the actual RS release for the barrel medic species (Medicago truncatula).
                                                     </p>
                                                     <p>
+                                                        Please note that variants with this kind of alternates will be excluded from the VCF files:
+                                                        <ul>
+                                                            <ul>
+                                                                <li>Unspecified alleles &lt;*&gt;</li>
+                                                                <li>Breakend notation</li>
+                                                            </ul>
+                                                        </ul>
+                                                    </p>
+                                                    <p>
                                                         The details of a study submission, reported genotypes and frequencies, etc., can then be queried using the existing EVA website and  <a href="?API">web services API</a>.
                                                     </p>
                                                 </div>
