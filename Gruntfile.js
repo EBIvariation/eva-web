@@ -440,7 +440,7 @@ module.exports = function (grunt) {
     grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
 
     //run test
-    grunt.registerTask('runAcceptanceTest', ['exec:firefox']);
+    grunt.registerTask('runAcceptanceTest', ['exec:chrome']);
 
     //bower install
     grunt.registerTask('bower-install', ['bower:install']);

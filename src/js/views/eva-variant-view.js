@@ -496,10 +496,13 @@ EvaVariantView.prototype = {
         this.variantIsMerged = false;
         this.variantMergedFrom = null;
         var requestedAccessionID = this.accessionID;
-        var responseAccessionID = this.variant[0].id;
-        if (requestedAccessionID !== responseAccessionID) {
-            this.variantIsMerged = true;
-            this.variantMergedFrom = requestedAccessionID;
+        if (this.variant[0] !== undefined) {
+            // Resolved variant is undefined in case an error occurs, e. g. if an incorrect accession has been requested
+            var responseAccessionID = this.variant[0].id;
+            if (requestedAccessionID !== responseAccessionID) {
+                this.variantIsMerged = true;
+                this.variantMergedFrom = requestedAccessionID;
+            }
         }
 
         this.draw();

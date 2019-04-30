@@ -221,11 +221,15 @@ test.describe('Variant View - ss by position', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.14", "Submitter Handle": "", "Contig": "1",
+    // TODO:  GCA_000001405.1 reflects the obsolete assembly version used in the staging environment. Production
+    // TODO:  environment is currently using GCA_000001405.14. When the staging database is updated, the test must be
+    // TODO:  updated
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1", "Submitter Handle": "", "Contig": "1",
                             "Start": "3000017", "End": "3000017", "Reference": "C", "Alternate": "T", "ID":"ss1289423512",
                             "Type": "", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
                             "Validated?": "", "Created Date": ""}];
+
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 
