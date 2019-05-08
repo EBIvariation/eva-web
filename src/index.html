@@ -1117,19 +1117,21 @@
                                                         </ul>
                                                     </p>
                                                     <p>
-                                                        The list of RS IDs issued for a species in a release will be provided in VCF format, as in <a href="files/rs_ids.vcf">this example</a>; multi-allelic variants are split in multiple records, one per alternate allele, even if several of them have the same variant class. Coordinates are mandatory in VCF format, so RefSNP's without them won't be included in the dump. Please note the example file is the actual RS release for the barrel medic species (Medicago truncatula).
+                                                        The list of RS IDs issued for a species in a release will be provided in VCF format; multi-allelic variants are split in multiple records, one per alternate allele, even if several of them have the same variant class. Coordinates are mandatory in VCF format, so RefSNP's without them will be reported separately. Variants with the unspecified allele &lt;*&gt; or breakend notation will be excluded from the VCF files. An example file containing the actual RS release for the barrel medic species (Medicago truncatula) can be found <a href="files/rs_ids.vcf">here</a>.
                                                     </p>
                                                     <p>
-                                                        Please note that variants with this kind of alternates will be excluded from the VCF files:
+                                                        
+                                                    </p>
+                                                    <p>
+                                                        The release files will only contain this information for the following reasons:
                                                         <ul>
                                                             <ul>
-                                                                <li>Unspecified alleles &lt;*&gt;</li>
-                                                                <li>Breakend notation</li>
+                                                                <li>Reduce their size</li>
+                                                                <li>Distribute only information that will not get outdated, as new studies may come in very often</li>
+                                                                <li>Avoid merging genotypes from multiple studies conducted with different technologies without making this distinction clear</li>
                                                             </ul>
                                                         </ul>
-                                                    </p>
-                                                    <p>
-                                                        The details of a study submission, reported genotypes and frequencies, etc., can then be queried using the existing EVA website and  <a href="?API">web services API</a>.
+                                                        The details of study submissions, reported genotypes and frequencies, variant annotation, etc., can be retrieved using the existing EVA website, <a href="?API">REST API</a>, VCF download from the Variant Browser and FTP.
                                                     </p>
                                                 </div>
                                             </li>
