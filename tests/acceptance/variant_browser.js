@@ -489,8 +489,6 @@ function variantFilterByPolyphenSift(driver){
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[1]/div[text()]")), config.wait()).then(function(text) {
-        // TODO:  The expected number of results in the staging environment is 4 due to an outdated database; when the
-        // TODO:  database is updated, the condition below must be changed back to "i < 11"
         for (let i = 1; i < 5; i++) {
             driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table["+i+"]//td[7]/div[text()]")).getText().then(function(text) {
                 var polyphen = parseFloat(text);
