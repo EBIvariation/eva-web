@@ -83,12 +83,11 @@ EvadbSNPImportProgress.prototype = {
                     '<th rowspan="2">Taxonomy ID</th>' +
                     '<th rowspan="2">INSDC assembly accession</th>' +
                     '<th rowspan="2">dbSNP build</th>' +
-                    '<th colspan="3" style="background-image:none;">Searchable by</th>' +
+                    '<th colspan="2" style="background-image:none;">Searchable by</th>' +
                 '</tr>' +
                 '<tr>' +
-                    '<th><div title="RS IDs available in the last dbSNP build for a species">Current RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
-                    '<th><div title="SS IDs available in the last dbSNP build for a species">Current SS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
-                    '<th><div title="RS IDs merged into others">Synonymous RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th><div title="RS IDs available in the last dbSNP build for a species">RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th><div title="SS IDs available in the last dbSNP build for a species">SS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                 '</tr>' +
                 '</thead><tbody>';
 
@@ -106,7 +105,6 @@ EvadbSNPImportProgress.prototype = {
 
             var importedRs = _this._getImportStatus(this[key].importedRs, this[key].totalRsDbsnp);
             var importedSs = _this._getImportStatus(this[key].importedSs, this[key].totalSsDbsnp);
-            var importedSynonymousRs = _this._getImportStatus(this[key].importedSynonymousRs, this[key].totalSynonymousRsDbsnp);
 
             table += '<tr>' +
                 '<td><span class="dbSNP-common-name">' + this[key].commonName + '</span></td>' +
@@ -116,7 +114,6 @@ EvadbSNPImportProgress.prototype = {
                 '<td><span class="dbSNP-build">' + this[key].lastDbsnpBuild + '</span></td>' +
                 '<td><span class="dbSNP-imported-rs">' + importedRs + '</span></td>' +
                 '<td><span class="dbSNP-imported-ss">' + importedSs + '</span></td>' +
-                '<td><span class="dbSNP-imported-synonymous-rs">' + importedSynonymousRs + '</span></td>' +
                 '</tr>';
         }, data);
         table += '</tbody></table></div></div>';

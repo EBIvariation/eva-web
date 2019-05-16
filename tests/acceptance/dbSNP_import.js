@@ -94,7 +94,7 @@ test.describe('dbSNP Import Progress ('+config.browser()+')', function() {
             });
         });
 
-        test.it('Check "Current RS IDs" column should not be empty', function() {
+        test.it('Check "RS IDs" column should not be empty', function() {
             driver.wait(until.elementLocated(By.id("dbSNP-import-table")), config.wait()).then(function(text) {
                 driver.findElements(By.className("dbSNP-imported-rs")).then(function(rows){
                     for (var i = 0; i < rows.length; i++){
@@ -106,21 +106,9 @@ test.describe('dbSNP Import Progress ('+config.browser()+')', function() {
             });
         });
 
-        test.it('Check "Current SS IDs" column should not be empty', function() {
+        test.it('Check "SS IDs" column should not be empty', function() {
             driver.wait(until.elementLocated(By.id("dbSNP-import-table")), config.wait()).then(function(text) {
                 driver.findElements(By.className("dbSNP-imported-ss")).then(function(rows){
-                    for (var i = 0; i < rows.length; i++){
-                        rows[i].getAttribute("innerHTML").then(function(text){
-                            chai.assert.notEqual(text, null);
-                        });
-                    }
-                });
-            });
-        });
-
-        test.it('Check "Synonymous RS IDs" column should not be empty', function() {
-            driver.wait(until.elementLocated(By.id("dbSNP-import-table")), config.wait()).then(function(text) {
-                driver.findElements(By.className("dbSNP-imported-synonymous-rs")).then(function(rows){
                     for (var i = 0; i < rows.length; i++){
                         rows[i].getAttribute("innerHTML").then(function(text){
                             chai.assert.notEqual(text, null);
