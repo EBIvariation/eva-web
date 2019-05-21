@@ -370,6 +370,33 @@
                             <p><br/> * To fetch all file information of a study:
                                 <br/> <a href="http://www.ebi.ac.uk/eva/webservices/rest/v1/studies/PRJEB4019/files?species=hsapiens_grch37" target="_blank">http://www.ebi.ac.uk/eva/webservices/rest/v1/studies/PRJEB4019/files?species=hsapiens_grch37</a></p>
                         </div>
+
+                        <h3>Rate Limiting for Variant Region queries</h3>
+                        <p>
+                            Rate limiting has been implemented on Variant Region queries in order to ensure fairness
+                            when serving multiple client requests. Therefore, please limit Variant Region API request rates to <b>5 requests/second</b>.
+                            Higher rates of request might result in a HTTP 429 (Too many requests) response.
+
+                            <br/><br/>
+                            Also, when specifying the &quot;limit&quot; parameter in these region queries, please restrict it to <b>10000 or lower</b>. Greater values for this parameter are disallowed and will result in a HTTP 500 (Bad Request) response. Please note that this restriction on the &quot;limit&quot; parameter does not mean that large queries are forbidden altogether. It just means that only a maximum of 10,000 records will be served in a <b>single</b> request. Therefore, a client program can employ the limit parameter in conjunction with the "skip" parameter to "page through" the results from a large region. For example: the following queries can be used to page through the 20,259 results in the variant region 105000001-105500000 in chromosome 1 of the Mouse grcm38 assembly.
+                            <ul>
+                                <li>
+                                    <a href="https://www.ebi.ac.uk/eva/webservices/rest/v1/segments/1:105000001-105500000/variants?species=mmusculus_grcm38&limit=10000" target="_blank">
+                                    https://www.ebi.ac.uk/eva/webservices/rest/v1/segments/1:105000001-105500000/variants?species=mmusculus_grcm38&limit=10000
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.ebi.ac.uk/eva/webservices/rest/v1/segments/1:105000001-105500000/variants?species=mmusculus_grcm38&limit=10000&skip=10000" target="_blank">
+                                    https://www.ebi.ac.uk/eva/webservices/rest/v1/segments/1:105000001-105500000/variants?species=mmusculus_grcm38&limit=10000&skip=10000
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.ebi.ac.uk/eva/webservices/rest/v1/segments/1:105000001-105500000/variants?species=mmusculus_grcm38&limit=10000&skip=20000" target="_blank">
+                                    https://www.ebi.ac.uk/eva/webservices/rest/v1/segments/1:105000001-105500000/variants?species=mmusculus_grcm38&limit=10000&skip=20000
+                                    </a>
+                                </li>
+                            </ul>
+                        </p>
                     </div>
                 </div>
                 <div id="help-section" class="hide-div">
