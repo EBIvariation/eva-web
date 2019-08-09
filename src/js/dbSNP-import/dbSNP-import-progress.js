@@ -29,7 +29,7 @@ EvadbSNPImportProgress.prototype = {
     render: function () {
         var _this = this;
         _this._draw( _this._createContent());
-        $("#dbSNP-import-table").tablesorter({ sortList: [[5,1], [6,1], [0,0]] });
+        $("#dbSNP-import-table").tablesorter({ sortList: [[5,1], [0,0]] });
         //sending tracking data to Google Analytics
         ga('send', 'event', { eventCategory: 'Views', eventAction: 'EvadbSNPImportProgress', eventLabel: 'EvadbSNPImportProgress'});
     },
