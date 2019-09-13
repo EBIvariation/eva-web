@@ -36,6 +36,57 @@ EvaVariantView.prototype = {
         return '';
     },
 
+    get_chromosome_number_for_accession: function(chromosome_accession, line_limit=1000) {
+          var ENA_TEXT_API_URL = `https://www.ebi.ac.uk/ena/browser/api/text/${chromosome_accession}?lineLimit=${line_limit}&annotationOnly=true`;
+          var response = get_text(ENA_TEXT_API_URL);
+          var response_lines = response.split("\n");
+          var num_lines = response_lines.length;
+
+          var line_index = 0, features_section_found = false, source_line_found = false, chosen_response = [];
+          while (line_index < num_lines) {
+            line = response_lines[line_index];
+            // Feature header padding https://github.com/enasequence/sequencetools/blob/f724bd3695add9b717e103fd504b5d32ef98bd64/src/main/java/uk/ac/ebi/embl/flatfile/EmblPadding.java#L43
+            // along with the data item positions described here: http://www.insdc.org/files/feature_table.html#3.4.2
+            if (!(features_section_found || line.toLowerCase().startsWith("fh   key"))) {
+                      line_index += 1;
+                      continue;
+            }
+            features_section_found = true;
+            // Based on "Data item positions" described here, http://www.insdc.org/files/feature_table.html#3.4.2
+            // the sixth character represents the start of the feature key
+            if (!(source_line_found || line.slice(5,11).toLowerCase().startsWith("source"))) {
+                      line_index += 1;
+                      continue;
+            }
+            source_line_found = true;
+            if (line.slice(21,22) === "/") {
+              var assembled_line = line.trim();
+              line_index += 1;
+              // Assemble text spread across multiple lines until
+              // we hit the next qualifier (starts with /) or the next section
+              while (line_index < num_lines && !(response_lines[line_index].slice(21,22) === "/" || response_lines[line_index].slice(5,6).trim() !== "")) {
+                line = response_lines[line_index];
+                assembled_line += " " + line.slice(21).trim();
+                line_index += 1
+              }
+              var chromosome_regexp = new RegExp('.*/chromosome=".+"', 'g');
+              var organelle_regexp = new RegExp('.*/organelle=".+"', 'g');
+              var note_regexp = new RegExp('.*/note=".+"', 'g');
+              chosen_response = chromosome_regexp.exec(assembled_line) || organelle_regexp.exec(assembled_line) || note_regexp.exec(assembled_line);
+              if (chosen_response || line.slice(5,6).trim() !== "") {
+                break;
+              }
+            }
+            else {
+              line_index += 1;
+            }
+          }
+          if (!chosen_response || chosen_response.length == 0) {
+              return "";
+          }
+          return chosen_response[0].split('"')[1].trim();
+    }
+
     getAssemblyLink: function(assembly) {
         if (assembly) {
             assembly = assembly.toUpperCase();

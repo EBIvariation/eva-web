@@ -33,6 +33,23 @@ var EvaManager = {
     host: EVA_HOST,
     accessioning_host: EVA_ACCESSIONING_HOST,
     version: EVA_VERSION,
+    get_text_api_call_result: function(url) {
+        var d;
+        $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'text',//still firefox 20 does not auto serialize JSON, You can force it to always do the parsing by adding dataType: 'json' to your call.
+                    async: false,
+                    success: function (data, textStatus, jqXHR) {
+                            d = data;
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("EvaManager: Ajax call returned : " + errorThrown + '\t' + textStatus + '\t' + jqXHR.statusText + " END");
+                        if (_.isFunction(error)) error(jqXHR, textStatus, errorThrown);
+                    }
+                });
+          return d;
+    }
     get: function (args) {
         var success = args.success;
         var error = args.error;
