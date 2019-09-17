@@ -152,7 +152,7 @@ test.describe('Variant View - rs found in both EVA and Accessioning', function()
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Vervet monkey", "Assembly": "GCA_000409795.2 (Chlorocebus_sabeus 1.1)", "Contig": "	CM001952.2",
+    var expectedResults = [{"Organism": "Vervet monkey", "Assembly": "GCA_000409795.2 (Chlorocebus_sabeus 1.1)", "Contig": "CM001952.2",
                             "Chromosome": "11", "Start": "50921862", "ID": "rs869710784", "Type": "SNV",
                             "Created Date": "16 May 2016"}];
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
@@ -221,7 +221,7 @@ test.describe('Variant View - ss by position', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.14 (GRCh37.p13)", "Submitter Handle": "", "Contig": "",
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1 (GRCh37)", "Submitter Handle": "", "Contig": "",
                             "Chromosome":"1", "Start": "3000017", "End": "3000017", "Reference": "C", "Alternate": "T", "ID":"ss1289423512",
                             "Type": "", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
