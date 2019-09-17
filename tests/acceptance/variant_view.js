@@ -158,7 +158,7 @@ test.describe('Variant View - rs found in both EVA and Accessioning', function()
     runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 
-    expectedResults = [{"ID": "ss1991442915", "Submitter Handle": "PRJEB7923", "Contig": "11", "Chromosome": "11",
+    expectedResults = [{"ID": "ss1991442915", "Submitter Handle": "PRJEB7923", "Contig": "CM001952.2", "Chromosome": "11",
                         "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "5 May 2016"}
                       ];
     runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
