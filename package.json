@@ -7,7 +7,7 @@
     "url": "https://github.com/EBIvariation/eva-web.git"
   },
   "devDependencies": {
-    "bower": "1.7.9",
+    "bower": "1.8.8",
     "chai": "3.5.0",
     "chai-webdriver": "1.2.0",
     "chromedriver": "73.0.0",
