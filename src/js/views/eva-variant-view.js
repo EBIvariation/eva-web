@@ -36,81 +36,81 @@ EvaVariantView.prototype = {
         return '';
     },
 
-    get_chromosome_number_for_accession: function(chromosome_accession, line_limit) {
-          var ENA_TEXT_API_URL = "https://www.ebi.ac.uk/ena/browser/api/text/" + chromosome_accession + "?lineLimit=" + line_limit + "&annotationOnly=true";
-          var response = EvaManager.get_text_api_call_result(ENA_TEXT_API_URL, this.contigAccessionNotResolvedHandler.bind(this));
-          var response_lines = response.split("\n");
-          var num_lines = response_lines.length;
+    getChromosomeNumberForAccession: function(chromosomeAccession, lineLimit) {
+          var ENA_TEXT_API_URL = "https://www.ebi.ac.uk/ena/browser/api/text/" + chromosomeAccession + "?lineLimit=" + lineLimit + "&annotationOnly=true";
+          var response = EvaManager.getAPICallResult(ENA_TEXT_API_URL, 'text', this.contigAccessionNotResolvedHandler.bind(this));
+          var responseLines = response.split("\n");
+          var numLines = responseLines.length;
 
-          var line_index = 0, features_section_found = false, source_line_found = false, chosen_response = [];
-          while (line_index < num_lines) {
-            line = response_lines[line_index];
+          var lineIndex = 0, featuresSectionFound = false, sourceLineFound = false, chosenResponse = [];
+          while (lineIndex < numLines) {
+            line = responseLines[lineIndex];
             // Feature header padding https://github.com/enasequence/sequencetools/blob/f724bd3695add9b717e103fd504b5d32ef98bd64/src/main/java/uk/ac/ebi/embl/flatfile/EmblPadding.java#L43
             // along with the data item positions described here: http://www.insdc.org/files/feature_table.html#3.4.2
-            if (!(features_section_found || line.toLowerCase().startsWith("fh   key"))) {
-                      line_index += 1;
+            if (!(featuresSectionFound || line.toLowerCase().startsWith("fh   key"))) {
+                      lineIndex += 1;
                       continue;
             }
-            features_section_found = true;
+            featuresSectionFound = true;
             // Based on "Data item positions" described here, http://www.insdc.org/files/feature_table.html#3.4.2
             // the sixth character represents the start of the feature key
-            if (!(source_line_found || line.slice(5,11).toLowerCase().startsWith("source"))) {
-                      line_index += 1;
+            if (!(sourceLineFound || line.slice(5,11).toLowerCase().startsWith("source"))) {
+                      lineIndex += 1;
                       continue;
             }
-            source_line_found = true;
+            sourceLineFound = true;
             if (line.slice(21,22) === "/") {
-              var assembled_line = line.trim();
-              line_index += 1;
+              var assembledLine = line.trim();
+              lineIndex += 1;
               // Assemble text spread across multiple lines until
               // we hit the next qualifier (starts with /) or the next section
-              while (line_index < num_lines && !(response_lines[line_index].slice(21,22) === "/" || response_lines[line_index].slice(5,6).trim() !== "")) {
-                line = response_lines[line_index];
-                assembled_line += " " + line.slice(21).trim();
-                line_index += 1
+              while (lineIndex < numLines && !(responseLines[lineIndex].slice(21,22) === "/" || responseLines[lineIndex].slice(5,6).trim() !== "")) {
+                line = responseLines[lineIndex];
+                assembledLine += " " + line.slice(21).trim();
+                lineIndex += 1
               }
-              var chromosome_regexp = new RegExp('.*/chromosome=".+"', 'g');
-              var organelle_regexp = new RegExp('.*/organelle=".+"', 'g');
-              var note_regexp = new RegExp('.*/note=".+"', 'g');
-              chosen_response = chromosome_regexp.exec(assembled_line) || organelle_regexp.exec(assembled_line) || note_regexp.exec(assembled_line);
-              if (chosen_response || line.slice(5,6).trim() !== "") {
+              var chromosomeRegexp = new RegExp('.*/chromosome=".+"', 'g');
+              var organelleRegexp = new RegExp('.*/organelle=".+"', 'g');
+              var noteRegexp = new RegExp('.*/note=".+"', 'g');
+              chosenResponse = chromosomeRegexp.exec(assembledLine) || organelleRegexp.exec(assembledLine) || noteRegexp.exec(assembledLine);
+              if (chosenResponse || line.slice(5,6).trim() !== "") {
                 break;
               }
             }
             else {
-              line_index += 1;
+              lineIndex += 1;
             }
           }
-          if (!chosen_response || chosen_response.length == 0) {
+          if (!chosenResponse || chosenResponse.length == 0) {
               return "";
           }
-          return chosen_response[0].split('"')[1].trim();
+          return chosenResponse[0].split('"')[1].trim();
     },
 
-    get_chromosome_number_for_accession_with_retries: function(chromosome_accession) {
+    getChromosomeNumberForAccessionWithRetries: function(chromosomeAccession) {
         // Cache the contig resolution because this function could be called
         // multiple times for the same contig in case of multi-allelic alleles (ex: ss1996903386)
-        if (chromosome_accession in this.chromosome_contig_map) {
-            return this.chromosome_contig_map[chromosome_accession];
+        if (chromosomeAccession in this.chromosomeContigMap) {
+            return this.chromosomeContigMap[chromosomeAccession];
         }
 
-        this.chromosome_contig_map[chromosome_accession] =
-                (this.get_chromosome_number_for_accession(chromosome_accession, 1000) ||
-                this.get_chromosome_number_for_accession(chromosome_accession, 10000) ||
-                this.get_chromosome_number_for_accession(chromosome_accession, 100000));
+        this.chromosomeContigMap[chromosomeAccession] =
+                (this.getChromosomeNumberForAccession(chromosomeAccession, 1000) ||
+                this.getChromosomeNumberForAccession(chromosomeAccession, 10000) ||
+                this.getChromosomeNumberForAccession(chromosomeAccession, 100000));
 
-        return this.chromosome_contig_map[chromosome_accession];
+        return this.chromosomeContigMap[chromosomeAccession];
     },
 
-    get_assembly_name_for_accession: function(assembly_accession) {
-        var assembly_ena_xml_url = ENA_ASSEMBLY_LOOKUP_SERVICE + "/" + assembly_accession + "&display=xml"
-        var xml_result = EvaManager.get_xml_api_call_result(assembly_ena_xml_url, this.assemblyAccessionNotResolvedHandler.bind(this));
-        var doc = new DOMParser().parseFromString(xml_result,'text/xml');
-        var assembly_name_tag_value = doc.evaluate('//ASSEMBLY/NAME', xml_result, null, XPathResult.STRING_TYPE, null);
-        if (assembly_name_tag_value) {
-            return assembly_accession + " (" + assembly_name_tag_value.stringValue + ")";
+    getAssemblyNameForAccession: function(assemblyAccession) {
+        var assemblyENAXmlUrl = ENA_ASSEMBLY_LOOKUP_SERVICE + "/" + assemblyAccession + "&display=xml"
+        var xmlResult = EvaManager.getAPICallResult(assemblyENAXmlUrl, 'xml', this.assemblyAccessionNotResolvedHandler.bind(this));
+        var doc = new DOMParser().parseFromString(xmlResult,'text/xml');
+        var assemblyNameTagValue = doc.evaluate('//ASSEMBLY/NAME', xmlResult, null, XPathResult.STRING_TYPE, null);
+        if (assemblyNameTagValue) {
+            return assemblyAccession + " (" + assemblyNameTagValue.stringValue + ")";
         }
-        return assembly_accession;
+        return assemblyAccession;
     },
 
     getAssemblyLink: function(assembly) {
@@ -123,7 +123,7 @@ EvaVariantView.prototype = {
                 assemblyLookupService = NCBI_ASSEMBLY_LOOKUP_SERVICE;
             }
             if (assemblyLookupService) {
-                return '<a href="' + assemblyLookupService + "/" + assembly + '" target="_blank">' + this.get_assembly_name_for_accession(assembly) + '</a>';
+                return '<a href="' + assemblyLookupService + "/" + assembly + '" target="_blank">' + this.getAssemblyNameForAccession(assembly) + '</a>';
             }
         }
         return '';
@@ -331,7 +331,7 @@ EvaVariantView.prototype = {
                 variantInfo.projectAccession = response.data.projectAccession;
                 variantInfo.submitterHandle = _this.getProjectAccessionAnchor(variantInfo.projectAccession);
                 variantInfo.contig = response.data.contig;
-                variantInfo.chromosome = _this.get_chromosome_number_for_accession_with_retries(response.data.contig);
+                variantInfo.chromosome = _this.getChromosomeNumberForAccessionWithRetries(response.data.contig);
                 variantInfo.start = response.data.start;
                 variantInfo.reference = response.data.referenceAllele;
                 if (response.data.alternateAllele) {
@@ -468,8 +468,8 @@ EvaVariantView.prototype = {
                             _this.addAssociatedSSID("ss" + ssIDInfo.accession + "_" + ssIDInfo.data.contig,
                             {"ID": "ss" + ssIDInfo.accession,
                             "Study": _this.getProjectAccessionAnchor(ssIDInfo.data.projectAccession),
-                            "Contig": ssIDInfo.data.contig,
-                            "Chromosome": _this.get_chromosome_number_for_accession_with_retries(ssIDInfo.data.contig),
+                            "Contig/Chromosome accession": ssIDInfo.data.contig,
+                            "Chromosome": _this.getChromosomeNumberForAccessionWithRetries(ssIDInfo.data.contig),
                             "Start": ssIDInfo.data.start,
                             "End": _this.getVariantEndCoordinate(ssIDInfo.data.start,
                                                                 ssIDInfo.data.referenceAllele, ssIDInfo.data.alternateAllele),
@@ -515,7 +515,7 @@ EvaVariantView.prototype = {
                 variantObjFromEVAService.associatedSSIDs.forEach(function(ssID) {
                     _this.addAssociatedSSID(ssID + "_" + variantObjFromEVAService.chromosome,
                         {"ID": ssID, "Study": _this.getProjectAccessionAnchorForSSID(ssID),
-                        "Contig": "",
+                        "Contig/Chromosome accession": "",
                         "Chromosome": variantObjFromEVAService.chromosome,
                         "Start": variantObjFromEVAService.start, "End": variantObjFromEVAService.end,
                         "Reference": variantObjFromEVAService.reference, "Alternate": variantObjFromEVAService.allAlternates,
@@ -564,7 +564,7 @@ EvaVariantView.prototype = {
         this.currAssembly = this.getCurrentAssembly(this.species, this.speciesList);
         this.assemblyLink = this.getAssemblyLink(this.currAssembly);
         this.associatedSSIDs = {};
-        this.chromosome_contig_map = {};
+        this.chromosomeContigMap = {};
 
         if (this.accessionID) {
             this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
@@ -759,7 +759,7 @@ EvaVariantView.prototype = {
             return '<tr>' + rowContent + '</tr>';
         };
 
-        var summaryDisplayFields = {organism : "Organism", assembly: "Assembly", submitterHandle: "Study", contig: "Contig", chromosome: "Chromosome", start: "Start",
+        var summaryDisplayFields = {organism : "Organism", assembly: "Assembly", submitterHandle: "Study", contig: "Contig/Chromosome accession", chromosome: "Chromosome", start: "Start",
                                     end: "End", reference: "Reference", alternate: "Alternate", id: "ID",
                                     type: "Type", evidence: "Allele frequencies / genotypes available?", assemblyMatch: "Alleles match reference assembly?",
                                     allelesMatch: 'Passed allele checks? <i class="icon icon-generic" data-icon="i">',

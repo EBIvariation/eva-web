@@ -33,33 +33,19 @@ var EvaManager = {
     host: EVA_HOST,
     accessioning_host: EVA_ACCESSIONING_HOST,
     version: EVA_VERSION,
-    get_xml_api_call_result: function(url, errorHandler) {
-            var d;
-            $.ajax({
-                        type: 'GET',
-                        url: url,
-                        dataType: 'xml',
-                        async: false,
-                        success: function (data, textStatus, jqXHR) {
-                                d = data;
-                        },
-                        error: errorHandler
-                    });
-              return d;
-    },
-    get_text_api_call_result: function(url, errorHandler) {
-        var d;
-        $.ajax({
-                    type: 'GET',
-                    url: url,
-                    dataType: 'text',
-                    async: false,
-                    success: function (data, textStatus, jqXHR) {
-                            d = data;
-                    },
-                    error: errorHandler
-                });
-          return d;
+    getAPICallResult: function(url, apiResultType, errorHandler) {
+          var d;
+          $.ajax({
+                      type: 'GET',
+                      url: url,
+                      dataType: apiResultType,
+                      async: false,
+                      success: function (data, textStatus, jqXHR) {
+                              d = data;
+                      },
+                      error: errorHandler
+                  });
+            return d;
     },
     get: function (args) {
         var success = args.success;
