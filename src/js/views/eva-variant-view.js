@@ -105,8 +105,9 @@ EvaVariantView.prototype = {
     getAssemblyNameForAccession: function(assemblyAccession) {
         var assemblyENAXmlUrl = ENA_ASSEMBLY_LOOKUP_SERVICE + "/" + assemblyAccession + "&display=xml"
         var xmlResult = EvaManager.getAPICallResult(assemblyENAXmlUrl, 'xml', this.assemblyAccessionNotResolvedHandler.bind(this));
-        var doc = new DOMParser().parseFromString(xmlResult,'text/xml');
-        var assemblyNameTagValue = doc.evaluate('//ASSEMBLY/NAME', xmlResult, null, XPathResult.STRING_TYPE, null);
+        //var doc = new DOMParser().parseFromString(xmlResult,'text/xml');
+        //console.log(xmlResult.ownerDocument)
+        var assemblyNameTagValue = xmlResult.evaluate('//ASSEMBLY/NAME', xmlResult, null, XPathResult.STRING_TYPE, null);
         if (assemblyNameTagValue) {
             return assemblyAccession + " (" + assemblyNameTagValue.stringValue + ")";
         }
@@ -468,7 +469,7 @@ EvaVariantView.prototype = {
                             _this.addAssociatedSSID("ss" + ssIDInfo.accession + "_" + ssIDInfo.data.contig,
                             {"ID": "ss" + ssIDInfo.accession,
                             "Study": _this.getProjectAccessionAnchor(ssIDInfo.data.projectAccession),
-                            "Contig/Chromosome accession": ssIDInfo.data.contig,
+                            "Chromosome/Contig accession": ssIDInfo.data.contig,
                             "Chromosome": _this.getChromosomeNumberForAccessionWithRetries(ssIDInfo.data.contig),
                             "Start": ssIDInfo.data.start,
                             "End": _this.getVariantEndCoordinate(ssIDInfo.data.start,
@@ -515,7 +516,7 @@ EvaVariantView.prototype = {
                 variantObjFromEVAService.associatedSSIDs.forEach(function(ssID) {
                     _this.addAssociatedSSID(ssID + "_" + variantObjFromEVAService.chromosome,
                         {"ID": ssID, "Study": _this.getProjectAccessionAnchorForSSID(ssID),
-                        "Contig/Chromosome accession": "",
+                        "Chromosome/Contig accession": "",
                         "Chromosome": variantObjFromEVAService.chromosome,
                         "Start": variantObjFromEVAService.start, "End": variantObjFromEVAService.end,
                         "Reference": variantObjFromEVAService.reference, "Alternate": variantObjFromEVAService.allAlternates,
@@ -759,7 +760,7 @@ EvaVariantView.prototype = {
             return '<tr>' + rowContent + '</tr>';
         };
 
-        var summaryDisplayFields = {organism : "Organism", assembly: "Assembly", submitterHandle: "Study", contig: "Contig/Chromosome accession", chromosome: "Chromosome", start: "Start",
+        var summaryDisplayFields = {organism : "Organism", assembly: "Assembly", submitterHandle: "Study", contig: "Chromosome/Contig accession", chromosome: "Chromosome", start: "Start",
                                     end: "End", reference: "Reference", alternate: "Alternate", id: "ID",
                                     type: "Type", evidence: "Allele frequencies / genotypes available?", assemblyMatch: "Alleles match reference assembly?",
                                     allelesMatch: 'Passed allele checks? <i class="icon icon-generic" data-icon="i">',
