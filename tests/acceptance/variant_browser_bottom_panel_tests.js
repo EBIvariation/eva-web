@@ -133,10 +133,10 @@ module.exports = {
                         });
                         //check study title links
                         rows[i].findElement(By.className("study_link")).getAttribute('href').then(function(text){
-                            assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
+                            assert(text.split("?")[1]).matches(/^eva-study\=[A-Z0-9-_]+$/);
                         },function(err) {});
                         rows[i].findElement(By.className("project_link")).getAttribute('href').then(function(text){
-                            assert(text.split("?")[1]).matches(/^eva-study\=PRJ[A-Z0-9]+$/);
+                            assert(text.split("?")[1]).matches(/^eva-study\=[A-Z0-9-_]+$/);
                         },function(err) {});
                         // check for pie chart study
                         rows[i].findElement(By.xpath("//div[contains(@id,'genotype-count-chart-')]")).getAttribute("innerHTML").then(function(text){
