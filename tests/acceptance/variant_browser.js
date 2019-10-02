@@ -144,6 +144,7 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
         test.it('Genotypes Tab should not be empty and no duplicate Items', function() {
             variantBrowserResetAndWait(driver);
             variantGenotypesTab(driver);
+            variantGenotypesTabWithHaploidGenotypes(driver);
         });
         test.it('Population Statistics should not be empty and no duplicate Items ', function() {
             variantBrowserResetAndWait(driver);
@@ -658,6 +659,22 @@ function variantGenotypesTab(driver){
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('2:48000000-49000000');
+    clickSubmit(driver);
+    waitForVariantsToLoad(driver);
+    driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
+        safeClick(driver, driver.findElement(By.xpath("//span[text()='Genotypes']")));
+        safeClick(driver, driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]")));
+        variantBrowser.genotypesTab(driver);
+    });
+    return driver;
+}
+
+function variantGenotypesTabWithHaploidGenotypes(driver){
+    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
+    driver.findElement(By.xpath("//li[text()='Pig / Sscrofa11.1']")).click();
+    waitForVariantsToLoad(driver);
+    driver.findElement(By.name("region")).clear();
+    driver.findElement(By.name("region")).sendKeys('X:9610000-9611000');
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {

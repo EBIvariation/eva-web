@@ -327,33 +327,35 @@ String.prototype.formatAlleles = function () {
     var first;
     var second;
     var split;
+    var haploid_genotype = (this.indexOf("/") == -1 && this.indexOf("|") == -1);
 
-    if (allels.match(/-1\/-1/)) {
-        allels = './.';
-    }else if(allels.match(/-1\|-1/)){
-        allels = '.|.';
-    }
+    if (!haploid_genotype) {
+        if (allels.match(/-1\/-1/)) {
+            allels = './.';
+        }else if(allels.match(/-1\|-1/)){
+            allels = '.|.';
+        }
 
-    if (this.indexOf("|") > -1) {
-        temp = allels.split("|");
-        split = '|';
-    }else if(this.indexOf("/") > -1) {
-        temp = allels.split("/");
-        split = '/';
-    }
-    if(!_.isEmpty( temp[0]) && !_.isUndefined(temp[0]) && temp[0] > 1){
-        first = '*';
-    }else{
-        first = temp[0];
-    }
+        if (this.indexOf("|") > -1) {
+            temp = allels.split("|");
+            split = '|';
+        }else if(this.indexOf("/") > -1) {
+            temp = allels.split("/");
+            split = '/';
+        }
+        if(!_.isEmpty( temp[0]) && !_.isUndefined(temp[0]) && temp[0] > 1){
+            first = '*';
+        }else{
+            first = temp[0];
+        }
 
-    if(!_.isEmpty( temp[1]) && !_.isUndefined(temp[1]) && temp[1] > 1){
-        second = '*';
-    }else{
-        second = temp[1];
+        if(!_.isEmpty( temp[1]) && !_.isUndefined(temp[1]) && temp[1] > 1){
+            second = '*';
+        }else{
+            second = temp[1];
+        }
+        allels = first+split+second;
     }
-
-    allels = first+split+second;
 
     return allels;
 };
