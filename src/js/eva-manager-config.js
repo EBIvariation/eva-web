@@ -33,6 +33,20 @@ var EvaManager = {
     host: EVA_HOST,
     accessioning_host: EVA_ACCESSIONING_HOST,
     version: EVA_VERSION,
+    getAPICallResult: function(url, apiResultType, errorHandler) {
+          var d;
+          $.ajax({
+                      type: 'GET',
+                      url: url,
+                      dataType: apiResultType,
+                      async: false,
+                      success: function (data, textStatus, jqXHR) {
+                              d = data;
+                      },
+                      error: errorHandler
+                  });
+            return d;
+    },
     get: function (args) {
         var success = args.success;
         var error = args.error;
