@@ -302,7 +302,7 @@ function positionFilterBoxValidation(driver){
     variantBrowserResetAndWait(driver);
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
-    waitForVariantsToLoad(driver);
+    waitForEmptyVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('X:10000000-11000000');
     clickSubmit(driver);
@@ -414,7 +414,7 @@ function variantSearchByGene(driver){
 function checkConsequeceTypeTree(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
     driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
-    waitForVariantsToLoad(driver);
+    waitForEmptyVariantsToLoad(driver);
     driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'treepanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Transcript Variant')]")).getText().then(function(text){
         assert(text).equalTo("Transcript Variant");
@@ -688,9 +688,8 @@ function variantBrowserResetAndWait(driver) {
     waitForVariantsToLoad(driver);
 }
 
-function waitForVariantsToLoad(driver) {
+function waitForVariantsToLoadGeneral(driver, waitXpath) {
     var maskXpath = "//div[contains(concat(' ', normalize-space(@class),' '), ' x-mask ') and not(contains(@style, 'display: none'))]";
-    var variantsXpath = "//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[1]//div";
     // First, *optionally* wait for the loading mask to appear
     driver.wait(until.elementLocated(By.xpath(maskXpath)), config.wait()).then(function() {
         driver.wait(function () {
@@ -702,11 +701,19 @@ function waitForVariantsToLoad(driver) {
             config.wait()
         ).then(function () {
             // Finally, wait for the variants to load
-            driver.wait(until.elementLocated(By.xpath(variantsXpath)), config.wait())
+            driver.wait(until.elementLocated(By.xpath(waitXpath)), config.wait())
         })
     }, function(err) {
         console.log('WARN: Mask did not appear (which is alright, the webdriver most likely just missed it)')
     })
+}
+
+function waitForVariantsToLoad(driver) {
+    return waitForVariantsToLoadGeneral(driver, "//div[@id='variant-browser-grid-body']//table[1]//tr[1]//td[1]//div");
+}
+
+function waitForEmptyVariantsToLoad(driver) {
+    return waitForVariantsToLoadGeneral(driver, "//div[@id='variant-browser-grid-body']//div[contains(string(), 'No records to display')]")
 }
 
 function safeClick(driver, element) {
