@@ -322,38 +322,40 @@ EvaVariantGenotypeGridPanel.prototype = {
     }
 };
 String.prototype.formatAlleles = function () {
-    var allels = this;
-    var temp;
-    var first;
-    var second;
-    var split;
+    var alleles = this;
+    var splitAlleles;
+    var firstAllele;
+    var secondAllele;
+    var splitChar;
+    var haploid_genotype = (this.indexOf("/") == -1 && this.indexOf("|") == -1);
 
-    if (allels.match(/-1\/-1/)) {
-        allels = './.';
-    }else if(allels.match(/-1\|-1/)){
-        allels = '.|.';
+    if (!haploid_genotype) {
+        if (alleles.match(/-1\/-1/)) {
+            alleles = './.';
+        }else if(alleles.match(/-1\|-1/)){
+            alleles = '.|.';
+        }
+
+        if (this.indexOf("|") > -1) {
+            splitAlleles = alleles.split("|");
+            splitChar = '|';
+        }else if(this.indexOf("/") > -1) {
+            splitAlleles = alleles.split("/");
+            splitChar = '/';
+        }
+        if(!_.isEmpty( splitAlleles[0]) && !_.isUndefined(splitAlleles[0]) && splitAlleles[0] > 1){
+            firstAllele = '*';
+        }else{
+            firstAllele = splitAlleles[0];
+        }
+
+        if(!_.isEmpty( splitAlleles[1]) && !_.isUndefined(splitAlleles[1]) && splitAlleles[1] > 1){
+            secondAllele = '*';
+        }else{
+            secondAllele = splitAlleles[1];
+        }
+        alleles = firstAllele+splitChar+secondAllele;
     }
 
-    if (this.indexOf("|") > -1) {
-        temp = allels.split("|");
-        split = '|';
-    }else if(this.indexOf("/") > -1) {
-        temp = allels.split("/");
-        split = '/';
-    }
-    if(!_.isEmpty( temp[0]) && !_.isUndefined(temp[0]) && temp[0] > 1){
-        first = '*';
-    }else{
-        first = temp[0];
-    }
-
-    if(!_.isEmpty( temp[1]) && !_.isUndefined(temp[1]) && temp[1] > 1){
-        second = '*';
-    }else{
-        second = temp[1];
-    }
-
-    allels = first+split+second;
-
-    return allels;
+    return alleles;
 };
