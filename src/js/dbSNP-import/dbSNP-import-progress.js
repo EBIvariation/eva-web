@@ -65,6 +65,12 @@ EvadbSNPImportProgress.prototype = {
         var table =  '<div><h2>Non-human dbSNP Import Status</h2></div>' +
             '<div class="row">' +
                 '<div class="col-md-12 columns">'+
+                '<div class="callout success">' +
+                    '<p>' +
+                        'The RS ID release (v.0) for variants imported from dbSNP is now available in our FTP. ' +
+                        '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_0/" target="_blank">[View release]</a>' +
+                    '</p>' +
+                '</div>' +
                 '<p>This report allows you to track the progress of the dbSNP data import.' +
                 '<p>' +
                     'Variants will be available in the Variant Browser if they satisfy the <a href="?Submit-Data">EVA submission requirements</a>. ' +
