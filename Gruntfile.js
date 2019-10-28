@@ -206,6 +206,7 @@ module.exports = function (grunt) {
                     'src/js/study-browser/eva-study-browser-grid.js',
                     'src/js/views/eva-study-view.js',
                     'src/js/views/eva-variant-view.js',
+                    'src/js/views/eva-multi-variant-view.js',
                     'src/js/statistics/eva-statistics.js',
                     'src/js/statistics/dgva-statistics.js',
                     'src/js/beacon-form/eva-beacon-panel.js',
