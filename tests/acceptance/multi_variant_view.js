@@ -42,5 +42,5 @@ test.describe('Multiple Variant View - rs IDs', function() {
                             "Assembly": "GCA_000002285.2 (CanFam3.1)", "Chromosome/Contig accession": "CM000018.3",
                             "Chromosome": "18", "Start": "22110973", "Type": "SNV", "Created Date": "27 October 2003"}];
     variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
-                "table", "variant-view-summary", expectedResults, checkSection);
+                "table", "variant-view-summary", expectedResults, variantView.checkSection);
 });
