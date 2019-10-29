@@ -372,7 +372,7 @@ module.exports = function (grunt) {
                     clearRequireCache: false,
                     timeout:1500000
                 },
-                src: ['tests/acceptance/multi_variant_view.js']
+                src: ['tests/acceptance/*.js']
             }
         },
         mocha_phantomjs: {
