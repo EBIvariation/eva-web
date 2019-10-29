@@ -19,35 +19,7 @@
 
 var config = require('./config.js');
 config.loadModules();
-//var variantBrowser = require('./variant_browser_bottom_panel_tests.js');
-
-function runTableTest(sectionName, testName, element, elementID, expectedResults, checkFunction) {
-    test.describe(sectionName, function() {
-        test.it(testName, function() {
-            var rowIndex = 1;
-            expectedResults.forEach(function(expectedResult) {
-                var colIndex = 1;
-                for (var expectedResultKey in expectedResult) {
-                    checkFunction(driver, element, elementID, rowIndex, colIndex, expectedResult[expectedResultKey]);
-                    colIndex += 1;
-                }
-                rowIndex += 1;
-            });
-        });
-    });
-}
-
-function checkSection(driver, element, elementID, rowIndex, colIndex, expectedValue) {
-    var tableToFind = "//" + element + "[@id='" + elementID + "']";
-    var pathToElement = tableToFind + "//tr[" + rowIndex + "]" + "//td[" + colIndex + "]";
-    driver.wait(until.elementLocated(By.xpath(pathToElement)), config.wait()).then(function(text) {
-        driver.findElement(By.xpath(pathToElement)).getText().then(function(text){
-            assert(text).equalTo(expectedValue);
-        });
-    });
-    return driver;
-}
-
+var variantView = require('./variant_view.js');
 
 test.describe('Multiple Variant View - rs IDs', function() {
     var driver;
@@ -69,6 +41,6 @@ test.describe('Multiple Variant View - rs IDs', function() {
                             {"ID": "rs8281493", "Detailed Variant view": "Detailed view", "Organism": "Dog",
                             "Assembly": "GCA_000002285.2 (CanFam3.1)", "Chromosome/Contig accession": "CM000018.3",
                             "Chromosome": "18", "Start": "22110973", "Type": "SNV", "Created Date": "27 October 2003"}];
-    runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
+    variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, checkSection);
 });
