@@ -67,8 +67,8 @@ EvadbSNPImportProgress.prototype = {
                 '<div class="col-md-12 columns">'+
                 '<div class="callout success">' +
                     '<p>' +
-                        'The RS ID release (v.0) for variants imported from dbSNP is now available in our FTP. ' +
-                        '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_0/" target="_blank">[View release]</a>' +
+                        'The RS ID release (v.1) for variants imported from dbSNP is now available in our FTP. ' +
+                        '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_1/" target="_blank">[View release]</a>' +
                     '</p>' +
                 '</div>' +
                 '<p>This report allows you to track the progress of the dbSNP data import.' +
