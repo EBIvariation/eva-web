@@ -106,11 +106,6 @@ function testAccessionIDClientSideValidation (driver) {
         utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
 
         driver.findElement(By.id("accession-search-box")).clear();
-        driver.findElement(By.id("accession-search-box")).sendKeys("RS123");
-        driver.findElement(By.id("accession-search-button")).click();
-        utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
-
-        driver.findElement(By.id("accession-search-box")).clear();
         driver.findElement(By.id("accession-search-box")).sendKeys("rs123#");
         driver.findElement(By.id("accession-search-button")).click();
         utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);

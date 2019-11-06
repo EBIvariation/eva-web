@@ -26,7 +26,7 @@ test.describe('Variant View - rs exclusive to Accessioning', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs884750506&species=dcarota_ASM162521v1');
+        driver.get(config.baseURL()+'?variant&accessionID=RS884750506&species=dcarota_ASM162521v1');
     });
 
     test.after(function() {
