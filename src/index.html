@@ -1355,6 +1355,7 @@
             var variantSpecies = $.urlParam('species');
             var annotationVersion = $.urlParam('annotationVersion');
             var accessionID = $.urlParam('accessionID');
+            accessionID = accessionID ? accessionID.toLowerCase(): "";
             var requestedPage = $.urlParam('page');
             var isMultiLookup = accessionID ? (accessionID.split(",").length > 1): false;
 
@@ -1362,7 +1363,7 @@
                 var evaMultiVariantView = new EvaMultiVariantView({
                     target:'variantViewContent',
                     position:tab.value,
-                    accessionID:accessionID,
+                    accessionID: accessionID,
                     species:variantSpecies,
                     annotationVersion:annotationVersion,
                     page: parseInt(requestedPage)
@@ -1435,7 +1436,7 @@
     }
 
     function isValidAccessionID (accessionID) {
-        return /^(rs|ss)[0-9]+$/.test(accessionID);
+        return /^(rs|ss)[0-9]+$/.test(accessionID) || /^(RS|SS)[0-9]+$/.test(accessionID);
     }
 
     function areValidAccessionIDs (accessionIDs) {
@@ -1451,7 +1452,7 @@
         /* stop form from submitting normally */
         event.preventDefault();
 
-        var accessionID = document.getElementById("accession-search-box").value.trim().toLowerCase();
+        var accessionID = document.getElementById("accession-search-box").value.trim();
         var selectedSpecies = document.getElementById("species-drop-down");
         var species = selectedSpecies.options[selectedSpecies.selectedIndex].value;
 
