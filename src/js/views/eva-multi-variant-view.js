@@ -21,8 +21,6 @@ function EvaMultiVariantView(args) {
     this.id = Utils.genId("EVAMultiVariantView");
     _.extend(this, args);
     this.rendered = false;
-    this.detailedViewURL = window.location.origin + window.location.pathname +
-                            "?variant&accessionID=<ACCESSION_ID>&species=" + this.species;
     this.accessionIDs = _.map(decodeURI(this.accessionID).split(","), function trim(x) {return x.trim();});
     this.page = this.page ? this.page: 1;
     //Since the identifier web service does not support multiple identifiers yet,
@@ -113,8 +111,14 @@ EvaMultiVariantView.prototype = {
                                 variant[0].associatedRSID + '</a>';
             }
 
-            var detailedViewURLForAccession = '<a href="' + this.detailedViewURL.replace("<ACCESSION_ID>", accessionID)
-                                                + '">Detailed view</a>';
+            var getDetailedViewURL = function(accessionID, species) { return '<a href="'
+                                                                                + window.location.origin
+                                                                                + window.location.pathname
+                                                                                + "?variant&accessionID=" + accessionID
+                                                                                + "&species=" + species
+                                                                                + '">Detailed view</a>';
+                                                                    };
+            var detailedViewURLForAccession = getDetailedViewURL(accessionID, this.species);
             summaryData = variant.map(function(x) {
                 var summaryDataObj = {};
                 summaryDataObj[summaryDisplayFields.id] = x.id;
@@ -156,14 +160,17 @@ EvaMultiVariantView.prototype = {
     },
 
     _getPagerContent: function () {
-        var navURLTemplate = window.location.origin + window.location.pathname
-                             + "?variant&accessionID=" + this.accessionIDs.join(",")
-                             + "&species=" + this.species
-                             + "&page=<PAGE>";
-        var prevLink = (this.page > 1) ? navURLTemplate.replace("<PAGE>", "" + (this.page - 1)): "";
+        var getNavURL = function(species, accessionIDs, page)
+                                    { return window.location.origin + window.location.pathname
+                                                + "?variant&accessionID=" + accessionIDs.join(",")
+                                                + "&species=" + species
+                                                + "&page=" + page;
+                                    };
+
+        var prevLink = (this.page > 1) ? getNavURL(this.species, this.accessionIDs, this.page - 1): "";
         var nextLink = "";
         if ((this.page * this.numResultsPerPage) < this.accessionIDs.length) {
-            nextLink = navURLTemplate.replace("<PAGE>", this.page + 1);
+            nextLink = getNavURL(this.species, this.accessionIDs, this.page + 1);
         }
 
         var prevAnchor = prevLink? '<a href="' + prevLink + '">&lt;&lt; Previous</a>': "";
