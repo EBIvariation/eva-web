@@ -797,7 +797,9 @@ EvaVariantView.prototype = {
 
     _renderSummaryData: function (data) {
         var _this = this;
-        var array = this._getSpeciesOrganismValues(); speciesName = array[0]; organism = array[1];
+        var array = this._getSpeciesOrganismValues();
+        var speciesName = array[0];
+        var organism = array[1];
 
         var summaryDisplayFields = {organism : "Organism", assembly: "Assembly", submitterHandle: "Study", contig: "Chromosome/Contig accession", chromosome: "Chromosome", start: "Start",
                                     end: "End", reference: "Reference", alternate: "Alternate", id: "ID",
