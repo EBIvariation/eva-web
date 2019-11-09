@@ -1436,11 +1436,11 @@
     }
 
     function isValidAccessionID (accessionID) {
-        return /^(rs|ss)[0-9]+$/.test(accessionID) || /^(RS|SS)[0-9]+$/.test(accessionID);
+        return /^(rs|ss)[0-9]+$/.test(accessionID);
     }
 
     function areValidAccessionIDs (accessionIDs) {
-        return accessionIDs.every(isValidAccessionID);
+        return accessionIDs.every(function(accessionID) { return isValidAccessionID(accessionID.toLowerCase()); });
     }
 
     function areSameTypeAccessionIDs (accessionIDs) {
