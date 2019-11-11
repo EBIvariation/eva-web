@@ -123,6 +123,11 @@ EvadbSNPImportProgress.prototype = {
                 taxonomy_link = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:' + this[key].taxId + '">' + this[key].taxId + '</a>';
             }
 
+            if (this[key].lastDbsnpBuild > 0) {
+                lastDbsnpBuild = this[key].lastDbsnpBuild;
+            } else {
+                lastDbsnpBuild = "-";
+            }
             var importedRs = _this._getImportStatus(this[key].importedRs, this[key].totalRsDbsnp);
             var importedSs = _this._getImportStatus(this[key].importedSs, this[key].totalSsDbsnp);
 
@@ -131,7 +136,7 @@ EvadbSNPImportProgress.prototype = {
                 '<td><span class="dbSNP-scientific-name">' + this[key].scientificName + '</span></td>' +
                 '<td><span class="dbSNP-tax-id">' + taxonomy_link + '</span></td>' +
                 '<td><span class="dbSNP-assembly-accession">' + genbankAssemblyAccession + '</span></td>' +
-                '<td><span class="dbSNP-build">' + this[key].lastDbsnpBuild + '</span></td>' +
+                '<td><span class="dbSNP-build">' + lastDbsnpBuild + '</span></td>' +
                 '<td><span class="dbSNP-imported-rs">' + importedRs + '</span></td>' +
                 '<td><span class="dbSNP-imported-ss">' + importedSs + '</span></td>' +
                 '</tr>';
