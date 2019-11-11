@@ -86,17 +86,17 @@ EvadbSNPImportProgress.prototype = {
                 '</p>' +
                 '<p> ' +
                     '<h3>Notes</h3>' +
-                    'Human RS IDs imported: 666772339 out of 666783996 (shown as 99.99%):' +
+                    'Human RS IDs imported: 666,772,339 out of 666,783,996 (shown as 99.99%):' +
                     '<ul>' +
                         '<li>7941 could not be imported because they did not have mappings on grch38</li>' +
                         '<li>3716 could not be imported because they did not have top-level placement confirmation ' +
                         '(i.e., locus could not be definitively identified).</li>' +
                     '</ul>' +
-                    'No Human SS IDs were imported due to absence of batch handles in the JSON data release ' +
+                    'No Human SS IDs were imported due to absence of batch handles in the dbSNP JSON data release ' +
                     '(meaning a batch cannot be uniquely identified with just the submitter handle).' +
                 '</p>' +
                 '<p>' +
-                    'Some species are not associated to any build. The available variants for those species don\'t map to any assembly.' +
+                    'Some species are not associated to any build in the report below. The available variants in dbSNP for those species don\'t map to any assembly.' +
                 '</p>' +
                 '<p>Please check our <a href="?Help#accessionPanel">FAQ</a> for more information about the import process.</p>'+
                 '<table id="dbSNP-import-table" class="responsive-table hover tablesorter table-fixed"><thead>' +
