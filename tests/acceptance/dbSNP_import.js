@@ -82,12 +82,12 @@ test.describe('dbSNP Import Progress ('+config.browser()+')', function() {
             });
         });
 
-        test.it('Check "dbSNP build" column should not be empty', function() {
+        test.it('Check "dbSNP build" column should be "-" or a number', function() {
             driver.wait(until.elementLocated(By.id("dbSNP-import-table")), config.wait()).then(function(text) {
                 driver.findElements(By.className("dbSNP-build")).then(function(rows){
                     for (var i = 0; i < rows.length; i++){
                         rows[i].getText().then(function(text){
-                            assert(text).matches(/^\d+$/);
+                            assert(text).matches(/^-$|^\d+$/);
                         });
                     }
                 });
