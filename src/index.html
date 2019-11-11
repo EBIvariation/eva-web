@@ -1285,6 +1285,7 @@
 <script type="text/javascript" src="js/variant-widget/eva-variant-population-stats-panel.js"></script>
 <script type="text/javascript" src="js/views/eva-study-view.js"></script>
 <script type="text/javascript" src="js/views/eva-variant-view.js"></script>
+<script type="text/javascript" src="js/views/eva-multi-variant-view.js"></script>
 <script type="text/javascript" src="js/statistics/eva-statistics.js"></script>
 <script type="text/javascript" src="js/statistics/dgva-statistics.js"></script>
 <script type="text/javascript" src="js/beacon-form/eva-beacon-form.js"></script>
@@ -1354,14 +1355,31 @@
             var variantSpecies = $.urlParam('species');
             var annotationVersion = $.urlParam('annotationVersion');
             var accessionID = $.urlParam('accessionID');
+            accessionID = accessionID ? accessionID.toLowerCase(): "";
+            var requestedPage = $.urlParam('page');
+            var isMultiLookup = accessionID ? (accessionID.split(",").length > 1): false;
 
-            var evaVariantView = new EvaVariantView({
-                target:'variantViewContent',
-                position:tab.value,
-                accessionID:accessionID,
-                species:variantSpecies,
-                annotationVersion:annotationVersion
-            });
+            if (isMultiLookup) {
+                var evaMultiVariantView = new EvaMultiVariantView({
+                    target:'variantViewContent',
+                    position:tab.value,
+                    accessionID: accessionID,
+                    species:variantSpecies,
+                    annotationVersion:annotationVersion,
+                    page: parseInt(requestedPage)
+                });
+                evaMultiVariantView.render();
+            }
+            else {
+                var evaVariantView = new EvaVariantView({
+                    target:'variantViewContent',
+                    position:tab.value,
+                    accessionID:accessionID,
+                    species:variantSpecies,
+                    annotationVersion:annotationVersion
+                });
+                evaVariantView.render();
+            }
             $('.sticky').foundation('_calc', true);
             $(window).trigger('resize');
         }
@@ -1421,6 +1439,15 @@
         return /^(rs|ss)[0-9]+$/.test(accessionID);
     }
 
+    function areValidAccessionIDs (accessionIDs) {
+        return accessionIDs.every(function(accessionID) { return isValidAccessionID(accessionID.toLowerCase()); });
+    }
+
+    function areSameTypeAccessionIDs (accessionIDs) {
+        return accessionIDs.every(function(x) {return x.toLowerCase().startsWith("ss");}) ||
+               accessionIDs.every(function(x) {return x.toLowerCase().startsWith("rs");});
+    }
+
     $("#snpSearch").submit(function(event) {
         /* stop form from submitting normally */
         event.preventDefault();
@@ -1434,8 +1461,16 @@
             return;
         }
 
-        if (!isValidAccessionID(accessionID)) {
+        /* Some times more than one accession ID can be submitted. Ex: rs123, ss234 */
+        var accessionIDs = accessionID.split(",").map(function trim(x) {return x.trim();});
+
+        if (!areValidAccessionIDs(accessionIDs)) {
             Ext.Msg.alert('Invalid Accession ID', 'Accession ID must have rs or ss followed by a number (ex: rs123 or ss567)');
+            return;
+        }
+
+        if (!areSameTypeAccessionIDs(accessionIDs)) {
+            Ext.Msg.alert('Multiple Accession ID types', 'Accession IDs must either be all RS IDs or all SS IDs');
             return;
         }
 

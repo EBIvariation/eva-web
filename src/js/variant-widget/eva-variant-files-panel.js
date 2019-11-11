@@ -181,7 +181,7 @@ EvaVariantFilesPanel.prototype = {
                     _.each(_.keys(results), function (key) {
                         if (this[key].fileId == fileId) {
                             infoTags = this[key].metadata.INFO;
-                            vcfHeaderData = this[key].metadata.header.trim();
+                            vcfHeaderData = this[key].metadata.header? this[key].metadata.header.trim(): "";
                         }
                     }, results);
 
