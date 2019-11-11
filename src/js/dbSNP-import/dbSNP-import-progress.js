@@ -85,7 +85,7 @@ EvadbSNPImportProgress.prototype = {
                 '</p>' +
                 '<p> ' +
                     '<h3>Notes</h3>' +
-                    'Human RS IDs imported: 663621586 out of 666783996 (shown as 99.99%):' +
+                    'Human RS IDs imported: 666772339 out of 666783996 (shown as 99.99%):' +
                     '<ul>' +
                         '<li>7941 could not be imported because they did not have mappings on grch38</li>' +
                         '<li>3716 could not be imported because they did not have top-level placement confirmation ' +
