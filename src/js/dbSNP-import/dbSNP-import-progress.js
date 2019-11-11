@@ -88,8 +88,8 @@ EvadbSNPImportProgress.prototype = {
                     '<h3>Notes</h3>' +
                     'Human RS IDs imported: 666,772,339 out of 666,783,996 (shown as 99.99%):' +
                     '<ul>' +
-                        '<li>7941 could not be imported because they did not have mappings on grch38</li>' +
-                        '<li>3716 could not be imported because they did not have top-level placement confirmation ' +
+                        '<li>7,941 could not be imported because they did not have mappings on grch38</li>' +
+                        '<li>3,716 could not be imported because they did not have top-level placement confirmation ' +
                         '(i.e., locus could not be definitively identified).</li>' +
                     '</ul>' +
                     'No Human SS IDs were imported due to absence of batch handles in the <a href="ftp://ftp.ncbi.nih.gov/snp/latest_release/JSON">dbSNP JSON data release</a> ' +
