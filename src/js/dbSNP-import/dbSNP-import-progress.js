@@ -92,7 +92,7 @@ EvadbSNPImportProgress.prototype = {
                         '<li>3716 could not be imported because they did not have top-level placement confirmation ' +
                         '(i.e., locus could not be definitively identified).</li>' +
                     '</ul>' +
-                    'No Human SS IDs were imported due to absence of batch handles in the dbSNP JSON data release ' +
+                    'No Human SS IDs were imported due to absence of batch handles in the <a href="ftp://ftp.ncbi.nih.gov/snp/latest_release/JSON">dbSNP JSON data release</a> ' +
                     '(meaning a batch cannot be uniquely identified with just the submitter handle).' +
                 '</p>' +
                 '<p>' +
