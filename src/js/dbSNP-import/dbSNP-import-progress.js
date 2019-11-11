@@ -77,6 +77,7 @@ EvadbSNPImportProgress.prototype = {
                     'dbSNP variants that don\'t satisfy these requirements will still be imported, and searchable via a separate ' +
                     '<a href="?Home">web view</a> and <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/swagger-ui.html">API</a>, ' +
                     'and downloadable from our <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/">FTP</a>. ' +
+                    'Variants that don\'t map to any INSDC assembly are present only in our FTP at the moment. ' +
                     'We will work to make this experience as intuitive as possible, while keeping our commitment to only make high-quality variants part of the core EVA database.' +
                 '</p>'+
                 '<p> ' + 
