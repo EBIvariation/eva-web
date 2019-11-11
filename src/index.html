@@ -1445,7 +1445,7 @@
 
     function areSameTypeAccessionIDs (accessionIDs) {
         return accessionIDs.every(function(x) {return x.toLowerCase().startsWith("ss");}) ||
-               accessionIDs.every(function(x) {return x.toLowerCase().startsWith("rs");})
+               accessionIDs.every(function(x) {return x.toLowerCase().startsWith("rs");});
     }
 
     $("#snpSearch").submit(function(event) {
