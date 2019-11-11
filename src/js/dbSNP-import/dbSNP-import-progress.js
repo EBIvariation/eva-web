@@ -62,7 +62,7 @@ EvadbSNPImportProgress.prototype = {
             }
         });
 
-        var table =  '<div><h2>Non-human dbSNP Import Status</h2></div>' +
+        var table =  '<div><h2>dbSNP Import Status</h2></div>' +
             '<div class="row">' +
                 '<div class="col-md-12 columns">'+
                 '<div class="callout success">' +
@@ -74,12 +74,28 @@ EvadbSNPImportProgress.prototype = {
                 '<p>This report allows you to track the progress of the dbSNP data import.' +
                 '<p>' +
                     'Variants will be available in the Variant Browser if they satisfy the <a href="?Submit-Data">EVA submission requirements</a>. ' +
-                    'dbSNP variants that don\'t satisfy these requirements will still be imported, and searchable via a separate web view and API. ' +
+                    'dbSNP variants that don\'t satisfy these requirements will still be imported, and searchable via a separate ' +
+                    '<a href="?Home">web view</a> and <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/swagger-ui.html">API</a>, ' +
+                    'and downloadable from our <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/">FTP</a>. ' +
                     'We will work to make this experience as intuitive as possible, while keeping our commitment to only make high-quality variants part of the core EVA database.' +
                 '</p>'+
                 '<p> ' + 
                     'In addition to the most recent RS IDs available for a given species, ' + 
                     'older RS IDs that were merged into the newer ones will also be imported to support reproducible analyses based on historical data.' +
+                '</p>' +
+                '<p> ' +
+                    '<h3>Notes</h3>' +
+                    'Human RS IDs imported: 663621586 out of 666783996 (shown as 99.99%):' +
+                    '<ul>' +
+                        '<li>7941 could not be imported because they did not have mappings on grch38</li>' +
+                        '<li>3716 could not be imported because they did not have top-level placement confirmation ' +
+                        '(i.e., locus could not be definitively identified).</li>' +
+                    '</ul>' +
+                    'No Human SS IDs were imported due to absence of batch handles in the JSON data release ' +
+                    '(meaning a batch cannot be uniquely identified with just the submitter handle).' +
+                '</p>' +
+                '<p>' +
+                    'Some species are not associated to any build. The available variants for those species don\'t map to any assembly.' +
                 '</p>' +
                 '<p>Please check our <a href="?Help#accessionPanel">FAQ</a> for more information about the import process.</p>'+
                 '<table id="dbSNP-import-table" class="responsive-table hover tablesorter table-fixed"><thead>' +
@@ -89,11 +105,8 @@ EvadbSNPImportProgress.prototype = {
                     '<th rowspan="2">Taxonomy ID</th>' +
                     '<th rowspan="2">INSDC assembly accession</th>' +
                     '<th rowspan="2">dbSNP build</th>' +
-                    '<th colspan="2" style="background-image:none;">Searchable by</th>' +
-                '</tr>' +
-                '<tr>' +
-                    '<th><div title="RS IDs available in the last dbSNP build for a species">RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
-                    '<th><div title="SS IDs available in the last dbSNP build for a species">SS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th rowspan="2"><div title="RS IDs available at EVA (web or FTP) from the last dbSNP build for a species">RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '<th rowspan="2"><div title="SS IDs available at EVA (web or FTP) from the last dbSNP build for a species">SS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                 '</tr>' +
                 '</thead><tbody>';
 
