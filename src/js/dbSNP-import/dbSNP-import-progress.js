@@ -64,14 +64,14 @@ EvadbSNPImportProgress.prototype = {
 
         var table =  '<div><h2>dbSNP Import Status</h2></div>' +
             '<div class="row">' +
-                '<div class="col-md-12 columns">'+
+                '<div class="col-md-12 columns">' +
                 '<div class="callout success">' +
                     '<p>' +
                         'The RS ID release (v.1) for variants imported from dbSNP is now available in our FTP. ' +
                         '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_1/" target="_blank">[View release]</a>' +
                     '</p>' +
                 '</div>' +
-                '<p>This report allows you to track the progress of the dbSNP data import.' +
+                '<p>This report allows you to track the progress of the dbSNP data import.</p>' +
                 '<p>' +
                     'Variants will be available in the Variant Browser if they satisfy the <a href="?Submit-Data">EVA submission requirements</a>. ' +
                     'dbSNP variants that don\'t satisfy these requirements will still be imported, and searchable via a separate ' +
@@ -80,25 +80,29 @@ EvadbSNPImportProgress.prototype = {
                     'Variants that don\'t map to any INSDC assembly are present only in our FTP at the moment. ' +
                     'We will work to make this experience as intuitive as possible, while keeping our commitment to only make high-quality variants part of the core EVA database.' +
                 '</p>'+
-                '<p> ' + 
+                '<p>' +
                     'In addition to the most recent RS IDs available for a given species, ' + 
                     'older RS IDs that were merged into the newer ones will also be imported to support reproducible analyses based on historical data.' +
                 '</p>' +
-                '<p> ' +
-                    '<h3>Notes</h3>' +
-                    'Human RS IDs imported: 666,772,339 out of 666,783,996 (shown as 99.99%):' +
-                    '<ul>' +
-                        '<li>7,941 could not be imported because they did not have mappings on grch38</li>' +
-                        '<li>3,716 could not be imported because they did not have top-level placement confirmation ' +
+                '<p>Please check our <a href="?Help#accessionPanel">FAQ</a> for more information about the import process.</p>'+
+                '<h3>Notes</h3>' +
+                '<h4>Non-human</h4>' +
+                '<p>' +
+                    'Some species are not associated to any build in the report below. The available ' +
+                    'variants in dbSNP for those species don\'t map to any assembly.' +
+                '</p>' +
+                '<h4>Human</h4>' +
+                'Human RS IDs have been imported into EVA: 666,772,339 RS IDs out of 666,783,996 (shown as 99.99%):' +
+                '<ul>' +
+                    '<li>7,941 could not be imported because they did not have mappings on grch38</li>' +
+                    '<li>3,716 could not be imported because they did not have top-level placement confirmation ' +
                         '(i.e., locus could not be definitively identified).</li>' +
-                    '</ul>' +
+                '</ul>' +
+                '<p>We will make those RS IDs <b>publicly searchable at EVA in the near future</b>.</p>' +
+                '<p>' +
                     'No Human SS IDs were imported due to absence of batch handles in the <a href="ftp://ftp.ncbi.nih.gov/snp/latest_release/JSON">dbSNP JSON data release</a> ' +
                     '(meaning a batch cannot be uniquely identified with just the submitter handle).' +
                 '</p>' +
-                '<p>' +
-                    'Some species are not associated to any build in the report below. The available variants in dbSNP for those species don\'t map to any assembly.' +
-                '</p>' +
-                '<p>Please check our <a href="?Help#accessionPanel">FAQ</a> for more information about the import process.</p>'+
                 '<table id="dbSNP-import-table" class="responsive-table hover tablesorter table-fixed"><thead>' +
                 '<tr>' +
                     '<th rowspan="2">Common name</th>' +
