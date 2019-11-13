@@ -434,6 +434,7 @@ EvaVariantView.prototype = {
                                                     }).flatten().value()
                                             ));
                     result.evidence = "Yes";
+                    result.variantTypeLink = result.type ? _this.getVariantTypeSOLink(result.type): "";
                     if (attributeToSearchBy.startsWith("rs") || attributeToSearchBy.startsWith("ss")) {
                         result.id = attributeToSearchBy;
                     } else {
@@ -529,7 +530,7 @@ EvaVariantView.prototype = {
                                 return !_.isEmpty(variantObj);
                             });
         // Avoid unnecessary calls to associated SS IDs service for calls by position or SS ID
-        if (this.accessionCategory === "clustered-variants") {
+        if (this.accessionCategory === "clustered-variants" && !this.summaryOnly) {
             this.variant.forEach(function(variantObjFromEVAService) {
                 variantObjFromEVAService.associatedSSIDs.forEach(function(ssID) {
                     _this.addAssociatedSSID(ssID + "_" + variantObjFromEVAService.chromosome,
@@ -538,12 +539,12 @@ EvaVariantView.prototype = {
                         "Chromosome": variantObjFromEVAService.chromosome,
                         "Start": variantObjFromEVAService.start, "End": variantObjFromEVAService.end,
                         "Reference": variantObjFromEVAService.reference, "Alternate": variantObjFromEVAService.allAlternates,
-                        "Created Date": null});
+                        "Type": variantObjFromEVAService.variantTypeLink, "Created Date": null});
                 });
             });
         }
         // Add attributes from the accessioning service for the variant
-        if (this.position) {
+        if (this.position && !this.summaryOnly) {
             this.variant.forEach(function(variantObjFromEVAService) {
                 var matchingVariantFromAccessioningService = _.chain(_.values(_this.associatedSSIDs))
                         .map(function(ssIDInfo) {
@@ -565,6 +566,7 @@ EvaVariantView.prototype = {
 
     initGlobalEnv: function() {
         this.queryParams = {species: this.species};
+        this.isHumanSNPSearch = this.species.toLowerCase().startsWith("hsapiens");
         if(this.annotationVersion){
             var _annotVersion = this.annotationVersion.split("_");
             _.extend(this.queryParams, {'annot-vep-version':_annotVersion[0]},{'annot-vep-cache-version':_annotVersion[1]});
@@ -592,6 +594,15 @@ EvaVariantView.prototype = {
             this.processQueryWithAccessioningService();
         } else {
             this.accessionCategory = "submitted-variants";
+        }
+
+        if (this.isHumanSNPSearch) {
+            if (this.accessionCategory === "clustered-variants" ) {
+                this.humanSNPLink = "https://www.ncbi.nlm.nih.gov/snp/" + this.accessionID;
+            }
+            if (this.accessionCategory === "submitted-variants" ) {
+                this.humanSNPLink = "https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id=" + this.accessionID;
+            }
         }
         // Proceed to EVA warehouse query if query is position-based or the above processing fails
         if ((this.position || _.isEmpty(this.variant)) && _.contains(this.EVASpeciesList, this.species)) {
@@ -683,7 +694,12 @@ EvaVariantView.prototype = {
         if(_.isEmpty(variant)){
             var noDataEl = document.querySelector("#summary-grid");
             var noDataElDiv = document.createElement("div");
-            noDataElDiv.innerHTML = '<span>No Data Available</span>';
+            var humanSNPAdditionalInfo = (this.isHumanSNPSearch ?
+                                            'See <a href="' + this.humanSNPLink + '">NCBI data here</a>.'  : '');
+            noDataElDiv.innerHTML = '<span>No Data Available in EVA '
+                                        + (this.accessionID ? 'for ' + this.accessionID + '. ': '')
+                                        + humanSNPAdditionalInfo
+                                        +  '</span>';
             noDataEl.appendChild(noDataElDiv);
             return;
         }
@@ -827,7 +843,10 @@ EvaVariantView.prototype = {
             summaryDataObj[summaryDisplayFields.createdDate] = x.createdDate;
             return summaryDataObj;
         });
-        var variantInfoHeading = "Variant Summary" + (_.isEmpty(summaryData) ? '': ' for ' + summaryData[0].ID);
+        var humanSNPAdditionalInfo = this.isHumanSNPSearch? ('. See <a href="' + this.humanSNPLink +
+                                                '" target="_blank">here</a> for more information.'): '';
+        var variantInfoHeading = "Variant Summary" + (_.isEmpty(summaryData) ? '': ' for ' + summaryData[0].ID +
+                                                        humanSNPAdditionalInfo);
         var _summaryTable = '<h4 class="variant-view-h4">' + variantInfoHeading + '</h4><div class="row"><div class="col-md-8">';
         var rsReference = '',
             ssInfoHeaderRow = '',

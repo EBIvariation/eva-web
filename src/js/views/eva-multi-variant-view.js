@@ -79,7 +79,8 @@ EvaMultiVariantView.prototype = {
             var array = evaVariantView._getSpeciesOrganismValues(); var organism = array[1];
             summaryData = this._getSummaryContentForVariant(evaVariantView.variant, currAccessionID, organism,
                                                             this.species, evaVariantView.assemblyLink,
-                                                            summaryDisplayFields);
+                                                            summaryDisplayFields, evaVariantView.isHumanSNPSearch,
+                                                            evaVariantView.humanSNPLink);
 
             if (evaVariantView.accessionCategory === "clustered-variants") {
                 summaryData = summaryData.map(function(x) {
@@ -102,7 +103,8 @@ EvaMultiVariantView.prototype = {
         return summaryContent;
     },
 
-    _getSummaryContentForVariant: function (variant, accessionID, organism, species, assemblyLink, summaryDisplayFields) {
+    _getSummaryContentForVariant: function (variant, accessionID, organism, species, assemblyLink,
+                                            summaryDisplayFields, isHumanSNPSearch, humanSNPLink) {
         var rsReference = "";
         if (variant !== undefined && variant.length > 0) {
             if (variant[0].associatedRSID) {
@@ -147,7 +149,10 @@ EvaMultiVariantView.prototype = {
             var summaryDataEntry = {};
             _.each(_.values(summaryDisplayFields), function(key) {
                 if (key == summaryDisplayFields.id) {
-                    summaryDataEntry[key] = "<b>No data available for " + accessionID + "</b>";
+                    var humanSNPAdditionalInfo = (isHumanSNPSearch ?
+                                                    'See <a href="' + humanSNPLink + '">NCBI data here</a>.'  : '');
+                    summaryDataEntry[key] = "<b>No data available in EVA for " + accessionID + ".</b> "
+                                                + humanSNPAdditionalInfo;
                 }
                 else {
                     summaryDataEntry[key] = " ";
