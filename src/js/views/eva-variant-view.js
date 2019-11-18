@@ -844,7 +844,7 @@ EvaVariantView.prototype = {
             return summaryDataObj;
         });
         var humanSNPAdditionalInfo = this.isHumanSNPSearch? ('. See <a href="' + this.humanSNPLink +
-                                                '" target="_blank">here</a> for more information.'): '';
+                                                '" target="_blank">NCBI page here</a> for more information.'): '';
         var variantInfoHeading = "Variant Summary" + (_.isEmpty(summaryData) ? '': ' for ' + summaryData[0].ID +
                                                         humanSNPAdditionalInfo);
         var _summaryTable = '<h4 class="variant-view-h4">' + variantInfoHeading + '</h4><div class="row"><div class="col-md-8">';
