@@ -193,7 +193,8 @@ EvaVariantView.prototype = {
 
     // For a given RS ID, get associated SS ID
     getAssociatedSSIDsFromAccessioningService: function(accessionCategory, accessionID) {
-         return this.getAccessioningWebServiceResponse(accessionCategory, accessionID.substring(2) + "/submitted");
+        var response = this.getAccessioningWebServiceResponse(accessionCategory, accessionID.substring(2) + "/submitted");
+        return response?response:[];
     },
 
     // Calculate end coordinate for a variant given start, ref and alt
@@ -857,7 +858,7 @@ EvaVariantView.prototype = {
             summaryData = summaryData.map(function(x) {return _.omit(x, [summaryDisplayFields.submitterHandle, summaryDisplayFields.end, summaryDisplayFields.reference, summaryDisplayFields.alternate,
                                                           summaryDisplayFields.evidence, summaryDisplayFields.assemblyMatch,
                                                           summaryDisplayFields.allelesMatch, summaryDisplayFields.validated]);}).slice(0,1);
-            if (! this.variantIsDeprecated) {  // ssID data are not available for deprecated rsIDs
+            if (! this.variantIsDeprecated && !_.isEmpty(this.associatedSSIDs)) {  // ssID data are not available for deprecated rsIDs
                 submitterInfoHeading = '<h4 class="variant-view-h4">Submitted Variants</b></h4><div class="row"><div class="col-md-8">';
                 var associatedSSData = this.associatedSSIDs;
                 _.values(associatedSSData).forEach(function (x) {
