@@ -241,14 +241,14 @@ test.describe('Variant View - Human RS exclusive to accessioning', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs2913&species=hsapiens_grch38.p12');
+        driver.get(config.baseURL()+'?variant&accessionID=rs2913&species=hsapiens_grch38&assemblyAccession=GCA_000001405.27');
     });
 
     test.after(function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Human", "Assembly": "	GCA_000001405.27 (GRCh38)",
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.27 (GRCh38.p12)",
                             "Chromosome/Contig accession": "CM000684.2", "Chromosome": "22", "Start": "49731571",
                             "ID": "rs2913", "Type": "SNV", "Created Date": "19 September 2000"}];
     variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
