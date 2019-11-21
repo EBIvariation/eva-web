@@ -577,8 +577,9 @@ EvaVariantView.prototype = {
             return speciesAttr.taxonomyCode + "_" + speciesAttr.assemblyCode;
         });
         this.studiesList = (_.contains(this.EVASpeciesList, this.species) ? this.getStudiesList(this.species) : []);
-        this.currAssembly = this.getCurrentAssembly(this.species, this.speciesList);
-        this.assemblyLink = this.getAssemblyLink(this.currAssembly);
+        this.assemblyAccession = this.assemblyAccession? this.assemblyAccession:
+                                                         this.getCurrentAssembly(this.species, this.speciesList);
+        this.assemblyLink = this.getAssemblyLink(this.assemblyAccession);
 
         this.allAccessionIDs = _.map(decodeURI(this.accessionID).split(","), function trim(x) {return x.trim();});
         this.allVariants = Array();
@@ -615,7 +616,7 @@ EvaVariantView.prototype = {
         this.variantIsMerged = false;
         this.variantMergedFrom = null;
         var requestedAccessionID = this.accessionID;
-        if (this.variant[0] !== undefined && requestedAccessionID !== "null") {
+        if (this.variant[0] !== undefined && ! _.isEmpty(requestedAccessionID)) {
             // Resolved variant is undefined in case an error occurs, e. g. if an incorrect accession has been requested
             var responseAccessionID = this.variant[0].id;
             if (requestedAccessionID !== responseAccessionID) {
@@ -812,6 +813,12 @@ EvaVariantView.prototype = {
         return '<tr>' + rowContent + '</tr>';
     },
 
+    _getAccessionIDNavURL: function(accessionID, species, assemblyAccession) {
+        return window.location.origin + window.location.pathname
+                + "?variant&accessionID=" + accessionID
+                + "&species=" + species + "&assemblyAccession=" + assemblyAccession;
+    },
+
     _renderSummaryData: function (data) {
         var _this = this;
         var array = this._getSpeciesOrganismValues();
@@ -846,8 +853,9 @@ EvaVariantView.prototype = {
         });
         var humanSNPAdditionalInfo = this.isHumanSNPSearch? ('. See <a href="' + this.humanSNPLink +
                                                 '" target="_blank">NCBI page here</a> for more information.'): '';
-        var variantInfoHeading = "Variant Summary" + (_.isEmpty(summaryData) ? '': ' for ' + summaryData[0].ID +
-                                                        humanSNPAdditionalInfo);
+        var variantInfoHeading = "Variant Summary" //Additional information for ID-based queries (SS ID or RS ID)
+                                    + (!_.isEmpty(this.position) || _.isEmpty(summaryData) ? '': ' for '
+                                    + summaryData[0].ID + humanSNPAdditionalInfo);
         var _summaryTable = '<h4 class="variant-view-h4">' + variantInfoHeading + '</h4><div class="row"><div class="col-md-8">';
         var rsReference = '',
             ssInfoHeaderRow = '',

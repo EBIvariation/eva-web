@@ -149,7 +149,7 @@ test.describe('Variant View - ss by position', function() {
 
     var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1 (GRCh37)", "Submitter Handle": "", "Chromosome/Contig accession": "",
                             "Chromosome":"1", "Start": "3000017", "End": "3000017", "Reference": "C", "Alternate": "T", "ID":"ss1289423512",
-                            "Type": "", "Allele frequencies / genotypes available?": "Yes",
+                            "Type": "SNV", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
                             "Validated?": "", "Created Date": ""}];
 
@@ -209,7 +209,7 @@ test.describe('Variant View - Invalid SS', function() {
         config.shutdownDriver(driver);
     });
 
-    variantView.checkNoDataAvailable("Invalid SS", "Invalid SS shows proper error message", "div", "summary-grid", "No Data Available");
+    variantView.checkNoDataAvailable("Invalid SS", "Invalid SS shows proper error message", "div", "summary-grid", "No Data Available in EVA for rs123.");
 });
 
 test.describe('Variant View - Human RS exclusive to EVA', function() {
@@ -223,7 +223,7 @@ test.describe('Variant View - Human RS exclusive to EVA', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Human", "Assembly": "	GCA_000001405.1 (GRCh37)", "Chromosome/Contig accession": "",
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1 (GRCh37)", "Chromosome/Contig accession": "",
                             "Chromosome": "10", "Start": "49731571", "ID": "rs781916484", "Type": "INS",
                             "Created Date": ""}];
     variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
@@ -241,7 +241,7 @@ test.describe('Variant View - Human RS exclusive to accessioning', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs2913&species=hsapiens_grch38');
+        driver.get(config.baseURL()+'?variant&accessionID=rs2913&species=hsapiens_grch38.p12');
     });
 
     test.after(function() {
