@@ -249,7 +249,7 @@ test.describe('Variant View - Human RS exclusive to accessioning', function() {
     });
 
     var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.27 (GRCh38.p12)",
-                            "Chromosome/Contig accession": "CM000684.2", "Chromosome": "22", "Start": "49731571",
+                            "Chromosome/Contig accession": "CM000684.2", "Chromosome": "22", "Start": "18994584",
                             "ID": "rs2913", "Type": "SNV", "Created Date": "19 September 2000"}];
     variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, variantView.checkSection);
