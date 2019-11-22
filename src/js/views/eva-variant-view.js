@@ -590,6 +590,7 @@ EvaVariantView.prototype = {
     storeVariantInfo: function() {
         this.associatedSSIDs = {};
         this.chromosomeContigMap = {};
+        this.variantIsDeprecated = false;
 
         if (this.accessionID) {
             this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
@@ -611,7 +612,6 @@ EvaVariantView.prototype = {
             this.processQueryWithEVAService();
         }
 
-        this.variantIsDeprecated = false;
         // Check if the variant has been merged
         this.variantIsMerged = false;
         this.variantMergedFrom = null;
