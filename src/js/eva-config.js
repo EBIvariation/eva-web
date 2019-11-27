@@ -76,15 +76,13 @@ function deDuplicatedSpeciesList(speciesList) {
 }
 
 function deDuplicateSpeciesListWithAssemblyAccession(speciesList) {
-    //In the case of multiple assemblies like Grch37 and Grch37.p13 in the species list, use only the first one since
-    //they both have the same assembly name and variants from either assembly reside within the same database
+    //Show multiple assemblies within a single build in the same species as opposed to deDuplicatedSpeciesList
+    //which only shows only one entry per species ex: Human only shows grch37 and grch38
+    //ex: Human should show grch38.p3, grch38.p12 etc.,
     speciesList = _.sortBy(speciesList, function(listItem) {
                                             return [listItem.assemblyAccession,
                                                     listItem.taxonomyEvaName.toLowerCase()].join(); });
     return _.uniq(speciesList, function(listItem, key, unused) {
-        // Different species can have assembly codes which coincide with each other, e. g. "Pepper Zunla 1 Ref_v1.0"
-        // (taxonomy ID 4072) and L_crocea_1.0 (taxonomy ID 215358) both have the assembly code of "10". Because of
-        // this, we need to have uniq over a tuple of taxonomy ID and assembly code.
         return [listItem.taxonomyId, listItem.assemblyAccession].join();
     });
 }
