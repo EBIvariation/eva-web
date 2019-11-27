@@ -343,16 +343,20 @@
                     </nav>
                     <h2>API</h2>
                     <div>
-                        <h3>The general structure of a EVA REST web service URL is:</h3><p><a href="#">http://www.ebi.ac.uk/eva/webservices/rest/{version}/{category}/IDs/{resource}?{filters}</a></p>
+                        <h3>The general structure of a EVA REST web service URL is one of:</h3>
+                        <ul>
+                            <li><p><a href="#">Queries to retrieve variant information (locus, genotypes, evidence etc.,) - http://www.ebi.ac.uk/eva/webservices/rest/{version}/{category}/IDs/{resource}?{filters}</a></p></li>
+                            <li><p><a href="#">Queries to retrieve locus information by accession ID - http://www.ebi.ac.uk/eva/webservices/identifiers/{version}/{category}/ID[/submitted]</a></p></li>
+                        </ul>
                         <h3>Where:</h3>
                         <p>
                             * <span class="api-span">version</span>: indicates the version of the API, this defines the available filters and JSON schema to be returned. Currently there is only version 'v1'.
-                            <br/> * <span class="api-span">category</span>: this defines what objects we want to query. Currently there are five different categories: variants, segments, genes, files and studies.
+                            <br/> * <span class="api-span">category</span>: this defines what objects we want to query. Currently there are five different categories for variant information queries: variants, segments, genes, files and studies and two categories for accessioning queries: submitted-variants (to query by SS ID) and clustered-variants (to query by RS IDs)
                             <br/> * <span class="api-span">resource</span>: specifies the resource to be returned, therefore the JSON data model.
                             <br/> * <span class="api-span">filters</span>: each specific endpoint allows different filters.
                         </p>
                         <div>
-                            <p>REST web services have been implemented using GET protocol since only queries are allowed so far. Several IDs can be concatenated using comma as separator.<br/>For more detailed information about the API and filters you can visit the <a href="https://github.com/ebivariation/eva/wiki" target="_blank">project wiki</a> and <a href="https://www.ebi.ac.uk/eva/webservices/rest/swagger-ui.html" target="_blank">Swagger documentation</a>.</p>
+                            <p>REST web services have been implemented using GET protocol since only queries are allowed so far. Several IDs can be concatenated using comma as separator.<br/>For more detailed information about the API and filters you can visit the <a href="https://github.com/ebivariation/eva/wiki" target="_blank">project wiki</a> and Swagger documentation for <a href="https://www.ebi.ac.uk/eva/webservices/rest/swagger-ui.html" target="_blank">variant information queries</a> and <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/swagger-ui.html" target="_blank">accessioning locus queries</a>.</p>
                         </div>
                         <div>
                             <h3>Some example of queries include:</h3>
