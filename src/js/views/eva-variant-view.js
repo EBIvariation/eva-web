@@ -694,6 +694,7 @@ EvaVariantView.prototype = {
         var variant = this.variant;
 
         if(_.isEmpty(variant)){
+            document.getElementById("navigation-strip").remove();
             var noDataEl = document.querySelector("#summary-grid");
             var noDataElDiv = document.createElement("div");
             var humanSNPAdditionalInfo = (this.isHumanSNPSearch ?
