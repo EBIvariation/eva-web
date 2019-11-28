@@ -345,8 +345,8 @@
                     <div>
                         <h3>The general structure of a EVA REST web service URL is one of:</h3>
                         <ul>
-                            <li><p><a href="#">Queries to retrieve variant information (locus, genotypes, evidence etc.,) - http://www.ebi.ac.uk/eva/webservices/rest/{version}/{category}/IDs/{resource}?{filters}</a></p></li>
-                            <li><p><a href="#">Queries to retrieve locus information by accession ID - http://www.ebi.ac.uk/eva/webservices/identifiers/{version}/{category}/ID[/submitted]</a></p></li>
+                            <li><p><a href="https://www.ebi.ac.uk/eva/webservices/rest/swagger-ui.html">Queries to retrieve variant information (locus, genotypes, evidence etc.,) - http://www.ebi.ac.uk/eva/webservices/rest/{version}/{category}/IDs/{resource}?{filters}</a></p></li>
+                            <li><p><a href="https://www.ebi.ac.uk/eva/webservices/identifiers/swagger-ui.html">Queries to retrieve locus information by accession ID - http://www.ebi.ac.uk/eva/webservices/identifiers/{version}/{category}/ID[/submitted]</a></p></li>
                         </ul>
                         <h3>Where:</h3>
                         <p>
@@ -366,13 +366,13 @@
                             <p><br/> * To fetch all the info for a variant by ID:
                                 <br/> <a href="http://www.ebi.ac.uk/eva/webservices/rest/v1/variants/rs666/info?species=hsapiens_grch37" target="_blank">http://www.ebi.ac.uk/eva/webservices/rest/v1/variants/rs666/info?species=hsapiens_grch37</a></p>
 
-                            <p><br/> * To fetch locus info for a variant by <a href="https://www.ncbi.nlm.nih.gov/books/NBK44374/#Content.what_is_the_ncbi_assay_id_or__ss" target="_blank">SS ID</a>:
+                            <p><br/> * To fetch locus info for a variant by <a href="https://www.ncbi.nlm.nih.gov/books/NBK44374/#Content.what_is_the_ncbi_assay_id_or__ss" target="_blank">SubSNP ID (SS ID)</a>:
                                 <br/> <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/v1/submitted-variants/99308221" target="_blank">https://www.ebi.ac.uk/eva/webservices/identifiers/v1/submitted-variants/99308221</a></p>
 
-                            <p><br/> * To fetch locus and type info for a variant by <a href="https://www.ncbi.nlm.nih.gov/books/NBK44417/#Content.what_is_a_reference_snp_or__rs_i" target="_blank">RS ID</a>:
+                            <p><br/> * To fetch locus and type info for a variant by <a href="https://www.ncbi.nlm.nih.gov/books/NBK44417/#Content.what_is_a_reference_snp_or__rs_i" target="_blank">RefSNP ID (RS ID)</a>:
                                 <br/> <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/v1/clustered-variants/17870277" target="_blank">https://www.ebi.ac.uk/eva/webservices/identifiers/v1/clustered-variants/17870277</a></p>
 
-                            <p><br/> * To fetch associated SS IDs for a variant by RS ID:
+                            <p><br/> * To fetch associated SubSNP IDs (SS IDs) for a variant by RefSNP IDs (RS IDs):
                                 <br/> <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/v1/clustered-variants/17870277/submitted" target="_blank">https://www.ebi.ac.uk/eva/webservices/identifiers/v1/clustered-variants/17870277/submitted</a></p>
 
                             <p><br/> * To fetch all the Short Genetics Variations studies:
