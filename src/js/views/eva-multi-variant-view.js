@@ -32,8 +32,6 @@ EvaMultiVariantView.prototype = {
     render: function () {
         document.getElementById("navigation-strip").remove();
         if (this.page >= 1) {
-            this.currentURL = window.location.origin + window.location.pathname +
-                                "?variant&accessionID=<ACCESSION_ID>&species=" + this.species;
             var summaryContent = this._getSummaryContentForIDs(this.accessionIDs, this.page, this.numResultsPerPage);
             var variantViewDiv = document.querySelector("#variantView");
             $(variantViewDiv).addClass('show-div');
@@ -69,17 +67,21 @@ EvaMultiVariantView.prototype = {
                 position:this.position,
                 accessionID:currAccessionID,
                 species:this.species,
+                assemblyAccession: this.assemblyAccession,
                 annotationVersion:this.annotationVersion,
                 summaryOnly: true
             });
 
             evaVariantView.initGlobalEnv();
             evaVariantView.storeVariantInfo();
+            this.assemblyAccession = evaVariantView.assemblyAccession;
 
             var array = evaVariantView._getSpeciesOrganismValues(); var organism = array[1];
             summaryData = this._getSummaryContentForVariant(evaVariantView.variant, currAccessionID, organism,
-                                                            this.species, evaVariantView.assemblyLink,
-                                                            summaryDisplayFields);
+                                                            this.species, this.assemblyAccession,
+                                                            evaVariantView.assemblyLink,
+                                                            summaryDisplayFields, evaVariantView.isHumanSNPSearch,
+                                                            evaVariantView.humanSNPLink);
 
             if (evaVariantView.accessionCategory === "clustered-variants") {
                 summaryData = summaryData.map(function(x) {
@@ -102,23 +104,23 @@ EvaMultiVariantView.prototype = {
         return summaryContent;
     },
 
-    _getSummaryContentForVariant: function (variant, accessionID, organism, species, assemblyLink, summaryDisplayFields) {
+    _getSummaryContentForVariant: function (variant, accessionID, organism, species, assemblyAccession, assemblyLink,
+                                            summaryDisplayFields, isHumanSNPSearch, humanSNPLink) {
         var rsReference = "";
         if (variant !== undefined && variant.length > 0) {
             if (variant[0].associatedRSID) {
-                rsReference = '<a id="rs-link" href="?variant&accessionID=' +
-                                variant[0].associatedRSID + '&species=' + species + '">' +
-                                variant[0].associatedRSID + '</a>';
+                rsReference = '<a href="'
+                                + EvaVariantView.prototype._getAccessionIDNavURL(variant[0].associatedRSID, species, assemblyAccession)
+                                + '">' + variant[0].associatedRSID + '</a>';
             }
 
-            var getDetailedViewURL = function(accessionID, species) { return '<a href="'
-                                                                                + window.location.origin
-                                                                                + window.location.pathname
-                                                                                + "?variant&accessionID=" + accessionID
-                                                                                + "&species=" + species
-                                                                                + '">Detailed view</a>';
-                                                                    };
-            var detailedViewURLForAccession = getDetailedViewURL(accessionID, this.species);
+            var getDetailedViewURL =
+                function(accessionID, species, assemblyAccession) {
+                    return '<a href="'
+                            + EvaVariantView.prototype._getAccessionIDNavURL(accessionID, species, assemblyAccession)
+                            + '">Detailed view</a>';
+                };
+            var detailedViewURLForAccession = getDetailedViewURL(accessionID, species, assemblyAccession);
             summaryData = variant.map(function(x) {
                 var summaryDataObj = {};
                 summaryDataObj[summaryDisplayFields.id] = x.id;
@@ -147,7 +149,10 @@ EvaMultiVariantView.prototype = {
             var summaryDataEntry = {};
             _.each(_.values(summaryDisplayFields), function(key) {
                 if (key == summaryDisplayFields.id) {
-                    summaryDataEntry[key] = "<b>No data available for " + accessionID + "</b>";
+                    var humanSNPAdditionalInfo = (isHumanSNPSearch ?
+                                                    'See <a href="' + humanSNPLink + '">NCBI data here</a>.'  : '');
+                    summaryDataEntry[key] = "<b>No data available in EVA for " + accessionID + ".</b> "
+                                                + humanSNPAdditionalInfo;
                 }
                 else {
                     summaryDataEntry[key] = " ";
@@ -160,17 +165,16 @@ EvaMultiVariantView.prototype = {
     },
 
     _getPagerContent: function () {
-        var getNavURL = function(species, accessionIDs, page)
-                                    { return window.location.origin + window.location.pathname
-                                                + "?variant&accessionID=" + accessionIDs.join(",")
-                                                + "&species=" + species
+        var getNavURL = function(accessionIDs, species, assemblyAccession, page)
+                                    { return EvaVariantView.prototype._getAccessionIDNavURL(accessionIDs, species, assemblyAccession)
                                                 + "&page=" + page;
                                     };
 
-        var prevLink = (this.page > 1) ? getNavURL(this.species, this.accessionIDs, this.page - 1): "";
+        var prevLink = (this.page > 1) ? getNavURL(this.accessionIDs, this.species, this.assemblyAccession,
+                                                    this.page - 1): "";
         var nextLink = "";
         if ((this.page * this.numResultsPerPage) < this.accessionIDs.length) {
-            nextLink = getNavURL(this.species, this.accessionIDs, this.page + 1);
+            nextLink = getNavURL(this.accessionIDs, this.species, this.assemblyAccession, this.page + 1);
         }
 
         var prevAnchor = prevLink? '<a href="' + prevLink + '">&lt;&lt; Previous</a>': "";

@@ -1358,6 +1358,7 @@
         if(tabId == 'variant'){
             var variantSpecies = $.urlParam('species');
             var annotationVersion = $.urlParam('annotationVersion');
+            var assemblyAccession = $.urlParam('assemblyAccession');
             var accessionID = $.urlParam('accessionID');
             accessionID = accessionID ? accessionID.toLowerCase(): "";
             var requestedPage = $.urlParam('page');
@@ -1369,6 +1370,7 @@
                     position:tab.value,
                     accessionID: accessionID,
                     species:variantSpecies,
+                    assemblyAccession: assemblyAccession,
                     annotationVersion:annotationVersion,
                     page: parseInt(requestedPage)
                 });
@@ -1380,6 +1382,7 @@
                     position:tab.value,
                     accessionID:accessionID,
                     species:variantSpecies,
+                    assemblyAccession: assemblyAccession,
                     annotationVersion:annotationVersion
                 });
                 evaVariantView.render();
@@ -1421,12 +1424,13 @@
     };
 
     function populateSpeciesListForSNPSearch () {
-        var speciesList = deDuplicatedSpeciesList(getSpeciesList());
+        var speciesList = deDuplicateSpeciesListWithAssemblyAccession(getSpeciesList());
 
         var speciesListItems = speciesList.map(function(element) {
             var key = element['taxonomyEvaName'].substr(0, 1).toUpperCase() + element['taxonomyEvaName'].substr(1) + ' / ' + element['assemblyName'];
+            key = key + (element['assemblyAccession'].toLowerCase().startsWith("gcf")? " (GCF assembly)": "");
             var value = element['taxonomyCode'] + "_" + element['assemblyCode'];
-            return [key, value];
+            return [key, value, element['assemblyAccession']];
         });
 
         speciesListItems.sort(function(first, second) {return second[0] > first[0]? -1:1;});
@@ -1435,6 +1439,7 @@
             var option = document.createElement("option");
             option.text = element[0];
             option.value = element[1];
+            option.assemblyAccession = element[2];
             selectedSpeciesDropDown.add(option);
         });
     }
@@ -1459,6 +1464,7 @@
         var accessionID = document.getElementById("accession-search-box").value.trim();
         var selectedSpecies = document.getElementById("species-drop-down");
         var species = selectedSpecies.options[selectedSpecies.selectedIndex].value;
+        var assemblyAccession = selectedSpecies.options[selectedSpecies.selectedIndex].assemblyAccession;
 
         if (species === "Select Species") {
             Ext.Msg.alert('Invalid Species', 'Please select a species');
@@ -1478,7 +1484,7 @@
             return;
         }
 
-        window.open(window.location.origin + window.location.pathname + "?variant&accessionID=" + accessionID + "&species=" + species, "_blank");
+        window.open(window.location.origin + window.location.pathname + "?variant&accessionID=" + accessionID + "&species=" + species + "&assemblyAccession=" + assemblyAccession, "_blank");
     });
 
     function getUrlParameters(staticURL) {

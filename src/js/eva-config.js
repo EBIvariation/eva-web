@@ -75,6 +75,18 @@ function deDuplicatedSpeciesList(speciesList) {
     });
 }
 
+function deDuplicateSpeciesListWithAssemblyAccession(speciesList) {
+    //Show multiple assemblies within a single build in the same species as opposed to deDuplicatedSpeciesList
+    //which only shows only one entry per species ex: Human only shows grch37 and grch38
+    //ex: Human should show grch38.p3, grch38.p12 etc.,
+    speciesList = _.sortBy(speciesList, function(listItem) {
+                                            return [listItem.assemblyAccession,
+                                                    listItem.taxonomyEvaName.toLowerCase()].join(); });
+    return _.uniq(speciesList, function(listItem, key, unused) {
+        return [listItem.taxonomyId, listItem.assemblyAccession].join();
+    });
+}
+
 function getProjects(){
     var projects = '';
     EvaManager.get({

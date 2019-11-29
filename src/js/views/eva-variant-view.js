@@ -151,6 +151,10 @@ EvaVariantView.prototype = {
     },
 
     getAccessioningWebServiceResponse: function(accessionCategory, accessionResource, errorHandler) {
+        // TODO: Human SS IDs are not imported yet. So don't bother calling the endpoint until the import is done.
+        if (accessionCategory === "submitted-variants" && this.species.toLowerCase().includes("hsapiens")) {
+            return [];
+        }
         return EvaManager.get({
             service: ACCESSIONING_SERVICE,
             category: accessionCategory,
@@ -193,7 +197,8 @@ EvaVariantView.prototype = {
 
     // For a given RS ID, get associated SS ID
     getAssociatedSSIDsFromAccessioningService: function(accessionCategory, accessionID) {
-         return this.getAccessioningWebServiceResponse(accessionCategory, accessionID.substring(2) + "/submitted");
+        var response = this.getAccessioningWebServiceResponse(accessionCategory, accessionID.substring(2) + "/submitted");
+        return response?response:[];
     },
 
     // Calculate end coordinate for a variant given start, ref and alt
@@ -434,6 +439,7 @@ EvaVariantView.prototype = {
                                                     }).flatten().value()
                                             ));
                     result.evidence = "Yes";
+                    result.variantTypeLink = result.type ? _this.getVariantTypeSOLink(result.type): "";
                     if (attributeToSearchBy.startsWith("rs") || attributeToSearchBy.startsWith("ss")) {
                         result.id = attributeToSearchBy;
                     } else {
@@ -529,7 +535,7 @@ EvaVariantView.prototype = {
                                 return !_.isEmpty(variantObj);
                             });
         // Avoid unnecessary calls to associated SS IDs service for calls by position or SS ID
-        if (this.accessionCategory === "clustered-variants") {
+        if (this.accessionCategory === "clustered-variants" && !this.summaryOnly) {
             this.variant.forEach(function(variantObjFromEVAService) {
                 variantObjFromEVAService.associatedSSIDs.forEach(function(ssID) {
                     _this.addAssociatedSSID(ssID + "_" + variantObjFromEVAService.chromosome,
@@ -538,12 +544,12 @@ EvaVariantView.prototype = {
                         "Chromosome": variantObjFromEVAService.chromosome,
                         "Start": variantObjFromEVAService.start, "End": variantObjFromEVAService.end,
                         "Reference": variantObjFromEVAService.reference, "Alternate": variantObjFromEVAService.allAlternates,
-                        "Created Date": null});
+                        "Type": variantObjFromEVAService.variantTypeLink, "Created Date": null});
                 });
             });
         }
         // Add attributes from the accessioning service for the variant
-        if (this.position) {
+        if (this.position && !this.summaryOnly) {
             this.variant.forEach(function(variantObjFromEVAService) {
                 var matchingVariantFromAccessioningService = _.chain(_.values(_this.associatedSSIDs))
                         .map(function(ssIDInfo) {
@@ -565,6 +571,7 @@ EvaVariantView.prototype = {
 
     initGlobalEnv: function() {
         this.queryParams = {species: this.species};
+        this.isHumanSNPSearch = this.species.toLowerCase().startsWith("hsapiens");
         if(this.annotationVersion){
             var _annotVersion = this.annotationVersion.split("_");
             _.extend(this.queryParams, {'annot-vep-version':_annotVersion[0]},{'annot-vep-cache-version':_annotVersion[1]});
@@ -574,8 +581,9 @@ EvaVariantView.prototype = {
             return speciesAttr.taxonomyCode + "_" + speciesAttr.assemblyCode;
         });
         this.studiesList = (_.contains(this.EVASpeciesList, this.species) ? this.getStudiesList(this.species) : []);
-        this.currAssembly = this.getCurrentAssembly(this.species, this.speciesList);
-        this.assemblyLink = this.getAssemblyLink(this.currAssembly);
+        this.assemblyAccession = this.assemblyAccession? this.assemblyAccession:
+                                                         this.getCurrentAssembly(this.species, this.speciesList);
+        this.assemblyLink = this.getAssemblyLink(this.assemblyAccession);
 
         this.allAccessionIDs = _.map(decodeURI(this.accessionID).split(","), function trim(x) {return x.trim();});
         this.allVariants = Array();
@@ -586,6 +594,7 @@ EvaVariantView.prototype = {
     storeVariantInfo: function() {
         this.associatedSSIDs = {};
         this.chromosomeContigMap = {};
+        this.variantIsDeprecated = false;
 
         if (this.accessionID) {
             this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
@@ -593,17 +602,25 @@ EvaVariantView.prototype = {
         } else {
             this.accessionCategory = "submitted-variants";
         }
+
+        if (this.isHumanSNPSearch) {
+            if (this.accessionCategory === "clustered-variants" ) {
+                this.humanSNPLink = "https://www.ncbi.nlm.nih.gov/snp/" + this.accessionID;
+            }
+            if (this.accessionCategory === "submitted-variants" ) {
+                this.humanSNPLink = "https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id=" + this.accessionID;
+            }
+        }
         // Proceed to EVA warehouse query if query is position-based or the above processing fails
         if ((this.position || _.isEmpty(this.variant)) && _.contains(this.EVASpeciesList, this.species)) {
             this.processQueryWithEVAService();
         }
 
-        this.variantIsDeprecated = false;
         // Check if the variant has been merged
         this.variantIsMerged = false;
         this.variantMergedFrom = null;
         var requestedAccessionID = this.accessionID;
-        if (this.variant[0] !== undefined && requestedAccessionID !== "null") {
+        if (this.variant[0] !== undefined && ! _.isEmpty(requestedAccessionID)) {
             // Resolved variant is undefined in case an error occurs, e. g. if an incorrect accession has been requested
             var responseAccessionID = this.variant[0].id;
             if (requestedAccessionID !== responseAccessionID) {
@@ -681,9 +698,15 @@ EvaVariantView.prototype = {
         var variant = this.variant;
 
         if(_.isEmpty(variant)){
+            document.getElementById("navigation-strip").remove();
             var noDataEl = document.querySelector("#summary-grid");
             var noDataElDiv = document.createElement("div");
-            noDataElDiv.innerHTML = '<span>No Data Available</span>';
+            var humanSNPAdditionalInfo = (this.isHumanSNPSearch ?
+                                            'See <a href="' + this.humanSNPLink + '">NCBI data here</a>.'  : '');
+            noDataElDiv.innerHTML = '<span>No Data Available in EVA '
+                                        + (this.accessionID ? 'for ' + this.accessionID + '. ': '')
+                                        + humanSNPAdditionalInfo
+                                        +  '</span>';
             noDataEl.appendChild(noDataElDiv);
             return;
         }
@@ -795,6 +818,12 @@ EvaVariantView.prototype = {
         return '<tr>' + rowContent + '</tr>';
     },
 
+    _getAccessionIDNavURL: function(accessionID, species, assemblyAccession) {
+        return window.location.origin + window.location.pathname
+                + "?variant&accessionID=" + accessionID
+                + "&species=" + species + "&assemblyAccession=" + assemblyAccession;
+    },
+
     _renderSummaryData: function (data) {
         var _this = this;
         var array = this._getSpeciesOrganismValues();
@@ -827,7 +856,11 @@ EvaVariantView.prototype = {
             summaryDataObj[summaryDisplayFields.createdDate] = x.createdDate;
             return summaryDataObj;
         });
-        var variantInfoHeading = "Variant Summary" + (_.isEmpty(summaryData) ? '': ' for ' + summaryData[0].ID);
+        var humanSNPAdditionalInfo = this.isHumanSNPSearch? ('. See <a href="' + this.humanSNPLink +
+                                                '" target="_blank">NCBI page here</a> for more information.'): '';
+        var variantInfoHeading = "Variant Summary" //Additional information for ID-based queries (SS ID or RS ID)
+                                    + (!_.isEmpty(this.position) || _.isEmpty(summaryData) ? '': ' for '
+                                    + summaryData[0].ID + humanSNPAdditionalInfo);
         var _summaryTable = '<h4 class="variant-view-h4">' + variantInfoHeading + '</h4><div class="row"><div class="col-md-8">';
         var rsReference = '',
             ssInfoHeaderRow = '',
@@ -838,7 +871,7 @@ EvaVariantView.prototype = {
             summaryData = summaryData.map(function(x) {return _.omit(x, [summaryDisplayFields.submitterHandle, summaryDisplayFields.end, summaryDisplayFields.reference, summaryDisplayFields.alternate,
                                                           summaryDisplayFields.evidence, summaryDisplayFields.assemblyMatch,
                                                           summaryDisplayFields.allelesMatch, summaryDisplayFields.validated]);}).slice(0,1);
-            if (! this.variantIsDeprecated) {  // ssID data are not available for deprecated rsIDs
+            if (! this.variantIsDeprecated && !_.isEmpty(this.associatedSSIDs)) {  // ssID data are not available for deprecated rsIDs
                 submitterInfoHeading = '<h4 class="variant-view-h4">Submitted Variants</b></h4><div class="row"><div class="col-md-8">';
                 var associatedSSData = this.associatedSSIDs;
                 _.values(associatedSSData).forEach(function (x) {

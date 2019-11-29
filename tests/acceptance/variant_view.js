@@ -149,7 +149,7 @@ test.describe('Variant View - ss by position', function() {
 
     var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1 (GRCh37)", "Submitter Handle": "", "Chromosome/Contig accession": "",
                             "Chromosome":"1", "Start": "3000017", "End": "3000017", "Reference": "C", "Alternate": "T", "ID":"ss1289423512",
-                            "Type": "", "Allele frequencies / genotypes available?": "Yes",
+                            "Type": "SNV", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
                             "Validated?": "", "Created Date": ""}];
 
@@ -209,5 +209,53 @@ test.describe('Variant View - Invalid SS', function() {
         config.shutdownDriver(driver);
     });
 
-    variantView.checkNoDataAvailable("Invalid SS", "Invalid SS shows proper error message", "div", "summary-grid", "No Data Available");
+    variantView.checkNoDataAvailable("Invalid SS", "Invalid SS shows proper error message", "div", "summary-grid", "No Data Available in EVA for rs123.");
+});
+
+test.describe('Variant View - Human RS exclusive to EVA', function() {
+    var driver;
+    test.before(function() {
+        driver = config.initDriver(config.browser());
+        driver.get(config.baseURL()+'?variant&accessionID=rs781916484&species=hsapiens_grch37');
+    });
+
+    test.after(function() {
+        config.shutdownDriver(driver);
+    });
+
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1 (GRCh37)", "Chromosome/Contig accession": "",
+                            "Chromosome": "10", "Start": "49731571", "ID": "rs781916484", "Type": "INS",
+                            "Created Date": ""}];
+    variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
+                "table", "variant-view-summary", expectedResults, variantView.checkSection);
+
+    expectedResults = [{"ID": "ss1536651894", "Study": "", "Chromosome/Contig accession": "", "Chromosome": "10",
+                        "Start": "49731571", "End": "49731571", "Reference": "",
+                        "Alternate": "G", "Type": "INS", "Created Date": ""}
+                      ];
+    variantView.runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
+                "table", "submitted-variant-summary", expectedResults, variantView.checkSection);
+});
+
+test.describe('Variant View - Human RS exclusive to accessioning', function() {
+    var driver;
+    test.before(function() {
+        driver = config.initDriver(config.browser());
+        driver.get(config.baseURL()+'?variant&accessionID=rs2913&species=hsapiens_grch38&assemblyAccession=GCA_000001405.27');
+    });
+
+    test.after(function() {
+        config.shutdownDriver(driver);
+    });
+
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.27 (GRCh38.p12)",
+                            "Chromosome/Contig accession": "CM000684.2", "Chromosome": "22", "Start": "18994584",
+                            "ID": "rs2913", "Type": "SNV", "Created Date": "19 September 2000"}];
+    variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
+                "table", "variant-view-summary", expectedResults, variantView.checkSection);
+
+    //TODO: this should be updated with SS ID results after dbSNP Human SS IDs have been imported into EVA accessioning
+    expectedResults = [];
+    variantView.runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
+                "table", "submitted-variant-summary", expectedResults, variantView.checkSection);
 });
