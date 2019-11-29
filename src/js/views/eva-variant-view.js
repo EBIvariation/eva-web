@@ -151,6 +151,10 @@ EvaVariantView.prototype = {
     },
 
     getAccessioningWebServiceResponse: function(accessionCategory, accessionResource, errorHandler) {
+        // TODO: Human SS IDs are not imported yet. So don't bother calling the endpoint until the import is done.
+        if (accessionCategory === "submitted-variants" && this.species.toLowerCase().includes("hsapiens")) {
+            return [];
+        }
         return EvaManager.get({
             service: ACCESSIONING_SERVICE,
             category: accessionCategory,
