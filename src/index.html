@@ -343,24 +343,37 @@
                     </nav>
                     <h2>API</h2>
                     <div>
-                        <h3>The general structure of a EVA REST web service URL is:</h3><p><a href="#">http://www.ebi.ac.uk/eva/webservices/rest/{version}/{category}/IDs/{resource}?{filters}</a></p>
+                        <h3>The general structure of a EVA REST web service URL is one of:</h3>
+                        <ul>
+                            <li><p><a href="https://www.ebi.ac.uk/eva/webservices/rest/swagger-ui.html">Queries to retrieve variant information (locus, genotypes, evidence etc.,) - http://www.ebi.ac.uk/eva/webservices/rest/{version}/{category}/IDs/{resource}?{filters}</a></p></li>
+                            <li><p><a href="https://www.ebi.ac.uk/eva/webservices/identifiers/swagger-ui.html">Queries to retrieve locus information by accession ID - http://www.ebi.ac.uk/eva/webservices/identifiers/{version}/{category}/ID[/submitted]</a></p></li>
+                        </ul>
                         <h3>Where:</h3>
                         <p>
                             * <span class="api-span">version</span>: indicates the version of the API, this defines the available filters and JSON schema to be returned. Currently there is only version 'v1'.
-                            <br/> * <span class="api-span">category</span>: this defines what objects we want to query. Currently there are five different categories: variants, segments, genes, files and studies.
+                            <br/> * <span class="api-span">category</span>: this defines what objects we want to query. Currently there are five different categories for variant information queries: variants, segments, genes, files and studies and two categories for accessioning queries: submitted-variants (to query by SS ID) and clustered-variants (to query by RS IDs)
                             <br/> * <span class="api-span">resource</span>: specifies the resource to be returned, therefore the JSON data model.
                             <br/> * <span class="api-span">filters</span>: each specific endpoint allows different filters.
                         </p>
                         <div>
-                            <p>REST web services have been implemented using GET protocol since only queries are allowed so far. Several IDs can be concatenated using comma as separator.<br/>For more detailed information about the API and filters you can visit the <a href="https://github.com/ebivariation/eva/wiki" target="_blank">project wiki</a> and <a href="https://www.ebi.ac.uk/eva/webservices/rest/swagger-ui.html" target="_blank">Swagger documentation</a>.</p>
+                            <p>REST web services have been implemented using GET protocol since only queries are allowed so far. Several IDs can be concatenated using comma as separator.<br/>For more detailed information about the API and filters you can visit the <a href="https://github.com/ebivariation/eva/wiki" target="_blank">project wiki</a> and Swagger documentation for <a href="https://www.ebi.ac.uk/eva/webservices/rest/swagger-ui.html" target="_blank">variant information queries</a> and <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/swagger-ui.html" target="_blank">accessioning locus queries</a>.</p>
                         </div>
                         <div>
                             <h3>Some example of queries include:</h3>
                             <p>* To fetch all the variants in a segment region:
                                 <br/> <a href="http://www.ebi.ac.uk/eva/webservices/rest/v1/segments/11:128446-128446/variants?species=hsapiens_grch37" target="_blank">http://www.ebi.ac.uk/eva/webservices/rest/v1/segments/11:128446-128446/variants?species=hsapiens_grch37</a></p>
 
-                            <p><br/> * To fetch all the info of a variant:
+                            <p><br/> * To fetch all the info for a variant by ID:
                                 <br/> <a href="http://www.ebi.ac.uk/eva/webservices/rest/v1/variants/rs666/info?species=hsapiens_grch37" target="_blank">http://www.ebi.ac.uk/eva/webservices/rest/v1/variants/rs666/info?species=hsapiens_grch37</a></p>
+
+                            <p><br/> * To fetch locus info for a variant by <a href="https://www.ncbi.nlm.nih.gov/books/NBK44374/#Content.what_is_the_ncbi_assay_id_or__ss" target="_blank">SubSNP ID (SS ID)</a>:
+                                <br/> <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/v1/submitted-variants/99308221" target="_blank">https://www.ebi.ac.uk/eva/webservices/identifiers/v1/submitted-variants/99308221</a></p>
+
+                            <p><br/> * To fetch locus and type info for a variant by <a href="https://www.ncbi.nlm.nih.gov/books/NBK44417/#Content.what_is_a_reference_snp_or__rs_i" target="_blank">RefSNP ID (RS ID)</a>:
+                                <br/> <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/v1/clustered-variants/17870277" target="_blank">https://www.ebi.ac.uk/eva/webservices/identifiers/v1/clustered-variants/17870277</a></p>
+
+                            <p><br/> * To fetch associated SubSNP IDs (SS IDs) for a variant by RefSNP IDs (RS IDs):
+                                <br/> <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/v1/clustered-variants/17870277/submitted" target="_blank">https://www.ebi.ac.uk/eva/webservices/identifiers/v1/clustered-variants/17870277/submitted</a></p>
 
                             <p><br/> * To fetch all the Short Genetics Variations studies:
                                 <br/> <a href="http://www.ebi.ac.uk/eva/webservices/rest/v1/meta/studies/all" target="_blank">http://www.ebi.ac.uk/eva/webservices/rest/v1/meta/studies/all</a></p>
@@ -443,8 +456,8 @@
                                         <a class="accordion-title"><h5>What are the EVA normalisation and variant processing steps? </h5></a>
                                         <div class="accordion-content" data-tab-content>
                                             <div>
-                                                <img class="faq-images" src="img/EVA_Variant_Level_Normalisation.svg" alt="EVA Variant Level Processing: Submitted data from the EVA Study Browser -> Variants are merged, normalized and annotated for functional consequences and statistical values
-                                        -> Processed variants are brokered to dbSNP at NCBI and resulting 'ss' and 'rs' accessions are ingested by EVA -> Data are exposed as JSON objects either via the EVA website GUI or API"><br /><br />
+                                                <img class="faq-images" src="img/optimized/EVA_Variant_Level_Normalisation.svg" alt="EVA Variant Level Processing: Submitted data from the EVA Study Browser -> Variants are merged, normalized and annotated for functional consequences and statistical values
+                                        -> Non-human variants are accessioned by the EVA. Human variants are brokered to dbSNP at NCBI and resulting SS/RS accessions are ingested by EVA -> Data are exposed as JSON objects either via the EVA website GUI or API" data-svg-source="https://drive.google.com/file/d/1zam0DBdg00b8GnmtWR0LLy6SnHqUGPWP/view"><br /><br />
                                                 <h5>Normalisation</h5>
                                                 <p>
                                                     Variants submitted to the EVA have been determined by a number of different algorithms and software packages. As a result, the VCF files generated by these differing methodologies describe variants in a number of different ways. The primary processing step of the EVA is to normalise variant representation following two basic rules:

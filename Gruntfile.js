@@ -275,6 +275,7 @@ module.exports = function (grunt) {
                     {   expand: true, src: ['src/files/*'], dest: '<%= build.dir %>/files', flatten: true},
                     {   expand: true, src: ['src/css/*'], dest: '<%= build.dir %>/css', flatten: true},
                     {   expand: true, src: ['src/img/'], dest: '<%= build.dir %>/', flatten: true},
+                    {   expand: true, src: ['src/img/optimized/*'], dest: '<%= build.dir %>/img/optimized', flatten: true},
                     {   expand: true, src: ['src/*.html'], dest: '<%= build.dir %>/', flatten: true, filter: 'isFile'},
                     {   expand: true, src: ['lib/jsorolla/build/1.1.9/genome-viewer/*.js'], dest: '<%= build.dir %>',flatten: false},
                     {   expand: true, src: ['lib/jsorolla/vendor/**'], dest: '<%= build.dir %>',flatten: false},
@@ -360,7 +361,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/img/',
-                    src: ['**/*.{png,jpg,gif,svg}'],
+                    src: ['**/*.{png,jpg,gif,svg}', '!optimized/**'],
                     dest: '<%= build.dir %>/img/'
                 }]
             }
