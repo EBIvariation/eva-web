@@ -729,10 +729,13 @@
 
                                             <b>Is your data represented in a valid VCF file?</b>
                                             <p>
-                                                Genetic variants submitted to the EVA must be described in the <a href="http://samtools.github.io/hts-specs/" target="_blank">Variant Call Format (VCF)</a>. 
-                                                The EVA only accepts VCF files that adhere to the specification and match a reference sequence. 
+                                                Genetic variants submitted to the EVA must be described in the <a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">Variant Call Format (VCF)</a>.
+                                                The EVA only accepts VCF files that adhere to the specification and match a reference sequence (Versions <a href="https://samtools.github.io/hts-specs/VCFv4.1.pdf" target="_blank">v4.1</a>, <a href="https://samtools.github.io/hts-specs/VCFv4.2.pdf" target="_blank">v4.2</a>, & <a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">v4.3</a> accepted)
                                                 Submitters can make use of the <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a> to ensure they fulfill these requirements. 
                                                 Furthermore, VCF files submitted to the EVA should provide either sample genotypes and/or aggregated sample summary-level allele frequencies.
+                                                Variant lines should also be unique and not specify duplicate loci as this causes issues during steps such as calculation of population frequencies.
+                                                Although both are accepted, single VCF files containing sample information through the FORMAT field are preferred over individual VCF files for each sample.
+                                                This allows the data to be easily reusable/reproducible.
                                             <ul>
                                                 <li><b>Population allele frequencies</b>: Alleles typically exist at different frequencies in different populations and this information provides useful supporting evidence for all submitted variants. Population-level allele frequencies can be provided in the INFO field of the VCF (see section 1.6.1 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>).</li>
                                                 <li><b>Individual genotypes</b>: EVA accepts individual genotypes from samples provided by donors that have consented to having their DNA sequence housed in a public database. Genotypes can be provided in the FORMAT field of the VCF (see section 1.6.2 of the <a href="http://samtools.github.io/hts-specs/VCFv4.3.pdf" target="_blank">VCF specification</a>).</li>
