@@ -18,7 +18,7 @@ module.exports = function (grunt) {
                 eva: '4.4.3'
             },
             submissionTemplate: {
-                version: 'V1.1.3'
+                version: 'V1.1.4'
             }
         },
         build: {
