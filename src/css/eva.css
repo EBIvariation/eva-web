@@ -806,3 +806,7 @@ table.tablesorter thead tr th.tablesorter-headerDesc{
     padding: 20px;
     margin: 20px;
 }
+
+.numerical-column-right-align {
+    text-align: right !important;
+}

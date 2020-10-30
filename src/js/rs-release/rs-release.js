@@ -29,6 +29,7 @@ EvaRsRelease.prototype = {
     render: function() {
         console.log("render method of EvaRsRelease")
         this.draw(this.createContent())
+        $("#rs-release-table").tablesorter({ sortList: [[2,1]] });
     },
 
     draw: function (content) {
@@ -79,12 +80,12 @@ EvaRsRelease.prototype = {
             table +=        '<tr>' +
                                 '<td><span class="rs-release-scientific-name">' + species.scientificName + '</span></td>' +
                                 '<td><span class="rs-release-tax-id">' + species.taxonomyId + '</span></td>' +
-                                '<td><span class="rs-release-current-rs">' + species.currentRs.toLocaleString() + '</span></td>' +
-                                '<td><span class="rs-release-current-rs">' + species.multiMappedRs.toLocaleString() + '</span></td>' +
-                                '<td><span class="rs-release-current-rs">' + species.mergedRs.toLocaleString() + '</span></td>' +
-                                '<td><span class="rs-release-current-rs">' + species.deprecatedRs.toLocaleString() + '</span></td>' +
-                                '<td><span class="rs-release-current-rs">' + species.mergedDeprecatedRs.toLocaleString() + '</span></td>' +
-                                '<td><span class="rs-release-current-rs">' + species.unmappedRs.toLocaleString() + '</span></td>' +
+                                '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.currentRs.toLocaleString() + '</span></td>' +
+                                '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.multiMappedRs.toLocaleString() + '</span></td>' +
+                                '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.mergedRs.toLocaleString() + '</span></td>' +
+                                '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.deprecatedRs.toLocaleString() + '</span></td>' +
+                                '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.mergedDeprecatedRs.toLocaleString() + '</span></td>' +
+                                '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.unmappedRs.toLocaleString() + '</span></td>' +
                             '</tr>';
         })
 
