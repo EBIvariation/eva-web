@@ -18,7 +18,6 @@
  */
 
 function EvaRsRelease(args) {
-    console.log("constructor of EvaRsRelease")
     _.extend(this, Backbone.Events);
     this.id = Utils.genId("EvaRsRelease");
     _.extend(this, args);
@@ -27,8 +26,6 @@ function EvaRsRelease(args) {
 
 EvaRsRelease.prototype = {
     render: function() {
-        console.log("render method of EvaRsRelease")
-
         var releaseVersion = $.urlParam('releaseVersion');
         if (!releaseVersion) {
             this.updateUrl({releaseVersion: 2})
@@ -40,7 +37,6 @@ EvaRsRelease.prototype = {
     },
 
     draw: function (content) {
-        console.log("draw method of EvaRsRelease")
         var rsReleaseElement = document.querySelector("#" + this.target);
         rsReleaseElement.innerHTML = '';
         var rsReleaseDiv = document.createElement("div");
@@ -49,20 +45,17 @@ EvaRsRelease.prototype = {
     },
 
     createContent: function (releaseVersion) {
-        console.log("createContent method of EvaRsRelease")
-
         var releaseData;
         EvaManager.get({
-            host:EVA_STATS_HOST,
+            host:EVA_RELEASE_HOST,
             version: EVA_VERSION,
             category: 'stats',
-            resource: '/per-species',
+            resource: 'per-species',
             params: {releaseVersion: releaseVersion},
             async: false,
             success: function (response) {
                 try {
                     releaseData = response;
-                    console.log(releaseData)
                 } catch (e) {
                     console.log(e);
                 }
@@ -71,7 +64,7 @@ EvaRsRelease.prototype = {
 
         var releaseInfo;
         EvaManager.get({
-            host:EVA_STATS_HOST,
+            host:EVA_RELEASE_HOST,
             version: EVA_VERSION,
             category: 'info',
             params: {releaseVersion: releaseVersion},
@@ -79,7 +72,6 @@ EvaRsRelease.prototype = {
             success: function (response) {
                 try {
                     releaseInfo = response[0];
-                    console.log(releaseInfo)
                 } catch (e) {
                     console.log(e);
                 }

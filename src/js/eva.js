@@ -199,7 +199,6 @@ Eva.prototype = {
                 });
                 break;
             case 'RS Release':
-                console.log("case in eva.js for RS Release")
                 new EvaRsRelease({
                     target:'rsReleaseContent'
                 });
