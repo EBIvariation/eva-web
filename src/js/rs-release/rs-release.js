@@ -28,7 +28,14 @@ function EvaRsRelease(args) {
 EvaRsRelease.prototype = {
     render: function() {
         console.log("render method of EvaRsRelease")
-        this.draw(this.createContent())
+
+        var releaseVersion = $.urlParam('releaseVersion');
+        if (!releaseVersion) {
+            this.updateUrl({releaseVersion: 2})
+            releaseVersion = 2;
+        }
+
+        this.draw(this.createContent(releaseVersion))
         $("#rs-release-table").tablesorter({ sortList: [[2,1]] });
     },
 
@@ -41,26 +48,52 @@ EvaRsRelease.prototype = {
         rsReleaseElement.appendChild(rsReleaseDiv);
     },
 
-    createContent: function () {
+    createContent: function (releaseVersion) {
         console.log("createContent method of EvaRsRelease")
-        var data;
+
+        var releaseData;
         EvaManager.get({
             host:EVA_STATS_HOST,
             version: EVA_VERSION,
-            category: 'release-stats',
+            category: 'stats',
             resource: '/per-species',
-            params: {releaseVersion: 2},
+            params: {releaseVersion: releaseVersion},
             async: false,
             success: function (response) {
                 try {
-                    data = response;
-                    console.log(data)
+                    releaseData = response;
+                    console.log(releaseData)
                 } catch (e) {
                     console.log(e);
                 }
             }
         });
+
+        var releaseInfo;
+        EvaManager.get({
+            host:EVA_STATS_HOST,
+            version: EVA_VERSION,
+            category: 'info',
+            params: {releaseVersion: releaseVersion},
+            async: false,
+            success: function (response) {
+                try {
+                    releaseInfo = response[0];
+                    console.log(releaseInfo)
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
+
         var table = '<div><h2>RS Release</h2></div>' +
+                    '<div class="callout success">' +
+                        '<p>' +
+                            'The RS ID release (v.' + releaseVersion + ') is now available in our FTP. ' +
+                            '<a href="' + releaseInfo.releaseFtp +'" target="_blank">[View release]</a>' +
+                        '</p>' +
+                    '</div>' +
+                    '<p>' + releaseInfo.releaseDescription + '</p>' +
                     '<table id="rs-release-table" class="responsive-table hover tablesorter table-fixed">' +
                         '<thead>' +
                             '<tr>' +
@@ -76,10 +109,14 @@ EvaRsRelease.prototype = {
                         '</thead>' +
                         '<tbody>';
 
-        _.each(data, function (species) {
+        _.each(releaseData, function (species) {
+            var scientificNameNormalized = species.scientificName.toLowerCase().replace(' ', '_');
+            releaseLink = '<a target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_2/by_species/' + scientificNameNormalized + '">' + species.scientificName + '</a>';
+            taxonomyLink = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:' + species.taxonomyId + '">' + species.taxonomyId + '</a>';
+
             table +=        '<tr>' +
-                                '<td><span class="rs-release-scientific-name">' + species.scientificName + '</span></td>' +
-                                '<td><span class="rs-release-tax-id">' + species.taxonomyId + '</span></td>' +
+                                '<td><span class="rs-release-scientific-name">' + releaseLink + '</span></td>' +
+                                '<td><span class="rs-release-tax-id">' + taxonomyLink + '</span></td>' +
                                 '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.currentRs.toLocaleString() + '</span></td>' +
                                 '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.multiMappedRs.toLocaleString() + '</span></td>' +
                                 '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.mergedRs.toLocaleString() + '</span></td>' +
@@ -92,5 +129,10 @@ EvaRsRelease.prototype = {
         table +=        '</tbody>' +
                     '</table>';
         return table
+    },
+
+    updateUrl: function (values) {
+        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'RS-Release&' + $.param(values);
+        history.pushState('', '', newUrl);
     }
 }
