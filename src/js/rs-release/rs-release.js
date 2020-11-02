@@ -78,7 +78,7 @@ EvaRsRelease.prototype = {
             }
         });
 
-        var table = '<div><h2>RS Release</h2></div>' +
+        var table = '<div><h2>Clustered variants (RS) Release</h2></div>' +
                     '<div class="callout success">' +
                         '<p>' +
                             'The RS ID release (v.' + releaseVersion + ') is now available in our FTP. ' +
@@ -91,12 +91,12 @@ EvaRsRelease.prototype = {
                             '<tr>' +
                                 '<th>Scientific name</th>' +
                                 '<th>Taxonomy ID</th>' +
-                                '<th>Current RS</th>' +
-                                '<th>Multi-mapped RS</th>' +
-                                '<th>Merged RS</th>' +
-                                '<th>Deprecated RS</th>' +
-                                '<th>Merged Deprecated RS</th>' +
-                                '<th>Unmapped RS</th>' +
+                                '<th><div title="RS IDs that can be browsed on the EVA websites">Current RS</div></th>' +
+                                '<th><div title="RS IDs that are resolved to multiple location on the genome">Multi-mapped RS</div></th>' +
+                                '<th><div title="RS IDs that should NOT be used because they are merged into another active RS">Merged RS</div></th>' +
+                                '<th><div title="RS IDs that should NOT be used since these RS IDs were deprecated">Deprecated RS</div></th>' +
+                                '<th><div title="RS IDs that should NOT be used because they have been merged into a deprecated RS">Merged Deprecated RS</div></th>' +
+                                '<th><div title="RS IDs that could NOT be mapped against an assembly">Unmapped RS</div></th>' +
                             '</tr>' +
                         '</thead>' +
                         '<tbody>';

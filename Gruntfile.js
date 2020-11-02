@@ -60,7 +60,7 @@ module.exports = function (grunt) {
                         'DGVA_HOST': 'wwwint.ebi.ac.uk/dgva/webservices/rest',
                         'DGVA_VERSION': 'v1',
                         'EVA_HOST': 'wwwint.ebi.ac.uk/eva/webservices/rest',
-                        'EVA_RELEASE_HOST' : "wwwint.ebi.ac.uk/eva/webservices/stats",
+                        'EVA_RELEASE_HOST' : "wwwint.ebi.ac.uk/eva/webservices/release",
                         'EVA_ACCESSIONING_HOST': 'wwwint.ebi.ac.uk/eva/webservices/identifiers',
                         'EVA_VCF_DUMPER_HOST': 'wwwint.ebi.ac.uk/eva/webservices/vcf-dumper',
                         'EVA_VERSION': 'v1'
@@ -90,7 +90,7 @@ module.exports = function (grunt) {
                         'DGVA_HOST': 'www.ebi.ac.uk/dgva/webservices/rest',
                         'DGVA_VERSION': 'v1',
                         'EVA_HOST': 'www.ebi.ac.uk/eva/webservices/rest',
-                        'EVA_RELEASE_HOST' : "www.ebi.ac.uk/eva/webservices/stats",
+                        'EVA_RELEASE_HOST' : "www.ebi.ac.uk/eva/webservices/release",
                         'EVA_ACCESSIONING_HOST': 'www.ebi.ac.uk/eva/webservices/identifiers',
                         'EVA_VCF_DUMPER_HOST': 'www.ebi.ac.uk/eva/webservices/vcf-dumper',
                         'EVA_VERSION': 'v1'
