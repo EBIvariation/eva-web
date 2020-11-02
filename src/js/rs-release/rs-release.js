@@ -102,9 +102,8 @@ EvaRsRelease.prototype = {
                         '<tbody>';
 
         _.each(releaseData, function (species) {
-            var scientificNameNormalized = species.scientificName.toLowerCase().replace(' ', '_');
-            releaseLink = '<a target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_2/by_species/' + scientificNameNormalized + '">' + species.scientificName + '</a>';
-            taxonomyLink = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:' + species.taxonomyId + '">' + species.taxonomyId + '</a>';
+            releaseLink = '<a target="_blank" href="' + species.releaseLink + '">' + species.scientificName + '</a>';
+            taxonomyLink = '<a target="_blank" href="' + species.taxonomyLink + '">' + species.taxonomyId + '</a>';
 
             table +=        '<tr>' +
                                 '<td><span class="rs-release-scientific-name">' + releaseLink + '</span></td>' +

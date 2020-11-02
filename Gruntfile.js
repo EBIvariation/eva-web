@@ -75,8 +75,7 @@ module.exports = function (grunt) {
                         'DGVA_HOST': 'wwwdev.ebi.ac.uk/dgva/webservices/rest',
                         'DGVA_VERSION': 'v1',
                         'EVA_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/rest',
-                        // 'EVA_RELEASE_HOST' : "wwwdev.ebi.ac.uk/eva/webservices/release",
-                        'EVA_RELEASE_HOST' : "localhost:8080",
+                        'EVA_RELEASE_HOST' : "wwwdev.ebi.ac.uk/eva/webservices/release",
                         'EVA_ACCESSIONING_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/identifiers',
                         'EVA_VCF_DUMPER_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/vcf-dumper',
                         'EVA_VERSION': 'v1'
@@ -382,7 +381,7 @@ module.exports = function (grunt) {
                     clearRequireCache: false,
                     timeout:1500000
                 },
-                // src: ['tests/acceptance/*.js']
+                src: ['tests/acceptance/*.js']
             }
         },
         mocha_phantomjs: {
