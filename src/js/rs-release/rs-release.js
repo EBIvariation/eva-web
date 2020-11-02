@@ -28,8 +28,8 @@ EvaRsRelease.prototype = {
     render: function() {
         var releaseVersion = $.urlParam('releaseVersion');
         if (!releaseVersion) {
-            this.updateUrl({releaseVersion: 2})
-            releaseVersion = 2;
+            releaseVersion = this.getLatestReleaseVersion();
+            this.updateUrl({releaseVersion: releaseVersion})
         }
 
         this.draw(this.createContent(releaseVersion))
@@ -126,5 +126,24 @@ EvaRsRelease.prototype = {
     updateUrl: function (values) {
         var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + 'RS-Release&' + $.param(values);
         history.pushState('', '', newUrl);
+    },
+
+    getLatestReleaseVersion: function () {
+        var latestReleaseVersion;
+        EvaManager.get({
+            host:EVA_RELEASE_HOST,
+            version: EVA_VERSION,
+            category: 'info',
+            resource: 'latest',
+            async: false,
+            success: function (response) {
+                try {
+                    latestReleaseVersion = response.releaseVersion;
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
+        return latestReleaseVersion;
     }
 }
