@@ -782,10 +782,16 @@ table.tablesorter thead tr th.tablesorter-headerDesc{
 
 .accordion-title {
     background: #eeeeee;
+    font-size: 1.5rem;
 }
 
 .is-active>.accordion-title::before {
     content: ' ';
+}
+
+.accordion-title::before {
+    font-size: 2rem;
+    margin-top: -1rem;
 }
 
 .img-format {
