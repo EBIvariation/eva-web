@@ -23,7 +23,6 @@ DBSNP_HOST = "https:" + "//@@DBSNP_HOST";
 DGVA_HOST = "https:" + "//@@DGVA_HOST";
 EVA_HOST = "https:" + "//@@EVA_HOST";
 EVA_RELEASE_HOST = "https:" + "//@@EVA_RELEASE_HOST";
-// EVA_RELEASE_HOST = "http:" + "//@@EVA_RELEASE_HOST";
 EVA_ACCESSIONING_HOST = "https:" + "//@@EVA_ACCESSIONING_HOST";
 EVA_VCF_DUMPER_HOST = "https:" + "//@@EVA_VCF_DUMPER_HOST";
 
