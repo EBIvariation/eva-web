@@ -66,7 +66,7 @@ EvaRsRelease.prototype = {
         var content = '<div><h2>Clustered variants (RS) Release</h2></div>' +
                     '<div class="callout success">' +
                         '<p>' +
-                            this.formatDate(releaseInfo.releaseDate) + ': The RS ID release (v.' + releaseVersion + ') is available in our FTP. ' +
+                            this.formatDate(releaseInfo.releaseDate) + ': The RS ID release ' + releaseVersion + ' is available in our FTP. ' +
                             '<a href="' + releaseInfo.releaseFtp +'" target="_blank">[View release]</a>' +
                         '</p>' +
                     '</div>' +
