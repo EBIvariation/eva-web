@@ -123,11 +123,11 @@ EvaRsRelease.prototype = {
                     '<tr>' +
                         '<th>Scientific name</th>' +
                         '<th>Taxonomy ID</th>' +
-                        '<th><div title="RS IDs that can be browsed on the EVA websites">Current RS</div></th>' +
-                        '<th><div title="RS IDs that are resolved to multiple location on the genome">Multi-mapped RS</div></th>' +
-                        '<th><div title="RS IDs that should NOT be used because they are merged into another active RS">Merged RS</div></th>' +
-                        '<th><div title="RS IDs that should NOT be used since these RS IDs were deprecated">Deprecated RS</div></th>' +
-                        '<th><div title="RS IDs that should NOT be used because they have been merged into a deprecated RS">Merged Deprecated RS</div></th>' +
+                        '<th><div title="RS IDs that can be browsed on the EVA websites">Current RS <i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that are resolved to multiple location on the genome">Multi-mapped RS <i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that should NOT be used because they are merged into another active RS">Merged RS <i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that should NOT be used since these RS IDs were deprecated">Deprecated RS <i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that should NOT be used because they have been merged into a deprecated RS">Merged Deprecated RS <i class="icon icon-generic" data-icon="i"></div></th>' +
                         '<th><div title="RS IDs that could NOT be mapped against an assembly">Unmapped RS</div></th>' +
                     '</tr>' +
                     '</thead>' +
@@ -176,8 +176,8 @@ EvaRsRelease.prototype = {
                             '<tr>' +
                                 '<th>Scientific name</th>' +
                                 '<th>Taxonomy ID</th>' +
-                                '<th><div title="RS IDs that were created in this release">New RS IDs</div></th>' +
-                                '<th><div title="SS IDs that were clustered in this release under a new RS ID">New SS IDs Clustered</div></th>' +
+                                '<th><div title="RS IDs that were created in this release">New RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                                '<th><div title="SS IDs that were clustered in this release under a new RS ID">New SS IDs Clustered <i class="icon icon-generic" data-icon="i"></div></th>' +
                             '</tr>' +
                         '</thead>' +
                     '<tbody>';
