@@ -83,6 +83,10 @@ Eva.prototype = {
         $(this.dbSNPImportDiv).addClass('eva-child');
         this.childDivMenuMap['dbSNP Import Progress'] = this.dbSNPImportDiv;
 
+        /* RS Release */
+        $(this.rsReleaseDiv).addClass('eva-child');
+        this.childDivMenuMap['RS Release'] = this.rsReleaseDiv;
+
     },
     draw: function (option) {
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
@@ -192,6 +196,11 @@ Eva.prototype = {
             case 'dbSNP Import Progress':
                 new EvadbSNPImportProgress({
                     target:'dbSNPImportContent'
+                });
+                break;
+            case 'RS Release':
+                new EvaRsRelease({
+                    target:'rsReleaseContent'
                 });
                 break;
             default:
