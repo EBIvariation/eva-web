@@ -66,7 +66,7 @@ EvaRsRelease.prototype = {
         var content = '<div><h2>Clustered variants (RS) Release</h2></div>' +
                     '<div class="callout success">' +
                         '<p>' +
-                            this.formatDate(releaseInfo.releaseDate) + ': The RS ID release ' + releaseVersion + ' is available in our FTP. ' +
+                            this.formatDate(releaseInfo.releaseDate) + ': The RS Release ' + releaseVersion + ' is available in our FTP. ' +
                             '<a href="' + releaseInfo.releaseFtp +'" target="_blank">[View release]</a>' +
                         '</p>' +
                     '</div>' +
@@ -75,7 +75,7 @@ EvaRsRelease.prototype = {
 
         content +=  '<ul class="accordion" data-accordion data-allow-all-closed="true">' +
                         '<li class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">New in release ' + releaseVersion + '</a>' +
+                            '<a href="#" class="accordion-title">New in RS Release ' + releaseVersion + '</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createWhatsNewContent(releaseVersion);
@@ -83,7 +83,7 @@ EvaRsRelease.prototype = {
         content +=          '</div>' +
             '           </li>' +
                         '<li class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">All Release Data</a>' +
+                            '<a href="#" class="accordion-title">All RS Release Data</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createReleaseDataTable(releaseVersion);
