@@ -487,7 +487,7 @@ EvaVariantView.prototype = {
         if (this.variantIsDeprecated) {return}
 
         this.variant.forEach(function(variantObjFromAccService) {
-            if (_this.accessionCategory === "clustered-variants" && !_this.summaryOnly) {
+            if (_this.accessionCategory === "clustered-variants" && !_this.summaryOnly && !_this.isHumanSNPSearch) {
                 _this.getAssociatedSSIDsFromAccessioningService(_this.accessionCategory, variantObjFromAccService.id).forEach(function(ssIDInfo) {
                         if (variantObjFromAccService.assemblyAccession == ssIDInfo.data.referenceSequenceAccession) {
                             _this.addAssociatedSSID("ss" + ssIDInfo.accession + "_" + ssIDInfo.data.contig,
@@ -570,6 +570,7 @@ EvaVariantView.prototype = {
     },
 
     initGlobalEnv: function() {
+        this.setSpeciesAndAssemblyAccession(this.accessionID);
         this.queryParams = {species: this.species};
         this.isHumanSNPSearch = this.species.toLowerCase().startsWith("hsapiens");
         if(this.annotationVersion){
@@ -589,6 +590,33 @@ EvaVariantView.prototype = {
         this.allVariants = Array();
         this.allVariantAttrs = Array();
         this.allAssociatedSSIDs = Array();
+    },
+
+    setSpeciesAndAssemblyAccession: function(accessionID) {
+        var accessionNumber = this.accessionID.substring(2);
+        var category = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
+
+        var accessioningServiceData;
+        EvaManager.get({
+            host:EVA_ACCESSIONING_HOST,
+            version: EVA_VERSION,
+            category: category,
+            resource: accessionNumber,
+            async: false,
+            success: function (response) {
+                try {
+                    console.log(response);
+                    accessioningServiceData = response;
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
+        var data = accessioningServiceData[0].data;
+        this.assemblyAccession = this.accessionID.startsWith("rs") ? data.assemblyAccession : data.referenceSequenceAccession;
+
+        var speciesInfo = _.findWhere(getEVASpeciesList(), {assemblyAccession : this.assemblyAccession});
+        this.species = speciesInfo.taxonomyCode + "_" + speciesInfo.assemblyCode;
     },
 
     storeVariantInfo: function() {
@@ -820,8 +848,7 @@ EvaVariantView.prototype = {
 
     _getAccessionIDNavURL: function(accessionID, species, assemblyAccession) {
         return window.location.origin + window.location.pathname
-                + "?variant&accessionID=" + accessionID
-                + "&species=" + species + "&assemblyAccession=" + assemblyAccession;
+                + "?variant&accessionID=" + accessionID;
     },
 
     _renderSummaryData: function (data) {
@@ -875,7 +902,7 @@ EvaVariantView.prototype = {
                 submitterInfoHeading = '<h4 class="variant-view-h4">Submitted Variants</b></h4><div class="row"><div class="col-md-8">';
                 var associatedSSData = this.associatedSSIDs;
                 _.values(associatedSSData).forEach(function (x) {
-                    x.ID = '<a href="?variant&accessionID=' + x.ID + '&species=' + _this.species + '">' + x.ID + '</a>';
+                    x.ID = '<a href="?variant&accessionID=' + x.ID + '">' + x.ID + '</a>';
                 });
                 ssInfoHeaderRow = this._getSummaryTableHeaderRow(summaryDisplayFields, _.values(associatedSSData)[0]);
                 ssInfoContentRows = _.values(associatedSSData).map(_this._getSummaryTableContentRow).join("");
@@ -883,7 +910,7 @@ EvaVariantView.prototype = {
         } else {
             if (data[0].associatedRSID) {
                 rsReference = '<small><b>Clustered</b> under <a id="rs-link" href="?variant&accessionID=' +
-                                data[0].associatedRSID + '&species=' + this.species + '">' +
+                                data[0].associatedRSID + '">' +
                                 data[0].associatedRSID + '</a></small>';
             }
         }
