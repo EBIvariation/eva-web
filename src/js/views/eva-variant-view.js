@@ -304,7 +304,7 @@ EvaVariantView.prototype = {
     },
 
     // Given the accession category, use the accessioning web service to construct a variant object
-    getVariantInfoFromAccessioningService: function(selectedSpecies, speciesList, accessionCategory, accessionID) {
+    getVariantInfoFromAccessioningService: function(speciesList, accessionCategory, accessionID) {
         var _this = this;
         // Get variant type given an RS ID
         function getVariantTypeFromRSID (rsID) {
@@ -346,11 +346,7 @@ EvaVariantView.prototype = {
                 if (speciesObj !== undefined) {
                     variantInfo.species = speciesObj.taxonomyCode + "_" + speciesObj.assemblyCode;
                 }
-                // Do NOT proceed if the variant's species + assembly combination does not match
-                // the species dropdown of the search UI
-                if (variantInfo.species !== selectedSpecies) {
-                    return;
-                }
+
                 variantInfo.assemblyAccession = assemblyFromAccessioningService;
                 variantInfo.projectAccession = response.data.projectAccession;
                 variantInfo.submitterHandle = _this.getProjectAccessionAnchor(variantInfo.projectAccession);
@@ -478,7 +474,7 @@ EvaVariantView.prototype = {
     // Process a query based on accession ID
     processQueryWithAccessioningService: function () {
         var _this = this;
-        this.variant = this.getVariantInfoFromAccessioningService(this.species, this.speciesList, this.accessionCategory, this.accessionID)
+        this.variant = this.getVariantInfoFromAccessioningService(this.speciesList, this.accessionCategory, this.accessionID)
                         .filter(function(variantObj) {
                             return !_.isEmpty(variantObj);
                         });
@@ -553,7 +549,7 @@ EvaVariantView.prototype = {
             this.variant.forEach(function(variantObjFromEVAService) {
                 var matchingVariantFromAccessioningService = _.chain(_.values(_this.associatedSSIDs))
                         .map(function(ssIDInfo) {
-                            return _this.getVariantInfoFromAccessioningService(_this.species, _this.speciesList,
+                            return _this.getVariantInfoFromAccessioningService(_this.speciesList,
                                                                                 "submitted-variants", ssIDInfo.ID);
                         }).flatten().filter(function(variantObjFromAccService) {
                             return variantObjFromAccService ?
@@ -605,7 +601,6 @@ EvaVariantView.prototype = {
             async: false,
             success: function (response) {
                 try {
-                    console.log(response);
                     accessioningServiceData = response;
                 } catch (e) {
                     console.log(e);
@@ -615,7 +610,7 @@ EvaVariantView.prototype = {
         var data = accessioningServiceData[0].data;
         this.assemblyAccession = this.accessionID.startsWith("rs") ? data.assemblyAccession : data.referenceSequenceAccession;
 
-        var speciesInfo = _.findWhere(getEVASpeciesList(), {assemblyAccession : this.assemblyAccession});
+        var speciesInfo = _.findWhere(getAccessionedSpeciesList(), {assemblyAccession : this.assemblyAccession});
         this.species = speciesInfo.taxonomyCode + "_" + speciesInfo.assemblyCode;
     },
 
