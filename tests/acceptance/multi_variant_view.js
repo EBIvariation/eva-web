@@ -25,7 +25,7 @@ test.describe('Multiple Variant View - rs IDs', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs8281491,rs8281492,rs8281493&species=cfamiliaris_31');
+        driver.get(config.baseURL()+'?variant&accessionID=rs8281491,rs8281492,rs8281493');
     });
 
     test.after(function() {
@@ -49,7 +49,7 @@ test.describe('Multiple Variant View - ss IDs - with pagination', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL() +'?variant&accessionID=ss33584607,ss34622339,ss34818982,ss32675902,ss1915496708,ss34345272,ss1917607577,ss1917629243,ss1914435361,ss1914691448,ss1914332513&species=cfamiliaris_31&page=2');
+        driver.get(config.baseURL() +'?variant&accessionID=ss33584607,ss34622339,ss34818982,ss32675902,ss1915496708,ss34345272,ss1917607577,ss1917629243,ss1914435361,ss1914691448,ss1914332513&page=2');
     });
 
     test.after(function() {

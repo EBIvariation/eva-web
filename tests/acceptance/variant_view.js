@@ -26,7 +26,7 @@ test.describe('Variant View - rs exclusive to Accessioning', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=RS884750506&species=dcarota_ASM162521v1');
+        driver.get(config.baseURL()+'?variant&accessionID=RS884750506');
     });
 
     test.after(function() {
@@ -51,7 +51,7 @@ test.describe('Variant View - ss exclusive to Accessioning', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=ss1996903385&species=dcarota_ASM162521v1');
+        driver.get(config.baseURL()+'?variant&accessionID=ss1996903385');
     });
 
     test.after(function() {
@@ -71,7 +71,7 @@ test.describe('Variant View - rs found in both EVA and Accessioning', function()
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs869710784&species=csabaeus_chlsab11');
+        driver.get(config.baseURL()+'?variant&accessionID=rs869710784');
     });
 
     test.after(function() {
@@ -84,7 +84,9 @@ test.describe('Variant View - rs found in both EVA and Accessioning', function()
     variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, variantView.checkSection);
 
-    expectedResults = [{"ID": "ss1991442915", "Submitter Handle": "PRJEB7923", "Chromosome/Contig accession": "CM001952.2", "Chromosome": "11",
+    expectedResults = [{"ID": "ss5227751341", "Submitter Handle": "PRJEB22988", "Chromosome/Contig accession": "CM001952.2", "Chromosome": "11",
+                        "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "6 July 2019"},
+                        {"ID": "ss1991442915", "Submitter Handle": "PRJEB7923", "Chromosome/Contig accession": "CM001952.2", "Chromosome": "11",
                         "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "5 May 2016"}
                       ];
     variantView.runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
@@ -95,7 +97,7 @@ test.describe('Variant View - ss found in both EVA and Accessioning', function()
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=ss1991442915&species=csabaeus_chlsab11');
+        driver.get(config.baseURL()+'?variant&accessionID=ss1991442915');
     });
 
     test.after(function() {
@@ -147,7 +149,7 @@ test.describe('Variant View - ss by position', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1 (GRCh37)", "Submitter Handle": "", "Chromosome/Contig accession": "",
+    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.14 (GRCh37)", "Submitter Handle": "", "Chromosome/Contig accession": "",
                             "Chromosome":"1", "Start": "3000017", "End": "3000017", "Reference": "C", "Alternate": "T", "ID":"ss1289423512",
                             "Type": "SNV", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
@@ -198,50 +200,25 @@ test.describe('Variant View - ss by position', function() {
                     "div", "popstats_C_T", expectedResults, variantView.checkPopulationStatsGrid);
 });
 
-test.describe('Variant View - Invalid SS', function() {
+test.describe('Variant View - Invalid RS', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs123&species=dcarota_ASM162521v1');
+        driver.get(config.baseURL()+'?variant&accessionID=rs1234');
     });
 
     test.after(function() {
         config.shutdownDriver(driver);
     });
 
-    variantView.checkNoDataAvailable("Invalid SS", "Invalid SS shows proper error message", "div", "summary-grid", "No Data Available in EVA for rs123.");
-});
-
-test.describe('Variant View - Human RS exclusive to EVA', function() {
-    var driver;
-    test.before(function() {
-        driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs781916484&species=hsapiens_grch37');
-    });
-
-    test.after(function() {
-        config.shutdownDriver(driver);
-    });
-
-    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.1 (GRCh37)", "Chromosome/Contig accession": "",
-                            "Chromosome": "10", "Start": "49731571", "ID": "rs781916484", "Type": "INS",
-                            "Created Date": ""}];
-    variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
-                "table", "variant-view-summary", expectedResults, variantView.checkSection);
-
-    expectedResults = [{"ID": "ss1536651894", "Study": "", "Chromosome/Contig accession": "", "Chromosome": "10",
-                        "Start": "49731571", "End": "49731571", "Reference": "",
-                        "Alternate": "G", "Type": "INS", "Created Date": ""}
-                      ];
-    variantView.runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
-                "table", "submitted-variant-summary", expectedResults, variantView.checkSection);
+    variantView.checkNoDataAvailable("Invalid RS", "Invalid RS shows proper error message", "div", "summary-grid", "No Data Available in EVA for rs1234.");
 });
 
 test.describe('Variant View - Human RS exclusive to accessioning', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.get(config.baseURL()+'?variant&accessionID=rs2913&species=hsapiens_grch38&assemblyAccession=GCA_000001405.27');
+        driver.get(config.baseURL()+'?variant&accessionID=rs2913');
     });
 
     test.after(function() {

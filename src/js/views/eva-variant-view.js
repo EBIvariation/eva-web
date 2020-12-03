@@ -566,7 +566,13 @@ EvaVariantView.prototype = {
     },
 
     initGlobalEnv: function() {
-        this.setSpeciesAndAssemblyAccession(this.accessionID);
+        if (this.position) {
+            //Query using the variant data (chr:position:ref:alt)
+            this.species = $.urlParam('species');
+        } else {
+            //Query using the RS/SS ID
+            try { this.setSpeciesAndAssemblyAccession(this.accessionID); } catch (e) { return; }
+        }
         this.queryParams = {species: this.species};
         this.isHumanSNPSearch = this.species.toLowerCase().startsWith("hsapiens");
         if(this.annotationVersion){
@@ -601,14 +607,21 @@ EvaVariantView.prototype = {
             async: false,
             success: function (response) {
                 try {
-                    accessioningServiceData = response;
+                    accessioningServiceData = response[0].data;
                 } catch (e) {
                     console.log(e);
                 }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 404) {
+                    throw ("Data not found for " + accessionID);
+                }
+                throw (textStatus + ':' + errorThrown);
             }
         });
-        var data = accessioningServiceData[0].data;
-        this.assemblyAccession = this.accessionID.startsWith("rs") ? data.assemblyAccession : data.referenceSequenceAccession;
+        this.assemblyAccession = this.accessionID.startsWith("rs") ?
+            accessioningServiceData.assemblyAccession :
+            accessioningServiceData.referenceSequenceAccession;
 
         var speciesInfo = _.findWhere(getAccessionedSpeciesList(), {assemblyAccession : this.assemblyAccession});
         this.species = speciesInfo.taxonomyCode + "_" + speciesInfo.assemblyCode;
@@ -660,7 +673,7 @@ EvaVariantView.prototype = {
             return;
         }
 
-        this.initGlobalEnv();
+        try { this.initGlobalEnv(); } catch (e) { return; }
         this.storeVariantInfo();
         this.draw();
 
