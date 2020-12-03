@@ -21,7 +21,7 @@ function EvaMultiVariantView(args) {
     this.id = Utils.genId("EVAMultiVariantView");
     _.extend(this, args);
     this.rendered = false;
-    this.accessionIDs = _.map(decodeURI(this.accessionID).split(","), function trim(x) {return x.trim();});
+    this.accessionIDs = _.map(decodeURI(this.accessionID).split(/(?:, |,| )+/), function trim(x) {return x.trim();});
     this.page = this.page ? this.page: 1;
     //Since the identifier web service does not support multiple identifiers yet,
     //five results at a time seem to provide the best response time

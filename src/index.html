@@ -182,7 +182,7 @@
                                 <fieldset>
                                     <div class="inline-block">
                                         <div class="small-10 medium-10 columns">
-                                            <input type="text" name="accessionID" id="accession-search-box" placeholder="ex: rs123 or ss567 or comma-separated RS or SS IDs">
+                                            <input type="text" name="accessionID" id="accession-search-box" placeholder="ex: rs123 or ss567 or comma/space separated RS or SS IDs">
                                         </div>
 
                                         <div class="small-2 medium-2 columns">
@@ -1483,7 +1483,8 @@
         var accessionID = document.getElementById("accession-search-box").value.trim();
 
         /* Some times more than one accession ID can be submitted. Ex: rs123, ss234 */
-        var accessionIDs = accessionID.split(",").map(function trim(x) {return x.trim();});
+        accessionID = accessionID.replace(/(, | )+/, ',').replace(/\s/g, '')
+        var accessionIDs = accessionID.split(',').map(function trim(x) {return x.trim();});
 
         if (!areValidAccessionIDs(accessionIDs)) {
             Ext.Msg.alert('Invalid Accession ID', 'Accession ID must have rs or ss followed by a number (ex: rs123 or ss567)');
