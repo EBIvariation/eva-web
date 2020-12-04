@@ -118,7 +118,7 @@ EvaVariantView.prototype = {
     },
 
     getAssemblyNameForAccession: function(assemblyAccession) {
-        var assemblyENAXmlUrl = ENA_ASSEMBLY_LOOKUP_SERVICE + "/" + assemblyAccession + "&display=xml"
+        var assemblyENAXmlUrl = ENA_ASSEMBLY_LOOKUP_SERVICE + "/" + assemblyAccession + "?display=xml"
         var xmlResult = EvaManager.getAPICallResult(assemblyENAXmlUrl, 'xml', this.assemblyAccessionNotResolvedHandler.bind(this));
 
         if (xmlResult) {
