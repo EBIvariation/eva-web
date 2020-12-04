@@ -554,10 +554,10 @@ function variantFilterByMAF(driver){
 
 function checkAnnotationNotification(driver){
     driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    safeClick(driver, driver.findElement(By.xpath("//li[text()='Mosquito / AaegL2']")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Mouse / GRCm38.p3']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.id("annotVersion-trigger-picker")).click();
-    safeClick(driver, driver.findElement(By.xpath("//li[text()='VEP version 82 - Cache version 1606']")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='VEP version 82 - Cache version 82']")));
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.className("vep_text")), 10000).then(function(text) {
