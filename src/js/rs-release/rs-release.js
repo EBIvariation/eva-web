@@ -75,7 +75,7 @@ EvaRsRelease.prototype = {
 
         content +=  '<ul class="accordion" data-accordion data-allow-all-closed="true" data-multi-expand="true">' +
                         '<li id="accordion-item-new-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">New in RS Release ' + releaseVersion + '</a>' +
+                            '<a href="#" class="accordion-title">New data in Release ' + releaseVersion + '</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createWhatsNewContent(releaseVersion);
@@ -83,7 +83,7 @@ EvaRsRelease.prototype = {
         content +=          '</div>' +
             '           </li>' +
                         '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">All RS Release Data</a>' +
+                            '<a href="#" class="accordion-title">All data</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createReleaseDataTable(releaseVersion);
