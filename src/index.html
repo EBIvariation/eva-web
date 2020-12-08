@@ -1484,7 +1484,7 @@
 
         /* Some times more than one accession ID can be submitted. Ex: rs123, ss234 */
         accessionID = accessionID.replace(/(, | )+/, ',').replace(/\s/g, '')
-        var accessionIDs = accessionID.split(',').map(function trim(x) {return x.trim();});
+        var accessionIDs = accessionID.split(',');
 
         if (!areValidAccessionIDs(accessionIDs)) {
             Ext.Msg.alert('Invalid Accession ID', 'Accession ID must have rs or ss followed by a number (ex: rs123 or ss567)');
