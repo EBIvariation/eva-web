@@ -673,8 +673,10 @@ EvaVariantView.prototype = {
             return;
         }
 
-        try { this.initGlobalEnv(); } catch (e) { return; }
-        this.storeVariantInfo();
+        this.initGlobalEnv();
+        if (this.species) {
+            this.storeVariantInfo();
+        }
         this.draw();
 
         //sending tracking data to Google Analytics
