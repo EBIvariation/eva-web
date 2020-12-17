@@ -22,7 +22,6 @@ var utils = require('./utils.js');
 config.loadModules();
 
 var INVALID_ACCESSION_ID_ERR_MSG = "Accession ID must have rs or ss followed by a number (ex: rs123 or ss567)";
-var SPECIES_NOT_SELECTED_MSG = "Please select a species";
 
 test.describe('Home Page ('+config.browser()+')', function() {
     var driver;
@@ -88,37 +87,25 @@ function statisticsChartsRendered(driver){
     return driver;
 }
 
-function testAccessionIDClientSideValidation (driver) {
+function testAccessionIDClientSideValidation(driver) {
+    driver.findElement(By.id("accession-search-box")).clear();
+    driver.findElement(By.id("accession-search-box")).sendKeys("r123");
+    driver.findElement(By.id("accession-search-button")).click();
+    utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
+
     driver.findElement(By.id("accession-search-box")).clear();
     driver.findElement(By.id("accession-search-box")).sendKeys("rs123#");
     driver.findElement(By.id("accession-search-button")).click();
-    utils.assertAlertWindowShown(driver, SPECIES_NOT_SELECTED_MSG);
+    utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
 
-    var dropDownLocator =  By.xpath("//select[@id='species-drop-down']/option[@value='hsapiens_grch37']");
-    driver.wait(until.elementLocated(dropDownLocator), config.wait()).then(function(element) {
-        driver.wait(until.elementIsVisible(element), config.wait()).then(function(element) {
-            // For some reason, send keys works more consistently than click for dropdowns!!
-            driver.findElement(By.xpath("//select[@id='species-drop-down']")).sendKeys("hum");
-        });
-        driver.findElement(By.id("accession-search-box")).clear();
-        driver.findElement(By.id("accession-search-box")).sendKeys("r123");
-        driver.findElement(By.id("accession-search-button")).click();
-        utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
+    driver.findElement(By.id("accession-search-box")).clear();
+    driver.findElement(By.id("accession-search-box")).sendKeys("ss123a");
+    driver.findElement(By.id("accession-search-button")).click();
+    utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
 
-        driver.findElement(By.id("accession-search-box")).clear();
-        driver.findElement(By.id("accession-search-box")).sendKeys("rs123#");
-        driver.findElement(By.id("accession-search-button")).click();
-        utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
-
-        driver.findElement(By.id("accession-search-box")).clear();
-        driver.findElement(By.id("accession-search-box")).sendKeys("ss123a");
-        driver.findElement(By.id("accession-search-button")).click();
-        utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
-
-        driver.findElement(By.id("accession-search-box")).clear();
-        driver.findElement(By.id("accession-search-box")).sendKeys("123");
-        driver.findElement(By.id("accession-search-button")).click();
-        utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
-    });
+    driver.findElement(By.id("accession-search-box")).clear();
+    driver.findElement(By.id("accession-search-box")).sendKeys("123");
+    driver.findElement(By.id("accession-search-button")).click();
+    utils.assertAlertWindowShown(driver, INVALID_ACCESSION_ID_ERR_MSG);
 }
 

@@ -25,7 +25,7 @@ test.describe('dbSNP Import Progress ('+config.browser()+')', function() {
     var driver;
     test.before(function() {
         driver = config.initDriver(config.browser());
-        driver.findElement(By.xpath("//li//a[text()='dbSNP Import Progress']")).click();
+        driver.get(config.baseURL()+'?dbSNP-Import-Progress');
     });
 
     test.after(function() {
