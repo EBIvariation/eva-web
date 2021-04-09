@@ -182,10 +182,10 @@ EvaStudyView.prototype = {
 
         if (_this.type === 'eva') {
             var projectURL = '-' ;
-            var ena_link = '<a id="ena_link" href="http://www.ebi.ac.uk/ena/data/view/' + data.summaryData[0].id + '" target="_blank">Submitted Files</a>';
+            var ena_link = '<a id="ena_link" href="https://www.ebi.ac.uk/ena/data/view/' + data.summaryData[0].id + '" target="_blank">Submitted Files</a>';
             var eva_link = '';
             if (data.summaryData[0].browsable) {
-                eva_link = '<a id="eva_link" href="ftp://ftp.ebi.ac.uk/pub/databases/eva/' + data.summaryData[0].id + '" target="_blank">Browsable Files</a>';
+                eva_link = '<a id="eva_link" href="https://ftp.ebi.ac.uk/pub/databases/eva/' + data.summaryData[0].id + '" target="_blank">Browsable Files</a>';
             }
 
             if (!_.isUndefined(_this._getProjectUrl(data.summaryData[0].id)) && _this._getProjectUrl(data.summaryData[0].id) != '-') {
@@ -327,7 +327,7 @@ EvaStudyView.prototype = {
                 '<tr><td><b>Platform</b></td><td><span id="platform-span">' + data.summaryData[0].platform + '</span></td></tr>' +
                 '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + assemblyAccessions.join(", ") + '</span></td></tr>' +
                 '<tr><td><b>Description</b></td><td><span id="description-span">' + data.summaryData[0].description + '</span></td></tr>' +
-                '<tr><td><b>Download</b></td><td><span id="download-span"><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/' + data.summaryData[0].id + '_' + data.summaryData[0].name + '" target="_blank">FTP</a></span></td></tr>' +
+                '<tr><td><b>Download</b></td><td><span id="download-span"><a href="https://ftp.ebi.ac.uk/pub/databases/dgva/' + data.summaryData[0].id + '_' + data.summaryData[0].name + '" target="_blank">FTP</a></span></td></tr>' +
                 '<tr><td><span><b>Publications</b></span></td><td>' + pubLinks + '</tr>' +
                 '</tbody></table></div></div>'
 
