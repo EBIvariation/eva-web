@@ -323,7 +323,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 renderer: function (value, p, record) {
                     var browsable_link = '<img style="opacity:0.2" class="eva-grid-img-inactive" src="img/eva_logo.png" width="20"/>';
                     if(record.data.browsable){
-                        browsable_link = '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/{0}" target="_blank" class="image-link"><img src="img/eva_logo.png" width="20"/></a>';
+                        browsable_link = '<a href="https://ftp.ebi.ac.uk/pub/databases/eva/{0}" target="_blank" class="image-link"><img src="img/eva_logo.png" width="20"/></a>';
                     }
                     return value ? Ext.String.format(
                         '&nbsp;&nbsp;'+browsable_link,
@@ -506,7 +506,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     text: 'Download',
                     //dataIndex: 'id',
                     xtype: 'templatecolumn',
-                    tpl: '<tpl><a href="ftp://ftp.ebi.ac.uk/pub/databases/dgva/{id}_{name}" target="_blank">FTP</a></tpl>',
+                    tpl: '<tpl><a href="https://ftp.ebi.ac.uk/pub/databases/dgva/{id}_{name}" target="_blank">FTP</a></tpl>',
                     flex: 1.5
                 }
             ];

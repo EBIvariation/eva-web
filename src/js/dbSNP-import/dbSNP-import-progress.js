@@ -68,7 +68,7 @@ EvadbSNPImportProgress.prototype = {
                 '<div class="callout success">' +
                     '<p>' +
                         'The RS ID release (v.1) for variants imported from dbSNP is now available in our FTP. ' +
-                        '<a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_1/" target="_blank">[View release]</a>' +
+                        '<a href="https://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_1/" target="_blank">[View release]</a>' +
                     '</p>' +
                 '</div>' +
                 '<p>This report allows you to track the progress of the dbSNP data import.</p>' +
@@ -76,7 +76,7 @@ EvadbSNPImportProgress.prototype = {
                     'Variants will be available in the Variant Browser if they satisfy the <a href="?Submit-Data">EVA submission requirements</a>. ' +
                     'dbSNP variants that don\'t satisfy these requirements will still be imported, and searchable via a separate ' +
                     '<a href="?Home">web view</a> and <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/swagger-ui.html">API</a>, ' +
-                    'and downloadable from our <a href="ftp://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/">FTP</a>. ' +
+                    'and downloadable from our <a href="https://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/">FTP</a>. ' +
                     'Variants that don\'t map to any INSDC assembly are present only in our FTP at the moment. ' +
                     'We will work to make this experience as intuitive as possible, while keeping our commitment to only make high-quality variants part of the core EVA database.' +
                 '</p>'+
@@ -100,7 +100,7 @@ EvadbSNPImportProgress.prototype = {
                 '</ul>' +
                 '<p>We will make those RS IDs <b>publicly searchable at EVA in the near future</b>.</p>' +
                 '<p>' +
-                    'No Human SS IDs were imported due to absence of batch handles in the <a href="ftp://ftp.ncbi.nih.gov/snp/latest_release/JSON">dbSNP JSON data release</a> ' +
+                    'No Human SS IDs were imported due to absence of batch handles in the <a href="https://ftp.ncbi.nih.gov/snp/latest_release/JSON">dbSNP JSON data release</a> ' +
                     '(meaning a batch cannot be uniquely identified with just the submitter handle).' +
                 '</p>' +
                 '<table id="dbSNP-import-table" class="responsive-table hover tablesorter table-fixed"><thead>' +
