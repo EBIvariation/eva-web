@@ -313,7 +313,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 text: 'Submitted <br/>Files',
                 //dataIndex: 'id',
                 xtype: 'templatecolumn',
-                tpl: '<tpl><a href="https://www.ebi.ac.uk/ena/data/view/{id}" target="_blank" class="image-link"><img src="//www.ebi.ac.uk/sites/ebi.ac.uk/files/groups/ena/logos/ena_small.png" alt="European Nucleotide Archive" width="60"/></a></tpl>',
+                tpl: '<tpl><a href="https://www.ebi.ac.uk/ena/browser/view/{id}" target="_blank" class="image-link"><img src="//www.ebi.ac.uk/sites/ebi.ac.uk/files/groups/ena/logos/ena_small.png" alt="European Nucleotide Archive" width="60"/></a></tpl>',
                 flex: 1.5
             },
             {

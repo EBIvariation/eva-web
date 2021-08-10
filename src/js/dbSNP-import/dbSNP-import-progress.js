@@ -120,11 +120,11 @@ EvadbSNPImportProgress.prototype = {
             var taxonomy_link;
 
             if(this[key].genbankAssemblyAccession) {
-                genbankAssemblyAccession = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/' + this[key].genbankAssemblyAccession + '">' + this[key].genbankAssemblyAccession + '</a>';
+                genbankAssemblyAccession = '<a target="_blank" href="https://www.ebi.ac.uk/ena/browser/view/' + this[key].genbankAssemblyAccession + '">' + this[key].genbankAssemblyAccession + '</a>';
             }
             
             if(this[key].taxId) {
-                taxonomy_link = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/view/Taxon:' + this[key].taxId + '">' + this[key].taxId + '</a>';
+                taxonomy_link = '<a target="_blank" href="https://www.ebi.ac.uk/ena/data/browser/Taxon:' + this[key].taxId + '">' + this[key].taxId + '</a>';
             }
 
             if (this[key].lastDbsnpBuild > 0) {
