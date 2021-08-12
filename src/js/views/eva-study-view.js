@@ -153,7 +153,7 @@ EvaStudyView.prototype = {
         var taxonomyId = new Array();
         if (data.summaryData[0].taxonomyId) {
             for (i = 0; i < data.summaryData[0].taxonomyId.length; i++) {
-                var taxLink = 'http://www.ebi.ac.uk/ena/data/view/Taxon:' + data.summaryData[0].taxonomyId[i];
+                var taxLink = 'http://www.ebi.ac.uk/ena/browser/view/Taxon:' + data.summaryData[0].taxonomyId[i];
                 taxonomyId.push(['<a href="' + taxLink + '" target="_blank">' + data.summaryData[0].taxonomyId[i] + '</a>']);
             }
         }
@@ -168,7 +168,7 @@ EvaStudyView.prototype = {
                 var assemblyLink;
 
                 if (accession.startsWith("GCA_")) {
-                    assemblyLink = 'https://www.ebi.ac.uk/ena/data/view/' + accession;
+                    assemblyLink = 'https://www.ebi.ac.uk/ena/browser/view/' + accession;
                 } else if (accession.startsWith("GCF_")) {
                     assemblyLink = 'https://www.ncbi.nlm.nih.gov/assembly/' + accession;
                 } else {
@@ -182,7 +182,7 @@ EvaStudyView.prototype = {
 
         if (_this.type === 'eva') {
             var projectURL = '-' ;
-            var ena_link = '<a id="ena_link" href="https://www.ebi.ac.uk/ena/data/view/' + data.summaryData[0].id + '" target="_blank">Submitted Files</a>';
+            var ena_link = '<a id="ena_link" href="https://www.ebi.ac.uk/ena/browser/view/' + data.summaryData[0].id + '" target="_blank">Submitted Files</a>';
             var eva_link = '';
             if (data.summaryData[0].browsable) {
                 eva_link = '<a id="eva_link" href="https://ftp.ebi.ac.uk/pub/databases/eva/' + data.summaryData[0].id + '" target="_blank">Browsable Files</a>';
