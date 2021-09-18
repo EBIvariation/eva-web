@@ -609,8 +609,12 @@ EvaVariantView.prototype = {
                 try {
                     //Remapped variants do not yet have data in the variant warehouse so taking the original variant
                     //will allow to get the database where there is data (if the study eva pipeline have been run already)
-                    var originalVariant = response.filter(function(variant){ return variant.data.remappedFrom === null; })[0]
-                    accessioningServiceData = originalVariant.data;
+                    if (category === "submitted-variants") {
+                        var originalVariant = response.filter(function (variant) {return variant.data.remappedFrom === null;})[0];
+                        accessioningServiceData = originalVariant.data;
+                    } else {
+                        accessioningServiceData = response[0].data;
+                    }
                 } catch (e) {
                     console.log(e);
                 }
