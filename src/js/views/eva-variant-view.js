@@ -607,7 +607,14 @@ EvaVariantView.prototype = {
             async: false,
             success: function (response) {
                 try {
-                    accessioningServiceData = response[0].data;
+                    //Remapped variants do not yet have data in the variant warehouse so taking the original variant
+                    //will allow to get the database where there is data (if the study eva pipeline have been run already)
+                    if (category === "submitted-variants") {
+                        var originalVariant = response.filter(function (variant) {return variant.data.remappedFrom === null;})[0];
+                        accessioningServiceData = originalVariant.data;
+                    } else {
+                        accessioningServiceData = response[0].data;
+                    }
                 } catch (e) {
                     console.log(e);
                 }
@@ -876,7 +883,7 @@ EvaVariantView.prototype = {
         var summaryData = data.map(function(x) {
             var summaryDataObj = {};
             summaryDataObj[summaryDisplayFields.organism] = organism;
-            summaryDataObj[summaryDisplayFields.assembly] = _this.assemblyLink;
+            summaryDataObj[summaryDisplayFields.assembly] = _this.getAssemblyLink(x.assemblyAccession);
             summaryDataObj[summaryDisplayFields.submitterHandle] = x.submitterHandle;
             summaryDataObj[summaryDisplayFields.contig] = x.contig;
             summaryDataObj[summaryDisplayFields.chromosome] = x.chromosome;
