@@ -303,8 +303,28 @@ EvaVariantView.prototype = {
         }
     },
 
+    mapOperationsFromAccessioningServiceToOperationsInfo: function(response){
+        var nullOrUndefinedToEmptyElseAddRS = function(value) {
+            if (value === null || value === undefined) {
+                return "";
+            } else{
+                return "rs" + value;
+            }
+        };
+        // Use attributes from Accessioning web service response to construct Operation object
+        function mapAccessioningServiceResponseToOperationInfo(response) {
+             var operationInfo = {};
+             operationInfo.id = nullOrUndefinedToEmptyElseAddRS(response.accession);
+             operationInfo.eventType = response.type;
+             operationInfo.mergedInto = nullOrUndefinedToEmptyElseAddRS(response.mergedInto);
+             operationInfo.splitInto = nullOrUndefinedToEmptyElseAddRS(response.splitInto);
+             return operationInfo;
+            }
+        return _.map(response, mapAccessioningServiceResponseToOperationInfo);
+    },
+
     // Given the accession category, use the accessioning web service to construct a variant object
-    getVariantInfoFromAccessioningService: function(speciesList, accessionCategory, accessionID) {
+    mapVariantFromAccessioningServiceToVariantInfo: function(response, speciesList, accessionCategory) {
         var _this = this;
         // Get variant type given an RS ID
         function getVariantTypeFromRSID (rsID) {
@@ -388,6 +408,11 @@ EvaVariantView.prototype = {
             }
         }
 
+        return _.map(response, mapAccessioningServiceResponseToVariantInfo);
+    },
+
+    // Given the accession category, use the accessioning web service to construct a variant object
+    getVariantInfoFromAccessioningService: function(speciesList, accessionCategory, accessionID) {
         // Get response from the accessioning web service
         this.deprecatedVariantInfo = null;
         var response = this.getAccessioningWebServiceResponse(
@@ -396,7 +421,7 @@ EvaVariantView.prototype = {
 
         try {
             if (this.isValidResponse(response)) {
-                return _.map(response, mapAccessioningServiceResponseToVariantInfo);
+                return this.mapVariantFromAccessioningServiceToVariantInfo(response, speciesList, accessionCategory);
             } else {
                 return [];
             }
@@ -469,6 +494,16 @@ EvaVariantView.prototype = {
         // This should be re-visited during https://www.ebi.ac.uk/panda/jira/browse/EVA-432
         return (variantObj1.start === variantObj2.start && variantObj1.reference === variantObj2.reference &&
                     variantObj1.alternate === variantObj2.alternate);
+    },
+
+    processVariantHistoryWithAccessioningService: function(){
+        var _this = this;
+        var response = _this.getAccessioningWebServiceResponse("clustered-variants", this.accessionID.substring(2) + "/history");
+        if (_this.isValidResponse(response)) {
+            this.variantHistory =  response;
+        }else {
+            this.variantHistory = '';
+        }
     },
 
     // Process a query based on accession ID
@@ -634,6 +669,15 @@ EvaVariantView.prototype = {
         this.species = speciesInfo.taxonomyCode + "_" + speciesInfo.assemblyCode;
     },
 
+    storeVariantHistoryInfo: function (){
+        if (this.accessionID) {
+            this.accessionCategory = this.accessionID.startsWith("rs") ? "clustered-variants": "submitted-variants";
+            if(this.accessionCategory === "clustered-variants"){
+                this.processVariantHistoryWithAccessioningService();
+            }
+        }
+    },
+
     storeVariantInfo: function() {
         this.associatedSSIDs = {};
         this.chromosomeContigMap = {};
@@ -684,6 +728,9 @@ EvaVariantView.prototype = {
         if (this.species) {
             this.storeVariantInfo();
         }
+
+        this.storeVariantHistoryInfo();
+
         this.draw();
 
         //sending tracking data to Google Analytics
@@ -741,6 +788,7 @@ EvaVariantView.prototype = {
     draw: function (data, content) {
         var _this = this;
         var variant = this.variant;
+        var variantHistory = this.variantHistory;
 
         if(_.isEmpty(variant)){
             document.getElementById("navigation-strip").remove();
@@ -753,6 +801,14 @@ EvaVariantView.prototype = {
                                         + humanSNPAdditionalInfo
                                         +  '</span>';
             noDataEl.appendChild(noDataElDiv);
+
+            // Adding variant history content
+            var summaryEl = document.querySelector("#summary-grid");
+            var variantHistoryContent = _this._renderVariantHistoryData(variantHistory);
+            var VariantHistoryDiv = document.createElement("div");
+            VariantHistoryDiv.innerHTML = variantHistoryContent;
+            summaryEl.appendChild(VariantHistoryDiv);
+
             return;
         }
 
@@ -784,6 +840,12 @@ EvaVariantView.prototype = {
         var summaryElDiv = document.createElement("div");
         summaryElDiv.innerHTML = summaryContent;
         summaryEl.appendChild(summaryElDiv);
+
+        // Adding variant history content
+        var variantHistoryContent = _this._renderVariantHistoryData(variantHistory);
+        var VariantHistoryDiv = document.createElement("div");
+        VariantHistoryDiv.innerHTML = variantHistoryContent;
+        summaryEl.appendChild(VariantHistoryDiv);
 
         if (this.accessionCategory === "submitted-variants" || this.position) {
             var consqTypeContent = _this._renderConsequenceTypeData(_this.variant);
@@ -1043,6 +1105,95 @@ EvaVariantView.prototype = {
                 };
             }
         };
+    },
+
+    _renderVariantHistoryData: function(data) {
+        var variantHistoryHeading = "Variant History Summary";
+        var _historyData = '<h4 class="variant-view-h4">' + variantHistoryHeading + '</h4><div class="row"><div class="col-md-8"></div></div>';
+
+        if(data.variants && data.variants.length){
+            var historyVariantsData = this.mapVariantFromAccessioningServiceToVariantInfo(data.variants, this.speciesList,
+                this.accessionCategory);
+            _historyData += this._renderHistoryVariantsData(historyVariantsData);
+        }else{
+            _historyData += '<h4 class="variant-view-h4"> Variants </h4> <div class="row"><div class="col-md-8">  </div></div>';
+            _historyData += '<span>No Variant Data Available </span>';
+        }
+        if(data.operations && data.operations.length){
+            var historyOperationsData = this.mapOperationsFromAccessioningServiceToOperationsInfo(data.operations)
+            _historyData += this._renderHistoryOperationsData(historyOperationsData)
+        }else{
+            _historyData += '<h4 class="variant-view-h4"> Operations </h4> <div class="row"><div class="col-md-8"></div></div>';
+            _historyData += '<span>No Operations Data Available </span>';
+        }
+
+        return _historyData;
+    },
+
+    _renderHistoryVariantsData: function(data){
+        var _this = this;
+        var array = this._getSpeciesOrganismValues();
+        var organism = array[1];
+        var summaryDisplayFields = {organism : "Organism", assembly: "Assembly", contig: "Chromosome/Contig accession",
+            chromosome: "Chromosome", start: "Start", id: "ID", type: "Type", createdDate: "Created Date"};
+        var variantData = data.map(function(x) {
+            var variantDataObj = {};
+            variantDataObj[summaryDisplayFields.organism] = organism;
+            variantDataObj[summaryDisplayFields.assembly] = _this.getAssemblyLink(x.assemblyAccession);
+            variantDataObj[summaryDisplayFields.contig] = x.contig;
+            variantDataObj[summaryDisplayFields.chromosome] = x.chromosome;
+            variantDataObj[summaryDisplayFields.start] = x.start;
+            variantDataObj[summaryDisplayFields.id] = x.id;
+            variantDataObj[summaryDisplayFields.type] = x.variantTypeLink;
+            variantDataObj[summaryDisplayFields.createdDate] = x.createdDate;
+            return variantDataObj;
+        });
+
+        var rsReference = '';
+        var _summaryTable = '<h4 class="variant-view-h4"> Variants </h4> <div class="row"><div class="col-md-8">';
+        var variantInfoHeaderRow = this._getSummaryTableHeaderRow(summaryDisplayFields, variantData[0]);
+        var variantInfoContentRows = variantData.map(_this._getSummaryTableContentRow).join("");
+        _summaryTable += '<table id="variant-view-summary" class="hover ebi-themed-table" style="font-size: small">' + variantInfoHeaderRow +
+            variantInfoContentRows + '</table>';
+        _summaryTable += '</div></div>';
+        _summaryTable += rsReference;
+        _summaryTable += '</div></div>';
+
+        return _summaryTable;
+    },
+
+    _renderHistoryOperationsData: function(data){
+        var _this = this;
+        var summaryDisplayFields = {id : "ID", eventType: "Event Type", mergedInto:"Merge Into",
+            splitInto: "Split Into", createdDate: "Created Date"};
+        var operationData = data.map(function(x) {
+            var operationDataObj = {};
+            operationDataObj[summaryDisplayFields.id] = _this.getVariantLink(x.id);
+            operationDataObj[summaryDisplayFields.eventType] = x.eventType;
+            operationDataObj[summaryDisplayFields.mergedInto] = _this.getVariantLink(x.mergedInto);
+            operationDataObj[summaryDisplayFields.splitInto] = _this.getVariantLink(x.splitInto);
+            operationDataObj[summaryDisplayFields.createdDate] = x.createdDate;
+            return operationDataObj;
+        });
+
+        var opReference = '';
+        var operationInfoHeaderRow = this._getSummaryTableHeaderRow(summaryDisplayFields, operationData[0]);
+        var operationInfoContentRows = operationData.map(_this._getSummaryTableContentRow).join("");
+        var _summaryTable = '<h4 class="variant-view-h4"> Operations </h4><div class="row"><div class="col-md-8">';
+        _summaryTable += '<table id="variant-view-summary" class="hover ebi-themed-table" style="font-size: small">' + operationInfoHeaderRow +
+            operationInfoContentRows + '</table>';
+        _summaryTable += '</div></div>';
+        _summaryTable += opReference;
+        _summaryTable += '</div></div>';
+
+        return _summaryTable;
+    },
+
+    getVariantLink: function(accessionID) {
+        if (accessionID) {
+            return '<a href="'+ EvaVariantView.prototype._getAccessionIDNavURL(accessionID, null, null) +'" target="_blank"> '+accessionID+'</a>';
+        }
+        return '';
     },
 
     _createVariantGenotypeGridPanel: function (target, variantData) {
