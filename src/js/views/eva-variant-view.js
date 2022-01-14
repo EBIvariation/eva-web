@@ -303,7 +303,8 @@ EvaVariantView.prototype = {
         }
     },
 
-    mapOperationsFromAccessioningServiceToOperationsInfo: function(response){
+    mapEventsFromAccessioningServiceToEventsInfo: function(response){
+        _this = this;
         var nullOrUndefinedToEmptyElseAddRS = function(value) {
             if (value === null || value === undefined) {
                 return "";
@@ -311,16 +312,18 @@ EvaVariantView.prototype = {
                 return "rs" + value;
             }
         };
-        // Use attributes from Accessioning web service response to construct Operation object
-        function mapAccessioningServiceResponseToOperationInfo(response) {
-             var operationInfo = {};
-             operationInfo.id = nullOrUndefinedToEmptyElseAddRS(response.accession);
-             operationInfo.eventType = response.type;
-             operationInfo.mergedInto = nullOrUndefinedToEmptyElseAddRS(response.mergedInto);
-             operationInfo.splitInto = nullOrUndefinedToEmptyElseAddRS(response.splitInto);
-             return operationInfo;
+        // Use attributes from Accessioning web service response to construct Event object
+        function mapAccessioningServiceResponseToEventsInfo(response) {
+             var eventInfo = {};
+             eventInfo.id = nullOrUndefinedToEmptyElseAddRS(response.accession);
+             eventInfo.eventType = response.type;
+             eventInfo.mergedInto = nullOrUndefinedToEmptyElseAddRS(response.mergedInto);
+             eventInfo.splitInto = nullOrUndefinedToEmptyElseAddRS(response.splitInto);
+             eventInfo.createdDate = _this.getFormattedDate(response.createdDate);
+             eventInfo.reason = response.reason;
+             return eventInfo;
             }
-        return _.map(response, mapAccessioningServiceResponseToOperationInfo);
+        return _.map(response, mapAccessioningServiceResponseToEventsInfo);
     },
 
     // Given the accession category, use the accessioning web service to construct a variant object
@@ -1120,11 +1123,11 @@ EvaVariantView.prototype = {
             _historyData += '<span>No Variant Data Available </span>';
         }
         if(data.operations && data.operations.length){
-            var historyOperationsData = this.mapOperationsFromAccessioningServiceToOperationsInfo(data.operations)
-            _historyData += this._renderHistoryOperationsData(historyOperationsData)
+            var historyEventsData = this.mapEventsFromAccessioningServiceToEventsInfo(data.operations);
+            _historyData += this._renderHistoryEventsData(historyEventsData)
         }else{
-            _historyData += '<h4 class="variant-view-h4"> Operations </h4> <div class="row"><div class="col-md-8"></div></div>';
-            _historyData += '<span>No Operations Data Available </span>';
+            _historyData += '<h4 class="variant-view-h4"> Events </h4> <div class="row"><div class="col-md-8"></div></div>';
+            _historyData += '<span>No Events Data Available </span>';
         }
 
         return _historyData;
@@ -1162,26 +1165,27 @@ EvaVariantView.prototype = {
         return _summaryTable;
     },
 
-    _renderHistoryOperationsData: function(data){
+    _renderHistoryEventsData: function(data){
         var _this = this;
         var summaryDisplayFields = {id : "ID", eventType: "Event Type", mergedInto:"Merge Into",
-            splitInto: "Split Into", createdDate: "Created Date"};
-        var operationData = data.map(function(x) {
-            var operationDataObj = {};
-            operationDataObj[summaryDisplayFields.id] = _this.getVariantLink(x.id);
-            operationDataObj[summaryDisplayFields.eventType] = x.eventType;
-            operationDataObj[summaryDisplayFields.mergedInto] = _this.getVariantLink(x.mergedInto);
-            operationDataObj[summaryDisplayFields.splitInto] = _this.getVariantLink(x.splitInto);
-            operationDataObj[summaryDisplayFields.createdDate] = x.createdDate;
-            return operationDataObj;
+            splitInto: "Split Into", createdDate: "Event Date", reason: "Reason"};
+        var eventData = data.map(function(x) {
+            var eventDataObj = {};
+            eventDataObj[summaryDisplayFields.id] = _this.getVariantLink(x.id);
+            eventDataObj[summaryDisplayFields.eventType] = x.eventType;
+            eventDataObj[summaryDisplayFields.mergedInto] = _this.getVariantLink(x.mergedInto);
+            eventDataObj[summaryDisplayFields.splitInto] = _this.getVariantLink(x.splitInto);
+            eventDataObj[summaryDisplayFields.createdDate] = x.createdDate;
+            eventDataObj[summaryDisplayFields.reason] = x.reason;
+            return eventDataObj;
         });
 
         var opReference = '';
-        var operationInfoHeaderRow = this._getSummaryTableHeaderRow(summaryDisplayFields, operationData[0]);
-        var operationInfoContentRows = operationData.map(_this._getSummaryTableContentRow).join("");
-        var _summaryTable = '<h4 class="variant-view-h4"> Operations </h4><div class="row"><div class="col-md-8">';
-        _summaryTable += '<table id="variant-view-summary" class="hover ebi-themed-table" style="font-size: small">' + operationInfoHeaderRow +
-            operationInfoContentRows + '</table>';
+        var eventInfoHeaderRow = this._getSummaryTableHeaderRow(summaryDisplayFields, eventData[0]);
+        var eventInfoContentRows = eventData.map(_this._getSummaryTableContentRow).join("");
+        var _summaryTable = '<h4 class="variant-view-h4"> Events </h4><div class="row"><div class="col-md-8">';
+        _summaryTable += '<table id="variant-view-summary" class="hover ebi-themed-table" style="font-size: small">' + eventInfoHeaderRow +
+            eventInfoContentRows + '</table>';
         _summaryTable += '</div></div>';
         _summaryTable += opReference;
         _summaryTable += '</div></div>';
