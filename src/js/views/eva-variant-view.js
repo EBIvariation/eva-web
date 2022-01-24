@@ -1114,20 +1114,27 @@ EvaVariantView.prototype = {
         var variantHistoryHeading = "Variant History Summary";
         var _historyData = '<h4 class="variant-view-h4">' + variantHistoryHeading + '</h4><div class="row"><div class="col-md-8"></div></div>';
 
-        if(data.variants && data.variants.length){
-            var historyVariantsData = this.mapVariantFromAccessioningServiceToVariantInfo(data.variants, this.speciesList,
-                this.accessionCategory);
-            _historyData += this._renderHistoryVariantsData(historyVariantsData);
-        }else{
+        if(data ==  undefined || data == ''){
             _historyData += '<h4 class="variant-view-h4"> Variants </h4> <div class="row"><div class="col-md-8">  </div></div>';
             _historyData += '<span>No Variant Data Available </span>';
-        }
-        if(data.operations && data.operations.length){
-            var historyEventsData = this.mapEventsFromAccessioningServiceToEventsInfo(data.operations);
-            _historyData += this._renderHistoryEventsData(historyEventsData)
-        }else{
             _historyData += '<h4 class="variant-view-h4"> Events </h4> <div class="row"><div class="col-md-8"></div></div>';
             _historyData += '<span>No Events Data Available </span>';
+        }else{
+            if(data.variants && data.variants.length){
+                var historyVariantsData = this.mapVariantFromAccessioningServiceToVariantInfo(data.variants, this.speciesList,
+                    this.accessionCategory);
+                _historyData += this._renderHistoryVariantsData(historyVariantsData);
+            }else{
+                _historyData += '<h4 class="variant-view-h4"> Variants </h4> <div class="row"><div class="col-md-8">  </div></div>';
+                _historyData += '<span>No Variant Data Available </span>';
+            }
+            if(data.operations && data.operations.length){
+                var historyEventsData = this.mapEventsFromAccessioningServiceToEventsInfo(data.operations);
+                _historyData += this._renderHistoryEventsData(historyEventsData)
+            }else{
+                _historyData += '<h4 class="variant-view-h4"> Events </h4> <div class="row"><div class="col-md-8"></div></div>';
+                _historyData += '<span>No Events Data Available </span>';
+            }
         }
 
         return _historyData;
