@@ -305,7 +305,7 @@ EvaVariantView.prototype = {
 
     mapEventsFromAccessioningServiceToEventsInfo: function(response){
         _this = this;
-        var nullOrUndefinedToEmptyElseAddRS = function(value) {
+        var getRSFromWSResponse = function(value) {
             if (value === null || value === undefined) {
                 return "";
             } else{
@@ -315,10 +315,10 @@ EvaVariantView.prototype = {
         // Use attributes from Accessioning web service response to construct Event object
         function mapAccessioningServiceResponseToEventsInfo(response) {
              var eventInfo = {};
-             eventInfo.id = nullOrUndefinedToEmptyElseAddRS(response.accession);
+             eventInfo.id = getRSFromWSResponse(response.accession);
              eventInfo.eventType = response.type;
-             eventInfo.mergedInto = nullOrUndefinedToEmptyElseAddRS(response.mergedInto);
-             eventInfo.splitInto = nullOrUndefinedToEmptyElseAddRS(response.splitInto);
+             eventInfo.mergedInto = getRSFromWSResponse(response.mergedInto);
+             eventInfo.splitInto = getRSFromWSResponse(response.splitInto);
              eventInfo.createdDate = _this.getFormattedDate(response.createdDate);
              eventInfo.reason = response.reason;
              return eventInfo;
