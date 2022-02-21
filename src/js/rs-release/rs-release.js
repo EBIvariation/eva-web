@@ -33,6 +33,7 @@ EvaRsRelease.prototype = {
         }
 
         this.draw(this.createContent(releaseVersion))
+        $("#rs-release-table-by-assembly").tablesorter({ sortList: [[3,1]] });
         $("#rs-release-table").tablesorter({ sortList: [[2,1]] });
         $("#rs-release-table-new-data").tablesorter({ sortList: [[2,1]] });
         $(document).foundation();
@@ -74,6 +75,14 @@ EvaRsRelease.prototype = {
                     '<div>';
 
         content +=  '<ul class="accordion" data-accordion data-allow-all-closed="true" data-multi-expand="true">' +
+                        '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
+                            '<a href="#" class="accordion-title">Data in Release ' + releaseVersion + ' by assembly</a>' +
+                            '<div class="accordion-content" data-tab-content>';
+        
+        content += this.createReleaseDataTableByAssembly(releaseVersion);
+
+        content +=          '</div>' +
+                        '</li>' +
                         '<li id="accordion-item-new-data" class="accordion-item" data-accordion-item>' +
                             '<a href="#" class="accordion-title">New data in Release ' + releaseVersion + '</a>' +
                             '<div class="accordion-content" data-tab-content>';
@@ -146,6 +155,59 @@ EvaRsRelease.prototype = {
                         '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.deprecatedRs.toLocaleString() + '</span></td>' +
                         '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.mergedDeprecatedRs.toLocaleString() + '</span></td>' +
                         '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.unmappedRs.toLocaleString() + '</span></td>' +
+                    '</tr>';
+        })
+
+        table +=    '</tbody></table>';
+        return table;
+    },
+
+    createReleaseDataTableByAssembly: function(releaseVersion) {
+        var releaseData;
+        EvaManager.get({
+            host:EVA_RELEASE_HOST,
+            version: EVA_VERSION,
+            category: 'stats',
+            resource: 'per-assembly',
+            params: {releaseVersion: releaseVersion},
+            async: false,
+            success: function (response) {
+                try {
+                    releaseData = response;
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
+
+        var table = '<table id="rs-release-table-by-assembly" class="responsive-table hover tablesorter table-fixed">' +
+                    '<thead>' +
+                    '<tr>' +
+                        '<th>Scientific name</th>' +
+                        '<th>Taxonomy ID</th>' +
+                        '<th>Assembly accession</th>' +
+                        '<th><div title="RS IDs that can be browsed on the EVA websites">Current RS <i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that were issued for remapped variants">Remapped clustered <i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that were created for new variants">Newly clustered <i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that should NOT be used because they are merged into another active RS">Merged RS <i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that were split into multiple active RS due to remapping">Split RS <i class="icon icon-generic" data-icon="i"></div></th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>';
+
+        _.each(releaseData, function (species) {
+            releaseLink = '<a target="_blank" href="' + species.releaseLink + '">' + species.scientificName + '</a>';
+            taxonomyLink = '<a target="_blank" href="' + species.taxonomyLink + '">' + species.taxonomyId + '</a>';
+
+            table += '<tr>' +
+                        '<td><span class="rs-release-scientific-name">' + releaseLink + '</span></td>' +
+                        '<td><span class="rs-release-tax-id">' + taxonomyLink + '</span></td>' +
+                        '<td><span class="rs-release-assembly-accession">' + species.assemblyAccession + '</span></td>' +
+                        '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.currentRs.toLocaleString() + '</span></td>' +
+                        '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.newRemappedCurrentRs.toLocaleString() + '</span></td>' +
+                        '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.newClusteredCurrentRs.toLocaleString() + '</span></td>' +
+                        '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.newMergedRs.toLocaleString() + '</span></td>' +
+                        '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.newSplitRs.toLocaleString() + '</span></td>' +
                     '</tr>';
         })
 
