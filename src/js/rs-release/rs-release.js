@@ -198,12 +198,13 @@ EvaRsRelease.prototype = {
         _.each(releaseData, function (species) {
             releaseLink = '<a target="_blank" href="' + species.releaseLink + '">' + species.scientificName + '</a>';
             taxonomyLink = '<a target="_blank" href="' + species.taxonomyLink + '">' + species.taxonomyId + '</a>';
+            assemblyLink = '<a target="_blank" href="' + species.releaseLink + '">' + species.assemblyAccession + '</a>';
 
             table += '<tr>' +
                         '<td><span class="rs-release-scientific-name">' + releaseLink + '</span></td>' +
                         '<td><span class="rs-release-tax-id">' + taxonomyLink + '</span></td>' +
-                        '<td><span class="rs-release-assembly-accession">' + species.assemblyAccession + '</span></td>' +
-                        '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.currentRs.toLocaleString() + '</span></td>' +
+                        '<td><span class="rs-release-assembly-accession">' + assemblyLink + '</span></td>' +
+                        '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.newCurrentRs.toLocaleString() + '</span></td>' +
                         '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.newRemappedCurrentRs.toLocaleString() + '</span></td>' +
                         '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.newClusteredCurrentRs.toLocaleString() + '</span></td>' +
                         '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.newMergedRs.toLocaleString() + '</span></td>' +
