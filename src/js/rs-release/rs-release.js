@@ -186,7 +186,7 @@ EvaRsRelease.prototype = {
                         '<th>Scientific name</th>' +
                         '<th>Taxonomy ID</th>' +
                         '<th>Assembly accession</th>' +
-                        '<th><div title="RS IDs that can be browsed on the EVA websites">Current RS <i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that clustered in the current release">New Current RS <i class="icon icon-generic" data-icon="i"></div></th>' +
                         '<th><div title="RS IDs that were issued for remapped variants">Remapped clustered <i class="icon icon-generic" data-icon="i"></div></th>' +
                         '<th><div title="RS IDs that were created for new variants">Newly clustered <i class="icon icon-generic" data-icon="i"></div></th>' +
                         '<th><div title="RS IDs that should NOT be used because they are merged into another active RS">Merged RS <i class="icon icon-generic" data-icon="i"></div></th>' +
