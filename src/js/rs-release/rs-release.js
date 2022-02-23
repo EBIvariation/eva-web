@@ -75,16 +75,8 @@ EvaRsRelease.prototype = {
                     '<div>';
 
         content +=  '<ul class="accordion" data-accordion data-allow-all-closed="true" data-multi-expand="true">' +
-                        '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">Data in Release ' + releaseVersion + ' by assembly</a>' +
-                            '<div class="accordion-content" data-tab-content>';
-        
-        content += this.createReleaseDataTableByAssembly(releaseVersion);
-
-        content +=          '</div>' +
-                        '</li>' +
                         '<li id="accordion-item-new-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">New data in Release ' + releaseVersion + '</a>' +
+                            '<a href="#" class="accordion-title">Statistics per species for variants newly clustered in release ' + releaseVersion + '</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createWhatsNewContent(releaseVersion);
@@ -92,10 +84,18 @@ EvaRsRelease.prototype = {
         content +=          '</div>' +
             '           </li>' +
                         '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">All data</a>' +
+                            '<a href="#" class="accordion-title">Statistics per species</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createReleaseDataTable(releaseVersion);
+
+        content +=          '</div>' +
+                        '</li>' +
+                        '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
+                            '<a href="#" class="accordion-title">Statistics per assembly</a>' +
+                            '<div class="accordion-content" data-tab-content>';
+
+        content += this.createReleaseDataTableByAssembly(releaseVersion);
 
         content +=          '</div>' +
                         '</li>' +
