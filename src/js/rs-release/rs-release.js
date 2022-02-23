@@ -168,7 +168,7 @@ EvaRsRelease.prototype = {
             host:EVA_RELEASE_HOST,
             version: EVA_VERSION,
             category: 'stats',
-            resource: 'per-assembly',
+            resource: 'per-assembly/new',
             params: {releaseVersion: releaseVersion},
             async: false,
             success: function (response) {
