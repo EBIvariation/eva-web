@@ -75,9 +75,10 @@ EvaRsRelease.prototype = {
                     '<p>' + releaseInfo.releaseDescription + '</p>' +
                     '<div>';
 
-        content +=  '<ul class="accordion" data-accordion data-allow-all-closed="true" data-multi-expand="true">' +
+        content +=  '<h4>Statistics by species</h4>' +
+                    '<ul class="accordion" data-accordion data-allow-all-closed="true" data-multi-expand="true">' +
                         '<li id="accordion-item-new-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">Statistics per species for variants newly clustered in release ' + releaseVersion + '</a>' +
+                            '<a href="#" class="accordion-title">Variants newly clustered in release ' + releaseVersion + '</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createWhatsNewContent(releaseVersion);
@@ -85,15 +86,18 @@ EvaRsRelease.prototype = {
         content +=          '</div>' +
             '           </li>' +
                         '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">Statistics per species</a>' +
+                            '<a href="#" class="accordion-title">All data</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createReleaseDataTable(releaseVersion);
 
         content +=          '</div>' +
                         '</li>' +
+                    '</ul>' +
+                    '<h4>Statistics by assembly</h4>' +
+                    '<ul class="accordion" data-accordion data-allow-all-closed="true" data-multi-expand="true">' +
                         '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">Statistics per assembly for variants newly clustered in release' + releaseVersion + '</a>' +
+                            '<a href="#" class="accordion-title">Variants newly clustered in release ' + releaseVersion + '</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createReleaseDataTableByAssemblyNewData(releaseVersion);
@@ -101,7 +105,7 @@ EvaRsRelease.prototype = {
         content +=          '</div>' +
                         '</li>' +
                         '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">Statistics per assembly</a>' +
+                            '<a href="#" class="accordion-title">All data</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createReleaseDataTableByAssemblyAllData(releaseVersion);
