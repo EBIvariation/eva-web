@@ -457,9 +457,6 @@ EvaVariantWidgetPanel.prototype = {
                 case 'drerio_grcz11':
                     defaultRegion = '13:8000001-9000000';
                     break;
-                case 'ecaballus_20':
-                    defaultRegion = '12:13000001-14000000';
-                    break;
                 case 'ecaballus_30':
                     defaultRegion = 'chr20:33000001-34000000';
                     break;
