@@ -343,6 +343,330 @@ EvaVariantWidgetPanel.prototype = {
                 case 'zmays_agpv4':
                     defaultRegion = '6:166875000-166876000';
                     break;
+                case 'aaegypti_aaegl2':
+                    defaultRegion = 'supercont1.562:1-1000000';
+                    break;
+                case 'aarabiensis_dong5av1':
+                    defaultRegion = 'KB704463.1:1000001-2000000';
+                    break;
+                case 'acomosus_asm154086v1':
+                    defaultRegion = 'CM003826.1:11000001-12000000';
+                    break;
+                case 'aculicifacies_a371v1':
+                    defaultRegion = 'KI422496.1:1-1000000';
+                    break;
+                case 'acygnoides_goosev10':
+                    defaultRegion = 'KZ155908.1:2000001-3000000';
+                    break;
+                case 'aepiroticus_epiroticus2v1':
+                    defaultRegion = 'KB671842.1:1-1000000';
+                    break;
+                case 'afunestus_fumozv1':
+                    defaultRegion = 'KB668814.1:1-1000000';
+                    break;
+                case 'agambiae_agamp3':
+                    defaultRegion = '2L:2000001-3000000';
+                    break;
+                case 'amelas_cm1001059av2':
+                    defaultRegion = 'KI919291.1:1-1000000';
+                    break;
+                case 'amexicanum_asm291563v1':
+                    defaultRegion = 'PGSH01011343.1:1000001-2000000';
+                    break;
+                case 'aphrygia_10':
+                    defaultRegion = 'sc0000087:1-1000000';
+                    break;
+                case 'aplatyrhynchos_iascaaspbh15':
+                    defaultRegion = '17:1-1000000';
+                    break;
+                case 'aplatyrhynchosplatyrhynchos_cauwild10':
+                    defaultRegion = 'Chr7:2000001-3000000';
+                    break;
+                case 'athaliana_tair10':
+                    defaultRegion = '3:13000001-14000000';
+                    break;
+                case 'banthracis_asm784v1':
+                    defaultRegion = 'NC_003997.3:1-1000000';
+                    break;
+                case 'bbison_umd31':
+                    defaultRegion = 'Chr29:12000001-13000000';
+                    break;
+                case 'bbubalis_umdcaspurwb20':
+                    defaultRegion = 'AWWX01438720.1:1-1000000';
+                    break;
+                case 'bgrunniens_umd311':
+                    defaultRegion = 'Chr6:71000001-72000000';
+                    break;
+                case 'bindicus_umd31':
+                    defaultRegion = 'Chr14:1-1000000';
+                    break;
+                case 'bmutus_bosgruv20':
+                    defaultRegion = 'NW_005395160.1:1-1000000';
+                    break;
+                case 'bnapus_branapusv20':
+                    defaultRegion = 'CM002761.2:23000001-24000000';
+                    break;
+                case 'btaurus_arsucd12':
+                    defaultRegion = '6:85000001-86000000';
+                    break;
+                case 'btaurus_umd31':
+                    defaultRegion = '23:28000001-29000000';
+                    break;
+                case 'btaurus_umd311':
+                    defaultRegion = '12:76000001-77000000';
+                    break;
+                case 'cannuum_zunla1ref10':
+                    defaultRegion = 'CM002812.1:144000001-145000000';
+                    break;
+                case 'ccajan_10':
+                    defaultRegion = 'CM003613.1:25000001-26000000';
+                    break;
+                case 'cfamiliaris_31':
+                    defaultRegion = '8:73000001-74000000';
+                    break;
+                case 'chircus_10':
+                    defaultRegion = '19:2000001-3000000';
+                    break;
+                case 'chircus_ars1':
+                    defaultRegion = 'NC_030813.1:86000001-87000000';
+                    break;
+                case 'cjacchus_32':
+                    defaultRegion = '21:3000001-4000000';
+                    break;
+                case 'cquilicii_ccap21':
+                    defaultRegion = 'NW_019376285.1:1000001-2000000';
+                    break;
+                case 'csabaeus_chlsab11':
+                    defaultRegion = 'CAE17:39000001-40000000';
+                    break;
+                case 'csativa_asm186575v1':
+                    defaultRegion = 'Cannabis.v1_scf1_q:1-1000000';
+                    break;
+                case 'csativus_v3':
+                    defaultRegion = 'chr3:16000001-17000000';
+                    break;
+                case 'ddiscoideum_dicty27':
+                    defaultRegion = 'CM000154.2:3000001-4000000';
+                    break;
+                case 'dlabrax_seabassv10':
+                    defaultRegion = 'HG916839.1:21000001-22000000';
+                    break;
+                case 'dpipra_asm171598v1':
+                    defaultRegion = 'MCBO01000495.1:3000001-4000000';
+                    break;
+                case 'drerio_grcz11':
+                    defaultRegion = '13:8000001-9000000';
+                    break;
+                case 'ecaballus_30':
+                    defaultRegion = 'chr20:33000001-34000000';
+                    break;
+                case 'eoleiferaxeguinessnsis_EG5':
+                    defaultRegion = 'Chr9:31000001-32000000';
+                    break;
+                case 'fcatus_80':
+                    defaultRegion = 'B1:173000001-174000000';
+                    break;
+                case 'fcatus_90':
+                    defaultRegion = 'NC_018732.3:101000001-102000000';
+                    break;
+                case 'foxysporum_ii5v1':
+                    defaultRegion = 'JH658330.1:1-1000000';
+                    break;
+                case 'ggallus_galgal5':
+                    defaultRegion = 'chr6:5000001-6000000';
+                    break;
+                case 'ggallus_grcg6a':
+                    defaultRegion = 'CM000098.5:6000001-7000000';
+                    break;
+                case 'gmax_20':
+                    defaultRegion = '5:39000001-40000000';
+                    break;
+                case 'gmax_gmaxv11':
+                    defaultRegion = 'GLYMAchr_11:15000001-16000000';
+                    break;
+                case 'gmax_v1':
+                    defaultRegion = 'GLYMAchr_01:16000001-17000000';
+                    break;
+                case 'gmax_v21':
+                    defaultRegion = 'CM000851.3:47000001-48000000';
+                    break;
+                case 'hannus_xrqr10':
+                    defaultRegion = 'HanXRQChr04:112000001-113000000';
+                    break;
+                case 'hchromini_Orenil11':
+                    defaultRegion = 'LG22:1000001-2000000';
+                    break;
+                case 'hleucocephalus_40':
+                    defaultRegion = 'NW_010973220.1:4000001-5000000';
+                    break;
+                case 'hsapiens_asm240226v1':
+                    defaultRegion = 'AJ507799.2:1-1000000';
+                    break;
+                case 'hvulgare_030312v2':
+                    defaultRegion = '7:5000001-6000000';
+                    break;
+                case 'hvulgare_morexv20':
+                    defaultRegion = 'chr6H:545000001-546000000';
+                    break;
+                case 'jregia_wgs5d':
+                    defaultRegion = 'LIHL01055748.1:1-1000000';
+                    break;
+                case 'lmonocytogenesegde_asm19603v1':
+                    defaultRegion = 'AL591824.1:2000001-3000000';
+                    break;
+                case 'lpolyactis_asm1011929v1':
+                    defaultRegion = 'scaffold1588:1-1000000';
+                    break;
+                case 'lrohita_asm412021v1':
+                    defaultRegion = 'scaffold_12910:1-1000000';
+                    break;
+                case 'lsalmonis_lsalatlcanadafemalev1':
+                    defaultRegion = 'LBBX01017489.1:1-1000000';
+                    break;
+                case 'lsativa_lsatsalinasv7':
+                    defaultRegion = 'CM022518.1:159000001-160000000';
+                    break;
+                case 'lusitatissimum_asm22429v2':
+                    defaultRegion = 'CP027626.1:11000001-12000000';
+                    break;
+                case 'mchrysops_dom152mochry10':
+                    defaultRegion = '1080622:1-1000000';
+                    break;
+                case 'mmusculus_grcm38':
+                    defaultRegion = '4:113000001-114000000';
+                    break;
+                case 'mmusculus_mgscv37':
+                    defaultRegion = '1:90000001-91000000';
+                    break;
+                case 'msubspparatuberculosis_asm786v1':
+                    defaultRegion = 'NC_002944.2:1000001-2000000';
+                    break;
+                case 'nvison_nnqggv1':
+                    defaultRegion = 'FNWR01000307.1:1000001-2000000';
+                    break;
+                case 'oanatinus_501':
+                    defaultRegion = 'NW_001794413.1:2000001-3000000';
+                    break;
+                case 'oaries_oarrambouilletv10':
+                    defaultRegion = 'Chromosome11:25000001-26000000';
+                    break;
+                case 'oaries_oarv31':
+                    defaultRegion = 'X:1000001-2000000';
+                    break;
+                case 'ocuniculus_20':
+                    defaultRegion = 'CM000798.1:12000001-13000000';
+                    break;
+                case 'odallidalli_oarv31':
+                    defaultRegion = 'OAR20:27000001-28000000';
+                    break;
+                case 'oniloticus_umdnmbu':
+                    defaultRegion = 'LG08:1-1000000';
+                    break;
+                case 'osativa_irgsp10':
+                    defaultRegion = '4:3000001-4000000';
+                    break;
+                case 'osativa_osativa40':
+                    defaultRegion = 'NC_001320.1:1-1000000';
+                    break;
+                case 'osativaindicagroup_irgsp10':
+                    defaultRegion = '6:16000001-17000000';
+                    break;
+                case 'osativaindicagroup_r498genomeversion1':
+                    defaultRegion = 'CP018160.1:4000001-5000000';
+                    break;
+                case 'osativajaponicagroup_irgsp10':
+                    defaultRegion = '4:10000001-11000000';
+                    break;
+                case 'osativajaponicagroup_osativa40':
+                    defaultRegion = '11:13000001-14000000';
+                    break;
+                case 'pabies_a541150contigsfastagz':
+                    defaultRegion = 'contig_9922:1-1000000';
+                    break;
+                case 'pbairdii_hupman21':
+                    defaultRegion = 'chr23:29000001-30000000';
+                    break;
+                case 'pfalciparum_GCA000002765':
+                    defaultRegion = '4:1-1000000';
+                    break;
+                case 'pfalciparum_asm276v2':
+                    defaultRegion = '11:1000001-2000000';
+                    break;
+                case 'pmajor_11':
+                    defaultRegion = '4:29000001-30000000';
+                    break;
+                case 'pvulgaris_10':
+                    defaultRegion = '11:47000001-48000000';
+                    break;
+                case 'rnorvegicus_60':
+                    defaultRegion = 'chr6:140000001-141000000';
+                    break;
+                case 'sbicolor_ncbiv3':
+                    defaultRegion = 'Chr05:46000001-47000000';
+                    break;
+                case 'sbicolor_sorbi1':
+                    defaultRegion = '8:54000001-55000000';
+                    break;
+                case 'scerevisiae_r64':
+                    defaultRegion = 'BK006948.2:1-1000000';
+                    break;
+                case 'sdumerili_10':
+                    defaultRegion = 'BDQW01000306.1:1-1000000';
+                    break;
+                case 'sitalica_setariav1':
+                    defaultRegion = 'SETITscaffold_4:35000001-36000000';
+                    break;
+                case 'slucioperca_slucfbn12':
+                    defaultRegion = 'CM024506.1:12000001-13000000';
+                    break;
+                case 'slycopersicum_sl240':
+                    defaultRegion = '4:10000001-11000000';
+                    break;
+                case 'smansoni_23792v2':
+                    defaultRegion = '2:32000001-33000000';
+                    break;
+                case 'spombe_asm294v2':
+                    defaultRegion = 'III:1-1000000';
+                    break;
+                case 'ssalar_20':
+                    defaultRegion = 'NC_027320.1:55000001-56000000';
+                    break;
+                case 'ssalar_icsasgv2':
+                    defaultRegion = 'NC_027320.1:55000001-56000000';
+                    break;
+                case 'sscrofa_102':
+                    defaultRegion = 'chr15:155000001-156000000';
+                    break;
+                case 'taestivum_iwgscrefseqv10':
+                    defaultRegion = '6A:613000001-614000000';
+                    break;
+                case 'tcacao_20110822':
+                    defaultRegion = '10:11000001-12000000';
+                    break;
+                case 'tcastaneum_tcas52':
+                    defaultRegion = 'NC_003081.2:1-1000000';
+                    break;
+                case 'testing':
+                    defaultRegion = '12:13000001-14000000';
+                    break;
+                case 'tguttata_324':
+                    defaultRegion = '1A:24000001-25000000';
+                    break;
+                case 'vpacos_202':
+                    defaultRegion = 'KB632649.1:1-1000000';
+                    break;
+                case 'vpacos_vicpac31':
+                    defaultRegion = 'ABRR03077387.1:1-1000000';
+                    break;
+                case 'vunguiculata_asm411807v1':
+                    defaultRegion = 'Vu11(old9):34000001-35000000';
+                    break;
+                case 'zmays_agpv2':
+                    defaultRegion = 'chr10:147000001-148000000';
+                    break;
+                case 'zmays_agpv3':
+                    defaultRegion = '9:151000001-152000000';
+                    break;
                 default:
                     defaultRegion = '1:3000000-3100000';
             }
