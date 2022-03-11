@@ -410,7 +410,8 @@ module.exports = function (grunt) {
             install: {
                 options: {
                     targetDir: './tmp',
-                    install: true
+                    install: true,
+                    copy: true
                 }
             }
         }
