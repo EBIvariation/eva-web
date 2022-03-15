@@ -96,7 +96,7 @@ EvaRsRelease.prototype = {
                     '</ul>' +
                     '<h4>Statistics by assembly</h4>' +
                     '<ul class="accordion" data-accordion data-allow-all-closed="true" data-multi-expand="true">' +
-                        '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
+                        '<li id="accordion-item-new-data-by-asm" class="accordion-item" data-accordion-item>' +
                             '<a href="#" class="accordion-title">Variants newly clustered in release ' + releaseVersion + '</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
@@ -104,7 +104,7 @@ EvaRsRelease.prototype = {
 
         content +=          '</div>' +
                         '</li>' +
-                        '<li id="accordion-item-data" class="accordion-item" data-accordion-item>' +
+                        '<li id="accordion-item-data-by-asm" class="accordion-item" data-accordion-item>' +
                             '<a href="#" class="accordion-title">All data</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
