@@ -130,10 +130,10 @@ function evaCheckSummaryTable(driver){
             assert(text).matches(regExp);
         });
         driver.findElement(By.id("ena_link")).getAttribute('href').then(function(text){
-            assert(text).matches(/http:\/\/www.ebi.ac.uk\/ena\/data\/view\/PRJ[A-Z0-9]+$/);
+            assert(text).matches(/https:\/\/www.ebi.ac.uk\/ena\/browser\/view\/PRJ[A-Z0-9]+$/);
         });
         driver.findElement(By.id("eva_link")).getAttribute('href').then(function(text){
-            assert(text).matches(/ftp:\/\/ftp.ebi.ac.uk\/pub\/databases\/eva\/PRJ[A-Z0-9]+$/);
+            assert(text).matches(/https:\/\/ftp.ebi.ac.uk\/pub\/databases\/eva\/PRJ[A-Z0-9]+$/);
         },function(err) {});
     });
 
