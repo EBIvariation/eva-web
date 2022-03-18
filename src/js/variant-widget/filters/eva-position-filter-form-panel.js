@@ -149,6 +149,7 @@ EvaPositionFilterFormPanel.prototype = {
         });
 
         this.panel = Ext.create('Ext.form.Panel', {
+            id: this.id,
             bodyPadding: "5",
             margin: "0 0 5 0",
             buttonAlign: 'center',
