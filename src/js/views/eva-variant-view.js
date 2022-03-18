@@ -198,7 +198,7 @@ EvaVariantView.prototype = {
     // For a given RS ID, get associated SS ID
     getAssociatedSSIDsFromAccessioningService: function(accessionCategory, accessionID) {
         var response = this.getAccessioningWebServiceResponse(accessionCategory, accessionID.substring(2) + "/submitted");
-        return response?response:[];
+        return response ? _.sortBy(response, 'accession') : [];
     },
 
     // Calculate end coordinate for a variant given start, ref and alt
