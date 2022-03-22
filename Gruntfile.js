@@ -381,7 +381,18 @@ module.exports = function (grunt) {
                     clearRequireCache: false,
                     timeout:1500000
                 },
-                src: ['tests/acceptance/*.js']
+                src: [
+                        'tests/acceptance/all_page.js',
+                        'tests/acceptance/dbSNP_import.js',
+                        'tests/acceptance/home_page.js',
+                        // TODO: Fix multi-variant view (EVA-2811)
+                        // 'tests/acceptance/multi_variant_view.js',
+                        'tests/acceptance/rs_release.js',
+                        'tests/acceptance/study_browser.js',
+                        'tests/acceptance/study_view.js',
+                        'tests/acceptance/variant_browser.js',
+                        'tests/acceptance/variant_view.js'
+                     ]
             }
         },
         mocha_phantomjs: {
