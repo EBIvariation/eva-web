@@ -1,4 +1,4 @@
-# European Variation Archive (EVA) Web Front-end [![Build Status](https://travis-ci.com/EBIvariation/eva-web.svg?branch=master)](https://travis-ci.com/EBIvariation/eva-web)
+# European Variation Archive (EVA) Web Front-end [![Build Status](https://github.com/EBIvariation/eva-web/actions/workflows/tests.yml/badge.svg)](https://github.com/EBIvariation/eva-web/actions)
 
 
 Web front-end for the European Variation Archive (EVA), developed using technologies such as JavaScript and HTML5.

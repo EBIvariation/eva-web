@@ -1,0 +1,35 @@
+name: Run tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        chrome-version: [99.0.4844.82-1]
+        node-version: [10.19.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Chrome and Xvfb
+        run: |
+          wget -O chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${{ matrix.chrome-version }}_amd64.deb
+          sudo apt update
+          sudo apt install -y chrome.deb && rm chrome.deb
+          sudo apt install xvfb && Xvfb :99 & export DISPLAY=:99
+      - name: Install dependencies
+        run: | 
+          cd lib/jsorolla
+          npm install
+          cd ../..
+          npm install
+      - name: Run tests
+        run: grunt --env=staging
