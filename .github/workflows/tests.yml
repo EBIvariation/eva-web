@@ -16,15 +16,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Update submodules
+        run: git submodule update --init
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install Chrome and Xvfb
+      - name: Install Chrome
         run: |
-          wget -O chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${{ matrix.chrome-version }}_amd64.deb
+          wget -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${{ matrix.chrome-version }}_amd64.deb
           sudo apt update
-          sudo apt install -y chrome.deb && rm chrome.deb
-          sudo apt install xvfb && Xvfb :99 & export DISPLAY=:99
+          sudo apt install -y /tmp/chrome.deb
       - name: Install dependencies
         run: | 
           cd lib/jsorolla
@@ -32,4 +33,7 @@ jobs:
           cd ../..
           npm install
       - name: Run tests
-        run: grunt --env=staging
+        run: |
+          npm install -g grunt-cli
+          sudo apt install xvfb && Xvfb :99 & export DISPLAY=:99
+          grunt --env=staging
