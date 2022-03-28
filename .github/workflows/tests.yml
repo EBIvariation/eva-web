@@ -2,7 +2,7 @@ name: Run tests
 
 on:
   push:
-    branches: [ master, EVA-2809 ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
   workflow_dispatch:
