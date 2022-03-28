@@ -558,7 +558,7 @@ function variantFilterByMAF(driver){
 
 function checkAnnotationNotification(driver){
     safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
-    safeClick(driver, driver.findElement(By.xpath("//li[text()='Mouse / GRCm38.p3']")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Cow / Bos_taurus_UMD_3.1']")));
     waitForVariantsToLoad(driver);
     safeClick(driver, driver.findElement(By.id("annotVersion-trigger-picker")));
     safeClick(driver, driver.findElement(By.xpath("//li[text()='VEP version 82 - Cache version 82']")));
