@@ -10,7 +10,7 @@
     "bower": "1.8.13",
     "chai": "3.5.0",
     "chai-webdriver": "1.2.3",
-    "chromedriver": "96.0.0",
+    "chromedriver": "99.0.0",
     "geckodriver": "3.0.1",
     "grunt": "1.4.1",
     "grunt-bower-task": "0.6.1",
