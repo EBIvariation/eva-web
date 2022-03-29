@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 
+const { until } = require('selenium-webdriver');
 var config = require('./config.js');
 
 config.loadModules();
@@ -89,6 +90,7 @@ function sgvStudySearchBySpeciesType(driver){
     config.reset(driver);
     driver.findElement(By.xpath("//span[contains(text(),'Horse')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//span[contains(text(),'Human')]//..//..//div[@role='button']")).click();
+    driver.executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-collapse-top']")).click();
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Exome Sequencing')]//..//..//div[@role='button']")).click();
     driver.findElement(By.xpath("//div[contains(@id,'GenomeSpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();

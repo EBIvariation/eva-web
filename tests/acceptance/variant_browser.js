@@ -177,8 +177,8 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
 });
 
 function variantSearchById(driver, rs){
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Variant ID']")));
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys(rs);
     clickSubmit(driver);
@@ -192,8 +192,8 @@ function variantSearchById(driver, rs){
 }
 
 function variantSearchByMutlipleIds(driver, rsList){
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Variant ID']")));
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys(rsList.join(","));
     clickSubmit(driver);
@@ -215,8 +215,8 @@ function variantSearchByMutlipleIds(driver, rsList){
 
 function variantSearchBySpeciesandChrLocation(driver){
     variantBrowserResetAndWait(driver);
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Goat / CHIR_1.0']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Goat / CHIR_1.0']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
@@ -237,8 +237,8 @@ function variantSearchBySpeciesandChrLocation(driver){
 
 function checkdbSNPLink(driver){
     variantBrowserResetAndWait(driver);
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Variant ID']")));
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys("rs68485566");
     clickSubmit(driver);
@@ -251,8 +251,8 @@ function checkdbSNPLink(driver){
         });
     });
 
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Chromosomal Location']")));
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1:3008755-3008755');
     clickSubmit(driver);
@@ -265,10 +265,10 @@ function checkdbSNPLink(driver){
         });
     });
 
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Chromosomal Location']")).click();
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Goat / CHIR_1.0']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Chromosomal Location']")));
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Goat / CHIR_1.0']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
@@ -284,8 +284,8 @@ function checkdbSNPLink(driver){
 }
 
 function checkEnsemblLink(driver){
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Variant ID']")));
     driver.findElement(By.name("snp")).clear();
     driver.findElement(By.name("snp")).sendKeys("rs68485566");
     clickSubmit(driver);
@@ -301,9 +301,9 @@ function checkEnsemblLink(driver){
 
 function positionFilterBoxValidation(driver){
     variantBrowserResetAndWait(driver);
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
-    waitForEmptyVariantsToLoad(driver);
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")));
+    waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('X:10000000-11000000');
     clickSubmit(driver);
@@ -313,8 +313,8 @@ function positionFilterBoxValidation(driver){
             assert(text).equalTo('X');
         });
     });
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('1!~13:12233-12234');
@@ -356,7 +356,7 @@ function assertAlertWindowShown(driver, message) {
     driver.wait(until.elementLocated(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")), config.wait()).then(function (text) {
         driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//div[contains(@class,'x-component x-window-text x-box-item x-component-default')]")).getText().then(function (text) {
             assert(text).equalTo(message);
-            driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")).click();
+            safeClick(driver, driver.findElement(By.xpath("//div[contains(@class,'x-window x-message-box')]//span[contains(@class,'x-btn-inner x-btn-inner-default-small')]")));
         });
     });
 }
@@ -371,8 +371,8 @@ function emptyRegionFilter(driver) {
 
 function emptyVariantIDFilter(driver) {
     // 'Variant ID' filter
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Variant ID']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Variant ID']")));
     driver.findElement(By.name("snp")).clear();
     clickSubmit(driver);
     assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
@@ -381,8 +381,8 @@ function emptyVariantIDFilter(driver) {
 
 function emptyGeneFilter(driver) {
     // 'Ensembl Gene Symbol/Accession' filter
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")));
     driver.findElement(By.name("gene")).clear();
     clickSubmit(driver);
     assertAlertWindowShown(driver, 'Please request a variant ID, genomic location or gene name/symbol');
@@ -391,11 +391,11 @@ function emptyGeneFilter(driver) {
 
 function variantSearchByGene(driver){
     variantBrowserResetAndWait(driver);
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")));
     driver.findElement(By.name("gene")).clear();
     driver.findElement(By.name("gene")).sendKeys("BRCA2");
     clickSubmit(driver);
@@ -413,10 +413,10 @@ function variantSearchByGene(driver){
 }
 
 function checkConsequeceTypeTree(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")).click();
-    waitForEmptyVariantsToLoad(driver);
-    driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'treepanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")));
+    waitForVariantsToLoad(driver);
+    safeClick(driver, driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'treepanel')]//div[@class='x-tool-img x-tool-expand-bottom']")));
     driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Transcript Variant')]")).getText().then(function(text){
         assert(text).equalTo("Transcript Variant");
         driver.findElement(By.xpath("//div[contains(@class,'x-tree-view')]//span[contains(text(),'Transcript Variant')]//..//..//..//..//td")).getAttribute('class').then(function(text){
@@ -469,20 +469,20 @@ function checkConsequeceTypeTree(driver){
         assert(text).equalTo("upstream_gene_variant");
     });
 
-    driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'treepanel')]//div[@class='x-tool-img x-tool-collapse-top']")).click();
+    safeClick(driver, driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'treepanel')]//div[@class='x-tool-img x-tool-collapse-top']")));
 
     return driver;
 }
 
 function variantFilterByPolyphenSift(driver){
 
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32884771-32884832');
 
-    driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'ProteinSubstitutionScoreFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
+    safeClick(driver, driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'ProteinSubstitutionScoreFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")));
     driver.findElement(By.name("polyphen")).clear();
     driver.findElement(By.name("polyphen")).sendKeys("0.9");
     driver.findElement(By.name("sift")).clear();
@@ -505,21 +505,25 @@ function variantFilterByPolyphenSift(driver){
 }
 
 function variantFilterByMAF(driver){
-    driver.findElement(By.id("selectFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")).click();
+    safeClick(driver, driver.findElement(By.id("selectFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Ensembl Gene Symbol/Accession']")));
     driver.findElement(By.name("gene")).clear();
     driver.findElement(By.name("gene")).sendKeys("BRCA2");
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
-    driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'PopulationFrequencyFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")).click();
-    driver.findElement(By.id("mafOpFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='<']")).click();
+    safeClick(driver, driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'SpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-collapse-top']")));
+    safeClick(driver, driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'PositionFilterFormPanel')]//div[@class='x-tool-img x-tool-collapse-top']")));
+    safeClick(driver, driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'PopulationFrequencyFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")));
+    safeClick(driver, driver.findElement(By.id("mafOpFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='<']")));
     driver.findElement(By.name("maf")).clear();
     driver.findElement(By.name("maf")).sendKeys("0.3");
+    safeClick(driver, driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'SpeciesFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")));
+    safeClick(driver, driver.findElement(By.xpath("//div[@class='variant-browser-option-div form-panel-variant-filter']//div[contains(@id,'PositionFilterFormPanel')]//div[@class='x-tool-img x-tool-expand-bottom']")));
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
-    driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
+    safeClick(driver, driver.findElement(By.xpath("//span[text()='Population Statistics']")));
     driver.wait(until.elementLocated(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div//a[text()]")), config.wait()).then(function(text) {
         driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
             for (var i = 0; i < rows.length; i++){
@@ -553,10 +557,10 @@ function variantFilterByMAF(driver){
 }
 
 function checkAnnotationNotification(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    safeClick(driver, driver.findElement(By.xpath("//li[text()='Mouse / GRCm38.p3']")));
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Cow / Bos_taurus_UMD_3.1']")));
     waitForVariantsToLoad(driver);
-    driver.findElement(By.id("annotVersion-trigger-picker")).click();
+    safeClick(driver, driver.findElement(By.id("annotVersion-trigger-picker")));
     safeClick(driver, driver.findElement(By.xpath("//li[text()='VEP version 82 - Cache version 82']")));
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
@@ -569,8 +573,8 @@ function checkAnnotationNotification(driver){
 }
 
 function checkGeneIdEnsemblLink(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
@@ -589,8 +593,8 @@ function checkGeneIdEnsemblLink(driver){
 }
 
 function checkGeneSymbolEnsemblLink(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
@@ -609,8 +613,8 @@ function checkGeneSymbolEnsemblLink(driver){
 }
 
 function checkTranscriptIdEnsemblLink(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
@@ -629,8 +633,8 @@ function checkTranscriptIdEnsemblLink(driver){
 }
 
 function variantAnnotationTab(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver,driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
@@ -642,20 +646,20 @@ function variantAnnotationTab(driver){
     return driver;
 }
 function variantFilesTab(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver,driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
-    driver.findElement(By.xpath("//span[text()='Files']")).click();
+    safeClick(driver, driver.findElement(By.xpath("//span[text()='Files']")));
     variantBrowser.filesTab(driver);
     return driver;
 }
 function variantGenotypesTab(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver,driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('2:48000000-49000000');
@@ -670,8 +674,8 @@ function variantGenotypesTab(driver){
 }
 
 function variantGenotypesTabWithHaploidGenotypes(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Pig / Sscrofa11.1']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Pig / Sscrofa11.1']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('X:9610000-9611000');
@@ -686,22 +690,22 @@ function variantGenotypesTabWithHaploidGenotypes(driver){
 }
 
 function variantPopulationTab(driver){
-    driver.findElement(By.id("speciesFilter-trigger-picker")).click();
-    driver.findElement(By.xpath("//li[text()='Human / GRCh37']")).click();
+    safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
+    safeClick(driver, driver.findElement(By.xpath("//li[text()='Human / GRCh37']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
     driver.findElement(By.name("region")).sendKeys('13:32889611-32973805');
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
-    driver.findElement(By.xpath("//span[text()='Population Statistics']")).click();
+    safeClick(driver, driver.findElement(By.xpath("//span[text()='Population Statistics']")));
     variantBrowser.populationTab(driver);
     return driver;
 }
 
 function variantBrowserResetAndWait(driver) {
     driver.executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
-    driver.findElement(By.xpath("//li//a[text()='Variant Browser']")).click();
-    driver.findElement(By.xpath("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click();
+    safeClick(driver, driver.findElement(By.xpath("//li//a[text()='Variant Browser']")));
+    safeClick(driver, driver.findElement(By.xpath("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")));
     waitForVariantsToLoad(driver);
 }
 

@@ -48,10 +48,16 @@ test.describe('RS Release ('+config.browser()+')', function() {
 });
 
 function expandAccordionsToShowTables() {
-    driver.findElement(By.id("accordion-item-data")).click();
-    driver.wait(until.elementLocated(By.id("rs-release-table")), config.wait()).then(function() {
-        driver.findElement(By.id("accordion-item-new-data")).click();
-        driver.wait(until.elementLocated(By.id("rs-release-table-new-data")), config.wait());
+    driver.findElement(By.id("accordion-item-data-by-asm")).click();
+    driver.wait(until.elementLocated(By.id("rs-release-table-by-assembly-new-data")), config.wait()).then(function() {
+        driver.findElement(By.id("accordion-item-new-data-by-asm")).click();
+        driver.wait(until.elementLocated(By.id("rs-release-table-by-assembly")), config.wait()).then(function(){
+            driver.findElement(By.id("accordion-item-data")).click();
+            driver.wait(until.elementLocated(By.id("rs-release-table")), config.wait()).then(function(){
+                driver.findElement(By.id("accordion-item-new-data")).click();
+                driver.wait(until.elementLocated(By.id("rs-release-table-new-data")), config.wait());
+            })
+        })
     });
 }
 

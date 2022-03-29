@@ -84,11 +84,13 @@ test.describe('Variant View - rs found in both EVA and Accessioning', function()
     variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults, variantView.checkSection);
 
-    expectedResults = [{"ID": "ss5227751341", "Submitter Handle": "PRJEB22988", "Chromosome/Contig accession": "CM001952.2", "Chromosome": "11",
-                        "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "6 July 2019"},
-                        {"ID": "ss1991442915", "Submitter Handle": "PRJEB7923", "Chromosome/Contig accession": "CM001952.2", "Chromosome": "11",
-                        "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "5 May 2016"}
-                      ];
+    expectedResults = [ 
+        {"ID": "ss1991442915", "Submitter Handle": "PRJEB7923", "Chromosome/Contig accession": "CM001952.2", "Chromosome": "11", 
+        "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "5 May 2016"},
+        {"ID": "ss5227751341", "Submitter Handle": "PRJEB22988", "Chromosome/Contig accession": "CM001952.2", "Chromosome": "11",
+        "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "6 July 2019"},
+        {"ID": "ss7406861678", "Submitter Handle": "PRJEB22989", "Chromosome/Contig accession": "CM001952.2", "Chromosome": "11",
+        "Start": "50921862", "End": "50921862", "Reference": "C", "Alternate": "G", "Created Date": "17 July 2021"}];
     variantView.runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
                 "table", "submitted-variant-summary", expectedResults, variantView.checkSection);
 });
@@ -149,7 +151,7 @@ test.describe('Variant View - ss by position', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "Human", "Assembly": "GCA_000001405.14 (GRCh37.p13)", "Submitter Handle": "", "Chromosome/Contig accession": "",
+    var expectedResults = [{"Organism": "Human", "Assembly": "", "Submitter Handle": "", "Chromosome/Contig accession": "",
                             "Chromosome":"1", "Start": "3000017", "End": "3000017", "Reference": "C", "Alternate": "T", "ID":"ss1289423512",
                             "Type": "SNV", "Allele frequencies / genotypes available?": "Yes",
                             "Alleles match reference assembly?": "", "Passed allele checks?": "",
