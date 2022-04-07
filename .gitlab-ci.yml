@@ -23,9 +23,9 @@ test:
     - wget -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_99.0.4844.82-1_amd64.deb
     - apt install -y /tmp/chrome.deb
     - cd lib/jsorolla && npm install && cd ../.. && npm install
+  script:
     - npm install -g grunt-cli
     - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
-  script:
     - grunt --env=staging
   environment:
     name: test-env
