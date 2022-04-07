@@ -1,0 +1,35 @@
+stages:
+  - test
+  - deploy
+
+variables:
+  CHROME_VERSION: 99.0.4844.82-1
+  NVM_VERSION: 0.39.1
+  NODE_VERSION: 0.9.4
+
+test:
+  stage: test
+  image: ubuntu:20.04
+  before_script:
+    - apt-get update
+    - apt-get upgrade -y
+    - apt-get install -y wget
+    - apt-get install -y git
+    - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
+    - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+    - source ~/.bashrc
+    - nvm install $NODE_VERSION
+    - wget -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_$CHROME_VERSION_amd64.deb
+    - apt install -y /tmp/chrome.deb
+    - git submodule update --init
+    - cd lib/jsorolla && npm install && cd ../.. && npm install
+    - npm install -g grunt-cli
+  script:
+    - grunt --env=staging
+  environment:
+    name: test-env
+  only:
+    - external_pull_requests
+    - tags
+    - master
+    - test_deployment
