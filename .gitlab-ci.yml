@@ -5,7 +5,7 @@ stages:
 variables:
   CHROME_VERSION: 99.0.4844.82-1
   NVM_VERSION: 0.39.1
-  NODE_VERSION: 0.9.4
+  NODE_VERSION: 10.19.0
 
 test:
   stage: test
@@ -19,7 +19,6 @@ test:
     - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
     - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     - source ~/.bashrc
-    - command -v nvm
     - nvm install $NODE_VERSION
     - wget -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_$CHROME_VERSION_amd64.deb
     - apt install -y /tmp/chrome.deb
