@@ -3,7 +3,7 @@ stages:
   - deploy
 
 variables:
-  CHROME_VERSION: 99.0.4844.82-1
+  CHROME_VERSION: '99.0.4844.82-1'
   NVM_VERSION: 0.39.1
   NODE_VERSION: 10.19.0
 
