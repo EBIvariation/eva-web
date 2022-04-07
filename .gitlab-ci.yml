@@ -3,7 +3,6 @@ stages:
   - deploy
 
 variables:
-  CHROME_VERSION: 99.0.4844.82-1
   NVM_VERSION: 0.39.1
   NODE_VERSION: 10.19.0
 
@@ -16,7 +15,6 @@ test:
     - apt-get install -y tzdata
     - apt-get install -y wget
     - apt-get install -y git
-    - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
     - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
     - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     - source ~/.bashrc
@@ -26,6 +24,7 @@ test:
     - git submodule update --init
     - cd lib/jsorolla && npm install && cd ../.. && npm install
     - npm install -g grunt-cli
+    - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
   script:
     - grunt --env=staging
   environment:
