@@ -17,7 +17,7 @@ test:
     - apt-get install -y git
     - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
     - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
-    - source ~/.bash_profile
+    - export NVM_DIR="$HOME/.nvm && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
     - nvm install $NODE_VERSION
     - wget -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_$CHROME_VERSION_amd64.deb
     - apt install -y /tmp/chrome.deb
