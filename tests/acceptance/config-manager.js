@@ -30,7 +30,6 @@ module.exports = {
         require('geckodriver');
         let chrome_options = new chrome.Options();
         chrome_options.addArguments("--no-sandbox")
-        chrome_options.addArguments("--headless")
         driver = new webdriver.Builder()
             .forBrowser(driverName)
             .withCapabilities(chrome_options.toCapabilities())
