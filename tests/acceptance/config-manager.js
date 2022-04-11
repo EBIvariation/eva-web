@@ -28,8 +28,12 @@ module.exports = {
     initDriver: function (driverName) {
         require('chromedriver');
         require('geckodriver');
+        let chrome_options = new chrome.Options();
+        chrome_options.addArguments("--no-sandbox")
+        chrome_options.addArguments("--headless")
         driver = new webdriver.Builder()
             .forBrowser(driverName)
+            .withCapabilities(chrome_options.toCapabilities())
             .build();
         driver.manage().window().maximize();
         driver.get(baseURL);
@@ -53,6 +57,7 @@ module.exports = {
     loadModules: function(){
      return test = require('selenium-webdriver/testing'),
             webdriver = require('selenium-webdriver'),
+            chrome = require('selenium-webdriver/chrome'),
             By = require('selenium-webdriver').By,
             until = require('selenium-webdriver').until,
             assert = require('selenium-webdriver/testing/assert'),
