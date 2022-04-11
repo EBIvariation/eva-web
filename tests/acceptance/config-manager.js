@@ -30,6 +30,10 @@ module.exports = {
         require('geckodriver');
         let chrome_options = new chrome.Options();
         chrome_options.addArguments("--no-sandbox")
+        chrome_options.addArguments("--headless")
+        chrome_options.addArguments("--disable-dev-shm-usage")
+        chrome_options.addArguments("--disable-gpu")
+        chrome_options.addArguments("--window-size=1920,1080")
         driver = new webdriver.Builder()
             .forBrowser(driverName)
             .withCapabilities(chrome_options.toCapabilities())
