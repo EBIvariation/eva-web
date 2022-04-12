@@ -22,7 +22,7 @@ module.exports = function (grunt) {
             }
         },
         build: {
-            dir: 'build/<%= meta.version.eva %>-' + envTarget
+            dir: 'build/eva-' + envTarget
         },
         serve: {
             options: {
@@ -458,11 +458,11 @@ module.exports = function (grunt) {
     //selenium with mocha
     grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
 
-    // unit tests wirh mocha_phantomjs to run from command line
+    // unit tests with mocha_phantomjs to run from command line
     grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
 
     //run test
-    grunt.registerTask('runAcceptanceTest', ['exec:chrome']);
+    grunt.registerTask('runAcceptanceTest', ['start-server', 'exec:chrome']);
 
     //bower install
     grunt.registerTask('bower-install', ['bower:install']);
@@ -488,8 +488,6 @@ module.exports = function (grunt) {
         'htmlbuild:eva',
         'replace-html',
         'minifyHtml',
-        'imagemin',
-        'unitTest',
-        'runAcceptanceTest'
+        'imagemin'
     ]);
 };

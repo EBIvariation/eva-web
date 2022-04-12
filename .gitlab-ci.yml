@@ -26,11 +26,57 @@ test:
     - npm install -g grunt-cli
     - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
   script:
-    - grunt --env=staging
+    - grunt unitTest
+    - grunt runAcceptanceTest
   environment:
     name: test-env
   only:
-    - external_pull_requests
+    - master
     - tags
+    - test_deployment
+
+# Not executed, parent job definition
+.deploy-website:
+  stage: deploy
+  image: ubuntu:20.04
+  environment:
+    name: $ENVIRONMENT_NAME
+  before_script:
+    - apt-get install -y zip
+    - apt-get install -y rsync
+  script:
+    - grunt --env=$ENVIRONMENT_NAME
+    - zip -r $ENVIRONMENT_NAME.zip build/eva-$ENVIRONMENT_NAME/*.*
+    # Start ssh-agent and set identity then compress and copy the file to cluster and finally to TOMCAT
+    # See https://docs.gitlab.com/ee/ci/ssh_keys/
+    - apt-get update
+    - apt-get -y install openssh-client
+    - eval "$(ssh-agent)"
+    - echo "$EVA_ETL_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ENVIRONMENT_NAME.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE}:${EVA_SOFTWARE_PATH}/eva-web/
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE} "cd ${EVA_SOFTWARE_PATH}/eva-web && rm -rf $ENVIRONMENT_NAME && unzip $ENVIRONMENT_NAME.zip"
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE} "become -- var_adm && rsync -av $ENVIRONMENT_NAME/* /nfs/public/rw/variation/projects/eva/prod/www/"
+  dependencies:
+    - test
+
+deploy-website-internal:
+  extends: .deploy-website
+  variables:
+    ENVIRONMENT_NAME: dev
+  only:
+    - master
+
+deploy-website-development:
+  extends: .deploy-website
+  variables:
+    ENVIRONMENT_NAME: staging
+  only:
     - master
     - test_deployment
+
+deploy-website-production:
+  extends: .deploy-website
+  variables:
+    ENVIRONMENT_NAME: prod
+  only:
+    - tags

@@ -78,13 +78,13 @@ After successful build the files are then copied to a folder of the form _eva-we
 
 ## Testing
 
-Currently we build and run tests using [Travis CI](https://travis-ci.org/EBIvariation/eva-web/branches).
+Currently we build and run tests using [Gitlab CI](https://gitlab.ebi.ac.uk/EBIvariation/eva-web/-/pipelines).
 
 ### Test design
 
-We use Mocha as test framework and Chai as test assertion library. The tests are run as Grunt tasks. We use a specific version of Firefox to run those tests in Travis CI (look at .travis.yml to see which specific version). There are acceptance tests and unit tests.
+We use Mocha as test framework and Chai as test assertion library. The tests are run as Grunt tasks. We use a specific version of Chrome to run those tests in Gitlab CI (look at .gitlab-ci.yml to see which specific version). There are acceptance tests and unit tests.
 
 ### When a test fails
 
-As the whole test suite takes some minutes to complete, you can run only some tests adding a property `grep: "<substring of test description>"` (e.g. `grep: "Variant Browser"`) in gruntfile.js in the `mochaTest.acceptanceTest.options` object, and run as `env BROWSER=firefox grunt --env=staging mochaTest:acceptanceTest`.
+As the whole test suite takes some minutes to complete, you can run only some tests adding a property `grep: "<substring of test description>"` (e.g. `grep: "Variant Browser"`) in gruntfile.js in the `mochaTest.acceptanceTest.options` object, and run as `env BROWSER=chrome grunt --env=staging mochaTest:acceptanceTest`.
 
