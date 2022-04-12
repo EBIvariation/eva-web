@@ -462,7 +462,7 @@ module.exports = function (grunt) {
     grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
 
     //run test
-    grunt.registerTask('runAcceptanceTest', ['start-server', 'exec:chrome']);
+    grunt.registerTask('runAcceptanceTest', ['exec:chrome']);
 
     //bower install
     grunt.registerTask('bower-install', ['bower:install']);
@@ -472,6 +472,25 @@ module.exports = function (grunt) {
 
     //start http server
     grunt.registerTask('start-server', ['exec:startServer']);
+
+    grunt.registerTask('run-all-tests', [
+        'start-server',
+        'config:' + envTarget,
+        'replace-config',
+        'bower-install',
+        'hub:genomeViewer',
+        'clean:eva',
+        'concat',
+        'uglify',
+        'copy:eva',
+        'cssmin',
+        'htmlbuild:eva',
+        'replace-html',
+        'minifyHtml',
+        'imagemin',
+        'unitTest',
+        'runAcceptanceTest'
+    ]);
 
     //default build website.
     grunt.registerTask('default', [

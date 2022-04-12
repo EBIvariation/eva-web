@@ -26,8 +26,7 @@ test:
     - npm install -g grunt-cli
     - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
   script:
-    - grunt unitTest
-    - grunt runAcceptanceTest
+    - grunt run-all-tests
   environment:
     name: test-env
   only:
