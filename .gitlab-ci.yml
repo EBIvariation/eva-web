@@ -44,6 +44,7 @@ test:
     - apt-get install -y zip
     - apt-get install -y rsync
   script:
+    - npm install -g grunt-cli
     - grunt --env=$ENVIRONMENT_NAME
     - cd build && zip -r $ENVIRONMENT_NAME.zip .
     # Start ssh-agent and set identity then compress and copy the file to cluster and finally to TOMCAT
