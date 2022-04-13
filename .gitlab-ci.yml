@@ -41,10 +41,20 @@ test:
     name: $ENVIRONMENT_NAME
   before_script:
     - apt-get update
+    - apt-get upgrade -y
+    - apt-get install -y tzdata
+    - apt-get install -y wget
+    - apt-get install -y git
     - apt-get install -y zip
     - apt-get install -y rsync
-  script:
+    - git submodule update --init
+    - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+    - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    - source ~/.bashrc
+    - nvm install $NODE_VERSION
+    - cd lib/jsorolla && npm install && cd ../.. && npm install
     - npm install -g grunt-cli
+  script:
     - grunt --env=$ENVIRONMENT_NAME
     - cd build && zip -r $ENVIRONMENT_NAME.zip .
     # Start ssh-agent and set identity then compress and copy the file to cluster and finally to TOMCAT
