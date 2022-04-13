@@ -32,7 +32,6 @@ test:
   only:
     - master
     - tags
-    - test_deployment
 
 # Not executed, parent job definition
 .deploy-website:
@@ -41,20 +40,20 @@ test:
   environment:
     name: $ENVIRONMENT_NAME
   before_script:
+    - apt-get update
     - apt-get install -y zip
     - apt-get install -y rsync
   script:
     - grunt --env=$ENVIRONMENT_NAME
-    - zip -r $ENVIRONMENT_NAME.zip build/eva-$ENVIRONMENT_NAME/*.*
+    - cd build && zip -r $ENVIRONMENT_NAME.zip .
     # Start ssh-agent and set identity then compress and copy the file to cluster and finally to TOMCAT
     # See https://docs.gitlab.com/ee/ci/ssh_keys/
-    - apt-get update
     - apt-get -y install openssh-client
     - eval "$(ssh-agent)"
     - echo "$EVA_ETL_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $ENVIRONMENT_NAME.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE}:${EVA_SOFTWARE_PATH}/eva-web/
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE} "cd ${EVA_SOFTWARE_PATH}/eva-web && rm -rf $ENVIRONMENT_NAME && unzip $ENVIRONMENT_NAME.zip"
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE} "become -- var_adm && rsync -av $ENVIRONMENT_NAME/* /nfs/public/rw/variation/projects/eva/prod/www/"
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE} "cd ${EVA_SOFTWARE_PATH}/eva-web && rm -rf eva-$ENVIRONMENT_NAME && unzip $ENVIRONMENT_NAME.zip"
+    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE} "become -- $WEBSITE_DEPLOY_USER && rsync -av eva-$ENVIRONMENT_NAME/* /nfs/public/rw/variation/projects/eva/$WEBSITE_DEPLOY_ENVIRONMENT/www/"
   dependencies:
     - test
 
@@ -62,6 +61,7 @@ deploy-website-internal:
   extends: .deploy-website
   variables:
     ENVIRONMENT_NAME: dev
+    WEBSITE_DEPLOY_ENVIRONMENT: dev
   only:
     - master
 
@@ -69,6 +69,7 @@ deploy-website-development:
   extends: .deploy-website
   variables:
     ENVIRONMENT_NAME: staging
+    WEBSITE_DEPLOY_ENVIRONMENT: stage
   only:
     - master
     - test_deployment
@@ -77,5 +78,6 @@ deploy-website-production:
   extends: .deploy-website
   variables:
     ENVIRONMENT_NAME: prod
+    WEBSITE_DEPLOY_ENVIRONMENT: prod
   only:
     - tags

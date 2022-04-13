@@ -22,7 +22,7 @@ module.exports = function (grunt) {
             }
         },
         build: {
-            dir: 'build/<%= meta.version.eva %>-' + envTarget
+            dir: 'build/eva-' + envTarget
         },
         serve: {
             options: {
