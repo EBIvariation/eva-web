@@ -31,6 +31,7 @@ test:
   only:
     - master
     - tags
+    - test_deployment
 
 # Not executed, parent job definition
 .deploy-website:
