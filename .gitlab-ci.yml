@@ -32,7 +32,6 @@ test:
   only:
     - master
     - tags
-    - test_deployment
 
 # Not executed, parent job definition
 .deploy-website:
@@ -58,18 +57,15 @@ test:
   script:
     - grunt --env=$ENVIRONMENT_NAME
     - ARTIFACT_NAME=$(basename $(ls -d build/*$ENVIRONMENT_NAME))
-    - cd build && zip -r ${ARTIFACT_NAME}.zip ${ARTIFACT_NAME}
     # Start ssh-agent and set identity then compress and copy the file to cluster and then finally to website mount point
     # See https://docs.gitlab.com/ee/ci/ssh_keys/
     - apt-get -y install openssh-client
     - eval "$(ssh-agent)"
-    - echo "$EVA_ETL_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${ARTIFACT_NAME}.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE}:${EVA_SOFTWARE_PATH}/eva-web/
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE} "cd ${EVA_SOFTWARE_PATH}/eva-web && rm -rf ${ARTIFACT_NAME} && unzip -o ${ARTIFACT_NAME}.zip"
     - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${WEBSITE_DEPLOY_USER}@${CLUSTER_LOGIN_NODE} "cd ${EVA_SOFTWARE_PATH}/eva-web && rsync -av ${ARTIFACT_NAME}/* /nfs/public/rw/variation/projects/eva/$WEBSITE_DEPLOY_ENVIRONMENT/www/EVA-1880"
-  dependencies:
-    - test
+    - rsync -av build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${CLUSTER_LOGIN_NODE}:/nfs/public/rw/variation/projects/eva/$WEBSITE_DEPLOY_ENVIRONMENT/www/EVA-1880
+    - echo "$EVA_ETL_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - cd build && zip -q -r ${ARTIFACT_NAME}.zip ${ARTIFACT_NAME}
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${ARTIFACT_NAME}.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE}:${EVA_SOFTWARE_PATH}/eva-web/
 
 deploy-website-internal:
   extends: .deploy-website
