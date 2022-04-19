@@ -31,7 +31,6 @@ test:
   only:
     - master
     - tags
-    - test_deployment
 
 # Not executed, parent job definition
 .deploy-website:
@@ -83,7 +82,6 @@ deploy-website-development:
     WEBSITE_DEPLOY_ENVIRONMENT: stage
   only:
     - master
-    - test_deployment
 
 deploy-website-production:
   extends: .deploy-website
