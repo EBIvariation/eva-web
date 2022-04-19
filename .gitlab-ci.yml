@@ -18,7 +18,6 @@ test:
     - git submodule update --init
     - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
     - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    - source ~/.bashrc
     - nvm install $NODE_VERSION
     - wget -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_99.0.4844.82-1_amd64.deb
     - apt-get install -y /tmp/chrome.deb
@@ -50,7 +49,6 @@ test:
     - git submodule update --init
     - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
     - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    - source ~/.bashrc
     - nvm install $NODE_VERSION
     - cd lib/jsorolla && npm install && cd ../.. && npm install
     - npm install -g grunt-cli
