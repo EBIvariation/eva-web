@@ -88,7 +88,7 @@ deploy-website-production:
   variables:
     ENVIRONMENT_NAME: prod
     WEBSITE_DEPLOY_ENVIRONMENT: prod
-  script:
+  after_script:
     - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${WEBSITE_DEPLOY_USER}@${CLUSTER_LOGIN_NODE} "${WEBSITE_DEPLOY_PATH}/deploy/deploy --prod"
   only:
     - tags
