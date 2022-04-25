@@ -458,7 +458,7 @@ module.exports = function (grunt) {
     //selenium with mocha
     grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
 
-    // unit tests wirh mocha_phantomjs to run from command line
+    // unit tests with mocha_phantomjs to run from command line
     grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
 
     //run test
@@ -473,8 +473,7 @@ module.exports = function (grunt) {
     //start http server
     grunt.registerTask('start-server', ['exec:startServer']);
 
-    //default build website.
-    grunt.registerTask('default', [
+    grunt.registerTask('run-all-tests', [
         'start-server',
         'config:' + envTarget,
         'replace-config',
@@ -491,5 +490,23 @@ module.exports = function (grunt) {
         'imagemin',
         'unitTest',
         'runAcceptanceTest'
+    ]);
+
+    //default build website.
+    grunt.registerTask('default', [
+        'start-server',
+        'config:' + envTarget,
+        'replace-config',
+        'bower-install',
+        'hub:genomeViewer',
+        'clean:eva',
+        'concat',
+        'uglify',
+        'copy:eva',
+        'cssmin',
+        'htmlbuild:eva',
+        'replace-html',
+        'minifyHtml',
+        'imagemin'
     ]);
 };
