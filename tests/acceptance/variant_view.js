@@ -41,7 +41,7 @@ test.describe('Variant View - rs exclusive to Accessioning', function() {
 
     expectedResults = [{"ID": "ss1996903386", "Submitter Handle": "DCAR_GENOME PAPER 1393431 SNPS",
                         "Chromosome/Contig accession": "CM004278.1", "Chromosome": "1", "Start": "672678", "End": "672678", "Reference": "A",
-                        "Alternate": "C,G,T", "Created Date": "19 May 2016"}
+                        "Alternate": "C", "Created Date": "19 May 2016"}
                       ];
     variantView.runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
                 "table", "submitted-variant-summary", expectedResults, variantView.checkSection);

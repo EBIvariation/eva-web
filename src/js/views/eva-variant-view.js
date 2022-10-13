@@ -914,7 +914,7 @@ EvaVariantView.prototype = {
         if (this.accessionCategory === "clustered-variants") {
             summaryData = summaryData.map(function(x) {return _.omit(x, [summaryDisplayFields.submitterHandle, summaryDisplayFields.end, summaryDisplayFields.reference, summaryDisplayFields.alternate,
                                                           summaryDisplayFields.evidence, summaryDisplayFields.assemblyMatch,
-                                                          summaryDisplayFields.allelesMatch, summaryDisplayFields.validated]);}).slice(0,1);
+                                                          summaryDisplayFields.allelesMatch, summaryDisplayFields.validated]);});
             if (! this.variantIsDeprecated && !_.isEmpty(this.associatedSSIDs)) {  // ssID data are not available for deprecated rsIDs
                 submitterInfoHeading = '<h4 class="variant-view-h4">Submitted Variants</b></h4><div class="row"><div class="col-md-8">';
                 var associatedSSData = this.associatedSSIDs;
