@@ -118,16 +118,24 @@ EvaVariantView.prototype = {
     },
 
     getAssemblyNameForAccession: function(assemblyAccession) {
+        // Cache the assembly name so it's not called for each RS and/or SS
+        if (assemblyAccession in this.assemblyNameMap) {
+            return this.assemblyNameMap[assemblyAccession];
+        }
+
+        // Default to assembly accession alone
+        this.assemblyNameMap[assemblyAccession] = assemblyAccession;
+
         var assemblyENAXmlUrl = ENA_ASSEMBLY_LOOKUP_SERVICE + "/" + assemblyAccession + "?display=xml"
         var xmlResult = EvaManager.getAPICallResult(assemblyENAXmlUrl, 'xml', this.assemblyAccessionNotResolvedHandler.bind(this));
 
         if (xmlResult) {
             var assemblyNameTagValue = xmlResult.evaluate('//ASSEMBLY/NAME', xmlResult, null, XPathResult.STRING_TYPE, null);
             if (assemblyNameTagValue) {
-                return assemblyAccession + " (" + assemblyNameTagValue.stringValue + ")";
+                this.assemblyNameMap[assemblyAccession] = assemblyAccession + " (" + assemblyNameTagValue.stringValue + ")";
             }
         }
-        return assemblyAccession;
+        return this.assemblyNameMap[assemblyAccession];
     },
 
     getAssemblyLink: function(assembly) {
@@ -489,6 +497,7 @@ EvaVariantView.prototype = {
                             _this.addAssociatedSSID("ss" + ssIDInfo.accession + "_" + ssIDInfo.data.contig,
                             {"ID": "ss" + ssIDInfo.accession,
                             "Study": _this.getProjectAccessionAnchor(ssIDInfo.data.projectAccession),
+                            "Assembly": _this.getAssemblyLink(ssIDInfo.data.referenceSequenceAccession),
                             "Chromosome/Contig accession": ssIDInfo.data.contig,
                             "Chromosome": _this.getChromosomeNumberForAccessionWithRetries(ssIDInfo.data.contig),
                             "Start": ssIDInfo.data.start,
@@ -586,7 +595,6 @@ EvaVariantView.prototype = {
         this.studiesList = (_.contains(this.EVASpeciesList, this.species) ? this.getStudiesList(this.species) : []);
         this.assemblyAccession = this.assemblyAccession? this.assemblyAccession:
                                                          this.getCurrentAssembly(this.species, this.speciesList);
-        this.assemblyLink = this.getAssemblyLink(this.assemblyAccession);
 
         this.allAccessionIDs = _.map(decodeURI(this.accessionID).split(","), function trim(x) {return x.trim();});
         this.allVariants = Array();
@@ -637,6 +645,7 @@ EvaVariantView.prototype = {
     storeVariantInfo: function() {
         this.associatedSSIDs = {};
         this.chromosomeContigMap = {};
+        this.assemblyNameMap = {};
         this.variantIsDeprecated = false;
 
         if (this.accessionID) {
