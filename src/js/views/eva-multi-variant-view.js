@@ -79,7 +79,6 @@ EvaMultiVariantView.prototype = {
             var array = evaVariantView._getSpeciesOrganismValues(); var organism = array[1];
             summaryData = this._getSummaryContentForVariant(evaVariantView.variant, currAccessionID, organism,
                                                             this.species, this.assemblyAccession,
-                                                            evaVariantView.assemblyLink,
                                                             summaryDisplayFields, evaVariantView.isHumanSNPSearch,
                                                             evaVariantView.humanSNPLink);
 
@@ -104,7 +103,7 @@ EvaMultiVariantView.prototype = {
         return summaryContent;
     },
 
-    _getSummaryContentForVariant: function (variant, accessionID, organism, species, assemblyAccession, assemblyLink,
+    _getSummaryContentForVariant: function (variant, accessionID, organism, species, assemblyAccession,
                                             summaryDisplayFields, isHumanSNPSearch, humanSNPLink) {
         var rsReference = "";
         if (variant !== undefined && variant.length > 0) {
@@ -127,7 +126,7 @@ EvaMultiVariantView.prototype = {
                 summaryDataObj[summaryDisplayFields.assoc_rs] = rsReference;
                 summaryDataObj[summaryDisplayFields.detailedViewURLLink] = detailedViewURLForAccession;
                 summaryDataObj[summaryDisplayFields.organism] = organism;
-                summaryDataObj[summaryDisplayFields.assembly] = assemblyLink;
+                summaryDataObj[summaryDisplayFields.assembly] = EvaVariantView.prototype.getAssemblyLink(x.assemblyAccession);
                 summaryDataObj[summaryDisplayFields.submitterHandle] = x.submitterHandle;
                 summaryDataObj[summaryDisplayFields.contig] = x.contig;
                 summaryDataObj[summaryDisplayFields.chromosome] = x.chromosome;
