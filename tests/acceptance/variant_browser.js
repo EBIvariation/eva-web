@@ -406,7 +406,7 @@ function variantSearchByGene(driver){
         });
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[2]/div[text()]")).getText().then(function(text){
             text = parseInt(text);
-            chai.assert.operator(text, '>=', 32884647);
+            chai.assert.operator(text, '>=', 32884617);
             chai.assert.operator(text, '<=', 32973805);
         });
     });

@@ -88,7 +88,7 @@ EvaMultiVariantView.prototype = {
                                 summaryDisplayFields.end, summaryDisplayFields.reference, summaryDisplayFields.alternate,
                                 summaryDisplayFields.evidence, summaryDisplayFields.assemblyMatch,
                                 summaryDisplayFields.allelesMatch, summaryDisplayFields.validated]);
-                              }).slice(0,1);
+                              });
             }
 
             if (variantInfoHeaderRow == null) {
