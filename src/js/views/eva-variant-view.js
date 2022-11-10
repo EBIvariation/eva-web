@@ -118,6 +118,9 @@ EvaVariantView.prototype = {
     },
 
     getAssemblyNameForAccession: function(assemblyAccession) {
+        if(this.assemblyNameMap == undefined){
+            this.assemblyNameMap = {}
+        }
         // Cache the assembly name so it's not called for each RS and/or SS
         if (assemblyAccession in this.assemblyNameMap) {
             return this.assemblyNameMap[assemblyAccession];
