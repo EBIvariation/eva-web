@@ -41,7 +41,7 @@ module.exports = {
     checkSection: function(driver, element, elementID, rowIndex, colIndex, expectedValue) {
         var tableToFind = "//" + element + "[@id='" + elementID + "']";
         var pathToElement = tableToFind + "//tr[" + rowIndex + "]" + "//td[" + colIndex + "]";
-        driver.wait(until.elementLocated(By.xpath(pathToElement)), config.wait()).then(function(text) {
+        driver.wait(until.elementLocated(By.id(elementID)), config.wait()).then(function(text) {
             driver.findElement(By.xpath(pathToElement)).getText().then(function(text){
                 assert(text).equalTo(expectedValue);
             });
