@@ -260,8 +260,8 @@ test.describe('Variant View - RS with multiple entires', function() {
                             "Chromosome/Contig accession": "CM000231.2", "Chromosome": "1", "Start": "148800140",
                             "ID": "rs105032341", "Type": "SNV", "Created Date": "25 May 2010"}
                         ];
-    variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
-                "table", "variant-view-summary", expectedResults, variantView.checkSection);
+    variantView.runTableTestNew("Variant Information Section", "Variant Information Section has the correct values for attributes",
+                "table", "variant-view-summary", expectedResults);
 
     expectedResults = [{"ID": "ss93228403", "Study": "ENSEMBL_RAT_COMPUTATIONAL_CELERA", "Assembly": "GCA_015227675.2 (mRatBN7.2)",
                         "Chromosome/Contig accession": "CM026974.1", "Chromosome": "1", "Start": "150694351",
@@ -276,6 +276,6 @@ test.describe('Variant View - RS with multiple entires', function() {
                         "Chromosome/Contig accession": "CM000231.2", "Chromosome": "1", "Start": "148800140",
                         "End": "148800140", "Reference": "G", "Alternate": "C", "Created Date": "3 January 2010"}
                       ];
-    variantView.runTableTest("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
-                "table", "submitted-variant-summary", expectedResults, variantView.checkSection);
+    variantView.runTableTestNew("Submitted Variant Section", "Submitted Variant Section has the correct values for attributes",
+                "table", "submitted-variant-summary", expectedResults);
 });
