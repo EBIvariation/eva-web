@@ -50,8 +50,8 @@ test.describe('Multiple Variant View - rs IDs', function() {
                         {"ID": "rs8281493", "Detailed Variant view": "Detailed view", "Organism": "Dog",
                         "Assembly": "GCA_014441545.1 (ROS_Cfam_1.0)", "Chromosome/Contig accession": "CM025117.1",
                         "Chromosome": "18", "Start": "22561140", "Type": "SNV", "Created Date": "4 December 2021"}];
-    variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
-                "table", "variant-view-summary", expectedResults, variantView.checkSection);
+    variantView.runTableTestNew("Variant Information Section", "Variant Information Section has the correct values for attributes",
+                "table", "variant-view-summary", expectedResults);
 });
 
 test.describe('Multiple Variant View - ss IDs - with pagination', function() {
@@ -120,6 +120,6 @@ test.describe('Multiple Variant View - ss IDs - with pagination', function() {
                             "Passed allele checks?": "Yes", "Validated?": "No",
                             "Created Date": "13 October 2015"},
                           ];
-    variantView.runTableTest("Variant Information Section", "Variant Information Section has the correct values for attributes",
-                "table", "variant-view-summary", expectedResults, variantView.checkSection);
+    variantView.runTableTestNew("Variant Information Section", "Variant Information Section has the correct values for attributes",
+                "table", "variant-view-summary", expectedResults);
 });
