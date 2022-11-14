@@ -59,29 +59,32 @@ test:
     # See https://docs.gitlab.com/ee/ci/ssh_keys/
     - apt-get -y install openssh-client
     - eval "$(ssh-agent)"
-    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${CLUSTER_LOGIN_NODE}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
     - echo "$EVA_ETL_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - cd build && zip -q -r ${ARTIFACT_NAME}.zip ${ARTIFACT_NAME}
-    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${ARTIFACT_NAME}.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE}:${EVA_SOFTWARE_PATH}/eva-web/
-  dependencies:
-    - test
+    - zip -q -r build/${ARTIFACT_NAME}.zip build/${ARTIFACT_NAME}
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/${ARTIFACT_NAME}.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE_CODON}:${EVA_SOFTWARE_PATH_CODON}/eva-web/
 
 deploy-website-internal:
   extends: .deploy-website
   variables:
     ENVIRONMENT_NAME: dev
     WEBSITE_DEPLOY_ENVIRONMENT: dev
+  after_script:
+    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_INTERNAL}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
-    - master
+    - test_deploy
 
 deploy-website-development:
   extends: .deploy-website
   variables:
     ENVIRONMENT_NAME: staging
     WEBSITE_DEPLOY_ENVIRONMENT: stage
+  after_script:
+    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
-    - master
+    - test_deploy
 
 deploy-website-production:
   extends: .deploy-website
@@ -89,6 +92,8 @@ deploy-website-production:
     ENVIRONMENT_NAME: prod
     WEBSITE_DEPLOY_ENVIRONMENT: prod
   after_script:
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${WEBSITE_DEPLOY_USER}@${CLUSTER_LOGIN_NODE} "${WEBSITE_DEPLOY_PATH}/deploy/deploy prod"
+    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
     - tags
