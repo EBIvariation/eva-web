@@ -62,6 +62,7 @@ test:
     - echo "$EVA_ETL_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - zip -q -r build/${ARTIFACT_NAME}.zip build/${ARTIFACT_NAME}
     - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/${ARTIFACT_NAME}.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE_CODON}:${EVA_SOFTWARE_PATH_CODON}/eva-web/
+    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
 
 deploy-website-internal:
   extends: .deploy-website
@@ -69,7 +70,6 @@ deploy-website-internal:
     ENVIRONMENT_NAME: dev
     WEBSITE_DEPLOY_ENVIRONMENT: dev
   after_script:
-    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_INTERNAL}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
     - test_deploy
@@ -80,7 +80,6 @@ deploy-website-development:
     ENVIRONMENT_NAME: staging
     WEBSITE_DEPLOY_ENVIRONMENT: stage
   after_script:
-    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
     - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
@@ -92,7 +91,6 @@ deploy-website-production:
     ENVIRONMENT_NAME: prod
     WEBSITE_DEPLOY_ENVIRONMENT: prod
   after_script:
-    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
     - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
