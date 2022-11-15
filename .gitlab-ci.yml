@@ -52,18 +52,16 @@ test:
     - nvm install $NODE_VERSION
     - cd lib/jsorolla && npm install && cd ../.. && npm install
     - npm install -g grunt-cli
-  script:
     - grunt --env=$ENVIRONMENT_NAME
     - ARTIFACT_NAME=$(basename $(ls -d build/*$ENVIRONMENT_NAME))
     # Start ssh-agent and set identity then copy the file to website mount point and a compressed version to cluster
     # See https://docs.gitlab.com/ee/ci/ssh_keys/
     - apt-get -y install openssh-client
     - eval "$(ssh-agent)"
-    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${CLUSTER_LOGIN_NODE}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
     - echo "$EVA_ETL_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - cd build && zip -q -r ${ARTIFACT_NAME}.zip ${ARTIFACT_NAME}
-    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${ARTIFACT_NAME}.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE}:${EVA_SOFTWARE_PATH}/eva-web/
+    - zip -q -r build/${ARTIFACT_NAME}.zip build/${ARTIFACT_NAME}
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/${ARTIFACT_NAME}.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE_CODON}:${EVA_SOFTWARE_PATH_CODON}/eva-web/
+    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   dependencies:
     - test
 
@@ -72,6 +70,8 @@ deploy-website-internal:
   variables:
     ENVIRONMENT_NAME: dev
     WEBSITE_DEPLOY_ENVIRONMENT: dev
+  script:
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_INTERNAL}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
     - master
 
@@ -80,6 +80,9 @@ deploy-website-development:
   variables:
     ENVIRONMENT_NAME: staging
     WEBSITE_DEPLOY_ENVIRONMENT: stage
+  script:
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
     - master
 
@@ -88,7 +91,8 @@ deploy-website-production:
   variables:
     ENVIRONMENT_NAME: prod
     WEBSITE_DEPLOY_ENVIRONMENT: prod
-  after_script:
-    - ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${WEBSITE_DEPLOY_USER}@${CLUSTER_LOGIN_NODE} "${WEBSITE_DEPLOY_PATH}/deploy/deploy prod"
+  script:
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
     - tags
