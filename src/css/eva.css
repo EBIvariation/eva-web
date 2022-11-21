@@ -816,3 +816,8 @@ table.tablesorter thead tr th.tablesorter-headerDesc{
 .numerical-column-right-align {
     text-align: right !important;
 }
+
+.overview-main {
+    display: flex;
+    flex-flow: row wrap;
+}

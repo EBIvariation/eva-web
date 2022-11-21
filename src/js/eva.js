@@ -400,7 +400,7 @@ Eva.prototype = {
 
         var twitterWidgetEl = document.getElementById('twitter-widget');
         twitterWidgetEl.innerHTML = "";
-        twitterWidgetEl.innerHTML = '<a  class="twitter-timeline"  href="https://twitter.com/evarchive"  height="100" data-widget-id="437894469380100096" data-chrome="noheader nofooter noborders transparent">Tweets by @evarchive</a>';
+        twitterWidgetEl.innerHTML = '<a  class="twitter-timeline"  href="https://twitter.com/evarchive"  height="425" data-widget-id="437894469380100096" data-chrome="noheader nofooter noborders transparent">Tweets by @evarchive</a>';
         $.getScript('//platform.twitter.com/widgets.js', function () {
            // twttr.widgets.load();
         });
