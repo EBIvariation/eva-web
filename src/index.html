@@ -152,55 +152,66 @@
 <div id="content" role="main" class="row">
     <section>
         <div id="main-content-area" class="columns">
-                <div id="home-page"  class="hide-div">
-                     <nav aria-label="You are here:" role="navigation">
-                       <ul class="breadcrumbs">
-                         <li><a href="?Home">EVA</a></li>
-                         <li>
-                           <span class="show-for-sr">Current: </span> Home
-                         </li>
-                       </ul>
-                     </nav>
-                    <div class="row">
-                        <div class="small-12 medium-8 columns">
+            <div id="home-page" class="hide-div">
+                <nav aria-label="You are here:" role="navigation">
+                    <ul class="breadcrumbs">
+                        <li><a href="?Home">EVA</a></li>
+                        <li>
+                            <span class="show-for-sr">Current: </span> Home
+                        </li>
+                    </ul>
+                </nav>
+                <div class="row overview-main">
+                    <div class="small-12 medium-8 columns">
+                        <div>
                             <h3><span class="icon icon-generic" data-icon="&"> </span>Overview</h3>
-                            <div><p> The European Variation Archive is an open-access database of all types of genetic variation data from all species.</p></div>
-                            <div><p> All users can <a href="?Study Browser "> download data </a> from any study, or <a href="?Submit Data"> submit their own data</a> to the archive. You can also query all variants in the EVA by study, gene, chromosomal location or dbSNP identifier using our <a href="?Variant Browser"> Variant Browser</a>. </p></div>
-                            <div><p> We will be adding new features to the EVA on a regular basis, and welcome <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">your comments and feedback</a>. </p></div>
+                            <div><p> The European Variation Archive is an open-access database of all types of genetic
+                                variation data from all species.</p></div>
+                            <div><p> All users can <a href="?Study Browser "> download data </a> from any study, or <a
+                                    href="?Submit Data"> submit their own data</a> to the archive. You can also query
+                                all variants in the EVA by study, gene, chromosomal location or dbSNP identifier using
+                                our <a href="?Variant Browser"> Variant Browser</a>. </p></div>
+                            <div><p> We will be adding new features to the EVA on a regular basis, and welcome <a
+                                    href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">your comments and feedback</a>.
+                            </p></div>
                         </div>
-                        <div class="small-12 medium-4 columns">
-                            <h3><span class="icon icon-generic" data-icon="N"> </span>News</h3>
-                            <div id="twitter-widget"></div>
-                        </div>
-                    </div>
+                        <br/><br/>
+                        <div class="row">
+                            <div class="search-snps">
+                                <h3><span class="icon icon-functional" data-icon="1"> </span>Search for SNPs</h3>
+                                <form id="snpSearch" name="local-search" action="./variant" method="GET">
+                                    <fieldset>
+                                        <div>
+                                            <div class="small-10 medium-10 columns">
+                                                <input type="text" name="accessionID" id="accession-search-box"
+                                                       placeholder="ex: rs123 or ss567 or comma/space separated RS or SS IDs">
+                                            </div>
 
-                    <br/><br/>
-                    <div class="row">
-                        <div class="small-12 medium-8 columns search-snps">
-                            <h3><span class="icon icon-functional" data-icon="1"> </span>Search for SNPs</h3>
-                            <form id="snpSearch" name="local-search" action="./variant" method="GET">
-                                <fieldset>
-                                    <div class="inline-block">
-                                        <div class="small-10 medium-10 columns">
-                                            <input type="text" name="accessionID" id="accession-search-box" placeholder="ex: rs123 or ss567 or comma/space separated RS or SS IDs">
-                                        </div>
-
-                                        <div class="small-2 medium-2 columns">
-                                            <div class="input-group-button">
-                                                <input class="button" name="accessionID" id="accession-search-button" value="Search" type="submit">
+                                            <div class="small-2 medium-2 columns">
+                                                <div class="input-group-button">
+                                                    <input class="button" name="accessionID"
+                                                           id="accession-search-button" value="Search" type="submit">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                            <p>The RS ID release <span id="release-version"></span> is available in our
-                                <a id="release-ftp-link" target="_blank">FTP</a> or through our
-                                <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/swagger-ui.html" target="_blank">API</a>
-                                . See <a href="?RS-Release" target="_blank">release page</a> for details.
-                            </p>
+                                    </fieldset>
+                                </form>
+                                <p>The RS ID release <span id="release-version"></span> is available in our
+                                    <a id="release-ftp-link" target="_blank">FTP</a> or through our
+                                    <a href="https://www.ebi.ac.uk/eva/webservices/identifiers/swagger-ui.html"
+                                       target="_blank">API</a>
+                                    . See <a href="?RS-Release" target="_blank">release page</a> for details.
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <br/>
+
+                    <div class="small-12 medium-4 columns">
+                        <h3><span class="icon icon-generic" data-icon="N"> </span>News</h3>
+                        <div id="twitter-widget"></div>
+                    </div>
+                </div>
+                <br/>
 
                     <div class="padding-bottom-large"></div>
                     <div class="row">
