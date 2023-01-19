@@ -135,6 +135,7 @@
                         <li><a>Submit Data</a></li>
                         <li><a>Study Browser</a></li>
                         <li><a>Variant Browser</a></li>
+                        <li><a>Genotype view (Alpha)</a></li>
                         <li><a>GA4GH</a></li>
                         <li><a>API</a></li>
                         <li><a>RS Release</a></li>
@@ -1295,6 +1296,20 @@
                     </nav>
                     <div id="rsReleaseContent"></div>
                 </div>
+                <div id="genotypeView" class="hide-div">
+                    <nav aria-label="You are here:" role="navigation">
+                        <ul class="breadcrumbs">
+                            <li><a href="?Home">EVA</a></li>
+                            <li>
+                                <span class="show-for-sr">Current: </span> Genotype view
+                            </li>
+                        </ul>
+                    </nav>
+                    <div id="genotypeViewContent"></div>
+                    <noscript>
+                        You need to enable JavaScript to run this app.
+                    </noscript>
+                </div>
         </div>
     </section>
 </div>
@@ -1371,6 +1386,7 @@
 <script type="text/javascript" src="js/variant-widget/eva-variant-annotation-panel.js"></script>
 <script type="text/javascript" src="js/dbSNP-import/dbSNP-import-progress.js"></script>
 <script type="text/javascript" src="js/rs-release/rs-release.js"></script>
+<script type="text/javascript" src="js/genotype_view.js"></script>
 <script type="text/javascript" src="js/eva.js"></script>
 <script type="text/javascript" src="js/eva-google-analytics.js"></script>
 <!-- /build -->
@@ -1378,6 +1394,11 @@
 <script src="../lib/EBI-Framework/js/cookiebanner.js"></script>
 <script src="../lib/EBI-Framework/js/foot.js"></script>
 <script src="../lib/EBI-Framework/js/script.js"></script>
+
+<!-- EBI Visual Framework For newer components-->
+<link rel="stylesheet" href="https://assets.emblstatic.net/vf/v2.5.9/css/styles.css">
+<script type="text/javascript" src="https://assets.emblstatic.net/vf/v2.5.9/scripts/scripts.js"></script>
+
 <!-- The Foundation theme JavaScript -->
 <script src="../lib/EBI-Framework/libraries/foundation-6/js/foundation.js"></script>
 <script src="../lib/EBI-Framework/libraries/foundation-6/js/foundation.magellan.js"></script>
@@ -1403,6 +1424,7 @@
         var helpDiv = document.querySelector('#help-section');
         var dbSNPImportDiv = document.querySelector('#dbSNPImport');
         var rsReleaseDiv = document.querySelector('#rsRelease');
+        var genotypeViewDiv = document.querySelector('#genotypeView');
 
         var tab = getUrlParameters("");
         var tabId =  decodeURI(tab.id);
@@ -1467,7 +1489,8 @@
             apiDiv:apiDiv,
             helpDiv:helpDiv,
             dbSNPImportDiv:dbSNPImportDiv,
-            rsReleaseDiv:rsReleaseDiv
+            rsReleaseDiv:rsReleaseDiv,
+            genotypeViewDiv:genotypeViewDiv
         });
 
 

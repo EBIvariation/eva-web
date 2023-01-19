@@ -87,6 +87,10 @@ Eva.prototype = {
         $(this.rsReleaseDiv).addClass('eva-child');
         this.childDivMenuMap['RS Release'] = this.rsReleaseDiv;
 
+        /* Genotype view */
+        $(this.rsReleaseDiv).addClass('eva-child');
+        this.childDivMenuMap['Genotype view (Alpha)'] = this.genotypeViewDiv;
+
     },
     draw: function (option) {
         this.targetDiv = (this.target instanceof HTMLElement ) ? this.target : document.querySelector('#' + this.target);
@@ -202,6 +206,9 @@ Eva.prototype = {
                 new EvaRsRelease({
                     target:'rsReleaseContent'
                 });
+                break;
+            case 'Genotype view (Alpha)':
+                // This should be taken care of by React
                 break;
             default:
                 this._getPublications();
