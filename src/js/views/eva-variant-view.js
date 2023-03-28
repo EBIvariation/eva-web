@@ -213,8 +213,8 @@ EvaVariantView.prototype = {
     },
 
     // Calculate end coordinate for a variant given start, ref and alt
-    getVariantEndCoordinate: function(variantStartCoordinate, referenceAllele, alternateAllele) {
-        return variantStartCoordinate + Math.max(referenceAllele.length, alternateAllele.length) - 1;
+    getVariantEndCoordinate: function(variantStartCoordinate, referenceAllele) {
+        return referenceAllele.length ? variantStartCoordinate + referenceAllele.length - 1 : variantStartCoordinate;
     },
 
     // Get formatted date from a JSON date
@@ -367,8 +367,7 @@ EvaVariantView.prototype = {
                 variantInfo.reference = response.data.referenceAllele;
                 if (response.data.alternateAllele !== undefined && response.data.alternateAllele !== null) {
                     variantInfo.alternate = response.data.alternateAllele;
-                    variantInfo.end = _this.getVariantEndCoordinate(variantInfo.start, response.data.referenceAllele,
-                                                                response.data.alternateAllele);
+                    variantInfo.end = _this.getVariantEndCoordinate(response.data.start, response.data.referenceAllele);
                     variantInfo.associatedRSID = response.data.clusteredVariantAccession;
                     variantInfo.associatedRSID = variantInfo.associatedRSID ? "rs" + variantInfo.associatedRSID : '';
                 }
@@ -425,6 +424,7 @@ EvaVariantView.prototype = {
             params: queryParams,
             async: false
         });
+
         try {
             var _this = this;
             var results = webServiceResponse.response[0].result;
@@ -504,8 +504,7 @@ EvaVariantView.prototype = {
                             "Chromosome/Contig accession": ssIDInfo.data.contig,
                             "Chromosome": _this.getChromosomeNumberForAccessionWithRetries(ssIDInfo.data.contig),
                             "Start": ssIDInfo.data.start,
-                            "End": _this.getVariantEndCoordinate(ssIDInfo.data.start,
-                                                                ssIDInfo.data.referenceAllele, ssIDInfo.data.alternateAllele),
+                            "End": _this.getVariantEndCoordinate(ssIDInfo.data.start, ssIDInfo.data.referenceAllele),
                             "Reference": ssIDInfo.data.referenceAllele,
                             "Alternate": [ssIDInfo.data.alternateAllele],
                             "Created Date": _this.getFormattedDate(ssIDInfo.data.createdDate)});
