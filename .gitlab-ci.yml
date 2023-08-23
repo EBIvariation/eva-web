@@ -25,7 +25,7 @@ test:
    - npm install -g grunt-cli
    - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
  script:
-   - echo "Finding Github CI status for ${CI_COMMIT_SHA}..." && export GITHUB_CI_STATUS=$(curl -s https://api.github.com/repos/EBIVariation/eva-web/actions/runs | jq --arg COMMIT_TO_FIND $CI_COMMIT_SHA -r '.workflow_runs | map(select(.head_sha == $COMMIT_TO_FIND))[0].conclusion') && [[ $GITHUB_CI_STATUS == "success" ]] && echo "Github CI run was successful!"
+   - echo "Finding Github CI status for ${CI_COMMIT_SHA}..." && export GITHUB_CI_STATUS=$(curl -s https://api.github.com/repos/EBIVariation/eva-web/actions/runs | jq --arg COMMIT_TO_FIND $CI_COMMIT_SHA -r '.workflow_runs | map(select(.head_sha == $COMMIT_TO_FIND and .conclusion == "success"))[0].conclusion') && [[ $GITHUB_CI_STATUS == "success" ]] && echo "Github CI run was successful!"
  environment:
    name: test-env
  only:
