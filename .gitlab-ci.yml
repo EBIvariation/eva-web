@@ -3,8 +3,8 @@ stages:
   - deploy
 
 variables:
-  NVM_VERSION: 0.39.1
-  NODE_VERSION: 10.19.0
+  NVM_VERSION: 0.39.5
+  NODE_VERSION: 16.0.0
 
 test:
  stage: test
