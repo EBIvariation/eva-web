@@ -35,7 +35,7 @@ jobs:
          $AGENT_TOOLSDIRECTORY/node/$NODE_VERSION/x64/bin/npm install -g phantomjs-prebuilt
          $AGENT_TOOLSDIRECTORY/node/$NODE_VERSION/x64/bin/npm install
          cd ../..
-	 # legacy-peer-deps switch is necessary to force packages to be installed even though they are not maintained
+         # legacy-peer-deps switch is necessary to force packages to be installed even though they are not maintained
          $AGENT_TOOLSDIRECTORY/node/$NODE_VERSION/x64/bin/npm install --legacy-peer-deps
      - name: Run tests
        run: |
