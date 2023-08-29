@@ -119,6 +119,17 @@ test.describe('Multiple Variant View - ss IDs - with pagination', function() {
                             "Alleles match reference assembly?": "Yes",
                             "Passed allele checks?": "Yes", "Validated?": "No",
                             "Created Date": "13 October 2015"},
+
+                           {"ID": "ss1917629243", "Associated RS ID": "rs851857849",
+                            "Detailed Variant view": "Detailed view", "Organism": "Dog",
+                            "Assembly": "GCA_014441545.1 (ROS_Cfam_1.0)", "Study": "BROAD_VGB_CANINE_PON_SNP_DISCOVERY",
+                            "Chromosome/Contig accession": "CM025108.1",
+                            "Chromosome": "9", "Start": "55945664", "End": "55945664",
+                            "Reference": "T", "Alternate": "C", "Type": "SNV",
+                            "Allele frequencies / genotypes available?": "Yes",
+                            "Alleles match reference assembly?": "Yes",
+                            "Passed allele checks?": "Yes", "Validated?": "No",
+                            "Created Date": "13 October 2015"},
                           ];
     variantView.runTableTestNew("Variant Information Section", "Variant Information Section has the correct values for attributes",
                 "table", "variant-view-summary", expectedResults);
