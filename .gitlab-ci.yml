@@ -8,7 +8,7 @@ variables:
 
 test:
  stage: test
- image: ubuntu:20.04
+ image: ubuntu:latest
  before_script:
    - apt-get update
    - apt-get upgrade -y
@@ -21,7 +21,7 @@ test:
    - nvm install $NODE_VERSION
    - wget -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
    - apt-get install -y /tmp/chrome.deb
-   - cd lib/jsorolla && npm install && cd ../.. && npm install
+   - cd lib/jsorolla && npm install -g phantomjs-prebuilt && npm install && cd ../.. && npm install --legacy-peer-deps
    - npm install -g grunt-cli
    - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
  script:
@@ -35,7 +35,7 @@ test:
 # Not executed, parent job definition
 .deploy-website:
   stage: deploy
-  image: ubuntu:20.04
+  image: ubuntu:latest
   environment:
     name: $ENVIRONMENT_NAME
   before_script:
@@ -50,7 +50,7 @@ test:
     - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
     - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     - nvm install $NODE_VERSION
-    - cd lib/jsorolla && npm install && cd ../.. && npm install
+    - cd lib/jsorolla && npm install -g phantomjs-prebuilt && npm install && cd ../.. && npm install --legacy-peer-deps
     - npm install -g grunt-cli
     - grunt --env=$ENVIRONMENT_NAME
     - ARTIFACT_NAME=$(basename $(ls -d build/*$ENVIRONMENT_NAME))
