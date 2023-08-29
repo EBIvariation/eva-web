@@ -73,7 +73,7 @@ deploy-website-internal:
     ENVIRONMENT_NAME: dev
     WEBSITE_DEPLOY_ENVIRONMENT: dev
   script:
-    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_INTERNAL}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    - rsync -av -q -e "ssh -o HostKeyAlgorithms=+ssh-dss StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_INTERNAL}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
     - master
 
@@ -83,8 +83,8 @@ deploy-website-development:
     ENVIRONMENT_NAME: staging
     WEBSITE_DEPLOY_ENVIRONMENT: stage
   script:
-    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
-    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    - rsync -av -q -e "ssh -o HostKeyAlgorithms=+ssh-dss StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    - rsync -av -q -e "ssh -o HostKeyAlgorithms=+ssh-dss StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
     - master
 
@@ -94,7 +94,7 @@ deploy-website-production:
     ENVIRONMENT_NAME: prod
     WEBSITE_DEPLOY_ENVIRONMENT: prod
   script:
-    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
-    - rsync -av -q -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    - rsync -av -q -e "ssh -o HostKeyAlgorithms=+ssh-dss StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    - rsync -av -q -e "ssh -o HostKeyAlgorithms=+ssh-dss StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
   only:
     - tags
