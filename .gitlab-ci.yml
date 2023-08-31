@@ -36,6 +36,7 @@ test:
        exit 0
       fi
      done
+     exit 1
  environment:
    name: test-env
  only:
