@@ -32,6 +32,8 @@ test:
       if [ $? -ne 0 ]; then
        echo "Retrying..."
        sleep 300
+      else
+       exit 0
       fi
      done
  environment:
