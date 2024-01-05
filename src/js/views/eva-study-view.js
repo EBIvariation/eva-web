@@ -143,7 +143,7 @@ EvaStudyView.prototype = {
         var pubLinks = '';
         if(!_.isEmpty(publications) && publications != '-') {
             for (i = 0; i < publications.length; i++) {
-                pubLinks += '<a class="pubmed-id" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + publications[i] + '" target="_blank">' + publications[i]  + '</a><br />'
+                pubLinks += '<span class="pubmed-id">' + publications[i]  + '</span><br />'
             }
         } else {
             pubLinks = '<span class="pubmed-id">-</span>';
