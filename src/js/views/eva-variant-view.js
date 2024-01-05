@@ -45,7 +45,7 @@ EvaVariantView.prototype = {
     },
 
     getChromosomeNumberForAccession: function(chromosomeAccession, lineLimit) {
-          var ENA_TEXT_API_URL = "https://www.ebi.ac.uk/ena/browser/api/text/" + chromosomeAccession + "?lineLimit=" + lineLimit + "&annotationOnly=true";
+          var ENA_TEXT_API_URL = ENA_TEXT_API_SERVICE + "/" + chromosomeAccession + "?lineLimit=" + lineLimit + "&annotationOnly=true";
           var response = EvaManager.getAPICallResult(ENA_TEXT_API_URL, 'text', this.contigAccessionNotResolvedHandler.bind(this));
           var responseLines = response.split("\n");
           var numLines = responseLines.length;
@@ -129,7 +129,7 @@ EvaVariantView.prototype = {
         // Default to assembly accession alone
         this.assemblyNameMap[assemblyAccession] = assemblyAccession;
 
-        var assemblyENAXmlUrl = ENA_ASSEMBLY_LOOKUP_SERVICE + "/" + assemblyAccession + "?display=xml"
+        var assemblyENAXmlUrl = ENA_XML_API_SERVICE + "/" + assemblyAccession + "?display=xml"
         var xmlResult = EvaManager.getAPICallResult(assemblyENAXmlUrl, 'xml', this.assemblyAccessionNotResolvedHandler.bind(this));
 
         if (xmlResult) {
@@ -146,7 +146,7 @@ EvaVariantView.prototype = {
             assembly = assembly.toUpperCase();
             var assemblyLookupService = "";
             if (assembly.startsWith("GCA")) {
-                assemblyLookupService = ENA_ASSEMBLY_LOOKUP_SERVICE;
+                assemblyLookupService = ENA_VIEW_LINK_SERVICE;
             } else if (assembly.startsWith("GCF")) {
                 assemblyLookupService = NCBI_ASSEMBLY_LOOKUP_SERVICE;
             }

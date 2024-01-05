@@ -126,7 +126,9 @@ VARIANT_TYPE_SO_MAP = {"SNV": "SO:0001483",
                        "NO_SEQUENCE_ALTERATION" : "SO:0002073",
                        "MNV": "SO:0002007"};
 SO_SERVICE = "http://www.sequenceontology.org/browser/current_release/term";
-ENA_ASSEMBLY_LOOKUP_SERVICE = "https://www.ebi.ac.uk/ena/browser/api/xml";
+ENA_XML_API_SERVICE = "https://www.ebi.ac.uk/ena/browser/api/xml";
+ENA_TEXT_API_SERVICE = "https://www.ebi.ac.uk/ena/browser/api/text";
+ENA_VIEW_LINK_SERVICE = "https://www.ebi.ac.uk/ena/browser/view";
 NCBI_ASSEMBLY_LOOKUP_SERVICE = "https://www.ncbi.nlm.nih.gov/assembly";
 ASSEMBLY_GCA_TO_GCF_SYNONYMS = {"GCA_000409795.2" : "GCF_000409795.2" /*Vervet Monkey*/,
                                 "GCA_001625215.1" : "GCF_001625215.1" /*Carrot*/,
