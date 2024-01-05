@@ -417,11 +417,16 @@ Eva.prototype = {
         $('.pubmed-id').each(function(i, obj) {
             obj = $(obj);
             var curie = obj.html();
-            obj.html('<p>Attempting to retrieve publication information for ' + curie + '...</p>');
             if (curie && curie != '-') {
+                obj.html('<p>Attempting to retrieve publication information for ' + curie + '...</p>');
                 var splitCurie = curie.split(":");
-                var datasource = splitCurie[0].toUpperCase();
-                var identifier = splitCurie[1];
+                if (splitCurie.length < 2) {
+                    var datasource = "PUBMED";
+                    var identifier = splitCurie[0];
+                } else {
+                    var datasource = splitCurie[0].toUpperCase();
+                    var identifier = splitCurie[1];
+                }
                 // Assume this is a PubMed ID or DOI
                 var url = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=ext_id:' + identifier + ' src:med&format=json';
                 if (datasource === "DOI") {
@@ -458,8 +463,8 @@ Eva.prototype = {
                     }
                 });
 
-            }else{
-                obj.html(pubmedId);
+            } else {
+                obj.html(curie);
             }
         });
         return;
