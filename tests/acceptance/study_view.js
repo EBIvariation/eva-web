@@ -183,8 +183,8 @@ function dgvaCheckSummaryTable(driver){
 }
 
 function checkPublications(driver){
-    driver.wait(until.elementLocated(By.className("pubmed-id")), config.wait()).then(function(text) {
-       driver.findElement(By.className('pubmed-id')).getText().then(function(text){
+    driver.wait(until.elementLocated(By.className("publication-id")), config.wait()).then(function(text) {
+       driver.findElement(By.className('publication-id')).getText().then(function(text){
            var regExp = /^-$|^\w+/;
            if(text != '-'){
                text = text.split("\n");

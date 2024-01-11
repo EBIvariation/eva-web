@@ -414,12 +414,24 @@ Eva.prototype = {
         });
     },
     _getPublications: function() {
-        $('.pubmed-id').each(function(i, obj) {
+        $('.publication-id').each(function(i, obj) {
             obj = $(obj);
-            var pubmedId = obj.html();
-            obj.html('<p>Attempting to retrieve publication information for PubMed ID <a class="external publication" href="http://europepmc.org/abstract/MED/' + pubmedId + '">' + pubmedId + '...</p>');
-            if(pubmedId && pubmedId != '-') {
-                var url = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=ext_id:' + pubmedId + ' src:med&format=json';
+            var curie = obj.html();
+            if (curie && curie != '-') {
+                obj.html('<p>Attempting to retrieve publication information for ' + curie + '...</p>');
+                var splitCurie = curie.split(":");
+                if (splitCurie.length < 2) {
+                    var datasource = "PUBMED";
+                    var identifier = splitCurie[0];
+                } else {
+                    var datasource = splitCurie[0].toUpperCase();
+                    var identifier = splitCurie[1];
+                }
+                // Assume this is a PubMed ID or DOI
+                var url = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=ext_id:' + identifier + ' src:med&format=json';
+                if (datasource === "DOI") {
+                    url = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:' + identifier + '&format=json';
+                }
                 // Make the actual AJAX call...
                 $.ajax({
                     type: 'GET',
@@ -429,28 +441,30 @@ Eva.prototype = {
                     success: function (response) {
                         var data = response.resultList.result[0];
                         if (data) {
+                            var id = data.id;
+                            var source = data.source;
                             var title = data.title;
                             var authors = data.authorString;
                             var journal = data.journalTitle;
                             var volume = data.journalVolume;
                             var year = data.pubYear;
                             var pages = data.pageInfo;
-                            var pmid = data.pmid;
 
-                            var paper_output = '<p class="publications"><a class="external publication" href="http://europepmc.org/abstract/MED/' + pmid + '">' + title + '</a><br />';
+                            var paper_output = '<p class="publications"><a class="external publication" href="http://europepmc.org/abstract/' + source + '/' + id + '">' + title + '</a><br />';
                             paper_output += authors + '<br />';
                             paper_output += '<em>' + journal + '</em> <strong>' + volume + '</strong>:' + year + ' ' + pages + '</p>';
                             obj.html(paper_output);
                         }
                     },
                     error: function (x, y, z) {
-                        obj.html('PubMed:<a class="external publication" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=' + pubmedId + '" target="_blank">' + pubmedId + '</a><br />');
+                        // Don't necessarily know where this CURIE comes from, so just output it without link
+                        obj.html(curie+'<br />');
                         // x.responseText should have what's wrong
                     }
                 });
 
-            }else{
-                obj.html(pubmedId);
+            } else {
+                obj.html(curie);
             }
         });
         return;
