@@ -143,10 +143,10 @@ EvaStudyView.prototype = {
         var pubLinks = '';
         if(!_.isEmpty(publications) && publications != '-') {
             for (i = 0; i < publications.length; i++) {
-                pubLinks += '<span class="pubmed-id">' + publications[i]  + '</span><br />'
+                pubLinks += '<span class="publication-id">' + publications[i]  + '</span><br />'
             }
         } else {
-            pubLinks = '<span class="pubmed-id">-</span>';
+            pubLinks = '<span class="publication-id">-</span>';
         }
 
         // Links to taxonomies

@@ -414,7 +414,7 @@ Eva.prototype = {
         });
     },
     _getPublications: function() {
-        $('.pubmed-id').each(function(i, obj) {
+        $('.publication-id').each(function(i, obj) {
             obj = $(obj);
             var curie = obj.html();
             if (curie && curie != '-') {
