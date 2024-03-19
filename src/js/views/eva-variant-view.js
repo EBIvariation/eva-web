@@ -639,8 +639,10 @@ EvaVariantView.prototype = {
         this.assemblyAccession = this.accessionID.startsWith("rs") ?
             accessioningServiceData.assemblyAccession :
             accessioningServiceData.referenceSequenceAccession;
+        this.taxonomy = accessioningServiceData.taxonomyAccession;
 
-        var speciesInfo = _.findWhere(getAccessionedSpeciesList(), {assemblyAccession : this.assemblyAccession});
+        var speciesInfo = _.findWhere(getAccessionedSpeciesList(),
+            {assemblyAccession : this.assemblyAccession, taxonomyId: this.taxonomy});
         this.species = speciesInfo.taxonomyCode + "_" + speciesInfo.assemblyCode;
     },
 
