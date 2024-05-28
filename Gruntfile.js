@@ -221,6 +221,7 @@ module.exports = function (grunt) {
                     'src/js/beacon-form/eva-variant-search-form.js',
                     'src/js/dbSNP-import/dbSNP-import-progress.js',
                     'src/js/rs-release/rs-release.js',
+                    'src/js/footer.js',
                     'src/js/eva.js',
                     'src/js/eva-google-analytics.js '
                 ],
@@ -249,7 +250,6 @@ module.exports = function (grunt) {
             ebi_framework_js: {
                 src: [
                     'lib/EBI-Framework/js/cookiebanner.js',
-                    'lib/EBI-Framework/js/foot.js',
                     'lib/EBI-Framework/js/script.js',
                     'lib/EBI-Framework/libraries/foundation-6/js/foundation.js',
                     'lib/EBI-Framework/js/foundationExtendEBI.js',
