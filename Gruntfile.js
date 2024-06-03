@@ -221,7 +221,7 @@ module.exports = function (grunt) {
                     'src/js/beacon-form/eva-variant-search-form.js',
                     'src/js/dbSNP-import/dbSNP-import-progress.js',
                     'src/js/rs-release/rs-release.js',
-                    'src/js/footer.js',
+                    'src/js/footer/footer.js',
                     'src/js/eva.js',
                     'src/js/eva-google-analytics.js '
                 ],
