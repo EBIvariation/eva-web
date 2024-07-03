@@ -63,7 +63,8 @@ module.exports = function (grunt) {
                         'EVA_RELEASE_HOST' : "wwwint.ebi.ac.uk/eva/webservices/release",
                         'EVA_ACCESSIONING_HOST': 'wwwint.ebi.ac.uk/eva/webservices/identifiers',
                         'EVA_VCF_DUMPER_HOST': 'wwwint.ebi.ac.uk/eva/webservices/vcf-dumper',
-                        'EVA_VERSION': 'v1'
+                        'EVA_VERSION': 'v1',
+                        'EVA_STAT_VERSION': 'v2'
                     }
                 }
             },
@@ -78,7 +79,8 @@ module.exports = function (grunt) {
                         'EVA_RELEASE_HOST' : "wwwdev.ebi.ac.uk/eva/webservices/release",
                         'EVA_ACCESSIONING_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/identifiers',
                         'EVA_VCF_DUMPER_HOST': 'wwwdev.ebi.ac.uk/eva/webservices/vcf-dumper',
-                        'EVA_VERSION': 'v1'
+                        'EVA_VERSION': 'v1',
+                        'EVA_STAT_VERSION': 'v2'
                     }
                 }
             },
@@ -93,7 +95,8 @@ module.exports = function (grunt) {
                         'EVA_RELEASE_HOST' : "www.ebi.ac.uk/eva/webservices/release",
                         'EVA_ACCESSIONING_HOST': 'www.ebi.ac.uk/eva/webservices/identifiers',
                         'EVA_VCF_DUMPER_HOST': 'www.ebi.ac.uk/eva/webservices/vcf-dumper',
-                        'EVA_VERSION': 'v1'
+                        'EVA_VERSION': 'v1',
+                        'EVA_STAT_VERSION': 'v2'
                     }
                 }
             }
@@ -137,6 +140,10 @@ module.exports = function (grunt) {
                         {
                             match: 'EVA_VERSION',
                             replacement: '<%= grunt.config.get("EVA_VERSION") %>'
+                        },
+                        {
+                            match: 'EVA_STAT_VERSION',
+                            replacement: '<%= grunt.config.get("EVA_STAT_VERSION") %>'
                         }
                     ]
                 },
