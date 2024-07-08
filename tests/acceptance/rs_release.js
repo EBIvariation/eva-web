@@ -38,7 +38,7 @@ test.describe('RS Release ('+config.browser()+')', function() {
         });
 
         test.it('Check "Taxonomy ID" column should not be empty', function() {
-            assertRows("rs-release-tax-id", /^\d+$/)
+            assertRows("rs-release-tax-id", /^\d+(, \d+)*$/)
         });
 
         test.it('Check numeric columns should not be empty', function() {
