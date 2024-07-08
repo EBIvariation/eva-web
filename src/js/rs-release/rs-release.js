@@ -211,7 +211,7 @@ EvaRsRelease.prototype = {
 
         _.each(releaseData, function (assembly) {
             releaseLink = '<a target="_blank" href="' + assembly.releaseLink + '">FTP link</a>';
-            assemblyLink = '<a target="_blank" href="' + assembly.releaseLink + '">' + assembly.assemblyAccession + '</a>';
+            assemblyLink = '<a target="_blank" href="https://www.ebi.ac.uk/ena/browser/view/' + assembly.assemblyAccession + '">' + assembly.assemblyAccession + '</a>';
             scientificNames = '';
             taxonomyLinks = _.chain(assembly.taxonomyIds)
                              .zip(assembly.taxonomyLinks)
@@ -265,6 +265,7 @@ EvaRsRelease.prototype = {
          .filter(function(releaseData){return releaseData.assemblyAccession !== "Unmapped"})
          .each(function (assembly) {
             releaseLink = '<a target="_blank" href="' + assembly.releaseLink + '">FTP link</a>';
+            assemblyLink = '<a target="_blank" href="https://www.ebi.ac.uk/ena/browser/view/' + assembly.assemblyAccession + '">' + assembly.assemblyAccession + '</a>';
             assemblyLink = '<a target="_blank" href="' + assembly.releaseLink + '">' + assembly.assemblyAccession + '</a>';
             taxonomyLinks = _.chain(assembly.taxonomyIds)
                 .zip(assembly.taxonomyLinks)
