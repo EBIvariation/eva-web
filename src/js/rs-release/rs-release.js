@@ -204,7 +204,7 @@ EvaRsRelease.prototype = {
                     '<tr>' +
                         '<th>Download link</th>' +
                         '<th>Assembly accession</th>' +
-                        '<th><div title="RS IDs that were added in the current release">New Current RS<i class="icon icon-generic" data-icon="i"></div></th>' +
+                        '<th><div title="RS IDs that were added in this release">New RS IDs<i class="icon icon-generic" data-icon="i"></div></th>' +
                     '</tr>' +
                     '</thead>' +
                     '<tbody>';
@@ -311,7 +311,7 @@ EvaRsRelease.prototype = {
                                 '<th>Download link</th>' +
                                 '<th>Scientific name</th>' +
                                 '<th>Taxonomy ID</th>' +
-                                '<th><div title="RS IDs that were created in this release">New RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
+                                '<th><div title="RS IDs that were added in this release">New RS IDs <i class="icon icon-generic" data-icon="i"></div></th>' +
                             '</tr>' +
                         '</thead>' +
                     '<tbody>';
