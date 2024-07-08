@@ -252,7 +252,7 @@ EvaRsRelease.prototype = {
                     '<tr>' +
                         '<th>Download link</th>' +
                         '<th>Assembly accession</th>' +
-                        '<th>Taxonomy ID</th>' +
+                        '<th>Taxonomy IDs</th>' +
                         '<th><div title="RS IDs that can be browsed on the EVA websites">Current RS <i class="icon icon-generic" data-icon="i"></div></th>' +
                         '<th><div title="RS IDs that should NOT be used because they are merged into another active RS">Merged RS <i class="icon icon-generic" data-icon="i"></div></th>' +
                         '<th><div title="RS IDs that should NOT be used since these RS IDs were deprecated">Deprecated RS <i class="icon icon-generic" data-icon="i"></div></th>' +
