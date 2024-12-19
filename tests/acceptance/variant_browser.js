@@ -746,7 +746,7 @@ function safeClick(driver, element) {
             })
         },
         config.wait()
-    ).then(function () {driver.executeScript("arguments[0].click();", element)})
+    ).then(function () { element.click(); })
 }
 
 function clickSubmit(driver) {
