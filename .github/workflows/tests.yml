@@ -39,6 +39,7 @@ jobs:
          $AGENT_TOOLSDIRECTORY/node/$NODE_VERSION/x64/bin/npm install --legacy-peer-deps
      - name: Run tests
        run: |
+         export OPENSSL_CONF=/dev/null
          $AGENT_TOOLSDIRECTORY/node/$NODE_VERSION/x64/bin/npm install -g grunt-cli
          sudo apt install xvfb -y && Xvfb :99 & export DISPLAY=:99
          grunt run-all-tests --env=prod

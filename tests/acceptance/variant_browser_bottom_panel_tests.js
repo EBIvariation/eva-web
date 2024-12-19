@@ -167,7 +167,6 @@ module.exports = {
     populationTab:function(driver){
         var populationTabXPath = "//div[contains(@id,'VariantPopulationPanel')]//div//span[text()]";
         var elementToFind = driver.findElement(By.xpath(populationTabXPath));
-        driver.executeScript("arguments[0].scrollIntoView(true);", elementToFind);
         elementToFind.then(function(webElement) {
             driver.wait(until.elementLocated(By.xpath(populationTabXPath)), config.wait()).then(function(text) {
                 driver.findElements(By.xpath("//div[contains(@id,'VariantPopulationPanel')]//div[contains(@class,'x-accordion-item')]")).then(function(rows){
