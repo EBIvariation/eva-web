@@ -250,16 +250,16 @@ test.describe('Variant View - RS with multiple entries', function() {
         config.shutdownDriver(driver);
     });
 
-    var expectedResults = [{"Organism": "rat", "Assembly": "GCA_036323735.1 (GRCr8)",
+    var expectedResults = [{"Organism": "Rat", "Assembly": "GCA_036323735.1 (GRCr8)",
                             "Chromosome/Contig accession": "CM070391.1", "Chromosome": "1", "Start": "160105635",
                             "ID": "rs105032341", "Type": "SNV", "Created Date": "5 December 2024"},
-                            {"Organism": "rat", "Assembly": "GCA_015227675.2 (mRatBN7.2)",
+                            {"Organism": "Rat", "Assembly": "GCA_015227675.2 (mRatBN7.2)",
                             "Chromosome/Contig accession": "CM026974.1", "Chromosome": "1", "Start": "150694351",
                             "ID": "rs105032341", "Type": "SNV", "Created Date": "1 December 2021"},
-                            {"Organism": "rat", "Assembly": "GCA_000001895.4 (Rnor_6.0)",
+                            {"Organism": "Rat", "Assembly": "GCA_000001895.4 (Rnor_6.0)",
                             "Chromosome/Contig accession": "CM000072.5", "Chromosome": "1", "Start": "161315554",
                             "ID": "rs105032341", "Type": "SNV", "Created Date": "25 May 2010"},
-                            {"Organism": "rat", "Assembly": "GCA_000002265.1 (Rn_Celera)",
+                            {"Organism": "Rat", "Assembly": "GCA_000002265.1 (Rn_Celera)",
                             "Chromosome/Contig accession": "CM000231.2", "Chromosome": "1", "Start": "148800140",
                             "ID": "rs105032341", "Type": "SNV", "Created Date": "25 May 2010"}
                         ];
