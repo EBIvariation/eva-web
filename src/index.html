@@ -288,6 +288,38 @@
 
                     <h4 id="submit-submit"><span class="icon icon-functional" data-icon="_"></span> Submit</h4>
                     <div>
+                        <div class="submit-data-diagram">
+                            <div class="box green">
+                                <h3>📄 Prepare your data and metadata</h3>
+                                <ul>
+                                    <li>Prepare valid VCF file(s), which can be validated prior to submission using the <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a> or the <a href="https://github.com/EBIvariation/eva-sub-cli" target="_blank">eva-sub-cli tool</a>.</li>
+                                    <li>Complete a <a href="https://www.ebi.ac.uk/eva/files/EVA_Submission_template.V1.1.5.xlsx" target="_blank">metadata template</a> describing the samples and analyses in your study. This can be validated alongside your VCF files with <a href="https://github.com/EBIvariation/eva-sub-cli" target="_blank">eva-sub-cli</a>. Please provide as much metadata as possible since this information is useful for downstream analysis and leads to increased dataset reuse. For reference, here is an <a href="https://www.ebi.ac.uk/eva/files/EVA_Submission_template.V1.1.5_mockup.xlsx" target="_blank"><b>example</b></a> of a completed metadata template.</li>
+                                    <li>Please also note that the template requires the submitter to fill in some personal data, which will be used as described in our <a href="https://www.ebi.ac.uk/data-protection/privacy-notice/eva-submission-service" target="_blank">privacy notice</a>.</li>
+                                </ul>
+                            </div>
+                            <div class="arrow"></div>
+                            <div class="row">
+                                <div class="box blue">
+                                    <h3>💻 Submit via eva-sub-cli</h3>
+                                    <p>This is our new command-line tool for validating and uploading your data and metadata. For instructions on how to install and use <a href="https://github.com/EBIvariation/eva-sub-cli" target="_blank">eva-sub-cli</a>, please see our <a href="https://github.com/EBIvariation/eva-sub-cli/blob/main/README.md" target="_blank">documentation</a>.</p>
+                                    <p>This method has faster turnaround times, but may be more suitable for more technical users.</p>
+                                    <p>Before submitting data through eva-sub-cli, please make sure you have a <a href="https://www.ebi.ac.uk/ena/submit/webin/login" target="_blank">Webin</a> Account.</p>
+                                </div>
+                                <div class="or-label">OR</div>
+                                <div class="box blue">
+                                    <h3>✉️ Submit via email</h3>
+                                    <p>Contact <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> to request a submission. You will receive a custom private FTP account to deposit your data and metadata files, as well as further instructions.</p>
+                                    <p>This submission method is less technical but may involve longer processing times.</p>
+                                    <p>Please make sure to read the instructions given in the metadata spreadsheet before submitting.</p>
+                                </div>
+                            </div>
+                            <div class="arrow"></div>
+                            <div class="box yellow">
+                                <h3>👍 Access your data</h3>
+                                <p>The EVA aims to process submission requests within two business days. Accession numbers will be sent via email to the submitter upon successful archival of the deposited data.</p>
+                                <p>All data that is valid for EVA submission shall be made available via the <a href="?Study Browser" target="_blank">Study Browser</a> and will be browsable using both the <a href="?Variant Browser" target="_blank">Variant Browser</a> and the <a href="?API" target="_blank">EVA API</a>, and will also be incorporated into our periodic <a href="?RS-Release" target="_blank">RS Releases</a>.</p>
+                            </div>
+                        </div>
                         <p>There are two methods of submitting to EVA:</p>
                         <ol>
                             <li>
@@ -311,39 +343,6 @@
                     <h4 id="submit-access"><span class="icon icon-functional" data-icon="k" aria-hidden="true"></span> Access</h4>
                     <div class="padding-bottom-large">
                         <p>All data valid for EVA submission shall be made available via the <a href="?Study Browser" target="_blank">Study Browser</a> and will be browsable using both the <a href="?Variant Browser" target="_blank">Variant Browser</a> and the <a href="?API" target="_blank">EVA API</a>, and will also be incorporated into our periodic <a href="?RS-Release" target="_blank">RS Releases<a>. <a href="https://www.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Variant Effect Predictor</a> annotations shall be available for variants mapped to genome assemblies that are known to <a href="https://www.ensembl.org/index.html" target="_blank">Ensembl</a>.</p>
-                    </div>
-
-                    <div class="submit-data-diagram">
-                        <div class="box green">
-                            <h3>📄 Prepare your data and metadata</h3>
-                            <ul>
-                                <li>Prepare valid VCF file(s), which can be validated prior to submission using the <a href="https://github.com/EBIvariation/vcf-validator/wiki/User's-Guide" target="_blank">EVA VCF validation suite</a> or the <a href="https://github.com/EBIvariation/eva-sub-cli" target="_blank">eva-sub-cli tool</a>.</li>
-                                <li>Complete a <a href="https://www.ebi.ac.uk/eva/files/EVA_Submission_template.V1.1.5.xlsx" target="_blank">metadata template</a> describing the samples and analyses in your study. This can be validated alongside your VCF files with <a href="https://github.com/EBIvariation/eva-sub-cli" target="_blank">eva-sub-cli</a>. Please provide as much metadata as possible since this information is useful for downstream analysis and leads to increased dataset reuse. For reference, here is an <a href="https://www.ebi.ac.uk/eva/files/EVA_Submission_template.V1.1.5_mockup.xlsx" target="_blank"><b>example</b></a> of a completed metadata template.</li>
-                                <li>Please also note that the template requires the submitter to fill in some personal data, which will be used as described in our <a href="https://www.ebi.ac.uk/data-protection/privacy-notice/eva-submission-service" target="_blank">privacy notice</a>.</li>
-                            </ul>
-                        </div>
-                        <div class="arrow"></div>
-                        <div class="row">
-                            <div class="box blue">
-                                <h3>💻 Submit via eva-sub-cli</h3>
-                                <p>This is our new command-line tool for validating and uploading your data and metadata. For instructions on how to install and use <a href="https://github.com/EBIvariation/eva-sub-cli" target="_blank">eva-sub-cli</a>, please see our <a href="https://github.com/EBIvariation/eva-sub-cli/blob/main/README.md" target="_blank">documentation</a>.</p>
-                                <p>This method has faster turnaround times, but may be more suitable for more technical users.</p>
-                                <p>Before submitting data through eva-sub-cli, please make sure you have a <a href="https://www.ebi.ac.uk/ena/submit/webin/login" target="_blank">Webin</a> Account.</p>
-                            </div>
-                            <div class="or-label">OR</div>
-                            <div class="box blue">
-                                <h3>✉️ Submit via email</h3>
-                                <p>Contact <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">eva-helpdesk@ebi.ac.uk</a> to request a submission. You will receive a custom private FTP account to deposit your data and metadata files, as well as further instructions.</p>
-                                <p>This submission method is less technical but may involve longer processing times.</p>
-                                <p>Please make sure to read the instructions given in the metadata spreadsheet before submitting.</p>
-                            </div>
-                        </div>
-                        <div class="arrow"></div>
-                        <div class="box yellow">
-                            <h3>👍 Access your data</h3>
-                            <p>The EVA aims to process submission requests within two business days. Accession numbers will be sent via email to the submitter upon successful archival of the deposited data.</p>
-                            <p>All data that is valid for EVA submission shall be made available via the <a href="?Study Browser" target="_blank">Study Browser</a> and will be browsable using both the <a href="?Variant Browser" target="_blank">Variant Browser</a> and the <a href="?API" target="_blank">EVA API</a>, and will also be incorporated into our periodic <a href="?RS-Release" target="_blank">RS Releases</a>.</p>
-                        </div>
                     </div>
 
                 </div>
