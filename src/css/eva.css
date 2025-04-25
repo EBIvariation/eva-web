@@ -821,3 +821,66 @@ table.tablesorter thead tr th.tablesorter-headerDesc{
     display: flex;
     flex-flow: row wrap;
 }
+
+.submit-data-diagram {
+    font-family: sans-serif;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit-data-diagram .box {
+    width: 80%;
+    max-width: 800px;
+    padding: 1.5rem;
+    border-radius: 15px;
+    background-color: #fff;
+    margin: 20px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.submit-data-diagram .box h3 {
+    margin-top: 0;
+}
+
+.submit-data-diagram .green { background-color: #d9ead3; border: 2px solid #6aa84f; }
+.submit-data-diagram .yellow { background-color: #fff2cc; border: 2px solid #e69138; }
+.submit-data-diagram .blue { background-color: #d0e0e3; border: 2px solid #3d85c6; width: 30%; min-width: 200px; max-width: 800px;}
+
+.submit-data-diagram .row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.submit-data-diagram .arrow {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid gray;
+    margin: 10px 0;
+}
+
+.submit-data-diagram .or-label {
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.submit-data-diagram a {
+    color: #0645AD;
+    text-decoration: underline;
+}
+
+.submit-data-diagram a:hover {
+    text-decoration: none;
+}
+
+.submit-data-diagram ul {
+    padding-left: 1.2em;
+}
