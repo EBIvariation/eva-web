@@ -12,7 +12,7 @@
     "chai-webdriver": "1.2.3",
     "chromedriver": "latest",
     "geckodriver": "3.0.1",
-    "grunt": "1.4.1",
+    "grunt": "1.5.3",
     "grunt-bower-task": "0.6.1",
     "grunt-config": "1.1.0",
     "grunt-contrib-clean": "2.0.0",
