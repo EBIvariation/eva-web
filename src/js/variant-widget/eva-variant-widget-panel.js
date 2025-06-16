@@ -34,7 +34,7 @@ function EvaVariantWidgetPanel(args) {
 
 EvaVariantWidgetPanel.defaultSpecies = 'ecaballus_20';
 EvaVariantWidgetPanel.defaultFilter = 'region';
-EvaVariantWidgetPanel.defaultRegion = '1:3000000-3100000';
+EvaVariantWidgetPanel.defaultRegion = 'CM000377.2:3000000-3100000';
 EvaVariantWidgetPanel.defaultGene = 'BRCA2';
 
 EvaVariantWidgetPanel.prototype = {
