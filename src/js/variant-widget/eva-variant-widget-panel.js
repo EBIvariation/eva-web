@@ -671,7 +671,7 @@ EvaVariantWidgetPanel.prototype = {
                     defaultRegion = '9:151000001-152000000';
                     break;
                 default:
-                    defaultRegion = '1:3000000-3100000';
+                    defaultRegion = 'CM000377.2:3000000-3100000';
             }
             _this.formPanelVariantFilter.panel.getForm().findField('region').setValue(defaultRegion);
             _this.variantWidget.toolTabPanel.setActiveTab(0);
