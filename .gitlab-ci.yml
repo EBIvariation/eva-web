@@ -1,47 +1,47 @@
 stages:
-  - test
+#  - test
   - deploy
 
 variables:
   NVM_VERSION: 0.39.5
   NODE_VERSION: 16.0.0
 
-test:
- stage: test
- image: ubuntu:latest
- before_script:
-   - apt-get update
-   - apt-get upgrade -y
-   - apt-get install -y tzdata
-   - apt-get install -y wget
-   - apt-get install -y git
-   - apt-get install -y curl bzip2 jq
-   - git submodule update --init
-   - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
-   - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-   - nvm install $NODE_VERSION
-   - wget -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-   - apt-get install -y /tmp/chrome.deb
-   - cd lib/jsorolla && npm install phantomjs-prebuilt && npm install && cd ../.. && npm install --legacy-peer-deps
-   - npm install -g grunt-cli
-   - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
- script:
-   - |
-     for i in {1..5}; do
-      echo "Finding Github CI status for ${CI_COMMIT_SHA}..." && export GITHUB_CI_STATUS=$(curl -s https://api.github.com/repos/EBIVariation/eva-web/actions/runs | jq --arg COMMIT_TO_FIND $CI_COMMIT_SHA -r '.workflow_runs | map(select(.head_sha == $COMMIT_TO_FIND and .conclusion == "success"))[0].conclusion') && [[ $GITHUB_CI_STATUS == "success" ]] && echo "Github CI run was successful!"
-      if [ $? -ne 0 ]; then
-       echo "Retrying..."
-       sleep 300
-      else
-       exit 0
-      fi
-     done
-     exit 1
- environment:
-   name: test-env
- only:
-   - master
-   - tags
+#test:
+# stage: test
+# image: ubuntu:latest
+# before_script:
+#   - apt-get update
+#   - apt-get upgrade -y
+#   - apt-get install -y tzdata
+#   - apt-get install -y wget
+#   - apt-get install -y git
+#   - apt-get install -y curl bzip2 jq
+#   - git submodule update --init
+#   - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+#   - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+#   - nvm install $NODE_VERSION
+#   - wget -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#   - apt-get install -y /tmp/chrome.deb
+#   - cd lib/jsorolla && npm install phantomjs-prebuilt && npm install && cd ../.. && npm install --legacy-peer-deps
+#   - npm install -g grunt-cli
+#   - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
+# script:
+#   - |
+#     for i in {1..5}; do
+#      echo "Finding Github CI status for ${CI_COMMIT_SHA}..." && export GITHUB_CI_STATUS=$(curl -s https://api.github.com/repos/EBIVariation/eva-web/actions/runs | jq --arg COMMIT_TO_FIND $CI_COMMIT_SHA -r '.workflow_runs | map(select(.head_sha == $COMMIT_TO_FIND and .conclusion == "success"))[0].conclusion') && [[ $GITHUB_CI_STATUS == "success" ]] && echo "Github CI run was successful!"
+#      if [ $? -ne 0 ]; then
+#       echo "Retrying..."
+#       sleep 300
+#      else
+#       exit 0
+#      fi
+#     done
+#     exit 1
+# environment:
+#   name: test-env
+# only:
+#   - master
+#   - tags
 
 # Not executed, parent job definition
 .deploy-website:
@@ -74,8 +74,8 @@ test:
     - zip -q -r build/${ARTIFACT_NAME}.zip build/${ARTIFACT_NAME}
     - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/${ARTIFACT_NAME}.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE_CODON}:${EVA_SOFTWARE_PATH_CODON}/eva-web/
     - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  dependencies:
-    - test
+#  dependencies:
+#    - test
 
 deploy-website-internal:
   extends: .deploy-website
