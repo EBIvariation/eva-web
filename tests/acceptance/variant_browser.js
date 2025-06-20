@@ -757,7 +757,7 @@ function variantResetCheck(driver) {
     driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).getText().then(function(text){
-        chai.assert.equal(text, '1:3000000-3100000');
+        chai.assert.equal(text, 'CM000377.2:3000000-3100000');
     });
     driver.wait (until.elementLocated (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then (function (text) {
         driver.findElement (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText ().then (function (text) {
