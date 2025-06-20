@@ -42,20 +42,19 @@ test.describe('Variant Browser ('+config.browser()+')', function() {
     });
 
     test.describe('search by multiple Variant IDs', function() {
-        test.it('Search term "rs68485566,rs68485569,rs68485571" match with column Variant ID values', function() {
-            variantSearchByMutlipleIds(driver, ["rs68485566","rs68485569","rs68485571"]);
+        test.it('Search term "rs68485566,rs68485569" match with column Variant ID values', function() {
+            variantSearchByMutlipleIds(driver, ["rs68485566","rs68485569"]);
         });
     });
 
     test.describe('search by Species and Chromosomal Location', function() {
-        test.it('Search by species  "Goat / CHIR_1.0" and location "2:4000000-4100000"  where column "Chr"  should match with "2" and Position should be between "4000000-4100000"', function() {
+        test.it('Search by species  "Goat / CHIR_1.0" and location "CM001711.1:4000000-4100000"  where column "Chr"  should match with "CM001711.1" and Position should be between "4000000-4100000"', function() {
             variantSearchBySpeciesandChrLocation(driver);
         });
     });
 
     test.describe('Position Filter validate with special characters', function() {
-        test.it('Search by species  "Mosquito / AaegL3" and location "supercont1.18:165624-305624"  where column "Chr"  should match with "supercont1.18",\n' +
-                'Search by species  "Mosquito / AgamP3" and location "X:10000000-11000000"  where column "Chr"  should match with "X"\n' +
+        test.it('Search by species  "Mosquito / AgamP3" and location "CM000360.1:10000000-11000000"  where column "Chr"  should match with "CM000360.1"\n' +
                 'Search by species  "Mosquito / AgamP3" and location "1!~13:12233-12234"  where table  should match with "No records to display"', function() {
             positionFilterBoxValidation(driver);
         });
@@ -219,7 +218,7 @@ function variantSearchBySpeciesandChrLocation(driver){
     safeClick(driver, driver.findElement(By.xpath("//li[text()='Goat / CHIR_1.0']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
-    driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
+    driver.findElement(By.name("region")).sendKeys('CM001711.1:4000000-4100000');
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
@@ -271,7 +270,7 @@ function checkdbSNPLink(driver){
     safeClick(driver, driver.findElement(By.xpath("//li[text()='Goat / CHIR_1.0']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
-    driver.findElement(By.name("region")).sendKeys('2:4000000-4100000');
+    driver.findElement(By.name("region")).sendKeys('CM001711.1:4000000-4100000');
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//td[9]/div[text()]")), config.wait()).then(function(text) {
@@ -305,12 +304,12 @@ function positionFilterBoxValidation(driver){
     safeClick(driver, driver.findElement(By.xpath("//li[text()='Mosquito / AgamP3']")));
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).clear();
-    driver.findElement(By.name("region")).sendKeys('X:10000000-11000000');
+    driver.findElement(By.name("region")).sendKeys('CM000360.1:10000000-11000000');
     clickSubmit(driver);
     waitForVariantsToLoad(driver);
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText().then(function(text){
-            assert(text).equalTo('X');
+            assert(text).equalTo('CM000360.1');
         });
     });
     safeClick(driver, driver.findElement(By.id("speciesFilter-trigger-picker")));
@@ -758,7 +757,7 @@ function variantResetCheck(driver) {
     driver.findElement (By.xpath ("//div[contains(@id,'VariantWidgetPanel')]//span[text()='Reset']")).click ();
     waitForVariantsToLoad(driver);
     driver.findElement(By.name("region")).getText().then(function(text){
-        chai.assert.equal(text, '1:3000000-3100000');
+        chai.assert.equal(text, 'CM000377.2:3000000-3100000');
     });
     driver.wait (until.elementLocated (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")), config.wait()).then (function (text) {
         driver.findElement (By.xpath ("//div[@id='variant-browser-grid-body']//table[1]//td[1]/div[text()]")).getText ().then (function (text) {

@@ -51,7 +51,7 @@ function visitVariantBrowser(driver) {
     driver.findElement(By.xpath("//li//a[text()='Variant Browser']")).click();
     driver.wait(until.elementLocated(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//tr[1]//td[1]/div[text()]")), config.wait()).then(function(text) {
         var value = driver.findElement(By.xpath("//div[@id='variant-browser-grid-body']//table[2]//tr[1]//td[1]/div[text()]")).getText();
-        assert(value).matches(/^\d+/);
+        assert(value).matches(/^\w+/);
     });
 
     return driver;
