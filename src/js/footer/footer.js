@@ -43,7 +43,7 @@
     init();
 })();
 (function includeScripts() {
-    var requireScripts = ['//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.1/js/cookiebanner.js', '//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.1/js/script.js', '//www.ebi.ac.uk/web_guidelines/js/downtime.js?' + Math.round(new Date().getTime() / 3600000)];
+    var requireScripts = ['//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.1/js/script.js', '//www.ebi.ac.uk/web_guidelines/js/downtime.js?' + Math.round(new Date().getTime() / 3600000)];
 
     function init() {
         try {
