@@ -115,6 +115,32 @@ function getReverseMap (forwardMap) {
     return reverseMap;
 }
 
+function evaHtmlEncode(value) {
+    if (_.isUndefined(value) || _.isNull(value)) {
+        return '';
+    }
+    return _.escape(String(value));
+}
+
+function evaAttrEncode(value) {
+    return evaHtmlEncode(value).replace(/'/g, '&#x27;');
+}
+
+function evaSafeUrl(value, allowedProtocols) {
+    if (_.isUndefined(value) || _.isNull(value)) {
+        return '';
+    }
+
+    allowedProtocols = allowedProtocols || ['http:', 'https:', 'ftp:'];
+
+    try {
+        var url = new URL(String(value), window.location.origin);
+        return _.contains(allowedProtocols, url.protocol) ? evaAttrEncode(url.href) : '';
+    } catch (e) {
+        return '';
+    }
+}
+
 DISABLE_STUDY_LINK = ['PRJX00001'];
 ACCESSIONING_SERVICE = 'accessioning-service';
 VARIANT_TYPE_SO_MAP = {"SNV": "SO:0001483",

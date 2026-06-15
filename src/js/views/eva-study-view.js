@@ -143,7 +143,7 @@ EvaStudyView.prototype = {
         var pubLinks = '';
         if(!_.isEmpty(publications) && publications != '-') {
             for (i = 0; i < publications.length; i++) {
-                pubLinks += '<span class="publication-id">' + publications[i]  + '</span><br />'
+                pubLinks += '<span class="publication-id">' + evaHtmlEncode(publications[i])  + '</span><br />'
             }
         } else {
             pubLinks = '<span class="publication-id">-</span>';
@@ -153,8 +153,9 @@ EvaStudyView.prototype = {
         var taxonomyId = new Array();
         if (data.summaryData[0].taxonomyId) {
             for (i = 0; i < data.summaryData[0].taxonomyId.length; i++) {
-                var taxLink = 'http://www.ebi.ac.uk/ena/browser/view/Taxon:' + data.summaryData[0].taxonomyId[i];
-                taxonomyId.push(['<a href="' + taxLink + '" target="_blank">' + data.summaryData[0].taxonomyId[i] + '</a>']);
+                var taxId = data.summaryData[0].taxonomyId[i];
+                var taxLink = 'http://www.ebi.ac.uk/ena/browser/view/Taxon:' + encodeURIComponent(taxId);
+                taxonomyId.push(['<a href="' + evaSafeUrl(taxLink) + '" target="_blank">' + evaHtmlEncode(taxId) + '</a>']);
             }
         }
 
@@ -168,45 +169,48 @@ EvaStudyView.prototype = {
                 var assemblyLink;
 
                 if (accession.startsWith("GCA_")) {
-                    assemblyLink = 'https://www.ebi.ac.uk/ena/browser/view/' + accession;
+                    assemblyLink = 'https://www.ebi.ac.uk/ena/browser/view/' + encodeURIComponent(accession);
                 } else if (accession.startsWith("GCF_")) {
-                    assemblyLink = 'https://www.ncbi.nlm.nih.gov/assembly/' + accession;
+                    assemblyLink = 'https://www.ncbi.nlm.nih.gov/assembly/' + encodeURIComponent(accession);
                 } else {
-                    assemblyLink = 'https://www.ebi.ac.uk/ena/data/search?query=' + accession;
+                    assemblyLink = 'https://www.ebi.ac.uk/ena/data/search?query=' + encodeURIComponent(accession);
                 }
 
-                assemblyAccessions.push(['<a href="' + assemblyLink + '" target="_blank">' + accession + '<a>']);
+                assemblyAccessions.push(['<a href="' + evaSafeUrl(assemblyLink) + '" target="_blank">' + evaHtmlEncode(accession) + '<a>']);
             });
         }
 
 
         if (_this.type === 'eva') {
             var projectURL = '-' ;
-            var ena_link = '<a id="ena_link" href="https://www.ebi.ac.uk/ena/browser/view/' + data.summaryData[0].id + '" target="_blank">Submitted Files</a>';
+            var safeStudyId = encodeURIComponent(data.summaryData[0].id);
+            var ena_link = '<a id="ena_link" href="https://www.ebi.ac.uk/ena/browser/view/' + safeStudyId + '" target="_blank">Submitted Files</a>';
             var eva_link = '';
             if (data.summaryData[0].browsable) {
-                eva_link = '<a id="eva_link" href="https://ftp.ebi.ac.uk/pub/databases/eva/' + data.summaryData[0].id + '" target="_blank">Browsable Files</a>';
+                eva_link = '<a id="eva_link" href="https://ftp.ebi.ac.uk/pub/databases/eva/' + safeStudyId + '" target="_blank">Browsable Files</a>';
             }
 
-            if (!_.isUndefined(_this._getProjectUrl(data.summaryData[0].id)) && _this._getProjectUrl(data.summaryData[0].id) != '-') {
-                projectURL = '<a href="' + _this._getProjectUrl(data.summaryData[0].id) + '" target="_blank">' + _this._getProjectUrl(data.summaryData[0].id) + '</a><br />';
+            var projectUrlValue = _this._getProjectUrl(data.summaryData[0].id);
+            var projectSafeUrl = evaSafeUrl(projectUrlValue);
+            if (!_.isUndefined(projectUrlValue) && projectUrlValue != '-' && projectSafeUrl) {
+                projectURL = '<a href="' + projectSafeUrl + '" target="_blank">' + evaHtmlEncode(projectUrlValue) + '</a><br />';
             }
 
-            var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
+            var _filesTable = '<div><h3>' + evaHtmlEncode(data.summaryData[0].name) + '</h3>' +
                 '<span class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered study-view-table">' +
                 '<thead><tr><th class="col-name"></th><th class="col-value"></th></tr></thead><tbody>' +
-                '<tr><td><b>Genome</b></td><td><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
-                '<tr><td><b>Sample(s)</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
+                '<tr><td><b>Genome</b></td><td><span id="organism-span">' + evaHtmlEncode(data.summaryData[0].speciesCommonName) + '</span></td></tr>' +
+                '<tr><td><b>Sample(s)</b></td><td><span id="scientific-name-span">' + evaHtmlEncode(data.summaryData[0].speciesScientificName) + '</span></td></tr>' +
                 '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join(", ") + '</span></td></tr>' +
-                '<tr><td><b>Center</b></td><td><span id="center-span">' + data.summaryData[0].center + '</span></td></tr>' +
-                '<tr><td><b>Material</b></td><td><span id="material-span">' + data.summaryData[0].material + '</span></td></tr>' +
-                '<tr><td><b>Scope</b></td><td><span id="scope-span">' + data.summaryData[0].scope + '</span></td></tr>' +
-                '<tr><td><b>Type</b></td><td><span id="type-span">' + data.summaryData[0].experimentType + '</span></td></tr>' +
+                '<tr><td><b>Center</b></td><td><span id="center-span">' + evaHtmlEncode(data.summaryData[0].center) + '</span></td></tr>' +
+                '<tr><td><b>Material</b></td><td><span id="material-span">' + evaHtmlEncode(data.summaryData[0].material) + '</span></td></tr>' +
+                '<tr><td><b>Scope</b></td><td><span id="scope-span">' + evaHtmlEncode(data.summaryData[0].scope) + '</span></td></tr>' +
+                '<tr><td><b>Type</b></td><td><span id="type-span">' + evaHtmlEncode(data.summaryData[0].experimentType) + '</span></td></tr>' +
                 '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + assemblyAccessions.join(", ") + '</span></td></tr>' +
-                '<tr><td><b>Source Type</b></td><td><span id="source-type-span">' + data.summaryData[0].sourceType + '</span></td></tr>' +
-                '<tr><td><b>Platform</b></td><td><span id="platform-span">' + data.summaryData[0].platform + '</span></td></tr>' +
-                '<tr><td><b>Number of samples</b></td><td><span id="samples-span">' + data.summaryData[0].numSamples + '</span></td></tr>' +
-                '<tr><td><b>Description</b></td><td><span id="description-span">' + data.summaryData[0].description + '</span></td></tr>' +
+                '<tr><td><b>Source Type</b></td><td><span id="source-type-span">' + evaHtmlEncode(data.summaryData[0].sourceType) + '</span></td></tr>' +
+                '<tr><td><b>Platform</b></td><td><span id="platform-span">' + evaHtmlEncode(data.summaryData[0].platform) + '</span></td></tr>' +
+                '<tr><td><b>Number of samples</b></td><td><span id="samples-span">' + evaHtmlEncode(data.summaryData[0].numSamples) + '</span></td></tr>' +
+                '<tr><td><b>Description</b></td><td><span id="description-span">' + evaHtmlEncode(data.summaryData[0].description) + '</span></td></tr>' +
                 '<tr><td><b>Resource</b></td><td><span id="resource-span">' + projectURL + '</div></td></tr>' +
                 '<tr><td><b>Download</b></td><td><span id="download-span">' + ena_link + '<br /><br />' + eva_link + '</span></td></tr>' +
                 '<tr><td><span><b>Publications</b></span></td><td>' + pubLinks + '</tr>' +
@@ -316,18 +320,20 @@ EvaStudyView.prototype = {
             _filesTable += '</div></div>'
         }
         else if (_this.type === 'dgva') {
-            var _filesTable = '<div><h3>' + data.summaryData[0].name + '</h3>' +
+            var safeDgvaStudyId = encodeURIComponent(data.summaryData[0].id);
+            var safeDgvaStudyName = encodeURIComponent(data.summaryData[0].name);
+            var _filesTable = '<div><h3>' + evaHtmlEncode(data.summaryData[0].name) + '</h3>' +
                 '<div class="row study-view-data"><div class="medium-12 columns"><div><h4>General Information</h4></div><table id="summaryTable" class="table table-bordered  study-view-table">' +
                 '<thead><tr><th class="col-name"></th><th class="col-value"></th></tr></thead><tbody>' +
-                '<tr><td><b>Genome</b></td><td class="eva-capitalize"><span id="organism-span">' + data.summaryData[0].speciesCommonName + '</span></td></tr>' +
-                '<tr><td><b>Sample(s)</b></td><td><span id="scientific-name-span">' + data.summaryData[0].speciesScientificName + '</span></td></tr>' +
+                '<tr><td><b>Genome</b></td><td class="eva-capitalize"><span id="organism-span">' + evaHtmlEncode(data.summaryData[0].speciesCommonName) + '</span></td></tr>' +
+                '<tr><td><b>Sample(s)</b></td><td><span id="scientific-name-span">' + evaHtmlEncode(data.summaryData[0].speciesScientificName) + '</span></td></tr>' +
                 '<tr><td><b>Taxonomy ID</b></td><td><span id="taxonomy-id-span">' + taxonomyId.join(", ") + '</span></td></tr>' +
-                '<tr><td><b>Study Type</b></td><td><span id="study-type-span">' + data.summaryData[0].typeName + '</span></td></tr>' +
-                '<tr><td><b>Experiment Type</b></td><td><span id="exp-type-span">' + data.summaryData[0].experimentType + '</span></td></tr>' +
-                '<tr><td><b>Platform</b></td><td><span id="platform-span">' + data.summaryData[0].platform + '</span></td></tr>' +
+                '<tr><td><b>Study Type</b></td><td><span id="study-type-span">' + evaHtmlEncode(data.summaryData[0].typeName) + '</span></td></tr>' +
+                '<tr><td><b>Experiment Type</b></td><td><span id="exp-type-span">' + evaHtmlEncode(data.summaryData[0].experimentType) + '</span></td></tr>' +
+                '<tr><td><b>Platform</b></td><td><span id="platform-span">' + evaHtmlEncode(data.summaryData[0].platform) + '</span></td></tr>' +
                 '<tr><td><b>Genome Assembly</b></td><td><span id="assembly-span">' + assemblyAccessions.join(", ") + '</span></td></tr>' +
-                '<tr><td><b>Description</b></td><td><span id="description-span">' + data.summaryData[0].description + '</span></td></tr>' +
-                '<tr><td><b>Download</b></td><td><span id="download-span"><a href="https://ftp.ebi.ac.uk/pub/databases/dgva/' + data.summaryData[0].id + '_' + data.summaryData[0].name + '" target="_blank">FTP</a></span></td></tr>' +
+                '<tr><td><b>Description</b></td><td><span id="description-span">' + evaHtmlEncode(data.summaryData[0].description) + '</span></td></tr>' +
+                '<tr><td><b>Download</b></td><td><span id="download-span"><a href="https://ftp.ebi.ac.uk/pub/databases/dgva/' + safeDgvaStudyId + '_' + safeDgvaStudyName + '" target="_blank">FTP</a></span></td></tr>' +
                 '<tr><td><span><b>Publications</b></span></td><td>' + pubLinks + '</tr>' +
                 '</tbody></table></div></div>'
 
@@ -346,5 +352,3 @@ EvaStudyView.prototype = {
     }
 
 }
-
-

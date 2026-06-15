@@ -271,7 +271,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                     meta.tdAttr = 'data-qtip="Click to see  more detailed information"';
                     return value ? Ext.String.format(
-                        '<a href="?eva-study=' + value + '">' + value + '</a>',
+                        '<a href="?eva-study=' + encodeURIComponent(value) + '">' + evaHtmlEncode(value) + '</a>',
                         value
                     ) : '';
                 }
@@ -292,7 +292,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 flex: 3,
                 renderer: function (value, p, record) {
                     return value ? Ext.String.format(
-                        '<div data-toggle="popover" title="'+value+'">{0}</div>',
+                        '<div data-toggle="popover" title="'+evaAttrEncode(value)+'">'+evaHtmlEncode(value)+'</div>',
                         value
                     ) : '';
                 }
@@ -302,18 +302,18 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 dataIndex: 'experimentTypeAbbreviation',
                 flex: 1.5,
                 renderer: function (value, meta, rec, rowIndex, colIndex, store) {
-                    meta.tdAttr = 'data-qtip="' + rec.data.experimentType + '"';
+                    meta.tdAttr = 'data-qtip="' + evaAttrEncode(rec.data.experimentType) + '"';
                     return value ? Ext.String.format(
-                        '<tpl>' + value + '</tpl>',
+                        '<tpl>' + evaHtmlEncode(value) + '</tpl>',
                         value
                     ) : '';
                 }
             },
             {
                 text: 'Submitted <br/>Files',
-                //dataIndex: 'id',
-                xtype: 'templatecolumn',
-                tpl: '<tpl><a href="https://www.ebi.ac.uk/ena/browser/view/{id}" target="_blank" class="image-link"><img src="//www.ebi.ac.uk/sites/ebi.ac.uk/files/groups/ena/logos/ena_small.png" alt="European Nucleotide Archive" width="60"/></a></tpl>',
+                renderer: function (value, meta, rec) {
+                    return '<a href="https://www.ebi.ac.uk/ena/browser/view/' + encodeURIComponent(rec.data.id) + '" target="_blank" class="image-link"><img src="//www.ebi.ac.uk/sites/ebi.ac.uk/files/groups/ena/logos/ena_small.png" alt="European Nucleotide Archive" width="60"/></a>';
+                },
                 flex: 1.5
             },
             {
@@ -465,7 +465,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         meta.tdAttr = 'data-qtip="Click to see  more detailed information"';
                         return value ? Ext.String.format(
-                            '<a href="?dgva-study=' + value + '">' + value + '</a>',
+                            '<a href="?dgva-study=' + encodeURIComponent(value) + '">' + evaHtmlEncode(value) + '</a>',
                             value
                         ) : '';
                     }
@@ -481,7 +481,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     flex: 3,
                     renderer: function (value, p, record) {
                         return value ? Ext.String.format(
-                            '<div data-toggle="popover" title="'+value+'">{0}</div>',
+                            '<div data-toggle="popover" title="'+evaAttrEncode(value)+'">'+evaHtmlEncode(value)+'</div>',
                             value
                         ) : '';
                     }
@@ -492,7 +492,7 @@ EvaStudyBrowserWidgetPanel.prototype = {
                     flex: 3,
                     renderer: function (value, p, record) {
                         return value ? Ext.String.format(
-                            '<div data-toggle="popover" title="'+value+'">{0}</div>',
+                            '<div data-toggle="popover" title="'+evaAttrEncode(value)+'">'+evaHtmlEncode(value)+'</div>',
                             value
                         ) : '';
                     }
@@ -504,9 +504,11 @@ EvaStudyBrowserWidgetPanel.prototype = {
                 },
                 {
                     text: 'Download',
-                    //dataIndex: 'id',
-                    xtype: 'templatecolumn',
-                    tpl: '<tpl><a href="https://ftp.ebi.ac.uk/pub/databases/dgva/{id}_{name}" target="_blank">FTP</a></tpl>',
+                    renderer: function (value, meta, rec) {
+                        return '<a href="https://ftp.ebi.ac.uk/pub/databases/dgva/' +
+                            encodeURIComponent(rec.data.id) + '_' + encodeURIComponent(rec.data.name) +
+                            '" target="_blank">FTP</a>';
+                    },
                     flex: 1.5
                 }
             ];

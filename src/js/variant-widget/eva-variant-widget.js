@@ -269,7 +269,7 @@ EvaVariantWidget.prototype = {
                     text: 'Class',
                     dataIndex: 'type',
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="type"><a href="http://www.ncbi.nlm.nih.gov/books/NBK44447/#Content.what_classes_of_genetic_variatio" target="_blank">{type}</a><tpl else>-</tpl>',
+                    tpl: '<tpl if="type"><a href="http://www.ncbi.nlm.nih.gov/books/NBK44447/#Content.what_classes_of_genetic_variatio" target="_blank">{type:htmlEncode}</a><tpl else>-</tpl>',
                     flex: 0.3
                 },
                 {
@@ -278,7 +278,7 @@ EvaVariantWidget.prototype = {
                     renderer: function (value, meta, rec, rowIndex, colIndex, store) {
                         if (!_.isUndefined(value)) {
                             var  so_array = getMostSevereConsequenceType(rec.data.consequenceTypes);
-                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
+                            meta.tdAttr = 'data-qtip="' + evaAttrEncode(so_array.join('\n')) + '"';
                             var so_term_detail = consequenceTypeDetails[_.first(so_array)];
                             var color = '';
                             var impact = '';
@@ -314,7 +314,7 @@ EvaVariantWidget.prototype = {
                                 if (!_.isUndefined(value)) {
                                     var consequenceTypes = rec.data.consequenceTypes;
                                     var  so_array = getMostSevereConsequenceType(consequenceTypes);
-                                    meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
+                                    meta.tdAttr = 'data-qtip="' + evaAttrEncode(so_array.join('\n')) + '"';
                                     return getProteinSubstitutionScore(consequenceTypes,so_array,'Polyphen');
                                 } else {
                                     return '';
@@ -332,7 +332,7 @@ EvaVariantWidget.prototype = {
                                 if (!_.isUndefined(value)) {
                                     var consequenceTypes = rec.data.consequenceTypes;
                                     var  so_array = getMostSevereConsequenceType(consequenceTypes);
-                                    meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
+                                    meta.tdAttr = 'data-qtip="' + evaAttrEncode(so_array.join('\n')) + '"';
                                     return getProteinSubstitutionScore(consequenceTypes,so_array,'Sift');
                                 } else {
                                     return '';
@@ -399,7 +399,7 @@ EvaVariantWidget.prototype = {
                 var content = '';
                 var consequenceTypes = record.data.consequenceTypes;
                 for (i = 0; i < consequenceTypes.length; i++) {
-                    content += '<div><a href="http://www.sequenceontology.org/miso/current_svn/term/' + consequenceTypes[i].soTerms[0].soAccession + '" target="_blank">' + consequenceTypes[i].soTerms[0].soAccession + '</a>:&nbsp;' + consequenceTypes[i].soTerms[0].soName + '</div>'
+                    content += '<div><a href="http://www.sequenceontology.org/miso/current_svn/term/' + encodeURIComponent(consequenceTypes[i].soTerms[0].soAccession) + '" target="_blank">' + evaHtmlEncode(consequenceTypes[i].soTerms[0].soAccession) + '</a>:&nbsp;' + evaHtmlEncode(consequenceTypes[i].soTerms[0].soName) + '</div>'
                 }
                 body.innerHTML = content;
             }
@@ -572,27 +572,27 @@ EvaVariantWidget.prototype = {
                     dataIndex: "ensemblGeneId",
                     flex: 1.4,
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Multi/Search/Results?q={ensemblGeneId};facet_feature_type=Gene" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Multi/Search/Results?q={ensemblGeneId:htmlEncode};facet_feature_type=Gene" target="_blank">{ensemblGeneId:htmlEncode}</a><tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br /> Gene Symbol",
                     dataIndex: "geneName",
                     xtype: "templatecolumn",
                     flex: 0.9,
-                    tpl: '<tpl if="geneName"><a href="http://www.ensembl.org/Multi/Search/Results?q={geneName};facet_feature_type=Gene" target="_blank">{geneName}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="geneName"><a href="http://www.ensembl.org/Multi/Search/Results?q={geneName:htmlEncode};facet_feature_type=Gene" target="_blank">{geneName:htmlEncode}</a><tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br />Transcript ID",
                     dataIndex: "ensemblTranscriptId",
                     flex: 1.3,
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Multi/Search/Results?q={ensemblTranscriptId};facet_feature_type=Transcript" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>'
+                    tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Multi/Search/Results?q={ensemblTranscriptId:htmlEncode};facet_feature_type=Transcript" target="_blank">{ensemblTranscriptId:htmlEncode}</a><tpl else>-</tpl>'
                 },
                 {
                     text: "Ensembl <br />Transcript Biotype",
                     dataIndex: "biotype",
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="biotype">{biotype}<tpl else>-</tpl>',
+                    tpl: '<tpl if="biotype">{biotype:htmlEncode}<tpl else>-</tpl>',
                     flex: 1.1
                 },
                 {
@@ -605,7 +605,7 @@ EvaVariantWidget.prototype = {
                             if(_.isEmpty(so_array)){
                                 return '<tpl>-</tpl>';
                             }
-                            meta.tdAttr = 'data-qtip="' + so_array.join(',') + '"';
+                            meta.tdAttr = 'data-qtip="' + evaAttrEncode(so_array.join(',')) + '"';
                             return value ? Ext.String.format(
                                 '<tpl>' + so_array.join(',') + '</tpl>',
                                 value
@@ -619,21 +619,21 @@ EvaVariantWidget.prototype = {
                     text: "Codon",
                     dataIndex: "codon",
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="codon">{codon}<tpl else>-</tpl>',
+                    tpl: '<tpl if="codon">{codon:htmlEncode}<tpl else>-</tpl>',
                     flex: 0.6
                 },
                 {
                     text: "cDna <br />Position",
                     dataIndex: "cDnaPosition",
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="cDnaPosition">{cDnaPosition}<tpl elseif="cDnaPosition == 0">{cDnaPosition}<tpl else>-</tpl>',
+                    tpl: '<tpl if="cDnaPosition">{cDnaPosition:htmlEncode}<tpl elseif="cDnaPosition == 0">{cDnaPosition:htmlEncode}<tpl else>-</tpl>',
                     flex: 0.6
                 },
                 {
                     text: "AA<br />Change",
                     dataIndex: "aaChange",
                     xtype: "templatecolumn",
-                    tpl: '<tpl if="aaChange">{aaChange}<tpl else>-</tpl>',
+                    tpl: '<tpl if="aaChange">{aaChange:htmlEncode}<tpl else>-</tpl>',
                     flex: 0.6
                 },
                 {
@@ -645,7 +645,7 @@ EvaVariantWidget.prototype = {
                             var consequenceTypes = [];
                             consequenceTypes.push(rec.data);
                             var  so_array = getMostSevereConsequenceType(value);
-                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
+                            meta.tdAttr = 'data-qtip="' + evaAttrEncode(so_array.join('\n')) + '"';
                             return getProteinSubstitutionScore(consequenceTypes,so_array,'Polyphen');
                         } else {
                             return '';
@@ -661,7 +661,7 @@ EvaVariantWidget.prototype = {
                             var consequenceTypes = [];
                             consequenceTypes.push(rec.data);
                             var  so_array = getMostSevereConsequenceType(value);
-                            meta.tdAttr = 'data-qtip="' + so_array.join('\n') + '"';
+                            meta.tdAttr = 'data-qtip="' + evaAttrEncode(so_array.join('\n')) + '"';
                             return getProteinSubstitutionScore(consequenceTypes,so_array,'Sift');
                         } else {
                             return '';
@@ -754,7 +754,7 @@ EvaVariantWidget.prototype = {
                 dataIndex: "studyId",
                 flex: 1,
                 xtype: 'templatecolumn',
-                tpl: '<tpl if="reference">{reference}<tpl else>-</tpl>/<tpl if="alternate">{alternate}<tpl else>-</tpl>'
+                tpl: '<tpl if="reference">{reference:htmlEncode}<tpl else>-</tpl>/<tpl if="alternate">{alternate:htmlEncode}<tpl else>-</tpl>'
             },
             {
                 text: "Samples Count",

@@ -110,7 +110,7 @@ EvaMultiVariantView.prototype = {
             if (variant[0].associatedRSID) {
                 rsReference = '<a href="'
                                 + EvaVariantView.prototype._getAccessionIDNavURL(variant[0].associatedRSID, species, assemblyAccession)
-                                + '">' + variant[0].associatedRSID + '</a>';
+                                + '">' + evaHtmlEncode(variant[0].associatedRSID) + '</a>';
             }
 
             var getDetailedViewURL =
@@ -122,25 +122,25 @@ EvaMultiVariantView.prototype = {
             var detailedViewURLForAccession = getDetailedViewURL(accessionID, species, assemblyAccession);
             summaryData = variant.map(function(x) {
                 var summaryDataObj = {};
-                summaryDataObj[summaryDisplayFields.id] = x.id;
+                summaryDataObj[summaryDisplayFields.id] = evaHtmlEncode(x.id);
                 summaryDataObj[summaryDisplayFields.assoc_rs] = rsReference;
                 summaryDataObj[summaryDisplayFields.detailedViewURLLink] = detailedViewURLForAccession;
-                summaryDataObj[summaryDisplayFields.organism] = organism;
+                summaryDataObj[summaryDisplayFields.organism] = evaHtmlEncode(organism);
                 summaryDataObj[summaryDisplayFields.assembly] = EvaVariantView.prototype.getAssemblyLink(x.assemblyAccession);
-                summaryDataObj[summaryDisplayFields.submitterHandle] = x.submitterHandle;
-                summaryDataObj[summaryDisplayFields.contig] = x.contig;
-                summaryDataObj[summaryDisplayFields.chromosome] = x.chromosome;
-                summaryDataObj[summaryDisplayFields.start] = x.start;
-                summaryDataObj[summaryDisplayFields.end] = x.end;
+                summaryDataObj[summaryDisplayFields.submitterHandle] = evaHtmlEncode(x.submitterHandle);
+                summaryDataObj[summaryDisplayFields.contig] = evaHtmlEncode(x.contig);
+                summaryDataObj[summaryDisplayFields.chromosome] = evaHtmlEncode(x.chromosome);
+                summaryDataObj[summaryDisplayFields.start] = evaHtmlEncode(x.start);
+                summaryDataObj[summaryDisplayFields.end] = evaHtmlEncode(x.end);
                 summaryDataObj[summaryDisplayFields.reference] = _.escape(x.referenceRepr);
                 summaryDataObj[summaryDisplayFields.alternate] = _.escape(x.alternateRepr);
-                summaryDataObj[summaryDisplayFields.id] = x.id;
+                summaryDataObj[summaryDisplayFields.id] = evaHtmlEncode(x.id);
                 summaryDataObj[summaryDisplayFields.type] = x.variantTypeLink;
-                summaryDataObj[summaryDisplayFields.evidence] = x.evidence;
-                summaryDataObj[summaryDisplayFields.assemblyMatch] = x.assemblyMatch;
-                summaryDataObj[summaryDisplayFields.allelesMatch] = x.allelesMatch;
-                summaryDataObj[summaryDisplayFields.validated] = x.validated;
-                summaryDataObj[summaryDisplayFields.createdDate] = x.createdDate;
+                summaryDataObj[summaryDisplayFields.evidence] = evaHtmlEncode(x.evidence);
+                summaryDataObj[summaryDisplayFields.assemblyMatch] = evaHtmlEncode(x.assemblyMatch);
+                summaryDataObj[summaryDisplayFields.allelesMatch] = evaHtmlEncode(x.allelesMatch);
+                summaryDataObj[summaryDisplayFields.validated] = evaHtmlEncode(x.validated);
+                summaryDataObj[summaryDisplayFields.createdDate] = evaHtmlEncode(x.createdDate);
                 return summaryDataObj;
             });
         }
@@ -150,7 +150,7 @@ EvaMultiVariantView.prototype = {
                 if (key == summaryDisplayFields.id) {
                     var humanSNPAdditionalInfo = (isHumanSNPSearch ?
                                                     'See <a href="' + humanSNPLink + '">NCBI data here</a>.'  : '');
-                    summaryDataEntry[key] = "<b>No data available in EVA for " + accessionID + ".</b> "
+                    summaryDataEntry[key] = "<b>No data available in EVA for " + evaHtmlEncode(accessionID) + ".</b> "
                                                 + humanSNPAdditionalInfo;
                 }
                 else {

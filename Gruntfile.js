@@ -29,6 +29,14 @@ module.exports = function (grunt) {
                 port: 9000
             }
         },
+        connect: {
+            server: {
+                options: {
+                    port: '<%= serve.options.port %>',
+                    base: '.'
+                }
+            }
+        },
         bannereva: '/*\n'+
         ' *\n'+
         ' * European Variation Archive (EVA) - Open-access database of all types of genetic\n'+
@@ -452,7 +460,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
-    grunt.loadNpmTasks('grunt-serve');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     //replace config
     grunt.registerTask('replace-config', ['replace:eva_manager', 'replace:acceptance_test']);
@@ -477,6 +485,7 @@ module.exports = function (grunt) {
 
     //start http server
     grunt.registerTask('start-server', ['exec:startServer']);
+    grunt.registerTask('serve', ['connect:server:keepalive']);
 
     grunt.registerTask('run-all-tests', [
         'start-server',
