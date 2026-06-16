@@ -9,31 +9,35 @@
   "devDependencies": {
     "bower": "1.8.13",
     "chai": "3.5.0",
-    "chai-webdriver": "1.2.3",
     "chromedriver": "latest",
-    "geckodriver": "3.0.1",
+    "geckodriver": "^6.1.0",
     "grunt": "1.5.3",
     "grunt-bower-task": "0.6.1",
     "grunt-config": "1.1.0",
-    "grunt-contrib-clean": "2.0.0",
-    "grunt-contrib-concat": "2.0.0",
+    "grunt-contrib-clean": "^0.3.2",
+    "grunt-contrib-concat": "^0.1.1",
+    "grunt-contrib-connect": "5.0.0",
     "grunt-contrib-copy": "1.0.0",
     "grunt-contrib-cssmin": "4.0.0",
-    "grunt-contrib-imagemin": "4.0.0",
     "grunt-contrib-less": "3.0.0",
     "grunt-contrib-rename": "0.2.0",
     "grunt-contrib-uglify": "5.0.1",
-    "grunt-exec": "3.0.0",
+    "grunt-exec": "^0.3.0",
     "grunt-html-build": "0.7.1",
     "grunt-hub": "1.0.0",
-    "selenium-webdriver": "3.6.0",
+    "grunt-minify-html": "^2.0.0",
     "grunt-mocha-test": "0.13.3",
-    "mocha": "7.2.0",
-    "grunt-minify-html": "3.0.0",
     "grunt-replace": "2.0.2",
-    "mocha-jsdom": "2.0.0",
-    "time-grunt": "2.0.0",
-    "grunt-mocha-phantomjs": "4.0.0",
-    "grunt-contrib-connect": "5.0.0"
+    "mocha": "^11.3.0",
+    "mocha-jsdom": "^1.2.0",
+    "selenium-webdriver": "^4.45.0",
+    "time-grunt": "2.0.0"
+  },
+  "overrides": {
+    "grunt": {
+      "js-yaml": "4.2.0",
+      "minimatch": "3.1.5"
+    },
+    "serialize-javascript": "7.0.5"
   }
 }

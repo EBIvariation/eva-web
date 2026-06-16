@@ -41,7 +41,6 @@ module.exports = {
         driver.manage().window().maximize();
         driver.get(baseURL);
 
-        chai.use(chaiWebdriver(driver));
         driver.wait(until.elementLocated(By.id("cookie-dismiss")), 10000).then(function(text) {
             driver.findElement(By.xpath("//*[@id='data-protection-agree']")).click();
             driver.findElement(By.xpath("//div[@id='cookie-dismiss']//button[@class='close-button']")).click();
@@ -65,8 +64,7 @@ module.exports = {
             until = require('selenium-webdriver').until,
             assert = require('selenium-webdriver/testing/assert'),
             flow = webdriver.promise.controlFlow(),
-            chai = require('chai'),
-            chaiWebdriver = require('chai-webdriver');
+            chai = require('chai');
     },
     sleep:function(driver){
         driver.sleep(sleep_time);
@@ -98,7 +96,6 @@ module.exports = {
         return waitTime;
     }
 };
-
 
 
 

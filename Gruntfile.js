@@ -378,16 +378,6 @@ module.exports = function (grunt) {
             }
         },
 
-        imagemin: {
-            dynamic: {
-                files: [{
-                    expand: true,
-                    cwd: 'src/img/',
-                    src: ['**/*.{png,jpg,gif,svg}', '!optimized/**'],
-                    dest: '<%= build.dir %>/img/'
-                }]
-            }
-        },
         mochaTest: {
             acceptanceTest: {
                 options: {
@@ -406,14 +396,6 @@ module.exports = function (grunt) {
                         'tests/acceptance/variant_browser.js',
                         'tests/acceptance/variant_view.js'
                      ]
-            }
-        },
-        mocha_phantomjs: {
-            unitTest: {
-                src: ['./tests/**/*.html'],
-            },
-            options: {
-                run: true
             }
         },
         exec: {
@@ -454,11 +436,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-minify-html');
-    grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-config');
     grunt.loadNpmTasks('grunt-replace');
-    grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
     grunt.loadNpmTasks('grunt-contrib-connect');
 
@@ -471,8 +451,18 @@ module.exports = function (grunt) {
     //selenium with mocha
     grunt.registerTask('acceptanceTest', ['mochaTest:acceptanceTest']);
 
-    // unit tests with mocha_phantomjs to run from command line
-    grunt.registerTask('unitTest', ['mocha_phantomjs:unitTest']);
+    // unit tests with headless Chrome
+    grunt.registerTask('unitTest', function () {
+        var done = this.async();
+        var childProcess = require('child_process');
+        var unitTest = childProcess.spawn(process.execPath, ['tests/unit/run-unit-tests.js'], {
+            stdio: 'inherit'
+        });
+
+        unitTest.on('close', function (code) {
+            done(code === 0);
+        });
+    });
 
     //run test
     grunt.registerTask('runAcceptanceTest', ['exec:chrome']);
@@ -501,7 +491,6 @@ module.exports = function (grunt) {
         'htmlbuild:eva',
         'replace-html',
         'minifyHtml',
-        'imagemin',
         'unitTest',
         'runAcceptanceTest'
     ]);
@@ -520,7 +509,6 @@ module.exports = function (grunt) {
         'cssmin',
         'htmlbuild:eva',
         'replace-html',
-        'minifyHtml',
-        'imagemin'
+        'minifyHtml'
     ]);
 };
