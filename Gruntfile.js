@@ -415,7 +415,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-rename');
     grunt.loadNpmTasks('grunt-html-build');
     grunt.loadNpmTasks('grunt-hub');
     grunt.loadNpmTasks('grunt-mocha-test');
