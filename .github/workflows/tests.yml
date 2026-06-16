@@ -15,7 +15,7 @@ jobs:
    runs-on: ubuntu-latest
    strategy:
      matrix:       
-       node-version: [16.0.0]
+       node-version: [24.16.0]
    env:
        NODE_VERSION: ${{ matrix.node-version }}
    steps:
