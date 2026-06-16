@@ -398,20 +398,6 @@ module.exports = function (grunt) {
                      ]
             }
         },
-        exec: {
-            startServer: {
-                cmd: 'nohup grunt serve &'
-            },
-            cleanBower: {
-                cmd: 'rm -rf bower_components'
-            },
-            firefox: {
-                 cmd: 'env BROWSER=firefox  grunt acceptanceTest --colors'
-            },
-            chrome: {
-                cmd: 'env BROWSER=chrome  grunt acceptanceTest --colors'
-            }
-        },
         bower: {
             install: {
                 options: {
@@ -433,7 +419,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-html-build');
     grunt.loadNpmTasks('grunt-hub');
     grunt.loadNpmTasks('grunt-mocha-test');
-    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-minify-html');
     grunt.loadNpmTasks('grunt-bower-task');
@@ -465,16 +450,54 @@ module.exports = function (grunt) {
     });
 
     //run test
-    grunt.registerTask('runAcceptanceTest', ['exec:chrome']);
+    grunt.registerTask('runAcceptanceTest', function () {
+        var done = this.async();
+        var childProcess = require('child_process');
+        var acceptanceTest = childProcess.spawn(process.execPath, [
+            './node_modules/grunt/bin/grunt',
+            'acceptanceTest',
+            '--colors'
+        ], {
+            env: Object.assign({}, process.env, {BROWSER: 'chrome'}),
+            stdio: 'inherit'
+        });
+
+        acceptanceTest.on('close', function (code) {
+            done(code === 0);
+        });
+    });
 
     //bower install
     grunt.registerTask('bower-install', ['bower:install']);
 
     //bower clean
-    grunt.registerTask('bower-clean', ['exec:cleanBower']);
+    grunt.registerTask('bower-clean', function () {
+        var done = this.async();
+        var fs = require('fs');
+
+        fs.rm('bower_components', {recursive: true, force: true}, function (error) {
+            if (error) {
+                grunt.log.error(error);
+            }
+            done(!error);
+        });
+    });
 
     //start http server
-    grunt.registerTask('start-server', ['exec:startServer']);
+    grunt.registerTask('start-server', function () {
+        var childProcess = require('child_process');
+        var server = childProcess.spawn(process.execPath, [
+            './node_modules/grunt/bin/grunt',
+            'serve',
+            '--no-color'
+        ], {
+            detached: true,
+            stdio: 'ignore'
+        });
+
+        server.unref();
+        grunt.log.writeln('Started local server on port ' + grunt.config.get('serve.options.port') + '.');
+    });
     grunt.registerTask('serve', ['connect:server:keepalive']);
 
     grunt.registerTask('run-all-tests', [
