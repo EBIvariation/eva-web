@@ -10,7 +10,7 @@
     "bower": "1.8.13",
     "chai": "3.5.0",
     "chromedriver": "latest",
-    "geckodriver": "^6.1.0",
+    "geckodriver": "6.1.0",
     "grunt": "1.5.3",
     "grunt-bower-task": "0.6.1",
     "grunt-config": "1.1.0",
@@ -22,11 +22,11 @@
     "grunt-contrib-uglify": "5.0.1",
     "grunt-html-build": "0.7.1",
     "grunt-hub": "1.0.0",
-    "grunt-minify-html": "^2.0.0",
+    "grunt-minify-html": "3.0.0",
     "grunt-mocha-test": "0.13.3",
     "grunt-replace": "2.0.2",
-    "mocha": "^11.3.0",
-    "selenium-webdriver": "^4.45.0",
+    "mocha": "11.3.0",
+    "selenium-webdriver": "4.45.0",
     "time-grunt": "2.0.0"
   },
   "overrides": {

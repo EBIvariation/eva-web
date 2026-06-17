@@ -24,6 +24,8 @@ var browser = process.env.BROWSER || 'chrome';
 var sleep_time = 5000;
 var waitTime = 60000;
 
+// Compatilibity shims for Selenium 4 and Mocha 11
+
 function seleniumAssert(actual) {
     return {
         equalTo: function (expected) {
