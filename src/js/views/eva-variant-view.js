@@ -28,9 +28,9 @@ EvaVariantView.prototype = {
             variantType = variantType.toUpperCase();
             if (variantType in VARIANT_TYPE_SO_MAP) {
                 return '<a href="' + SO_SERVICE + "/" + VARIANT_TYPE_SO_MAP[variantType] + '" target="_blank">'
-                            + variantType + '</a>';
+                            + evaHtmlEncode(variantType) + '</a>';
             }
-            return variantType;
+            return evaHtmlEncode(variantType);
         }
         return '';
     },
@@ -151,7 +151,7 @@ EvaVariantView.prototype = {
                 assemblyLookupService = NCBI_ASSEMBLY_LOOKUP_SERVICE;
             }
             if (assemblyLookupService) {
-                return '<a href="' + assemblyLookupService + "/" + assembly + '" target="_blank">' + this.getAssemblyNameForAccession(assembly) + '</a>';
+                return '<a href="' + assemblyLookupService + "/" + encodeURIComponent(assembly) + '" target="_blank">' + evaHtmlEncode(this.getAssemblyNameForAccession(assembly)) + '</a>';
             }
         }
         return '';
@@ -660,10 +660,10 @@ EvaVariantView.prototype = {
 
         if (this.isHumanSNPSearch) {
             if (this.accessionCategory === "clustered-variants" ) {
-                this.humanSNPLink = "https://www.ncbi.nlm.nih.gov/snp/" + this.accessionID;
+                this.humanSNPLink = "https://www.ncbi.nlm.nih.gov/snp/" + encodeURIComponent(this.accessionID);
             }
             if (this.accessionCategory === "submitted-variants" ) {
-                this.humanSNPLink = "https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id=" + this.accessionID;
+                this.humanSNPLink = "https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ss.cgi?subsnp_id=" + encodeURIComponent(this.accessionID);
             }
         }
         // Proceed to EVA warehouse query if query is position-based or the above processing fails
@@ -761,7 +761,7 @@ EvaVariantView.prototype = {
             var humanSNPAdditionalInfo = (this.isHumanSNPSearch ?
                                             'See <a href="' + this.humanSNPLink + '">NCBI data here</a>.'  : '');
             noDataElDiv.innerHTML = '<span>No Data Available in EVA '
-                                        + (this.accessionID ? 'for ' + this.accessionID + '. ': '')
+                                        + (this.accessionID ? 'for ' + evaHtmlEncode(this.accessionID) + '. ': '')
                                         + humanSNPAdditionalInfo
                                         +  '</span>';
             noDataEl.appendChild(noDataElDiv);
@@ -877,7 +877,7 @@ EvaVariantView.prototype = {
 
     _getAccessionIDNavURL: function(accessionID, species, assemblyAccession) {
         return window.location.origin + window.location.pathname
-                + "?variant&accessionID=" + accessionID;
+                + "?variant&accessionID=" + encodeURIComponent(accessionID);
     },
 
     _renderSummaryData: function (data) {
@@ -894,22 +894,22 @@ EvaVariantView.prototype = {
 
         var summaryData = data.map(function(x) {
             var summaryDataObj = {};
-            summaryDataObj[summaryDisplayFields.organism] = organism;
+            summaryDataObj[summaryDisplayFields.organism] = evaHtmlEncode(organism);
             summaryDataObj[summaryDisplayFields.assembly] = _this.getAssemblyLink(x.assemblyAccession);
-            summaryDataObj[summaryDisplayFields.submitterHandle] = x.submitterHandle;
-            summaryDataObj[summaryDisplayFields.contig] = x.contig;
-            summaryDataObj[summaryDisplayFields.chromosome] = x.chromosome;
-            summaryDataObj[summaryDisplayFields.start] = x.start;
-            summaryDataObj[summaryDisplayFields.end] = x.end;
+            summaryDataObj[summaryDisplayFields.submitterHandle] = evaHtmlEncode(x.submitterHandle);
+            summaryDataObj[summaryDisplayFields.contig] = evaHtmlEncode(x.contig);
+            summaryDataObj[summaryDisplayFields.chromosome] = evaHtmlEncode(x.chromosome);
+            summaryDataObj[summaryDisplayFields.start] = evaHtmlEncode(x.start);
+            summaryDataObj[summaryDisplayFields.end] = evaHtmlEncode(x.end);
             summaryDataObj[summaryDisplayFields.reference] = _.escape(x.referenceRepr);
             summaryDataObj[summaryDisplayFields.alternate] = _.escape(x.alternateRepr);
-            summaryDataObj[summaryDisplayFields.id] = x.id;
+            summaryDataObj[summaryDisplayFields.id] = evaHtmlEncode(x.id);
             summaryDataObj[summaryDisplayFields.type] = x.variantTypeLink;
-            summaryDataObj[summaryDisplayFields.evidence] = x.evidence;
-            summaryDataObj[summaryDisplayFields.assemblyMatch] = x.assemblyMatch;
-            summaryDataObj[summaryDisplayFields.allelesMatch] = x.allelesMatch;
-            summaryDataObj[summaryDisplayFields.validated] = x.validated;
-            summaryDataObj[summaryDisplayFields.createdDate] = x.createdDate;
+            summaryDataObj[summaryDisplayFields.evidence] = evaHtmlEncode(x.evidence);
+            summaryDataObj[summaryDisplayFields.assemblyMatch] = evaHtmlEncode(x.assemblyMatch);
+            summaryDataObj[summaryDisplayFields.allelesMatch] = evaHtmlEncode(x.allelesMatch);
+            summaryDataObj[summaryDisplayFields.validated] = evaHtmlEncode(x.validated);
+            summaryDataObj[summaryDisplayFields.createdDate] = evaHtmlEncode(x.createdDate);
             return summaryDataObj;
         });
         var humanSNPAdditionalInfo = this.isHumanSNPSearch? ('. See <a href="' + this.humanSNPLink +
@@ -931,7 +931,7 @@ EvaVariantView.prototype = {
                 submitterInfoHeading = '<h4 class="variant-view-h4">Submitted Variants</b></h4><div class="row"><div class="col-md-8">';
                 var associatedSSData = this.associatedSSIDs;
                 _.values(associatedSSData).forEach(function (x) {
-                    x.ID = '<a href="?variant&accessionID=' + x.ID + '">' + x.ID + '</a>';
+                    x.ID = '<a href="?variant&accessionID=' + encodeURIComponent(x.ID) + '">' + evaHtmlEncode(x.ID) + '</a>';
                 });
                 ssInfoHeaderRow = this._getSummaryTableHeaderRow(summaryDisplayFields, _.values(associatedSSData)[0]);
                 ssInfoContentRows = _.values(associatedSSData).map(_this._getSummaryTableContentRow).join("");
@@ -939,8 +939,8 @@ EvaVariantView.prototype = {
         } else {
             if (data[0].associatedRSID) {
                 rsReference = '<small><b>Clustered</b> under <a id="rs-link" href="?variant&accessionID=' +
-                                data[0].associatedRSID + '">' +
-                                data[0].associatedRSID + '</a></small>';
+                                encodeURIComponent(data[0].associatedRSID) + '">' +
+                                evaHtmlEncode(data[0].associatedRSID) + '</a></small>';
             }
         }
 
@@ -963,7 +963,7 @@ EvaVariantView.prototype = {
         var _this = this;
         var variantIndex = 1;
         return variantDataArray.map(function(data) {
-            var consequenceTypeHeading = '<h4 class="variant-view-h4"> Consequence Types' + (data.repr ? " for "+data.repr : "") +  '</h4>';
+            var consequenceTypeHeading = '<h4 class="variant-view-h4"> Consequence Types' + (data.repr ? " for "+ evaHtmlEncode(data.repr) : "") +  '</h4>';
             var noDataAvailableSection = consequenceTypeHeading + '<div>No Consequence Type data available</div>';
             if(_.isUndefined(data.annotation)){
               return noDataAvailableSection;
@@ -979,7 +979,7 @@ EvaVariantView.prototype = {
                 var annotationDetails = this[key];
                 var soTerms = this[key].soTerms;
                 _.each(_.keys(soTerms), function (key) {
-                    var link = '<a href="' + SO_SERVICE + '/' + this[key].soAccession + '" target="_blank">' + this[key].soAccession + '</a>';
+                    var link = '<a href="' + SO_SERVICE + '/' + encodeURIComponent(this[key].soAccession) + '" target="_blank">' + evaHtmlEncode(this[key].soAccession) + '</a>';
                     var so_term_detail = consequenceTypeDetails[soTerms[0].soName];
                     var color = '';
                     var impact = '';
@@ -987,18 +987,18 @@ EvaVariantView.prototype = {
                     if (!_.isUndefined(so_term_detail)) {
                         color = so_term_detail.color;
                         impact = so_term_detail.impact;
-                        svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="' + color + '"><title>' + impact + '</title></rect></svg>';
+                        svg = '<svg width="20" height="10"><rect x="0" y="3" width="15" height="10" fill="' + evaAttrEncode(color) + '"><title>' + evaHtmlEncode(impact) + '</title></rect></svg>';
                     }
 
                     var ensemblGeneId = '-';
                     if (annotationDetails.ensemblGeneId) {
-                        ensemblGeneId = annotationDetails.ensemblGeneId;
+                        ensemblGeneId = evaHtmlEncode(annotationDetails.ensemblGeneId);
                     }
                     var ensemblTranscriptId = '-';
                     if (annotationDetails.ensemblTranscriptId) {
-                        ensemblTranscriptId = annotationDetails.ensemblTranscriptId;
+                        ensemblTranscriptId = evaHtmlEncode(annotationDetails.ensemblTranscriptId);
                     }
-                    _consequenceTypeTable += '<tr><td class="variant-view-ensemblGeneId">' + ensemblGeneId + '</td><td class="variant-view-ensemblTranscriptId">' + ensemblTranscriptId + '</td><td class="variant-view-link">' + link + '</td><td class="variant-view-soname">' + this[key].soName + '&nbsp;' + svg + '</td></tr>';
+                    _consequenceTypeTable += '<tr><td class="variant-view-ensemblGeneId">' + ensemblGeneId + '</td><td class="variant-view-ensemblTranscriptId">' + ensemblTranscriptId + '</td><td class="variant-view-link">' + link + '</td><td class="variant-view-soname">' + evaHtmlEncode(this[key].soName) + '&nbsp;' + svg + '</td></tr>';
                 }, soTerms);
 
             }, annotation);

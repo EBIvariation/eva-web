@@ -20,9 +20,36 @@
  */
 
 var baseURL = '@@BASE_URL';
-var browser = process.env.BROWSER;
+var browser = process.env.BROWSER || 'chrome';
 var sleep_time = 5000;
 var waitTime = 60000;
+
+// Compatilibity shims for Selenium 4 and Mocha 11
+
+function seleniumAssert(actual) {
+    return {
+        equalTo: function (expected) {
+            return chai.expect(actual).to.equal(expected);
+        },
+        matches: function (expected) {
+            return chai.expect(actual).to.match(expected);
+        },
+        contains: function (expected) {
+            return chai.expect(actual).to.contain(expected);
+        }
+    };
+}
+
+function mochaTestInterface() {
+    return {
+        describe: describe,
+        it: it,
+        before: before,
+        beforeEach: beforeEach,
+        after: after,
+        afterEach: afterEach
+    };
+}
 
 module.exports = {
     initDriver: function (driverName) {
@@ -36,12 +63,11 @@ module.exports = {
         chrome_options.addArguments("--window-size=1920,1080")
         driver = new webdriver.Builder()
             .forBrowser(driverName)
-            .withCapabilities(chrome_options.toCapabilities())
+            .setChromeOptions(chrome_options)
             .build();
         driver.manage().window().maximize();
         driver.get(baseURL);
 
-        chai.use(chaiWebdriver(driver));
         driver.wait(until.elementLocated(By.id("cookie-dismiss")), 10000).then(function(text) {
             driver.findElement(By.xpath("//*[@id='data-protection-agree']")).click();
             driver.findElement(By.xpath("//div[@id='cookie-dismiss']//button[@class='close-button']")).click();
@@ -49,7 +75,9 @@ module.exports = {
         return driver;
     },
     shutdownDriver: function (driver) {
-        driver.quit();
+        if (driver) {
+            driver.quit();
+        }
     },
     browser: function (driver) {
        return browser;
@@ -58,15 +86,14 @@ module.exports = {
         return baseURL;
     },
     loadModules: function(){
-     return test = require('selenium-webdriver/testing'),
+     return test = mochaTestInterface(),
             webdriver = require('selenium-webdriver'),
             chrome = require('selenium-webdriver/chrome'),
             By = require('selenium-webdriver').By,
             until = require('selenium-webdriver').until,
-            assert = require('selenium-webdriver/testing/assert'),
-            flow = webdriver.promise.controlFlow(),
             chai = require('chai'),
-            chaiWebdriver = require('chai-webdriver');
+            assert = seleniumAssert,
+            flow = null;
     },
     sleep:function(driver){
         driver.sleep(sleep_time);
@@ -98,7 +125,3 @@ module.exports = {
         return waitTime;
     }
 };
-
-
-
-

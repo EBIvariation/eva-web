@@ -50,6 +50,7 @@ EvaRsRelease.prototype = {
 
     createContent: function (releaseVersion) {
         var releaseInfo;
+        var releaseVersionText = evaHtmlEncode(releaseVersion);
         EvaManager.get({
             host:EVA_RELEASE_HOST,
             version: EVA_VERSION,
@@ -68,17 +69,17 @@ EvaRsRelease.prototype = {
         var content = '<div><h2>Clustered variants (RS) Release</h2></div>' +
                     '<div class="callout success">' +
                         '<p>' +
-                            this.formatDate(releaseInfo.releaseDate) + ': The RS Release ' + releaseVersion + ' is available in our FTP. ' +
-                            '<a href="' + releaseInfo.releaseFtp +'" target="_blank">[View release]</a>' +
+                            this.formatDate(releaseInfo.releaseDate) + ': The RS Release ' + releaseVersionText + ' is available in our FTP. ' +
+                            '<a href="' + evaSafeUrl(releaseInfo.releaseFtp) +'" target="_blank">[View release]</a>' +
                         '</p>' +
                     '</div>' +
-                    '<p>' + releaseInfo.releaseDescription + '</p>' +
+                    '<p>' + evaHtmlEncode(releaseInfo.releaseDescription) + '</p>' +
                     '<div>';
 
         content +=  '<h4>Statistics by species</h4>' +
                     '<ul class="accordion" data-accordion data-allow-all-closed="true" data-multi-expand="true">' +
                         '<li id="accordion-item-new-data" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">Variants newly clustered in release ' + releaseVersion + '</a>' +
+                            '<a href="#" class="accordion-title">Variants newly clustered in release ' + releaseVersionText + '</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createWhatsNewContent(releaseVersion);
@@ -97,7 +98,7 @@ EvaRsRelease.prototype = {
                     '<h4>Statistics by assembly</h4>' +
                     '<ul class="accordion" data-accordion data-allow-all-closed="true" data-multi-expand="true">' +
                         '<li id="accordion-item-new-data-by-asm" class="accordion-item" data-accordion-item>' +
-                            '<a href="#" class="accordion-title">Variants newly clustered in release ' + releaseVersion + '</a>' +
+                            '<a href="#" class="accordion-title">Variants newly clustered in release ' + releaseVersionText + '</a>' +
                             '<div class="accordion-content" data-tab-content>';
 
         content += this.createReleaseDataTableByAssemblyNewData(releaseVersion);
@@ -157,16 +158,16 @@ EvaRsRelease.prototype = {
                     '<tbody>';
 
         _.each(releaseData, function (species) {
-            releaseLink = '<a target="_blank" href="' + species.releaseLink + '">FTP link</a>';
-            taxonomyLink = '<a target="_blank" href="' + species.taxonomyLink + '">' + species.taxonomyId + '</a>';
+            releaseLink = '<a target="_blank" href="' + evaSafeUrl(species.releaseLink) + '">FTP link</a>';
+            taxonomyLink = '<a target="_blank" href="' + evaSafeUrl(species.taxonomyLink) + '">' + evaHtmlEncode(species.taxonomyId) + '</a>';
             AssemblyLinks = _.chain(species.assemblyAccessions)
                              .filter(function(assemblyAccession){return assemblyAccession !== "Unmapped"})
                              .map(function(assemblyAccession){
-                                 return '<a target="_blank" href="https://www.ebi.ac.uk/ena/browser/view/' + assemblyAccession + '">' + assemblyAccession + '</a>';})
+                                 return '<a target="_blank" href="https://www.ebi.ac.uk/ena/browser/view/' + encodeURIComponent(assemblyAccession) + '">' + evaHtmlEncode(assemblyAccession) + '</a>';})
                              .value().join(', ');
             table += '<tr>' +
                         '<td>' + releaseLink + '</span></td>' +
-                        '<td><span class="rs-release-scientific-name">' + species.scientificName + '</span></td>' +
+                        '<td><span class="rs-release-scientific-name">' + evaHtmlEncode(species.scientificName) + '</span></td>' +
                         '<td><span class="rs-release-tax-id">' + taxonomyLink + '</span></td>' +
                         '<td><span class="rs-release-assembly-accession">' + AssemblyLinks + '</span></td>' +
                         '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.currentRs.toLocaleString() + '</span></td>' +
@@ -210,12 +211,12 @@ EvaRsRelease.prototype = {
                     '<tbody>';
 
         _.each(releaseData, function (assembly) {
-            releaseLink = '<a target="_blank" href="' + assembly.releaseLink + '">FTP link</a>';
-            assemblyLink = '<a target="_blank" href="https://www.ebi.ac.uk/ena/browser/view/' + assembly.assemblyAccession + '">' + assembly.assemblyAccession + '</a>';
+            releaseLink = '<a target="_blank" href="' + evaSafeUrl(assembly.releaseLink) + '">FTP link</a>';
+            assemblyLink = '<a target="_blank" href="https://www.ebi.ac.uk/ena/browser/view/' + encodeURIComponent(assembly.assemblyAccession) + '">' + evaHtmlEncode(assembly.assemblyAccession) + '</a>';
             taxonomyLinks = _.chain(assembly.taxonomyIds)
                              .zip(assembly.taxonomyLinks)
                              .map(function(taxonomyInfo){
-                                 return '<a target="_blank" href="' + taxonomyInfo[1] + '">' + taxonomyInfo[0] + '</a>'})
+                                 return '<a target="_blank" href="' + evaSafeUrl(taxonomyInfo[1]) + '">' + evaHtmlEncode(taxonomyInfo[0]) + '</a>'})
                              .value().join(', ');
             table += '<tr>' +
                         '<td>' + releaseLink + '</td>' +
@@ -263,13 +264,12 @@ EvaRsRelease.prototype = {
         _.chain(releaseData)
          .filter(function(releaseData){return releaseData.assemblyAccession !== "Unmapped"})
          .each(function (assembly) {
-            releaseLink = '<a target="_blank" href="' + assembly.releaseLink + '">FTP link</a>';
-            assemblyLink = '<a target="_blank" href="https://www.ebi.ac.uk/ena/browser/view/' + assembly.assemblyAccession + '">' + assembly.assemblyAccession + '</a>';
-            assemblyLink = '<a target="_blank" href="' + assembly.releaseLink + '">' + assembly.assemblyAccession + '</a>';
+            releaseLink = '<a target="_blank" href="' + evaSafeUrl(assembly.releaseLink) + '">FTP link</a>';
+            assemblyLink = '<a target="_blank" href="' + evaSafeUrl(assembly.releaseLink) + '">' + evaHtmlEncode(assembly.assemblyAccession) + '</a>';
             taxonomyLinks = _.chain(assembly.taxonomyIds)
                 .zip(assembly.taxonomyLinks)
                 .map(function(taxonomyInfo){
-                    return '<a target="_blank" href="' + taxonomyInfo[1] + '">' + taxonomyInfo[0] + '</a>'})
+                    return '<a target="_blank" href="' + evaSafeUrl(taxonomyInfo[1]) + '">' + evaHtmlEncode(taxonomyInfo[0]) + '</a>'})
                 .value().join(', ');
             table += '<tr>' +
                         '<td>' + releaseLink + '</td>' +
@@ -316,11 +316,11 @@ EvaRsRelease.prototype = {
                     '<tbody>';
 
         _.each(newDataReleased, function (species) {
-            releaseLink = '<a target="_blank" href="' + species.releaseLink + '">FTP link</a>';
-            taxonomyLink = '<a target="_blank" href="' + species.taxonomyLink + '">' + species.taxonomyId + '</a>';
+            releaseLink = '<a target="_blank" href="' + evaSafeUrl(species.releaseLink) + '">FTP link</a>';
+            taxonomyLink = '<a target="_blank" href="' + evaSafeUrl(species.taxonomyLink) + '">' + evaHtmlEncode(species.taxonomyId) + '</a>';
             table += '<tr>' +
                         '<td>' + releaseLink + '</span></td>' +
-                        '<td><span class="rs-release-scientific-name">' + species.scientificName +  '</span></td>' +
+                        '<td><span class="rs-release-scientific-name">' + evaHtmlEncode(species.scientificName) +  '</span></td>' +
                         '<td><span class="rs-release-tax-id">' + taxonomyLink + '</span></td>' +
                         '<td class="numerical-column-right-align"><span class="rs-release-current-rs">' + species.newCurrentRs.toLocaleString() + '</span></td>' +
                      '</tr>';

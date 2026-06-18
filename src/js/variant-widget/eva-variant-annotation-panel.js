@@ -34,27 +34,27 @@ function VariantAnnotationPanel(args) {
                 dataIndex: "ensemblGeneId",
                 flex: 1.4,
                 xtype: "templatecolumn",
-                tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId}" target="_blank">{ensemblGeneId}</a><tpl else>-</tpl>',
+                tpl: '<tpl if="ensemblGeneId"><a href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g={ensemblGeneId:htmlEncode}" target="_blank">{ensemblGeneId:htmlEncode}</a><tpl else>-</tpl>',
             },
             {
                 text: "Ensembl <br /> Gene Symbol",
                 dataIndex: "geneName",
                 xtype: "templatecolumn",
                 flex: 0.9,
-                tpl: '<tpl if="geneName">{geneName}<tpl else>-</tpl>',
+                tpl: '<tpl if="geneName">{geneName:htmlEncode}<tpl else>-</tpl>',
             },
             {
                 text: "Ensembl <br />Transcript ID",
                 dataIndex: "ensemblTranscriptId",
                 flex: 1.3,
                 xtype: "templatecolumn",
-                tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId}" target="_blank">{ensemblTranscriptId}</a><tpl else>-</tpl>',
+                tpl: '<tpl if="ensemblTranscriptId"><a href="http://www.ensembl.org/Homo_sapiens/transview?transcript={ensemblTranscriptId:htmlEncode}" target="_blank">{ensemblTranscriptId:htmlEncode}</a><tpl else>-</tpl>',
             },
             {
                 text: "Ensembl <br />Transcript Biotype",
                 dataIndex: "biotype",
                 xtype: "templatecolumn",
-                tpl: '<tpl if="biotype">{biotype}<tpl else>-</tpl>',
+                tpl: '<tpl if="biotype">{biotype:htmlEncode}<tpl else>-</tpl>',
                 flex: 1.3
             },
             {
@@ -68,7 +68,7 @@ function VariantAnnotationPanel(args) {
                         if(_.isEmpty(so_array)){
                             return '<tpl>-</tpl>';
                         }
-                        meta.tdAttr = 'data-qtip="' + so_array.join(',') + '"';
+                        meta.tdAttr = 'data-qtip="' + evaAttrEncode(so_array.join(',')) + '"';
                         return value ? Ext.String.format(
                             '<tpl>' + so_array.join(',') + '</tpl>',
                             value
@@ -83,21 +83,21 @@ function VariantAnnotationPanel(args) {
                 text: "Codon",
                 dataIndex: "codon",
                 xtype: "templatecolumn",
-                tpl: '<tpl if="codon">{codon}<tpl else>-</tpl>',
+                tpl: '<tpl if="codon">{codon:htmlEncode}<tpl else>-</tpl>',
                 flex: 0.6
             },
             {
                 text: "cDna <br />Position",
                 dataIndex: "cDnaPosition",
                 xtype: "templatecolumn",
-                tpl: '<tpl if="cDnaPosition">{cDnaPosition}<tpl elseif="cDnaPosition == 0">{cDnaPosition}<tpl else>-</tpl>',
+                tpl: '<tpl if="cDnaPosition">{cDnaPosition:htmlEncode}<tpl elseif="cDnaPosition == 0">{cDnaPosition:htmlEncode}<tpl else>-</tpl>',
                 flex: 0.6
             },
             {
                 text: "AA<br />Change",
                 dataIndex: "aaChange",
                 xtype: "templatecolumn",
-                tpl: '<tpl if="aaChange">{aaChange}<tpl else>-</tpl>',
+                tpl: '<tpl if="aaChange">{aaChange:htmlEncode}<tpl else>-</tpl>',
                 flex: 0.6
             }
 

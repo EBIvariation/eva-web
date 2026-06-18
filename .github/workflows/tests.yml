@@ -7,12 +7,15 @@ on:
    branches: [ master ]
  workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
  build:
    runs-on: ubuntu-latest
    strategy:
      matrix:       
-       node-version: [16.0.0]
+       node-version: [24.16.0]
    env:
        NODE_VERSION: ${{ matrix.node-version }}
    steps:
@@ -31,9 +34,8 @@ jobs:
      - name: Install dependencies
        run: |
          cd lib/jsorolla
-         # PhantomJS does not ship by default with the newer node versions - So the prebuilt package needs to be downloaded first
-         $AGENT_TOOLSDIRECTORY/node/$NODE_VERSION/x64/bin/npm install -g phantomjs-prebuilt
-         $AGENT_TOOLSDIRECTORY/node/$NODE_VERSION/x64/bin/npm install
+         # Avoid running legacy PhantomJS install scripts pulled in by unused jsorolla test tooling.
+         $AGENT_TOOLSDIRECTORY/node/$NODE_VERSION/x64/bin/npm install --ignore-scripts
          cd ../..
          # legacy-peer-deps switch is necessary to force packages to be installed even though they are not maintained
          $AGENT_TOOLSDIRECTORY/node/$NODE_VERSION/x64/bin/npm install --legacy-peer-deps

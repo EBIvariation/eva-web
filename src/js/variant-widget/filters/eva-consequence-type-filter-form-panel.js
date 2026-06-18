@@ -51,8 +51,8 @@ function EvaConsequenceTypeFilterFormPanel(args) {
             flex: 1,
             dataIndex: 'acc',
             renderer: function (value, meta, record) {
-                var link = "http://www.sequenceontology.org/miso/current_release/term/" + value;
-                return ' <a href=' + link + ' target="_blank">' + value + '</a>';
+                var link = "http://www.sequenceontology.org/miso/current_release/term/" + encodeURIComponent(value);
+                return ' <a href="' + evaSafeUrl(link) + '" target="_blank">' + evaHtmlEncode(value) + '</a>';
             }
 
         }

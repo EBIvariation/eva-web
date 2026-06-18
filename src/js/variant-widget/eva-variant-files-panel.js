@@ -162,9 +162,9 @@ EvaVariantFilesPanel.prototype = {
             }
         }
 
-        study_title = project_name + ' (' + data.studyId +')';
+        study_title = evaHtmlEncode(project_name) + ' (' + evaHtmlEncode(data.studyId) +')';
         if(link){
-            study_title = '<a href="?eva-study=' + data.studyId + '" class="study_link" target="_blank">' + project_name + '</a> (<a href="?eva-study=' + data.studyId + '" class="project_link" target="_blank">' + data.studyId +'</a>)';
+            study_title = '<a href="?eva-study=' + encodeURIComponent(data.studyId) + '" class="study_link" target="_blank">' + evaHtmlEncode(project_name) + '</a> (<a href="?eva-study=' + encodeURIComponent(data.studyId) + '" class="project_link" target="_blank">' + evaHtmlEncode(data.studyId) +'</a>)';
         }
 
         var infoTags = '';
@@ -192,7 +192,7 @@ EvaVariantFilesPanel.prototype = {
         });
 
         _.each(_.keys(attributesData), function (key) {
-            attributesData[key] = this[key].escapeHTML();
+            attributesData[key] = evaHtmlEncode(this[key]);
         }, attributesData);
 
         attributesData = _.invert(attributesData);
@@ -207,9 +207,9 @@ EvaVariantFilesPanel.prototype = {
                     '<td class="header"><span>ID</span></td>' +
                     '<td class="header"><span>REF</span></td>' +
                     '<td class="header"><span>ALT</span></td></tr>' +
-                    '<tr><td>'+vcfData[0]+'</td>'+
-                    '<td>'+vcfData[1]+'</td>'+
-                    '<td>'+vcfData[2]+'</td>'+
+                    '<tr><td>'+evaHtmlEncode(vcfData[0])+'</td>'+
+                    '<td>'+evaHtmlEncode(vcfData[1])+'</td>'+
+                    '<td>'+evaHtmlEncode(vcfData[2])+'</td>'+
                     '<td>'+_.escape(vcfData[3])+'</td>'+
                     '<td>'+_.escape(vcfData[4])+'</td></tr>'+
                     '</table>'
@@ -226,7 +226,7 @@ EvaVariantFilesPanel.prototype = {
         var vcfHeaderId = Utils.genId("vcf-header");
         var vcfHeaderView = Ext.create('Ext.view.View', {
             id: vcfHeaderId,
-            tpl: new Ext.XTemplate("<div onmouseover='overflow_show(this)'  onmouseout='overflow_hide(this)' class='vcf-header' id='" + fileId + "'><pre style='display: inline-block; border:0'>" + vcfHeaderData.escapeHTML() + "</pre></div>"),
+            tpl: new Ext.XTemplate("<div onmouseover='overflow_show(this)'  onmouseout='overflow_hide(this)' class='vcf-header' id='" + evaAttrEncode(fileId) + "'><pre style='display: inline-block; border:0'>" + evaHtmlEncode(vcfHeaderData) + "</pre></div>"),
             hidden: true,
             margin: '5 0 0 10'
         });
@@ -285,7 +285,7 @@ EvaVariantFilesPanel.prototype = {
                             getInfo: function (value) {
                                 var info = _.findWhere(infoTags, {id: value});
                                 if (!_.isUndefined(info)) {
-                                    return info.description;
+                                    return evaAttrEncode(info.description);
                                 } else {
                                     return;
                                 }
@@ -330,4 +330,3 @@ String.prototype.escapeHTML = function () {
             replace(/"/g, '&quot;')
         );
 };
-
