@@ -276,12 +276,14 @@ EvaVariantView.prototype = {
 
     getProjectAccessionAnchor: function (projectAccession) {
         if (projectAccession) {
-            if(projectAccession.trim().startsWith("PRJEB") || projectAccession.trim().startsWith("PRJNA")) {
+            var trimmedProjectAccession = projectAccession.trim();
+            if (trimmedProjectAccession.startsWith("PRJEB") || trimmedProjectAccession.startsWith("PRJNA")) {
                 var studyTitle = this.getStudyTitle(projectAccession);
-                return '<a href="?eva-study=' + projectAccession + '" target="_blank" ' +
-                        (studyTitle ? 'title="' + studyTitle + '"' : '') + '>' + projectAccession + '</a>';
+                return '<a href="?eva-study=' + encodeURIComponent(trimmedProjectAccession) + '" target="_blank" ' +
+                        (studyTitle ? 'title="' + evaAttrEncode(studyTitle) + '"' : '') + '>' +
+                        evaHtmlEncode(trimmedProjectAccession) + '</a>';
             }
-            return projectAccession;
+            return evaHtmlEncode(projectAccession);
         }
         return '';
     },
@@ -896,7 +898,7 @@ EvaVariantView.prototype = {
             var summaryDataObj = {};
             summaryDataObj[summaryDisplayFields.organism] = evaHtmlEncode(organism);
             summaryDataObj[summaryDisplayFields.assembly] = _this.getAssemblyLink(x.assemblyAccession);
-            summaryDataObj[summaryDisplayFields.submitterHandle] = evaHtmlEncode(x.submitterHandle);
+            summaryDataObj[summaryDisplayFields.submitterHandle] = x.submitterHandle;
             summaryDataObj[summaryDisplayFields.contig] = evaHtmlEncode(x.contig);
             summaryDataObj[summaryDisplayFields.chromosome] = evaHtmlEncode(x.chromosome);
             summaryDataObj[summaryDisplayFields.start] = evaHtmlEncode(x.start);
