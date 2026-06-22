@@ -9,7 +9,7 @@
   "devDependencies": {
     "bower": "1.8.13",
     "chai": "3.5.0",
-    "chromedriver": "latest",
+    "chromedriver": "149.0.4",
     "geckodriver": "6.1.0",
     "grunt": "1.5.3",
     "grunt-bower-task": "0.6.1",
