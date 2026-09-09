@@ -19,7 +19,9 @@ FROM nginxinc/nginx-unprivileged:1.27-alpine AS runtime
 ARG ENVIRONMENT_NAME=dev
 
 # grunt outputs to build/<name>-<env>; picks up whichever dir matches the env
-COPY --from=build /src/build/*${ENVIRONMENT_NAME}* /usr/share/nginx/html/
+# Served from a real "eva/" directory (not html/ root) so nginx's own directory
+# handling redirects a bare "/eva" request to "/eva/"
+COPY --from=build /src/build/*${ENVIRONMENT_NAME}* /usr/share/nginx/html/eva/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 8080
