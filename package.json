@@ -1,6 +1,6 @@
 {
   "name": "commons",
-  "version": "4.4.28",
+  "version": "4.4.29",
   "description": "javascript commons",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   "devDependencies": {
     "bower": "1.8.13",
     "chai": "3.5.0",
-    "chromedriver": "^151.0.0",
+    "chromedriver": "153.0",
     "geckodriver": "6.1.0",
     "grunt": "1.5.3",
     "grunt-bower-task": "0.6.1",
