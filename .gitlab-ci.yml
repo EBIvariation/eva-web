@@ -8,7 +8,7 @@ variables:
 
 test:
   stage: test
-  image: ubuntu:latest
+  image: ubuntu:24.04
   before_script:
     - apt-get update
     - apt-get upgrade -y
@@ -46,7 +46,7 @@ test:
 # Not executed, parent job definition
 .deploy-website:
   stage: deploy
-  image: ubuntu:latest
+  image: ubuntu:24.04
   environment:
     name: $ENVIRONMENT_NAME
   before_script:
