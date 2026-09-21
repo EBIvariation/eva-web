@@ -20,12 +20,6 @@ variables:
 # GITHUB_USER: GitHub username for accessing private maven settings repository
 # GITHUB_TOKEN: GitHub personal access token for accessing private maven settings repository
 
-# The .build_docker / .update_and_deploy templates below mirror the shared ones in eva-k8s
-# See https://github.com/EBIvariation/eva-k8s/blob/main/gitlab-ci/webservice.yml.
-# They are not included from there because eva-web differs in two ways:
-#   - the image embeds environment-specific config (grunt --env), so it must be built once per environment
-#   - there is no application.properties to generate from the Maven settings
-
 test:
   stage: test
   image: ubuntu:latest
