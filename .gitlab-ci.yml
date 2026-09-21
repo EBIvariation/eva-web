@@ -40,7 +40,6 @@ test:
       exit 1
   only:
     - master
-    - java21
     - tags
 
 .build_docker:
@@ -137,7 +136,6 @@ build:docker:dev:
     IMAGE_TAG: dev-$CI_COMMIT_SHORT_SHA
   only:
     - master
-    - java21
 
 deploy-to-cluster:dev:
   extends: .update_and_deploy
@@ -152,7 +150,6 @@ deploy-to-cluster:dev:
     name: development
   only:
     - master
-    - java21
 
 # STAGING (master)
 build:docker:staging:
@@ -162,7 +159,6 @@ build:docker:staging:
     IMAGE_TAG: staging-$CI_COMMIT_SHORT_SHA
   only:
     - master
-    - java21
 
 deploy-to-cluster:staging:
   extends: .update_and_deploy
@@ -177,4 +173,3 @@ deploy-to-cluster:staging:
     name: staging
   only:
     - master
-    - java21
