@@ -9,6 +9,7 @@ variables:
   KUBECONFIG_FILE_DEV: https://api.github.com/repos/EBIvariation/configuration/contents/kubernetes-clusters/development-k8s-team-admin-conf.conf
   KUBECONFIG_FILE_STAGING: https://api.github.com/repos/EBIvariation/configuration/contents/kubernetes-clusters/staging-k8s-team-admin-conf.conf
   KUBECONFIG_FILE_PROD: https://api.github.com/repos/EBIvariation/configuration/contents/kubernetes-clusters/production-k8s-team-admin-conf.conf
+  KUBECONFIG_FILE_PROD_FALLBACK: https://api.github.com/repos/EBIvariation/configuration/contents/kubernetes-clusters/production-fallback-k8s-team-admin-conf.conf
   MEDIA_TYPE: application/vnd.github.raw
 
 # REQUIRED GitLab CI/CD Variables (Global or per-project):
@@ -145,6 +146,19 @@ deploy-to-cluster:prod:
     KUBECONFIG_FILE: $KUBECONFIG_FILE_PROD
   environment:
     name: prod
+  only:
+    - tags
+
+# Same image and manifests as deploy-to-cluster:prod, deployed to the fallback prod cluster instead.
+deploy-to-cluster:prod-fallback:
+  extends: .update_and_deploy
+  needs: ["build:docker:prod"]
+  variables:
+    IMAGE_TAG: $CI_COMMIT_TAG
+    K8S_MANIFEST_PATH: k8s-manifests/eva-web/overlays/prod
+    KUBECONFIG_FILE: $KUBECONFIG_FILE_PROD_FALLBACK
+  environment:
+    name: prod-fallback
   only:
     - tags
 
