@@ -32,6 +32,9 @@ jobs:
          sudo chmod +x /tmp/chrome.deb
          sudo apt-get install /tmp/chrome.deb -y
      - name: Install dependencies
+       env:
+         # See https://github.com/giggio/node-chromedriver#readme.
+         DETECT_CHROMEDRIVER_VERSION: 'true'
        run: |
          cd lib/jsorolla
          # Avoid running legacy PhantomJS install scripts pulled in by unused jsorolla test tooling.

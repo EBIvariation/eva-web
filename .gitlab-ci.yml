@@ -1,34 +1,32 @@
 stages:
   - test
+  - build
   - deploy
 
 variables:
-  NVM_VERSION: 0.40.5
-  NODE_VERSION: 24.16.0
+  SERVICE_NAME: eva-web
+  IMAGE_REPOSITORY: dockerhub.ebi.ac.uk/ebivariation/eva-web
+  KUBECONFIG_FILE_DEV: https://api.github.com/repos/EBIvariation/configuration/contents/kubernetes-clusters/development-k8s-team-admin-conf.conf
+  KUBECONFIG_FILE_STAGING: https://api.github.com/repos/EBIvariation/configuration/contents/kubernetes-clusters/staging-k8s-team-admin-conf.conf
+  KUBECONFIG_FILE_PROD: https://api.github.com/repos/EBIvariation/configuration/contents/kubernetes-clusters/production-k8s-team-admin-conf.conf
+  KUBECONFIG_FILE_PROD_FALLBACK: https://api.github.com/repos/EBIvariation/configuration/contents/kubernetes-clusters/production-fallback-k8s-team-admin-conf.conf
+  MEDIA_TYPE: application/vnd.github.raw
+
+# REQUIRED GitLab CI/CD Variables (Global or per-project):
+# DOCKER_AUTH_CONFIG: Contains username and password for the docker registry above
+# GITHUB_USER: GitHub username for downloading kubeconfig files and pushing image tag updates to eva-k8s
+# GITHUB_TOKEN: GitHub personal access token for downloading kubeconfig files and pushing image tag updates to eva-k8s
 
 test:
   stage: test
-  image: ubuntu:24.04
+  image: ubuntu:latest
   before_script:
     - apt-get update
-    - apt-get upgrade -y
-    - apt-get install -y tzdata
-    - apt-get install -y wget
-    - apt-get install -y git
-    - apt-get install -y curl bzip2 jq
-    - git submodule update --init
-    - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
-    - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    - nvm install $NODE_VERSION
-    - wget -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    - apt-get install -y /tmp/chrome.deb
-    - cd lib/jsorolla && npm install --ignore-scripts && cd ../.. && npm install --legacy-peer-deps
-    - npm install -g grunt-cli
-    - apt-get install xvfb && Xvfb :99 & export DISPLAY=:99
+    - apt-get install -y curl jq
   script:
     - |
       for i in {1..5}; do
-        echo "Finding Github CI status for ${CI_COMMIT_SHA}..." && export GITHUB_CI_STATUS=$(curl -s https://api.github.com/repos/EBIVariation/eva-web/actions/runs | jq --arg COMMIT_TO_FIND $CI_COMMIT_SHA -r '.workflow_runs | map(select(.head_sha == $COMMIT_TO_FIND and .conclusion == "success"))[0].conclusion') && [[ $GITHUB_CI_STATUS == "success" ]] && echo "Github CI run was successful!"
+        echo "Finding Github CI status for ${CI_COMMIT_SHA}..." && export GITHUB_CI_STATUS=$(curl -s https://api.github.com/repos/EBIvariation/eva-web/actions/runs | jq --arg COMMIT_TO_FIND $CI_COMMIT_SHA -r '.workflow_runs | map(select(.head_sha == $COMMIT_TO_FIND and .conclusion == "success"))[0].conclusion') && [[ $GITHUB_CI_STATUS == "success" ]] && echo "Github CI run was successful!"
         if [ $? -ne 0 ]; then
           echo "Retrying..."
           sleep 300
@@ -37,74 +35,171 @@ test:
         fi
       done
       exit 1
-  environment:
-    name: test-env
   only:
     - master
     - tags
 
-# Not executed, parent job definition
-.deploy-website:
-  stage: deploy
-  image: ubuntu:24.04
-  environment:
-    name: $ENVIRONMENT_NAME
+.build_docker:
+  stage: build
+  image: docker:latest
+  # Force all builds of the same service+commit to run sequentially
+  resource_group: build-${SERVICE_NAME}-${CI_COMMIT_SHORT_SHA}
+  services:
+    - name: docker:dind
+      alias: docker
+      command: ["--storage-driver=overlay2", "--insecure-registry=localhost"]
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: tcp://docker:2375
   before_script:
-    - apt-get update
-    - apt-get upgrade -y
-    - apt-get install -y tzdata
-    - apt-get install -y wget
-    - apt-get install -y git
-    - apt-get install -y zip
-    - apt-get install -y rsync
-    - apt-get install -y curl bzip2 jq
-    - git submodule update --init
-    - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
-    - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    - nvm install $NODE_VERSION
-    - export TMPDIR=/tmp
-    - cd lib/jsorolla && npm install --ignore-scripts && cd ../.. && npm install --legacy-peer-deps
-    - npm install -g grunt-cli
-    - grunt --env=$ENVIRONMENT_NAME
-    - ARTIFACT_NAME=$(basename $(ls -d build/*$ENVIRONMENT_NAME))
-    # Start ssh-agent and set identity then copy the file to website mount point and a compressed version to cluster
-    # See https://docs.gitlab.com/ee/ci/ssh_keys/
-    - apt-get -y install openssh-client
-    - eval "$(ssh-agent)"
-    - echo "$EVA_ETL_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - zip -q -r build/${ARTIFACT_NAME}.zip build/${ARTIFACT_NAME}
-    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/${ARTIFACT_NAME}.zip ${CLUSTER_USER}@${CLUSTER_LOGIN_NODE_CODON}:${EVA_SOFTWARE_PATH_CODON}/eva-web/
-    - echo "$VAR_ADM_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  dependencies:
-    - test
-
-deploy-website-internal:
-  extends: .deploy-website
-  variables:
-    ENVIRONMENT_NAME: dev
-    WEBSITE_DEPLOY_ENVIRONMENT: dev
+    - echo "Waiting for Docker daemon to be ready..."
+    - docker info
   script:
-    - rsync -av -q -e "ssh -o PubKeyAcceptedKeyTypes=+ssh-rsa -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_INTERNAL}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
-  only:
-    - master
+    # Tagged per-environment (eva-web-dev-latest, eva-web-staging-latest, eva-web-prod-latest) since
+    # ENVIRONMENT_NAME is baked into the image, so a single unqualified "latest" would be ambiguous.
+    - docker build --build-arg ENVIRONMENT_NAME=$ENVIRONMENT_NAME -t $IMAGE_REPOSITORY:$IMAGE_TAG -t $IMAGE_REPOSITORY:${SERVICE_NAME}-${ENVIRONMENT_NAME}-latest .
+    - docker push $IMAGE_REPOSITORY:$IMAGE_TAG
+    - docker push $IMAGE_REPOSITORY:${SERVICE_NAME}-${ENVIRONMENT_NAME}-latest
 
-deploy-website-development:
-  extends: .deploy-website
-  variables:
-    ENVIRONMENT_NAME: staging
-    WEBSITE_DEPLOY_ENVIRONMENT: stage
+.update_and_deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache git curl python3 kubectl
+    - python3 -m venv $HOME/.venv
+    - source $HOME/.venv/bin/activate
+    - git config --global user.email "gitlab-ci@ebi.ac.uk"
+    - git config --global user.name "GitLab CI"
+    - git config --global credential.helper store
+    # Clone eva-k8s for scripts and manifests
+    - git clone --depth 1 https://github.com/EBIvariation/eva-k8s.git k8s-repo
+    - cd k8s-repo
+    - pip install --no-cache-dir lxml retry cached-property pyyaml requests
+    - pip install --no-dependencies -r scripts/requirements.txt
+    - echo "https://${GITHUB_TOKEN}:x-oauth-basic@github.com" > ~/.git-credentials
+    - mkdir -p ~/.kube
+    # Download kubernetes cluster configuration from private repository
+    - curl -u $GITHUB_USER:$GITHUB_TOKEN -H "Accept:$MEDIA_TYPE" $KUBECONFIG_FILE > ~/.kube/config
+    - chmod 600 ~/.kube/config
   script:
-    - rsync -av -q -e "ssh -o PubKeyAcceptedKeyTypes=+ssh-rsa -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_STAGING_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
-  only:
-    - master
+    # Create the target namespace if it doesn't already exist (always run - idempotent).
+    # namespace.yaml lives in base not in the overlay.
+    - kubectl apply -f $K8S_MANIFEST_PATH/../../base/namespace.yaml
+    # Create/update the image pull secret in the target namespace from DOCKER_AUTH_CONFIG. It only
+    # updates if DOCKER_AUTH_CONFIG changes
+    # SERVICE_NAME is used as the namespace which means it will be the same for all clusters (dev/staging/prod)
+    - kubectl create secret generic regcred --type=kubernetes.io/dockerconfigjson --from-literal=.dockerconfigjson="$DOCKER_AUTH_CONFIG" -n $SERVICE_NAME --dry-run=client -o yaml | kubectl apply -f -
+    # Update image tag in kustomization, commit, and push with a fetch+retry loop.
+    # Concurrent deploy jobs can push to eva-k8s:main at the same time; a rejected
+    # push just means someone else landed first, so re-fetch main and redo the tag
+    # bump.
+    - |
+      ENV_NAME="$(basename "$K8S_MANIFEST_PATH")"
+      MAX_ATTEMPTS=5
+      attempt=1
+      while true; do
+        python scripts/update-image-tag.py "$K8S_MANIFEST_PATH/kustomization.yaml" "${IMAGE_TAG}"
+        git add "$K8S_MANIFEST_PATH/kustomization.yaml"
+        if git diff --cached --quiet; then
+          echo "No image tag change to commit"
+          break
+        fi
+        git commit -m "Update $SERVICE_NAME ${ENV_NAME} image tag to ${IMAGE_TAG}"
+        if git push origin main; then
+          echo "Pushed image tag update on attempt $attempt"
+          break
+        fi
+        if [ "$attempt" -ge "$MAX_ATTEMPTS" ]; then
+          echo "Failed to push image tag update after $MAX_ATTEMPTS attempts"
+          exit 1
+        fi
+        echo "Push rejected (likely a concurrent deploy job) - retrying (attempt $attempt/$MAX_ATTEMPTS)"
+        sleep $(( (RANDOM % 5) + 1 ))
+        git fetch --depth 1 origin main
+        git reset --hard FETCH_HEAD
+        attempt=$((attempt + 1))
+      done
 
-deploy-website-production:
-  extends: .deploy-website
+    # Deploy to cluster
+    - kubectl apply -k $K8S_MANIFEST_PATH
+    - kubectl rollout status deployment/$SERVICE_NAME -n $SERVICE_NAME --timeout=5m
+  environment:
+    kubernetes:
+      namespace: $SERVICE_NAME
+
+# PRODUCTION (tags)
+build:docker:prod:
+  extends: .build_docker
   variables:
     ENVIRONMENT_NAME: prod
-    WEBSITE_DEPLOY_ENVIRONMENT: prod
-  script:
-    - rsync -av -q -e "ssh -o PubKeyAcceptedKeyTypes=+ssh-rsa -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_MAIN}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
-    - rsync -av -q -e "ssh -o PubKeyAcceptedKeyTypes=+ssh-rsa -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" build/${ARTIFACT_NAME}/* ${WEBSITE_DEPLOY_USER}@${WEBSITE_DEPLOY_NODE_PROD_FALLBACK}:${WEBSITE_DEPLOY_PATH}/${WEBSITE_DEPLOY_ENVIRONMENT}/www/
+    IMAGE_TAG: $CI_COMMIT_TAG
   only:
     - tags
+
+deploy-to-cluster:prod:
+  extends: .update_and_deploy
+  needs: ["build:docker:prod"]
+  variables:
+    IMAGE_TAG: $CI_COMMIT_TAG
+    K8S_MANIFEST_PATH: k8s-manifests/eva-web/overlays/prod
+    KUBECONFIG_FILE: $KUBECONFIG_FILE_PROD
+  environment:
+    name: prod
+  only:
+    - tags
+
+# Same image and manifests as deploy-to-cluster:prod, deployed to the fallback prod cluster instead.
+deploy-to-cluster:prod-fallback:
+  extends: .update_and_deploy
+  needs: ["build:docker:prod"]
+  variables:
+    IMAGE_TAG: $CI_COMMIT_TAG
+    K8S_MANIFEST_PATH: k8s-manifests/eva-web/overlays/prod
+    KUBECONFIG_FILE: $KUBECONFIG_FILE_PROD_FALLBACK
+  environment:
+    name: prod-fallback
+  only:
+    - tags
+
+# DEVELOPMENT (master)
+build:docker:dev:
+  extends: .build_docker
+  variables:
+    ENVIRONMENT_NAME: dev
+    IMAGE_TAG: dev-$CI_COMMIT_SHORT_SHA
+  only:
+    - master
+
+deploy-to-cluster:dev:
+  extends: .update_and_deploy
+  needs: ["build:docker:dev"]
+  variables:
+    IMAGE_TAG: dev-$CI_COMMIT_SHORT_SHA
+    K8S_MANIFEST_PATH: k8s-manifests/eva-web/overlays/dev
+    KUBECONFIG_FILE: $KUBECONFIG_FILE_DEV
+  environment:
+    name: development
+  only:
+    - master
+
+# STAGING (master)
+build:docker:staging:
+  extends: .build_docker
+  variables:
+    ENVIRONMENT_NAME: staging
+    IMAGE_TAG: staging-$CI_COMMIT_SHORT_SHA
+  only:
+    - master
+
+deploy-to-cluster:staging:
+  extends: .update_and_deploy
+  needs: ["build:docker:staging"]
+  variables:
+    IMAGE_TAG: staging-$CI_COMMIT_SHORT_SHA
+    K8S_MANIFEST_PATH: k8s-manifests/eva-web/overlays/staging
+    KUBECONFIG_FILE: $KUBECONFIG_FILE_STAGING
+  environment:
+    name: staging
+  only:
+    - master
