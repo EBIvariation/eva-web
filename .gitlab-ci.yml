@@ -162,14 +162,15 @@ deploy-to-cluster:prod-fallback:
   only:
     - tags
 
-# DEVELOPMENT (master)
+# DEVELOPMENT: Manual deploy from any branch
 build:docker:dev:
   extends: .build_docker
   variables:
     ENVIRONMENT_NAME: dev
     IMAGE_TAG: dev-$CI_COMMIT_SHORT_SHA
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      when: manual
 
 deploy-to-cluster:dev:
   extends: .update_and_deploy
@@ -180,8 +181,9 @@ deploy-to-cluster:dev:
     KUBECONFIG_FILE: $KUBECONFIG_FILE_DEV
   environment:
     name: development
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      when: manual
 
 # STAGING (master)
 build:docker:staging:
