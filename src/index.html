@@ -438,9 +438,9 @@
                     <h2>Help</h2>
                     <ul class="tabs faq-tabs small-block-grid-4" data-tabs id="faq-tabs">
                         <li class="tabs-title is-active"><a href="#generalPanel" aria-selected="true">General</a></li>
-                        <li class="tabs-title"><a href="#dataAccessPanel">Data Access</a></li>
                         <li class="tabs-title"><a href="#submissionPanel">Submission</a></li>
                         <li class="tabs-title"><a href="#accessionPanel">Accessions</a></li>
+                        <li class="tabs-title"><a href="#dataAccessPanel">Data Access</a></li>
                         <li class="tabs-title"><a href="#citationPanel">Citation</a></li>
                     </ul>
                     <div class="tabs-content faq-tabs-content" data-tabs-content="faq-tabs">
@@ -601,106 +601,6 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                    </li>
-                                </div>
-                            </ul>
-                        </div>
-                        <div class="tabs-panel is-active" id="dataAccessPanel">
-                            <ul class="padding-top-large padding-bottom-large">
-                                <li><a href="#how-to-consume-variant-data">How can I consume variant data from the EVA?</a></li>
-                                <li><a href="#supported-browsers">Which browsers does the EVA website support?</a></li>
-                                <li><a href="#how-to-search-ss-rs-id">How can I search EVA with RS and SS identifiers?</a></li>
-                                <li><a href="#eva-rs-releases">What releases does the EVA perform?</a></li>
-                                <li><a href="#can-download-accesioned-variants">Can I download accessioned variants from the EVA?</a></li>
-                                <li><a href="#how-to-track-variants">How can I track variants that have been generated, merged and/or deprecated over time?</a></li>
-                            </ul>
-                            <ul class="accordion" data-accordion>
-                                <div id="how-to-consume-variant-data">
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title"><h5>How can I consume variant data from the  EVA?</h5></a>
-
-                                        <div class="accordion-content" data-tab-content>
-                                            <p>
-                                                Links are shown on the <a href="?Study%20Browser&browserType=sgv">EVA Study Browser</a>  to both the raw submitted files and the 'EVA browsable files'.
-                                                Not all submitted VCF files for a study are browsable due to overlapping information. For example, we have studies where the submitted VCF files contain the sample and variant data split by population, but also merged together. It would be redundant for the EVA to load all of these data to our variant warehouse. Please note that due to processing time required not all studies have 'EVA browsable files' just yet.
-                                            </p>
-                                            <p> Additionally users can download query results from the <a href="?Variant%20Browser&species=hsapiens_grch37&selectFilter=region&studies=PRJEB4019%2CPRJEB6930%2CPRJEB5439%2CPRJEB5829%2CPRJEB8652%2CPRJEB8650%2CPRJEB8639%2CPRJEB6042%2CPRJX00001%2CPRJEB8705%2CPRJEB8661%2CPRJEB7895%2CPRJEB7217%2CPRJEB7218%2CPRJEB6041&region=1%3A3000000-3100000">EVA variant browser</a> directly and all of our loaded data is available programmatically via our <a href="?API">API</a>.</p>
-                                            <p>All files submitted to a study can also be downloaded from our <a href="https://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP site</a>, where each study has its own folder named after its project accession (e.g. <a href="https://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27443" target="_blank">PRJEB27443</a>).</p>
-                                        </div>
-                                    </li>
-                                </div>
-                                <div id="supported-browsers">
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title"><h5>Which browsers does the EVA website support?</h5></a>
-
-                                        <div class="accordion-content" data-tab-content>
-                                            <p>
-                                                The EVA website employs HTML5 technologies and standards and is
-                                                optimised for recent versions of Chrome, Firefox, Safari and Edge.
-                                                Please report all errors to the
-                                                <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">EVA helpdesk</a>.
-                                            </p>
-                                        </div>
-                                    </li>
-                                </div>
-                                <div id="how-to-search-ss-rs-id">
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title"><h5>How can I search EVA with RS and SS identifiers?</h5></a>
-                                        <div class="accordion-content" data-tab-content>
-                                            <p>
-                                                The EVA offers users the ability to search 'SS' and 'RS' identifiers generated by the EVA via
-                                                the <a href="https://www.ebi.ac.uk/eva/?Home">Home page</a>,
-
-                                                the <a href="?Variant%20Browser&species=btaurus_umd31&selectFilter=region&studies=PRJEB6119%2CPRJEB7061%2CPRJEB14878&region=1%3A3000000-3100000">Variant Browser</a>
-                                                and the <a href="?API">API</a>
-                                            </p>
-                                        </div>
-                                    </li>
-                                </div>
-                                <div id="eva-rs-releases">
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title"><h5>What releases does the EVA perform?</h5></a>
-                                        <div class="accordion-content" data-tab-content>
-                                            <p>
-                                                The EVA periodically publishes RS releases: a collection of files, organised by species and assembly, listing all the Reference SNP (RS) identifiers for the variants stored in the EVA.
-                                                A release provides:
-                                            </p>
-                                            <ul>
-                                                <li><b>Current RS IDs</b> (per assembly): a VCF file of the active RS IDs, with their genomic coordinates, reference and alternate alleles in the forward strand, variant class and the identifiers of the studies that reported them. Multi-allelic variants are split in multiple records, one per alternate allele.</li>
-                                                <li><b>Merged RS IDs</b> (per assembly): RS IDs that should no longer be used because they have been merged into other active RS IDs representing the same variant.</li>
-                                                <li><b>Deprecated RS IDs</b> (per assembly): RS IDs that should no longer be used because they have been deprecated.</li>
-                                                <li><b>Unmapped RS IDs</b> (per species): RS IDs that could not be mapped against any assembly, with their flanking sequences when available.</li>
-                                            </ul>
-                                            <p>
-                                                The release files contain the positional information of the RS IDs, but not genotype nor annotation data. These can be retrieved from the study files on our <a href="https://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP site</a>, the <a href="?Variant%20Browser">Variant Browser</a> or the <a href="?API">API</a>.
-                                            </p>
-                                            <p>
-                                                The content of each release is summarised on the <a href="?RS-Release">RS Release</a> page, and the files can be downloaded from our <a href="https://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/" target="_blank">FTP site</a>.
-                                            </p>
-                                        </div>
-                                    </li>
-                                </div>
-                                <div id="can-download-accesioned-variants">
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title"><h5>Can I download accessioned variants from the EVA?</h5></a>
-                                        <div class="accordion-content" data-tab-content>
-                                            <p>
-                                                Yes. Each non-human study archived in the EVA comes with a VCF file listing its accessioned variants (SS IDs), available in the study's folder on our <a href="https://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP site</a>.
-                                                In addition, each <a href="?RS-Release">RS release</a> provides a VCF file for each species/assembly combination.
-                                                These files contain the RS ID positional information, but not the genotype nor annotation data.
-                                            </p>
-                                        </div>
-                                    </li>
-                                </div>
-                                <div id="how-to-track-variants">
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title"><h5>How can I track variants that have been generated, merged and/or deprecated over time?</h5></a>
-                                        <div class="accordion-content" data-tab-content>
-                                            <p>
-                                                In addition to the VCF files of current RS IDs, each <a href="?RS-Release">RS release</a> includes files listing the RS IDs that have been merged into other RS IDs and the RS IDs that have been deprecated.
-                                                The EVA follows the same rules as dbSNP for generating, deprecating and merging variant identifiers.
-                                            </p>
                                         </div>
                                     </li>
                                 </div>
@@ -1104,6 +1004,106 @@
                                             </li>
                                         </div>
                                     </ul>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="tabs-panel is-active" id="dataAccessPanel">
+                            <ul class="padding-top-large padding-bottom-large">
+                                <li><a href="#how-to-consume-variant-data">How can I consume variant data from the EVA?</a></li>
+                                <li><a href="#supported-browsers">Which browsers does the EVA website support?</a></li>
+                                <li><a href="#how-to-search-ss-rs-id">How can I search EVA with RS and SS identifiers?</a></li>
+                                <li><a href="#eva-rs-releases">What releases does the EVA perform?</a></li>
+                                <li><a href="#can-download-accesioned-variants">Can I download accessioned variants from the EVA?</a></li>
+                                <li><a href="#how-to-track-variants">How can I track variants that have been generated, merged and/or deprecated over time?</a></li>
+                            </ul>
+                            <ul class="accordion" data-accordion>
+                                <div id="how-to-consume-variant-data">
+                                    <li class="accordion-item is-active" data-accordion-item>
+                                        <a class="accordion-title"><h5>How can I consume variant data from the  EVA?</h5></a>
+
+                                        <div class="accordion-content" data-tab-content>
+                                            <p>
+                                                Links are shown on the <a href="?Study%20Browser&browserType=sgv">EVA Study Browser</a>  to both the raw submitted files and the 'EVA browsable files'.
+                                                Not all submitted VCF files for a study are browsable due to overlapping information. For example, we have studies where the submitted VCF files contain the sample and variant data split by population, but also merged together. It would be redundant for the EVA to load all of these data to our variant warehouse. Please note that due to processing time required not all studies have 'EVA browsable files' just yet.
+                                            </p>
+                                            <p> Additionally users can download query results from the <a href="?Variant%20Browser&species=hsapiens_grch37&selectFilter=region&studies=PRJEB4019%2CPRJEB6930%2CPRJEB5439%2CPRJEB5829%2CPRJEB8652%2CPRJEB8650%2CPRJEB8639%2CPRJEB6042%2CPRJX00001%2CPRJEB8705%2CPRJEB8661%2CPRJEB7895%2CPRJEB7217%2CPRJEB7218%2CPRJEB6041&region=1%3A3000000-3100000">EVA variant browser</a> directly and all of our loaded data is available programmatically via our <a href="?API">API</a>.</p>
+                                            <p>All files submitted to a study can also be downloaded from our <a href="https://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP site</a>, where each study has its own folder named after its project accession (e.g. <a href="https://ftp.ebi.ac.uk/pub/databases/eva/PRJEB27443" target="_blank">PRJEB27443</a>).</p>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div id="supported-browsers">
+                                    <li class="accordion-item is-active" data-accordion-item>
+                                        <a class="accordion-title"><h5>Which browsers does the EVA website support?</h5></a>
+
+                                        <div class="accordion-content" data-tab-content>
+                                            <p>
+                                                The EVA website employs HTML5 technologies and standards and is
+                                                optimised for recent versions of Chrome, Firefox, Safari and Edge.
+                                                Please report all errors to the
+                                                <a href="mailto:eva-helpdesk@ebi.ac.uk" target="_top">EVA helpdesk</a>.
+                                            </p>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div id="how-to-search-ss-rs-id">
+                                    <li class="accordion-item is-active" data-accordion-item>
+                                        <a class="accordion-title"><h5>How can I search EVA with RS and SS identifiers?</h5></a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <p>
+                                                The EVA offers users the ability to search 'SS' and 'RS' identifiers generated by the EVA via
+                                                the <a href="https://www.ebi.ac.uk/eva/?Home">Home page</a>,
+
+                                                the <a href="?Variant%20Browser&species=btaurus_umd31&selectFilter=region&studies=PRJEB6119%2CPRJEB7061%2CPRJEB14878&region=1%3A3000000-3100000">Variant Browser</a>
+                                                and the <a href="?API">API</a>
+                                            </p>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div id="eva-rs-releases">
+                                    <li class="accordion-item is-active" data-accordion-item>
+                                        <a class="accordion-title"><h5>What releases does the EVA perform?</h5></a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <p>
+                                                The EVA periodically publishes RS releases: a collection of files, organised by species and assembly, listing all the Reference SNP (RS) identifiers for the variants stored in the EVA.
+                                                A release provides:
+                                            </p>
+                                            <ul>
+                                                <li><b>Current RS IDs</b> (per assembly): a VCF file of the active RS IDs, with their genomic coordinates, reference and alternate alleles in the forward strand, variant class and the identifiers of the studies that reported them. Multi-allelic variants are split in multiple records, one per alternate allele.</li>
+                                                <li><b>Merged RS IDs</b> (per assembly): RS IDs that should no longer be used because they have been merged into other active RS IDs representing the same variant.</li>
+                                                <li><b>Deprecated RS IDs</b> (per assembly): RS IDs that should no longer be used because they have been deprecated.</li>
+                                                <li><b>Unmapped RS IDs</b> (per species): RS IDs that could not be mapped against any assembly, with their flanking sequences when available.</li>
+                                            </ul>
+                                            <p>
+                                                The release files contain the positional information of the RS IDs, but not genotype nor annotation data. These can be retrieved from the study files on our <a href="https://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP site</a>, the <a href="?Variant%20Browser">Variant Browser</a> or the <a href="?API">API</a>.
+                                            </p>
+                                            <p>
+                                                The content of each release is summarised on the <a href="?RS-Release">RS Release</a> page, and the files can be downloaded from our <a href="https://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/" target="_blank">FTP site</a>.
+                                            </p>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div id="can-download-accesioned-variants">
+                                    <li class="accordion-item is-active" data-accordion-item>
+                                        <a class="accordion-title"><h5>Can I download accessioned variants from the EVA?</h5></a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <p>
+                                                Yes. Each non-human study archived in the EVA comes with a VCF file listing its accessioned variants (SS IDs), available in the study's folder on our <a href="https://ftp.ebi.ac.uk/pub/databases/eva" target="_blank">FTP site</a>.
+                                                In addition, each <a href="?RS-Release">RS release</a> provides a VCF file for each species/assembly combination.
+                                                These files contain the RS ID positional information, but not the genotype nor annotation data.
+                                            </p>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div id="how-to-track-variants">
+                                    <li class="accordion-item is-active" data-accordion-item>
+                                        <a class="accordion-title"><h5>How can I track variants that have been generated, merged and/or deprecated over time?</h5></a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <p>
+                                                In addition to the VCF files of current RS IDs, each <a href="?RS-Release">RS release</a> includes files listing the RS IDs that have been merged into other RS IDs and the RS IDs that have been deprecated.
+                                                The EVA follows the same rules as dbSNP for generating, deprecating and merging variant identifiers.
+                                            </p>
+                                        </div>
+                                    </li>
                                 </div>
                             </ul>
                         </div>
