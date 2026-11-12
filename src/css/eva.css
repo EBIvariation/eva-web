@@ -599,13 +599,6 @@ a, a:active, a:focus {
     color: #996a44;
 }
 
-.acknowledgement-logo {
-    display: inline;
-    box-shadow: #555 2px 2px 8px;
-    height: 50px !important;
-    margin: 5px;
-}
-
 html.fontface .icon-s2:before {
     color: #444444;
 }
